@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assurance of Forgiveness</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Add Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <title>Lesson 4: Doctrine - Pathlight Curriculum</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -30,52 +28,62 @@
             line-height: 1.6;
             color: #333;
             background-color: #f9f9f9;
-            padding-bottom: 20px;
+            padding-bottom: 80px; /* Space for bottom nav */
+            -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
         }
         
         .container {
-            max-width: 1000px;
+            width: 100%;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
         }
         
         header {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             position: relative;
+            width: 100%;
         }
         
         .header-content {
-            max-width: 800px;
+            width: 100%;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 15px;
         }
         
         h1 {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             margin-bottom: 0.5rem;
         }
         
         .lesson-nav {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            gap: 10px;
         }
         
         .btn {
             display: inline-block;
             background-color: var(--secondary-color);
             color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 12px 20px;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
             transition: background-color 0.3s ease;
             border: none;
             cursor: pointer;
+            font-size: 1rem;
+            text-align: center;
+            flex: 1;
+            min-height: 48px; /* Minimum touch target size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .btn:hover {
@@ -84,11 +92,12 @@
         
         .topic {
             background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 2rem;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: relative;
+            width: 100%;
         }
         
         .topic h2 {
@@ -96,6 +105,13 @@
             margin-bottom: 1rem;
             border-bottom: 2px solid var(--secondary-color);
             padding-bottom: 0.5rem;
+            font-size: 1.4rem;
+        }
+        
+        .topic h5 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
         }
         
         .scripture {
@@ -104,11 +120,12 @@
             padding: 1rem;
             margin: 1rem 0;
             font-style: italic;
+            border-radius: 0 8px 8px 0;
         }
         
         .key-point {
             background-color: #e8f4fc;
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 1rem;
             margin: 1rem 0;
         }
@@ -118,13 +135,18 @@
             margin-bottom: 0.5rem;
         }
         
-        .doctrine-table {
+        .doctrine-table, .role-table, .baptism-table {
             width: 100%;
             border-collapse: collapse;
             margin: 1rem 0;
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
         }
         
-        .doctrine-table th, .doctrine-table td {
+        .doctrine-table th, .doctrine-table td,
+        .role-table th, .role-table td,
+        .baptism-table th, .baptism-table td {
             border: 1px solid #ddd;
             padding: 12px;
             text-align: left;
@@ -135,37 +157,9 @@
             color: white;
         }
         
-        .doctrine-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        
-        .role-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-        }
-        
-        .role-table th, .role-table td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-        
         .role-table th {
             background-color: var(--secondary-color);
             color: white;
-        }
-        
-        .baptism-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-        }
-        
-        .baptism-table th, .baptism-table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
         }
         
         .baptism-table th {
@@ -173,9 +167,14 @@
             color: white;
         }
         
+        .doctrine-table tr:nth-child(even),
+        .role-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
         .activity {
             background-color: #fff8e1;
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 1rem;
             margin: 1rem 0;
             border-left: 4px solid #ffc107;
@@ -188,7 +187,7 @@
         
         .facilitator-notes {
             background-color: #e8f5e9;
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 1.5rem;
             margin: 1rem 0;
             border-left: 4px solid #4caf50;
@@ -201,19 +200,18 @@
         
         .identity-list {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 15px;
             margin: 20px 0;
         }
         
         .identity-item {
-            flex: 1;
-            min-width: 200px;
             background: white;
             border-radius: 8px;
             padding: 15px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             border-left: 4px solid var(--secondary-color);
+            width: 100%;
         }
         
         .fruit-tree {
@@ -224,15 +222,15 @@
         }
         
         .tree-trunk {
-            width: 60px;
-            height: 120px;
+            width: 50px;
+            height: 100px;
             background-color: #8B4513;
             margin-bottom: 10px;
         }
         
         .tree-top {
-            width: 200px;
-            height: 180px;
+            width: 180px;
+            height: 160px;
             background-color: #2E8B57;
             border-radius: 100px;
             position: relative;
@@ -240,21 +238,21 @@
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 15px;
         }
         
         .fruit {
             background-color: #FF6B6B;
             color: white;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: bold;
-            margin: 5px;
+            margin: 4px;
             text-align: center;
         }
         
@@ -264,62 +262,85 @@
             padding: 1.5rem;
             background-color: var(--dark-color);
             color: white;
-            border-radius: 8px;
+            border-radius: 12px;
+            width: 100%;
         }
         
+        /* Collapsible sections with scrollable content */
         .collapsible {
-  background-color: #f1f1f1;
-  color: var(--primary-color);
-  cursor: pointer;
-  padding: 12px 16px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 1rem;
-  font-weight: normal;
-  border-radius: 6px;
-  margin: 8px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: var(--transition);
-  box-shadow: var(--shadow);
-}
-
-.collapsible:hover {
-  background-color: #e8f4fc;
-}
-
-.collapsible::after {
-  content: '+';
-  font-weight: bold;
-  font-size: 1.1rem;
-  transition: var(--transition);
-  color: var(--primary-color);
-}
-
-.collapsible.active::after {
-  content: '–';
-}
-
-/* Collapsible content area */
-.content {
-  background-color: #fff;
-  border-radius: 0 0 6px 6px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
-  padding: 0 16px;
-}
-
-.content.open {
-  max-height: 1000px;
-  padding: 10px 16px;
-}
-
-
+            background-color: #f1f1f1;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 14px 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 8px;
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            min-height: 48px; /* Minimum touch target size */
+        }
+        
+        .collapsible:hover {
+            background-color: #e8f4fc;
+        }
+        
+        .collapsible::after {
+            content: '+';
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.3s;
+            color: var(--primary-color);
+        }
+        
+        .collapsible.active::after {
+            content: '–';
+            transform: rotate(180deg);
+        }
+        
+        .content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #ffffff;
+            border-radius: 0 0 8px 8px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+            padding: 0 16px;
+        }
+        
+        .content.open {
+            max-height: 400px; /* Set a maximum height for scrollable sections */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding: 15px;
+            border: 1px solid #e1e1e1;
+            border-top: none;
+        }
+        
+        /* Custom scrollbar for content */
+        .content.open::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .content.open::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .content.open::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 4px;
+        }
+        
+        .content.open::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+        
         /* Progress Bar Styles */
         .progress-container {
             width: 100%;
@@ -355,8 +376,8 @@
         /* Auto-save notification */
         .save-notification {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 70px;
+            right: 15px;
             background-color: var(--success-color);
             color: white;
             padding: 10px 20px;
@@ -365,12 +386,12 @@
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 1000;
+            font-size: 0.9rem;
         }
         
         .save-notification.show {
             opacity: 1;
         }
-        /* collapsible button icon */
         
         /* Topic completion indicator */
         .topic-complete {
@@ -396,11 +417,13 @@
         
         /* Form field styling */
         textarea, input[type="text"] {
-            padding: 8px 12px;
+            padding: 10px 12px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             font-family: var(--font-main);
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            font-size: 16px; /* Prevent zoom on iOS */
         }
         
         textarea:focus, input[type="text"]:focus {
@@ -409,31 +432,209 @@
             box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
         }
         
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            min-height: 48px; /* Minimum touch target size */
+            justify-content: center;
+        }
+        
+        .nav-item.active {
+            color: var(--secondary-color);
+            background-color: #e8f4fc;
+        }
+        
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+        
+        /* Sync status styles */
+        .sync-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            z-index: 1000;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            max-width: 200px;
+        }
+        
+        .sync-status.online {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .sync-status.offline {
+            background: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        
+        .sync-status.error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        .sync-status.syncing {
+            background: #cce7ff;
+            border-color: #b3d9ff;
+            color: #004085;
+        }
+        
+        /* Manual sync button */
+        #manualSync {
+            position: fixed;
+            bottom: 70px;
+            right: 15px;
+            background: var(--secondary-color, #3498db);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-size: 1.2rem;
+        }
+        
+        /* Mobile-specific improvements */
         @media (max-width: 768px) {
-            .lesson-nav {
-                flex-direction: column;
-                gap: 1rem;
+            .container {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 1rem 0;
+                margin-bottom: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .topic {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .topic h2 {
+                font-size: 1.2rem;
+            }
+            
+            .topic h5 {
+                font-size: 1.1rem;
             }
             
             .btn {
-                text-align: center;
+                padding: 14px 16px;
+                font-size: 0.9rem;
             }
             
-            .doctrine-table, .role-table, .baptism-table {
-                display: block;
-                overflow-x: auto;
+            .tree-top {
+                width: 160px;
+                height: 140px;
             }
             
-            .identity-list {
-                flex-direction: column;
+            .fruit {
+                width: 40px;
+                height: 40px;
+                font-size: 8px;
+            }
+            
+            .tree-trunk {
+                width: 40px;
+                height: 80px;
             }
             
             .save-notification {
-                bottom: 10px;
+                bottom: 60px;
                 right: 10px;
                 left: 10px;
                 text-align: center;
             }
+            
+            /* Adjust scrollable content height for mobile */
+            .content.open {
+                max-height: 300px;
+            }
+            
+            .sync-status {
+                top: 5px;
+                right: 5px;
+                left: 5px;
+                max-width: none;
+                text-align: center;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .identity-list {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .identity-item {
+                flex: 1;
+                min-width: 200px;
+            }
+            
+            /* Adjust scrollable content height for larger screens */
+            .content.open {
+                max-height: 500px;
+            }
+        }
+        
+        /* Prevent horizontal scrolling */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* Improve touch interactions */
+        button, .btn, .nav-item, .topic-complete {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        /* Improve text readability on mobile */
+        p, li, td, th {
+            font-size: 16px;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -455,17 +656,16 @@
             <span>Last saved: <span id="lastSaved">Not saved yet</span></span>
         </div>
         
-         <div class="lesson-nav">
+        <div class="lesson-nav">
             <a href="module-lesson3.html" class="btn">Previous Lesson</a>
             <a href="progress.html" class="btn">Progress</a>
             <a href="index.html" class="btn">Back to Main</a>
             <a href="module-lesson5.html" class="btn">Next Lesson</a>
         </div>
-    
         
         <div class="topic" id="topic1">
             <div class="topic-complete" id="topic1Complete">✓</div>    
-  <h5>Topic 1: The Doctrine of Jesus (Christology)</h5>   
+            <h5>Topic 1: The Doctrine of Jesus (Christology)</h5>   
             <div class="scripture">
                 <p><strong>John 14:6 (NKJV)</strong> - "Jesus said to him, 'I am the way, the truth, and the life. No one comes to the Father except through Me.'"</p>
             </div>
@@ -475,123 +675,126 @@
                 <p><strong>Objective:</strong> To help students understand that Jesus is fully God and fully man, the Son of God, Savior of the world, and the center of the Christian faith.</p>
                 <p><strong>Key Scriptures:</strong> John 1:1-3, 14; Colossians 1:15-20; Philippians 2:5-11</p>
             </div>
+            
             <div class="collapsible">He Is Eternal</div>
             <div class="content">
-            <h3>1. Jesus Existed Before Creation — He Is Eternal</h3>
-            <div class="scripture">
-                <p><strong>John 1:1-3 (NKJV)</strong> - "In the beginning was the Word, and the Word was with God, and the Word was God. He was in the beginning with God. All things were made through Him, and without Him nothing was made that was made."</p>
-            </div>
-            <div class="key-point">
-                <h4>Key Teaching Points:</h4>
-                <p>"The Word" in our passage is referring to Jesus. Jesus didn't begin to exist when He was born in Bethlehem—He was with God in the beginning. He helped to create the world & all things were made through Him.</p>
-                <p><strong>Why it Matters:</strong> Jesus is not just a good man or a teacher — He is God. We can trust Him because He existed before time began.</p>
-            </div>
-            </div>
-            <div class="collapsible">He is exact God</div>
-            <div class="content">
-            <h3>2. Jesus Took on Human Flesh to Live Among Us</h3>
-            <div class="scripture">
-                <p><strong>John 1:14 (NKJV)</strong> - "And the Word became flesh and dwelt among us, and we beheld His glory, the glory as of the only begotten of the Father, full of grace and truth."</p>
-            </div>
-            <div class="key-point">
-                <h4>Key Teaching Points:</h4>
-                <p>Jesus was born as a baby (Luke chapter 2). He grew, ate, even felt sad, got tired—just like us. Jesus, who is God, came down to earth and became human. "Made His dwelling" means He came to live with us - like setting up a tent to stay. Jesus was 100% God and 100% man—the big word for this is Incarnation.</p>
-                <p><strong>Why It Matters:</strong> Jesus isn't far away. He came close. He knows what it's like to be human — to be hungry, tired, happy, or sad.</p>
+                <h3>1. Jesus Existed Before Creation — He Is Eternal</h3>
+                <div class="scripture">
+                    <p><strong>John 1:1-3 (NKJV)</strong> - "In the beginning was the Word, and the Word was with God, and the Word was God. He was in the beginning with God. All things were made through Him, and without Him nothing was made that was made."</p>
+                </div>
+                <div class="key-point">
+                    <h4>Key Teaching Points:</h4>
+                    <p>"The Word" in our passage is referring to Jesus. Jesus didn't begin to exist when He was born in Bethlehem—He was with God in the beginning. He helped to create the world & all things were made through Him.</p>
+                    <p><strong>Why it Matters:</strong> Jesus is not just a good man or a teacher — He is God. We can trust Him because He existed before time began.</p>
+                </div>
             </div>
             
-            <h3>3. He Is the Exact Image of God</h3>
-            <div class="scripture">
-                <p><strong>Colossians 1:15 (NKJV)</strong> - "He is the image of the invisible God, the firstborn over all creation."</p>
+            <div class="collapsible">He is exact God</div>
+            <div class="content">
+                <h3>2. Jesus Took on Human Flesh to Live Among Us</h3>
+                <div class="scripture">
+                    <p><strong>John 1:14 (NKJV)</strong> - "And the Word became flesh and dwelt among us, and we beheld His glory, the glory as of the only begotten of the Father, full of grace and truth."</p>
+                </div>
+                <div class="key-point">
+                    <h4>Key Teaching Points:</h4>
+                    <p>Jesus was born as a baby (Luke chapter 2). He grew, ate, even felt sad, got tired—just like us. Jesus, who is God, came down to earth and became human. "Made His dwelling" means He came to live with us - like setting up a tent to stay. Jesus was 100% God and 100% man—the big word for this is Incarnation.</p>
+                    <p><strong>Why It Matters:</strong> Jesus isn't far away. He came close. He knows what it's like to be human — to be hungry, tired, happy, or sad.</p>
+                </div>
+                
+                <h3>3. He Is the Exact Image of God</h3>
+                <div class="scripture">
+                    <p><strong>Colossians 1:15 (NKJV)</strong> - "He is the image of the invisible God, the firstborn over all creation."</p>
+                </div>
+                <div class="key-point">
+                    <h4>Key Teaching Points:</h4>
+                    <p>If you want to know what God looks like, how He thinks, acts, or feels—look at Jesus. "Image" means exact likeness. Jesus reveals God to us.</p>
+                    <p><strong>Why It Matters:</strong> Jesus helps us know and understand who God really is. We don't have to guess what God is like — we see it in how Jesus loved, forgave, and helped people.</p>
+                </div>
             </div>
-            <div class="key-point">
-                <h4>Key Teaching Points:</h4>
-                <p>If you want to know what God looks like, how He thinks, acts, or feels—look at Jesus. "Image" means exact likeness. Jesus reveals God to us.</p>
-                <p><strong>Why It Matters:</strong> Jesus helps us know and understand who God really is. We don't have to guess what God is like — we see it in how Jesus loved, forgave, and helped people.</p>
-            </div>
-            </div>
+            
             <div class="collapsible">He Understands Our Struggles</div>
             <div class="content">
-            <h3>4. Jesus Understands Our Struggles</h3>
-            <div class="scripture">
-                <p><strong>Hebrews 4:15 (NKJV)</strong> - "For we do not have a High Priest who cannot sympathize with our weaknesses, but was in all points tempted as we are, yet without sin."</p>
-            </div>
-            <div class="key-point">
-                <h4>Key Teaching Points:</h4>
-                <p>Jesus lived as a human in the same way we do—He experienced temptation, sadness, rejection, and pain as we do. And yet He did not sin - which makes Him the perfect helper.</p>
-                <p><strong>Why It Matters:</strong> When you're struggling, tempted, or hurt — Jesus knows what that feels like. He invites you to come to Him in prayer - He is personally kind, patiently waiting, and an all-powerful helper.</p>
-            </div>
+                <h3>4. Jesus Understands Our Struggles</h3>
+                <div class="scripture">
+                    <p><strong>Hebrews 4:15 (NKJV)</strong> - "For we do not have a High Priest who cannot sympathize with our weaknesses, but was in all points tempted as we are, yet without sin."</p>
+                </div>
+                <div class="key-point">
+                    <h4>Key Teaching Points:</h4>
+                    <p>Jesus lived as a human in the same way we do—He experienced temptation, sadness, rejection, and pain as we do. And yet He did not sin - which makes Him the perfect helper.</p>
+                    <p><strong>Why It Matters:</strong> When you're struggling, tempted, or hurt — Jesus knows what that feels like. He invites you to come to Him in prayer - He is personally kind, patiently waiting, and an all-powerful helper.</p>
+                </div>
             </div>
             
             <div class="collapsible">Summary and Response</div>
             <div class="content">
-            <h3>Summary Chart</h3>
-            <table class="doctrine-table">
-                <thead>
-                    <tr>
-                        <th>Truth about Jesus</th>
-                        <th>Bible Reference</th>
-                        <th>What It Teaches</th>
-                        <th>Why It Matters</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Jesus is eternal</td>
-                        <td>John 1:1-3</td>
-                        <td>He existed before creation - He is God</td>
-                        <td>We can fully trust Him</td>
-                    </tr>
-                    <tr>
-                        <td>Jesus became human</td>
-                        <td>John 1:14</td>
-                        <td>God came to live among us</td>
-                        <td>He came close to save and understand us</td>
-                    </tr>
-                    <tr>
-                        <td>Jesus is the image of God</td>
-                        <td>Colossians 1:15</td>
-                        <td>Jesus shows us what God is like</td>
-                        <td>We don't have to guess who God is</td>
-                    </tr>
-                    <tr>
-                        <td>Jesus understands our struggles</td>
-                        <td>Hebrews 4:15</td>
-                        <td>He faced temptation and pain</td>
-                        <td>He can help us in our struggles</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div class="key-point">
-                <h4>Summary:</h4>
-                <p>Jesus is fully God and fully man. He existed before creation, became human to save us, reveals God perfectly, and understands everything we go through.</p>
+                <h3>Summary Chart</h3>
+                <table class="doctrine-table">
+                    <thead>
+                        <tr>
+                            <th>Truth about Jesus</th>
+                            <th>Bible Reference</th>
+                            <th>What It Teaches</th>
+                            <th>Why It Matters</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Jesus is eternal</td>
+                            <td>John 1:1-3</td>
+                            <td>He existed before creation - He is God</td>
+                            <td>We can fully trust Him</td>
+                        </tr>
+                        <tr>
+                            <td>Jesus became human</td>
+                            <td>John 1:14</td>
+                            <td>God came to live among us</td>
+                            <td>He came close to save and understand us</td>
+                        </tr>
+                        <tr>
+                            <td>Jesus is the image of God</td>
+                            <td>Colossians 1:15</td>
+                            <td>Jesus shows us what God is like</td>
+                            <td>We don't have to guess who God is</td>
+                        </tr>
+                        <tr>
+                            <td>Jesus understands our struggles</td>
+                            <td>Hebrews 4:15</td>
+                            <td>He faced temptation and pain</td>
+                            <td>He can help us in our struggles</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="key-point">
+                    <h4>Summary:</h4>
+                    <p>Jesus is fully God and fully man. He existed before creation, became human to save us, reveals God perfectly, and understands everything we go through.</p>
+                </div>
+                
+                <div class="key-point">
+                    <h4>What to Do with the Name of Jesus:</h4>
+                    <ol>
+                        <li><strong>Believe in His Name</strong> - John 1:12</li>
+                        <li><strong>Pray in His Name</strong> - John 14:13</li>
+                        <li><strong>Live for His Name</strong> - Colossians 3:17</li>
+                        <li><strong>Tell Others About His Name</strong> - Acts 4:12</li>
+                    </ol>
+                </div>
             </div>
             
-            <div class="key-point">
-                <h4>What to Do with the Name of Jesus:</h4>
-                <ol>
-                    <li><strong>Believe in His Name</strong> - John 1:12</li>
-                    <li><strong>Pray in His Name</strong> - John 14:13</li>
-                    <li><strong>Live for His Name</strong> - Colossians 3:17</li>
-                    <li><strong>Tell Others About His Name</strong> - Acts 4:12</li>
-                </ol>
-            </div>
-            </div>
             <div class="collapsible">Activity</div>
             <div class="content">
-            
-            <div class="activity">
-                <h4>Reflection Activity</h4>
-                <p>What will you do next with what you've learned about Jesus?</p>
-                <p><strong>I will:</strong></p>
-                <textarea placeholder="Write your commitment here..." style="width: 100%; min-height: 80px; margin-top: 10px;" data-topic="1" data-question="1"></textarea>
+                <div class="activity">
+                    <h4>Reflection Activity</h4>
+                    <p>What will you do next with what you've learned about Jesus?</p>
+                    <p><strong>I will:</strong></p>
+                    <textarea placeholder="Write your commitment here..." style="width: 100%; min-height: 80px; margin-top: 10px;" data-topic="1" data-question="1"></textarea>
+                </div>
             </div>
-        </div>
         </div>
         
         <div class="topic" id="topic2">
             <div class="topic-complete" id="topic2Complete">✓</div>           
-  <h5>Topic 2: The Doctrine of Holy Spirit (Pneumatology)</h5>
+            <h5>Topic 2: The Doctrine of Holy Spirit (Pneumatology)</h5>
 
             <div class="scripture">
                 <p><strong>John 14:16-17 (NKJV)</strong> - "And I will pray the Father, and He will give you another Helper, that He may abide with you forever— the Spirit of truth, whom the world cannot receive..."</p>
@@ -601,138 +804,142 @@
                 <h4>Who Is the Holy Spirit?</h4>
                 <p>The Holy Spirit is <strong>God</strong>—the third person of the Trinity. He is not a feeling or a force; He is a real Person, living in us and working through us.</p>
             </div>
-            <div class="collapsible">Key Truths </div>
+            
+            <div class="collapsible">Key Truths</div>
             <div class="content">
-            <h3>Key Truths About the Holy Spirit:</h3>
-            
-            <div class="key-point">
-                <h4>1. The Holy Spirit Is God</h4>
-                <p><strong>Acts 5:3-4</strong> - Lying to the Holy Spirit is lying to God</p>
-                <p><strong>Matthew 28:19</strong> - Baptized in the name of the Father, Son, and Holy Spirit</p>
-            </div>
-            
-            <div class="key-point">
-                <h4>2. The Holy Spirit Is a Person—Not a Force</h4>
-                <ul>
-                    <li><strong>Mind</strong> - He knows and teaches (1 Corinthians 2:10-11)</li>
-                    <li><strong>Emotions</strong> - He can be grieved (Ephesians 4:30)</li>
-                    <li><strong>Will</strong> - He distributes gifts as He wills (1 Corinthians 12:11)</li>
-                </ul>
-            </div>
-            
-            <div class="key-point">
-                <h4>3. He Is Eternal, All-Powerful, Holy, and Always Present</h4>
-                <p><strong>Genesis 1:2</strong> - Present at creation</p>
-                <p><strong>Hebrews 9:14</strong> - Called the eternal Spirit</p>
-            </div>
-            
-            <div class="key-point">
-                <h4>4. The Holy Spirit Is Part of the Trinity</h4>
-                <p>God is one being in three persons: <strong>Father</strong>, <strong>Son</strong> (Jesus), <strong>Holy Spirit</strong>—each fully God, yet individually different.</p>
-            </div>
-            </div>
-            <div class="collapsible">His Work </div>
-            <div class="content">
-            <h3>What Does the Holy Spirit Do?</h3>
-            
-            <table class="role-table">
-                <thead>
-                    <tr>
-                        <th>Role</th>
-                        <th>Explanation</th>
-                        <th>Bible Reference</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Helper/Comforter</td>
-                        <td>Gives strength, courage, and comfort</td>
-                        <td>John 14:16</td>
-                    </tr>
-                    <tr>
-                        <td>Teacher</td>
-                        <td>Helps understand God's Word</td>
-                        <td>John 14:26</td>
-                    </tr>
-                    <tr>
-                        <td>Convicts of Sin</td>
-                        <td>Helps know right from wrong</td>
-                        <td>John 16:8</td>
-                    </tr>
-                    <tr>
-                        <td>Guide</td>
-                        <td>Leads in truth and helps make choices</td>
-                        <td>Romans 8:14</td>
-                    </tr>
-                    <tr>
-                        <td>Empowerer</td>
-                        <td>Gives boldness and power to serve</td>
-                        <td>Acts 1:8</td>
-                    </tr>
-                    <tr>
-                        <td>Seal & Guarantee</td>
-                        <td>Marks us as God's own</td>
-                        <td>Ephesians 1:13-14</td>
-                    </tr>
-                    <tr>
-                        <td>Fruit Producer</td>
-                        <td>Grows godly character</td>
-                        <td>Galatians 5:22-23</td>
-                    </tr>
-                    <tr>
-                        <td>Gives Spiritual Gifts</td>
-                        <td>Equips believers with unique gifts</td>
-                        <td>1 Corinthians 12:4-7</td>
-                    </tr>
-                </tbody>
-            </table>
-            </div>
-            <div class="collapsible">Activity</div>
-            <div class="content">
-            <div class="activity">
-                <h4>Activity: Fruit of the Spirit Tree</h4>
-                <p>Draw a tree and label each fruit listed in Galatians 5:22-23. Write one way to grow that fruit this week.</p>
+                <h3>Key Truths About the Holy Spirit:</h3>
                 
-                <div class="fruit-tree">
-                    <div class="tree-top">
-                        <div class="fruit">Love</div>
-                        <div class="fruit">Joy</div>
-                        <div class="fruit">Peace</div>
-                        <div class="fruit">Patience</div>
-                        <div class="fruit">Kindness</div>
-                        <div class="fruit">Goodness</div>
-                        <div class="fruit">Faithfulness</div>
-                        <div class="fruit">Gentleness</div>
-                        <div class="fruit">Self-Control</div>
-                    </div>
-                    <div class="tree-trunk"></div>
+                <div class="key-point">
+                    <h4>1. The Holy Spirit Is God</h4>
+                    <p><strong>Acts 5:3-4</strong> - Lying to the Holy Spirit is lying to God</p>
+                    <p><strong>Matthew 28:19</strong> - Baptized in the name of the Father, Son, and Holy Spirit</p>
                 </div>
                 
-                <p><strong>Which fruit do you need to work on this week?</strong></p>
-                <textarea placeholder="Write your response here..." style="width: 100%; min-height: 60px; margin-top: 10px;" data-topic="2" data-question="1"></textarea>
+                <div class="key-point">
+                    <h4>2. The Holy Spirit Is a Person—Not a Force</h4>
+                    <ul>
+                        <li><strong>Mind</strong> - He knows and teaches (1 Corinthians 2:10-11)</li>
+                        <li><strong>Emotions</strong> - He can be grieved (Ephesians 4:30)</li>
+                        <li><strong>Will</strong> - He distributes gifts as He wills (1 Corinthians 12:11)</li>
+                    </ul>
+                </div>
+                
+                <div class="key-point">
+                    <h4>3. He Is Eternal, All-Powerful, Holy, and Always Present</h4>
+                    <p><strong>Genesis 1:2</strong> - Present at creation</p>
+                    <p><strong>Hebrews 9:14</strong> - Called the eternal Spirit</p>
+                </div>
+                
+                <div class="key-point">
+                    <h4>4. The Holy Spirit Is Part of the Trinity</h4>
+                    <p>God is one being in three persons: <strong>Father</strong>, <strong>Son</strong> (Jesus), <strong>Holy Spirit</strong>—each fully God, yet individually different.</p>
+                </div>
             </div>
+            
+            <div class="collapsible">His Work</div>
+            <div class="content">
+                <h3>What Does the Holy Spirit Do?</h3>
+                
+                <table class="role-table">
+                    <thead>
+                        <tr>
+                            <th>Role</th>
+                            <th>Explanation</th>
+                            <th>Bible Reference</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Helper/Comforter</td>
+                            <td>Gives strength, courage, and comfort</td>
+                            <td>John 14:16</td>
+                        </tr>
+                        <tr>
+                            <td>Teacher</td>
+                            <td>Helps understand God's Word</td>
+                            <td>John 14:26</td>
+                        </tr>
+                        <tr>
+                            <td>Convicts of Sin</td>
+                            <td>Helps know right from wrong</td>
+                            <td>John 16:8</td>
+                        </tr>
+                        <tr>
+                            <td>Guide</td>
+                            <td>Leads in truth and helps make choices</td>
+                            <td>Romans 8:14</td>
+                        </tr>
+                        <tr>
+                            <td>Empowerer</td>
+                            <td>Gives boldness and power to serve</td>
+                            <td>Acts 1:8</td>
+                        </tr>
+                        <tr>
+                            <td>Seal & Guarantee</td>
+                            <td>Marks us as God's own</td>
+                            <td>Ephesians 1:13-14</td>
+                        </tr>
+                        <tr>
+                            <td>Fruit Producer</td>
+                            <td>Grows godly character</td>
+                            <td>Galatians 5:22-23</td>
+                        </tr>
+                        <tr>
+                            <td>Gives Spiritual Gifts</td>
+                            <td>Equips believers with unique gifts</td>
+                            <td>1 Corinthians 12:4-7</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+            
+            <div class="collapsible">Activity</div>
+            <div class="content">
+                <div class="activity">
+                    <h4>Activity: Fruit of the Spirit Tree</h4>
+                    <p>Draw a tree and label each fruit listed in Galatians 5:22-23. Write one way to grow that fruit this week.</p>
+                    
+                    <div class="fruit-tree">
+                        <div class="tree-top">
+                            <div class="fruit">Love</div>
+                            <div class="fruit">Joy</div>
+                            <div class="fruit">Peace</div>
+                            <div class="fruit">Patience</div>
+                            <div class="fruit">Kindness</div>
+                            <div class="fruit">Goodness</div>
+                            <div class="fruit">Faithfulness</div>
+                            <div class="fruit">Gentleness</div>
+                            <div class="fruit">Self-Control</div>
+                        </div>
+                        <div class="tree-trunk"></div>
+                    </div>
+                    
+                    <p><strong>Which fruit do you need to work on this week?</strong></p>
+                    <textarea placeholder="Write your response here..." style="width: 100%; min-height: 60px; margin-top: 10px;" data-topic="2" data-question="1"></textarea>
+                </div>
+            </div>
+            
             <div class="collapsible">What Happens When We Receive the Holy Spirit?</div>
             <div class="content">
-            <div class="key-point">
-                <h4>What Happens When We Receive the Holy Spirit?</h4>
-                <ol>
-                    <li>We become a dwelling place for God (1 Corinthians 6:19)</li>
-                    <li>We are spiritually reborn (John 3:5-6)</li>
-                    <li>We receive power to live for God (Acts 1:8)</li>
-                    <li>We bear spiritual fruit (Galatians 5:22-23)</li>
-                    <li>We are guided and taught (John 14:26)</li>
-                    <li>We are united with other believers (1 Corinthians 12:13)</li>
-                </ol>
+                <div class="key-point">
+                    <h4>What Happens When We Receive the Holy Spirit?</h4>
+                    <ol>
+                        <li>We become a dwelling place for God (1 Corinthians 6:19)</li>
+                        <li>We are spiritually reborn (John 3:5-6)</li>
+                        <li>We receive power to live for God (Acts 1:8)</li>
+                        <li>We bear spiritual fruit (Galatians 5:22-23)</li>
+                        <li>We are guided and taught (John 14:26)</li>
+                        <li>We are united with other believers (1 Corinthians 12:13)</li>
+                    </ol>
+                </div>
             </div>
-        </div>
         </div>
         
         <div class="topic" id="topic3">
             <div class="topic-complete" id="topic3Complete">✓</div>
-          <h5>Topic 3: The Doctrine of Baptism</h5>
-           
-                       <div class="scripture">
+            <h5>Topic 3: The Doctrine of Baptism</h5>
+                       
+            <div class="scripture">
                 <p><strong>Matthew 28:19-20 (NKJV)</strong> - "Go therefore and make disciples of all the nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit..."</p>
             </div>
             
@@ -759,333 +966,430 @@
                         <td>Baptism doesn't save us—only faith in Jesus does</td>
                     </tr>
                     <tr>
-                        <td>Obedience</td>
-                        <td>It is a step of obedience to Jesus' command</td>
+                    <tr>
+                        <td>Command</td>
+                        <td>Jesus commanded all believers to be baptized</td>
                     </tr>
                     <tr>
                         <td>Public declaration</td>
-                        <td>Shows others that we now belong to Christ</td>
-                    </tr>
-                    <tr>
-                        <td>Spiritual identification</td>
-                        <td>We are saying: "I am one with Jesus and His people"</td>
-                    </tr>
-                </tbody>
-            </table>
-              <div class="collapsible">Why Are We Baptized?</div>
-            <div class="content">
-            <h3>Why Are We Baptized?</h3>
-            <ul>
-                <li>Because Jesus commanded it (Matthew 28:19-20)</li>
-                <li>Because Jesus modeled it (Matthew 3:13-17)</li>
-                <li>Because it demonstrates obedience and faith (Acts 2:41)</li>
-            </ul>
-            </div>
-             <div class="collapsible">What Happens Spiritually in Baptism?</div>
-            <div class="content">
-            <h3>What Happens Spiritually in Baptism?</h3>
-            
-            <table class="doctrine-table">
-                <thead>
-                    <tr>
-                        <th>Spiritual Reality</th>
-                        <th>What Baptism Symbolizes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Turning from sin</td>
-                        <td>Going under water symbolizes death to our old sinful life</td>
-                    </tr>
-                    <tr>
-                        <td>New life in Christ</td>
-                        <td>Coming out of water symbolizes resurrection and new life</td>
-                    </tr>
-                    <tr>
-                        <td>Being united with Jesus</td>
-                        <td>Baptism in His name signifies we are now joined to Christ</td>
-                    </tr>
-                    <tr>
-                        <td>Joining the Church</td>
-                        <td>One body, one baptism signifies we have joined God's family</td>
-                    </tr>
-                    <tr>
-                        <td>Bold witness</td>
-                        <td>Public Declaration of Faith—we openly confess Jesus as Lord</td>
+                        <td>Shows others you follow Jesus</td>
                     </tr>
                 </tbody>
             </table>
             
-             <div class="collapsible">Activity</div>
+            <div class="collapsible">Why Be Baptized?</div>
             <div class="content">
-            <div class="activity">
-                <h4>Reflection Activity</h4>
-                <p>Have you been baptized? If not, what's holding you back? If yes, how has baptism impacted your faith journey?</p>
-                <textarea placeholder="Write your response here..." style="width: 100%; min-height: 80px; margin-top: 10px;" data-topic="3" data-question="1"></textarea>
+                <h3>Why Should Every Believer Be Baptized?</h3>
+                
+                <div class="key-point">
+                    <h4>1. To Follow Jesus' Example</h4>
+                    <p><strong>Matthew 3:13-17</strong> - Jesus was baptized by John the Baptist</p>
+                    <p>If Jesus thought baptism was important, we should too!</p>
+                </div>
+                
+                <div class="key-point">
+                    <h4>2. To Obey Jesus' Command</h4>
+                    <p><strong>Matthew 28:19-20</strong> - Jesus told His followers to baptize new believers</p>
+                    <p>Baptism is an act of obedience to Jesus.</p>
+                </div>
+                
+                <div class="key-point">
+                    <h4>3. To Show You're a Christian</h4>
+                    <p><strong>Acts 2:41</strong> - Those who believed were baptized</p>
+                    <p>Baptism publicly identifies you as a follower of Jesus.</p>
+                </div>
+                
+                <div class="key-point">
+                    <h4>4. To Picture the Gospel</h4>
+                    <p><strong>Romans 6:3-4</strong> - Baptism pictures Jesus' death and resurrection</p>
+                    <p>Going under water = dying with Jesus<br>
+                    Coming up from water = rising to new life</p>
+                </div>
+            </div>
+            
+            <div class="collapsible">Baptism in the Early Church</div>
+            <div class="content">
+                <h3>Baptism in the Early Church</h3>
+                
+                <div class="key-point">
+                    <h4>Immediate Obedience</h4>
+                    <p>In the book of Acts, when people believed in Jesus, they were baptized right away:</p>
+                    <ul>
+                        <li><strong>Acts 2:41</strong> - 3,000 baptized on Pentecost</li>
+                        <li><strong>Acts 8:12</strong> - Samaritans believed and were baptized</li>
+                        <li><strong>Acts 8:36-38</strong> - Ethiopian eunuch baptized immediately</li>
+                        <li><strong>Acts 16:14-15</strong> - Lydia and her household baptized</li>
+                        <li><strong>Acts 16:31-33</strong> - Philippian jailer baptized same hour</li>
+                    </ul>
+                </div>
+                
+                <div class="key-point">
+                    <h4>Key Pattern:</h4>
+                    <p><strong>Hear the Gospel → Believe in Jesus → Be Baptized → Receive the Holy Spirit</strong></p>
+                </div>
+            </div>
+            
+            <div class="collapsible">Activity</div>
+            <div class="content">
+                <div class="activity">
+                    <h4>Baptism Reflection</h4>
+                    <p><strong>Have you been baptized since becoming a Christian?</strong></p>
+                    <select style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 6px;" data-topic="3" data-question="1">
+                        <option value="">Select an option</option>
+                        <option value="yes">Yes, I have been baptized</option>
+                        <option value="no">No, I haven't been baptized yet</option>
+                        <option value="unsure">I'm not sure</option>
+                    </select>
+                    
+                    <p><strong>If you haven't been baptized, what's holding you back?</strong></p>
+                    <textarea placeholder="Write your thoughts here..." style="width: 100%; min-height: 80px; margin-top: 10px;" data-topic="3" data-question="2"></textarea>
+                    
+                    <p><strong>Next Steps:</strong> Talk with your facilitator about being baptized if you haven't yet taken this important step of obedience.</p>
+                </div>
             </div>
         </div>
-        </div>
-        </div>
-
+        
         <div class="topic" id="topic4">
-            <div class="topic-complete" id="topic4Complete">✓</div>          
-            <h5>Topic 4: The Doctrine of Identity in Christ</h5>
+            <div class="topic-complete" id="topic4Complete">✓</div>
+            <h5>Topic 4: The Doctrine of the Church (Ecclesiology)</h5>
             
             <div class="scripture">
-                <p><strong>Ephesians 1:5-6</strong> - "He predestined us to be adopted as sons through Jesus Christ for himself, according to the good pleasure of his will..."</p>
+                <p><strong>Ephesians 2:19-22 (NKJV)</strong> - "Now, therefore, you are no longer strangers and foreigners, but fellow citizens with the saints and members of the household of God..."</p>
             </div>
             
             <div class="key-point">
-                <h4>What Is Identity in Christ?</h4>
-                <p>Identity is the set of qualities, beliefs, personality traits, or expressions that characterize a person. <strong>Identity in Christ is who we are in Christ.</strong></p>
-                <p>If you are a follower of Jesus Christ, your core identity is that you are a <strong>CHILD OF GOD</strong>.</p>
+                <h4>What Is the Church?</h4>
+                <p>The church is not a building—it's <strong>people</strong>. The Greek word for church is "ekklesia," which means "called-out ones" or "assembly." The church is all believers in Jesus Christ worldwide.</p>
             </div>
-            <div class="collapsible">Why Is It Important?</div>
+            
+            <div class="collapsible">Biblical Images of the Church</div>
             <div class="content">
-            <div class="key-point">
-                <h4>Why Is It Important?</h4>
-                <p>When we really understand our identity in Christ—who we are in Him—it changes the way we think and live.</p>
-                <p><strong>2 Corinthians 5:17</strong> - "If anyone is in Christ, he is a new creation; old things have passed away; behold, all things have become new."</p>
-            </div>
-            
-            <div class="identity-list">
-                <div class="identity-item">
-                    <h4>We are new creatures</h4>
-                    <p>2 Corinthians 5:17</p>
-                </div>
-                <div class="identity-item">
-                    <h4>We are the righteousness of God</h4>
-                    <p>2 Corinthians 5:21</p>
-                </div>
-                <div class="identity-item">
-                    <h4>We've been healed</h4>
-                    <p>1 Peter 2:24</p>
-                </div>
-                <div class="identity-item">
-                    <h4>We are accepted</h4>
-                    <p>Ephesians 1:6</p>
-                </div>
-                <div class="identity-item">
-                    <h4>We are free from sin</h4>
-                    <p>Romans 6:20-22</p>
-                </div>
-                <div class="identity-item">
-                    <h4>We are God's children</h4>
-                    <p>1 John 3:1</p>
-                </div>
-                <div class="identity-item">
-                    <h4>We are His workmanship</h4>
-                    <p>Ephesians 2:10</p>
-                </div>
-                <div class="identity-item">
-                    <h4>We are the body of Christ</h4>
-                    <p>1 Corinthians 12:27</p>
-                </div>
-            </div>
-            </div>
-            <div class="collapsible">How Does This Change Our Lives?</div>  
-            <div class="content">
-            <div class="key-point">
-                <h4>How Does This Change Our Lives?</h4>
-                <ol>
-                    <li>We are no longer aliens but citizens of heaven (Ephesians 2:19)</li>
-                    <li>We no longer live in fear (2 Timothy 1:7)</li>
-                    <li>We no longer gratify the desires of the flesh (Galatians 5:16)</li>
-                    <li>We are created in God's image (Genesis 1:26)</li>
-                    <li>We are no longer sinners (Romans 6:6)</li>
-                    <li>We are no longer enemies (Romans 5:10)</li>
-                </ol>
-            </div>
-            
-            <div class="activity">
-                <h4>Reflection Activity</h4>
-                <p>Take time to reflect on these identity truths and receive them in humility. Acknowledge that you did not earn them by yourself—it is through Christ Jesus.</p>
-                <p><strong>Acts 17:28</strong> - "For in him we live, move and have our being."</p>
+                <h3>Biblical Pictures of What the Church Is:</h3>
                 
-                <p><strong>Which identity truth is most meaningful to you right now, and why?</strong></p>
-                <textarea placeholder="Write your response here..." style="width: 100%; min-height: 80px; margin-top: 10px;" data-topic="4" data-question="1"></textarea>
+                <div class="identity-list">
+                    <div class="identity-item">
+                        <h4>1. The Body of Christ</h4>
+                        <p><strong>1 Corinthians 12:27</strong> - "Now you are the body of Christ, and members individually."</p>
+                        <p>Jesus is the head, and we are different parts working together.</p>
+                    </div>
+                    
+                    <div class="identity-item">
+                        <h4>2. The Family of God</h4>
+                        <p><strong>Ephesians 2:19</strong> - "You are... members of the household of God."</p>
+                        <p>We are God's children—brothers and sisters in Christ.</p>
+                    </div>
+                    
+                    <div class="identity-item">
+                        <h4>3. The Bride of Christ</h4>
+                        <p><strong>Ephesians 5:25-27</strong> - "Christ also loved the church and gave Himself for her..."</p>
+                        <p>Jesus loves and cares for the church as a groom loves his bride.</p>
+                    </div>
+                    
+                    <div class="identity-item">
+                        <h4>4. The Temple of the Holy Spirit</h4>
+                        <p><strong>1 Corinthians 3:16</strong> - "Do you not know that you are the temple of God and that the Spirit of God dwells in you?"</p>
+                        <p>Together, we form a spiritual temple where God lives by His Spirit.</p>
+                    </div>
+                    
+                    <div class="identity-item">
+                        <h4>5. The People of God</h4>
+                        <p><strong>1 Peter 2:9-10</strong> - "You are a chosen generation, a royal priesthood, a holy nation, His own special people..."</p>
+                        <p>We are God's special possession, called to show His goodness.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible">Purpose of the Church</div>
+            <div class="content">
+                <h3>What Is the Church For?</h3>
+                
+                <div class="key-point">
+                    <h4>The Five Purposes of the Church:</h4>
+                    <ol>
+                        <li><strong>Worship</strong> - Honoring God together (Ephesians 1:5-6)</li>
+                        <li><strong>Fellowship</strong> - Caring for one another (Acts 2:42)</li>
+                        <li><strong>Discipleship</strong> - Growing to be like Jesus (Matthew 28:19-20)</li>
+                        <li><strong>Ministry</strong> - Serving others (Ephesians 4:11-12)</li>
+                        <li><strong>Mission</strong> - Sharing the gospel (Acts 1:8)</li>
+                    </ol>
+                </div>
+                
+                <div class="key-point">
+                    <h4>The Church's Mission:</h4>
+                    <p><strong>Matthew 28:19-20</strong> - "Go therefore and make disciples of all the nations..."</p>
+                    <p><strong>Acts 1:8</strong> - "You shall be witnesses to Me in Jerusalem, and in all Judea and Samaria, and to the end of the earth."</p>
+                </div>
+            </div>
+            
+            <div class="collapsible">Activity</div>
+            <div class="content">
+                <div class="activity">
+                    <h4>Church Involvement Assessment</h4>
+                    <p>Rate your current involvement in each purpose of the church (1 = rarely, 5 = regularly):</p>
+                    
+                    <div style="margin: 15px 0;">
+                        <p><strong>Worship</strong> - Gathering with believers to honor God</p>
+                        <select style="width: 100%; padding: 8px; margin: 5px 0;" data-topic="4" data-question="1">
+                            <option value="">Select rating</option>
+                            <option value="1">1 - Rarely</option>
+                            <option value="2">2 - Occasionally</option>
+                            <option value="3">3 - Sometimes</option>
+                            <option value="4">4 - Often</option>
+                            <option value="5">5 - Regularly</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <p><strong>Fellowship</strong> - Building relationships with other believers</p>
+                        <select style="width: 100%; padding: 8px; margin: 5px 0;" data-topic="4" data-question="2">
+                            <option value="">Select rating</option>
+                            <option value="1">1 - Rarely</option>
+                            <option value="2">2 - Occasionally</option>
+                            <option value="3">3 - Sometimes</option>
+                            <option value="4">4 - Often</option>
+                            <option value="5">5 - Regularly</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <p><strong>Discipleship</strong> - Growing in your relationship with Jesus</p>
+                        <select style="width: 100%; padding: 8px; margin: 5px 0;" data-topic="4" data-question="3">
+                            <option value="">Select rating</option>
+                            <option value="1">1 - Rarely</option>
+                            <option value="2">2 - Occasionally</option>
+                            <option value="3">3 - Sometimes</option>
+                            <option value="4">4 - Often</option>
+                            <option value="5">5 - Regularly</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <p><strong>Ministry</strong> - Using your gifts to serve others</p>
+                        <select style="width: 100%; padding: 8px; margin: 5px 0;" data-topic="4" data-question="4">
+                            <option value="">Select rating</option>
+                            <option value="1">1 - Rarely</option>
+                            <option value="2">2 - Occasionally</option>
+                            <option value="3">3 - Sometimes</option>
+                            <option value="4">4 - Often</option>
+                            <option value="5">5 - Regularly</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <p><strong>Mission</strong> - Sharing your faith with others</p>
+                        <select style="width: 100%; padding: 8px; margin: 5px 0;" data-topic="4" data-question="5">
+                            <option value="">Select rating</option>
+                            <option value="1">1 - Rarely</option>
+                            <option value="2">2 - Occasionally</option>
+                            <option value="3">3 - Sometimes</option>
+                            <option value="4">4 - Often</option>
+                            <option value="5">5 - Regularly</option>
+                        </select>
+                    </div>
+                    
+                    <p><strong>Which area do you want to grow in most?</strong></p>
+                    <textarea placeholder="Write your response here..." style="width: 100%; min-height: 60px; margin-top: 10px;" data-topic="4" data-question="6"></textarea>
+                </div>
             </div>
         </div>
-        </div>
-         <div class="lesson-nav">
+        
+        <div class="lesson-nav">
             <a href="module-lesson3.html" class="btn">Previous Lesson</a>
             <a href="progress.html" class="btn">Progress</a>
             <a href="index.html" class="btn">Back to Main</a>
             <a href="module-lesson5.html" class="btn">Next Lesson</a>
         </div>
-    </div> <!-- Close the container div -->
-    
-    <!-- Auto-save notification -->
-    <div class="save-notification" id="saveNotification">
-        Progress saved successfully!
     </div>
     
-    <footer>
-        <p>Pathlight Discipleship Curriculum &copy; 2023 | KCMC</p>
-        <p>Lit to Lead. Rooted to Grow.</p>
-    </footer>
-
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <i class="bi bi-house-door"></i>
+            <span>Home</span>
+        </a>
+        <a href="progress.html" class="nav-item">
+            <i class="bi bi-graph-up"></i>
+            <span>Progress</span>
+        </a>
+        <a href="resources.html" class="nav-item">
+            <i class="bi bi-journal-text"></i>
+            <span>Resources</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+            <i class="bi bi-gear"></i>
+            <span>Settings</span>
+        </a>
+    </div>
+    
+    <!-- Sync Status -->
+    <div class="sync-status" id="syncStatus">Checking connection...</div>
+    
+    <!-- Manual Sync Button -->
+    <button id="manualSync" title="Sync Progress">
+        <i class="bi bi-arrow-repeat"></i>
+    </button>
+    
+    <!-- Save Notification -->
+    <div class="save-notification" id="saveNotification">
+        <i class="bi bi-check-circle"></i> Progress saved
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Progress tracking and auto-save functionality
+        // Collapsible functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize progress tracking
-            const progressBar = document.getElementById('progressBar');
-            const progressText = document.getElementById('progressText');
-            const lastSaved = document.getElementById('lastSaved');
-            const saveNotification = document.getElementById('saveNotification');
+            const collapsibles = document.querySelectorAll('.collapsible');
             
-            // Get all form fields
-            const formFields = document.querySelectorAll('textarea, input[type="text"]');
-            
-            // Load saved data from localStorage
-            loadSavedData();
-            
-            // Calculate initial progress
-            updateProgress();
-            
-            // Add event listeners to all form fields
-            formFields.forEach(field => {
-                field.addEventListener('input', function() {
-                    // Save data to localStorage
-                    saveData();
+            collapsibles.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
                     
-                    // Update progress
-                    updateProgress();
-                    
-                    // Show save notification
-                    showSaveNotification();
+                    if (content.classList.contains('open')) {
+                        content.classList.remove('open');
+                        // Reset max-height after transition completes
+                        setTimeout(() => {
+                            content.style.maxHeight = null;
+                        }, 300);
+                    } else {
+                        content.classList.add('open');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
                 });
             });
             
-            // Function to save data to localStorage
-            function saveData() {
-                const data = {};
+            // Initialize first section as open
+            if (collapsibles.length > 0) {
+                collapsibles[0].classList.add('active');
+                const firstContent = collapsibles[0].nextElementSibling;
+                firstContent.classList.add('open');
+                firstContent.style.maxHeight = firstContent.scrollHeight + 'px';
+            }
+            
+            // Progress tracking
+            updateProgress();
+            
+            // Form field auto-save
+            setupAutoSave();
+            
+            // Sync status
+            updateSyncStatus();
+        });
+        
+        // Progress tracking functionality
+        function updateProgress() {
+            const totalTopics = 4;
+            let completedTopics = 0;
+            
+            // Check which topics have responses
+            for (let i = 1; i <= totalTopics; i++) {
+                const topicElement = document.getElementById(`topic${i}`);
+                const inputs = topicElement.querySelectorAll('textarea, select, input[type="text"]');
+                let hasResponse = false;
                 
-                formFields.forEach(field => {
-                    const topic = field.getAttribute('data-topic');
-                    const question = field.getAttribute('data-question');
-                    
-                    if (topic && question) {
-                        if (!data[topic]) data[topic] = {};
-                        data[topic][question] = field.value;
+                inputs.forEach(input => {
+                    if (input.value.trim() !== '') {
+                        hasResponse = true;
                     }
                 });
                 
-                localStorage.setItem('lesson4Data', JSON.stringify(data));
-                
-                // Update last saved time
-                const now = new Date();
-                lastSaved.textContent = now.toLocaleTimeString();
-                localStorage.setItem('lesson4SavedTime', now.toLocaleTimeString());
-            }
-            
-            // Function to load saved data from localStorage
-            function loadSavedData() {
-                const savedData = localStorage.getItem('lesson4Data');
-                
-                if (savedData) {
-                    const data = JSON.parse(savedData);
-                    
-                    formFields.forEach(field => {
-                        const topic = field.getAttribute('data-topic');
-                        const question = field.getAttribute('data-question');
-                        
-                        if (topic && question && data[topic] && data[topic][question]) {
-                            field.value = data[topic][question];
-                        }
-                    });
-                    
-                    // Update last saved time
-                    const savedTime = localStorage.getItem('lesson4SavedTime');
-                    if (savedTime) {
-                        lastSaved.textContent = savedTime;
-                    }
+                if (hasResponse) {
+                    completedTopics++;
+                    document.getElementById(`topic${i}Complete`).classList.add('visible');
+                } else {
+                    document.getElementById(`topic${i}Complete`).classList.remove('visible');
                 }
             }
             
-            // Function to update progress bar
-            function updateProgress() {
-                let completedFields = 0;
-                
-                formFields.forEach(field => {
-                    if (field.value.trim() !== '') {
-                        completedFields++;
-                    }
+            const progressPercent = Math.round((completedTopics / totalTopics) * 100);
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            progressBar.style.width = `${progressPercent}%`;
+            progressBar.textContent = `${progressPercent}%`;
+            progressText.textContent = `${progressPercent}%`;
+            
+            // Update last saved time
+            document.getElementById('lastSaved').textContent = new Date().toLocaleTimeString();
+            
+            return progressPercent;
+        }
+        
+        // Auto-save functionality
+        function setupAutoSave() {
+            const inputs = document.querySelectorAll('textarea, select, input[type="text"]');
+            let saveTimeout;
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    clearTimeout(saveTimeout);
+                    saveTimeout = setTimeout(() => {
+                        saveProgress();
+                        updateProgress();
+                    }, 1000);
                 });
                 
-                const progressPercentage = Math.round((completedFields / formFields.length) * 100);
-                
-                progressBar.style.width = `${progressPercentage}%`;
-                progressBar.textContent = `${progressPercentage}%`;
-                progressText.textContent = `${progressPercentage}%`;
-                
-                // Update topic completion indicators
-                updateTopicCompletion();
-                
-                // Save progress to localStorage
-                localStorage.setItem('lesson4Progress', progressPercentage);
-            }
-            
-            // Function to update topic completion indicators
-            function updateTopicCompletion() {
-                const topics = [1, 2, 3, 4];
-                
-                topics.forEach(topicNum => {
-                    const topicFields = document.querySelectorAll(`[data-topic="${topicNum}"]`);
-                    let completedTopicFields = 0;
-                    
-                    topicFields.forEach(field => {
-                        if (field.value.trim() !== '') {
-                            completedTopicFields++;
-                        }
-                    });
-                    
-                    const topicProgress = Math.round((completedTopicFields / topicFields.length) * 100);
-                    const topicCompleteIndicator = document.getElementById(`topic${topicNum}Complete`);
-                    
-                    if (topicProgress >= 50) { // Consider topic complete if at least 50% filled
-                        topicCompleteIndicator.classList.add('visible');
-                    } else {
-                        topicCompleteIndicator.classList.remove('visible');
-                    }
+                input.addEventListener('change', function() {
+                    saveProgress();
+                    updateProgress();
                 });
-            }
+            });
+        }
+        
+        function saveProgress() {
+            // Show save notification
+            const notification = document.getElementById('saveNotification');
+            notification.classList.add('show');
             
-            // Function to show save notification
-            function showSaveNotification() {
-                saveNotification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+            
+            // In a real app, this would save to localStorage or a database
+            console.log('Progress saved at:', new Date().toLocaleString());
+        }
+        
+        // Sync status functionality
+        function updateSyncStatus() {
+            const syncStatus = document.getElementById('syncStatus');
+            
+            // Simulate checking connection
+            setTimeout(() => {
+                if (navigator.onLine) {
+                    syncStatus.textContent = 'Online - Synced';
+                    syncStatus.className = 'sync-status online';
+                } else {
+                    syncStatus.textContent = 'Offline - Changes saved locally';
+                    syncStatus.className = 'sync-status offline';
+                }
+            }, 1000);
+        }
+        
+        // Manual sync functionality
+        document.getElementById('manualSync').addEventListener('click', function() {
+            const syncStatus = document.getElementById('syncStatus');
+            syncStatus.textContent = 'Syncing...';
+            syncStatus.className = 'sync-status syncing';
+            
+            // Simulate sync process
+            setTimeout(() => {
+                syncStatus.textContent = 'Online - Synced';
+                syncStatus.className = 'sync-status online';
+                
+                // Show confirmation
+                const notification = document.getElementById('saveNotification');
+                notification.innerHTML = '<i class="bi bi-cloud-check"></i> Synced to cloud';
+                notification.classList.add('show');
                 
                 setTimeout(() => {
-                    saveNotification.classList.remove('show');
+                    notification.classList.remove('show');
                 }, 2000);
-            }
-            
-            // Auto-save every 30 seconds as a backup
-            setInterval(saveData, 30000);
-            
-            // Load saved progress if available
-            const savedProgress = localStorage.getItem('lesson4Progress');
-            if (savedProgress) {
-                progressBar.style.width = `${savedProgress}%`;
-                progressBar.textContent = `${savedProgress}%`;
-                progressText.textContent = `${savedProgress}%`;
-            }
+            }, 1500);
         });
+        
+        // Online/offline detection
+        window.addEventListener('online', updateSyncStatus);
+        window.addEventListener('offline', updateSyncStatus);
     </script>
-    <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const collapsibles = document.querySelectorAll('.collapsible');
-  
-  collapsibles.forEach(button => {
-    button.addEventListener('click', () => {
-      button.classList.toggle('active');
-      const content = button.nextElementSibling;
-      content.classList.toggle('open');
-    });
-  });
-});
-</script>
-
-
 </body>
 </html>
