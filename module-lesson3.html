@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assurance of Forgiveness</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Add Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <title>Lesson 3: Lordship - Pathlight Curriculum</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -30,52 +28,62 @@
             line-height: 1.6;
             color: #333;
             background-color: #f9f9f9;
-            padding-bottom: 20px;
+            padding-bottom: 80px; /* Space for bottom nav */
+            -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
         }
         
         .container {
-            max-width: 1000px;
+            width: 100%;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
         }
         
         header {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             position: relative;
+            width: 100%;
         }
         
         .header-content {
-            max-width: 800px;
+            width: 100%;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 15px;
         }
         
         h1 {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             margin-bottom: 0.5rem;
         }
         
         .lesson-nav {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            gap: 10px;
         }
         
         .btn {
             display: inline-block;
             background-color: var(--secondary-color);
             color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 12px 20px;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
             transition: background-color 0.3s ease;
             border: none;
             cursor: pointer;
+            font-size: 1rem;
+            text-align: center;
+            flex: 1;
+            min-height: 48px; /* Minimum touch target size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .btn:hover {
@@ -84,11 +92,12 @@
         
         .topic {
             background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 2rem;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: relative;
+            width: 100%;
         }
         
         .topic h2 {
@@ -96,6 +105,7 @@
             margin-bottom: 1rem;
             border-bottom: 2px solid var(--secondary-color);
             padding-bottom: 0.5rem;
+            font-size: 1.4rem;
         }
         
         .scripture {
@@ -104,11 +114,12 @@
             padding: 1rem;
             margin: 1rem 0;
             font-style: italic;
+            border-radius: 0 8px 8px 0;
         }
         
         .key-point {
             background-color: #e8f4fc;
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 1rem;
             margin: 1rem 0;
         }
@@ -120,7 +131,7 @@
         
         .activity {
             background-color: #fff8e1;
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 1rem;
             margin: 1rem 0;
             border-left: 4px solid #ffc107;
@@ -133,7 +144,7 @@
         
         .worksheet {
             background-color: #e8f5e9;
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 1.5rem;
             margin: 1rem 0;
             border-left: 4px solid #4caf50;
@@ -146,7 +157,7 @@
         
         .room-metaphor {
             background-color: #f3e5f5;
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 1.5rem;
             margin: 1rem 0;
             border-left: 4px solid #9c27b0;
@@ -165,8 +176,8 @@
         }
         
         .stoplight-light {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             margin: 10px;
             display: flex;
@@ -221,8 +232,8 @@
         }
         
         .heart-house-image {
-            width: 300px;
-            height: 300px;
+            width: 250px;
+            height: 250px;
             background-color: #ffebee;
             border-radius: 50%;
             position: relative;
@@ -233,8 +244,8 @@
         }
         
         .heart-door {
-            width: 80px;
-            height: 120px;
+            width: 70px;
+            height: 100px;
             background-color: #e74c3c;
             border-radius: 10px;
             display: flex;
@@ -246,18 +257,17 @@
         
         .room-list {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 15px;
             margin-top: 20px;
         }
         
         .room-item {
-            flex: 1;
-            min-width: 200px;
             background: white;
             border-radius: 8px;
             padding: 15px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 100%;
         }
         
         footer {
@@ -266,7 +276,8 @@
             padding: 1.5rem;
             background-color: var(--dark-color);
             color: white;
-            border-radius: 8px;
+            border-radius: 12px;
+            width: 100%;
         }
         
         /* Progress Bar Styles */
@@ -304,8 +315,8 @@
         /* Auto-save notification */
         .save-notification {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 70px;
+            right: 15px;
             background-color: var(--success-color);
             color: white;
             padding: 10px 20px;
@@ -314,6 +325,7 @@
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 1000;
+            font-size: 0.9rem;
         }
         
         .save-notification.show {
@@ -341,65 +353,89 @@
         .topic-complete.visible {
             opacity: 1;
         }
-        /* collapsible sections */
-        /* Modern Minimal Collapsible (Plus/Minus Style) */
-.collapsible {
-  background: #f5f5f5;
-  color: #0d2b45;
-  cursor: pointer;
-  padding: 10px 18px;
-  width: 100%;
-  border: none;
-  border-radius: 6px;
-  text-align: left;
-  font-size: 1rem;
-  font-weight: 500;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
-  transition: background 0.3s ease;
-}
-
-.collapsible:hover {
-  background: #e9ecef;
-}
-
-.collapsible::after {
-  content: '+';
-  font-weight: bold;
-  font-size: 18px;
-  transition: transform 0.3s;
-}
-
-.collapsible.active::after {
-  content: '–';
-  transform: rotate(180deg);
-}
-
-.content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-  background: #ffffff;
-  border-radius: 0 0 6px 6px;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
-  padding: 0 18px;
-}
-
-.content.open {
-  max-height: 1000px; /* expand space */
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
+        
+        /* Collapsible sections with scrollable content */
+        .collapsible {
+            background: #f5f5f5;
+            color: #0d2b45;
+            cursor: pointer;
+            padding: 14px 18px;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            transition: background 0.3s ease;
+            min-height: 48px; /* Minimum touch target size */
+        }
+        
+        .collapsible:hover {
+            background: #e9ecef;
+        }
+        
+        .collapsible::after {
+            content: '+';
+            font-weight: bold;
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+        
+        .collapsible.active::after {
+            content: '–';
+            transform: rotate(180deg);
+        }
+        
+        .content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #ffffff;
+            border-radius: 0 0 8px 8px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+            padding: 0 18px;
+        }
+        
+        .content.open {
+            max-height: 400px; /* Set a maximum height for scrollable sections */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding: 15px;
+            border: 1px solid #e1e1e1;
+            border-top: none;
+        }
+        
+        /* Custom scrollbar for content */
+        .content.open::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .content.open::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .content.open::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 4px;
+        }
+        
+        .content.open::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+        
         /* Form field styling */
         textarea, input[type="text"] {
-            padding: 8px 12px;
+            padding: 10px 12px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             font-family: var(--font-main);
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            font-size: 16px; /* Prevent zoom on iOS */
         }
         
         textarea:focus, input[type="text"]:focus {
@@ -408,26 +444,136 @@
             box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
         }
         
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            min-height: 48px; /* Minimum touch target size */
+            justify-content: center;
+        }
+        
+        .nav-item.active {
+            color: var(--secondary-color);
+            background-color: #e8f4fc;
+        }
+        
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+        
+        /* Mobile-specific improvements */
         @media (max-width: 768px) {
-            .lesson-nav {
-                flex-direction: column;
-                gap: 1rem;
+            .container {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 1rem 0;
+                margin-bottom: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .topic {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .topic h2 {
+                font-size: 1.2rem;
             }
             
             .btn {
-                text-align: center;
+                padding: 14px 16px;
+                font-size: 0.9rem;
             }
             
-            .backpack-visual, .room-list {
+            .heart-house-image {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .heart-door {
+                width: 60px;
+                height: 80px;
+            }
+            
+            .stoplight-light {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .backpack-visual {
                 flex-direction: column;
             }
             
             .save-notification {
-                bottom: 10px;
+                bottom: 60px;
                 right: 10px;
                 left: 10px;
                 text-align: center;
             }
+            
+            /* Adjust scrollable content height for mobile */
+            .content.open {
+                max-height: 300px;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .backpack-visual, .room-list {
+                flex-direction: row;
+            }
+            
+            /* Adjust scrollable content height for larger screens */
+            .content.open {
+                max-height: 500px;
+            }
+        }
+        
+        /* Prevent horizontal scrolling */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* Improve touch interactions */
+        button, .btn, .nav-item, .topic-complete {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        /* Improve text readability on mobile */
+        p, li, td, th {
+            font-size: 16px;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -449,7 +595,7 @@
             <span>Last saved: <span id="lastSaved">Not saved yet</span></span>
         </div>
         
-       <div class="lesson-nav">
+        <div class="lesson-nav">
             <a href="module-lesson2.html" class="btn">Previous Lesson</a>
             <a href="progress.html" class="btn">Progress</a>
             <a href="index.html" class="btn">Back to Main</a>
@@ -469,105 +615,110 @@
             <div class="scripture">
                 <p><strong>Luke 14:25-33 (NKJV)</strong> - "Now great multitudes went with Him. And He turned and said to them, 'If anyone comes to Me and does not hate his father and mother, wife and children, brothers and sisters, yes, and his own life also, he cannot be My disciple. And whoever does not bear his cross and come after Me cannot be My disciple.'"</p>
             </div>
-             <div class="collapsible">introduction</div>
+            
+            <div class="collapsible">Introduction</div>
             <div class="content">
-            <h3>1. Introduce the Concept: What Is Discipleship?</h3>
-            <p>Begin by asking learners: "What does it mean to follow someone (e.g., in social media)?"</p>
-            <p>Then guide: To follow Jesus means we obey His teaching, live like Him, and trust Him even when it's hard. That's called discipleship.</p>
+                <h3>1. Introduce the Concept: What Is Discipleship?</h3>
+                <p>Begin by asking learners: "What does it mean to follow someone (e.g., in social media)?"</p>
+                <p>Then guide: To follow Jesus means we obey His teaching, live like Him, and trust Him even when it's hard. That's called discipleship.</p>
+                
+                <h3>2. Explain the "Cost" Part (Luke 14:27-33)</h3>
+                <p>Jesus said if we want to follow Him, we must carry our cross. That means we must be ready to give up things for His sake.</p>
+                
+                <div class="key-point">
+                    <h4>Practical Examples of Cost:</h4>
+                    <ul>
+                        <li>A child might choose truth over cheating</li>
+                        <li>A teen might face peer pressure but choose obedience</li>
+                        <li>An adult might let go of career ambition to follow God's calling</li>
+                        <li>Choosing kindness over revenge</li>
+                        <li>Saying no to cheating even if it means a lower grade</li>
+                    </ul>
+                </div>
+                
+                <div class="key-point">
+                    <h4>Jesus' Parables About Counting Cost:</h4>
+                    <p><strong>The Builder (Luke 14:28-30)</strong> - Doesn't start building without calculating if he can finish</p>
+                    <p><strong>The King (Luke 14:31-32)</strong> - Considers if he can win before going to war</p>
+                    <p><em>"Jesus wants us to think before we follow Him—to know it will take commitment."</em></p>
+                </div>
+            </div>
             
-            <h3>2. Explain the "Cost" Part (Luke 14:27-33)</h3>
-            <p>Jesus said if we want to follow Him, we must carry our cross. That means we must be ready to give up things for His sake.</p>
-            
-            <div class="key-point">
-                <h4>Practical Examples of Cost:</h4>
+            <div class="collapsible">Requirements</div>
+            <div class="content">
+                <h3>3. Following Jesus Requires:</h3>
                 <ul>
-                    <li>A child might choose truth over cheating</li>
-                    <li>A teen might face peer pressure but choose obedience</li>
-                    <li>An adult might let go of career ambition to follow God's calling</li>
-                    <li>Choosing kindness over revenge</li>
-                    <li>Saying no to cheating even if it means a lower grade</li>
+                    <li>Saying Yes to Him even when friends say no</li>
+                    <li>Letting go of selfishness or sin</li>
+                    <li>Obeying Him daily, even when it's not popular</li>
                 </ul>
+                
+                <h3>4. Encourage Realistic Commitment</h3>
+                <p>Jesus isn't looking for fans but followers. Discipleship isn't always easy, but Jesus gives strength, peace, joy, and eternal life.</p>
+                <div class="scripture">
+                    <p><strong>Hebrews 13:5</strong> - "I will never leave you or forsake you."</p>
+                </div>
             </div>
             
-            <div class="key-point">
-                <h4>Jesus' Parables About Counting Cost:</h4>
-                <p><strong>The Builder (Luke 14:28-30)</strong> - Doesn't start building without calculating if he can finish</p>
-                <p><strong>The King (Luke 14:31-32)</strong> - Considers if he can win before going to war</p>
-                <p><em>"Jesus wants us to think before we follow Him—to know it will take commitment."</em></p>
-            </div>
-            </div>
-             <div class="collapsible">Requirements</div>
+            <div class="collapsible">Teaching Tips</div>
             <div class="content">
-            <h3>3. Following Jesus Requires:</h3>
-            <ul>
-                <li>Saying Yes to Him even when friends say no</li>
-                <li>Letting go of selfishness or sin</li>
-                <li>Obeying Him daily, even when it's not popular</li>
-            </ul>
+                <div class="activity">
+                    <h4>Teaching Tip: Backpack Visual</h4>
+                    <p>Bring a backpack with labeled objects: fear, pride, sin, comfort, selfishness. Take them out one by one as learners discuss what they need to surrender to follow Christ. Replace with faith, obedience, love, sacrifice, joy.</p>
+                    
+                    <div class="backpack-visual">
+                        <div class="backpack-item negative">
+                            <h5>Fear</h5>
+                            <p>Replace with Faith</p>
+                        </div>
+                        <div class="backpack-item negative">
+                            <h5>Pride</h5>
+                            <p>Replace with Humility</p>
+                        </div>
+                        <div class="backpack-item negative">
+                            <h5>Sin</h5>
+                            <p>Replace with Obedience</p>
+                        </div>
+                        <div class="backpack-item negative">
+                            <h5>Comfort</h5>
+                            <p>Replace with Sacrifice</p>
+                        </div>
+                        <div class="backpack-item negative">
+                            <h5>Selfishness</h5>
+                            <p>Replace with Love</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
-            <h3>4. Encourage Realistic Commitment</h3>
-            <p>Jesus isn't looking for fans but followers. Discipleship isn't always easy, but Jesus gives strength, peace, joy, and eternal life.</p>
-            <div class="scripture">
-                <p><strong>Hebrews 13:5</strong> - "I will never leave you or forsake you."</p>
-            </div>
-            </div>
-             <div class="collapsible">Teaching Tips</div>
+            <div class="collapsible">Worksheet</div>
             <div class="content">
-            <div class="activity">
-                <h4>Teaching Tip: Backpack Visual</h4>
-                <p>Bring a backpack with labeled objects: fear, pride, sin, comfort, selfishness. Take them out one by one as learners discuss what they need to surrender to follow Christ. Replace with faith, obedience, love, sacrifice, joy.</p>
-                
-                <div class="backpack-visual">
-                    <div class="backpack-item negative">
-                        <h5>Fear</h5>
-                        <p>Replace with Faith</p>
+                <div class="worksheet">
+                    <h4>Worksheet: The Cost of Following Jesus</h4>
+                    <p><strong>Memory Verse:</strong> Luke 14:27-28 (NKJV) - "And whoever does not bear his cross and come after Me cannot be My disciple. For which of you, intending to build a tower, does not sit down first and count the cost, whether he has enough to finish it-"</p>
+                    
+                    <div class="key-point">
+                        <h4>What It Means to Be a Disciple</h4>
+                        <p><em>In your own words, what does it mean to be a disciple of Jesus?</em></p>
+                        <textarea placeholder="Write your response here..." style="width: 100%; min-height: 80px; margin-top: 10px;" data-topic="1" data-question="1"></textarea>
                     </div>
-                    <div class="backpack-item negative">
-                        <h5>Pride</h5>
-                        <p>Replace with Humility</p>
-                    </div>
-                    <div class="backpack-item negative">
-                        <h5>Sin</h5>
-                        <p>Replace with Obedience</p>
-                    </div>
-                    <div class="backpack-item negative">
-                        <h5>Comfort</h5>
-                        <p>Replace with Sacrifice</p>
-                    </div>
-                    <div class="backpack-item negative">
-                        <h5>Selfishness</h5>
-                        <p>Replace with Love</p>
+                    
+                    <div class="key-point">
+                        <h4>Counting the Cost</h4>
+                        <p>Following Jesus may cost you something—comfort, popularity, time, pride, or personal plans—but it leads to eternal life, true peace, and purpose.</p>
+                        
+                        <p><strong>List 2 things that might cost you something if you fully follow Jesus:</strong></p>
+                        <p>1. <input type="text" style="width: 100%; margin: 5px 0;" data-topic="1" data-question="2a"></p>
+                        <p>2. <input type="text" style="width: 100%; margin: 5px 0;" data-topic="1" data-question="2b"></p>
+                        
+                        <p><strong>List 2 blessings that come from following Him:</strong></p>
+                        <p>1. <input type="text" style="width: 100%; margin: 5px 0;" data-topic="1" data-question="3a"></p>
+                        <p>2. <input type="text" style="width: 100%; margin: 5px 0;" data-topic="1" data-question="3b"></p>
                     </div>
                 </div>
             </div>
-            </div>
-                <div class="collapsible">Worksheet</div>
-            <div class="content">
-            <div class="worksheet">
-                <h4>Worksheet: The Cost of Following Jesus</h4>
-                <p><strong>Memory Verse:</strong> Luke 14:27-28 (NKJV) - "And whoever does not bear his cross and come after Me cannot be My disciple. For which of you, intending to build a tower, does not sit down first and count the cost, whether he has enough to finish it-"</p>
-                
-                <div class="key-point">
-                    <h4>What It Means to Be a Disciple</h4>
-                    <p><em>In your own words, what does it mean to be a disciple of Jesus?</em></p>
-                    <textarea placeholder="Write your response here..." style="width: 100%; min-height: 80px; margin-top: 10px;" data-topic="1" data-question="1"></textarea>
-                </div>
-                
-                <div class="key-point">
-                    <h4>Counting the Cost</h4>
-                    <p>Following Jesus may cost you something—comfort, popularity, time, pride, or personal plans—but it leads to eternal life, true peace, and purpose.</p>
-                    
-                    <p><strong>List 2 things that might cost you something if you fully follow Jesus:</strong></p>
-                    <p>1. <input type="text" style="width: 80%; margin: 5px 0;" data-topic="1" data-question="2a"></p>
-                    <p>2. <input type="text" style="width: 80%; margin: 5px 0;" data-topic="1" data-question="2b"></p>
-                    
-                    <p><strong>List 2 blessings that come from following Him:</strong></p>
-                    <p>1. <input type="text" style="width: 80%; margin: 5px 0;" data-topic="1" data-question="3a"></p>
-                    <p>2. <input type="text" style="width: 80%; margin: 5px 0;" data-topic="1" data-question="3b"></p>
-                </div>
-                </div> 
-            </div> 
-                <div class="collapsible">reflection</div>
+            
+            <div class="collapsible">Reflection</div>
             <div class="content">
                 <div class="key-point">
                     <h4>Learner Reflection Questions:</h4>
@@ -585,8 +736,7 @@
                     <textarea placeholder="Describe your challenge..." style="width: 100%; min-height: 60px; margin-top: 10px;" data-topic="1" data-question="6"></textarea>
                 </div>
             </div>
-            </div>
-        
+        </div>
         
         <div class="topic" id="topic2">
             <div class="topic-complete" id="topic2Complete">✓</div>
@@ -601,109 +751,109 @@
                 <p>Submission is choosing to <strong>obey God's authority</strong> and those He has placed over us—willingly, not forcefully. It's about <strong>trusting God's way</strong> even when we want our own way.</p>
                 <p><em>It's not weakness but a strength of the heart that chooses obedience over rebellion.</em></p>
             </div>
-             
+            
             <div class="key-point">
                 <h4>Jesus' Example</h4>
                 <p><strong>Philippians 2:8</strong> - "He humbled Himself and became obedient to the point of death, even the death of the cross."</p>
                 <p>Jesus Himself submitted to the Father's will.</p>
             </div>
-             <div class="collapsible">Areas of Struggle</div>
+            
+            <div class="collapsible">Areas of Struggle</div>
             <div class="content">
-            <h3>Common Areas of Struggle in Submission:</h3>
-            
-            <div class="key-point">
-                <h4>1. To God's Word</h4>
-                <p><strong>Struggle:</strong> Putting off things that seem hard (forgiveness, purity, tithing)</p>
-                <p><strong>Response:</strong> Obey the Word even when uncomfortable</p>
-            </div>
-            
-            <div class="key-point">
-                <h4>2. To Parents/Guardians</h4>
-                <p><strong>Struggle:</strong> Wanting independence and control too soon</p>
-                <p><strong>Response:</strong> Trust they are directing you for your best</p>
-            </div>
-            
-            <div class="key-point">
-                <h4>3. To Church or Spiritual Leaders</h4>
-                <p><strong>Struggle:</strong> Disagreeing with decisions or correction</p>
-                <p><strong>Response:</strong> Honor the instruction of the faith community (<strong>Hebrews 13:17</strong>)</p>
-            </div>
-            
-            <div class="key-point">
-                <h4>4. To Government/Authority Figures</h4>
-                <p><strong>Struggle:</strong> Injustice or unfair rules</p>
-                <p><strong>Response:</strong> Obey laws unless they contradict God's Word (<strong>Romans 13:1-2</strong>)</p>
-            </div>
-            
-            <div class="key-point">
-                <h4>5. To One Another (Mutual Submission)</h4>
-                <p><strong>Struggle:</strong> Pride, wanting to always be right or go first</p>
-                <p><strong>Response:</strong> Put others before yourself (<strong>Philippians 2:3-4</strong>)</p>
-            </div>
-            </div>
-            
-                <div class="collapsible">Activity</div>
-            <div class="content">
-            <div class="activity">
-                <h4>Activity: Submission Stoplight</h4>
-                <div class="stoplight">
-                    <div class="stoplight-light stoplight-green">
-                        <small>GREEN<br>Obey Right Away </small>
-                    </div>
-                    <div class="stoplight-light stoplight-yellow">
-                         <small>YELLOW<br>Ask for Help</small>
-                    </div>
-                    <div class="stoplight-light stoplight-red">
-                        <small>RED<br>Disobey or Delay</small>
-                    </div>
+                <h3>Common Areas of Struggle in Submission:</h3>
+                
+                <div class="key-point">
+                    <h4>1. To God's Word</h4>
+                    <p><strong>Struggle:</strong> Putting off things that seem hard (forgiveness, purity, tithing)</p>
+                    <p><strong>Response:</strong> Obey the Word even when uncomfortable</p>
                 </div>
                 
-                <p><strong>Green - Obey Right Away (Submission)</strong></p>
-                <p>Examples: Doing chores without complaining, forgiving quickly, saying yes to God even when it's hard.</p>
-                <p>Green choices lead to peace, blessings, and growth.</p>
+                <div class="key-point">
+                    <h4>2. To Parents/Guardians</h4>
+                    <p><strong>Struggle:</strong> Wanting independence and control too soon</p>
+                    <p><strong>Response:</strong> Trust they are directing you for your best</p>
+                </div>
                 
-                <p><strong>Yellow - Ask for Help or Pray First</strong></p>
-                <p>Examples: When we feel tempted, confused about a command, or emotionally overwhelmed.</p>
-                <p>Prayer is a way of submitting in weakness and asking for God's strength.</p>
+                <div class="key-point">
+                    <h4>3. To Church or Spiritual Leaders</h4>
+                    <p><strong>Struggle:</strong> Disagreeing with decisions or correction</p>
+                    <p><strong>Response:</strong> Honor the instruction of the faith community (<strong>Hebrews 13:17</strong>)</p>
+                </div>
                 
-                <p><strong>Red - Disobey or Delay Obedience</strong></p>
-                <p>Examples: Ignoring God's Word, arguing with authority, choosing sin knowingly.</p>
-                <p>Consequences: broken trust, guilt, missed blessings, hurt relationships.</p>
+                <div class="key-point">
+                    <h4>4. To Government/Authority Figures</h4>
+                    <p><strong>Struggle:</strong> Injustice or unfair rules</p>
+                    <p><strong>Response:</strong> Obey laws unless they contradict God's Word (<strong>Romans 13:1-2</strong>)</p>
+                </div>
+                
+                <div class="key-point">
+                    <h4>5. To One Another (Mutual Submission)</h4>
+                    <p><strong>Struggle:</strong> Pride, wanting to always be right or go first</p>
+                    <p><strong>Response:</strong> Put others before yourself (<strong>Philippians 2:3-4</strong>)</p>
+                </div>
             </div>
+            
+            <div class="collapsible">Activity</div>
+            <div class="content">
+                <div class="activity">
+                    <h4>Activity: Submission Stoplight</h4>
+                    <div class="stoplight">
+                        <div class="stoplight-light stoplight-green">
+                            <small>GREEN<br>Obey Right Away </small>
+                        </div>
+                        <div class="stoplight-light stoplight-yellow">
+                            <small>YELLOW<br>Ask for Help</small>
+                        </div>
+                        <div class="stoplight-light stoplight-red">
+                            <small>RED<br>Disobey or Delay</small>
+                        </div>
+                    </div>
+                    
+                    <p><strong>Green - Obey Right Away (Submission)</strong></p>
+                    <p>Examples: Doing chores without complaining, forgiving quickly, saying yes to God even when it's hard.</p>
+                    <p>Green choices lead to peace, blessings, and growth.</p>
+                    
+                    <p><strong>Yellow - Ask for Help or Pray First</strong></p>
+                    <p>Examples: When we feel tempted, confused about a command, or emotionally overwhelmed.</p>
+                    <p>Prayer is a way of submitting in weakness and asking for God's strength.</p>
+                    
+                    <p><strong>Red - Disobey or Delay Obedience</strong></p>
+                    <p>Examples: Ignoring God's Word, arguing with authority, choosing sin knowingly.</p>
+                    <p>Consequences: broken trust, guilt, missed blessings, hurt relationships.</p>
+                </div>
             </div>
+            
             <div class="collapsible">Worksheet</div>
             <div class="content">
-            <div class="worksheet">
-                <h4>Worksheet: Submission - Areas of Struggle</h4>
-                <p><strong>James 4:7 (NIV)</strong> - "Submit yourselves, then, to God. Resist the devil, and he will flee from you."</p>
-                
-                <div class="key-point">
-                    <h4>Learner Reflection Questions:</h4>
-                    <p>1. Which areas do I struggle to submit, and why?</p>
-                    <textarea placeholder="Write your response here..." style="width: 100%; min-height: 80px; margin-top: 10px;" data-topic="2" data-question="1"></textarea>
+                <div class="worksheet">
+                    <h4>Worksheet: Submission - Areas of Struggle</h4>
+                    <p><strong>James 4:7 (NIV)</strong> - "Submit yourselves, then, to God. Resist the devil, and he will flee from you."</p>
                     
-                    <p>2. How can trusting God help me submit with the right heart?</p>
-                    <textarea placeholder="Write your response here..." style="width: 100%; min-height: 80px; margin-top: 10px;" data-topic="2" data-question="2"></textarea>
+                    <div class="key-point">
+                        <h4>Learner Reflection Questions:</h4>
+                        <p>1. Which areas do I struggle to submit, and why?</p>
+                        <textarea placeholder="Write your response here..." style="width: 100%; min-height: 80px; margin-top: 10px;" data-topic="2" data-question="1"></textarea>
+                        
+                        <p>2. How can trusting God help me submit with the right heart?</p>
+                        <textarea placeholder="Write your response here..." style="width: 100%; min-height: 80px; margin-top: 10px;" data-topic="2" data-question="2"></textarea>
+                    </div>
+                    
+                    <div class="key-point">
+                        <h4>Discussion Prompts (for small groups or families):</h4>
+                        <p>Have you ever chosen submission and seen a good result from it?</p>
+                        <p>What helps you submit when it's difficult?</p>
+                    </div>
+                    
+                    <div class="key-point">
+                        <h4>Additional Learner Activities:</h4>
+                        <p><strong>Younger Learners:</strong> Create a "Submission Stoplight" - Draw or glue three circles vertically on paper.</p>
+                        <p><strong>Teens/Adults:</strong> Journal or pray about one area of struggle daily for a week.</p>
+                        <p><strong>All Ages:</strong> Write a short letter to God confessing a struggle and asking for help to submit.</p>
+                    </div>
                 </div>
-                
-                <div class="key-point">
-                    <h4>Discussion Prompts (for small groups or families):</h4>
-                    <p>Have you ever chosen submission and seen a good result from it?</p>
-                    <p>What helps you submit when it's difficult?</p>
-                </div>
-                
-                <div class="key-point">
-                    <h4>Additional Learner Activities:</h4>
-                    <p><strong>Younger Learners:</strong> Create a "Submission Stoplight" - Draw or glue three circles vertically on paper.</p>
-                    <p><strong>Teens/Adults:</strong> Journal or pray about one area of struggle daily for a week.</p>
-                    <p><strong>All Ages:</strong> Write a short letter to God confessing a struggle and asking for help to submit.</p>
-                </div>
-            </div>
             </div>
         </div>
 
-        
-        
         <div class="topic" id="topic3">
             <div class="topic-complete" id="topic3Complete">✓</div>
             <h2>Topic 3: My Heart, Christ's Home</h2>
@@ -726,22 +876,24 @@
                 </div>
                 <p><em>If your heart is a house, are there parts that you allow Jesus to come into and other parts you keep locked?</em></p>
             </div>
-            <div class="collapsible">1.Living Room</div>
+            
+            <div class="collapsible">1. Living Room</div>
             <div class="content">
-            <div class="room-list">
-                <div class="room-metaphor">
-                    <h4>The Living Room — Fellowship & Time</h4>
-                    <p>This space represents quality time we spend with guests, typifying our devotional lives.</p>
-                    <p><strong>Reflection questions:</strong></p>
-                    <ul>
-                        <li>Are you spending regular, meaningful time with Jesus?</li>
-                        <li>What things take your time and focus away from Him?</li>
-                    </ul>
-                    <p><strong>John 15:5</strong> - "If you remain in me and I in you, you will bear much fruit..."</p>
+                <div class="room-list">
+                    <div class="room-metaphor">
+                        <h4>The Living Room — Fellowship & Time</h4>
+                        <p>This space represents quality time we spend with guests, typifying our devotional lives.</p>
+                        <p><strong>Reflection questions:</strong></p>
+                        <ul>
+                            <li>Are you spending regular, meaningful time with Jesus?</li>
+                            <li>What things take your time and focus away from Him?</li>
+                        </ul>
+                        <p><strong>John 15:5</strong> - "If you remain in me and I in you, you will bear much fruit..."</p>
+                    </div>
                 </div>
-                </div>
-                </div>  
-               <div class="collapsible">2.Kitchen</div>
+            </div>
+            
+            <div class="collapsible">2. Kitchen</div>
             <div class="content">
                 <div class="room-metaphor">
                     <h4>The Kitchen — Desires, Appetite & Habits</h4>
@@ -753,8 +905,9 @@
                     </ul>
                     <p><strong>Matthew 4:4</strong> - "Man shall not live on bread alone, but on every word..."</p>
                 </div>
-                </div>  
-                <div class="collapsible">3.Study Rooms</div>
+            </div>
+            
+            <div class="collapsible">3. Study Rooms</div>
             <div class="content">
                 <div class="room-metaphor">
                     <h4>The Study — Thoughts, Mind, and Learning</h4>
@@ -766,8 +919,9 @@
                     </ul>
                     <p><strong>Romans 12:2</strong> - "Be transformed by the renewing of your mind."</p>
                 </div>
-                </div>  
-                <div class="collapsible">4.Bedroom</div>
+            </div>
+            
+            <div class="collapsible">4. Bedroom</div>
             <div class="content">
                 <div class="room-metaphor">
                     <h4>The Bedroom — Personal/Private Life, Identity, and Purity</h4>
@@ -779,8 +933,9 @@
                     </ul>
                     <p><strong>Psalm 139:23-24</strong> - "Search me, God... see if there is any offensive way in me."</p>
                 </div>
-                </div>
-                <div class="collapsible">5.Closet</div>
+            </div>
+            
+            <div class="collapsible">5. Closet</div>
             <div class="content">
                 <div class="room-metaphor">
                     <h4>The Closet — Secrets, Sins, and Shame</h4>
@@ -794,51 +949,76 @@
                 </div>
             </div>
             
-             <div class="collapsible">6.Final Room</div>  
+            <div class="collapsible">6. Final Room</div>
             <div class="content">
-            <div class="key-point">
-                <h4>Final Room: The Title Deed</h4>
-                <p>Jesus wants more than access—He wants <strong>ownership</strong>.</p>
-                <p><strong>Challenge:</strong> "Will you give Jesus the keys to every room? Will you let Him be not just resident but President—not just guest, but Lord?"</p>
-                <p><strong>Key Scriptures:</strong></p>
-                <ul>
-                    <li><strong>Galatians 2:20</strong> - "I no longer live, but Christ lives in me..."</li>
-                    <li><strong>Luke 9:23</strong> - "Whoever wants to be my disciple must deny themselves and take up their cross daily..."</li>
-                    <li><strong>Romans 12:1</strong> - "Offer your bodies as a living sacrifice, holy and pleasing to God..."</li>
-                </ul>
+                <div class="key-point">
+                    <h4>Final Room: The Title Deed</h4>
+                    <p>Jesus wants more than access—He wants <strong>ownership</strong>.</p>
+                    <p><strong>Challenge:</strong> "Will you give Jesus the keys to every room? Will you let Him be not just resident but President—not just guest, but Lord?"</p>
+                    <p><strong>Key Scriptures:</strong></p>
+                    <ul>
+                        <li><strong>Galatians 2:20</strong> - "I no longer live, but Christ lives in me..."</li>
+                        <li><strong>Luke 9:23</strong> - "Whoever wants to be my disciple must deny themselves and take up their cross daily..."</li>
+                        <li><strong>Romans 12:1</strong> - "Offer your bodies as a living sacrifice, holy and pleasing to God..."</li>
+                    </ul>
+                </div>
             </div>
-            </div>  
+            
             <div class="collapsible">Worksheet</div>
             <div class="content">
-            <div class="worksheet">
-                <h4>Worksheet: My Heart, Christ's Home</h4>
-                <p><strong>Revelation 3:20 (NIV)</strong> - "Here I am! I stand at the door and knock. If anyone hears my voice and opens the door, I will come in and eat with that person, and they with me."</p>
-                
-                <div class="key-point">
-                    <h4>Learner Reflection Questions:</h4>
-                    <p>1. Which room in my heart needs to be cleaned or opened to Jesus?</p>
-                    <textarea placeholder="Write your response here..." style="width: 100%; min-height: 50px; margin-top: 10px;" data-topic="3" data-question="1"></textarea>
+                <div class="worksheet">
+                    <h4>Worksheet: My Heart, Christ's Home</h4>
+                    <p><strong>Revelation 3:20 (NIV)</strong> - "Here I am! I stand at the door and knock. If anyone hears my voice and opens the door, I will come in and eat with that person, and they with me."</p>
                     
-                    <p>2. What would it look like if Jesus fully lived in my heart?</p>
-                    <textarea placeholder="Write your response here..." style="width: 100%; min-height: 50px; margin-top: 10px;" data-topic="3" data-question="2"></textarea>
-                </div>
-                
-                <div class="key-point">
-                    <h4>Additional Learner Activities:</h4>
-                    <p><strong>Children:</strong> Draw a large heart with a door labeled "Jesus, You Are Welcome" and write areas of life to invite Jesus into.</p>
-                    <p><strong>Teens:</strong> Write a journal entry titled "A Tour of My Heart" - what Jesus would see in each room.</p>
-                    <p><strong>Adults:</strong> Pray through each "room" for a week, asking the Holy Spirit to take complete control.</p>
+                    <div class="key-point">
+                        <h4>Learner Reflection Questions:</h4>
+                        <p>1. Which room in my heart needs to be cleaned or opened to Jesus?</p>
+                        <textarea placeholder="Write your response here..." style="width: 100%; min-height: 50px; margin-top: 10px;" data-topic="3" data-question="1"></textarea>
+                        
+                        <p>2. What would it look like if Jesus fully lived in my heart?</p>
+                        <textarea placeholder="Write your response here..." style="width: 100%; min-height: 50px; margin-top: 10px;" data-topic="3" data-question="2"></textarea>
+                    </div>
+                    
+                    <div class="key-point">
+                        <h4>Additional Learner Activities:</h4>
+                        <p><strong>Children:</strong> Draw a large heart with a door labeled "Jesus, You Are Welcome" and write areas of life to invite Jesus into.</p>
+                        <p><strong>Teens:</strong> Write a journal entry titled "A Tour of My Heart" - what Jesus would see in each room.</p>
+                        <p><strong>Adults:</strong> Pray through each "room" for a week, asking the Holy Spirit to take complete control.</p>
+                    </div>
                 </div>
             </div>
         </div>
-        </div>  
         
-         <div class="lesson-nav">
+        <div class="lesson-nav">
             <a href="module-lesson2.html" class="btn">Previous Lesson</a>
             <a href="progress.html" class="btn">Progress</a>
             <a href="index.html" class="btn">Back to Main</a>
             <a href="module-lesson4.html" class="btn">Next Lesson</a>
         </div>
+    </div>
+    
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <span class="nav-icon">🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="progress.html" class="nav-item">
+            <span class="nav-icon">📊</span>
+            <span>Progress</span>
+        </a>
+        <a href="lessons.html" class="nav-item active">
+            <span class="nav-icon">📚</span>
+            <span>Lessons</span>
+        </a>
+        <a href="prayer.html" class="nav-item">
+            <span class="nav-icon">🙏</span>
+            <span>Prayer</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <span class="nav-icon">👤</span>
+            <span>Profile</span>
+        </a>
     </div>
     
     <!-- Auto-save notification -->
@@ -999,19 +1179,16 @@
                 progressBar.textContent = `${savedProgress}%`;
                 progressText.textContent = `${savedProgress}%`;
             }
+            
+            // Collapsible functionality
+            document.querySelectorAll('.collapsible').forEach(button => {
+                button.addEventListener('click', () => {
+                    button.classList.toggle('active');
+                    const content = button.nextElementSibling;
+                    content.classList.toggle('open');
+                });
+            });
         });
     </script>
-    <script>
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.collapsible').forEach(button => {
-    button.addEventListener('click', () => {
-      button.classList.toggle('active');
-      const content = button.nextElementSibling;
-      content.classList.toggle('open');
-    });
-  });
-});
-</script>
-
 </body>
 </html>
