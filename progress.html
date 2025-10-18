@@ -323,18 +323,30 @@
                 margin-top: 5px;
             }
         }
+        /* WhatsApp Button Styles */
+        
+.whatsapp-btn {
+  background-color: #25d366;
+  color: #fff !important;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 12px; /* Smaller button */
+  font-size: 13px; /* Smaller font */
+  text-decoration: none;
+  transition: background 0.3s;
+}
+.whatsapp-btn:hover {
+  background-color: #1ebe5b;
+  color: #fff;
+}
     </style>
 </head>
 <body>
-       <script>
-  // Load shared header from header.html
-  fetch('header.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('shared-header').innerHTML = data;
-    })
-    .catch(error => console.error('Header load error:', error));
-</script>
+        <div class="d-flex ms-auto align-items-center">
+      <a class="whatsapp-btn" href="https://wa.me/254789398881" target="_blank">
+        💬 Ask Questions
+      </a>
+    </div>
     <!-- Sync Status Indicator -->
     <div class="sync-status" id="syncStatus">
         <span id="syncText">Checking sync...</span>
@@ -425,11 +437,26 @@
         </div>
         
         <div class="lesson-nav">
-            <a href="index.html" class="btn btn-outline">Back to Main</a>
+            <button id="logoutBtn" class="btn btn-danger">Logout</button>
             <button class="btn" id="exportProgress">Export Progress</button>
             <button class="btn btn-success" id="refreshProgress">Refresh Progress</button>
             <button class="btn" id="syncProgress">Sync Progress</button>
         </div>
+
+
+
+<script>
+document.getElementById("logoutBtn").addEventListener("click", function() {
+    // Clear stored login data
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // Redirect to login page
+    window.location.href = "login.html";
+});
+</script>
+
+
     </div>
     
     <footer>
