@@ -940,8 +940,8 @@
             opacity: 1;
         }
         
-        /* Sync status styles */
-      .sync-status {
+      /* Sync Status - Matching Lesson 1 Compact Design */
+.sync-status {
     position: fixed;
     top: 10px;
     right: 10px;
@@ -954,26 +954,36 @@
     display: flex;
     align-items: center;
     gap: 5px;
+    transition: all 0.3s ease;
+    /* Remove any width constraints */
+    width: auto;
+    max-width: none;
+    min-width: auto;
+    /* Ensure content determines size */
+    white-space: nowrap;
 }
-        
-        .sync-status.online {
-            background: #d4edda;
-            border-color: #c3e6cb;
-            color: #155724;
-        }
-        
-        .sync-status.offline {
-            background: #fff3cd;
-            border-color: #ffeaa7;
-            color: #856404;
-        }
-        
-        .sync-status.error {
-            background: #f8d7da;
-            border-color: #f5c6cb;
-            color: #721c24;
-        }
-        
+
+.sync-status.syncing {
+    color: #f39c12;
+}
+
+.sync-status.synced {
+    color: var(--success-color);
+}
+
+.sync-status.error {
+    color: var(--accent-color);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .sync-status {
+        top: 5px;
+        right: 5px;
+        font-size: 0.75rem;
+        padding: 4px 8px;
+    }
+}
         .sync-status.syncing {
             background: #cce7ff;
             border-color: #b3d9ff;
@@ -1737,7 +1747,10 @@
     </div>
     
     <!-- Sync Status -->
-    <div class="sync-status" id="syncStatus">Checking connection...</div>
+    <div class="sync-status synced" id="syncStatus">
+    <i class="bi bi-cloud-check"></i>
+    <span>Synced</span>
+</div>
     
     <!-- Manual Sync Button -->
     <button id="manualSync" title="Sync Progress">
@@ -1921,43 +1934,68 @@
                 }, 2000);
             }
             
-            // Sync status functionality
-            function updateSyncStatus() {
-                const syncStatus = document.getElementById('syncStatus');
-                
-                // Simulate checking connection
-                setTimeout(() => {
-                    if (navigator.onLine) {
-                        syncStatus.textContent = 'Online - Synced';
-                        syncStatus.className = 'sync-status online';
-                    } else {
-                        syncStatus.textContent = 'Offline - Changes saved locally';
-                        syncStatus.className = 'sync-status offline';
-                    }
-                }, 1000);
-            }
-            
-            // Manual sync functionality
-            document.getElementById('manualSync').addEventListener('click', function() {
-                const syncStatus = document.getElementById('syncStatus');
-                syncStatus.textContent = 'Syncing...';
-                syncStatus.className = 'sync-status syncing';
-                
-                // Simulate sync process
-                setTimeout(() => {
-                    syncStatus.textContent = 'Online - Synced';
-                    syncStatus.className = 'sync-status online';
-                    
-                    // Show confirmation
-                    const notification = document.getElementById('saveNotification');
-                    notification.innerHTML = '<i class="bi bi-cloud-check"></i> Synced to cloud';
-                    notification.classList.add('show');
-                    
-                    setTimeout(() => {
-                        notification.classList.remove('show');
-                    }, 2000);
-                }, 1500);
-            });
+           // Update sync status function
+function updateSyncStatus() {
+    const syncStatus = document.getElementById('syncStatus');
+    const syncIcon = syncStatus.querySelector('i');
+    const syncText = syncStatus.querySelector('span');
+    
+    if (navigator.onLine) {
+        syncStatus.className = 'sync-status synced';
+        syncIcon.className = 'bi bi-cloud-check';
+        syncText.textContent = 'Synced';
+    } else {
+        syncStatus.className = 'sync-status error';
+        syncIcon.className = 'bi bi-cloud-slash';
+        syncText.textContent = 'Offline';
+    }
+}
+
+// Manual sync function
+document.getElementById('manualSync').addEventListener('click', function() {
+    const syncStatus = document.getElementById('syncStatus');
+    const syncIcon = syncStatus.querySelector('i');
+    const syncText = syncStatus.querySelector('span');
+    
+    // Update to syncing state
+    syncStatus.className = 'sync-status syncing';
+    syncIcon.className = 'bi bi-arrow-repeat';
+    syncText.textContent = 'Syncing...';
+    
+    // Show syncing animation
+    this.classList.add('syncing');
+    
+    // Simulate sync process
+    setTimeout(() => {
+        syncStatus.className = 'sync-status synced';
+        syncIcon.className = 'bi bi-cloud-check';
+        syncText.textContent = 'Synced';
+        
+        // Remove syncing animation
+        this.classList.remove('syncing');
+    }, 1500);
+});
+
+// Auto-save function
+function saveProgress() {
+    const syncStatus = document.getElementById('syncStatus');
+    const syncIcon = syncStatus.querySelector('i');
+    const syncText = syncStatus.querySelector('span');
+    
+    // Update to syncing state
+    syncStatus.className = 'sync-status syncing';
+    syncIcon.className = 'bi bi-arrow-repeat';
+    syncText.textContent = 'Syncing...';
+    
+    // Your save logic here...
+    
+    // Simulate sync delay
+    setTimeout(() => {
+        syncStatus.className = 'sync-status synced';
+        syncIcon.className = 'bi bi-cloud-check';
+        syncText.textContent = 'Synced';
+    }, 800);
+}
             
             // Online/offline detection
             window.addEventListener('online', updateSyncStatus);
