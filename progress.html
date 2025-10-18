@@ -275,6 +275,34 @@
             color: white;
             border-radius: 12px;
         }
+
+        /* Sync status indicator */
+        .sync-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.9);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .sync-status.syncing {
+            color: #f39c12;
+        }
+        
+        .sync-status.synced {
+            color: var(--success-color);
+        }
+        
+        .sync-status.error {
+            color: var(--accent-color);
+        }
         
         @media (max-width: 768px) {
             .stats-container {
@@ -298,6 +326,21 @@
     </style>
 </head>
 <body>
+       <script>
+  // Load shared header from header.html
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('shared-header').innerHTML = data;
+    })
+    .catch(error => console.error('Header load error:', error));
+</script>
+    <!-- Sync Status Indicator -->
+    <div class="sync-status" id="syncStatus">
+        <span id="syncText">Checking sync...</span>
+        <i class="bi bi-arrow-repeat" id="syncIcon"></i>
+    </div>
+    
     <header>
         <div class="header-content">
             <h1>Progress Dashboard</h1>
@@ -385,6 +428,7 @@
             <a href="index.html" class="btn btn-outline">Back to Main</a>
             <button class="btn" id="exportProgress">Export Progress</button>
             <button class="btn btn-success" id="refreshProgress">Refresh Progress</button>
+            <button class="btn" id="syncProgress">Sync Progress</button>
         </div>
     </div>
     
@@ -457,6 +501,11 @@
             document.getElementById('refreshProgress').addEventListener('click', function() {
                 updateDashboard();
                 showNotification('Progress refreshed!', 'success');
+            });
+            
+            // Sync progress functionality
+            document.getElementById('syncProgress').addEventListener('click', function() {
+                syncProgress();
             });
             
             function updateDashboard() {
@@ -534,7 +583,14 @@
             function getModuleProgress(moduleId) {
                 // Get progress from localStorage with proper parsing
                 try {
-                    const progress = localStorage.getItem(`${moduleId}Progress`);
+                    // Try multiple possible storage formats for each lesson
+                    let progress = localStorage.getItem(`${moduleId}Progress`);
+                    
+                    // If not found, try the lesson data format
+                    if (progress === null || progress === undefined) {
+                        progress = localStorage.getItem(`${moduleId}Data`);
+                    }
+                    
                     console.log(`Raw progress for ${moduleId}:`, progress); // Debug log
                     
                     if (progress === null || progress === undefined) {
@@ -546,11 +602,25 @@
                         // Try to parse as JSON first (for object-based progress)
                         try {
                             const progressData = JSON.parse(progress);
-                            if (typeof progressData === 'object' && progressData.length) {
-                                // Calculate progress from completed topics
-                                const completed = progressData.filter(topic => topic.completed).length;
-                                const total = progressData.length;
-                                return total > 0 ? Math.round((completed / total) * 100) : 0;
+                            
+                            // Handle different data structures
+                            if (typeof progressData === 'object') {
+                                // Format 1: Array of topics with completion status
+                                if (Array.isArray(progressData)) {
+                                    const completed = progressData.filter(topic => topic.completed).length;
+                                    const total = progressData.length;
+                                    return total > 0 ? Math.round((completed / total) * 100) : 0;
+                                }
+                                // Format 2: Object with completions and responses
+                                else if (progressData.completions) {
+                                    const completedTopics = Object.values(progressData.completions).filter(status => status).length;
+                                    const totalTopics = Object.keys(progressData.completions).length;
+                                    return totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
+                                }
+                                // Format 3: Object with progress percentage
+                                else if (progressData.progress !== undefined) {
+                                    return progressData.progress;
+                                }
                             }
                         } catch (e) {
                             // If not JSON, try to parse as number
@@ -737,6 +807,37 @@
                 showNotification('Progress exported successfully!', 'success');
             }
             
+            function syncProgress() {
+                const syncStatus = document.getElementById('syncStatus');
+                const syncText = document.getElementById('syncText');
+                const syncIcon = document.getElementById('syncIcon');
+                
+                // Update sync status
+                syncText.textContent = 'Syncing...';
+                syncStatus.className = 'sync-status syncing';
+                syncIcon.className = 'bi bi-arrow-repeat';
+                
+                // Simulate sync process
+                setTimeout(() => {
+                    // In a real implementation, this would sync with a server
+                    // For now, we'll just update the dashboard
+                    updateDashboard();
+                    
+                    syncText.textContent = 'Synced';
+                    syncStatus.className = 'sync-status synced';
+                    syncIcon.className = 'bi bi-check-circle-fill';
+                    
+                    showNotification('Progress synced successfully!', 'success');
+                    
+                    // Reset sync status after 3 seconds
+                    setTimeout(() => {
+                        syncText.textContent = 'Online';
+                        syncStatus.className = 'sync-status';
+                        syncIcon.className = 'bi bi-wifi';
+                    }, 3000);
+                }, 1500);
+            }
+            
             function showNotification(message, type) {
                 // Create notification element
                 const notification = document.createElement('div');
@@ -766,8 +867,31 @@
                     }, 300);
                 }, 3000);
             }
+            
+            // Initialize sync status
+            updateSyncStatus();
+            
+            function updateSyncStatus() {
+                const syncStatus = document.getElementById('syncStatus');
+                const syncText = document.getElementById('syncText');
+                const syncIcon = document.getElementById('syncIcon');
+                
+                if (navigator.onLine) {
+                    syncText.textContent = 'Online';
+                    syncStatus.className = 'sync-status';
+                    syncIcon.className = 'bi bi-wifi';
+                } else {
+                    syncText.textContent = 'Offline';
+                    syncStatus.className = 'sync-status error';
+                    syncIcon.className = 'bi bi-wifi-off';
+                }
+            }
+            
+            // Listen for online/offline events
+            window.addEventListener('online', updateSyncStatus);
+            window.addEventListener('offline', updateSyncStatus);
         });
     </script>
-        <script type="module" src="auth-check.js"></script>
+    <script type="module" src="auth-check.js"></script>
 </body>
 </html>

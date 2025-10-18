@@ -400,7 +400,7 @@
         }
         
         /* Topic completion indicator */
-        .topic-complete {
+        .topic-completion {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -417,7 +417,7 @@
             transition: opacity 0.3s ease;
         }
         
-        .topic-complete.visible {
+        .topic-completion.visible {
             opacity: 1;
         }
         
@@ -624,7 +624,7 @@
         }
         
         /* Improve touch interactions */
-        button, .btn, .nav-item, .topic-complete {
+        button, .btn, .nav-item, .topic-completion {
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
@@ -668,7 +668,7 @@
         </div>
         
         <div class="topic" id="topic1">
-            <div class="topic-complete" id="topic1Complete">✓</div>
+            <div class="topic-completion" id="topic1Complete">✓</div>
             <h5>Topic 1: The Call to Witness</h5>
             <div class="scripture">
                 <p><strong>Acts 1:8 (NKJV)</strong> - "But you shall receive power when the Holy Spirit has come upon you; and you shall be witnesses to Me in Jerusalem, and in all Judea and Samaria, and to the end of the earth."</p>
@@ -826,7 +826,7 @@
         </div>
        
         <div class="topic" id="topic2">
-            <div class="topic-complete" id="topic2Complete">✓</div> 
+            <div class="topic-completion" id="topic2Complete">✓</div> 
             <h5>Topic 2: Spiritual Warfare</h5>
             <div class="scripture">
                 <p><strong>Ephesians 6:10-18 (NKJV)</strong> - "Finally, my brethren, be strong in the Lord and in the power of His might. Put on the whole armor of God..."</p>
@@ -1238,5 +1238,6 @@
             }, 1000);
         }
     </script>
+    <script type="module" src="auth-check.js"></script>
 </body>
 </html>

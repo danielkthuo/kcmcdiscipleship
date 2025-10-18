@@ -1,21 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pathlight Discipleship Curriculum</title>
+    <title>Kingdom Covenant Ministries Church - PathLight Discipleship Program</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Add Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- PWA Meta Tags -->
+<meta name="theme-color" content="#2c3e50">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="KCM Church">
+<meta name="description" content="Discipleship Tool for Kingdom Covenant Ministries">
+<meta name="keywords" content="church, discipleship, christian, ministry">
+<meta name="author" content="Kingdom Covenant Ministries">
+
+<!-- Apple Touch Icons -->
+<link rel="apple-touch-icon" href="icons/icon-152x152.png">
+<link rel="apple-touch-startup-image" href="icons/icon-512x512.png">
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="manifest.json">
+
+<!-- Viewport for mobile optimization -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<!-- Preload important resources -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax.googleapis.com">
     <style>
         :root {
             --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
+            --secondary-color: #8e44ad;
+            --accent-color: #3498db;
+            --success-color: #27ae60;
             --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --gold-color: #f1c40f;
         }
         
         * {
@@ -25,330 +45,586 @@
         }
         
         body {
-            font-family: var(--font-main);
-            line-height: 1.6;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #333;
-            background-color: #f9f9f9;
+            line-height: 1.6;
         }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        .navbar {
+            background-color: rgba(43, 103, 119, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         
-        header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        .navbar-brand, .nav-link {
+            color: white !important;
+            font-weight: 600;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(142, 68, 173, 0.8)), 
+                        url('https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
             color: white;
-            padding: 2rem 0;
+            padding: 100px 0;
             text-align: center;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         
-        .header-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
             margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
-        .tagline {
-            font-size: 1.2rem;
-            font-style: italic;
-            margin-bottom: 1rem;
-        }
-        
-        .verse {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            padding: 10px;
-            background-color: rgba(255,255,255,0.2);
-            border-radius: 5px;
-        }
-        
-        .toc {
-            background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-        
-        .toc h2 {
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 0.5rem;
-        }
-        
-        .toc-list {
-            list-style-type: none;
-        }
-        
-        .toc-list li {
-            margin-bottom: 0.8rem;
-            padding-left: 1rem;
-            border-left: 3px solid transparent;
-            transition: all 0.3s ease;
-        }
-        
-        .toc-list li:hover {
-            border-left-color: var(--secondary-color);
-            padding-left: 1.5rem;
-        }
-        
-        .toc-list a {
-            text-decoration: none;
-            color: var(--dark-color);
-            font-weight: 500;
-            display: block;
-            padding: 5px 0;
-        }
-        
-        .toc-list a:hover {
-            color: var(--secondary-color);
-        }
-        
-        .lesson-modules {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .module-card {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .module-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-        }
-        
-        .module-header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem;
-        }
-        
-        .module-header h3 {
+        .hero-section p {
             font-size: 1.3rem;
-            margin-bottom: 0.5rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
         }
         
-        .module-content {
-            padding: 1.5rem;
+        .btn-hero {
+            background: linear-gradient(135deg, var(--gold-color), #e67e22);
+            color: var(--primary-color);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 35px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         
-        .module-content ul {
-            list-style-type: none;
-            margin-left: 0;
+        .btn-hero:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
         
-        .module-content li {
-            margin-bottom: 0.5rem;
-            padding-left: 1.2rem;
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-light {
+            background-color: white;
+        }
+        
+        .section-dark {
+            background-color: #f8f9fa;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
             position: relative;
         }
         
-        .module-content li:before {
-            content: "•";
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary-color);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .scripture-box {
+            background: white;
+            border-left: 5px solid var(--gold-color);
+            padding: 25px;
+            border-radius: 5px;
+            margin: 30px 0;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .scripture-text {
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .scripture-ref {
+            text-align: right;
             color: var(--secondary-color);
+            font-weight: 600;
+        }
+        
+        .program-steps {
+            counter-reset: step-counter;
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .program-steps li {
+            position: relative;
+            padding: 20px 0 20px 80px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .program-steps li:before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
             position: absolute;
             left: 0;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: var(--secondary-color);
+            top: 15px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
             color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-            margin-top: 1rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
         }
         
-        .btn:hover {
-            background-color: var(--primary-color);
-        }
-        
-        footer {
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 80px 0;
             text-align: center;
-            margin-top: 3rem;
-            padding: 1.5rem;
-            background-color: var(--dark-color);
+        }
+        
+        .cta-section h2 {
+            margin-bottom: 2rem;
+        }
+        
+        .footer {
+            background-color: var(--primary-color);
             color: white;
-            border-radius: 8px;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer-links a {
+            color: var(--light-color);
+            margin: 0 15px;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: var(--gold-color);
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: var(--gold-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5rem;
+            color: var(--primary-color);
         }
         
         @media (max-width: 768px) {
-            .lesson-modules {
-                grid-template-columns: 1fr;
+            .hero-section h1 {
+                font-size: 2.5rem;
             }
             
-            h1 {
-                font-size: 2rem;
+            .hero-section p {
+                font-size: 1.1rem;
+            }
+            
+            .program-steps li {
+                padding-left: 70px;
             }
         }
     </style>
 </head>
 <body>
-  <!-- Navigation Bar -->
-   <script>
-  // Load shared header from header.html
-  fetch('header.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('shared-header').innerHTML = data;
-    })
-    .catch(error => console.error('Header load error:', error));
-</script>
-<div id="shared-header"></div>
-
-    
-    <div class="container">
-        <section class="toc">
-            <h2>Table of Contents</h2>
-            <ul class="toc-list">
-                <li><a href="#introduction">Introduction</a></li>
-                <li><a href="module-lesson1.html">Lesson 1: Foundation to New Believers</a></li>
-                <li><a href="module-lesson2.html">Lesson 2: Prayer and Fellowship</a></li>
-                <li><a href="module-lesson3.html">Lesson 3: Lordship</a></li>
-                <li><a href="module-lesson4.html">Lesson 4: Doctrine</a></li>
-                <li><a href="module-lesson5.html">Lesson 5: Witnessing and Spiritual Warfare</a></li>
-                <li><a href="gifts.html">Lesson 6: Spiritual Gifts</a></li>
-            </ul>
-        </section>
-        
-        <section id="introduction">
-            <div class="module-card">
-                <div class="module-header">
-                    <h3>Introduction</h3>
-                </div>
-                <div class="module-content">
-                    <p><strong>Pathlight</strong> is a discipleship journey designed to help you grow in your relationship with Jesus Christ by walking in the light of His truth.</p>
-                    <p>This workbook will guide you step by step to understand <strong>who Jesus is</strong>, <strong>what it means to follow Him</strong>, and <strong>how to live a life that honors God</strong>.</p>
-                    <p>Pathlight is meant for people who are just starting their faith journey or are seeking to go deeper in their journey with Him.</p>
-                    <a href="module-introduction.html" class="btn">View Full Introduction</a>
-                </div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="images/logo.png" alt="Church Logo" style="height: 45px;">
+                Kingdom Covenant Ministries Church
+            </a>
+  
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#program">The Program</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#steps">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-hero ms-2" href="login.html">Member Login</a>
+                    </li>
+                </ul>
             </div>
-        </section>
-        
-        <h2 style="margin: 2rem 0 1rem; color: var(--primary-color);">Lesson Modules</h2>
-        
-        <div class="lesson-modules">
-            <!-- Lesson 1 -->
-            <div class="module-card">
-                <div class="module-header">
-                    <h3>Lesson 1: Foundation to New Believers</h3>
-                </div>
-                <div class="module-content">
-                    <p>This lesson helps new believers understand the foundational truths of Christianity and the steps to grow in their faith.</p>
-                    <ul>
-                        <li>Topic 1: The Five Assurances</li>
-                        <li>Topic 2: Clear Understanding of the Gospel</li>
-                        <li>Topic 3: Wheel Illustration (Spiritual Growth)</li>
-                        <li>Topic 4: How to Read the Bible Together</li>
-                    </ul>
-                    <a href="module-lesson1.html" class="btn">Explore Lesson 1</a>
-                </div>
-            </div>
-            
-            <!-- Lesson 2 -->
-            <div class="module-card">
-                <div class="module-header">
-                    <h3>Lesson 2: Prayer and Fellowship</h3>
-                </div>
-                <div class="module-content">
-                    <p>This lesson focuses on developing a strong prayer life and understanding the importance of Christian fellowship.</p>
-                    <ul>
-                        <li>Topic 1: Prayer - ACTS Method & Prayer Hand</li>
-                        <li>Topic 2: Fellowship - Importance & Characteristics</li>
-                    </ul>
-                    <a href="module-lesson2.html" class="btn">Explore Lesson 2</a>
-                </div>
-            </div>
-            
-            <!-- Lesson 3 -->
-            <div class="module-card">
-                <div class="module-header">
-                    <h3>Lesson 3: Lordship</h3>
-                </div>
-                <div class="module-content">
-                    <p>This lesson explores what it means to truly make Jesus Lord of your life and the cost of discipleship.</p>
-                    <ul>
-                        <li>Topic 1: Cost of Discipleship</li>
-                        <li>Topic 2: Submission - Areas of Struggle</li>
-                        <li>Topic 3: My Heart, Christ's Home</li>
-                    </ul>
-                    <a href="module-lesson3.html" class="btn">Explore Lesson 3</a>
-                </div>
-            </div>
-            
-            <!-- Lesson 4 -->
-            <div class="module-card">
-                <div class="module-header">
-                    <h3>Lesson 4: Doctrine</h3>
-                </div>
-                <div class="module-content">
-                    <p>This lesson covers essential Christian doctrines to build a solid theological foundation.</p>
-                    <ul>
-                        <li>Topic 1: The Doctrine of Jesus (Christology)</li>
-                        <li>Topic 2: The Doctrine of Holy Spirit (Pneumatology)</li>
-                        <li>Topic 3: The Doctrine of Baptism</li>
-                        <li>Topic 4: The Doctrine of Identity in Christ</li>
-                    </ul>
-                    <a href="module-lesson4.html" class="btn">Explore Lesson 4</a>
-                </div>
-            </div>
-            
-            <!-- Lesson 5 -->
-            <div class="module-card">
-                <div class="module-header">
-                    <h3>Lesson 5: Witnessing, Gifting and Spiritual Warfare</h3>
-                </div>
-                <div class="module-content">
-                    <p>This lesson equips believers to share their faith, discover their spiritual gifts, and engage in spiritual warfare.</p>
-                    <ul>
-                        <li>Topic 1: The Call to Witness</li>
-                        <li>Topic 2: Gifting</li>
-                        <li>Topic 3: Spiritual Warfare</li>
-                    </ul>
-                    <a href="module-lesson5.html" class="btn">Explore Lesson 5</a>
-                </div>
-            </div>
-<!-- Lesson 6 -->
-            <div class="module-card">
-                <div class="module-header">
-                    <h3>Lesson s: Spiritual Gift</h3>
-                </div>
-                <div class="module-content">
-                    <p>Spiritual Gifts - God-given enablement which has spiritual impact on others, especially Christians.</p>
-                    <ul>
-                        <li>Spiritual Gifts Survey for Ages 12+ </li>
-                       
-                    </ul>
-                    <a href="gifts.html" class="btn">Explore Lesson 6</a>
-                </div>
-            </div>
-
         </div>
-    </div>
-    
-    <footer>
-        <p>Pathlight Discipleship Curriculum &copy; 2025 | KCMC</p>
-        <p>Lit to Lead. Rooted to Grow.</p>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-church"></i>
+            </div>
+            <h2>Teens & Youth PathLight Discipleship Program</h2>
+            <p>Guiding believers to walk in the light of God's truth and grow in their relationship with Jesus Christ</p>
+            <a href="login.html" class="btn btn-hero">Access Member Portal</a>
+                   </div>
+                  <!-- Add this button somewhere in your UI -->
+<button id="installButton" class="btn btn-success" style="display: none;">
+    <i class="fas fa-download me-2"></i>Install App
+</button>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section section-light">
+        <div class="container">
+            <h2 class="section-title">About PathLight</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <p class="lead text-center">
+                        PathLight is a comprehensive discipleship journey designed to help believers grow in their relationship with Jesus Christ by walking in the light of His truth.
+                    </p>
+                    
+                    <div class="scripture-box">
+                        <p class="scripture-text">"Your word is a lamp to my feet and a light to my path."</p>
+                        <p class="scripture-ref">Psalm 119:105</p>
+                    </div>
+                    
+                    <p>
+                        This program guides you step by step to understand who Jesus is, what it means to follow Him, and how to live a life that honors God. Through PathLight, you will learn important truths from the Bible, enrich your prayer life, discover your identity in Christ, grow in God's character, and serve others with your gifts.
+                    </p>
+                    
+                    <p>
+                        Whether you're beginning your faith journey or seeking to deepen your walk with God, PathLight provides the structure, community, and biblical foundation needed for spiritual growth and transformation.
+                    </p>
+                    
+                    <p class="text-center mt-4">
+                        <strong>LIT TO LEAD. ROOTED TO GROW.</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Overview -->
+    <section id="program" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">Program Overview</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Our Mission</h3>
+                    <p>To see children & youths come to know Christ and be Biblically discipled; to consistently grow in Christ and become fulfilled Christian adults.</p>
+                    <p><em>"Train up a child in the way he should go and when he is old, he will not depart from it." - Proverbs 22:6</em></p>
+                </div>
+                <div class="col-md-6">
+                    <h3>Our Vision</h3>
+                    <p>To reach into the lives of children & youth in our church and community with the Good News, portray the love of Christ, and teach them the Word of God.</p>
+                    <p>We count it a privilege and responsibility to reach and teach these little ones for Him.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section section-light">
+        <div class="container">
+            <h2 class="section-title">Program Features</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bible"></i>
+                        </div>
+                        <h3>Biblical Foundation</h3>
+                        <p>Deep dive into Scripture with guided studies that help you understand and apply God's Word to your daily life.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-hands-praying"></i>
+                        </div>
+                        <h3>Prayer Development</h3>
+                        <p>Learn to cultivate a rich prayer life that transforms your relationship with God and impacts those around you.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-people-group"></i>
+                        </div>
+                        <h3>Community Focus</h3>
+                        <p>Join a supportive community of believers who encourage one another in spiritual growth and accountability.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-person-praying"></i>
+                        </div>
+                        <h3>Identity in Christ</h3>
+                        <p>Discover who you are in Jesus and how to live out your God-given purpose with confidence and clarity.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Character Growth</h3>
+                        <p>Develop Christ-like character through practical application of biblical principles in everyday situations.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-hands-holding"></i>
+                        </div>
+                        <h3>Service & Ministry</h3>
+                        <p>Identify your spiritual gifts and learn how to serve effectively in the church and your community.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="steps" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">How PathLight Works</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <ol class="program-steps">
+                        <li>
+                            <h4>Register for the Program</h4>
+                            <p>Create your account through our secure member portal to begin your discipleship journey.</p>
+                        </li>
+                        <li>
+                            <h4>Complete Weekly Modules</h4>
+                            <p>Engage with biblically-rich content designed to build your faith step by step.</p>
+                        </li>
+                        <li>
+                            <h4>Join Small Group Sessions</h4>
+                            <p>Participate in weekly gatherings for discussion, prayer, and mutual encouragement.</p>
+                        </li>
+                        <li>
+                            <h4>Apply What You Learn</h4>
+                            <p>Put your faith into action through practical assignments and service opportunities.</p>
+                        </li>
+                        <li>
+                            <h4>Grow in Leadership</h4>
+                            <p>As you mature in faith, opportunities to mentor others will become available.</p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Values -->
+    <section class="section section-light">
+        <div class="container">
+            <h2 class="section-title">Children & Youth Ministry Core Values</h2>
+            <div class="row">
+                <div class="col-md-10 mx-auto">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-3"><strong><i class="fas fa-cross text-secondary me-2"></i>CHRIST-CENTERED:</strong> Promoting a Christ-centered focus in a "me-centered" culture.</li>
+                                <li class="mb-3"><strong><i class="fas fa-heart text-secondary me-2"></i>LOVE:</strong> Valuing each person and encouraging mutual respect and love.</li>
+                                <li class="mb-3"><strong><i class="fas fa-hand-holding-heart text-secondary me-2"></i>SERVING OTHERS:</strong> Encouraging service in families, schools, church, and community.</li>
+                                <li class="mb-3"><strong><i class="fas fa-book-bible text-secondary me-2"></i>SCRIPTURE:</strong> Providing a solid Biblical foundation and teaching deep engagement with God's Word.</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-3"><strong><i class="fas fa-pray text-secondary me-2"></i>PRAYER:</strong> Teaching and modeling prayer to help people know, trust, and serve Jesus.</li>
+                                <li class="mb-3"><strong><i class="fas fa-award text-secondary me-2"></i>EXCELLENCE:</strong> Striving for excellence in all things for the glory of God.</li>
+                                <li class="mb-3"><strong><i class="fas fa-globe text-secondary me-2"></i>THE MISSION:</strong> Inspiring people to make disciples by praying for and sharing Jesus with others.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Begin Your Discipleship Journey?</h2>
+            <p class="lead mb-4">Join the PathLight program today and start growing in your relationship with Christ.</p>
+            <a href="login.html" class="btn btn-hero">Login as Learner</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-church"></i>
+            </div>
+            <h3>Kingdom Covenant Ministries</h3>
+            <p class="mb-4">Lit to Lead. Rooted to Grow.</p>
+            
+            <div class="footer-links mb-4">
+                <a href="#about">About</a>
+                <a href="#program">Program</a>
+                <a href="#features">Features</a>
+                <a href="#steps">How It Works</a>
+                <a href="login.html">Login</a>
+            </div>
+            
+            <p>&copy; 2025 Kingdom Covenant Ministries. All rights reserved.</p>
+        </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+ 
+    <script>
+    // Service Worker Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(registration) {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        
+        // Check for updates
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          console.log('New service worker found...');
+          
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('New content available; please refresh.');
+              // You can show an update notification here
+              showUpdateNotification();
+            }
+          });
+        });
+      })
+      .catch(function(error) {
+        console.log('ServiceWorker registration failed: ', error);
+      });
+  });
+}
+
+// Install Prompt Handling
+let deferredPrompt;
+const installButton = document.getElementById('installButton');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  
+  // Show install promotion (you can customize this)
+  if (installButton) {
+    installButton.style.display = 'block';
+    installButton.addEventListener('click', installApp);
+  } else {
+    // Auto-show install prompt after 30 seconds
+    setTimeout(showInstallPrompt, 30000);
+  }
+});
+
+function installApp() {
+  if (!deferredPrompt) return;
+  
+  deferredPrompt.prompt();
+  
+  deferredPrompt.userChoice.then((choiceResult) => {
+    if (choiceResult.outcome === 'accepted') {
+      console.log('User accepted the install prompt');
+      if (installButton) installButton.style.display = 'none';
+    } else {
+      console.log('User dismissed the install prompt');
+    }
+    deferredPrompt = null;
+  });
+}
+
+function showInstallPrompt() {
+  if (deferredPrompt && !isAppInstalled()) {
+    installApp();
+  }
+}
+
+function isAppInstalled() {
+  return window.matchMedia('(display-mode: standalone)').matches || 
+         window.navigator.standalone ||
+         document.referrer.includes('android-app://');
+}
+
+function showUpdateNotification() {
+  // You can show a custom update notification
+  const updateNotification = document.createElement('div');
+  updateNotification.innerHTML = `
+    <div style="position: fixed; top: 0; left: 0; right: 0; background: #3498db; color: white; padding: 10px; text-align: center; z-index: 10000;">
+      New version available! <button onclick="window.location.reload()" style="margin-left: 10px; padding: 5px 10px; background: white; border: none; border-radius: 3px;">Update</button>
+    </div>
+  `;
+  document.body.appendChild(updateNotification);
+}
+
+// Online/Offline detection
+window.addEventListener('online', function() {
+  console.log('App is online');
+  // You can show a notification that connection is restored
+});
+
+window.addEventListener('offline', function() {
+  console.log('App is offline');
+  // You can show a notification that connection is lost
+});
+    </script>
 </body>
 </html>

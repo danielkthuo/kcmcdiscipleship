@@ -334,26 +334,32 @@
             opacity: 1;
         }
         
-        /* Topic completion indicator */
-        .topic-complete {
+        /* Topic completion indicator - FIXED */
+        .topic-completion {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: var(--success-color);
-            color: white;
-            border-radius: 50%;
+            top: 15px;
+            right: 15px;
             width: 30px;
             height: 30px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            background: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
         
-        .topic-complete.visible {
-            opacity: 1;
+        .topic-completion.completed {
+            background: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+        
+        .topic-completion.completed::after {
+            content: "✓";
+            font-weight: bold;
         }
         
         /* Collapsible sections with scrollable content */
@@ -645,7 +651,7 @@
         }
         
         /* Improve touch interactions */
-        button, .btn, .nav-item, .topic-complete {
+        button, .btn, .nav-item, .topic-completion {
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
@@ -683,7 +689,7 @@
         </div>
         
         <div class="topic" id="topic1">
-            <div class="topic-complete" id="topic1Complete">✓</div>
+            <div class="topic-completion" id="topic1Complete" data-topic="1"></div>
             <h2>Topic 1: Cost of Discipleship</h2>
             
             <div class="scripture">
@@ -819,7 +825,7 @@
         </div>
         
         <div class="topic" id="topic2">
-            <div class="topic-complete" id="topic2Complete">✓</div>
+            <div class="topic-completion" id="topic2Complete" data-topic="2"></div>
             <h2>Topic 2: Submission - Areas of Struggle</h2>
             
             <div class="scripture">
@@ -935,7 +941,7 @@
         </div>
 
         <div class="topic" id="topic3">
-            <div class="topic-complete" id="topic3Complete">✓</div>
+            <div class="topic-completion" id="topic3Complete" data-topic="3"></div>
             <h2>Topic 3: My Heart, Christ's Home</h2>
             
             <div class="scripture">
@@ -1127,6 +1133,9 @@
             // Get all form fields
             const formFields = document.querySelectorAll('textarea, input[type="text"]');
             
+            // Get all topic completion checkboxes
+            const topicCompletions = document.querySelectorAll('.topic-completion');
+            
             // Collapsible functionality
             const collapsibles = document.querySelectorAll('.collapsible');
             
@@ -1176,17 +1185,45 @@
                 });
             });
             
+            // Add event listeners to topic completion checkboxes
+            topicCompletions.forEach(checkbox => {
+                checkbox.addEventListener('click', function() {
+                    this.classList.toggle('completed');
+                    
+                    // Save completion status
+                    saveData();
+                    
+                    // Update progress
+                    updateProgress();
+                    
+                    // Show save notification
+                    showSaveNotification();
+                });
+            });
+            
             // Function to save data to localStorage
             function saveData() {
-                const data = {};
+                const data = {
+                    completions: {},
+                    responses: {}
+                };
                 
+                // Save topic completion status
+                topicCompletions.forEach(checkbox => {
+                    const topicId = checkbox.getAttribute('data-topic');
+                    if (topicId) {
+                        data.completions[topicId] = checkbox.classList.contains('completed');
+                    }
+                });
+                
+                // Save form field responses
                 formFields.forEach(field => {
                     const topic = field.getAttribute('data-topic');
                     const question = field.getAttribute('data-question');
                     
                     if (topic && question) {
-                        if (!data[topic]) data[topic] = {};
-                        data[topic][question] = field.value;
+                        if (!data.responses[topic]) data.responses[topic] = {};
+                        data.responses[topic][question] = field.value;
                     }
                 });
                 
@@ -1205,14 +1242,27 @@
                 if (savedData) {
                     const data = JSON.parse(savedData);
                     
-                    formFields.forEach(field => {
-                        const topic = field.getAttribute('data-topic');
-                        const question = field.getAttribute('data-question');
-                        
-                        if (topic && question && data[topic] && data[topic][question]) {
-                            field.value = data[topic][question];
-                        }
-                    });
+                    // Load topic completion status
+                    if (data.completions) {
+                        Object.keys(data.completions).forEach(topicId => {
+                            const checkbox = document.querySelector(`.topic-completion[data-topic="${topicId}"]`);
+                            if (checkbox && data.completions[topicId]) {
+                                checkbox.classList.add('completed');
+                            }
+                        });
+                    }
+                    
+                    // Load form field responses
+                    if (data.responses) {
+                        formFields.forEach(field => {
+                            const topic = field.getAttribute('data-topic');
+                            const question = field.getAttribute('data-question');
+                            
+                            if (topic && question && data.responses[topic] && data.responses[topic][question]) {
+                                field.value = data.responses[topic][question];
+                            }
+                        });
+                    }
                     
                     // Update last saved time
                     const savedTime = localStorage.getItem('lesson3SavedTime');
@@ -1226,51 +1276,35 @@
             function updateProgress() {
                 let completedFields = 0;
                 
+                // Count completed form fields
                 formFields.forEach(field => {
                     if (field.value.trim() !== '') {
                         completedFields++;
                     }
                 });
                 
+                // Count completed topics
+                let completedTopics = 0;
+                topicCompletions.forEach(checkbox => {
+                    if (checkbox.classList.contains('completed')) {
+                        completedTopics++;
+                    }
+                });
+                
                 const totalFields = formFields.length;
-                const progressPercentage = Math.round((completedFields / totalFields) * 100);
+                const totalTopics = topicCompletions.length;
+                
+                // Calculate overall progress (weighted: 70% form fields, 30% topic completion)
+                const formProgress = Math.round((completedFields / totalFields) * 100);
+                const topicProgress = Math.round((completedTopics / totalTopics) * 100);
+                const progressPercentage = Math.round((formProgress * 0.7) + (topicProgress * 0.3));
                 
                 progressBar.style.width = `${progressPercentage}%`;
                 progressBar.textContent = `${progressPercentage}%`;
                 progressText.textContent = `${progressPercentage}%`;
                 
-                // Update topic completion indicators
-                updateTopicCompletion();
-                
                 // Save progress to localStorage
                 localStorage.setItem('lesson3Progress', progressPercentage);
-            }
-            
-            // Function to update topic completion indicators
-            function updateTopicCompletion() {
-                const topics = [1, 2, 3];
-                
-                topics.forEach(topicNum => {
-                    const topicFields = document.querySelectorAll(`[data-topic="${topicNum}"]`);
-                    let completedTopicFields = 0;
-                    
-                    topicFields.forEach(field => {
-                        if (field.value.trim() !== '') {
-                            completedTopicFields++;
-                        }
-                    });
-                    
-                    const topicProgress = Math.round((completedTopicFields / topicFields.length) * 100);
-                    const topicCompleteIndicator = document.getElementById(`topic${topicNum}Complete`);
-                    
-                    if (topicCompleteIndicator) {
-                        if (topicProgress >= 50) { // Consider topic complete if at least 50% filled
-                            topicCompleteIndicator.classList.add('visible');
-                        } else {
-                            topicCompleteIndicator.classList.remove('visible');
-                        }
-                    }
-                });
             }
             
             // Function to show save notification
@@ -1339,5 +1373,6 @@
             updateSyncStatus();
         });
     </script>
+    <script type="module" src="auth-check.js"></script>
 </body>
 </html>

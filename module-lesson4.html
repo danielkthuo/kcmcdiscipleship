@@ -394,7 +394,7 @@
         }
         
         /* Topic completion indicator */
-        .topic-complete {
+        .topic-completion {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -411,7 +411,7 @@
             transition: opacity 0.3s ease;
         }
         
-        .topic-complete.visible {
+        .topic-completion.visible {
             opacity: 1;
         }
         
@@ -626,7 +626,7 @@
         }
         
         /* Improve touch interactions */
-        button, .btn, .nav-item, .topic-complete {
+        button, .btn, .nav-item, .topic-completion {
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
@@ -664,7 +664,7 @@
         </div>
         
         <div class="topic" id="topic1">
-            <div class="topic-complete" id="topic1Complete">✓</div>    
+            <div class="topic-completion" id="topic1Complete">✓</div>    
             <h5>Topic 1: The Doctrine of Jesus (Christology)</h5>   
             <div class="scripture">
                 <p><strong>John 14:6 (NKJV)</strong> - "Jesus said to him, 'I am the way, the truth, and the life. No one comes to the Father except through Me.'"</p>
@@ -793,7 +793,7 @@
         </div>
         
         <div class="topic" id="topic2">
-            <div class="topic-complete" id="topic2Complete">✓</div>           
+            <div class="topic-completion" id="topic2Complete">✓</div>           
             <h5>Topic 2: The Doctrine of Holy Spirit (Pneumatology)</h5>
 
             <div class="scripture">
@@ -936,7 +936,7 @@
         </div>
         
         <div class="topic" id="topic3">
-            <div class="topic-complete" id="topic3Complete">✓</div>
+            <div class="topic-completion" id="topic3Complete">✓</div>
             <h5>Topic 3: The Doctrine of Baptism</h5>
                        
             <div class="scripture">
@@ -1050,7 +1050,7 @@
         </div>
         
         <div class="topic" id="topic4">
-            <div class="topic-complete" id="topic4Complete">✓</div>
+            <div class="topic-completion" id="topic4Complete">✓</div>
             <h5>Topic 4: The Doctrine of the Church (Ecclesiology)</h5>
             
             <div class="scripture">
@@ -1391,5 +1391,6 @@
         window.addEventListener('online', updateSyncStatus);
         window.addEventListener('offline', updateSyncStatus);
     </script>
+    <script type="module" src="auth-check.js"></script>
 </body>
 </html>
