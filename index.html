@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathlight Discipleship Curriculum</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+   
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        
+        .verse {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding: 10px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 5px;
+        }
+        
+        .toc {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .toc h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .toc-list {
+            list-style-type: none;
+        }
+        
+        .toc-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1rem;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .toc-list li:hover {
+            border-left-color: var(--secondary-color);
+            padding-left: 1.5rem;
+        }
+        
+        .toc-list a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            display: block;
+            padding: 5px 0;
+        }
+        
+        .toc-list a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .lesson-modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .module-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        .module-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+        }
+        
+        .module-header h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .module-content {
+            padding: 1.5rem;
+        }
+        
+        .module-content ul {
+            list-style-type: none;
+            margin-left: 0;
+        }
+        
+        .module-content li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+        
+        .module-content li:before {
+            content: "•";
+            color: var(--secondary-color);
+            position: absolute;
+            left: 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-color);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background-color: var(--dark-color);
+            color: white;
+            border-radius: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .lesson-modules {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+   <script>
+  // Load shared header from header.html
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('shared-header').innerHTML = data;
+    })
+    .catch(error => console.error('Header load error:', error));
+</script>
+<div id="shared-header"></div>
+
+    
+    <div class="container">
+        <section class="toc">
+            <h2>Table of Contents</h2>
+            <ul class="toc-list">
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="module-lesson1.html">Lesson 1: Foundation to New Believers</a></li>
+                <li><a href="module-lesson2.html">Lesson 2: Prayer and Fellowship</a></li>
+                <li><a href="module-lesson3.html">Lesson 3: Lordship</a></li>
+                <li><a href="module-lesson4.html">Lesson 4: Doctrine</a></li>
+                <li><a href="module-lesson5.html">Lesson 5: Witnessing and Spiritual Warfare</a></li>
+                <li><a href="gifts.html">Lesson 6: Spiritual Gifts</a></li>
+            </ul>
+        </section>
+        
+        <section id="introduction">
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>Introduction</h3>
+                </div>
+                <div class="module-content">
+                    <p><strong>Pathlight</strong> is a discipleship journey designed to help you grow in your relationship with Jesus Christ by walking in the light of His truth.</p>
+                    <p>This workbook will guide you step by step to understand <strong>who Jesus is</strong>, <strong>what it means to follow Him</strong>, and <strong>how to live a life that honors God</strong>.</p>
+                    <p>Pathlight is meant for people who are just starting their faith journey or are seeking to go deeper in their journey with Him.</p>
+                    <a href="module-introduction.html" class="btn">View Full Introduction</a>
+                </div>
+            </div>
+        </section>
+        
+        <h2 style="margin: 2rem 0 1rem; color: var(--primary-color);">Lesson Modules</h2>
+        
+        <div class="lesson-modules">
+            <!-- Lesson 1 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>Lesson 1: Foundation to New Believers</h3>
+                </div>
+                <div class="module-content">
+                    <p>This lesson helps new believers understand the foundational truths of Christianity and the steps to grow in their faith.</p>
+                    <ul>
+                        <li>Topic 1: The Five Assurances</li>
+                        <li>Topic 2: Clear Understanding of the Gospel</li>
+                        <li>Topic 3: Wheel Illustration (Spiritual Growth)</li>
+                        <li>Topic 4: How to Read the Bible Together</li>
+                    </ul>
+                    <a href="module-lesson1.html" class="btn">Explore Lesson 1</a>
+                </div>
+            </div>
+            
+            <!-- Lesson 2 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>Lesson 2: Prayer and Fellowship</h3>
+                </div>
+                <div class="module-content">
+                    <p>This lesson focuses on developing a strong prayer life and understanding the importance of Christian fellowship.</p>
+                    <ul>
+                        <li>Topic 1: Prayer - ACTS Method & Prayer Hand</li>
+                        <li>Topic 2: Fellowship - Importance & Characteristics</li>
+                    </ul>
+                    <a href="module-lesson2.html" class="btn">Explore Lesson 2</a>
+                </div>
+            </div>
+            
+            <!-- Lesson 3 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>Lesson 3: Lordship</h3>
+                </div>
+                <div class="module-content">
+                    <p>This lesson explores what it means to truly make Jesus Lord of your life and the cost of discipleship.</p>
+                    <ul>
+                        <li>Topic 1: Cost of Discipleship</li>
+                        <li>Topic 2: Submission - Areas of Struggle</li>
+                        <li>Topic 3: My Heart, Christ's Home</li>
+                    </ul>
+                    <a href="module-lesson3.html" class="btn">Explore Lesson 3</a>
+                </div>
+            </div>
+            
+            <!-- Lesson 4 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>Lesson 4: Doctrine</h3>
+                </div>
+                <div class="module-content">
+                    <p>This lesson covers essential Christian doctrines to build a solid theological foundation.</p>
+                    <ul>
+                        <li>Topic 1: The Doctrine of Jesus (Christology)</li>
+                        <li>Topic 2: The Doctrine of Holy Spirit (Pneumatology)</li>
+                        <li>Topic 3: The Doctrine of Baptism</li>
+                        <li>Topic 4: The Doctrine of Identity in Christ</li>
+                    </ul>
+                    <a href="module-lesson4.html" class="btn">Explore Lesson 4</a>
+                </div>
+            </div>
+            
+            <!-- Lesson 5 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>Lesson 5: Witnessing, Gifting and Spiritual Warfare</h3>
+                </div>
+                <div class="module-content">
+                    <p>This lesson equips believers to share their faith, discover their spiritual gifts, and engage in spiritual warfare.</p>
+                    <ul>
+                        <li>Topic 1: The Call to Witness</li>
+                        <li>Topic 2: Gifting</li>
+                        <li>Topic 3: Spiritual Warfare</li>
+                    </ul>
+                    <a href="module-lesson5.html" class="btn">Explore Lesson 5</a>
+                </div>
+            </div>
+<!-- Lesson 6 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>Lesson s: Spiritual Gift</h3>
+                </div>
+                <div class="module-content">
+                    <p>Spiritual Gifts - God-given enablement which has spiritual impact on others, especially Christians.</p>
+                    <ul>
+                        <li>Spiritual Gifts Survey for Ages 12+ </li>
+                       
+                    </ul>
+                    <a href="gifts.html" class="btn">Explore Lesson 6</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <footer>
+        <p>Pathlight Discipleship Curriculum &copy; 2025 | KCMC</p>
+        <p>Lit to Lead. Rooted to Grow.</p>
+    </footer>
+</body>
+</html>

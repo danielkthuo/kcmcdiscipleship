@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOUNDATION TO NEW BELIEVERS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="jss/autosave.js"></script>
+
+    <!-- Add Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --success-color: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            padding-bottom: 80px; /* Space for bottom nav */
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 15px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: rgba(255,255,255,0.2);
+            height: 6px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .header-content {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+        
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            gap: 10px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            flex: 1;
+            text-align: center;
+            min-height: 48px; /* Minimum touch target size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn:hover, .btn:active {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+        }
+        
+        .btn-outline:hover, .btn-outline:active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .topic {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            position: relative;
+        }
+        
+        .topic h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            font-size: 1.4rem;
+            padding-right: 40px; /* Space for completion button */
+        }
+        
+        .topic-completion {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .topic-completion:hover {
+            transform: scale(1.1);
+        }
+        
+        .topic-completed {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+        }
+        
+        .topic-completed::after {
+            content: "✓";
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .scripture {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .key-point {
+            background-color: #e8f4fc;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .key-point h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .activity {
+            background-color: #fff8e1;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .activity h4 {
+            color: #e65100;
+            margin-bottom: 0.5rem;
+        }
+        
+        .reflection {
+            background-color: #f0f7ff;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #4dabf7;
+        }
+        
+        .reflection h4 {
+            color: #1c7ed6;
+            margin-bottom: 0.5rem;
+        }
+        
+        .reflection textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            margin-top: 10px;
+            font-size: 16px; /* Prevents zoom on iOS */
+        }
+        
+        .interactive-element {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        
+        .assurance-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--secondary-color);
+        }
+        
+        .assurance-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+        
+        .assurance-card h4::before {
+            content: "📜";
+            margin-right: 8px;
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.75rem;
+            padding: 8px 5px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 20%;
+        }
+        
+        .nav-item.active {
+            color: var(--secondary-color);
+            background-color: #e8f4fc;
+        }
+        
+        .nav-icon {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background-color: var(--dark-color);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .collapsible {
+            background-color: #f1f1f1;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 16px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .collapsible:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .collapsible:after {
+            content: '\002B';
+            font-weight: bold;
+            float: right;
+            font-size: 1.2rem;
+        }
+        
+        .active:after {
+            content: "\2212";
+        }
+        
+        .content {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: white;
+            border-radius: 0 0 8px 8px;
+        }
+        
+        /* Activity Section Styles */
+        .activity-section {
+            background: #f9fafc;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            max-width: 100%;
+            margin: 20px 0;
+            font-family: 'Segoe UI', sans-serif;
+            color: #1a202c;
+        }
+
+        .section-title {
+            color: #2b6cb0;
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .intro-text {
+            text-align: center;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            color: #4a5568;
+        }
+
+        .interactive-card {
+            background: #fff;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+        }
+
+        .btn-start {
+            background: linear-gradient(90deg, #2b6cb0, #3182ce);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.2s ease;
+            width: 100%;
+            font-size: 1rem;
+            min-height: 48px;
+        }
+
+        .btn-start:hover {
+            background: linear-gradient(90deg, #3182ce, #2b6cb0);
+            transform: scale(1.02);
+        }
+
+        .game-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .item {
+            background: #edf2f7;
+            padding: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.2s;
+            border: 1px solid transparent;
+            font-size: 0.95rem;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .item:hover {
+            background: #ebf8ff;
+            border-color: #63b3ed;
+        }
+
+        .item.selected {
+            background: #bee3f8;
+            border: 1px solid #3182ce;
+        }
+
+        .item.correct {
+            background: #c6f6d5;
+            border: 1px solid #38a169;
+            color: #22543d;
+        }
+
+        .scoreboard {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+
+        .scavenger ul {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+        
+        /* Mobile-specific improvements */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 1.2rem 0;
+                margin-bottom: 1.2rem;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .subtitle {
+                font-size: 0.95rem;
+            }
+            
+            .topic {
+                padding: 1.2rem;
+                margin-bottom: 1.2rem;
+            }
+            
+            .topic h2 {
+                font-size: 1.3rem;
+            }
+            
+            .assurance-card {
+                padding: 1.2rem;
+            }
+            
+            .assurance-card h4 {
+                font-size: 1.1rem;
+            }
+            
+            .bottom-nav {
+                padding: 8px 0;
+            }
+            
+            .nav-item {
+                font-size: 0.7rem;
+                padding: 6px 3px;
+            }
+            
+            .nav-icon {
+                font-size: 1.2rem;
+            }
+            
+            .activity-section {
+                padding: 15px;
+            }
+            
+            .interactive-card {
+                padding: 15px;
+            }
+            
+            .btn-start {
+                padding: 12px 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.4rem;
+            }
+            
+            .topic h2 {
+                font-size: 1.2rem;
+            }
+            
+            .btn {
+                font-size: 0.9rem;
+                padding: 10px 14px;
+            }
+            
+            .topic-completion {
+                width: 28px;
+                height: 28px;
+            }
+            
+            .nav-item {
+                font-size: 0.65rem;
+            }
+            
+            .nav-icon {
+                font-size: 1.1rem;
+            }
+            
+            .reflection textarea {
+                min-height: 120px;
+            }
+        }
+        
+        /* Prevent horizontal scrolling */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* Improve touch targets */
+        button, .btn, .topic-completion, .nav-item, .item {
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Smooth scrolling for better mobile experience */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>MODULE 1: FOUNDATION TO NEW BELIEVER</h1>
+            <p class="subtitle">The 5 Assurances of a Christian-Understanding the foundational truths of Christianity and steps to grow in faith</p>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="lesson-nav">
+            <a href="index.html" class="btn btn-outline">Back to Main</a>
+            <a href="module-lesson2.html" class="btn">Next Lesson</a>
+        </div>
+        
+        <div class="topic" id="topic1">
+            <div class="topic-completion" id="topic1Completion"></div>
+            <h2>Topic 1: The Five Assurances</h2>
+            <p><strong>Objective:</strong> To help new believers anchor their faith in unchanging biblical truths that offer spiritual confidence and security.</p>
+            
+            <div class="scripture">
+                <p><strong>John 5:24</strong> - "Very truly I tell you, whoever hears my word and believes him who sent me has eternal life and will not be judged but has crossed over from death to life."</p>
+            </div>
+            
+            <h3>The Five Assurances:</h3>
+            
+            <div class="assurance-card">
+                <h4>1. Assurance of Salvation</h4>
+                <p><strong>1 John 5:11-13</strong> - "God has given us eternal life... whoever has the Son has life."</p>
+                <p><strong>Key Point:</strong> Salvation is a gift received by grace through faith, not by works (Eph 2:8-9).</p>
+                
+                <button class="collapsible">More Details + Reflection</button>
+                <div class="content">
+                    <div class="key-point">
+                        <p><strong>Application:</strong> Help learners understand they are saved the moment they believe in Christ—this is the foundation of their spiritual journey.</p>
+                       <p><strong>Make it clear that:</strong></p>
+<ul>
+  <li>
+    Salvation is not about a list of steps we must follow to earn salvation. 
+    Yes, Christians should be baptized. Yes, Christians should publicly confess Christ as Savior. 
+    Yes, Christians should practice good works and obey God. 
+    However, these are not steps to salvation — they are results of salvation.
+  </li>
+  <li>
+    Salvation is not about following steps. It is about receiving Christ as Savior and recognizing that He has done all the work for us.
+  </li>
+  <li>
+    God requires one step of us — receiving Jesus Christ as our Savior from sin and fully trusting in Him alone as the way of salvation.
+  </li>
+  <li>
+    <strong>Why We Need Salvation:</strong> Romans 3:23 — Sin separates us from God, who is holy and just. 
+    Because of sin, we are spiritually dead and unable to earn or deserve a right standing with Him on our own.
+  </li>
+  <li>
+    <strong>How to Receive Salvation:</strong> ABC (Admit, Believe, Commit)
+  </li>
+</ul>
+
+                    </div>
+                    
+                    <div class="reflection">
+                        <h4>Reflection Questions:</h4>
+                        <p>Do I truly believe that salvation is a gift, not something I earn?</p>
+                        <textarea placeholder="Type your reflection here..."></textarea>
+                        <p>When doubts arise, where do I turn for assurance?</p>
+                        <textarea placeholder="Type your reflection here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Other assurance cards would follow the same pattern -->
+            
+            <div class="activity-section">
+                <h3 class="section-title">✨ Activity Ideas</h3>
+                <p class="intro-text">Help your learners engage with Scripture through fun and interactive faith-building activities.</p>
+
+                <!-- Digital Matching Game -->
+                <div class="interactive-card">
+                    <h4><i class="bi bi-puzzle text-primary"></i> Digital Matching Game</h4>
+                    <p>Match each Bible verse with its correct assurance theme. Strengthen memory and connection with God's Word!</p>
+                    <button class="btn-start" id="startMatchingGame">🎮 Start Matching Game</button>
+
+                    <div id="matchingGameContainer" class="matching-area" style="display:none;">
+                        <h5 class="sub-title">🧩 Matching Game</h5>
+                        <p class="instruction">Click one verse and one theme to make a match.</p>
+                        <div class="game-grid">
+                            <div class="list" id="versesList"></div>
+                            <div class="list" id="themesList"></div>
+                        </div>
+                        <div class="scoreboard mt-2">
+                            <strong>Matches:</strong> <span id="score">0</span>/<span id="total">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scavenger Hunt -->
+                <div class="interactive-card scavenger">
+                    <h4><i class="bi bi-map text-success"></i> Scavenger Hunt</h4>
+                    <p>Take your group on a spiritual adventure! Set up stations with clues and Bible-based challenges.</p>
+                    <ul>
+                        <li><strong>Station Setup:</strong> Choose different locations around your venue — each with a clue about an Assurance or Bible truth.</li>
+                        <li><strong>Example Locations:</strong>
+                            <ul>
+                                <li>📖 A Bible on a table — The Word of God</li>
+                                <li>✝️ A cross — Salvation</li>
+                                <li>🙏 A prayer corner — God's Presence</li>
+                            </ul>
+                        </li>
+                        <li><strong>Tasks:</strong> Each station should include an action or reflection, such as:
+                            <ul>
+                                <li>Recite a verse about God's love ❤️</li>
+                                <li>Explain what the Assurance of Victory means to you 🕊️</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="lesson-nav">
+            <a href="index.html" class="btn btn-outline">Back to Main</a>
+            <a href="module-lesson2.html" class="btn">Next Lesson</a>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <span class="nav-icon">🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="progress.html" class="nav-item">
+            <span class="nav-icon">📊</span>
+            <span>Progress</span>
+        </a>
+        <a href="lessons.html" class="nav-item active">
+            <span class="nav-icon">📚</span>
+            <span>Lessons</span>
+        </a>
+        <a href="resources.html" class="nav-item">
+            <span class="nav-icon">🔖</span>
+            <span>Resources</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <span class="nav-icon">👤</span>
+            <span>Profile</span>
+        </a>
+    </div>
+    
+    <footer>
+        <p>Pathlight Discipleship Curriculum &copy; 2023 | KCMC</p>
+        <p>Lit to Lead. Rooted to Grow.</p>
+    </footer>
+
+    <script>
+        // Progress tracking
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize progress bar
+            updateProgressBar();
+            
+            // Topic completion toggle
+            const completionElements = document.querySelectorAll('.topic-completion');
+            completionElements.forEach(element => {
+                element.addEventListener('click', function() {
+                    this.classList.toggle('topic-completed');
+                    updateProgressBar();
+                    saveProgress();
+                });
+                
+                // Add touch feedback
+                element.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.95)';
+                });
+                
+                element.addEventListener('touchend', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+            
+            // Collapsible sections
+            const coll = document.querySelectorAll('.collapsible');
+            coll.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+            
+            // Matching game button
+            document.getElementById('startMatchingGame').addEventListener('click', function() {
+                const container = document.getElementById('matchingGameContainer');
+                if (container.style.display === 'none') {
+                    container.style.display = 'block';
+                    initializeMatchingGame();
+                } else {
+                    container.style.display = 'none';
+                }
+            });
+            
+            // Load saved progress
+            loadProgress();
+            
+            // Initialize matching game if needed
+            function initializeMatchingGame() {
+                const pairs = [
+                    {verse: 'Romans 8:38-39 — Nothing separates us from God's love', theme: 'God's Unfailing Love'},
+                    {verse: 'John 10:28 — I give them eternal life', theme: 'Assurance of Salvation'},
+                    {verse: 'Philippians 4:13 — I can do all things through Christ', theme: 'Confidence & Strength'},
+                    {verse: 'Romans 8:37 — More than conquerors', theme: 'Assurance of Victory'},
+                    {verse: 'Hebrews 13:5 — I will never leave you', theme: 'God's Presence'}
+                ];
+
+                const versesList = document.getElementById('versesList');
+                const themesList = document.getElementById('themesList');
+                const scoreSpan = document.getElementById('score');
+                const totalSpan = document.getElementById('total');
+
+                let state = {selectedVerse: null, selectedTheme: null, correct: 0, total: pairs.length};
+                totalSpan.textContent = state.total;
+
+                function shuffle(arr){ 
+                    for(let i=arr.length-1;i>0;i--){
+                        const j=Math.floor(Math.random()*(i+1));
+                        [arr[i],arr[j]]=[arr[j],arr[i]];
+                    } 
+                    return arr; 
+                }
+
+                function renderBoard(){
+                    versesList.innerHTML = '';
+                    themesList.innerHTML = '';
+                    const verses = shuffle([...pairs.map(p=>p.verse)]);
+                    const themes = shuffle([...pairs.map(p=>p.theme)]);
+                    
+                    verses.forEach(v => {
+                        const el = document.createElement('div');
+                        el.className = 'item';
+                        el.textContent = v;
+                        el.onclick = () => selectItem(el, 'verse');
+                        versesList.appendChild(el);
+                    });
+                    
+                    themes.forEach(t => {
+                        const el = document.createElement('div');
+                        el.className = 'item';
+                        el.textContent = t;
+                        el.onclick = () => selectItem(el, 'theme');
+                        themesList.appendChild(el);
+                    });
+                }
+
+                function selectItem(el, type){
+                    if(el.classList.contains('correct')) return;
+                    document.querySelectorAll(type === 'verse' ? '#versesList .item' : '#themesList .item').forEach(i => i.classList.remove('selected'));
+                    el.classList.add('selected');
+                    if(type === 'verse') state.selectedVerse = el.textContent; 
+                    else state.selectedTheme = el.textContent;
+                    
+                    if(state.selectedVerse && state.selectedTheme) checkMatch();
+                }
+
+                function checkMatch(){
+                    const match = pairs.find(p => p.verse === state.selectedVerse && p.theme === state.selectedTheme);
+                    const vEl = [...document.querySelectorAll('#versesList .item')].find(i => i.textContent === state.selectedVerse);
+                    const tEl = [...document.querySelectorAll('#themesList .item')].find(i => i.textContent === state.selectedTheme);
+                    
+                    if(match){
+                        vEl.classList.add('correct');
+                        tEl.classList.add('correct');
+                        state.correct++;
+                        scoreSpan.textContent = state.correct;
+                    }
+                    
+                    vEl.classList.remove('selected');
+                    tEl.classList.remove('selected');
+                    state.selectedVerse = null;
+                    state.selectedTheme = null;
+                }
+
+                renderBoard();
+            }
+        });
+        
+        function updateProgressBar() {
+            const completedTopics = document.querySelectorAll('.topic-completed').length;
+            const totalTopics = document.querySelectorAll('.topic-completion').length;
+            const progressPercentage = (completedTopics / totalTopics) * 100;
+            
+            document.getElementById('progressBar').style.width = progressPercentage + '%';
+        }
+        
+        function saveProgress() {
+            const topics = [];
+            document.querySelectorAll('.topic-completion').forEach((element, index) => {
+                topics.push({
+                    id: index,
+                    completed: element.classList.contains('topic-completed')
+                });
+            });
+            
+            localStorage.setItem('lesson1Progress', JSON.stringify(topics));
+        }
+        
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('lesson1Progress');
+            if (savedProgress) {
+                const topics = JSON.parse(savedProgress);
+                topics.forEach(topic => {
+                    const element = document.querySelectorAll('.topic-completion')[topic.id];
+                    if (element && topic.completed) {
+                        element.classList.add('topic-completed');
+                    }
+                });
+                updateProgressBar();
+            }
+        }
+    </script>
+</body>
+</html>

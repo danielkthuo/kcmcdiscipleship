@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assurance of Forgiveness</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <title>Lesson 5: Witnessing and Spiritual Warfare - Pathlight Curriculum</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --success-color: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            padding-bottom: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .topic {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .topic h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .scripture {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+        
+        .key-point {
+            background-color: #e8f4fc;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .key-point h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .activity {
+            background-color: #fff8e1;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .activity h4 {
+            color: #e65100;
+            margin-bottom: 0.5rem;
+        }
+        
+        .armor-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .armor-table th, .armor-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .armor-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .armor-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .step-by-step {
+            background-color: #f3e5f5;
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid #9c27b0;
+        }
+        
+        .step-by-step h4 {
+            color: #7b1fa2;
+            margin-bottom: 1rem;
+        }
+        
+        .facilitator-notes {
+            background-color: #e8f5e9;
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .facilitator-notes h4 {
+            color: #2e7d32;
+            margin-bottom: 1rem;
+        }
+        
+        .bridge-illustration {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .bridge-visual {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        .bridge-side {
+            position: absolute;
+            width: 40%;
+            height: 100%;
+            background-color: #8BC34A;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .bridge-left {
+            left: 0;
+        }
+        
+        .bridge-right {
+            right: 0;
+        }
+        
+        .bridge-chasm {
+            position: absolute;
+            left: 40%;
+            width: 20%;
+            height: 100%;
+            background-color: #795548;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+        
+        .bridge-cross {
+            position: absolute;
+            left: 40%;
+            width: 20%;
+            height: 60px;
+            background-color: #e74c3c;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background-color: var(--dark-color);
+            color: white;
+            border-radius: 8px;
+        }
+        
+        /* collapsible section styles */
+        .collapsible {
+  background: #f5f5f5;
+  color: #333;
+  cursor: pointer;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 5px 0;
+}
+
+.collapsible::after {
+  content: '+';
+  float: right;
+  font-weight: bold;
+}
+
+.collapsible.active::after {
+  content: '–';
+}
+
+.content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: #fff;
+  padding: 0 12px;
+}
+
+.content.open {
+  max-height: 800px;
+  padding: 10px 12px;
+}
+
+        /* Progress Bar Styles */
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Auto-save notification */
+        .save-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .save-notification.show {
+            opacity: 1;
+        }
+        
+        /* Topic completion indicator */
+        .topic-complete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--success-color);
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .topic-complete.visible {
+            opacity: 1;
+        }
+        
+        /* Form field styling */
+        textarea, input[type="text"] {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: var(--font-main);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .lesson-nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn {
+                text-align: center;
+            }
+            
+            .armor-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .save-notification {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+             <h1>Lesson 5: Witnessing and Spiritual Warfare</h1>
+            <p>Equipping believers to share faith and engage in spiritual battles</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar">0%</div>
+        </div>
+        <div class="progress-info">
+            <span>Progress: <span id="progressText">0%</span></span>
+            <span>Last saved: <span id="lastSaved">Not saved yet</span></span>
+        </div>
+        
+           <div class="lesson-nav">
+            <a href="module-lesson4.html" class="btn">Previous Lesson</a>
+            <a href="progress.html" class="btn">Progress</a>
+            <a href="index.html" class="btn">Back to Main</a>
+            <a href="gifts.html" class="btn">Next Lesson</a>
+             </div>
+        
+        <div class="topic" id="topic1">
+            <div class="topic-complete" id="topic1Complete">✓</div>
+            <h5>Topic 1: The Call to Witness</h5>
+            <div class="scripture">
+                <p><strong>Acts 1:8 (NKJV)</strong> - "But you shall receive power when the Holy Spirit has come upon you; and you shall be witnesses to Me in Jerusalem, and in all Judea and Samaria, and to the end of the earth."</p>
+            </div>
+            
+            <div class="facilitator-notes">
+                <h4>Facilitator Notes</h4>
+                <p><strong>Objective:</strong> To help believers grasp the biblical call to witness and equip them with tools and confidence in sharing the Gospel clearly.</p>
+                <p><strong>Icebreaker:</strong> "Who was the first person to share the Gospel with you? What feelings, thoughts, or memories come to mind?"</p>
+                <p><strong>Discussion Starter:</strong> "What are your top 2 fears when it comes to witnessing?"</p>
+            </div>
+            <div class="collapsible">Training Points</div>
+            <div class="content">
+            <h3>Training Points:</h3>
+            
+            <div class="key-point">
+                <h4>1. All Believers Are Called to Be Witnesses</h4>
+                <p><strong>Matthew 5:14-16</strong> - "You are the light of the world... let your light so shine before men..."</p>
+                <p>Witnessing is not just for pastors or leaders—every follower of Christ is a light-bearer and messenger.</p>
+                <p><em>Difference between "doing witnessing" and "being a witness."</em></p>
+            </div>
+            
+            <div class="key-point">
+                <h4>2. Witnessing Is Sharing What Jesus Has Done</h4>
+                <p>Sharing a personal encounter with Jesus doesn't require having all the answers.</p>
+                <p><strong>Example:</strong> The Samaritan woman (John 4) - she just said "come, see a Man."</p>
+                <p>Testimonies are powerful because they are real and relatable.</p>
+            </div>
+            
+            <div class="key-point">
+                <h4>3. Power for Witnessing Comes from the Holy Spirit</h4>
+                <p>Without the Holy Spirit, ministry is ineffective and exhausting.</p>
+                <p>The Spirit gives boldness (Acts 4:31), wisdom (Luke 12:11-12), and clarity.</p>
+            </div>
+            </div>
+            
+            <div class="collapsible">Sharing Faith</div>
+            <div class="content">
+            <div class="step-by-step">
+                <h4>How to Share Your Faith—Step by Step</h4>
+                
+                <div class="key-point">
+                    <h4>1. Get Ready</h4>
+                    <ul>
+                        <li><strong>Pray</strong> - Ask God for help and the right words</li>
+                        <li><strong>Know Your Faith</strong> - Be confident in what you believe</li>
+                        <li><strong>Know Your Story</strong> - Practice telling how Jesus changed your life</li>
+                        <li><strong>Know the Bible</strong> - Learn key verses like John 3:16, Romans 6:23</li>
+                    </ul>
+                </div>
+                
+                <div class="key-point">
+                    <h4>2. Build Genuine Friendships</h4>
+                    <ul>
+                        <li>Be friendly - smile, say hello, be nice</li>
+                        <li>Start conversations - even quick chats can lead to opportunities</li>
+                        <li>Care sincerely - listen and learn about people's lives</li>
+                        <li>Build trust - be authentic, honest, and consistent</li>
+                    </ul>
+                </div>
+                
+                <div class="key-point">
+                    <h4>3. Share Your Faith</h4>
+                    <ul>
+                        <li>Be respectful - everyone is on their own journey</li>
+                        <li>Share your story - how you met Jesus, what He's done for you</li>
+                        <li>Use Scripture - share meaningful Bible verses</li>
+                        <li>Don't argue - love speaks louder than winning arguments</li>
+                        <li>Answer honestly - be humble about what you don't know</li>
+                    </ul>
+                </div>
+                </div>
+                </div>
+            <div class="collapsible">Sharing Faith....</div>
+            <div class="content">
+                <div class="key-point">
+                    <h4>4. Keep Connected</h4>
+                    <ul>
+                        <li>Stay connected - continue developing friendships</li>
+                        <li>Share resources - invite to church or share good content</li>
+                        <li>Keep praying - ask God to continue working in their lives</li>
+                    </ul>
+                </div>
+                
+                <div class="key-point">
+                    <h4>5. Remember</h4>
+                    <ul>
+                        <li>You cannot save someone—that's God's job</li>
+                        <li>Love is important—let actions be as loud as words</li>
+                        <li>It takes time—be patient</li>
+                    </ul>
+                </div>
+            </div>
+             
+            <div class="collapsible">Illustration</div>
+            <div class="content">
+            <div class="activity">
+                <h4>Tool: The Bridge Illustration</h4>
+                <p><strong>Romans 6:23</strong> - "For the wages of sin is death, but the gift of God is eternal life in Christ Jesus our Lord."</p>
+                
+                <div class="bridge-illustration">
+                    <div class="bridge-visual">
+                        <div class="bridge-side bridge-left">MAN</div>
+                        <div class="bridge-chasm">SIN / DEATH<br>Romans 6:23</div>
+                        <div class="bridge-side bridge-right">GOD</div>
+                        <div class="bridge-cross">JESUS</div>
+                    </div>
+                </div>
+                
+                <p><strong>Instructions:</strong></p>
+                <ol>
+                    <li>Draw two cliffs—Man on one side, God on the other</li>
+                    <li>Label the chasm as Sin/Death with Romans 6:23</li>
+                    <li>Draw a Cross bridging the gap</li>
+                    <li>Write "Jesus" at the center of the cross</li>
+                    <li>Add arrows showing man walking across by faith</li>
+                </ol>
+                </div>
+                <div class="collapsible">Sharing Faith</div>
+            <div class="content">
+                <p><strong>Activity:</strong> Practice drawing and explaining the Bridge Illustration with a partner.</p>
+                
+                <p><strong>Practice explaining the Bridge Illustration:</strong></p>
+                <textarea placeholder="Write your explanation here..." style="width: 100%; min-height: 80px; margin-top: 10px;" data-topic="1" data-question="1"></textarea>
+            
+            </div>
+            <div class="key-point">
+                <h4>Memory Verse:</h4>
+                <p><strong>Romans 1:16 (NKJV)</strong> - "For I am not ashamed of the gospel of Christ, for it is the power of God to salvation for everyone who believes..."</p>
+            </div>
+            </div>
+            <div class="collapsible">Challange</div>
+            <div class="content">
+            <div class="activity">
+                <h4>Session Wrap Up & Take-Home Challenge</h4>
+                <p><strong>Recap:</strong></p>
+                <ul>
+                    <li>You are already a witness because you have Christ in your life</li>
+                    <li>You are empowered by the Holy Spirit</li>
+                    <li>Your story and simple tools like the Bridge Illustration can change lives</li>
+                </ul>
+                
+                <p><strong>Challenge:</strong></p>
+                <ul>
+                    <li>Pray this week for an opportunity to witness to one person</li>
+                    <li>Review the Bridge Illustration one more time at home</li>
+                    <li>Start telling the Holy Spirit each day, "Who can I shine the light to today?"</li>
+                </ul>
+                
+                <p><strong>My commitment this week:</strong></p>
+                <textarea placeholder="Write your commitment here..." style="width: 100%; min-height: 60px; margin-top: 10px;" data-topic="1" data-question="2"></textarea>
+            </div>
+        </div>
+        </div>
+       
+        <div class="topic" id="topic2">
+            <div class="topic-complete" id="topic2Complete">✓</div> 
+            <h5>Topic 2: Spiritual Warfare</h5>
+            <div class="scripture">
+                <p><strong>Ephesians 6:10-18 (NKJV)</strong> - "Finally, my brethren, be strong in the Lord and in the power of His might. Put on the whole armor of God..."</p>
+            </div>     
+            <div class="facilitator-notes">
+                <h4>Facilitator Notes</h4>
+                <p><strong>Objective:</strong> To arm believers to stand against spiritual opposition through awareness of spiritual warfare, knowledge of God's armor, and practice of spiritual disciplines.</p>
+                <p><strong>Discussion Points:</strong></p>
+                <ul>
+                    <li>What are some battles you face as a Christian?</li>
+                    <li>Share testimonies or Bible stories (e.g., Jesus in the wilderness, Daniel in Babylon)</li>
+                    <li>Encourage open discussion about peer pressure, temptations, and standing for Christ</li>
+                </ul>
+            </div>         
+            <h3>Teaching Points:</h3>    
+            <div class="key-point">
+                <h4>1. The Christian Life Involves Spiritual Battles</h4>
+                <p>Being a Christian doesn't guarantee an easy life. We face invisible spiritual battles.</p>
+                <p><strong>John 10:10</strong> - "The thief does not come except to steal, and to kill, and to destroy."</p>
+                
+                <p><strong>Enemies we face:</strong></p>
+                <ul>
+                    <li>The world (ungodly systems and influences)</li>
+                    <li>The flesh (our sinful nature)</li>
+                    <li>The devil (spiritual adversary)</li>
+                </ul>
+                
+                <p>Spiritual warfare is the struggle to live out our faith, stand for truth, and fight against temptation and sin.</p>
+            </div>
+            
+            <div class="key-point">
+                <h4>2. Wear the Full Armor of God</h4>
+                
+                <table class="armor-table">
+                    <thead>
+                        <tr>
+                            <th>Armor Piece</th>
+                            <th>Spiritual Meaning</th>
+                            <th>Daily Application</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Belt of Truth</strong></td>
+                            <td>Know and declare the truth of God</td>
+                            <td>Be honest. Know Scripture. Reject lies.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Breastplate of Righteousness</strong></td>
+                            <td>Guard your heart and your life</td>
+                            <td>Obey God. Say no to sin. Walk in integrity.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Shoes of the Gospel of Peace</strong></td>
+                            <td>Be ready to share the good news</td>
+                            <td>Be a peacemaker. Speak about Jesus.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Shield of Faith</strong></td>
+                            <td>Trust in God to protect you</td>
+                            <td>Pray in faith. Reject fear and doubt.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Helmet of Salvation</strong></td>
+                            <td>Protect your mind with God's promises</td>
+                            <td>Think like a saved person. Know your identity in Christ.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sword of the Spirit (Word of God)</strong></td>
+                            <td>Use God's Word as your weapon</td>
+                            <td>Read, memorize, and declare Scripture.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="key-point">
+                <h4>3. Prayer and the Word Are Your Key Weapons</h4>
+                <ul>
+                    <li><strong>Prayer</strong> is communication and power (Ephesians 6:18)</li>
+                    <li><strong>The Word of God</strong> fights against temptation and lies (Psalm 119:11)</li>
+                    <li><strong>Jesus</strong> defeated the devil using Scripture (Matthew 4)</li>
+                    <li>Daily time in <strong>Word and prayer</strong> helps you stay alert and strong</li>
+                </ul>
+            </div>
+            
+            <div class="activity">
+                <h4>Activity: Short Echo Prayer</h4>
+                <p><strong>Leader:</strong> Today I put on the full armor of God.</p>
+                <p><strong>Students:</strong> Today I put on the full armor of God.</p>
+                
+                <p><strong>Leader:</strong> I put on the belt of truth—</p>
+                <p><strong>Students:</strong> to walk in honesty and believe God's Word.</p>
+                
+                <p><strong>Leader:</strong> I wear the breastplate of righteousness—</p>
+                <p><strong>Students:</strong> because I belong to Jesus and live to please Him.</p>
+                
+                <p><strong>Leader:</strong> I put on the shoes of peace—</p>
+                <p><strong>Students:</strong> to walk with courage and share the good news.</p>
+                
+                <p><strong>Leader:</strong> I hold up the shield of faith—</p>
+                <p><strong>Students:</strong> to stop every lie and trust God's promises.</p>
+                
+                <p><strong>Leader:</strong> I wear the helmet of salvation—</p>
+                <p><strong>Students:</strong> to protect my mind and remember I'm saved.</p>
+                
+                <p><strong>Leader:</strong> I carry the sword of the Spirit—</p>
+                <p><strong>Students:</strong> God's Word is my weapon to fight and stand strong.</p>
+                
+                <p><strong>Leader:</strong> Thank You, Lord, for Your armor.</p>
+                <p><strong>Students:</strong> Thank You, Lord, for Your armor.</p>
+                <p><strong>All:</strong> Help me stand strong today. In Jesus' name, Amen.</p>
+            </div>
+            
+            <div class="key-point">
+                <h4>Memory Verse:</h4>
+                <p><strong>James 4:7 (NKJV)</strong> - "Therefore submit to God. Resist the devil and he will flee from you."</p>
+            </div>
+            
+            <div class="activity">
+                <h4>Reflection Activity</h4>
+                <p><strong>Which piece of armor do I need the most this week? Why?</strong></p>
+                <textarea placeholder="Write your response here..." style="width: 100%; min-height: 80px; margin-top: 10px;" data-topic="2" data-question="1"></textarea>
+            </div>
+            
+            <div class="key-point">
+                <h4>Key Takeaway for Learners:</h4>
+                <p>"I am in a spiritual battle, but I don't have to be afraid. God gives me armor, power, and victory through Jesus."</p>
+            </div>
+        </div>
+        
+        <div class="lesson-nav">
+            <a href="module-lesson4.html" class="btn">Previous Lesson</a>
+            <a href="progress.html" class="btn">Progress</a>
+            <a href="index.html" class="btn">Back to Main</a>
+            <a href="gifts.html" class="btn">Next Lesson</a>
+        </div>
+    </div>
+         </div>
+    <!-- Auto-save notification -->
+    <div class="save-notification" id="saveNotification">
+        Progress saved successfully!
+    </div>
+    
+    <footer>
+        <p>Pathlight Discipleship Curriculum &copy; 2025 | KCMC</p>
+        <p>Lit to Lead. Rooted to Grow.</p>
+    </footer>
+
+    <script>
+        // Progress tracking and auto-save functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize progress tracking
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const lastSaved = document.getElementById('lastSaved');
+            const saveNotification = document.getElementById('saveNotification');
+            
+            // Get all form fields
+            const formFields = document.querySelectorAll('textarea, input[type="text"]');
+            
+            // Load saved data from localStorage
+            loadSavedData();
+            
+            // Calculate initial progress
+            updateProgress();
+            
+            // Add event listeners to all form fields
+            formFields.forEach(field => {
+                field.addEventListener('input', function() {
+                    // Save data to localStorage
+                    saveData();
+                    
+                    // Update progress
+                    updateProgress();
+                    
+                    // Show save notification
+                    showSaveNotification();
+                });
+            });
+            
+            // Function to save data to localStorage
+            function saveData() {
+                const data = {};
+                
+                formFields.forEach(field => {
+                    const topic = field.getAttribute('data-topic');
+                    const question = field.getAttribute('data-question');
+                    
+                    if (topic && question) {
+                        if (!data[topic]) data[topic] = {};
+                        data[topic][question] = field.value;
+                    }
+                });
+                
+                localStorage.setItem('lesson5Data', JSON.stringify(data));
+                
+                // Update last saved time
+                const now = new Date();
+                lastSaved.textContent = now.toLocaleTimeString();
+                localStorage.setItem('lesson5SavedTime', now.toLocaleTimeString());
+            }
+            
+            // Function to load saved data from localStorage
+            function loadSavedData() {
+                const savedData = localStorage.getItem('lesson5Data');
+                
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    
+                    formFields.forEach(field => {
+                        const topic = field.getAttribute('data-topic');
+                        const question = field.getAttribute('data-question');
+                        
+                        if (topic && question && data[topic] && data[topic][question]) {
+                            field.value = data[topic][question];
+                        }
+                    });
+                    
+                    // Update last saved time
+                    const savedTime = localStorage.getItem('lesson5SavedTime');
+                    if (savedTime) {
+                        lastSaved.textContent = savedTime;
+                    }
+                }
+            }
+            
+            // Function to update progress bar
+            function updateProgress() {
+                let completedFields = 0;
+                
+                formFields.forEach(field => {
+                    if (field.value.trim() !== '') {
+                        completedFields++;
+                    }
+                });
+                
+                const totalFields = formFields.length;
+                const progressPercentage = Math.round((completedFields / totalFields) * 100);
+                
+                progressBar.style.width = `${progressPercentage}%`;
+                progressBar.textContent = `${progressPercentage}%`;
+                progressText.textContent = `${progressPercentage}%`;
+                
+                // Update topic completion indicators
+                updateTopicCompletion();
+                
+                // Save progress to localStorage
+                localStorage.setItem('lesson5Progress', progressPercentage);
+            }
+            
+            // Function to update topic completion indicators
+            function updateTopicCompletion() {
+                const topics = [1, 2];
+                
+                topics.forEach(topicNum => {
+                    const topicFields = document.querySelectorAll(`[data-topic="${topicNum}"]`);
+                    let completedTopicFields = 0;
+                    
+                    topicFields.forEach(field => {
+                        if (field.value.trim() !== '') {
+                            completedTopicFields++;
+                        }
+                    });
+                    
+                    const topicCompleteIndicator = document.getElementById(`topic${topicNum}Complete`);
+                    
+                    if (completedTopicFields > 0) {
+                        topicCompleteIndicator.classList.add('visible');
+                    } else {
+                        topicCompleteIndicator.classList.remove('visible');
+                    }
+                });
+            }
+            
+            // Function to show save notification
+            function showSaveNotification() {
+                saveNotification.classList.add('show');
+                
+                setTimeout(() => {
+                    saveNotification.classList.remove('show');
+                }, 2000);
+            }
+            
+            // Auto-save every 30 seconds as a backup
+            setInterval(saveData, 30000);
+            
+            // Load saved progress if available
+            const savedProgress = localStorage.getItem('lesson5Progress');
+            if (savedProgress) {
+                progressBar.style.width = `${savedProgress}%`;
+                progressBar.textContent = `${savedProgress}%`;
+                progressText.textContent = `${savedProgress}%`;
+            }
+        });
+    </script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.collapsible').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('active');
+      const content = btn.nextElementSibling;
+      content.classList.toggle('open');
+    });
+  });
+});
+</script>
+
+</body>
+</html>
