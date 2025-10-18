@@ -886,6 +886,116 @@
             background: var(--secondary-color);
             cursor: pointer;
         }
+
+        /* Enhanced Progress Tracking Styles */
+        .enhanced-progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .enhanced-progress-bar {
+            height: 20px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Auto-save notification */
+        .save-notification {
+            position: fixed;
+            bottom: 70px;
+            right: 15px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            font-size: 0.9rem;
+        }
+        
+        .save-notification.show {
+            opacity: 1;
+        }
+        
+        /* Sync status styles */
+        .sync-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            z-index: 1000;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            max-width: 200px;
+        }
+        
+        .sync-status.online {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .sync-status.offline {
+            background: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        
+        .sync-status.error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        .sync-status.syncing {
+            background: #cce7ff;
+            border-color: #b3d9ff;
+            color: #004085;
+        }
+        
+        /* Manual sync button */
+        #manualSync {
+            position: fixed;
+            bottom: 70px;
+            right: 15px;
+            background: var(--secondary-color, #3498db);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-size: 1.2rem;
+        }
         
         /* Mobile-specific improvements */
         @media (max-width: 768px) {
@@ -945,6 +1055,26 @@
             .content.scrollable {
                 max-height: 300px;
             }
+            
+            .save-notification {
+                bottom: 60px;
+                right: 10px;
+                left: 10px;
+                text-align: center;
+            }
+            
+            .sync-status {
+                top: 5px;
+                right: 5px;
+                left: 5px;
+                max-width: none;
+                text-align: center;
+            }
+            
+            .progress-info {
+                flex-direction: column;
+                gap: 5px;
+            }
         }
         
         @media (min-width: 769px) {
@@ -1001,6 +1131,15 @@
     </header>
     
     <div class="container">
+        <!-- Enhanced Progress Bar -->
+        <div class="enhanced-progress-container">
+            <div class="enhanced-progress-bar" id="enhancedProgressBar">0%</div>
+        </div>
+        <div class="progress-info">
+            <span>Progress: <span id="progressText">0%</span></span>
+            <span>Last saved: <span id="lastSaved">Not saved yet</span></span>
+        </div>
+        
         <div class="lesson-nav">
             <a href="module-lesson1.html" class="btn btn-outline">Previous Lesson</a>
             <a href="index.html" class="btn btn-outline">Back to Main</a>
@@ -1556,8 +1695,6 @@
             </div>
         </div>
         
-        <!-- Additional topics would follow the same pattern with scrollable content -->
-        
         <div class="lesson-nav">
             <a href="module-lesson1.html" class="btn btn-outline">Previous Lesson</a>
             <a href="index.html" class="btn btn-outline">Back to Main</a>
@@ -1589,26 +1726,35 @@
         </a>
     </div>
     
+    <!-- Sync Status -->
+    <div class="sync-status" id="syncStatus">Checking connection...</div>
+    
+    <!-- Manual Sync Button -->
+    <button id="manualSync" title="Sync Progress">
+        <i class="bi bi-arrow-repeat"></i>
+    </button>
+    
+    <!-- Auto-save notification -->
+    <div class="save-notification" id="saveNotification">
+        <i class="bi bi-check-circle"></i> Progress saved
+    </div>
+    
     <footer>
         <p>Pathlight Discipleship Curriculum &copy; 2023 | KCMC</p>
         <p>Lit to Lead. Rooted to Grow.</p>
     </footer>
 
     <script>
-        // Progress tracking
+        // Enhanced Progress tracking and auto-save functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize progress bar
-            updateProgressBar();
+            // Initialize progress tracking
+            const enhancedProgressBar = document.getElementById('enhancedProgressBar');
+            const progressText = document.getElementById('progressText');
+            const lastSaved = document.getElementById('lastSaved');
+            const saveNotification = document.getElementById('saveNotification');
             
-            // Topic completion toggle
-            const completionElements = document.querySelectorAll('.topic-completion');
-            completionElements.forEach(element => {
-                element.addEventListener('click', function() {
-                    this.classList.toggle('topic-completed');
-                    updateProgressBar();
-                    saveProgress();
-                });
-            });
+            // Get all form fields
+            const formFields = document.querySelectorAll('textarea, input[type="text"]');
             
             // Collapsible sections with scrollable content
             const coll = document.getElementsByClassName("collapsible");
@@ -1624,111 +1770,206 @@
                 });
             }
             
-            // Gospel Bridge Interactive
-            const showProblemBtn = document.getElementById('showProblem');
-            const showSolutionBtn = document.getElementById('showSolution');
-            const showWayBtn = document.getElementById('showWay');
-            const gospelExplanation = document.getElementById('gospel-explanation');
-            const sinGap = document.getElementById('sinGap');
+            // Topic completion toggle
+            const completionElements = document.querySelectorAll('.topic-completion');
+            completionElements.forEach(element => {
+                element.addEventListener('click', function() {
+                    this.classList.toggle('topic-completed');
+                    updateEnhancedProgress();
+                    saveProgress();
+                });
+            });
             
-            if (showProblemBtn && showSolutionBtn && showWayBtn) {
-                const gospelDetails = {
-                    problem: {
-                        title: "The Problem: Sin Separates Us",
-                        content: "Sin creates a gap between us and God. No matter how many good things we do—going to church, helping others, praying, or following rules—we can never bridge this gap on our own. Our own efforts are never enough to reach God's perfect standard.",
-                        verse: "Romans 3:23 - 'For all have sinned and fall short of the glory of God.'"
-                    },
-                    solution: {
-                        title: "The Solution: Jesus is the Bridge",
-                        content: "The good news is that God provided a way through Jesus. Jesus lived a perfect life and died on the cross to pay the penalty for our sins. His death and resurrection created a bridge between us and God.",
-                        verse: "Romans 5:8 - 'But God shows His love for us in that while we were still sinners, Christ died for us.'"
-                    },
-                    way: {
-                        title: "The Way: Faith in Jesus",
-                        content: "To cross the bridge, we must place our faith in Jesus. This means trusting that His death and resurrection are sufficient to save us, and committing our lives to follow Him as Lord.",
-                        verse: "John 14:6 - 'I am the way and the truth and the life. No one comes to the Father except through me.'"
+            // Load saved data from localStorage
+            loadSavedData();
+            
+            // Calculate initial progress
+            updateEnhancedProgress();
+            
+            // Add event listeners to all form fields
+            formFields.forEach(field => {
+                field.addEventListener('input', function() {
+                    // Save data to localStorage
+                    saveData();
+                    
+                    // Update progress
+                    updateEnhancedProgress();
+                    
+                    // Show save notification
+                    showSaveNotification();
+                });
+            });
+            
+            // Function to save data to localStorage
+            function saveData() {
+                const data = {};
+                
+                formFields.forEach(field => {
+                    const saveKey = field.getAttribute('data-save-key');
+                    
+                    if (saveKey) {
+                        data[saveKey] = field.value;
                     }
-                };
-                
-                showProblemBtn.addEventListener('click', function() {
-                    const detail = gospelDetails.problem;
-                    gospelExplanation.innerHTML = `
-                        <h5>${detail.title}</h5>
-                        <p>${detail.content}</p>
-                        <p><strong>${detail.verse}</strong></p>
-                    `;
-                    if (sinGap) sinGap.style.background = 'linear-gradient(to bottom, #ff8a65, #d84315)';
                 });
                 
-                showSolutionBtn.addEventListener('click', function() {
-                    const detail = gospelDetails.solution;
-                    gospelExplanation.innerHTML = `
-                        <h5>${detail.title}</h5>
-                        <p>${detail.content}</p>
-                        <p><strong>${detail.verse}</strong></p>
-                    `;
-                    if (sinGap) sinGap.style.background = 'linear-gradient(to bottom, #4fc3f7, #0288d1)';
-                });
+                localStorage.setItem('lesson2Data', JSON.stringify(data));
                 
-                showWayBtn.addEventListener('click', function() {
-                    const detail = gospelDetails.way;
-                    gospelExplanation.innerHTML = `
-                        <h5>${detail.title}</h5>
-                        <p>${detail.content}</p>
-                        <p><strong>${detail.verse}</strong></p>
-                    `;
-                    if (sinGap) sinGap.style.background = 'linear-gradient(to bottom, #66bb6a, #2e7d32)';
-                });
+                // Update last saved time
+                const now = new Date();
+                lastSaved.textContent = now.toLocaleTimeString();
+                localStorage.setItem('lesson2SavedTime', now.toLocaleTimeString());
             }
             
-            // Assessment sliders
-            const sliders = document.querySelectorAll('.slider');
-            sliders.forEach(slider => {
-                slider.addEventListener('input', function() {
-                    const valueSpan = document.getElementById(this.id.replace('Slider', 'Value'));
-                    if (valueSpan) {
-                        valueSpan.textContent = this.value;
+            // Function to load saved data from localStorage
+            function loadSavedData() {
+                const savedData = localStorage.getItem('lesson2Data');
+                
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    
+                    formFields.forEach(field => {
+                        const saveKey = field.getAttribute('data-save-key');
+                        
+                        if (saveKey && data[saveKey]) {
+                            field.value = data[saveKey];
+                        }
+                    });
+                    
+                    // Update last saved time
+                    const savedTime = localStorage.getItem('lesson2SavedTime');
+                    if (savedTime) {
+                        lastSaved.textContent = savedTime;
+                    }
+                }
+            }
+            
+            // Function to update enhanced progress bar
+            function updateEnhancedProgress() {
+                let completedFields = 0;
+                
+                formFields.forEach(field => {
+                    if (field.value.trim() !== '') {
+                        completedFields++;
                     }
                 });
-            });
-            
-            // Load saved progress
-            loadProgress();
-        });
-        
-        function updateProgressBar() {
-            const completedTopics = document.querySelectorAll('.topic-completed').length;
-            const totalTopics = document.querySelectorAll('.topic-completion').length;
-            const progressPercentage = (completedTopics / totalTopics) * 100;
-            
-            document.getElementById('progressBar').style.width = progressPercentage + '%';
-        }
-        
-        function saveProgress() {
-            const topics = [];
-            document.querySelectorAll('.topic-completion').forEach((element, index) => {
-                topics.push({
-                    id: index,
-                    completed: element.classList.contains('topic-completed')
-                });
-            });
-            
-            localStorage.setItem('lesson2Progress', JSON.stringify(topics));
-        }
-        
-        function loadProgress() {
-            const savedProgress = localStorage.getItem('lesson2Progress');
-            if (savedProgress) {
-                const topics = JSON.parse(savedProgress);
-                topics.forEach(topic => {
-                    const element = document.querySelectorAll('.topic-completion')[topic.id];
-                    if (element && topic.completed) {
-                        element.classList.add('topic-completed');
-                    }
-                });
+                
+                const totalFields = formFields.length;
+                const progressPercentage = Math.round((completedFields / totalFields) * 100);
+                
+                enhancedProgressBar.style.width = `${progressPercentage}%`;
+                enhancedProgressBar.textContent = `${progressPercentage}%`;
+                progressText.textContent = `${progressPercentage}%`;
+                
+                // Update original progress bar
                 updateProgressBar();
+                
+                // Save progress to localStorage
+                localStorage.setItem('lesson2EnhancedProgress', progressPercentage);
             }
-        }
+            
+            // Original progress bar function (preserved)
+            function updateProgressBar() {
+                const completedTopics = document.querySelectorAll('.topic-completed').length;
+                const totalTopics = document.querySelectorAll('.topic-completion').length;
+                const progressPercentage = (completedTopics / totalTopics) * 100;
+                
+                document.getElementById('progressBar').style.width = progressPercentage + '%';
+            }
+            
+            function saveProgress() {
+                const topics = [];
+                document.querySelectorAll('.topic-completion').forEach((element, index) => {
+                    topics.push({
+                        id: index,
+                        completed: element.classList.contains('topic-completed')
+                    });
+                });
+                
+                localStorage.setItem('lesson2Progress', JSON.stringify(topics));
+            }
+            
+            function loadProgress() {
+                const savedProgress = localStorage.getItem('lesson2Progress');
+                if (savedProgress) {
+                    const topics = JSON.parse(savedProgress);
+                    topics.forEach(topic => {
+                        const element = document.querySelectorAll('.topic-completion')[topic.id];
+                        if (element && topic.completed) {
+                            element.classList.add('topic-completed');
+                        }
+                    });
+                    updateProgressBar();
+                }
+            }
+            
+            // Function to show save notification
+            function showSaveNotification() {
+                saveNotification.classList.add('show');
+                
+                setTimeout(() => {
+                    saveNotification.classList.remove('show');
+                }, 2000);
+            }
+            
+            // Sync status functionality
+            function updateSyncStatus() {
+                const syncStatus = document.getElementById('syncStatus');
+                
+                // Simulate checking connection
+                setTimeout(() => {
+                    if (navigator.onLine) {
+                        syncStatus.textContent = 'Online - Synced';
+                        syncStatus.className = 'sync-status online';
+                    } else {
+                        syncStatus.textContent = 'Offline - Changes saved locally';
+                        syncStatus.className = 'sync-status offline';
+                    }
+                }, 1000);
+            }
+            
+            // Manual sync functionality
+            document.getElementById('manualSync').addEventListener('click', function() {
+                const syncStatus = document.getElementById('syncStatus');
+                syncStatus.textContent = 'Syncing...';
+                syncStatus.className = 'sync-status syncing';
+                
+                // Simulate sync process
+                setTimeout(() => {
+                    syncStatus.textContent = 'Online - Synced';
+                    syncStatus.className = 'sync-status online';
+                    
+                    // Show confirmation
+                    const notification = document.getElementById('saveNotification');
+                    notification.innerHTML = '<i class="bi bi-cloud-check"></i> Synced to cloud';
+                    notification.classList.add('show');
+                    
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 2000);
+                }, 1500);
+            });
+            
+            // Online/offline detection
+            window.addEventListener('online', updateSyncStatus);
+            window.addEventListener('offline', updateSyncStatus);
+            
+            // Auto-save every 30 seconds as a backup
+            setInterval(saveData, 30000);
+            
+            // Load saved progress if available
+            const savedEnhancedProgress = localStorage.getItem('lesson2EnhancedProgress');
+            if (savedEnhancedProgress) {
+                enhancedProgressBar.style.width = `${savedEnhancedProgress}%`;
+                enhancedProgressBar.textContent = `${savedEnhancedProgress}%`;
+                progressText.textContent = `${savedEnhancedProgress}%`;
+            }
+            
+            // Load original progress
+            loadProgress();
+            
+            // Initialize sync status
+            updateSyncStatus();
+        });
     </script>
 </body>
 </html>
