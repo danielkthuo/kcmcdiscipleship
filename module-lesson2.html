@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FOUNDATION TO NEW BELIEVERS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="jss/autosave.js"></script>
     <!-- Add Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     
@@ -557,6 +556,7 @@
             margin-bottom: 0.5rem;
         }
         
+        /* Collapsible with scrollable content */
         .collapsible {
             background-color: #f1f1f1;
             color: var(--primary-color);
@@ -574,25 +574,60 @@
             justify-content: space-between;
             align-items: center;
             min-height: 48px; /* Minimum touch target size */
+            transition: background-color 0.3s ease;
+        }
+        
+        .collapsible:hover {
+            background-color: #e1e1e1;
         }
         
         .collapsible:after {
             content: '\002B';
             font-weight: bold;
             float: right;
+            transition: transform 0.3s ease;
         }
         
-        .active:after {
+        .collapsible.active:after {
             content: "\2212";
+            transform: rotate(180deg);
         }
         
         .content {
             padding: 0 15px;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.2s ease-out;
+            transition: max-height 0.3s ease-out;
             background-color: white;
             border-radius: 0 0 8px 8px;
+        }
+        
+        /* Scrollable content when expanded */
+        .content.scrollable {
+            max-height: 400px; /* Set a maximum height for scrollable sections */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding: 15px;
+            border: 1px solid #e1e1e1;
+            border-top: none;
+        }
+        
+        /* Custom scrollbar for content */
+        .content.scrollable::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .content.scrollable::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .content.scrollable::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 4px;
+        }
+        
+        .content.scrollable::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
         }
         
         .bottom-nav {
@@ -905,6 +940,11 @@
                 height: 60px;
                 font-size: 0.9rem;
             }
+            
+            /* Adjust scrollable content height for mobile */
+            .content.scrollable {
+                max-height: 300px;
+            }
         }
         
         @media (min-width: 769px) {
@@ -922,6 +962,11 @@
             
             .bridge-side {
                 width: 48%;
+            }
+            
+            /* Adjust scrollable content height for larger screens */
+            .content.scrollable {
+                max-height: 500px;
             }
         }
         
@@ -976,7 +1021,7 @@
             
             <!-- ACTS Prayer Method Collapsible -->
             <button class="collapsible">ACTS Prayer Method</button>
-            <div class="content">
+            <div class="content scrollable">
                 <div class="topic-section">
                     <h3 class="text-primary fw-bold">ACTS Prayer Method</h3>
                     <p>
@@ -1056,7 +1101,7 @@
 
             <!-- Prayer Hand Illustration Collapsible -->
             <button class="collapsible">✋ Prayer Hand Illustration</button>
-            <div class="content">
+            <div class="content scrollable">
                 <div class="scripture">
                     <p><strong>📖 Colossians 4:2</strong> — "Devote yourselves to prayer, being watchful and thankful."</p>
                 </div>
@@ -1108,7 +1153,7 @@
 
             <!-- Simple Prayer List Collapsible -->
             <button class="collapsible">🗒️ Simple Prayer List</button>
-            <div class="content">
+            <div class="content scrollable">
                 <div class="scripture">
                     <p><strong>📖 Colossians 4:2</strong> — "Devote yourselves to prayer, being watchful and thankful."</p>
                 </div>
@@ -1136,7 +1181,7 @@
 
             <!-- Praying in the Name of Jesus Collapsible -->
             <button class="collapsible">✝️ Praying in the Name of Jesus</button>
-            <div class="content">
+            <div class="content scrollable">
                 <div class="scripture">
                     <p><strong>📖 John 14:13–14</strong> — "And I will do whatever you ask in My name... You may ask Me for anything in My name, and I will do it."</p>
                 </div>
@@ -1177,7 +1222,7 @@
 
             <!-- How to Spend a Day in Prayer Collapsible -->
             <button class="collapsible">🕰️ How to Spend a Day in Prayer</button>
-            <div class="content">
+            <div class="content scrollable">
                 <div class="scripture">
                     <p><strong>📖 Luke 5:16</strong> — "But Jesus often withdrew to lonely places and prayed."</p>
                 </div>
@@ -1240,7 +1285,7 @@
             </div>
             
             <div class="collapsible">Importance of Fellowship</div>
-            <div class="content">
+            <div class="content scrollable">
                 <div class="key-point">
                     <h4>1. We All Grow Together</h4>
                     <p>Just as flowers grow better together in a garden than alone, we can grow in our faith more with others who also love Jesus.</p>
@@ -1337,7 +1382,7 @@
             </div>
             
             <div class="collapsible">Characteristics of Biblical Fellowship</div>
-            <div class="content">
+            <div class="content scrollable">
                 <div class="scripture">
                     <p><strong>John 13:34-35</strong> - "A new commandment I give to you, that you love one another; as I have loved you, that you also love one another. By this all will know that you are My disciples, if you have love for one another."</p>
                 </div>
@@ -1389,7 +1434,7 @@
             </div>
             
             <div class="collapsible">Accountability in Fellowship</div>
-            <div class="content">
+            <div class="content scrollable">
                 <div class="scripture">
                     <p><strong>Galatians 6:1-2</strong> - "Brothers and sisters, if someone is caught in a sin, you who live by the Spirit should restore that person gently. But watch yourselves, or you also may be tempted. Carry each other's burdens, and in this way, you will fulfill the law of Christ."</p>
                 </div>
@@ -1422,7 +1467,7 @@
             </div>
             
             <div class="collapsible">Serving Together</div>
-            <div class="content">
+            <div class="content scrollable">
                 <div class="scripture">
                     <p><strong>1 Peter 4:10 (NKJV)</strong> - "As each one has received a gift, minister it to one another, as good stewards of the manifold grace of God."</p>
                 </div>
@@ -1464,7 +1509,7 @@
             </div>
             
             <div class="collapsible">Group Activity: Fellowship Map</div>
-            <div class="content">
+            <div class="content scrollable">
                 <div class="scripture">
                     <p><strong>Ecclesiastes 4:9-10</strong> - "Two are better than one, because they have a good return for their labor: If either of them falls down, one can help the other up. But pity anyone who falls and has no one to help them up."</p>
                 </div>
@@ -1511,406 +1556,7 @@
             </div>
         </div>
         
-        <!-- Topic 3: Clear Understanding of the Gospel -->
-        <div class="topic" id="topic3">
-            <div class="topic-completion" id="topic3Completion"></div>
-            <h2>Topic 3: Clear Understanding of the Gospel</h2>
-            <p><strong>Objective:</strong> To ensure learners grasp what the Gospel is and how it impacts their daily life.</p>
-            
-            <!-- Bridge Illustration Collapsible -->
-            <button class="collapsible">The Bridge Illustration</button>
-            <div class="content">
-                <div class="gospel-section">
-                    <p>Visual representation of the separation caused by sin and how Jesus bridges the gap between God and humanity.</p>
-                    
-                    <div class="bridge-container">
-                        <div class="bridge-illustration">
-                            <div class="bridge-sides">
-                                <div class="bridge-side god-side">
-                                    <h4>GOD</h4>
-                                    <p><strong>Holy</strong> (1 Peter 1:15-16)</p>
-                                    <p>Perfect, Loving</p>
-                                </div>
-                                <div class="bridge-side man-side">
-                                    <h4>MAN</h4>
-                                    <p><strong>Sin</strong> (Romans 3:23)</p>
-                                    <p>Broken, Lost</p>
-                                </div>
-                            </div>
-                            
-                            <div class="bridge-gap" id="sinGap">
-                                SEPARATION - SIN
-                            </div>
-                            
-                            <div class="bridge-cross">
-                                <div class="cross-vertical"></div>
-                                <div class="cross-horizontal"></div>
-                                <div class="cross-label">JESUS</div>
-                            </div>
-                            
-                            <div class="bridge-steps">
-                                <div class="bridge-step">
-                                    <h5><span>1</span> The Problem</h5>
-                                    <p>Sin creates a large gap between God and us. It separates us from Him.</p>
-                                    <p>We can't close this gap by ourselves, no matter how many good things we do.</p>
-                                    <p><strong>Romans 3:23</strong> - "For all have sinned and fall short of the glory of God."</p>
-                                </div>
-                                
-                                <div class="bridge-step">
-                                    <h5><span>2</span> The Solution</h5>
-                                    <p>The good news is that Jesus' cross forms a bridge over this gap.</p>
-                                    <p><strong>Romans 5:8</strong> - "But God shows His love for us in that while we were still sinners, Christ died for us."</p>
-                                    <p>God's love is so great, He made a way for us through Jesus' sacrifice.</p>
-                                </div>
-                                
-                                <div class="bridge-step">
-                                    <h5><span>3</span> The Way Across</h5>
-                                    <p>To use this bridge, we must have faith.</p>
-                                    <p><strong>John 14:6</strong> - "I am the way and the truth and the life. No one comes to the Father except through me."</p>
-                                    <p>By believing in Him, we can cross over the bridge and have a relationship with God.</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="interactive-element">
-                            <h4>Interactive Bridge Experience</h4>
-                            <p>Tap each element to learn more about the Gospel message:</p>
-                            <div style="display: flex; justify-content: center; gap: 10px; margin: 15px 0;">
-                                <button class="btn btn-gospel" id="showProblem">The Problem</button>
-                                <button class="btn btn-gospel" id="showSolution">The Solution</button>
-                                <button class="btn btn-gospel" id="showWay">The Way</button>
-                            </div>
-                            <div id="gospel-explanation" style="padding: 15px; background: white; border-radius: 5px; min-height: 80px;">
-                                Tap a button to learn more about the Gospel
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Key Gospel Verses Collapsible -->
-            <button class="collapsible">Key Gospel Verses for New Believers</button>
-            <div class="content">
-                <div class="gospel-section">
-                    <div class="gospel-verse-card">
-                        <h4>John 3:16 – The heart of God's love</h4>
-                        <div class="scripture">
-                            <p>"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."</p>
-                        </div>
-                        <div class="key-point">
-                            <p><strong>Note for Learners:</strong> This verse is considered the "heart" of the Gospel because it explains God's immense love for us. God loved humanity so much that He sent Jesus to die for our sins. Believing in Jesus is the only way to receive eternal life and be saved from perishing. This verse emphasizes that salvation is a gift available to everyone, no matter who they are.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="gospel-verse-card">
-                        <h4>Romans 10:9-10 – Belief and confession</h4>
-                        <div class="scripture">
-                            <p>"If you declare with your mouth, 'Jesus is Lord,' and believe in your heart that God raised him from the dead, you will be saved. For it is with your heart that you believe and are justified, and it is with your mouth that you profess your faith and are saved."</p>
-                        </div>
-                        <div class="key-point">
-                            <p><strong>Note for Learners:</strong> Salvation comes through faith in Jesus Christ. These verses highlight the importance of belief in Jesus' death and resurrection, and the confession of Him as Lord. This is the process of salvation: you believe in your heart and declare it with your mouth. It's not just about words—it's about a genuine heart change.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="gospel-verse-card">
-                        <h4>Ephesians 2:8-9 – Salvation is a gift</h4>
-                        <div class="scripture">
-                            <p>"For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God— not by works, so that no one can boast."</p>
-                        </div>
-                        <div class="key-point">
-                            <p><strong>Note for Learners:</strong> This verse teaches that salvation is a gift from God, not something we can earn by being good or doing good works. It's God's grace—His unmerited favor toward us—that saves us. This verse helps us understand that no one can boast about their salvation, because it's not something we deserve or can achieve on our own. It's a pure gift that we receive by faith.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="gospel-verse-card">
-                        <h4>2 Corinthians 5:21 – Jesus became sin for us</h4>
-                        <div class="scripture">
-                            <p>"God made Him who had no sin to be sin for us, so that in Him we might become the righteousness of God."</p>
-                        </div>
-                        <div class="key-point">
-                            <p><strong>Note for Learners:</strong> This verse explains the great exchange that happened at the cross: Jesus, who was sinless, took on the penalty for our sin. Because of His sacrifice, we are made righteous before God. This means that Jesus bore our sins so we could be forgiven and stand before God as clean and righteous. This is one of the foundational truths of Christianity: Jesus died in our place.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="gospel-verse-card">
-                        <h4>Acts 4:12 – Salvation is found in no one else</h4>
-                        <div class="scripture">
-                            <p>"Salvation is found in no one else, for there is no other name under heaven given to mankind by which we must be saved."</p>
-                        </div>
-                        <div class="key-point">
-                            <p><strong>Note for Learners:</strong> This verse clearly states that Jesus is the only way to salvation. There are no other paths to God except through faith in Jesus Christ. This verse is critical because it emphasizes the exclusivity of Christ—there's no other person or religion that can save us. Jesus Himself is the one who bridges the gap between us and God.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Gospel Reflection Questions Collapsible -->
-            <button class="collapsible">Gospel Reflection Questions</button>
-            <div class="content">
-                <div class="reflection">
-                    <p>Why is it important to understand the Gospel clearly?</p>
-                    <textarea placeholder="Share your thoughts..." data-save-key="gospel_reflection1"></textarea>
-                    <div class="auto-save-label">
-                        <span class="save-indicator" id="indicator_gospel_reflection1"></span>
-                        Auto-saved
-                    </div>
-                    
-                    <p>How does the Gospel change the way you see yourself and others?</p>
-                    <textarea placeholder="Share your thoughts..." data-save-key="gospel_reflection2"></textarea>
-                    <div class="auto-save-label">
-                        <span class="save-indicator" id="indicator_gospel_reflection2"></span>
-                        Auto-saved
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Personal Faith Declaration Collapsible -->
-            <button class="collapsible">Personal Faith Declaration Activity</button>
-            <div class="content">
-                <div class="activity">
-                    <p>Write your personal declaration of faith based on the Gospel truths you've learned:</p>
-                    <div class="gospel-section">
-                        <textarea placeholder="I believe that..." data-save-key="faith_declaration" style="width: 100%; min-height: 120px; padding: 15px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit;"></textarea>
-                        <div class="auto-save-label">
-                            <span class="save-indicator" id="indicator_faith_declaration"></span>
-                            Auto-saved
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Topic 4: Wheel Illustration (Spiritual Growth Wheel) -->
-        <div class="topic" id="topic4">
-            <div class="topic-completion" id="topic4Completion"></div>
-            <h2>Topic 4: Wheel Illustration (Spiritual Growth Wheel)</h2>
-            <p><strong>Objective:</strong> To illustrate the balanced Christian life and ongoing spiritual growth.</p>
-            
-            <div class="key-point">
-                <h4>Central Idea</h4>
-                <p>Christ is the center of the believer's life, and the spokes (Word, Prayer, Fellowship, Witnessing) help maintain spiritual balance. The outer rim, Obedience, keeps the wheel rolling smoothly — it represents our response to Christ through consistent living.</p>
-                <p><a href="https://navlink.org/wheel" target="_blank" class="btn" style="margin-top: 10px;">Download Wheel Illustration</a></p>
-            </div>
-            
-            <div class="collapsible">Wheel</div>
-            <div class="content">
-                <div class="interactive-element">
-                    <h4>The Spiritual Growth Wheel</h4>
-                    <div class="wheel-container">
-                        <div class="wheel-illustration">
-                            <!-- Wheel Outer Rim -->
-                            <div class="wheel-rim"></div>
-                            
-                            <!-- Wheel Spokes -->
-                            <div class="wheel-spoke" style="position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background-color: #2c3e50; transform: translateY(-50%);"></div>
-                            <div class="wheel-spoke" style="position: absolute; top: 0; left: 50%; width: 2px; height: 100%; background-color: #2c3e50; transform: translateX(-50%);"></div>
-                            <div class="wheel-spoke" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                                <div style="position: absolute; top: 0; left: 50%; width: 2px; height: 100%; background-color: #2c3e50; transform: translateX(-50%) rotate(45deg);"></div>
-                            </div>
-                            <div class="wheel-spoke" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                                <div style="position: absolute; top: 0; left: 50%; width: 2px; height: 100%; background-color: #2c3e50; transform: translateX(-50%) rotate(-45deg);"></div>
-                            </div>
-                            
-                            <!-- Wheel Hub (Christ) -->
-                            <div class="wheel-hub">CHRIST</div>
-                            
-                            <!-- Spoke Labels -->
-                            <div class="spoke-label" style="position: absolute; top: 10%; left: 50%; transform: translateX(-50%);">Word</div>
-                            <div class="spoke-label" style="position: absolute; top: 50%; right: 5%; transform: translateY(-50%);">Prayer</div>
-                            <div class="spoke-label" style="position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%);">Fellowship</div>
-                            <div class="spoke-label" style="position: absolute; top: 50%; left: 5%; transform: translateY(-50%);">Witnessing</div>
-                            
-                            <!-- Rim Label -->
-                            <div class="rim-label" style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%);">Obedience</div>
-                        </div>
-                    </div>
-                    
-                    <div class="wheel-explanation" style="margin-top: 20px;">
-                        <p><strong>Facilitator Notes:</strong></p>
-                        <ul style="text-align: left; display: inline-block;">
-                            <li>Print and display the Wheel Illustration</li>
-                            <li>Explain each component using scriptures and real-life applications</li>
-                            <li>Emphasize the hub (Christ), spokes (Word, Prayer, Fellowship, Witnessing), and rim (obedience Christian in action)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="collapsible">How You Relate to Yourself: The Center Hub and Outer Rim</div>
-            <div class="content">
-                <div class="wheel-component">
-                    <h4>1. CHRIST (The Hub)</h4>
-                    <p>When Christ is at the center of your life, your identity and purpose change. You no longer live for yourself but for Him. He gives you a new heart and a new way of living.</p>
-                    <div class="scripture">
-                        <p><strong>Galatians 2:20</strong> - "I have been crucified with Christ, and I no longer live, but Christ lives in me..."</p>
-                    </div>
-                    <div class="scripture">
-                        <p><strong>2 Corinthians 5:17</strong> - "Therefore, if anyone is in Christ, the new creation has come..."</p>
-                    </div>
-                    <div class="reflection">
-                        <p><strong>Note for Learners:</strong> When Christ is at the center of your life, your identity and purpose change. You no longer live for yourself but for Him. He gives you a new heart and a new way of living.</p>
-                        <p><strong>Ask yourself:</strong> Is Christ the center of your decisions, relationships, and dreams?</p>
-                        <p><strong>Facilitator Tip:</strong> Help learners reflect on practical ways to keep Jesus central — daily devotion, obedience, and trusting Him in every part of life.</p>
-                    </div>
-                </div>
-                
-                <div class="wheel-component">
-                    <h4>2. THE OBEDIENT CHRISTIAN IN ACTION (The Rim)</h4>
-                    <p>Some acts of obedience to God are internal, like our attitudes, thoughts, habits, and motives. These show our love for God and help shape who we are on the inside.</p>
-                    <p>But what's inside us eventually shows on the outside in the way we treat others, speak, and live every day. True obedience is not just about doing the right things it's about having a heart that wants to please God.</p>
-                    <div class="scripture">
-                        <p><strong>John 14:21 (NKJV)</strong> - "He who has My commandments and keeps them, it is he who loves Me. And he who loves Me will be loved by My Father, and I will love him and manifest Myself to him."</p>
-                    </div>
-                    <div class="scripture">
-                        <p><strong>Romans 12:1 (NKJV)</strong> - "I beseech you therefore, brethren, by the mercies of God, that you present your bodies a living sacrifice, holy, acceptable to God, which is your reasonable service."</p>
-                    </div>
-                    <div class="reflection">
-                        <p><strong>Note for Learners:</strong> Obedience is the outer rim that keeps the wheel moving forward. Without obedience, all the other spokes become weak. Obedience shows that your faith is real.</p>
-                        <p><strong>Start obeying in the small things:</strong> honesty, kindness, forgiving others.</p>
-                        <p><strong>Facilitator Tip:</strong> Share testimonies of simple obedience and its fruit. Emphasize that obedience brings peace, joy, and spiritual momentum.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="collapsible">How You Relate to God: The Vertical Spokes</div>
-            <div class="content">
-                <div class="wheel-component">
-                    <h4>1. The Word (Bible)</h4>
-                    <p>The Bible is God's voice to you. It guides your life, strengthens your faith, and corrects your path. The more you read and apply it, the more you grow.</p>
-                    <p>God uses His word to speak directly to us, revealing not only who He is, but how He calls us to live and interact with everyone around us. Personal intake of God's Word is essential for our spiritual health and growth.</p>
-                    <div class="scripture">
-                        <p><strong>Joshua 1:8</strong> - "Keep this Book of the Law always on your lips; meditate on it day and night..."</p>
-                    </div>
-                    <div class="scripture">
-                        <p><strong>2 Timothy 3:16</strong> - "All Scripture is God-breathed and is useful for teaching, rebuking, correcting and training in righteousness..."</p>
-                    </div>
-                    <div class="reflection">
-                        <p><strong>Note for Learners:</strong> The Bible is God's voice to you. It guides your life, strengthens your faith, and corrects your path. The more you read and apply it, the more you grow.</p>
-                        <p><strong>Start small:</strong> a verse a day with reflection. Don't rush, let it sink in.</p>
-                        <p><strong>Facilitator Tip:</strong> Encourage the use of reading plans or simple Bible tools. Demonstrate how to journal or highlight key lessons from Scripture.</p>
-                    </div>
-                </div>
-                
-                <div class="wheel-component">
-                    <h4>2. Prayer</h4>
-                    <p>Prayer is talking to God—anytime, anywhere. It's how we express our heart to Him, ask for help, and listen for His guidance.</p>
-                    <p>Prayer not only trains our hearts and minds to know the power and glory of God, but also turns His ear towards action in our lives.</p>
-                    <div class="scripture">
-                        <p><strong>Philippians 4:6-7</strong> - "Do not be anxious about anything, but in every situation, by prayer... present your requests to God..."</p>
-                    </div>
-                    <div class="scripture">
-                        <p><strong>1 Thessalonians 5:17</strong> - "Pray without ceasing."</p>
-                    </div>
-                    <div class="reflection">
-                        <p><strong>Note for Learners:</strong> Prayer is talking to God—anytime, anywhere. It's how we express our heart to Him, ask for help, and listen for His guidance.</p>
-                        <p><strong>Remember:</strong> God isn't looking for perfect words. Just honesty and consistency.</p>
-                        <p><strong>Facilitator Tip:</strong> Introduce the ACTS method (Adoration, Confession, Thanksgiving, Supplication). Practice short group prayers to build confidence.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="collapsible">How You Relate to Others: The Horizontal Spokes</div>
-            <div class="content">
-                <div class="wheel-component">
-                    <h4>1. Fellowship</h4>
-                    <p>God made us to grow together, not alone. The Christian life was not meant to be lived in isolation. God wants us to build each other up, love each other, and make each other strong in our faith.</p>
-                    <p>Every time we gather together — for church, small groups, or discipleship classes — we experience God's presence in a unique way and actively encourage one another through prayer, support, and worship.</p>
-                    <div class="scripture">
-                        <p><strong>Hebrews 10:24-25</strong> - "Let us not give up meeting together... but encourage one another..."</p>
-                    </div>
-                    <div class="scripture">
-                        <p><strong>Acts 2:42</strong> - "They devoted themselves to the apostles' teaching and to fellowship..."</p>
-                    </div>
-                    <div class="reflection">
-                        <p><strong>Note for Learners:</strong> Fellowship helps us grow together, not just alone. We encourage, correct, and carry each other in faith. Christianity is not a solo walk—it's a family journey.</p>
-                        <p><strong>Next step:</strong> Plug into a church group or Bible study. Find spiritual friends.</p>
-                        <p><strong>Facilitator Tip:</strong> Encourage group sharing. Plan fun and spiritual bonding activities like service projects, games, or prayer partners.</p>
-                    </div>
-                </div>
-                
-                <div class="wheel-component">
-                    <h4>2. Witnessing</h4>
-                    <p>God has placed the privilege and duty upon believers to proclaim to the world about the good news of Christ's work on Earth (Matthew 4:19). Furthermore, it is the natural overflow of a rich and meaningful life in Christ to be sharing about His magnificent grace (Romans 1:16).</p>
-                    <div class="scripture">
-                        <p><strong>Matthew 28:19-20</strong> - "Go and make disciples of all nations..."</p>
-                    </div>
-                    <div class="scripture">
-                        <p><strong>Romans 1:16</strong> - "I am not ashamed of the gospel, because it is the power of God that brings salvation..."</p>
-                    </div>
-                    <div class="reflection">
-                        <p><strong>Note for Learners:</strong> Witnessing is simply sharing your faith — what Jesus has done for you. It's about being light to others through words and actions.</p>
-                        <p><strong>Remember:</strong> You don't need to preach. Just share your story and God's love.</p>
-                        <p><strong>Facilitator Tip:</strong> Practice a short testimony with learners. Teach simple evangelism tools (e.g., The Bridge illustration or Romans Road, Evangecube).</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="collapsible">Summary</div>
-            <div class="content">
-                <div class="wheel-summary">
-                    <h4>Summary for Learners</h4>
-                    <p>The Wheel Illustration teaches that a balanced spiritual life keeps you growing strong in Jesus. If one spoke is weak, your spiritual growth is affected.</p>
-                    <p>Let Christ be the center, and keep the wheel turning through the Word, prayer, fellowship, witnessing, and obedience.</p>
-                </div>
-            </div>
-            
-            <div class="collapsible">Self-Assessment</div>
-            <div class="content">
-                <div class="activity">
-                    <h4>Activity: Self-Assessment and Wheel Labeling</h4>
-                    <p>Complete the following activities to apply the Wheel Illustration to your spiritual life:</p>
-                    
-                    <div class="interactive-element">
-                        <h5>Spiritual Growth Self-Assessment</h5>
-                        <p>Rate each component of your spiritual life (1 = Needs Improvement, 5 = Very Strong):</p>
-                        
-                        <div class="assessment-item">
-                            <label>Christ as Center: <span id="christValue">3</span></label>
-                            <input type="range" min="1" max="5" value="3" class="slider" id="christSlider">
-                        </div>
-                        
-                        <div class="assessment-item">
-                            <label>Obedience: <span id="obedienceValue">3</span></label>
-                            <input type="range" min="1" max="5" value="3" class="slider" id="obedienceSlider">
-                        </div>
-                        
-                        <div class="assessment-item">
-                            <label>Word (Bible): <span id="wordValue">3</span></label>
-                            <input type="range" min="1" max="5" value="3" class="slider" id="wordSlider">
-                        </div>
-                        
-                        <div class="assessment-item">
-                            <label>Prayer: <span id="prayerValue">3</span></label>
-                            <input type="range" min="1" max="5" value="3" class="slider" id="prayerSlider">
-                        </div>
-                        
-                        <div class="assessment-item">
-                            <label>Fellowship: <span id="fellowshipValue">3</span></label>
-                            <input type="range" min="1" max="5" value="3" class="slider" id="fellowshipSlider">
-                        </div>
-                        
-                        <div class="assessment-item">
-                            <label>Witnessing: <span id="witnessingValue">3</span></label>
-                            <input type="range" min="1" max="5" value="3" class="slider" id="witnessingSlider">
-                        </div>
-                        
-                        <button class="btn" id="updateWheel" style="margin-top: 15px;">Update My Spiritual Wheel</button>
-                    </div>
-                    
-                    <div class="interactive-element">
-                        <h5>Label the Wheel</h5>
-                        <p>Draw or print a blank wheel and label each component based on what you've learned:</p>
-                        <div style="display: flex; justify-content: center; margin: 15px 0;">
-                            <div style="width: 200px; height: 200px; border: 2px dashed #ccc; border-radius: 50%; position: relative; display: flex; align-items: center; justify-content: center;">
-                                <span style="color: #999;">Draw your wheel here</span>
-                            </div>
-                        </div>
-                        <p><strong>Reflection Question:</strong> Which spoke do you need to strengthen in your spiritual life?</p>
-                        <textarea placeholder="Share your thoughts..." style="width: 100%; min-height: 80px; margin-top: 10px;"></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Additional topics would follow the same pattern with scrollable content -->
         
         <div class="lesson-nav">
             <a href="module-lesson1.html" class="btn btn-outline">Previous Lesson</a>
@@ -1964,7 +1610,7 @@
                 });
             });
             
-            // Collapsible sections
+            // Collapsible sections with scrollable content
             const coll = document.getElementsByClassName("collapsible");
             for (let i = 0; i < coll.length; i++) {
                 coll[i].addEventListener("click", function() {
