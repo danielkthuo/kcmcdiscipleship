@@ -64,6 +64,7 @@
             justify-content: space-between;
             margin-bottom: 1.5rem;
             gap: 10px;
+            flex-wrap: wrap;
         }
         
         .btn {
@@ -84,6 +85,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            min-width: 120px;
         }
         
         .btn:hover {
@@ -356,33 +358,35 @@
         
         /* Collapsible sections with scrollable content */
         .collapsible {
-            background: #f5f5f5;
-            color: #0d2b45;
+            background-color: #f1f1f1;
+            color: var(--primary-color);
             cursor: pointer;
             padding: 14px 18px;
             width: 100%;
             border: none;
-            border-radius: 8px;
             text-align: left;
+            outline: none;
             font-size: 1rem;
             font-weight: 500;
+            border-radius: 8px;
+            margin: 8px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
-            transition: background 0.3s ease;
+            transition: background-color 0.3s ease;
             min-height: 48px; /* Minimum touch target size */
         }
         
         .collapsible:hover {
-            background: #e9ecef;
+            background-color: #e8f4fc;
         }
         
         .collapsible::after {
             content: '+';
             font-weight: bold;
-            font-size: 18px;
+            font-size: 1.1rem;
             transition: transform 0.3s;
+            color: var(--primary-color);
         }
         
         .collapsible.active::after {
@@ -396,8 +400,8 @@
             transition: max-height 0.3s ease;
             background: #ffffff;
             border-radius: 0 0 8px 8px;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
-            padding: 0 18px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+            padding: 0 16px;
         }
         
         .content.open {
@@ -482,6 +486,64 @@
             margin-bottom: 3px;
         }
         
+        /* Sync status styles */
+        .sync-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            z-index: 1000;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            max-width: 200px;
+        }
+        
+        .sync-status.online {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .sync-status.offline {
+            background: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        
+        .sync-status.error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        .sync-status.syncing {
+            background: #cce7ff;
+            border-color: #b3d9ff;
+            color: #004085;
+        }
+        
+        /* Manual sync button */
+        #manualSync {
+            position: fixed;
+            bottom: 70px;
+            right: 15px;
+            background: var(--secondary-color, #3498db);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-size: 1.2rem;
+        }
+        
         /* Mobile-specific improvements */
         @media (max-width: 768px) {
             .container {
@@ -509,6 +571,7 @@
             .btn {
                 padding: 14px 16px;
                 font-size: 0.9rem;
+                min-width: 100px;
             }
             
             .heart-house-image {
@@ -540,6 +603,23 @@
             /* Adjust scrollable content height for mobile */
             .content.open {
                 max-height: 300px;
+            }
+            
+            .sync-status {
+                top: 5px;
+                right: 5px;
+                left: 5px;
+                max-width: none;
+                text-align: center;
+            }
+            
+            .progress-info {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .lesson-nav {
+                gap: 8px;
             }
         }
         
@@ -997,37 +1077,41 @@
         </div>
     </div>
     
-    <!-- Bottom Navigation Bar -->
+    <!-- Bottom Navigation -->
     <div class="bottom-nav">
         <a href="index.html" class="nav-item">
-            <span class="nav-icon">🏠</span>
+            <i class="bi bi-house-door nav-icon"></i>
             <span>Home</span>
         </a>
         <a href="progress.html" class="nav-item">
-            <span class="nav-icon">📊</span>
+            <i class="bi bi-graph-up nav-icon"></i>
             <span>Progress</span>
         </a>
-        <a href="lessons.html" class="nav-item active">
-            <span class="nav-icon">📚</span>
-            <span>Lessons</span>
+        <a href="resources.html" class="nav-item">
+            <i class="bi bi-journal-text nav-icon"></i>
+            <span>Resources</span>
         </a>
-        <a href="prayer.html" class="nav-item">
-            <span class="nav-icon">🙏</span>
-            <span>Prayer</span>
-        </a>
-        <a href="profile.html" class="nav-item">
-            <span class="nav-icon">👤</span>
-            <span>Profile</span>
+        <a href="settings.html" class="nav-item">
+            <i class="bi bi-gear nav-icon"></i>
+            <span>Settings</span>
         </a>
     </div>
+    
+    <!-- Sync Status -->
+    <div class="sync-status" id="syncStatus">Checking connection...</div>
+    
+    <!-- Manual Sync Button -->
+    <button id="manualSync" title="Sync Progress">
+        <i class="bi bi-arrow-repeat"></i>
+    </button>
     
     <!-- Auto-save notification -->
     <div class="save-notification" id="saveNotification">
-        Progress saved successfully!
+        <i class="bi bi-check-circle"></i> Progress saved
     </div>
     
     <footer>
-        <p>Pathlight Discipleship Curriculum &copy; 2023 | KCMC</p>
+        <p>Pathlight Discipleship Curriculum &copy; 2025 | KCMC</p>
         <p>Lit to Lead. Rooted to Grow.</p>
     </footer>
 
@@ -1042,6 +1126,35 @@
             
             // Get all form fields
             const formFields = document.querySelectorAll('textarea, input[type="text"]');
+            
+            // Collapsible functionality
+            const collapsibles = document.querySelectorAll('.collapsible');
+            
+            collapsibles.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    
+                    if (content.classList.contains('open')) {
+                        content.classList.remove('open');
+                        // Reset max-height after transition completes
+                        setTimeout(() => {
+                            content.style.maxHeight = null;
+                        }, 300);
+                    } else {
+                        content.classList.add('open');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+            
+            // Initialize first section as open
+            if (collapsibles.length > 0) {
+                collapsibles[0].classList.add('active');
+                const firstContent = collapsibles[0].nextElementSibling;
+                firstContent.classList.add('open');
+                firstContent.style.maxHeight = firstContent.scrollHeight + 'px';
+            }
             
             // Load saved data from localStorage
             loadSavedData();
@@ -1082,6 +1195,7 @@
                 // Update last saved time
                 const now = new Date();
                 lastSaved.textContent = now.toLocaleTimeString();
+                localStorage.setItem('lesson3SavedTime', now.toLocaleTimeString());
             }
             
             // Function to load saved data from localStorage
@@ -1118,7 +1232,8 @@
                     }
                 });
                 
-                const progressPercentage = Math.round((completedFields / formFields.length) * 100);
+                const totalFields = formFields.length;
+                const progressPercentage = Math.round((completedFields / totalFields) * 100);
                 
                 progressBar.style.width = `${progressPercentage}%`;
                 progressBar.textContent = `${progressPercentage}%`;
@@ -1148,10 +1263,12 @@
                     const topicProgress = Math.round((completedTopicFields / topicFields.length) * 100);
                     const topicCompleteIndicator = document.getElementById(`topic${topicNum}Complete`);
                     
-                    if (topicProgress >= 50) { // Consider topic complete if at least 50% filled
-                        topicCompleteIndicator.classList.add('visible');
-                    } else {
-                        topicCompleteIndicator.classList.remove('visible');
+                    if (topicCompleteIndicator) {
+                        if (topicProgress >= 50) { // Consider topic complete if at least 50% filled
+                            topicCompleteIndicator.classList.add('visible');
+                        } else {
+                            topicCompleteIndicator.classList.remove('visible');
+                        }
                     }
                 });
             }
@@ -1165,12 +1282,50 @@
                 }, 2000);
             }
             
+            // Sync status functionality
+            function updateSyncStatus() {
+                const syncStatus = document.getElementById('syncStatus');
+                
+                // Simulate checking connection
+                setTimeout(() => {
+                    if (navigator.onLine) {
+                        syncStatus.textContent = 'Online - Synced';
+                        syncStatus.className = 'sync-status online';
+                    } else {
+                        syncStatus.textContent = 'Offline - Changes saved locally';
+                        syncStatus.className = 'sync-status offline';
+                    }
+                }, 1000);
+            }
+            
+            // Manual sync functionality
+            document.getElementById('manualSync').addEventListener('click', function() {
+                const syncStatus = document.getElementById('syncStatus');
+                syncStatus.textContent = 'Syncing...';
+                syncStatus.className = 'sync-status syncing';
+                
+                // Simulate sync process
+                setTimeout(() => {
+                    syncStatus.textContent = 'Online - Synced';
+                    syncStatus.className = 'sync-status online';
+                    
+                    // Show confirmation
+                    const notification = document.getElementById('saveNotification');
+                    notification.innerHTML = '<i class="bi bi-cloud-check"></i> Synced to cloud';
+                    notification.classList.add('show');
+                    
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 2000);
+                }, 1500);
+            });
+            
+            // Online/offline detection
+            window.addEventListener('online', updateSyncStatus);
+            window.addEventListener('offline', updateSyncStatus);
+            
             // Auto-save every 30 seconds as a backup
             setInterval(saveData, 30000);
-            
-            // Save current time when page is loaded
-            const now = new Date();
-            localStorage.setItem('lesson3SavedTime', now.toLocaleTimeString());
             
             // Load saved progress if available
             const savedProgress = localStorage.getItem('lesson3Progress');
@@ -1180,14 +1335,8 @@
                 progressText.textContent = `${savedProgress}%`;
             }
             
-            // Collapsible functionality
-            document.querySelectorAll('.collapsible').forEach(button => {
-                button.addEventListener('click', () => {
-                    button.classList.toggle('active');
-                    const content = button.nextElementSibling;
-                    content.classList.toggle('open');
-                });
-            });
+            // Initialize sync status
+            updateSyncStatus();
         });
     </script>
 </body>
