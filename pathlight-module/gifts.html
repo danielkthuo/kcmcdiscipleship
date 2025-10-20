@@ -11,9 +11,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="KCM Church">
-    <meta name="description" content="Discipleship Tool for Kingdom Covenant Ministries Church">
+    <meta name="description" content="Discipleship Tool for Kingdom Covenant Ministries">
     <meta name="keywords" content="church, discipleship, christian, ministry">
-    <meta name="author" content="Kingdom Covenant Ministries Church">
+    <meta name="author" content="Kingdom Covenant Ministries">
 
     <!-- Apple Touch Icons -->
     <link rel="apple-touch-icon" href="icons/icon-152x152.png">
@@ -598,39 +598,48 @@
         }
         
         /* Sync status styles */
-  .sync-status {
-                        position: fixed;
-                        top: 10px;
-                        right: 10px;
-                        background: rgba(255,255,255,0.9);
-                        padding: 5px 10px;
-                        border-radius: 20px;
-                        font-size: 0.8rem;
-                        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                        z-index: 1000;
-                        display: flex;
-                        align-items: center;
-                        gap: 5px;
-                        transition: all 0.3s ease;
-                    }
-                    .sync-status.syncing {
-                        color: #f39c12;
-                    }
-                    .sync-status.synced {
-                        color: #2ecc71;
-                    }
-                    .sync-status.error {
-                        color: #e74c3c;
-                    }
-                    @media (max-width: 768px) {
-                        .sync-status {
-                            top: 5px;
-                            right: 5px;
-                            font-size: 0.75rem;
-                            padding: 4px 8px;
-                        }
-                    }
-                
+ .sync-status {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.95);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+        }
+        
+        .sync-status.online {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .sync-status.offline {
+            background: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        
+        .sync-status.error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        .sync-status.syncing {
+            background: #cce7ff;
+            border-color: #b3d9ff;
+            color: #004085;
+        }
+        
         /* Manual sync button */
         #manualSync {
             position: fixed;
