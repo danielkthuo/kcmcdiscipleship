@@ -1,1126 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progress Dashboard - Pathlight Curriculum</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --success-color: #2ecc71;
-            --warning-color: #f39c12;
-            --light-color: #ecf0f1;
-            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: var(--font-main);
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 15px;
-        }
-        
-        header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 1.5rem 1rem;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            position: relative;
-        }
-        
-        .header-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-        
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .tagline {
-            font-style: italic;
-            margin-bottom: 1rem;
-            font-size: 1rem;
-        }
-        
-        .header-content p {
-            font-size: 0.9rem;
-        }
-        
-        /* WhatsApp Button Styles */
-        .whatsapp-btn-container {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-        }
-        
-        .whatsapp-btn {
-            background-color: #25d366;
-            color: #fff !important;
-            border: none;
-            border-radius: 20px;
-            padding: 8px 15px;
-            font-size: 0.8rem;
-            text-decoration: none;
-            transition: background 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            white-space: nowrap;
-        }
-        
-        .whatsapp-btn:hover {
-            background-color: #1ebe5b;
-            color: #fff;
-        }
-        
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px 15px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        
-        .stat-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-        
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            color: #666;
-            font-size: 0.8rem;
-        }
-        
-        .progress-section {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-        
-        .section-title {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--light-color);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .section-title h2 {
-            font-size: 1.4rem;
-            margin: 0;
-        }
-        
-        .module-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 12px;
-            border-left: 4px solid var(--secondary-color);
-            transition: all 0.3s ease;
-        }
-        
-        .module-card.completed {
-            border-left-color: var(--success-color);
-            background: #f0f9f0;
-        }
-        
-        .module-card.in-progress {
-            border-left-color: var(--warning-color);
-            background: #fff9e6;
-        }
-        
-        .module-card:hover {
-            transform: translateX(5px);
-        }
-        
-        .module-header {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-        
-        .module-title {
-            font-weight: 600;
-            color: var(--primary-color);
-            font-size: 1.1rem;
-            line-height: 1.3;
-        }
-        
-        .module-progress {
-            font-weight: bold;
-            color: var(--secondary-color);
-            font-size: 1rem;
-        }
-        
-        .module-progress.completed {
-            color: var(--success-color);
-        }
-        
-        .progress-bar-container {
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-            border-radius: 5px;
-            transition: width 0.5s ease;
-        }
-        
-        .progress-bar.completed {
-            background: linear-gradient(90deg, var(--success-color), #27ae60);
-        }
-        
-        .module-details {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            font-size: 0.85rem;
-            color: #666;
-        }
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 12px 18px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 0.9rem;
-            min-height: 44px; /* Minimum touch target size */
-            text-align: center;
-            gap: 5px;
-        }
-        
-        .btn:hover {
-            background-color: var(--primary-color);
-        }
-        
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--secondary-color);
-            color: var(--secondary-color);
-        }
-        
-        .btn-outline:hover {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-        
-        .btn-success {
-            background-color: var(--success-color);
-        }
-        
-        .btn-success:hover {
-            background-color: #27ae60;
-        }
-        
-        .btn-danger {
-            background-color: var(--accent-color);
-        }
-        
-        .btn-danger:hover {
-            background-color: #c0392b;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 30px 15px;
-            color: #666;
-        }
-        
-        .empty-state i {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: #ddd;
-        }
-        
-        .achievement-badge {
-            display: inline-flex;
-            align-items: center;
-            background: #e8f4fc;
-            border-radius: 20px;
-            padding: 8px 12px;
-            margin: 5px;
-            font-size: 0.8rem;
-            width: 100%;
-            max-width: 300px;
-        }
-        
-        .achievement-badge.unlocked {
-            background: #e8f6f3;
-            border: 2px solid var(--success-color);
-        }
-        
-        .badge-icon {
-            margin-right: 8px;
-            color: var(--secondary-color);
-            font-size: 1rem;
-        }
-        
-        .achievement-badge.unlocked .badge-icon {
-            color: var(--success-color);
-        }
-        
-        .lesson-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 25px;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 12px;
-            font-size: 0.9rem;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discipleship Dashboard</title>
 
-        /* Sync status indicator */
-        .sync-status {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            background: rgba(255,255,255,0.95);
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-align: center;
-        }
-        
-        .sync-status.syncing {
-            color: #f39c12;
-        }
-        
-        .sync-status.synced {
-            color: var(--success-color);
-        }
-        
-        .sync-status.error {
-            color: var(--accent-color);
-        }
-        
-        /* Mobile-specific improvements */
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            header {
-                padding: 1.2rem 1rem;
-                margin-bottom: 1.2rem;
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-            }
-            
-            .tagline {
-                font-size: 0.9rem;
-            }
-            
-            .header-content p {
-                font-size: 0.8rem;
-            }
-            
-            .whatsapp-btn-container {
-                position: static;
-                text-align: center;
-                margin-top: 10px;
-            }
-            
-            .whatsapp-btn {
-                display: inline-flex;
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
-            
-            .stats-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-            
-            .stat-card {
-                padding: 15px 10px;
-            }
-            
-            .stat-icon {
-                font-size: 1.8rem;
-            }
-            
-            .stat-value {
-                font-size: 1.5rem;
-            }
-            
-            .progress-section {
-                padding: 15px;
-            }
-            
-            .section-title {
-                flex-direction: column;
-            }
-            
-            .module-card {
-                padding: 12px;
-            }
-            
-            .module-title {
-                font-size: 1rem;
-            }
-            
-            .btn {
-                padding: 14px 16px;
-                font-size: 0.9rem;
-            }
-            
-            .achievement-badge {
-                max-width: 100%;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .stats-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .stat-card {
-                padding: 15px;
-            }
-            
-            h1 {
-                font-size: 1.3rem;
-            }
-            
-            .section-title h2 {
-                font-size: 1.2rem;
-            }
-            
-            .module-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .module-progress {
-                margin-top: 5px;
-            }
-            
-            .module-details {
-                flex-direction: column;
-                gap: 8px;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-        
-        @media (min-width: 769px) {
-            .section-title {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-            
-            .module-header {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-            
-            .module-details {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-            
-            .lesson-nav {
-                flex-direction: row;
-                justify-content: space-between;
-            }
-            
-            .achievement-badge {
-                width: auto;
-            }
-        }
-        
-        /* Prevent horizontal scrolling */
-        html, body {
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-        
-        /* Improve touch interactions */
-        button, .btn, .nav-item {
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-        
-        /* Improve text readability on mobile */
-        p, li, td, th {
-            font-size: 16px;
-            line-height: 1.5;
-        }
-    </style>
+<!-- Font & Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+:root {
+  --primary-color: #2ecc71;
+  --text-color: #fff;
+  --bg-color: #0a0a0a;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Light mode colors */
+@media (prefers-color-scheme: light) {
+  :root {
+    --primary-color: #27ae60;
+    --text-color: #1c1c1c;
+    --bg-color: #f3f4f6;
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --border-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Fullscreen layout */
+body {
+  background: linear-gradient(135deg, var(--bg-color), #1c1c1c);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* Dashboard container */
+.dashboard {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+/* Title */
+.dashboard h1 {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  color: var(--primary-color);
+  letter-spacing: 1px;
+}
+
+/* Module cards */
+.module-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, background 0.3s ease;
+  width: 100%;
+}
+
+.module-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-4px);
+}
+
+/* Icons & titles */
+.module-card i {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.module-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.module-card p {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin-bottom: 15px;
+}
+
+/* Buttons */
+.module-card a {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 8px;
+  color: var(--text-color);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.module-card a:hover {
+  background: var(--primary-color);
+  color: #000;
+}
+
+/* Logout button (top right) */
+.logout-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.034);
+  border: 1px solid var(--border-color);
+  color: var(--primary-color);
+  font-size: 15px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  color: #ff4d4d;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* WhatsApp Floating Button */
+.whatsapp-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25D366;
+  color: white;
+  font-size: 26px;
+  padding: 16px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 999;
+}
+
+.whatsapp-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+}
+
+/* Tooltip label (Ask Questions) */
+.whatsapp-btn::after {
+  content: "Ask Questions";
+  position: absolute;
+  right: 70px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.whatsapp-btn:hover::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+</style>
 </head>
-<body>
-    <!-- Sync Status Indicator -->
-    <div class="sync-status" id="syncStatus">
-        <span id="syncText">Checking sync...</span>
-        <i class="bi bi-arrow-repeat" id="syncIcon"></i>
-    </div>
-    
-    <header>
-        <div class="header-content">
-            <h1>Progress Dashboard</h1>
-            <p class="tagline">Track your discipleship journey</p>
-            <p>See how far you've come and what's next in your Pathlight journey</p>
-            
-            <!-- WhatsApp Button -->
-            <div class="whatsapp-btn-container">
-                <a class="whatsapp-btn" href="https://wa.me/254789398881" target="_blank">
-                    <i class="bi bi-whatsapp"></i>
-                    Ask Questions
-                </a>
-            </div>
-        </div>
-    </header>
-    
-    <div class="container">
-        <!-- Overall Statistics -->
-        <div class="stats-container">
-            <div class="stat-card">
-                <div class="stat-icon" style="color: var(--secondary-color);">📚</div>
-                <div class="stat-value" id="totalModules">0</div>
-                <div class="stat-label">Total Modules</div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon" style="color: var(--success-color);">✅</div>
-                <div class="stat-value" id="completedModules">0</div>
-                <div class="stat-label">Completed Modules</div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon" style="color: var(--warning-color);">⏱️</div>
-                <div class="stat-value" id="inProgressModules">0</div>
-                <div class="stat-label">In Progress</div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon" style="color: var(--primary-color);">📊</div>
-                <div class="stat-value" id="overallProgress">0%</div>
-                <div class="stat-label">Overall Progress</div>
-            </div>
-        </div>
-        
-        <!-- Current Progress Section -->
-        <div class="progress-section">
-            <div class="section-title">
-                <h2>Your Learning Journey</h2>
-                <span id="lastUpdated">Last updated: Just now</span>
-            </div>
-            
-            <div id="modulesContainer">
-                <!-- Modules will be dynamically inserted here -->
-            </div>
-            
-            <div id="emptyState" class="empty-state" style="display: none;">
-                <i class="bi bi-journal-text"></i>
-                <h3>No progress yet</h3>
-                <p>Start your discipleship journey by exploring the modules</p>
-                <a href="index.html" class="btn" style="margin-top: 15px;">Browse Modules</a>
-            </div>
-        </div>
-        
-        <!-- Achievements Section -->
-        <div class="progress-section">
-            <div class="section-title">
-                <h2>Achievements & Milestones</h2>
-            </div>
-            
-            <div id="achievementsContainer" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-                <!-- Achievements will be dynamically inserted here -->
-            </div>
-            
-            <div id="noAchievements" class="empty-state">
-                <i class="bi bi-trophy"></i>
-                <h3>No achievements yet</h3>
-                <p>Complete modules to unlock achievements</p>
-            </div>
-        </div>
-        
-        <!-- Recommendations Section -->
-        <div class="progress-section">
-            <div class="section-title">
-                <h2>Recommended Next Steps</h2>
-            </div>
-            
-            <div id="recommendationsContainer">
-                <!-- Recommendations will be dynamically inserted here -->
-            </div>
-        </div>
-        
-        <div class="lesson-nav">
-            <button id="logoutBtn" class="btn btn-danger">
-                <i class="bi bi-box-arrow-right"></i>
-                Logout
-            </button>
-            <button class="btn" id="exportProgress">
-                <i class="bi bi-download"></i>
-                Export Progress
-            </button>
-            <button class="btn btn-success" id="refreshProgress">
-                <i class="bi bi-arrow-clockwise"></i>
-                Refresh
-            </button>
-            <button class="btn" id="syncProgress">
-                <i class="bi bi-cloud-arrow-up"></i>
-                Sync
-            </button>
-        </div>
-    </div>
-    
-    <footer>
-        <p>Pathlight Discipleship Curriculum &copy; 2023 | KCMC</p>
-        <p>Lit to Lead. Rooted to Grow.</p>
-    </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Module definitions
-            const modules = [
-                {
-                    id: 'lesson1',
-                    title: 'Lesson 1: Foundation to New Believers',
-                    description: 'Understanding the foundational truths of Christianity',
-                    topics: ['The Five Assurances', 'Clear Understanding of the Gospel', 'Wheel Illustration', 'How to Read the Bible Together'],
-                    link: 'module-lesson1.html'
-                },
-                {
-                    id: 'lesson2',
-                    title: 'Lesson 2: Prayer and Fellowship',
-                    description: 'Developing a strong prayer life and Christian fellowship',
-                    topics: ['Prayer - ACTS Method & Prayer Hand', 'Fellowship - Importance & Characteristics'],
-                    link: 'module-lesson2.html'
-                },
-                {
-                    id: 'lesson3',
-                    title: 'Lesson 3: Lordship',
-                    description: 'Making Jesus Lord of your life',
-                    topics: ['Cost of Discipleship', 'Submission - Areas of Struggle', 'My Heart, Christ\'s Home'],
-                    link: 'module-lesson3.html'
-                },
-                {
-                    id: 'lesson4',
-                    title: 'Lesson 4: Doctrine',
-                    description: 'Essential Christian teachings for a solid theological foundation',
-                    topics: ['The Doctrine of Jesus (Christology)', 'The Doctrine of Holy Spirit (Pneumatology)', 'The Doctrine of Baptism', 'The Doctrine of Identity in Christ'],
-                    link: 'module-lesson4.html'
-                },
-                {
-                    id: 'lesson5',
-                    title: 'Lesson 5: Witnessing and Spiritual Warfare',
-                    description: 'Sharing your faith and engaging in spiritual warfare',
-                    topics: ['The Call to Witness', 'Gifting', 'Spiritual Warfare'],
-                    link: 'module-lesson5.html'
-                },
-                {
-                    id: 'lesson6',
-                    title: 'Lesson 6: Spiritual Gifts',
-                    description: 'Discovering and using your spiritual gifts',
-                    topics: ['Spiritual Gifts Survey'],
-                    link: 'gifts.html'
-                }
-            ];
-            
-            // Initialize dashboard
-            updateDashboard();
-            
-            // Set up auto-refresh every 30 seconds
-            setInterval(updateDashboard, 30000);
-            
-            // Export progress functionality
-            document.getElementById('exportProgress').addEventListener('click', function(e) {
-                e.preventDefault();
-                exportProgress();
-            });
-            
-            // Refresh progress manually
-            document.getElementById('refreshProgress').addEventListener('click', function() {
-                updateDashboard();
-                showNotification('Progress refreshed!', 'success');
-            });
-            
-            // Sync progress functionality
-            document.getElementById('syncProgress').addEventListener('click', function() {
-                syncProgress();
-            });
-            
-            // Logout functionality
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                // Clear stored login data
-                localStorage.clear();
-                sessionStorage.clear();
-                
-                // Show notification
-                showNotification('Logged out successfully!', 'success');
-                
-                // Redirect to login page after a brief delay
-                setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 1000);
-            });
-            
-            function updateDashboard() {
-                let totalProgress = 0;
-                let completedModules = 0;
-                let inProgressModules = 0;
-                let modulesWithProgress = 0;
-                
-                const modulesContainer = document.getElementById('modulesContainer');
-                modulesContainer.innerHTML = '';
-                
-                modules.forEach(module => {
-                    const progress = getModuleProgress(module.id);
-                    
-                    // Fix NaN issue by ensuring progress is a number
-                    const progressValue = isNaN(progress) ? 0 : Math.min(100, Math.max(0, progress));
-                    totalProgress += progressValue;
-                    
-                    if (progressValue > 0) modulesWithProgress++;
-                    if (progressValue >= 90) completedModules++;
-                    else if (progressValue > 0) inProgressModules++;
-                    
-                    // Determine card styling based on progress
-                    const cardClass = progressValue >= 90 ? 'module-card completed' : 
-                                     progressValue > 0 ? 'module-card in-progress' : 'module-card';
-                    const progressClass = progressValue >= 90 ? 'module-progress completed' : 'module-progress';
-                    const barClass = progressValue >= 90 ? 'progress-bar completed' : 'progress-bar';
-                    
-                    // Create module card
-                    const moduleCard = document.createElement('div');
-                    moduleCard.className = cardClass;
-                    moduleCard.innerHTML = `
-                        <div class="module-header">
-                            <div class="module-title">${module.title}</div>
-                            <div class="${progressClass}">${progressValue}%</div>
-                        </div>
-                        <p style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">${module.description}</p>
-                        <div class="progress-bar-container">
-                            <div class="${barClass}" style="width: ${progressValue}%"></div>
-                        </div>
-                        <div class="module-details">
-                            <span>${getProgressStatus(progressValue)}</span>
-                            <a href="${module.link}" class="btn" style="padding: 8px 12px; font-size: 0.8rem;">
-                                ${progressValue >= 90 ? 'Review' : progressValue > 0 ? 'Continue' : 'Start'}
-                            </a>
-                        </div>
-                    `;
-                    
-                    modulesContainer.appendChild(moduleCard);
-                });
-                
-                // Update statistics - FIXED NaN issue
-                document.getElementById('totalModules').textContent = modules.length;
-                document.getElementById('completedModules').textContent = completedModules;
-                document.getElementById('inProgressModules').textContent = inProgressModules;
-                
-                // Calculate overall progress safely
-                const overallProgress = modules.length > 0 ? Math.round(totalProgress / modules.length) : 0;
-                document.getElementById('overallProgress').textContent = `${overallProgress}%`;
-                
-                // Update last updated time
-                document.getElementById('lastUpdated').textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
-                
-                // Show/hide empty state
-                document.getElementById('emptyState').style.display = modulesWithProgress > 0 ? 'none' : 'block';
-                
-                // Update achievements - FIXED badge issue
-                updateAchievements(completedModules, overallProgress);
-                
-                // Update recommendations
-                updateRecommendations(modules, completedModules, inProgressModules);
-            }
-            
-            function getModuleProgress(moduleId) {
-                // Get progress from localStorage with proper parsing
-                try {
-                    // Try multiple possible storage formats for each lesson
-                    let progress = localStorage.getItem(`${moduleId}Progress`);
-                    
-                    // If not found, try the lesson data format
-                    if (progress === null || progress === undefined) {
-                        progress = localStorage.getItem(`${moduleId}Data`);
-                    }
-                    
-                    if (progress === null || progress === undefined) {
-                        return 0;
-                    }
-                    
-                    // Handle different storage formats
-                    if (typeof progress === 'string') {
-                        // Try to parse as JSON first (for object-based progress)
-                        try {
-                            const progressData = JSON.parse(progress);
-                            
-                            // Handle different data structures
-                            if (typeof progressData === 'object') {
-                                // Format 1: Array of topics with completion status
-                                if (Array.isArray(progressData)) {
-                                    const completed = progressData.filter(topic => topic.completed).length;
-                                    const total = progressData.length;
-                                    return total > 0 ? Math.round((completed / total) * 100) : 0;
-                                }
-                                // Format 2: Object with completions and responses
-                                else if (progressData.completions) {
-                                    const completedTopics = Object.values(progressData.completions).filter(status => status).length;
-                                    const totalTopics = Object.keys(progressData.completions).length;
-                                    return totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
-                                }
-                                // Format 3: Object with progress percentage
-                                else if (progressData.progress !== undefined) {
-                                    return progressData.progress;
-                                }
-                            }
-                        } catch (e) {
-                            // If not JSON, try to parse as number
-                            const parsed = parseInt(progress);
-                            return isNaN(parsed) ? 0 : parsed;
-                        }
-                    }
-                    
-                    // Default fallback
-                    return 0;
-                } catch (error) {
-                    console.error('Error getting progress for', moduleId, error);
-                    return 0;
-                }
-            }
-            
-            function getProgressStatus(progress) {
-                if (progress === 0) return 'Not started';
-                if (progress < 30) return 'Just beginning';
-                if (progress < 70) return 'In progress';
-                if (progress < 90) return 'Almost done';
-                return 'Completed';
-            }
-            
-            function updateAchievements(completedModules, overallProgress) {
-                const achievementsContainer = document.getElementById('achievementsContainer');
-                achievementsContainer.innerHTML = '';
-                
-                const achievements = [];
-                
-                // Check for achievements
-                if (completedModules >= 1) {
-                    achievements.push({
-                        icon: '🎯',
-                        title: 'First Steps',
-                        description: 'Completed your first module',
-                        unlocked: completedModules >= 1
-                    });
-                }
-                
-                if (completedModules >= 3) {
-                    achievements.push({
-                        icon: '📖',
-                        title: 'Dedicated Learner',
-                        description: 'Completed 3 modules',
-                        unlocked: completedModules >= 3
-                    });
-                }
-                
-                if (completedModules >= modules.length) {
-                    achievements.push({
-                        icon: '🏆',
-                        title: 'Pathlight Graduate',
-                        description: 'Completed all modules',
-                        unlocked: completedModules >= modules.length
-                    });
-                }
-                
-                if (overallProgress >= 50) {
-                    achievements.push({
-                        icon: '⭐',
-                        title: 'Halfway There',
-                        description: 'Reached 50% overall progress',
-                        unlocked: overallProgress >= 50
-                    });
-                }
-                
-                // Display achievements
-                achievements.forEach(achievement => {
-                    const badgeClass = achievement.unlocked ? 'achievement-badge unlocked' : 'achievement-badge';
-                    const badge = document.createElement('div');
-                    badge.className = badgeClass;
-                    badge.innerHTML = `
-                        <span class="badge-icon">${achievement.icon}</span>
-                        <div>
-                            <div style="font-weight: bold;">${achievement.title}</div>
-                            <div style="font-size: 0.75rem;">${achievement.description}</div>
-                        </div>
-                    `;
-                    achievementsContainer.appendChild(badge);
-                });
-                
-                // Show/hide no achievements message
-                document.getElementById('noAchievements').style.display = achievements.length > 0 ? 'none' : 'block';
-            }
-            
-            function updateRecommendations(modules, completedModules, inProgressModules) {
-                const recommendationsContainer = document.getElementById('recommendationsContainer');
-                recommendationsContainer.innerHTML = '';
-                
-                let recommendations = [];
-                
-                // If no modules completed, recommend starting with Lesson 1
-                if (completedModules === 0 && inProgressModules === 0) {
-                    recommendations.push({
-                        module: modules[0],
-                        reason: 'Start your discipleship journey with the foundations'
-                    });
-                } else {
-                    // Find next incomplete module
-                    for (let i = 0; i < modules.length; i++) {
-                        const progress = getModuleProgress(modules[i].id);
-                        if (progress < 90) {
-                            recommendations.push({
-                                module: modules[i],
-                                reason: progress > 0 ? 'Continue where you left off' : 'Your next step in the curriculum'
-                            });
-                            break;
-                        }
-                    }
-                }
-                
-                // If all modules are completed, suggest review
-                if (completedModules === modules.length) {
-                    recommendations = [{
-                        module: modules[0],
-                        reason: 'Review foundational teachings to strengthen your understanding'
-                    }];
-                }
-                
-                // Display recommendations
-                recommendations.forEach(rec => {
-                    const progress = getModuleProgress(rec.module.id);
-                    const progressValue = isNaN(progress) ? 0 : progress;
-                    const cardClass = progressValue >= 90 ? 'module-card completed' : 
-                                     progressValue > 0 ? 'module-card in-progress' : 'module-card';
-                    const progressClass = progressValue >= 90 ? 'module-progress completed' : 'module-progress';
-                    const barClass = progressValue >= 90 ? 'progress-bar completed' : 'progress-bar';
-                    
-                    const card = document.createElement('div');
-                    card.className = cardClass;
-                    card.innerHTML = `
-                        <div class="module-header">
-                            <div class="module-title">${rec.module.title}</div>
-                            <div class="${progressClass}">${progressValue}%</div>
-                        </div>
-                        <p style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">${rec.reason}</p>
-                        <div class="progress-bar-container">
-                            <div class="${barClass}" style="width: ${progressValue}%"></div>
-                        </div>
-                        <div class="module-details">
-                            <span>${getProgressStatus(progressValue)}</span>
-                            <a href="${rec.module.link}" class="btn" style="padding: 8px 12px; font-size: 0.8rem;">
-                                ${progressValue >= 90 ? 'Review' : progressValue > 0 ? 'Continue' : 'Start'}
-                            </a>
-                        </div>
-                    `;
-                    recommendationsContainer.appendChild(card);
-                });
-            }
-            
-            function exportProgress() {
-                let exportData = {
-                    timestamp: new Date().toISOString(),
-                    overallProgress: document.getElementById('overallProgress').textContent,
-                    modules: []
-                };
-                
-                modules.forEach(module => {
-                    const progress = getModuleProgress(module.id);
-                    exportData.modules.push({
-                        title: module.title,
-                        progress: `${progress}%`,
-                        status: getProgressStatus(progress)
-                    });
-                });
-                
-                // Create and download JSON file
-                const dataStr = JSON.stringify(exportData, null, 2);
-                const dataBlob = new Blob([dataStr], {type: 'application/json'});
-                const url = URL.createObjectURL(dataBlob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `pathlight-progress-${new Date().toISOString().split('T')[0]}.json`;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                // Show success message
-                showNotification('Progress exported successfully!', 'success');
-            }
-            
-            function syncProgress() {
-                const syncStatus = document.getElementById('syncStatus');
-                const syncText = document.getElementById('syncText');
-                const syncIcon = document.getElementById('syncIcon');
-                
-                // Update sync status
-                syncText.textContent = 'Syncing...';
-                syncStatus.className = 'sync-status syncing';
-                syncIcon.className = 'bi bi-arrow-repeat';
-                
-                // Simulate sync process
-                setTimeout(() => {
-                    // In a real implementation, this would sync with a server
-                    // For now, we'll just update the dashboard
-                    updateDashboard();
-                    
-                    syncText.textContent = 'Synced';
-                    syncStatus.className = 'sync-status synced';
-                    syncIcon.className = 'bi bi-check-circle-fill';
-                    
-                    showNotification('Progress synced successfully!', 'success');
-                    
-                    // Reset sync status after 3 seconds
-                    setTimeout(() => {
-                        syncText.textContent = 'Online';
-                        syncStatus.className = 'sync-status';
-                        syncIcon.className = 'bi bi-wifi';
-                    }, 3000);
-                }, 1500);
-            }
-            
-            function showNotification(message, type) {
-                // Create notification element
-                const notification = document.createElement('div');
-                notification.style.cssText = `
-                    position: fixed;
-                    bottom: 20px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: ${type === 'success' ? 'var(--success-color)' : 'var(--secondary-color)'};
-                    color: white;
-                    padding: 12px 20px;
-                    border-radius: 8px;
-                    box-shadow: 0 3px 15px rgba(0,0,0,0.2);
-                    z-index: 1000;
-                    transition: all 0.3s ease;
-                    max-width: 90%;
-                    text-align: center;
-                    font-weight: 500;
-                `;
-                notification.textContent = message;
-                
-                document.body.appendChild(notification);
-                
-                // Remove after 3 seconds
-                setTimeout(() => {
-                    notification.style.opacity = '0';
-                    setTimeout(() => {
-                        if (notification.parentNode) {
-                            notification.parentNode.removeChild(notification);
-                        }
-                    }, 300);
-                }, 3000);
-            }
-            
-            // Initialize sync status
-            updateSyncStatus();
-            
-            function updateSyncStatus() {
-                const syncStatus = document.getElementById('syncStatus');
-                const syncText = document.getElementById('syncText');
-                const syncIcon = document.getElementById('syncIcon');
-                
-                if (navigator.onLine) {
-                    syncText.textContent = 'Online';
-                    syncStatus.className = 'sync-status';
-                    syncIcon.className = 'bi bi-wifi';
-                } else {
-                    syncText.textContent = 'Offline';
-                    syncStatus.className = 'sync-status error';
-                    syncIcon.className = 'bi bi-wifi-off';
-                }
-            }
-            
-            // Listen for online/offline events
-            window.addEventListener('online', updateSyncStatus);
-            window.addEventListener('offline', updateSyncStatus);
-        });
-    </script>
-    <script type="module" src="auth-check.js"></script>
+<body>
+
+<!-- Logout Button -->
+<button id="logoutBtn" class="logout-btn">
+  <i class="fas fa-sign-out-alt"></i> Logout
+</button>
+
+<!-- Dashboard -->
+<div class="dashboard">
+  <h1>Discipleship Dashboard</h1>
+
+  <div class="module-card">
+    <i class="fas fa-baby"></i>
+    <h3>Faith Foundations (0–2 Yrs)</h3>
+    <p>Guided lessons for mothers nurturing faith in early childhood.</p>
+    <a href="parenting-module1/app.html">Open Module</a>
+  </div>
+
+  <div class="module-card">
+    <i class="fas fa-lightbulb"></i>
+    <h3>Pathlight Program</h3>
+    <p>Grow deeper through the Pathlight discipleship journey.</p>
+    <a href="pathlight-module/module-introduction.html">Open Module</a>
+  </div>
+</div>
+
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/254789398881" target="_blank" class="whatsapp-btn" title="Chat on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<script>
+document.getElementById("logoutBtn").addEventListener("click", function() {
+  localStorage.clear();
+  sessionStorage.clear();
+  window.location.href = "login.html";
+});
+</script>
+
 </body>
 </html>

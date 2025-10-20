@@ -1,0 +1,2198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Module 1 - Foundation to New Believer</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+ <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="KCM Church">
+    <meta name="description" content="Discipleship Tool for Kingdom Covenant Ministries Church">
+    <meta name="keywords" content="church, discipleship, christian, ministry">
+    <meta name="author" content="Kingdom Covenant Ministries Church">
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+    <link rel="apple-touch-startup-image" href="icons/icon-512x512.png">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Viewport for mobile optimization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <!-- Preload important resources -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax.googleapis.com">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+/* ======= FULL-WIDTH MOBILE-FRIENDLY DESIGN ======= */
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --accent-color: #e74c3c;
+  --light-color: #ecf0f1;
+  --dark-color: #2c3e50;
+  --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --success-color: #2ecc71;
+}
+
+/* Reset and base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: var(--font-main);
+  background: #f9f9f9;
+  color: #333;
+  scroll-behavior: smooth;
+}
+
+/* Header */
+header {
+  width: 100vw;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  padding: 1.4rem 1rem;
+  text-align: center;
+  position: relative;
+}
+header h1 {
+  font-size: 1.4rem;
+  margin-bottom: 0.3rem;
+}
+header .subtitle {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.progress-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+}
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--accent-color);
+  transition: width 0.5s ease;
+}
+
+/* Content wrapper */
+.container {
+  width: 100vw;
+  padding: 0 4vw 80px;
+}
+
+/* Buttons */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--secondary-color);
+  color: white;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+  width: 100%;
+  transition: 0.3s;
+}
+.btn:hover {
+  background: var(--primary-color);
+  transform: scale(1.02);
+}
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--secondary-color);
+  color: var(--secondary-color);
+}
+.btn-outline:hover {
+  background: var(--secondary-color);
+  color: white;
+}
+
+/* Lesson navigation */
+.lesson-nav {
+  display: flex;
+  gap: 10px;
+  margin: 1.2rem 0;
+}
+
+/* Topic blocks */
+.topic {
+  background: white;
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  position: relative;
+}
+.topic h2 {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  border-bottom: 2px solid var(--secondary-color);
+  margin-bottom: 1rem;
+  padding-bottom: 0.3rem;
+}
+
+/* Completion icon */
+.topic-completion {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.topic-completed {
+  background: var(--success-color);
+  border-color: var(--success-color);
+  color: white;
+}
+.topic-completed::after {
+  content: "✓";
+  font-weight: bold;
+}
+
+/* Sub-sections */
+.scripture, .key-point, .activity, .reflection {
+  width: 100%;
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+.scripture {
+  background: #f8f9fa;
+  border-left: 4px solid var(--secondary-color);
+  font-style: italic;
+}
+.key-point {
+  background: #e8f4fc;
+  border-left: 4px solid var(--secondary-color);
+}
+.activity {
+  background: #fff8e1;
+  border-left: 4px solid #ffc107;
+}
+.reflection {
+  background: #f0f7ff;
+  border-left: 4px solid #4dabf7;
+}
+.reflection textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: inherit;
+  transition: border-color 0.3s;
+}
+.reflection textarea:focus {
+  border-color: var(--secondary-color);
+  outline: none;
+}
+
+/* Collapsible content */
+.collapsible {
+  width: 100%;
+  background: #f1f1f1;
+  color: var(--primary-color);
+  border: none;
+  text-align: left;
+  padding: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.collapsible:hover {
+  background: #e1e1e1;
+}
+.collapsible:after {
+  content: '\002B';
+  float: right;
+}
+.active:after {
+  content: "\2212";
+}
+.content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  background: #fff;
+  border-radius: 0 0 8px 8px;
+  padding: 0 10px;
+}
+
+/* Topic Collapsible Sections */
+.topic-collapsible {
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  border: none;
+  text-align: left;
+  padding: 16px 20px;
+  font-weight: 600;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.topic-collapsible:hover {
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+.topic-collapsible:after {
+  content: '\002B';
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.topic-collapsible.active {
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  border-radius: 12px 12px 0 0;
+  margin-bottom: 0;
+}
+.topic-collapsible.active:after {
+  content: "\2212";
+}
+.topic-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+  background: white;
+  border-radius: 0 0 12px 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Cards & sections */
+.assurance-card, .interactive-card, .activity-section {
+  background: white;
+  border-radius: 10px;
+  padding: 1.2rem;
+  margin: 1rem 0;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+}
+
+/* Bottom navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  z-index: 999;
+  padding: env(safe-area-inset-bottom) 0 10px;
+}
+.nav-item {
+  flex: 1;
+  text-align: center;
+  color: #666;
+  text-decoration: none;
+  font-size: 0.75rem;
+  padding: 6px 0;
+}
+.nav-item.active {
+  color: var(--secondary-color);
+  background: #e8f4fc;
+  border-radius: 8px;
+}
+.nav-icon {
+  display: block;
+  font-size: 1.3rem;
+}
+
+/* Footer */
+footer {
+  width: 100vw;
+  background: var(--dark-color);
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.85rem;
+  border-radius: 0;
+  margin-top: 1.5rem;
+}
+
+/* Progress sync indicator */
+.sync-status {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(255,255,255,0.9);
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.sync-status.syncing {
+  color: #f39c12;
+}
+.sync-status.synced {
+  color: var(--success-color);
+}
+.sync-status.error {
+  color: var(--accent-color);
+}
+
+/* Matching game styles */
+.matching-area {
+  margin-top: 1rem;
+}
+.game-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 10px 0;
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.item {
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s;
+}
+.item:hover {
+  background: #e9e9e9;
+}
+.item.selected {
+  background: var(--secondary-color);
+  color: white;
+}
+.item.correct {
+  background: var(--success-color);
+  color: white;
+  cursor: default;
+}
+
+/* Bridge Illustration Styles */
+.bridge-illustration {
+  width: 100%;
+  margin: 1rem 0;
+  background: white;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+}
+.bridge-diagram {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  margin: 1rem 0;
+  background: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.bridge-side {
+  position: absolute;
+  top: 0;
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  text-align: center;
+}
+.bridge-left {
+  left: 0;
+  background: #e8f4fc;
+}
+.bridge-right {
+  right: 0;
+  background: #fff8e1;
+}
+.bridge-gap {
+  position: absolute;
+  left: 40%;
+  width: 20%;
+  height: 100%;
+  background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.bridge-cross {
+  position: absolute;
+  left: 40%;
+  width: 20%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+.bridge-cross span {
+  font-size: 2rem;
+  color: var(--accent-color);
+}
+.bridge-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.bridge-text {
+  font-size: 0.8rem;
+}
+
+/* Gospel Verses Cards */
+.gospel-verse-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.2rem;
+  margin: 1rem 0;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+  border-left: 4px solid var(--secondary-color);
+}
+.verse-reference {
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+.verse-text {
+  font-style: italic;
+  margin-bottom: 0.8rem;
+  line-height: 1.5;
+}
+.verse-note {
+  background: #f8f9fa;
+  padding: 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Discussion Questions */
+.discussion-questions {
+  background: #f0f7ff;
+  border-radius: 10px;
+  padding: 1.2rem;
+  margin: 1rem 0;
+  border-left: 4px solid #4dabf7;
+}
+.discussion-questions h4 {
+  margin-bottom: 0.8rem;
+  color: var(--primary-color);
+}
+
+/* Wheel Illustration Styles */
+.wheel-illustration {
+  width: 100%;
+  margin: 1rem 0;
+  background: white;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+}
+.wheel-container {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.wheel-svg {
+  width: 100%;
+  height: auto;
+}
+.wheel-center {
+  fill: #e74c3c;
+}
+.wheel-rim {
+  fill: none;
+  stroke: #2c3e50;
+  stroke-width: 3;
+}
+.wheel-spoke {
+  stroke: #3498db;
+  stroke-width: 2;
+}
+.wheel-label {
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-anchor: middle;
+}
+.wheel-center-label {
+  font-size: 0.8rem;
+  font-weight: bold;
+  fill: white;
+  text-anchor: middle;
+}
+.wheel-relation {
+  text-align: center;
+  font-weight: bold;
+  margin: 1rem 0 0.5rem;
+  color: var(--primary-color);
+}
+.wheel-components {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 1rem 0;
+}
+.wheel-component {
+  flex: 1;
+  min-width: 140px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+.wheel-component h4 {
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+.wheel-component.vertical {
+  border-left: 4px solid #3498db;
+}
+.wheel-component.horizontal {
+  border-left: 4px solid #2ecc71;
+}
+.wheel-component.center {
+  border-left: 4px solid #e74c3c;
+}
+.wheel-component.rim {
+  border-left: 4px solid #2c3e50;
+}
+
+/* Download Link */
+.download-link {
+  text-align: center;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #e8f4fc;
+  border-radius: 8px;
+}
+.download-link a {
+  color: var(--secondary-color);
+  font-weight: bold;
+  text-decoration: none;
+}
+.download-link a:hover {
+  text-decoration: underline;
+}
+
+/* Hand Illustration Styles */
+.hand-illustration {
+  width: 100%;
+  margin: 1rem 0;
+  background: white;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+}
+.hand-container {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.hand-svg {
+  width: 100%;
+  height: auto;
+}
+.finger-label {
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-anchor: middle;
+}
+.finger-point {
+  font-size: 0.8rem;
+  text-anchor: middle;
+}
+.finger-desc {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+}
+.finger-desc h4 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+/* Bible Study Methods */
+.bible-method {
+  background: white;
+  border-radius: 10px;
+  padding: 1.2rem;
+  margin: 1rem 0;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+  border-left: 4px solid var(--secondary-color);
+}
+.method-title {
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+}
+.method-steps {
+  margin-left: 1rem;
+}
+.method-step {
+  margin-bottom: 0.8rem;
+}
+
+/* Memory System */
+.memory-system {
+  background: #fff8e1;
+  border-radius: 10px;
+  padding: 1.2rem;
+  margin: 1rem 0;
+  border-left: 4px solid #ffc107;
+}
+.week-theme {
+  background: white;
+  border-radius: 6px;
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  h1 { font-size: 1.3rem; }
+  .btn { font-size: 0.9rem; padding: 12px; }
+  .topic h2 { font-size: 1.1rem; }
+  .reflection textarea { min-height: 120px; }
+  .game-grid {
+    grid-template-columns: 1fr;
+  }
+  .bridge-diagram {
+    height: 180px;
+  }
+  .bridge-side, .bridge-gap {
+    font-size: 0.8rem;
+  }
+  .bridge-cross span {
+    font-size: 1.5rem;
+  }
+  .wheel-components {
+    flex-direction: column;
+  }
+  .topic-collapsible {
+    padding: 14px 16px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Progress summary modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.close-modal {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.progress-summary {
+  margin: 15px 0;
+}
+.progress-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+</style>
+</head>
+<body>
+    
+    
+    <header>
+        <div class="header-content">
+          <br>
+            <h1>MODULE 1: FOUNDATION TO NEW BELIEVER</h1>
+            <p class="subtitle">The 5 Assurances of a Christian-Understanding the foundational truths of Christianity and steps to grow in faith</p>
+        </div>
+        <div class="sync-status" id="syncStatus">Synced</div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="lesson-nav">
+            <a href="../progress.html" class="btn btn-outline">Back to Dashboard</a>
+            <a href="module-lesson2.html" class="btn">Next Lesson</a>
+        </div>
+        
+        <!-- TOPIC 1: THE FIVE ASSURANCES -->
+        <button class="topic-collapsible" id="topic1Collapsible">
+            <span>Topic 1: The Five Assurances</span>
+            <span class="completion-status" id="topic1Status">●</span>
+        </button>
+        <div class="topic-content" id="topic1Content">
+            <div class="topic" id="topic1">
+                <div class="topic-completion" id="topic1Completion"></div>
+                <h2>Topic 1: The Five Assurances</h2>
+                <p><strong>Objective:</strong> To help new believers anchor their faith in unchanging biblical truths that offer spiritual confidence and security.</p>
+                
+                <div class="scripture">
+                    <p><strong>John 5:24</strong> - "Very truly I tell you, whoever hears my word and believes him who sent me has eternal life and will not be judged but has crossed over from death to life."</p>
+                </div>
+                
+                <h3>The Five Assurances:</h3>
+                
+                <!-- Assurance of Salvation Card -->
+                <div class="assurance-card">
+                    <h4>1. Assurance of Salvation</h4>
+                    <p><strong>1 John 5:11-13</strong> - "God has given us eternal life... whoever has the Son has life."</p>
+                    <p><strong>Key Point:</strong> Salvation is a gift received by grace through faith, not by works (Eph 2:8-9).</p>
+                    
+                    <button class="collapsible">More Details + Reflection</button>
+                    <div class="content">
+                        <div class="key-point">
+                            <p><strong>Application:</strong> Help learners understand they are saved the moment they believe in Christ—this is the foundation of their spiritual journey.</p>
+                           <p><strong>Make it clear that:</strong></p>
+    <ul>
+      <li>
+        Salvation is not about a list of steps we must follow to earn salvation. 
+        Yes, Christians should be baptized. Yes, Christians should publicly confess Christ as Savior. 
+        Yes, Christians should practice good works and obey God. 
+        However, these are not steps to salvation — they are results of salvation.
+      </li>
+      <li>
+        Salvation is not about following steps. It is about receiving Christ as Savior and recognizing that He has done all the work for us.
+      </li>
+      <li>
+        God requires one step of us — receiving Jesus Christ as our Savior from sin and fully trusting in Him alone as the way of salvation.
+      </li>
+      <li>
+        <strong>Why We Need Salvation:</strong> Romans 3:23 — Sin separates us from God, who is holy and just. 
+        Because of sin, we are spiritually dead and unable to earn or deserve a right standing with Him on our own.
+      </li>
+      <li>
+        <strong>How to Receive Salvation:</strong> ABC (Admit, Believe, Commit)
+      </li>
+    </ul>
+
+                        </div>
+                        
+                        <div class="reflection">
+                            <h4>Reflection Questions:</h4>
+                            <p>Do I truly believe that salvation is a gift, not something I earn?</p>
+                            <textarea placeholder="Type your reflection here..." data-reflection-id="salvation1"></textarea>
+                            <p>When doubts arise, where do I turn for assurance?</p>
+                            <textarea placeholder="Type your reflection here..." data-reflection-id="salvation2"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Assurance of Answered Prayer Card -->
+                <div class="assurance-card">
+                    <h4>2. Assurance of Answered Prayer</h4>
+                    <p>
+                      The assurance of answered prayer comes from knowing that God hears and answers prayers 
+                      when they align with His will and are prayed in faith.
+                    </p>
+                    <p><strong>John 16:24</strong> - "Ask and you will receive, and your joy will be complete."</p>
+                    <p><strong>Key Point:</strong> God hears and answers prayers made in Jesus' name, aligned with His will.</p>
+                    
+                    <button class="collapsible">More Details + Reflection</button>
+                    <div class="content">
+                      <div class="key-point">
+                        <ul>
+                          <li>
+                            <strong>Key Point:</strong> God hears and answers prayers made in Jesus' name, aligned with His will.
+                          </li>
+                          <li>
+                            Jesus was instructing His disciples in these words just before He was crucified. 
+                            He was preparing them for a new level of relationship with God, 
+                            where they would pray directly to the Father in His name.
+                          </li>
+                          <li>
+                            <strong>"Ask and you will receive"</strong> — He was inviting us to come boldly to God in prayer.
+                          </li>
+                          <li>
+                            <strong>"In My name"</strong> — Not just reciting a phrase as a formula, 
+                            but praying in accordance with who Jesus is and according to His purposes, 
+                            rather than our own desires.
+                          </li>
+                          <li>
+                            <strong>"Your joy will be complete"</strong> — Because answered prayer brings deep spiritual joy 
+                            as a reminder that God is active and cares for us.
+                          </li>
+                          <li>
+                            <strong>Encouragement:</strong> "You don't need to have perfect prayers to receive powerful answers. 
+                            Simply come to God with a willing heart, trusting He sees you, loves you, and replies."
+                          </li>
+                          <li>
+                            <strong>Application:</strong> Encourage confidence in your prayer life — pray boldly and consistently.
+                          </li>
+                          <li>
+                            <strong>1 John 5:14–15 (NIV):</strong> "This is the confidence we have in approaching God: 
+                            that if we ask anything according to His will, He hears us. 
+                            And if we know that He hears us—whatever we ask—we know that we have what we asked of Him."
+                          </li>
+                        </ul>
+
+                        <h4 class="mt-4">How Prayer Is Answered</h4>
+                        <ul>
+                          <li>Immediately at times — <strong>Isaiah 65:24</strong></li>
+                          <li>Delayed at times — <strong>Luke 18:7</strong></li>
+                          <li>Different from our desires — <strong>2 Corinthians 12:8–9</strong></li>
+                          <li>Beyond our expectations — <strong>Ephesians 3:20</strong></li>
+                        </ul>
+                      </div>
+
+                      <div class="reflection">
+                        <h4 class="mt-4">Reflection Questions:</h4>
+                        <p>Do I approach prayer expecting God to answer?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="prayer1"></textarea>
+
+                        <p>How can I align my prayers more with God's heart?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="prayer2"></textarea>
+                      </div>
+                    </div>
+                </div>
+                
+                <!-- Assurance of Victory Over Sin Card -->
+                <div class="assurance-card">
+                    <h4>3. Assurance of Victory Over Sin</h4>
+                    <p><strong>1 Corinthians 10:13</strong> - "God is faithful... He will provide a way out so you can endure it."</p>
+                    <p><strong>Key Point:</strong> No temptation is too strong; God provides strength and escape.</p>
+                    
+                    <button class="collapsible">More Details + Reflection</button>
+                    <div class="content">
+                        <div class="key-point">
+                            <p><strong>Application:</strong> Emphasize patience with self—spiritual growth is a process. Stay rooted in God's Word and connected to community.</p>
+                        </div>
+                        
+                        <div class="reflection">
+                            <h4>Reflection Questions:</h4>
+                            <p>What sin or temptation do you find most challenging?</p>
+                            <textarea placeholder="Type your reflection here..." data-reflection-id="victory1"></textarea>
+                            <p>What "way of escape" has God shown you in the past?</p>
+                            <textarea placeholder="Type your reflection here..." data-reflection-id="victory2"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Assurance of Forgiveness Card -->
+                <div class="assurance-card">
+                    <h4>4. Assurance of Forgiveness</h4>
+                    <p><strong>1 John 1:9</strong> – "If we confess our sins, He is faithful and just to forgive..."</p>
+                    <p>
+                      Assurance of forgiveness is being confident and at peace in your heart that God has forgiven 
+                      all of your sins because you have placed your faith in Jesus Christ. You can live without guilt 
+                      or fear anymore — you're free, cleansed, and loved by God.
+                    </p>
+
+                    <button class="collapsible">More Details + Reflection</button>
+                    <div class="content">
+                      <div class="key-point">
+                        <ul>
+                          <li><strong>Key Point:</strong> Confession brings cleansing; guilt doesn't have to linger.</li>
+                          <li><strong>Application:</strong> Teach that God's forgiveness is complete freedom that comes through honesty and grace, not shame.</li>
+                        </ul>
+
+                        <h5 class="mt-3">✅ Conclusion:</h5>
+                        <p>
+                          Having the promise of forgiveness is a huge part of what it means to be a Christian. 
+                          It means you can have confidence that God has forgiven you because you believe in Jesus — 
+                          that confidence comes from:
+                        </p>
+                        <br>
+                        <ul>
+                          <li>God's Word (what the Bible promises)</li>
+                          <li>Jesus' completed work on the cross</li>
+                          <li>The Holy Spirit residing in you</li>
+                        </ul>
+
+                        <p>
+                          With this assurance, you have no need for fear or doubting — you can live in peace, joy, 
+                          and confidence knowing you are truly forgiven and loved by God.
+                        </p>
+                      </div>
+
+                      <div class="reflection">
+                        <h5>Reflection Question:</h5>
+                        <p>Am I holding onto guilt God has already forgiven?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="forgiveness1"></textarea>
+                      </div>
+                    </div>
+                </div>
+                
+                <!-- Assurance of Guidance Card -->
+                <div class="assurance-card">
+                    <h4>5. Assurance of Guidance</h4>
+                    <p><strong>Proverbs 3:5–6</strong> – "Trust in the Lord... and He will make your paths straight."</p>
+                    <p><strong>Key Point:</strong> God desires to lead His children daily — guidance flows from trust and surrender.</p>
+                    <p><strong>Application:</strong> Build a habit of seeking God in decisions, big or small. Lean not on your own understanding.</p>
+
+                    <button class="collapsible">More Details + Reflection</button>
+                    <div class="content">
+                      <div class="key-point">
+                        <h5 class="mt-3">The Three Commands:</h5>
+
+                        <p><strong>🔹 1. Trust in the Lord with all your heart</strong></p>
+                        <p><strong>👉 Meaning:</strong> Trust God completely. Don't just trust Him part of the time — trust Him with everything in your life: your school, friends, family, and your future.</p>
+                        <p><strong>📌 Example:</strong> When things feel confusing, say, "God, I trust You to help me through this."</p>
+                        <p><strong>🧠 Teen Life Example:</strong> If you're unsure which subject to pick for next year, or whether a friendship is worth keeping, trust that God sees all sides and will lead you if you trust Him.</p>
+
+                        <p class="mt-3"><strong>🔹 2. Don't lean on your own understanding</strong></p>
+                        <p><strong>👉 Meaning:</strong> Don't think you know it all. Your thoughts and feelings can sometimes be wrong. God sees everything, even if you don't. Do not rely only on your own ideas.</p>
+                        <p><strong>📌 Example:</strong> Before making a big decision, don't just go with your gut — ask God what He thinks.</p>
+                        <p><strong>🧠 Teen Life Example:</strong> You might think, "Everyone is cheating on tests, so it must be okay," but God's way is different. Instead of following what seems right to others, seek what God says is right.</p>
+
+                        <p class="mt-3"><strong>🔹 3. In all your ways acknowledge Him</strong></p>
+                        <p><strong>👉 Meaning:</strong> Include God in everything — your school work, talents, friends, activities, hobbies, and choices. Don't just talk to God at church; take Him with you everywhere.</p>
+                        <p><strong>📌 Example:</strong> Before you send that text, say, "God, is this the right thing to do?"</p>
+                        <p><strong>🧠 Teen Life Example:</strong> Before posting on social media, ask yourself, "Would this PLEASE God?" That's acknowledging Him in all your ways.</p>
+
+                        <div class="scripture">
+                          <h5>✨ The Promise:</h5>
+                          <p>"...and He will direct your paths."</p>
+                          <p>If you trust Him, don't rely on just yourself, and acknowledge Him, He promises to guide your life — step by step.</p>
+                        </div>
+                      </div>
+
+                      <div class="reflection">
+                        <h5>Reflection Questions:</h5>
+                        <p>Do I trust God with my future, or lean on my own plans?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="guidance1"></textarea>
+                        <p>How do I make space to hear His voice in daily life?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="guidance2"></textarea>
+                      </div>
+                    </div>
+                </div>
+                
+                <!-- Activity Section -->
+                <div class="activity-section">
+                    <h3 class="section-title">✨ Activity Ideas</h3>
+                    <p class="intro-text">Help your learners engage with Scripture through fun and interactive faith-building activities.</p>
+
+                    <!-- Digital Matching Game -->
+                    <div class="interactive-card">
+                        <h4><i class="bi bi-puzzle text-primary"></i> Digital Matching Game</h4>
+                        <p>Match each Bible verse with its correct assurance theme. Strengthen memory and connection with God's Word!</p>
+                        <button class="btn" id="startMatchingGame">🎮 Start Matching Game</button>
+
+                        <div id="matchingGameContainer" class="matching-area" style="display:none;">
+                            <h5 class="sub-title">🧩 Matching Game</h5>
+                            <p class="instruction">Click one verse and one theme to make a match.</p>
+                            <div class="game-grid">
+                                <div class="list" id="versesList"></div>
+                                <div class="list" id="themesList"></div>
+                            </div>
+                            <div class="scoreboard mt-2">
+                                <strong>Matches:</strong> <span id="score">0</span>/<span id="total">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scavenger Hunt -->
+                    <div class="interactive-card scavenger">
+                        <h4><i class="bi bi-map text-success"></i> Scavenger Hunt</h4>
+                        <p>Take your group on a spiritual adventure! Set up stations with clues and Bible-based challenges.</p>
+                        <ul>
+                            <li><strong>Station Setup:</strong> Choose different locations around your venue — each with a clue about an Assurance or Bible truth.</li>
+                            <li><strong>Example Locations:</strong>
+                                <ul>
+                                    <li>📖 A Bible on a table — The Word of God</li>
+                                    <li>✝️ A cross — Salvation</li>
+                                    <li>🙏 A prayer corner — God's Presence</li>
+                                </ul>
+                            </li>
+                            <li><strong>Tasks:</strong> Each station should include an action or reflection, such as:
+                                <ul>
+                                    <li>Recite a verse about God's love ❤️</li>
+                                    <li>Explain what the Assurance of Victory means to you 🕊️</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TOPIC 2: CLEAR UNDERSTANDING OF THE GOSPEL -->
+        <button class="topic-collapsible" id="topic2Collapsible">
+            <span>Topic 2: Clear Understanding of the Gospel</span>
+            <span class="completion-status" id="topic2Status">●</span>
+        </button>
+        <div class="topic-content" id="topic2Content">
+            <div class="topic" id="topic2">
+                <div class="topic-completion" id="topic2Completion"></div>
+                <h2>Topic 2: Clear Understanding of the Gospel</h2>
+                <p><strong>Objective:</strong> To ensure learners grasp what the Gospel is and how it impacts their daily life.</p>
+                
+                <div class="scripture">
+                    <p><strong>Romans 1:16</strong> - "For I am not ashamed of the gospel, because it is the power of God that brings salvation to everyone who believes..."</p>
+                </div>
+                
+                <div class="key-point">
+                    <p><strong>Facilitator Notes:</strong> Use visual aids (like the Bridge illustration) to help explain the Gospel clearly.</p>
+                </div>
+                
+                <!-- Bridge Illustration Section -->
+                <div class="bridge-illustration">
+                    <h3>The Bridge Illustration</h3>
+                    <p>The Bridge Illustration helps explain how Jesus connects us to God despite our sin.</p>
+                    
+                    <div class="bridge-diagram">
+                        <div class="bridge-side bridge-left">
+                            <div class="bridge-label">MAN</div>
+                            <div class="bridge-text">Sinful</div>
+                            <div class="bridge-text">Separated from God</div>
+                            <div class="scripture">
+                                <p><strong>Romans 3:23</strong></p>
+                            </div>
+                        </div>
+                        
+                        <div class="bridge-gap">
+                            <div class="bridge-label">SEPARATION</div>
+                            <div class="bridge-text">Sin creates a gap</div>
+                            <div class="bridge-text">We can't cross on our own</div>
+                        </div>
+                        
+                        <div class="bridge-cross">
+                            <span>✝️</span>
+                        </div>
+                        
+                        <div class="bridge-side bridge-right">
+                            <div class="bridge-label">GOD</div>
+                            <div class="bridge-text">Holy</div>
+                            <div class="bridge-text">Perfect</div>
+                            <div class="scripture">
+                                <p><strong>1 Peter 1:15-16</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="key-point">
+                        <h4>Understanding the Bridge</h4>
+                        <p><strong>The Problem:</strong> Sin creates a large gap between God and us. It separates us from Him.</p>
+                        <p>We can't close this gap by ourselves, no matter how many good things we do, how religious we are, or how much kindness we show. Our own efforts are never enough to reach God.</p>
+                        
+                        <p><strong>The Solution:</strong> The good news is that Jesus' cross forms a bridge over this gap. This bridge is how we can reach God, thanks to what Jesus did for us.</p>
+                        <p><strong>Romans 5:8</strong> explains, "But God shows His love for us in that while we were still sinners, Christ died for us." This shows that God's love is so great, He made a way for us through Jesus' sacrifice.</p>
+                        
+                        <p><strong>The Way Across:</strong> To use this bridge, we must have faith. This means trusting in Jesus completely to save us, rather than relying on ourselves.</p>
+                        <p>In <strong>John 14:6</strong>, Jesus says, "I am the way and the truth and the life. No one comes to the Father except through me." This means that Jesus is the only way to reach God. By believing in Him, we can cross over the bridge and have a relationship with God.</p>
+                    </div>
+                    
+                    <div class="reflection">
+                        <h4>Reflection Questions</h4>
+                        <p>What attempts have people made to reach God on their own?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="gospel1"></textarea>
+                        <p>Why is Jesus the only way to bridge the gap between God and humanity?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="gospel2"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Key Gospel Verses Section -->
+                <div class="activity-section">
+                    <h3>Key Gospel Verses for New Believers</h3>
+                    <p>These foundational verses help explain the core message of the Gospel.</p>
+                    
+                    <!-- John 3:16 -->
+                    <div class="gospel-verse-card">
+                        <div class="verse-reference">1. John 3:16 – The heart of God's love</div>
+                        <div class="verse-text">"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life." - NIV</div>
+                        <div class="verse-note">
+                            <strong>Note for Learners:</strong> This verse is considered the "heart" of the Gospel because it explains God's immense love for us. God loved humanity so much that He sent Jesus to die for our sins. Believing in Jesus is the only way to receive eternal life and be saved from perishing. This verse emphasizes that salvation is a gift available to everyone, no matter who they are.
+                        </div>
+                    </div>
+                    
+                    <!-- Romans 10:9-10 -->
+                    <div class="gospel-verse-card">
+                        <div class="verse-reference">2. Romans 10:9-10 – Belief and confession</div>
+                        <div class="verse-text">"If you declare with your mouth, 'Jesus is Lord,' and believe in your heart that God raised him from the dead, you will be saved. For it is with your heart that you believe and are justified, and it is with your mouth that you profess your faith and are saved."</div>
+                        <div class="verse-note">
+                            <strong>Note for Learners:</strong> Salvation comes through faith in Jesus Christ. These verses highlight the importance of belief in Jesus' death and resurrection, and the confession of Him as Lord. This is the process of salvation: you believe in your heart and declare it with your mouth. It's not just about words—it's about a genuine heart change.
+                        </div>
+                    </div>
+                    
+                    <!-- Ephesians 2:8-9 -->
+                    <div class="gospel-verse-card">
+                        <div class="verse-reference">3. Ephesians 2:8-9 – Salvation is a gift</div>
+                        <div class="verse-text">"For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God— not by works, so that no one can boast."</div>
+                        <div class="verse-note">
+                            <strong>Note for Learners:</strong> This verse teaches that salvation is a gift from God, not something we can earn by being good or doing good works. It's God's grace—His unmerited favor toward us—that saves us. This verse helps us understand that no one can boast about their salvation, because it's not something we deserve or can achieve on our own. It's a pure gift that we receive by faith.
+                        </div>
+                    </div>
+                    
+                    <!-- 2 Corinthians 5:21 -->
+                    <div class="gospel-verse-card">
+                        <div class="verse-reference">4. 2 Corinthians 5:21 – Jesus became sin for us</div>
+                        <div class="verse-text">"God made Him who had no sin to be sin for us, so that in Him we might become the righteousness of God."</div>
+                        <div class="verse-note">
+                            <strong>Note for Learners:</strong> This verse explains the great exchange that happened at the cross: Jesus, who was sinless, took on the penalty for our sin. Because of His sacrifice, we are made righteous before God. This means that Jesus bore our sins so we could be forgiven and stand before God as clean and righteous. This is one of the foundational truths of Christianity: Jesus died in our place.
+                        </div>
+                    </div>
+                    
+                    <!-- Acts 4:12 -->
+                    <div class="gospel-verse-card">
+                        <div class="verse-reference">5. Acts 4:12 – Salvation is found in no one else</div>
+                        <div class="verse-text">"Salvation is found in no one else, for there is no other name under heaven given to mankind by which we must be saved."</div>
+                        <div class="verse-note">
+                            <strong>Note for Learners:</strong> This verse clearly states that Jesus is the only way to salvation. There are no other paths to God except through faith in Jesus Christ. This verse is critical because it emphasizes the exclusivity of Christ—there's no other person or religion that can save us. Jesus Himself is the one who bridges the gap between us and God.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Discussion Questions -->
+                <div class="discussion-questions">
+                    <h4>Discussion Questions:</h4>
+                    <ul>
+                        <li>"Why is it important to understand the Gospel clearly?"</li>
+                        <li>"How does the Gospel change the way you see yourself and others?"</li>
+                    </ul>
+                    
+                    <div class="reflection">
+                        <h4>Personal Reflection</h4>
+                        <p>How has your understanding of the Gospel changed after studying these verses?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="gospel3"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Facilitator Notes -->
+                <div class="key-point">
+                    <h4>Facilitator Notes for Delivery:</h4>
+                    <ul>
+                        <li><strong>Reinforce the Foundation:</strong> These verses show the core of the Christian faith—that salvation is a free gift from God, received through faith in Jesus Christ. It's important for learners to understand that salvation isn't earned, it's received.</li>
+                        <li><strong>Use Practical Examples:</strong> When explaining verses like Romans 10:9-10, encourage learners to speak out loud their faith in Jesus. You might ask them to write down their personal declaration of faith, which can help them affirm their belief and strengthen their confidence in their salvation.</li>
+                        <li><strong>Highlight God's Love and Grace:</strong> In John 3:16 and Ephesians 2:8-9, emphasize that salvation is a result of God's love and grace, not our own works or efforts. This can bring great peace and assurance, as learners realize that they don't need to be perfect to be saved.</li>
+                        <li><strong>The Great Exchange:</strong> For 2 Corinthians 5:21, consider explaining the great exchange using a simple analogy: Imagine giving all your dirty clothes to someone who is completely clean, and in exchange, they give you their perfect, clean clothes. This is what Jesus did for us—He took our sin and gave us His righteousness.</li>
+                        <li><strong>Exclusive Salvation in Jesus:</strong> In Acts 4:12, explain how the exclusivity of salvation through Jesus might feel challenging to some, but it's actually a source of hope. Jesus is the only one who provides a way to God, and it's available to everyone who believes.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TOPIC 3: WHEEL ILLUSTRATION -->
+        <button class="topic-collapsible" id="topic3Collapsible">
+            <span>Topic 3: Wheel Illustration (Spiritual Growth Wheel)</span>
+            <span class="completion-status" id="topic3Status">●</span>
+        </button>
+        <div class="topic-content" id="topic3Content">
+            <div class="topic" id="topic3">
+                <div class="topic-completion" id="topic3Completion"></div>
+                <h2>Topic 3: Wheel Illustration (Spiritual Growth Wheel)</h2>
+                <p><strong>Objective:</strong> To illustrate the balanced Christian life and ongoing spiritual growth.</p>
+                
+                <div class="download-link">
+                    <p><strong>Download at:</strong> <a href="https://navlink.org/wheel" target="_blank">navlink.org/wheel</a></p>
+                </div>
+                
+                <div class="key-point">
+                    <p><strong>Facilitator Notes:</strong></p>
+                    <ul>
+                        <li>Print and display the Wheel Illustration.</li>
+                        <li>Explain each component using scriptures and real-life applications.</li>
+                        <li>Emphasize the hub (Christ), spokes (Word, Prayer, Fellowship, Witnessing), and rim (obedience).</li>
+                    </ul>
+                </div>
+                
+                <div class="wheel-illustration">
+                    <h3>The Wheel Illustration</h3>
+                    <p><strong>Central Idea:</strong> Christ is the center of the believer's life, and the spokes (Word, Prayer, Fellowship, Witnessing) help maintain spiritual balance. The outer rim, Obedience, keeps the wheel rolling smoothly — it represents our response to Christ through consistent living.</p>
+                    
+                    <!-- Wheel Diagram -->
+                    <div class="wheel-container">
+                        <svg class="wheel-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Outer Rim -->
+                            <circle cx="100" cy="100" r="95" class="wheel-rim" />
+                            
+                            <!-- Spokes -->
+                            <line x1="100" y1="100" x2="100" y2="20" class="wheel-spoke" />
+                            <line x1="100" y1="100" x2="180" y2="100" class="wheel-spoke" />
+                            <line x1="100" y1="100" x2="100" y2="180" class="wheel-spoke" />
+                            <line x1="100" y1="100" x2="20" y2="100" class="wheel-spoke" />
+                            
+                            <!-- Center Hub -->
+                            <circle cx="100" cy="100" r="30" class="wheel-center" />
+                            
+                            <!-- Labels -->
+                            <text x="100" y="15" class="wheel-label">PRAYER</text>
+                            <text x="185" y="105" class="wheel-label">WITNESSING</text>
+                            <text x="100" y="195" class="wheel-label">FELLOWSHIP</text>
+                            <text x="15" y="105" class="wheel-label">WORD</text>
+                            <text x="100" y="105" class="wheel-center-label">CHRIST</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="wheel-relation">HOW YOU RELATE TO YOURSELF</div>
+                    
+                    <!-- Center Hub and Outer Rim -->
+                    <div class="wheel-components">
+                        <div class="wheel-component center">
+                            <h4>1) CHRIST</h4>
+                            <p>When Christ is at the center of your life, your identity and purpose change. You no longer live for yourself but for Him. He gives you a new heart and a new way of living.</p>
+                            <p>God creates within us the desire to do what He wants us to do in order to express His Lordship in our lives.</p>
+                            <div class="scripture">
+                                <p><strong>Galatians 2:20</strong> – "I have been crucified with Christ, and I no longer live, but Christ lives in me..."</p>
+                                <p><strong>2 Corinthians 5:17</strong> – "Therefore, if anyone is in Christ, the new creation has come..."</p>
+                            </div>
+                            <div class="key-point">
+                                <p><strong>Notes for Learners:</strong> When Christ is at the center of your life, your identity and purpose change. You no longer live for yourself but for Him. He gives you a new heart and a new way of living.</p>
+                                <p><strong>👉Ask:</strong> Is Christ the center of your decisions, relationships, and dreams?</p>
+                                <p><strong>Facilitator Tip:</strong> Help learners reflect on practical ways to keep Jesus central — daily devotion, obedience, and trusting Him in every part of life.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="wheel-component rim">
+                            <h4>2) THE OBEDIENT CHRISTIAN IN ACTION</h4>
+                            <p>Some acts of obedience to God are internal, like our attitudes, thoughts, habits, and motives. These show our love for God and help shape who we are on the inside.</p>
+                            <p>But what's inside us eventually shows on the outside in the way we treat others, speak, and live every day. True obedience is not just about doing the right things it's about having a heart that wants to please God.</p>
+                            <div class="scripture">
+                                <p><strong>John 14:21 (NKJV)</strong> – "He who has My commandments and keeps them, it is he who loves Me. And he who loves Me will be loved by My Father, and I will love him and manifest Myself to him."</p>
+                                <p><strong>Romans 12:1 (NKJV)</strong> – "I beseech you therefore, brethren, by the mercies of God, that you present your bodies a living sacrifice, holy, acceptable to God, which is your reasonable service."</p>
+                            </div>
+                            <div class="key-point">
+                                <p><strong>Notes for Learners:</strong> Obedience is the outer rim that keeps the wheel moving forward. Without obedience, all the other spokes become weak. Obedience shows that your faith is real.</p>
+                                <p><strong>👉 Start obeying in the small things:</strong> honesty, kindness, forgiving others.</p>
+                                <p><strong>Facilitator Tip:</strong> Share testimonies of simple obedience and its fruit. Emphasize that obedience brings peace, joy, and spiritual momentum.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="wheel-relation">HOW YOU RELATE TO GOD - THE VERTICAL SPOKES</div>
+                    
+                    <!-- Vertical Spokes -->
+                    <div class="wheel-components">
+                        <div class="wheel-component vertical">
+                            <h4>1. The Word (Bible)</h4>
+                            <p>The Bible is God's voice to you. It guides your life, strengthens your faith, and corrects your path. The more you read and apply it, the more you grow.</p>
+                            <p>God uses His word to speak directly to us, revealing not only who He is, but how He calls us to live and interact with everyone around us.</p>
+                            <p>Personal intake of God's Word is essential for our spiritual health and growth.</p>
+                            <div class="scripture">
+                                <p><strong>Joshua 1:8</strong> – "Keep this Book of the Law always on your lips; meditate on it day and night..."</p>
+                                <p><strong>2 Timothy 3:16</strong> – "All Scripture is God-breathed and is useful for teaching, rebuking, correcting and training in righteousness..."</p>
+                            </div>
+                            <div class="key-point">
+                                <p><strong>Notes for Learners:</strong> The Bible is God's voice to you. It guides your life, strengthens your faith, and corrects your path. The more you read and apply it, the more you grow.</p>
+                                <p><strong>👉 Start small:</strong> a verse a day with reflection. Don't rush, let it sink in.</p>
+                                <p><strong>Facilitator Tip:</strong> Encourage the use of reading plans or simple Bible tools. Demonstrate how to journal or highlight key lessons from Scripture.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="wheel-component vertical">
+                            <h4>2. 🙏 Prayer</h4>
+                            <p>Prayer is talking to God—anytime, anywhere.</p>
+                            <p>It's how we express our heart to Him, ask for help, and listen for His guidance.</p>
+                            <p>Prayer not only trains our hearts and minds to know the power and glory of God, but also turns His ear towards action in our lives.</p>
+                            <div class="scripture">
+                                <p><strong>Philippians 4:6-7</strong> – "Do not be anxious about anything, but in every situation, by prayer... present your requests to God..."</p>
+                                <p><strong>1 Thessalonians 5:17</strong> – "Pray without ceasing."</p>
+                            </div>
+                            <div class="key-point">
+                                <p><strong>Notes for Learners:</strong> Prayer is talking to God—anytime, anywhere. It's how we express our heart to Him, ask for help, and listen for His guidance.</p>
+                                <p><strong>👉 God isn't looking for perfect words.</strong> Just honesty and consistency.</p>
+                                <p><strong>Facilitator Tip:</strong> Introduce the ACTS method (Adoration, Confession, Thanksgiving, Supplication). Practice short group prayers to build confidence.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="wheel-relation">HOW YOU RELATE TO OTHERS - THE HORIZONTAL SPOKES</div>
+                    
+                    <!-- Horizontal Spokes -->
+                    <div class="wheel-components">
+                        <div class="wheel-component horizontal">
+                            <h4>1. 👥 Fellowship</h4>
+                            <p>God made us to grow together, not alone. The Christian life was not meant to be lived in isolation. God wants us to build each other up, love each other, and make each other strong in our faith.</p>
+                            <p>Every time we gather together — for church, small groups, or discipleship classes — we experience God's presence in a unique way and actively encourage one another through prayer, support, and worship.</p>
+                            <div class="scripture">
+                                <p><strong>Hebrews 10:24-25</strong> – "Let us not give up meeting together... but encourage one another..."</p>
+                                <p><strong>Acts 2:42</strong> – "They devoted themselves to the apostles' teaching and to fellowship..."</p>
+                            </div>
+                            <div class="key-point">
+                                <p><strong>Notes for Learners:</strong> Fellowship helps us grow together, not just alone. We encourage, correct, and carry each other in faith. Christianity is not a solo walk—it's a family journey.</p>
+                                <p><strong>👉 Plug into a church group or Bible study.</strong> Find spiritual friends.</p>
+                                <p><strong>Facilitator Tip:</strong> Encourage group sharing. Plan fun and spiritual bonding activities like service projects, games, or prayer partners.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="wheel-component horizontal">
+                            <h4>2. Witnessing</h4>
+                            <p>God has placed the privilege and duty upon believers to proclaim to the world about the good news of Christ's work on Earth (Matthew 4:19). Furthermore, it is the natural overflow of a rich and meaningful life in Christ to be sharing about His magnificent grace (Romans 1:16).</p>
+                            <div class="scripture">
+                                <p><strong>Matthew 28:19-20</strong> – "Go and make disciples of all nations..."</p>
+                                <p><strong>Romans 1:16</strong> – "I am not ashamed of the gospel, because it is the power of God that brings salvation..."</p>
+                            </div>
+                            <div class="key-point">
+                                <p><strong>Notes for Learners:</strong> Witnessing is simply sharing your faith — what Jesus has done for you. It's about being light to others through words and actions.</p>
+                                <p><strong>👉 You don't need to preach.</strong> Just share your story and God's love.</p>
+                                <p><strong>Facilitator Tip:</strong> Practice a short testimony with learners. Teach simple evangelism tools (e.g., The Bridge illustration or Romans Road, Evangecube).</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Summary and Activity -->
+                    <div class="key-point">
+                        <h4>🔚 Summary for Learners:</h4>
+                        <p>The Wheel Illustration teaches that a balanced spiritual life keeps you growing strong in Jesus. If one spoke is weak, your spiritual growth is affected.</p>
+                        <p>Let Christ be the center, and keep the wheel turning through the Word, prayer, fellowship, witnessing, and obedience.</p>
+                    </div>
+                    
+                    <div class="activity">
+                        <h4>Activity:</h4>
+                        <ul>
+                            <li>Have learners label a blank wheel and explain each part.</li>
+                            <li>Encourage them to self-assess: "Which spoke do you need to strengthen?"</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="reflection">
+                        <h4>Personal Reflection</h4>
+                        <p>Which component of the Wheel do you feel needs strengthening in your spiritual life right now?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="wheel1"></textarea>
+                        <p>What practical step can you take this week to strengthen that area?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="wheel2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TOPIC 4: HOW TO READ THE BIBLE TOGETHER - WORD -->
+        <button class="topic-collapsible" id="topic4Collapsible">
+            <span>Topic 4: How to Read the Bible Together - WORD</span>
+            <span class="completion-status" id="topic4Status">●</span>
+        </button>
+        <div class="topic-content" id="topic4Content">
+            <div class="topic" id="topic4">
+                <div class="topic-completion" id="topic4Completion"></div>
+                <h2>Topic 4: How to Read the Bible Together - WORD</h2>
+                <p><strong>Objective:</strong> To equip new believers with tools and methods for studying the Bible personally and in groups.</p>
+                
+                <div class="key-point">
+                    <p><strong>Facilitator Notes:</strong></p>
+                    <ul>
+                        <li>Highlight the Bible as God's living Word, not just a religious book.</li>
+                        <li>Encourage consistency over quantity.</li>
+                        <li>Model a group Bible study using a short passage (e.g., Psalm 1).</li>
+                    </ul>
+                </div>
+                
+                <!-- 7 Minutes with God -->
+                <div class="bible-method">
+                    <div class="method-title">1) 7 Minutes with God</div>
+                    <p>Short daily devotion guide (Prayer, Word, Reflection), Daily devotional habit—1 min prayer, 4 min Bible reading, 2 min reflection.</p>
+                    <div class="key-point">
+                        <p>Keep this method simple but clear. The idea is to make Bible reading a daily habit, and 7 minutes can feel manageable to new believers who may be intimidated by the idea of long Bible study. Encourage them to start small and increase their time gradually.</p>
+                    </div>
+                    <div class="activity">
+                        <h4>Daily Structure:</h4>
+                        <ul>
+                            <li><strong>1 minute:</strong> Prayer - Talk to God, ask for understanding</li>
+                            <li><strong>4 minutes:</strong> Bible Reading - Read a short passage</li>
+                            <li><strong>2 minutes:</strong> Reflection - Think about what you read and how to apply it</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- IQA Method -->
+                <div class="bible-method">
+                    <div class="method-title">2) IQA Method (Interpret, Question, Apply)</div>
+                    <p>Break this method into manageable parts. Begin by walking them through the steps with an example from the Bible (such as John 3:16).</p>
+                    
+                    <div class="method-steps">
+                        <div class="method-step">
+                            <h5>o Investigate/Interpret (What does the verse say?)</h5>
+                            <p>Helps you understand the message of the passage.</p>
+                            <p><strong>Ask Yourself:</strong></p>
+                            <ul>
+                                <li>Who is speaking or being spoken to?</li>
+                                <li>What is the ideas and truth of the verse?</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="method-step">
+                            <h5>o Question (What does it mean?)</h5>
+                            <p>Encourages curiosity and deeper thinking.</p>
+                            <p><strong>Ask Yourself:</strong> What do I not fully understand? (Ask your mentor to explain)</p>
+                        </div>
+                        
+                        <div class="method-step">
+                            <h5>o Apply (What will I do?)</h5>
+                            <p>Turns knowledge into action.</p>
+                            <p><strong>Ask Yourself:</strong> How should I change my thinking, acting, or believing because of this?</p>
+                            <p><em>NB - Allow God to speak to your heart and guide your behaviors.</em></p>
+                        </div>
+                    </div>
+                    
+                    <div class="key-point">
+                        <p>Remind them that this is not about knowing everything but about understanding and applying God's Word as best as they can.</p>
+                    </div>
+                </div>
+                
+                <!-- Scripture Memory -->
+                <div class="memory-system">
+                    <div class="method-title">3) Scripture Memory (TMS – Topical Memory System)</div>
+                    <p>The Topical Memory System helps believers memorize verses by theme to build a strong biblical foundation. Weekly memorization of key Scriptures helps internalize God's Word for daily living.</p>
+                    
+                    <h4>Suggested Weekly Themes:</h4>
+                    
+                    <div class="week-theme">
+                        <h5>• Week 1: Love</h5>
+                        <div class="scripture">
+                            <p><strong>John 13:34-35</strong> - "A new command I give you: Love one another. As I have loved you, so you must love one another. By this everyone will know that you are my disciples, if you love one another."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="week-theme">
+                        <h5>• Week 2: Obedience</h5>
+                        <div class="scripture">
+                            <p><strong>John 14:21</strong> - "Whoever has my commands and keeps them is the one who loves me. The one who loves me will be loved by my Father, and I too will love them and show myself to them."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="week-theme">
+                        <h5>• Week 3: Forgiveness</h5>
+                        <div class="scripture">
+                            <p><strong>Ephesians 4:32</strong> - "Be kind and compassionate to one another, forgiving each other, just as in Christ God forgave you."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="week-theme">
+                        <h5>• Week 4: Honesty</h5>
+                        <div class="scripture">
+                            <p><strong>Proverbs 12:22</strong> - "The Lord detests lying lips, but he delights in people who are trustworthy."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="week-theme">
+                        <h5>• Week 5: Courage</h5>
+                        <div class="scripture">
+                            <p><strong>Joshua 1:9</strong> - "Have I not commanded you? Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Topical Studies -->
+                <div class="bible-method">
+                    <div class="method-title">4) Topical Studies</div>
+                    <p><strong>Topics:</strong> Identity in Christ, grace, discipleship, spiritual growth</p>
+                    
+                    <div class="key-point">
+                        <h4>Learner Notes:</h4>
+                        <ul>
+                            <li>Choose one topic per week to study using your Bible concordance or search function.</li>
+                            <li>Write down 3–5 related verses and reflect on what they reveal about God's character or your Christian Walk.</li>
+                            <li>Journal how each theme applies to your life currently.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Hand Illustration -->
+                <div class="hand-illustration">
+                    <h3>5) Hand Illustration: Engaging with the Bible</h3>
+                    <p>The Hand Illustration is a simple and powerful way to help you remember how to grow in your love for God's Word and apply it in your daily life. Each finger of your hand reminds you of an important habit or perspective in Bible engagement.</p>
+                    
+                    <!-- Hand Diagram -->
+                    <div class="hand-container">
+                        <svg class="hand-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Hand outline -->
+                            <path d="M100,50 C120,60 130,80 130,100 C130,120 120,140 100,150 C80,140 70,120 70,100 C70,80 80,60 100,50 Z" fill="#f5f5f5" stroke="#333" stroke-width="2"/>
+                            
+                            <!-- Fingers -->
+                            <!-- Little Finger -->
+                            <path d="M70,100 L60,70 L50,50 L60,30 L70,40" fill="#e8f4fc" stroke="#3498db" stroke-width="2"/>
+                            <text x="45" y="25" class="finger-label">HEAR</text>
+                            <text x="45" y="35" class="finger-point">Romans 10:17</text>
+                            
+                            <!-- Ring Finger -->
+                            <path d="M80,95 L75,60 L70,40 L80,30 L85,45" fill="#e8f4fc" stroke="#3498db" stroke-width="2"/>
+                            <text x="65" y="25" class="finger-label">READ</text>
+                            <text x="65" y="35" class="finger-point">Rev 1:3</text>
+                            
+                            <!-- Middle Finger -->
+                            <path d="M95,90 L95,50 L100,30 L105,50 L105,90" fill="#e8f4fc" stroke="#3498db" stroke-width="2"/>
+                            <text x="95" y="25" class="finger-label">STUDY</text>
+                            <text x="95" y="35" class="finger-point">Acts 17:11</text>
+                            
+                            <!-- Index Finger -->
+                            <path d="M110,95 L115,60 L110,40 L120,30 L125,45" fill="#e8f4fc" stroke="#3498db" stroke-width="2"/>
+                            <text x="125" y="25" class="finger-label">MEMORIZE</text>
+                            <text x="125" y="35" class="finger-point">Ps 119:11</text>
+                            
+                            <!-- Thumb -->
+                            <path d="M120,100 L130,80 L140,70 L135,90 L125,110" fill="#e8f4fc" stroke="#3498db" stroke-width="2"/>
+                            <text x="145" y="75" class="finger-label">MEDITATE</text>
+                            <text x="145" y="85" class="finger-point">Joshua 1:8</text>
+                        </svg>
+                    </div>
+                    
+                    <!-- Finger Descriptions -->
+                    <div class="finger-desc">
+                        <h4>1. Little Finger – Hear God's Word</h4>
+                        <p>We hear Gods word from Pastors and teachers. The weakest finger (the pinkie) represents hearing, because we retain only five percent of what we hear.</p>
+                        <div class="scripture">
+                            <p><strong>Romans 10:17</strong> - "Faith comes by hearing, and hearing through the word of Christ."</p>
+                        </div>
+                        <ul>
+                            <li>Hearing the Word is the starting point of faith.</li>
+                            <li>Listen attentively during sermons, podcasts, Bible audio, or group devotions.</li>
+                            <li>Ask God to speak to you each time you hear His Word.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="finger-desc">
+                        <h4>2. Ring Finger – Read God's Word</h4>
+                        <p>We generally retain 15 percent of what we read. Reading gives us an overview of the Bible and is the foundation of a daily quiet time.</p>
+                        <div class="scripture">
+                            <p><strong>Revelation 1:3</strong> - "Blessed is the one who reads aloud the words of this prophecy..."</p>
+                        </div>
+                        <ul>
+                            <li>Reading helps you become familiar with God's truth.</li>
+                            <li>Aim to read the Bible daily—begin with the Gospels or Psalms if you're just starting.</li>
+                            <li>Use a Bible reading plan for structure and consistency if need be.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="finger-desc">
+                        <h4>3. Middle Finger – Study God's Word</h4>
+                        <p>The more we read and think about God's Word, the more we understand it. Most people retain 35 percent of what they study.</p>
+                        <div class="scripture">
+                            <p><strong>Acts 17:11</strong> - "They received the word with all readiness and searched the Scriptures daily to find out whether these things were so."</p>
+                        </div>
+                        <ul>
+                            <li>Studying is digging deeper into Scripture—looking at the meaning, context, and application.</li>
+                            <li>Use tools like dictionaries, commentaries, or Bible apps to help your understanding.</li>
+                            <li>Ask questions: Who is speaking? Who is it about? What does it mean for me?</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="finger-desc">
+                        <h4>4. 💍 Index Finger – Memorize God's Word</h4>
+                        <div class="scripture">
+                            <p><strong>Psalm 119:9,11</strong> - "How can a young person stay on the path of purity? By living according to your word... I have hidden your word in my heart that I might not sin against you."</p>
+                        </div>
+                        <ul>
+                            <li>Memorizing Scripture helps you carry God's Word with you everywhere.</li>
+                            <li>Start with key verses about God's promises, identity in Christ, and spiritual strength.</li>
+                            <li>Repetition, writing it down, or using memory apps can help you learn verses.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="finger-desc">
+                        <h4>5. Thumb Finger – Meditate & Apply God's Word</h4>
+                        <p>Meditation is the process that accompanies each of the other four methods of Scripture intake. This is why meditation is assigned to the thumb. Only the thumb can touch all the other four fingers. By meditating on God's Word as we hear, read, study, and memorize, we discover its transforming power at work in us. Psalm 1:2-3</p>
+                        <div class="scripture">
+                            <p><strong>Joshua 1:8</strong> - "Keep this Book of the Law always on your lips; meditate on it day and night, so that you may be careful to do everything written in it."</p>
+                        </div>
+                        <ul>
+                            <li>Meditation means reflecting deeply thinking about what the verse means and how it applies to you.</li>
+                            <li>Application is living it out—changing your actions, decisions, and attitudes.</li>
+                            <li>Ask: What is God saying to me? What should I do differently?</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Summary for Kids -->
+                    <div class="key-point">
+                        <h4>SUMMARY FOR KIDS</h4>
+                        <ul>
+                            <li><strong>Little Finger – Hear</strong> - Listen to God's Word being read or taught (Romans 10:17).</li>
+                            <li><strong>Ring Finger – Read</strong> - Read the Bible regularly to learn God's truth (Revelation 1:3).</li>
+                            <li><strong>Middle Finger – Study</strong> - Study deeper to understand what the Bible really means (Acts 17:11).</li>
+                            <li><strong>Index Finger – Memorize</strong> - Hide God's Word in your heart so you can remember it (Psalm 119:11).</li>
+                            <li><strong>Thumb – Meditate</strong> - Think about God's Word and what it means for your life (Psalm 1:2).</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Group Activity -->
+                    <div class="activity">
+                        <h4>📌 Group Activity Suggestion:</h4>
+                        <ul>
+                            <li>Have each person share which "finger" they need to focus on most in their current walk with God.</li>
+                            <li>Then, pray for each other to grow in that area.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Cross Referencing -->
+                <div class="bible-method">
+                    <div class="method-title">6) Cross Referencing</div>
+                    
+                    <div class="key-point">
+                        <h4>Learner Notes:</h4>
+                        <ul>
+                            <li>Pick a central theme (e.g., forgiveness, hope, obedience).</li>
+                            <li>Find at least 3 different scriptures that talk about that same theme.</li>
+                            <li>Ask: Do these scriptures agree or build on each other? What new perspective do they offer?</li>
+                            <li>Use a study Bible with cross-reference footnotes to guide you.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Using Different Translations -->
+                <div class="bible-method">
+                    <div class="method-title">7) Using Different Translations</div>
+                    
+                    <div class="key-point">
+                        <h4>Learner Notes:</h4>
+                        <ul>
+                            <li>Read the same verse in 2–3 Bible versions (e.g., KJV, NKJV, ESV, NLT, AMP).</li>
+                            <li>Observe how different translations highlight clarity, tone, or context.</li>
+                            <li>Ask: Which version helps me understand the meaning best? Does this reveal something new?</li>
+                            <li>Use Bible apps or side-by-side Bibles for comparison.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Reflection -->
+                <div class="reflection">
+                    <h4>Personal Reflection</h4>
+                    <p>Which Bible study method are you most excited to try? Why?</p>
+                    <textarea placeholder="Type your reflection here..." data-reflection-id="bible1"></textarea>
+                    <p>What is one practical step you can take this week to improve your Bible reading habits?</p>
+                    <textarea placeholder="Type your reflection here..." data-reflection-id="bible2"></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <div class="lesson-nav">
+            <a href="module-lesson2.html" class="btn">Next Lesson</a>
+            <button class="btn btn-outline" id="viewProgress">View Dashboard</button>
+        </div>
+    </div>
+    
+    <!-- Progress Summary Modal -->
+    <div class="modal" id="progressModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Your Progress Summary</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="progress-summary" id="progressSummary">
+                <!-- Progress details will be populated here -->
+            </div>
+            <div class="lesson-nav">
+                <button class="btn" id="exportProgress">Export Progress</button>
+                <button class="btn btn-outline" id="resetProgress">Reset Progress</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <button class="btn btn-outline" id="logoutBtn">LogOut</button>
+        <a href="../progress.html" class="nav-item">
+            <span class="nav-icon">📊</span>
+            <span>Dashboard</span>
+        </a>
+        <a href="lessons.html" class="nav-item active">
+            <span class="nav-icon">📚</span>
+            <span>Lessons</span>
+        </a>
+        <a href="resources.html" class="nav-item">
+            <span class="nav-icon">🔖</span>
+            <span>Resources</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <span class="nav-icon">👤</span>
+            <span>Profile</span>
+        </a>
+    </div>
+    
+    <footer>
+        <p>Pathlight Discipleship Curriculum &copy; 2023 | KCMC</p>
+        <p>Lit to Lead. Rooted to Grow.</p>
+    </footer>
+
+    <script>
+        // Progress tracking and sync features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize progress tracking
+            initializeProgressTracking();
+            
+            // Set up sync indicator
+            const syncStatus = document.getElementById('syncStatus');
+            
+            // Auto-save functionality
+            setupAutoSave();
+            
+            // Progress modal functionality
+            setupProgressModal();
+            
+            // Initialize matching game
+            setupMatchingGame();
+            
+            // Initialize collapsible sections
+            setupCollapsibleSections();
+            
+            // Initialize topic collapsible sections
+            setupTopicCollapsibleSections();
+            
+            // Load saved progress
+            loadProgress();
+        });
+        
+        function initializeProgressTracking() {
+            // Topic completion toggle
+            const completionElements = document.querySelectorAll('.topic-completion');
+            completionElements.forEach(element => {
+                element.addEventListener('click', function() {
+                    this.classList.toggle('topic-completed');
+                    updateProgressBar();
+                    updateTopicStatus();
+                    saveProgress();
+                });
+                
+                // Add touch feedback
+                element.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.95)';
+                });
+                
+                element.addEventListener('touchend', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+            
+            // Reflection text auto-save
+            document.querySelectorAll('.reflection textarea').forEach(textarea => {
+                textarea.addEventListener('input', function() {
+                    saveProgress();
+                });
+            });
+        }
+        
+        function setupAutoSave() {
+            // Auto-save progress every 30 seconds
+            setInterval(saveProgress, 30000);
+            
+            // Save on page unload
+            window.addEventListener('beforeunload', saveProgress);
+        }
+        
+        function setupProgressModal() {
+            const modal = document.getElementById('progressModal');
+            const viewProgressBtn = document.getElementById('viewProgress');
+            const closeModalBtn = document.getElementById('closeModal');
+            const exportProgressBtn = document.getElementById('exportProgress');
+            const resetProgressBtn = document.getElementById('resetProgress');
+            
+            viewProgressBtn.addEventListener('click', function() {
+                updateProgressSummary();
+                modal.style.display = 'flex';
+            });
+            
+            closeModalBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            exportProgressBtn.addEventListener('click', exportProgress);
+            resetProgressBtn.addEventListener('click', resetProgress);
+        }
+        
+        function setupMatchingGame() {
+            document.getElementById('startMatchingGame').addEventListener('click', function() {
+                const container = document.getElementById('matchingGameContainer');
+                if (container.style.display === 'none') {
+                    container.style.display = 'block';
+                    initializeMatchingGame();
+                } else {
+                    container.style.display = 'none';
+                }
+            });
+        }
+        
+        function setupCollapsibleSections() {
+            const coll = document.querySelectorAll('.collapsible');
+            coll.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+        }
+        
+        function setupTopicCollapsibleSections() {
+            const topicCollapsibles = document.querySelectorAll('.topic-collapsible');
+            topicCollapsibles.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = document.getElementById(this.id.replace('Collapsible', 'Content'));
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+            
+            // Open first topic by default
+            if (topicCollapsibles.length > 0) {
+                topicCollapsibles[0].classList.add('active');
+                const firstContent = document.getElementById('topic1Content');
+                firstContent.style.maxHeight = firstContent.scrollHeight + 'px';
+            }
+        }
+        
+        function updateProgressBar() {
+            const completedTopics = document.querySelectorAll('.topic-completed').length;
+            const totalTopics = document.querySelectorAll('.topic-completion').length;
+            const progressPercentage = (completedTopics / totalTopics) * 100;
+            
+            document.getElementById('progressBar').style.width = progressPercentage + '%';
+        }
+        
+        function updateTopicStatus() {
+            // Update status indicators for each topic
+            for (let i = 1; i <= 4; i++) {
+                const completionElement = document.getElementById(`topic${i}Completion`);
+                const statusElement = document.getElementById(`topic${i}Status`);
+                
+                if (completionElement && statusElement) {
+                    if (completionElement.classList.contains('topic-completed')) {
+                        statusElement.textContent = '✓';
+                        statusElement.style.color = 'var(--success-color)';
+                    } else {
+                        statusElement.textContent = '●';
+                        statusElement.style.color = '#ccc';
+                    }
+                }
+            }
+        }
+        
+        function saveProgress() {
+            const syncStatus = document.getElementById('syncStatus');
+            syncStatus.textContent = 'Syncing...';
+            syncStatus.className = 'sync-status syncing';
+            
+            // Collect topic completion status
+            const topics = [];
+            document.querySelectorAll('.topic-completion').forEach((element, index) => {
+                topics.push({
+                    id: index,
+                    completed: element.classList.contains('topic-completed')
+                });
+            });
+            
+            // Collect reflection responses
+            const reflections = {};
+            document.querySelectorAll('.reflection textarea').forEach(textarea => {
+                const reflectionId = textarea.getAttribute('data-reflection-id');
+                reflections[reflectionId] = textarea.value;
+            });
+            
+            // Collect matching game progress
+            const matchingGame = {
+                score: parseInt(document.getElementById('score').textContent) || 0,
+                total: parseInt(document.getElementById('total').textContent) || 0
+            };
+            
+            // Collect topic collapsible states
+            const topicStates = {};
+            document.querySelectorAll('.topic-collapsible').forEach(collapsible => {
+                topicStates[collapsible.id] = collapsible.classList.contains('active');
+            });
+            
+            // Save to localStorage
+            const progressData = {
+                topics: topics,
+                reflections: reflections,
+                matchingGame: matchingGame,
+                topicStates: topicStates,
+                lastUpdated: new Date().toISOString()
+            };
+            
+            localStorage.setItem('lesson1Progress', JSON.stringify(progressData));
+            
+            // Simulate sync delay
+            setTimeout(() => {
+                syncStatus.textContent = 'Synced';
+                syncStatus.className = 'sync-status synced';
+            }, 800);
+        }
+        
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('lesson1Progress');
+            if (savedProgress) {
+                const progressData = JSON.parse(savedProgress);
+                
+                // Load topic completion
+                progressData.topics.forEach(topic => {
+                    const element = document.querySelectorAll('.topic-completion')[topic.id];
+                    if (element && topic.completed) {
+                        element.classList.add('topic-completed');
+                    }
+                });
+                
+                // Load reflection responses
+                Object.keys(progressData.reflections).forEach(reflectionId => {
+                    const textarea = document.querySelector(`textarea[data-reflection-id="${reflectionId}"]`);
+                    if (textarea) {
+                        textarea.value = progressData.reflections[reflectionId];
+                    }
+                });
+                
+                // Load matching game progress
+                if (progressData.matchingGame) {
+                    document.getElementById('score').textContent = progressData.matchingGame.score;
+                    document.getElementById('total').textContent = progressData.matchingGame.total;
+                }
+                
+                // Load topic collapsible states
+                if (progressData.topicStates) {
+                    Object.keys(progressData.topicStates).forEach(collapsibleId => {
+                        const collapsible = document.getElementById(collapsibleId);
+                        const content = document.getElementById(collapsibleId.replace('Collapsible', 'Content'));
+                        
+                        if (collapsible && content) {
+                            if (progressData.topicStates[collapsibleId]) {
+                                collapsible.classList.add('active');
+                                content.style.maxHeight = content.scrollHeight + 'px';
+                            } else {
+                                collapsible.classList.remove('active');
+                                content.style.maxHeight = null;
+                            }
+                        }
+                    });
+                }
+                
+                updateProgressBar();
+                updateTopicStatus();
+            }
+        }
+        
+        function updateProgressSummary() {
+            const summaryElement = document.getElementById('progressSummary');
+            const completedTopics = document.querySelectorAll('.topic-completed').length;
+            const totalTopics = document.querySelectorAll('.topic-completion').length;
+            const progressPercentage = Math.round((completedTopics / totalTopics) * 100);
+            
+            // Count completed reflections
+            let completedReflections = 0;
+            const totalReflections = document.querySelectorAll('.reflection textarea').length;
+            document.querySelectorAll('.reflection textarea').forEach(textarea => {
+                if (textarea.value.trim() !== '') {
+                    completedReflections++;
+                }
+            });
+            
+            // Get matching game progress
+            const matchingScore = parseInt(document.getElementById('score').textContent) || 0;
+            const matchingTotal = parseInt(document.getElementById('total').textContent) || 0;
+            
+            summaryElement.innerHTML = `
+                <div class="progress-item">
+                    <span>Topics Completed:</span>
+                    <span>${completedTopics}/${totalTopics} (${progressPercentage}%)</span>
+                </div>
+                <div class="progress-item">
+                    <span>Reflections Completed:</span>
+                    <span>${completedReflections}/${totalReflections}</span>
+                </div>
+                <div class="progress-item">
+                    <span>Matching Game Score:</span>
+                    <span>${matchingScore}/${matchingTotal}</span>
+                </div>
+                <div class="progress-item">
+                    <span>Last Updated:</span>
+                    <span>${new Date().toLocaleString()}</span>
+                </div>
+            `;
+        }
+        
+        function exportProgress() {
+            const progressData = localStorage.getItem('lesson1Progress');
+            if (!progressData) {
+                alert('No progress data to export.');
+                return;
+            }
+            
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(progressData);
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "lesson1_progress.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+        
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress for this lesson? This cannot be undone.')) {
+                localStorage.removeItem('lesson1Progress');
+                document.querySelectorAll('.topic-completion').forEach(element => {
+                    element.classList.remove('topic-completed');
+                });
+                document.querySelectorAll('.reflection textarea').forEach(textarea => {
+                    textarea.value = '';
+                });
+                document.getElementById('score').textContent = '0';
+                updateProgressBar();
+                updateTopicStatus();
+                updateProgressSummary();
+                alert('Progress has been reset.');
+            }
+        }
+        
+        function initializeMatchingGame() {
+            const pairs = [
+                {verse: 'Romans 8:38-39 — Nothing separates us from God\'s love', theme: 'God\'s Unfailing Love'},
+                {verse: 'John 10:28 — I give them eternal life', theme: 'Assurance of Salvation'},
+                {verse: 'Philippians 4:13 — I can do all things through Christ', theme: 'Confidence & Strength'},
+                {verse: 'Romans 8:37 — More than conquerors', theme: 'Assurance of Victory'},
+                {verse: 'Hebrews 13:5 — I will never leave you', theme: 'God\'s Presence'}
+            ];
+
+            const versesList = document.getElementById('versesList');
+            const themesList = document.getElementById('themesList');
+            const scoreSpan = document.getElementById('score');
+            const totalSpan = document.getElementById('total');
+
+            let state = {selectedVerse: null, selectedTheme: null, correct: 0, total: pairs.length};
+            totalSpan.textContent = state.total;
+
+            function shuffle(arr){ 
+                for(let i=arr.length-1;i>0;i--){
+                    const j=Math.floor(Math.random()*(i+1));
+                    [arr[i],arr[j]]=[arr[j],arr[i]];
+                } 
+                return arr; 
+            }
+
+            function renderBoard(){
+                versesList.innerHTML = '';
+                themesList.innerHTML = '';
+                const verses = shuffle([...pairs.map(p=>p.verse)]);
+                const themes = shuffle([...pairs.map(p=>p.theme)]);
+                
+                verses.forEach(v => {
+                    const el = document.createElement('div');
+                    el.className = 'item';
+                    el.textContent = v;
+                    el.onclick = () => selectItem(el, 'verse');
+                    versesList.appendChild(el);
+                });
+                
+                themes.forEach(t => {
+                    const el = document.createElement('div');
+                    el.className = 'item';
+                    el.textContent = t;
+                    el.onclick = () => selectItem(el, 'theme');
+                    themesList.appendChild(el);
+                });
+            }
+
+            function selectItem(el, type){
+                if(el.classList.contains('correct')) return;
+                document.querySelectorAll(type === 'verse' ? '#versesList .item' : '#themesList .item').forEach(i => i.classList.remove('selected'));
+                el.classList.add('selected');
+                if(type === 'verse') state.selectedVerse = el.textContent; 
+                else state.selectedTheme = el.textContent;
+                
+                if(state.selectedVerse && state.selectedTheme) checkMatch();
+            }
+
+            function checkMatch(){
+                const match = pairs.find(p => p.verse === state.selectedVerse && p.theme === state.selectedTheme);
+                const vEl = [...document.querySelectorAll('#versesList .item')].find(i => i.textContent === state.selectedVerse);
+                const tEl = [...document.querySelectorAll('#themesList .item')].find(i => i.textContent === state.selectedTheme);
+                
+                if(match){
+                    vEl.classList.add('correct');
+                    tEl.classList.add('correct');
+                    state.correct++;
+                    scoreSpan.textContent = state.correct;
+                    saveProgress(); // Save game progress
+                }
+                
+                vEl.classList.remove('selected');
+                tEl.classList.remove('selected');
+                state.selectedVerse = null;
+                state.selectedTheme = null;
+            }
+
+            renderBoard();
+        }
+    </script>
+    <script>
+   // Logout functionality
+            logoutBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    // In a real app, this would clear authentication tokens
+                    // and redirect to login page
+                    showNotification('You have been logged out successfully.', 'success');
+                    setTimeout(() => {
+                        // Simulate logout - in a real app, redirect to login
+                        window.location.href = '../index.html';
+                    }, 1500);
+                }
+            });
+            
+    </script>
+    <script type="module" src="../auth-check.js"></script>
+</body>
+</html>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathlight Discipleship Curriculum - Module Introduction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --success-color: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);
+            padding-bottom: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .program-overview {
+            background-color: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--secondary-color);
+        }
+        
+        .program-overview h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .module-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+        
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .module-title {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .module-number {
+            background-color: var(--secondary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .topic-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .topic-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.2s ease;
+        }
+        
+        .topic-item:hover {
+            background-color: #e9ecef;
+        }
+        
+        .topic-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .program-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: var(--dark-color);
+            color: white;
+            border-radius: 15px;
+        }
+        
+        .program-objectives {
+            background-color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .objective-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .objective-icon {
+            background-color: var(--secondary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .progress-container {
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            height: 12px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            width: 10%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .program-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .module-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .module-number {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Pathlight Discipleship Curriculum</h1>
+            <p class="tagline">Lit to Lead. Rooted to Grow.</p>
+            <p>A comprehensive discipleship program designed to ground new believers in foundational Christian principles and equip them for a life of faithful service.</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="program-overview">
+            <h2>Program Overview</h2>
+            <p>The Pathlight Discipleship Curriculum is a structured program that guides new believers through essential Christian teachings and practices. Through five comprehensive lessons, participants will build a solid foundation for their faith journey, learning to follow Jesus in every area of life.</p>
+            
+            
+        </div>
+        
+        <div class="program-stats">
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Comprehensive Lessons</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Core Topics</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">20+</div>
+                <div class="stat-label">Worksheets & Activities</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Scripture References</div>
+            </div>
+        </div>
+        
+        <div class="program-objectives">
+            <h2 class="mb-4">Program Objectives</h2>
+            <div class="objective-item">
+                <div class="objective-icon">
+                    <i class="bi bi-journal-bookmark"></i>
+                </div>
+                <div>
+                    <h5>Establish Biblical Foundation</h5>
+                    <p>Ground new believers in essential Christian doctrines and practices</p>
+                </div>
+            </div>
+            <div class="objective-item">
+                <div class="objective-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div>
+                    <h5>Develop Spiritual Disciplines</h5>
+                    <p>Cultivate habits of prayer, Bible study, fellowship, and worship</p>
+                </div>
+            </div>
+            <div class="objective-item">
+                <div class="objective-icon">
+                    <i class="bi bi-send"></i>
+                </div>
+                <div>
+                    <h5>Equip for Service</h5>
+                    <p>Prepare believers to use their spiritual gifts and share their faith</p>
+                </div>
+            </div>
+            <div class="objective-item">
+                <div class="objective-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <div>
+                    <h5>Build Spiritual Resilience</h5>
+                    <p>Strengthen believers to stand firm in spiritual battles</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="mb-4">Curriculum Structure</h2>
+        
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-title">LESSON 1: FOUNDATION TO NEW BELIEVERS</div>
+                <div class="module-number">1</div>
+            </div>
+            <p class="mb-3">Establishing the core foundations of the Christian faith for new believers.</p>
+            <ul class="topic-list">
+                <li class="topic-item">
+                    <div class="topic-number">1</div>
+                    <div>TOPIC 1: THE FIVE ASSURANCES</div>
+                </li>
+                <li class="topic-item">
+                    <div class="topic-number">2</div>
+                    <div>TOPIC 2: CLEAR UNDERSTANDING OF THE GOSPEL</div>
+                </li>
+                <li class="topic-item">
+                    <div class="topic-number">3</div>
+                    <div>TOPIC 3: WHEEL ILLUSTRATION (SPIRITUAL GROWTH WHEEL)</div>
+                </li>
+                <li class="topic-item">
+                    <div class="topic-number">4</div>
+                    <div>TOPIC 4: HOW TO READ THE BIBLE TOGETHER - WORD</div>
+                </li>
+            </ul>
+            <div class="mt-3">
+                <a href="module-lesson1.html" class="btn btn-primary">Start Lesson 1</a>
+            </div>
+        </div>
+        
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-title">LESSON 2: PRAYER AND FELLOWSHIP</div>
+                <div class="module-number">2</div>
+            </div>
+            <p class="mb-3">Developing essential spiritual practices for Christian growth.</p>
+            <ul class="topic-list">
+                <li class="topic-item">
+                    <div class="topic-number">1</div>
+                    <div>TOPIC 1: PRAYER</div>
+                </li>
+                <li class="topic-item">
+                    <div class="topic-number">2</div>
+                    <div>TOPIC 2: FELLOWSHIP</div>
+                </li>
+            </ul>
+            <div class="mt-3">
+                <a href="module-lesson2.html" class="btn btn-primary">Start Lesson 2</a>
+            </div>
+        </div>
+        
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-title">LESSON 3: LORDSHIP</div>
+                <div class="module-number">3</div>
+            </div>
+            <p class="mb-3">Understanding what it means to make Jesus Lord of every area of life.</p>
+            <ul class="topic-list">
+                <li class="topic-item">
+                    <div class="topic-number">1</div>
+                    <div>TOPIC 1: COST OF DISCIPLESHIP</div>
+                </li>
+                <li class="topic-item">
+                    <div class="topic-number">2</div>
+                    <div>TOPIC 2: SUBMISSION - AREAS OF STRUGGLE</div>
+                </li>
+                <li class="topic-item">
+                    <div class="topic-number">3</div>
+                    <div>TOPIC 3: MY HEART, CHRIST'S HOME</div>
+                </li>
+            </ul>
+            <div class="mt-3">
+                <a href="module-lesson3.html" class="btn btn-primary">Start Lesson 3</a>
+            </div>
+        </div>
+        
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-title">LESSON 4: DOCTRINE</div>
+                <div class="module-number">4</div>
+            </div>
+            <p class="mb-3">Exploring essential Christian teachings for theological foundation.</p>
+            <ul class="topic-list">
+                <li class="topic-item">
+                    <div class="topic-number">1</div>
+                    <div>TOPIC 1: THE DOCTRINE OF JESUS (CHRISTOLOGY)</div>
+                </li>
+                <li class="topic-item">
+                    <div class="topic-number">2</div>
+                    <div>TOPIC 2: THE DOCTRINE OF HOLY SPIRIT (PNEUMATOLOGY)</div>
+                </li>
+                <li class="topic-item">
+                    <div class="topic-number">3</div>
+                    <div>TOPIC 3: THE DOCTRINE OF BAPTISM</div>
+                </li>
+                <li class="topic-item">
+                    <div class="topic-number">4</div>
+                    <div>TOPIC 4: THE DOCTRINE OF IDENTITY IN CHRIST</div>
+                </li>
+            </ul>
+            <div class="mt-3">
+                <a href="module-lesson4.html" class="btn btn-primary">Start Lesson 4</a>
+            </div>
+        </div>
+        
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-title">LESSON 5: WITNESSING, GIFTING AND SPIRITUAL WARFARE</div>
+                <div class="module-number">5</div>
+            </div>
+            <p class="mb-3">Equipping believers for ministry and spiritual battles.</p>
+            <ul class="topic-list">
+                <li class="topic-item">
+                    <div class="topic-number">1</div>
+                    <div>TOPIC 1: THE CALL TO WITNESS</div>
+                </li>
+                <li class="topic-item">
+                    <div class="topic-number">2</div>
+                    <div>TOPIC 2: GIFTING</div>
+                </li>
+                <li class="topic-item">
+                    <div class="topic-number">3</div>
+                    <div>TOPIC 3: SPIRITUAL WARFARE</div>
+                </li>
+            </ul>
+            <div class="mt-3">
+                <a href="module-lesson5.html" class="btn btn-primary">Start Lesson 5</a>
+            </div>
+        </div>
+ <div class="module-card">
+            <div class="module-header">
+                <div class="module-title">LESSON 6: GIFTING</div>
+                <div class="module-number">5</div>
+            </div>
+            <p class="mb-3">These gifts are special abilities given to serve others,
+        build up the Church, and glorify God.</p>
+            <ul class="topic-list">
+                <li class="topic-item">
+                    <div class="topic-number">1</div>
+                    <div>TOPIC 1: SPIRITUAL GIFTS</div>
+                </li>
+         <div class="mt-3">
+                <a href="gifts.html" class="btn btn-primary">Start Lesson 6</a>
+            </div>
+        </div>
+        
+        <div class="program-objectives mt-5">
+            <h2 class="mb-4">Getting Started</h2>
+            <p>To begin your discipleship journey with the Pathlight Curriculum:</p>
+            <ol>
+                <li class="mb-2">Start with Lesson 1 to build a solid foundation</li>
+                <li class="mb-2">Complete each lesson in sequence for optimal learning</li>
+                <li class="mb-2">Engage with all worksheets and reflection activities</li>
+                <li class="mb-2">Find an accountability partner or small group to journey with</li>
+                <li>Apply what you're learning in daily life</li>
+            </ol>
+            <div class="mt-4">
+                <a href="lesson1-foundation.html" class="btn btn-primary btn-lg">Begin Your Journey</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Pathlight Discipleship Curriculum &copy; 2025 | KCMC</p>
+            <p>Lit to Lead. Rooted to Grow.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate progress tracking
+            const progressBar = document.getElementById('overallProgress');
+            const progressText = document.getElementById('progressText');
+            
+            // Check localStorage for progress
+            let userProgress = localStorage.getItem('pathlightProgress');
+            
+            if (!userProgress) {
+                userProgress = 10; // Starting progress
+                localStorage.setItem('pathlightProgress', userProgress);
+            }
+            
+            progressBar.style.width = `${userProgress}%`;
+            progressText.textContent = `${userProgress}%`;
+            
+            // Add click events to lesson buttons to update progress
+            document.querySelectorAll('.btn-primary').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('btn-lg')) {
+                        // Update progress when starting a new lesson
+                        let currentProgress = parseInt(localStorage.getItem('pathlightProgress'));
+                        if (currentProgress < 100) {
+                            currentProgress += 10;
+                            localStorage.setItem('pathlightProgress', currentProgress);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
