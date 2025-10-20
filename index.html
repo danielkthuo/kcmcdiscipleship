@@ -2,32 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kingdom Covenant Ministries Church - PathLight Discipleship Program</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Kingdom Covenant Ministries Church - Discipleship Programs</title>
+    
     <!-- PWA Meta Tags -->
-<meta name="theme-color" content="#2c3e50">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="KCM Church">
-<meta name="description" content="Discipleship Tool for Kingdom Covenant Ministries">
-<meta name="keywords" content="church, discipleship, christian, ministry">
-<meta name="author" content="Kingdom Covenant Ministries">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="KCM Church">
+    <meta name="description" content="Discipleship Tool for Kingdom Covenant Ministries">
+    <meta name="keywords" content="church, discipleship, christian, ministry">
+    <meta name="author" content="Kingdom Covenant Ministries">
 
-<!-- Apple Touch Icons -->
-<link rel="apple-touch-icon" href="icons/icon-152x152.png">
-<link rel="apple-touch-startup-image" href="icons/icon-512x512.png">
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+    <link rel="apple-touch-startup-image" href="icons/icon-512x512.png">
 
-<!-- PWA Manifest -->
-<link rel="manifest" href="manifest.json">
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
 
-<!-- Viewport for mobile optimization -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
-<!-- Preload important resources -->
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax.googleapis.com">
+    <!-- Preload important resources -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax.googleapis.com">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -36,20 +38,24 @@
             --success-color: #27ae60;
             --light-color: #ecf0f1;
             --gold-color: #f1c40f;
+            --radius: 15px;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--gradient);
             color: #333;
             line-height: 1.6;
+            min-height: 100vh;
         }
         
         .navbar {
@@ -259,6 +265,129 @@
             color: var(--primary-color);
         }
         
+        /* Program Cards */
+        .program-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 100%;
+            margin-bottom: 30px;
+        }
+        
+        .program-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .program-icon {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+        
+        .program-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .program-card p {
+            margin-bottom: 20px;
+        }
+        
+        /* Testimonial Section */
+        .testimonial-section {
+            margin-top: 40px;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            text-align: right;
+            color: var(--secondary-color);
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            margin-top: 40px;
+        }
+        
+        .faq-item {
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding-bottom: 15px;
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            margin-bottom: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-answer {
+            display: none;
+            padding-top: 10px;
+        }
+        
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Install Button */
+        #installButton {
+            display: none;
+            margin-top: 20px;
+        }
+        
         @media (max-width: 768px) {
             .hero-section h1 {
                 font-size: 2.5rem;
@@ -271,6 +400,10 @@
             .program-steps li {
                 padding-left: 70px;
             }
+            
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -279,7 +412,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="images/logo.png" alt="Church Logo" style="height: 45px;">
+                <img src="icons/logo.png" alt="Church Logo" style="height: 45px;">
                 Kingdom Covenant Ministries Church
             </a>
   
@@ -292,13 +425,16 @@
                         <a class="nav-link" href="#about">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#program">The Program</a>
+                        <a class="nav-link" href="#programs">Programs</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#features">Features</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#steps">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
                     </li>
                     <li class="nav-item">
                         <a class="btn btn-hero ms-2" href="login.html">Member Login</a>
@@ -314,24 +450,23 @@
             <div class="logo">
                 <i class="fas fa-church"></i>
             </div>
-            <h2>Teens & Youth PathLight Discipleship Program</h2>
+            <h1>Kingdom Covenant Ministries Church</h1>
             <p>Guiding believers to walk in the light of God's truth and grow in their relationship with Jesus Christ</p>
             <a href="login.html" class="btn btn-hero">Access Member Portal</a>
-                   </div>
-                  <!-- Add this button somewhere in your UI -->
-<button id="installButton" class="btn btn-success" style="display: none;">
-    <i class="fas fa-download me-2"></i>Install App
-</button>
+            <button id="installButton" class="btn btn-success" style="display: none;">
+                <i class="fas fa-download me-2"></i>Install App
+            </button>
+        </div>
     </section>
 
     <!-- About Section -->
     <section id="about" class="section section-light">
         <div class="container">
-            <h2 class="section-title">About PathLight</h2>
+            <h2 class="section-title">About Our Discipleship Programs</h2>
             <div class="row">
                 <div class="col-lg-8 mx-auto">
                     <p class="lead text-center">
-                        PathLight is a comprehensive discipleship journey designed to help believers grow in their relationship with Jesus Christ by walking in the light of His truth.
+                        At Kingdom Covenant Ministries, we believe in nurturing spiritual growth at every stage of life. Our discipleship programs are designed to help believers grow in their relationship with Jesus Christ by walking in the light of His truth.
                     </p>
                     
                     <div class="scripture-box">
@@ -340,11 +475,11 @@
                     </div>
                     
                     <p>
-                        This program guides you step by step to understand who Jesus is, what it means to follow Him, and how to live a life that honors God. Through PathLight, you will learn important truths from the Bible, enrich your prayer life, discover your identity in Christ, grow in God's character, and serve others with your gifts.
+                        Our programs guide you step by step to understand who Jesus is, what it means to follow Him, and how to live a life that honors God. Through our discipleship journeys, you will learn important truths from the Bible, enrich your prayer life, discover your identity in Christ, grow in God's character, and serve others with your gifts.
                     </p>
                     
                     <p>
-                        Whether you're beginning your faith journey or seeking to deepen your walk with God, PathLight provides the structure, community, and biblical foundation needed for spiritual growth and transformation.
+                        Whether you're beginning your faith journey or seeking to deepen your walk with God, our programs provide the structure, community, and biblical foundation needed for spiritual growth and transformation.
                     </p>
                     
                     <p class="text-center mt-4">
@@ -355,10 +490,47 @@
         </div>
     </section>
 
-    <!-- Program Overview -->
-    <section id="program" class="section section-dark">
+    <!-- Programs Section -->
+    <section id="programs" class="section section-dark">
         <div class="container">
-            <h2 class="section-title">Program Overview</h2>
+            <h2 class="section-title">Our Discipleship Programs</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>PathLight Discipleship Program</h3>
+                        <p>For teens and youth, guiding believers to walk in the light of God's truth and grow in their relationship with Jesus Christ.</p>
+                        <div class="program-stats">
+                            <p><strong>Ages:</strong> 13-18</p>
+                            <p><strong>Duration:</strong> 12 months</p>
+                        </div>
+                        <a href="#pathlight" class="btn btn-hero">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-baby"></i>
+                        </div>
+                        <h3>Womb to Worship</h3>
+                        <p>Nurturing your child's spiritual journey from the very beginning. A comprehensive discipleship journey from pregnancy to age two.</p>
+                        <div class="program-stats">
+                            <p><strong>Ages:</strong> Prenatal to 2 years</p>
+                            <p><strong>Duration:</strong> 24 months</p>
+                        </div>
+                        <a href="#womb-to-worship" class="btn btn-hero">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PathLight Program Details -->
+    <section id="pathlight" class="section section-light">
+        <div class="container">
+            <h2 class="section-title">PathLight Discipleship Program</h2>
             <div class="row">
                 <div class="col-md-6">
                     <h3>Our Mission</h3>
@@ -369,6 +541,48 @@
                     <h3>Our Vision</h3>
                     <p>To reach into the lives of children & youth in our church and community with the Good News, portray the love of Christ, and teach them the Word of God.</p>
                     <p>We count it a privilege and responsibility to reach and teach these little ones for Him.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Womb to Worship Program Details -->
+    <section id="womb-to-worship" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">Womb to Worship Program</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h3 class="text-center mb-4">Nurturing Your Child's Spiritual Journey From the Very Beginning</h3>
+                    <p class="text-center mb-4">
+                        Transform your pregnancy and early parenting journey into a sacred experience.
+                        Our biblically-based curriculum helps you create a God-centered environment 
+                        that shapes your child's spiritual foundation even before birth.
+                    </p>
+                    
+                    <div class="vision-purpose-section">
+                        <h4 class="section-subtitle">VISION</h4>
+                        <p>
+                            To help parents spiritually nurture their child from pregnancy/birth to age 2 by establishing 
+                            faith habits, developing godly character, and building deep spiritual relationships during 
+                            early childhood — our critical formative period for life.
+                        </p>
+                    </div>
+
+                    <div class="vision-purpose-section">
+                        <h4 class="section-subtitle">PROGRAM PURPOSE</h4>
+                        <p>
+                            We believe that parents, caregivers, and ministry leaders should understand that discipleship 
+                            is a journey starting before birth. Through monthly spiritual prompting, practical tools, and 
+                            age-appropriate faith activities, this two-year journey will prepare families to:
+                        </p>
+                        <ol class="purpose-list">
+                            <li>Speak God's Word and blessing over their unborn/newborn children.</li>
+                            <li>Introduce spiritual rhythms and Biblical values as habits from day one.</li>
+                            <li>Create a Christ-centered environment in the home.</li>
+                            <li>Refer to parenting as an intentional effort to model godly behavior and love through consistency.</li>
+                            <li>Recognize that young children can still experience the love, peace, and presence of God — even before they can talk.</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
@@ -440,7 +654,7 @@
     <!-- How It Works -->
     <section id="steps" class="section section-dark">
         <div class="container">
-            <h2 class="section-title">How PathLight Works</h2>
+            <h2 class="section-title">How Our Programs Work</h2>
             <div class="row">
                 <div class="col-lg-8 mx-auto">
                     <ol class="program-steps">
@@ -498,11 +712,101 @@
         </div>
     </section>
 
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">Voices from KCMC Leadership</h2>
+            <div class="testimonial-grid">
+                <!-- Men's Ministry -->
+                <div class="testimonial-card">
+                    <p class="testimonial-text">
+                        "As men, we've embraced the call to lead our families in faith from the very beginning. 
+                        Our discipleship programs remind us that fatherhood is a ministry — to speak blessing, pray boldly, 
+                        and model godly leadership from conception onward."
+                    </p>
+                    <p class="testimonial-author">– KCMC Men's Fellowship Leader</p>
+                </div>
+
+                <!-- Women's Ministry -->
+                <div class="testimonial-card">
+                    <p class="testimonial-text">
+                        "These programs have empowered our women to see pregnancy and motherhood as sacred assignments. 
+                        It's not just parenting — it's discipleship. We are raising a generation that knows God's love 
+                        before they even take their first breath."
+                    </p>
+                    <p class="testimonial-author">– KCMC Women's Ministry Chair</p>
+                </div>
+
+                <!-- Youth Ministry -->
+                <div class="testimonial-card">
+                    <p class="testimonial-text">
+                        "Our youth have caught the vision — that discipleship begins early and legacy starts in the womb. 
+                        As future parents and mentors, they're learning to value spiritual foundations and intentional parenting 
+                        as part of their kingdom calling."
+                    </p>
+                    <p class="testimonial-author">– KCMC Youth Ministry Coordinator</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section section-light">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="faq-section">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>When should I start the Womb to Worship curriculum?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>You can begin at any stage of pregnancy or after your child is born. The curriculum is designed to be flexible and adapt to your family's journey.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>How much time does the program require each day?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>The activities are designed to fit into your daily routine, requiring just 10-15 minutes of focused time each day, with spiritual practices integrated throughout your day.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Is this program only for first-time parents?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Not at all! The curriculum is valuable for parents at any stage, whether you're expecting your first child or adding to your growing family.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>What age group is the PathLight program for?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>The PathLight program is designed for teens and youth aged 13-18, focusing on building a strong biblical foundation during these formative years.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- CTA Section -->
     <section class="cta-section">
         <div class="container">
             <h2>Ready to Begin Your Discipleship Journey?</h2>
-            <p class="lead mb-4">Join the PathLight program today and start growing in your relationship with Christ.</p>
+            <p class="lead mb-4">Join our discipleship programs today and start growing in your relationship with Christ.</p>
             <a href="login.html" class="btn btn-hero">Login as Learner</a>
         </div>
     </section>
@@ -518,9 +822,10 @@
             
             <div class="footer-links mb-4">
                 <a href="#about">About</a>
-                <a href="#program">Program</a>
+                <a href="#programs">Programs</a>
                 <a href="#features">Features</a>
                 <a href="#steps">How It Works</a>
+                <a href="#testimonials">Testimonials</a>
                 <a href="login.html">Login</a>
             </div>
             
@@ -531,100 +836,121 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
  
     <script>
-    // Service Worker Registration
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js')
-      .then(function(registration) {
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-        
-        // Check for updates
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
-          console.log('New service worker found...');
-          
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              console.log('New content available; please refresh.');
-              // You can show an update notification here
-              showUpdateNotification();
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                .then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    
+                    // Check for updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        console.log('New service worker found...');
+                        
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                console.log('New content available; please refresh.');
+                                // You can show an update notification here
+                                showUpdateNotification();
+                            }
+                        });
+                    });
+                })
+                .catch(function(error) {
+                    console.log('ServiceWorker registration failed: ', error);
+                });
+            });
+        }
+
+        // Install Prompt Handling
+        let deferredPrompt;
+        const installButton = document.getElementById('installButton');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install promotion (you can customize this)
+            if (installButton) {
+                installButton.style.display = 'block';
+                installButton.addEventListener('click', installApp);
+            } else {
+                // Auto-show install prompt after 30 seconds
+                setTimeout(showInstallPrompt, 30000);
             }
-          });
         });
-      })
-      .catch(function(error) {
-        console.log('ServiceWorker registration failed: ', error);
-      });
-  });
-}
 
-// Install Prompt Handling
-let deferredPrompt;
-const installButton = document.getElementById('installButton');
+        function installApp() {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                    if (installButton) installButton.style.display = 'none';
+                } else {
+                    console.log('User dismissed the install prompt');
+                }
+                deferredPrompt = null;
+            });
+        }
 
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  
-  // Show install promotion (you can customize this)
-  if (installButton) {
-    installButton.style.display = 'block';
-    installButton.addEventListener('click', installApp);
-  } else {
-    // Auto-show install prompt after 30 seconds
-    setTimeout(showInstallPrompt, 30000);
-  }
-});
+        function showInstallPrompt() {
+            if (deferredPrompt && !isAppInstalled()) {
+                installApp();
+            }
+        }
 
-function installApp() {
-  if (!deferredPrompt) return;
-  
-  deferredPrompt.prompt();
-  
-  deferredPrompt.userChoice.then((choiceResult) => {
-    if (choiceResult.outcome === 'accepted') {
-      console.log('User accepted the install prompt');
-      if (installButton) installButton.style.display = 'none';
-    } else {
-      console.log('User dismissed the install prompt');
-    }
-    deferredPrompt = null;
-  });
-}
+        function isAppInstalled() {
+            return window.matchMedia('(display-mode: standalone)').matches || 
+                    window.navigator.standalone ||
+                    document.referrer.includes('android-app://');
+        }
 
-function showInstallPrompt() {
-  if (deferredPrompt && !isAppInstalled()) {
-    installApp();
-  }
-}
+        function showUpdateNotification() {
+            // You can show a custom update notification
+            const updateNotification = document.createElement('div');
+            updateNotification.innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; right: 0; background: #3498db; color: white; padding: 10px; text-align: center; z-index: 10000;">
+                New version available! <button onclick="window.location.reload()" style="margin-left: 10px; padding: 5px 10px; background: white; border: none; border-radius: 3px;">Update</button>
+                </div>
+            `;
+            document.body.appendChild(updateNotification);
+        }
 
-function isAppInstalled() {
-  return window.matchMedia('(display-mode: standalone)').matches || 
-         window.navigator.standalone ||
-         document.referrer.includes('android-app://');
-}
+        // Online/Offline detection
+        window.addEventListener('online', function() {
+            console.log('App is online');
+            // You can show a notification that connection is restored
+        });
 
-function showUpdateNotification() {
-  // You can show a custom update notification
-  const updateNotification = document.createElement('div');
-  updateNotification.innerHTML = `
-    <div style="position: fixed; top: 0; left: 0; right: 0; background: #3498db; color: white; padding: 10px; text-align: center; z-index: 10000;">
-      New version available! <button onclick="window.location.reload()" style="margin-left: 10px; padding: 5px 10px; background: white; border: none; border-radius: 3px;">Update</button>
-    </div>
-  `;
-  document.body.appendChild(updateNotification);
-}
+        window.addEventListener('offline', function() {
+            console.log('App is offline');
+            // You can show a notification that connection is lost
+        });
 
-// Online/Offline detection
-window.addEventListener('online', function() {
-  console.log('App is online');
-  // You can show a notification that connection is restored
-});
-
-window.addEventListener('offline', function() {
-  console.log('App is offline');
-  // You can show a notification that connection is lost
-});
+        // FAQ functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+        });
     </script>
 </body>
 </html>
