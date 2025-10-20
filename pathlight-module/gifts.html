@@ -2180,7 +2180,7 @@
     
     <!-- Bottom Navigation -->
     <div class="bottom-nav">
-         <button class="btn btn-outline" id="logoutBtn">LogOut</button>
+        
         <a href="../progress.html" class="nav-item">
             <i class="bi bi-graph-up nav-icon"></i>
             <span>Dashboard</span>
@@ -2193,6 +2193,12 @@
             <i class="bi bi-gear nav-icon"></i>
             <span>Settings</span>
         </a>
+
+         <!-- ✅ Logout styled same as others -->
+    <button id="logoutBtn" lass="nav-item">
+        <i class="bi bi-box-arrow-right nav-icon"></i>
+        <span>Logout</span>
+    </button>
     </div>
     
     <!-- Sync Status -->
@@ -2715,8 +2721,8 @@
             window.addEventListener('online', updateSyncStatus);
             window.addEventListener('offline', updateSyncStatus);
             
-            // Auto-save every 30 seconds as a backup
-            setInterval(saveData, 30000);
+            // Auto-save every 10 seconds as a backup
+            setInterval(saveData, 10000);
             
             // Load saved progress if available
             const savedProgress = localStorage.getItem('lesson6Progress');
@@ -2740,7 +2746,7 @@
                     setTimeout(() => {
                         // Simulate logout - in a real app, redirect to login
                         window.location.href = '../index.html';
-                    }, 1500);
+                    }, 500);
                 }
             });
             
