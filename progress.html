@@ -4,7 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Discipleship Dashboard</title>
+<!-- PWA Meta Tags -->
+<meta name="theme-color" content="#2c3e50">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="KCM Church">
+<meta name="description" content="Discipleship Tool for Kingdom Covenant Ministries">
+<meta name="keywords" content="church, discipleship, christian, ministry">
+<meta name="author" content="Kingdom Covenant Ministries">
 
+<!-- Apple Touch Icons -->
+<link rel="apple-touch-icon" href="icons/icon-152x152.png">
+<link rel="apple-touch-startup-image" href="icons/icon-512x512.png">
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="manifest.json">
+
+<!-- Viewport for mobile optimization -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<!-- Preload important resources -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax.googleapis.com">
 <!-- Font & Icons -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
@@ -223,9 +244,9 @@ body {
 document.getElementById("logoutBtn").addEventListener("click", function() {
   localStorage.clear();
   sessionStorage.clear();
-  window.location.href = "login.html";
+  window.location.href = "index.html";
 });
 </script>
-
+<script type="module" src="auth-check.js"></script>
 </body>
 </html>
