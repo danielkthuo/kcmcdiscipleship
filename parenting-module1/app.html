@@ -3693,7 +3693,96 @@
             });
         }
 
-        // ALL ORIGINAL FUNCTIONS REMAIN UNCHANGED BELOW THIS POINT
+        // ENHANCED COLLAPSIBLE SECTIONS WITH SCROLLABLE CONTENT
+        function setupCollapsibleSections() {
+            document.querySelectorAll('.collapse-header').forEach(header => {
+                header.addEventListener('click', (e) => {
+                    // Don't trigger if the click was on a checkbox
+                    if (e.target.type === 'checkbox') return;
+                    
+                    const contentId = header.getAttribute('data-collapse');
+                    const content = document.getElementById(contentId);
+                    const isExpanded = content.classList.contains('expanded');
+                    
+                    // If the clicked section wasn't already expanded, close all others first
+                    if (!isExpanded) {
+                        closeAllSections();
+                    }
+                    
+                    // Toggle the clicked section
+                    content.classList.toggle('expanded');
+                    
+                    // Toggle arrow
+                    const arrow = header.querySelector('span');
+                    arrow.textContent = content.classList.contains('expanded') ? '▲' : '▼';
+                    
+                    // If expanding, set appropriate max-height for scrolling
+                    if (content.classList.contains('expanded')) {
+                        // Calculate appropriate max-height based on content and viewport
+                        const viewportHeight = window.innerHeight;
+                        const headerHeight = header.getBoundingClientRect().height;
+                        const maxHeight = Math.min(viewportHeight * 0.7, content.scrollHeight + 20);
+                        
+                        content.style.maxHeight = `${maxHeight}px`;
+                        
+                        // Add scrollable class for styling
+                        content.classList.add('scrollable');
+                        
+                        // Scroll the section into view if it's not fully visible
+                        setTimeout(() => {
+                            header.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }, 300);
+                    } else {
+                        // Reset max-height when collapsing
+                        content.style.maxHeight = '0px';
+                        content.classList.remove('scrollable');
+                    }
+                    
+                    // Save state after toggle
+                    saveData();
+                });
+                
+                // Add keyboard support for accessibility
+                header.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        header.click();
+                    }
+                });
+            });
+            
+            // Handle window resize to adjust max-height of expanded sections
+            window.addEventListener('resize', function() {
+                const expandedSections = document.querySelectorAll('.collapse-content.expanded');
+                const viewportHeight = window.innerHeight;
+                
+                expandedSections.forEach(section => {
+                    const header = section.previousElementSibling;
+                    if (header && header.classList.contains('collapse-header')) {
+                        const headerHeight = header.getBoundingClientRect().height;
+                        const maxHeight = Math.min(viewportHeight * 0.7, section.scrollHeight + 20);
+                        section.style.maxHeight = `${maxHeight}px`;
+                    }
+                });
+            });
+        }
+        
+        // Close all collapsible sections
+        function closeAllSections() {
+            document.querySelectorAll('.collapse-content').forEach(content => {
+                content.classList.remove('expanded');
+                content.style.maxHeight = '0px';
+                content.classList.remove('scrollable');
+                
+                // Reset arrow
+                const header = content.previousElementSibling;
+                if (header && header.classList.contains('collapse-header')) {
+                    const arrow = header.querySelector('span');
+                    arrow.textContent = '▼';
+                }
+            });
+        }
+
         // Profile functionality
         function setupProfileFunctionality() {
             const profileBtn = document.getElementById('profileBtn');
@@ -3976,23 +4065,14 @@
                     const tabId = tab.getAttribute('data-tab');
                     document.getElementById(tabId).classList.add('active');
                     
+                    // Close all expanded sections when switching tabs
+                    closeAllSections();
+                    
+                    // Expand first session in the new tab
+                    setTimeout(expandFirstSession, 100);
+                    
                     // Update progress
                     updateProgress();
-                });
-            });
-        }
-        
-        // Collapse functionality
-        function setupCollapsibleSections() {
-            document.querySelectorAll('.collapse-header').forEach(header => {
-                header.addEventListener('click', () => {
-                    const contentId = header.getAttribute('data-collapse');
-                    const content = document.getElementById(contentId);
-                    content.classList.toggle('expanded');
-                    
-                    // Toggle arrow
-                    const arrow = header.querySelector('span');
-                    arrow.textContent = content.classList.contains('expanded') ? '▲' : '▼';
                 });
             });
         }
@@ -4250,7 +4330,7 @@
                             <span class="close-modal">&times;</span>
                         </div>
                         <div class="modal-body">
-                            <div class="setting-item">
+                             <div class="setting-item">
                                 <label for="notifications">Enable Notifications</label>
                                 <input type="checkbox" id="notifications">
                             </div>
@@ -4264,35 +4344,50 @@
                                     <option value="small">Small</option>
                                     <option value="medium" selected>Medium</option>
                                     <option value="large">Large</option>
+                                    <option value="x-large">Extra Large</option>
                                 </select>
                             </div>
                             <div class="setting-item">
-                                <label for="theme">Color Theme</label>
+                                <label for="theme">Theme</label>
                                 <select id="theme">
-                                    <option value="default" selected>Default</option>
-                                    <option value="dark">Dark Mode</option>
-                                    <option value="pastel">Pastel</option>
+                                    <option value="light">Light</option>
+                                    <option value="dark">Dark</option>
+                                    <option value="auto">Auto (System)</option>
                                 </select>
+                            </div>
+                            <div class="setting-item">
+                                <label for="auto-save">Auto-save Interval</label>
+                                <select id="auto-save">
+                                    <option value="1000">1 Second</option>
+                                    <option value="2000" selected>2 Seconds</option>
+                                    <option value="5000">5 Seconds</option>
+                                    <option value="10000">10 Seconds</option>
+                                </select>
+                            </div>
+                            <div class="setting-item">
+                                <label for="cloud-sync">Enable Cloud Sync</label>
+                                <input type="checkbox" id="cloud-sync" checked>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button class="btn" id="save-settings">Save Settings</button>
-                            <button class="btn btn-warning" id="close-settings">Cancel</button>
+                            <button class="btn btn-warning" id="cancel-settings">Cancel</button>
+                            <button class="btn btn-danger" id="reset-settings">Reset to Defaults</button>
                         </div>
                     </div>
                 </div>
             `;
             
-            // Add modal to page
             document.body.insertAdjacentHTML('beforeend', modalHTML);
             
             // Load saved settings
             loadSettings();
             
-            // Add event listeners for modal
+            // Add event listeners
             document.querySelector('.close-modal').addEventListener('click', closeModal);
-            document.getElementById('close-settings').addEventListener('click', closeModal);
+            document.getElementById('cancel-settings').addEventListener('click', closeModal);
             document.getElementById('save-settings').addEventListener('click', saveSettings);
+            document.getElementById('reset-settings').addEventListener('click', resetSettings);
             
             // Close modal when clicking outside
             document.querySelector('.modal-overlay').addEventListener('click', function(e) {
@@ -4306,31 +4401,66 @@
         function loadSettings() {
             const settings = JSON.parse(localStorage.getItem('wtw-settings') || '{}');
             
-            if (settings.notifications !== undefined) {
-                document.getElementById('notifications').checked = settings.notifications;
+            // Apply settings to form elements
+            if (document.getElementById('notifications')) {
+                document.getElementById('notifications').checked = settings.notifications || false;
+                document.getElementById('reminder-time').value = settings.reminderTime || '09:00';
+                document.getElementById('font-size').value = settings.fontSize || 'medium';
+                document.getElementById('theme').value = settings.theme || 'light';
+                document.getElementById('auto-save').value = settings.autoSave || '2000';
+                document.getElementById('cloud-sync').checked = settings.cloudSync !== false;
             }
             
-            if (settings.reminderTime) {
-                document.getElementById('reminder-time').value = settings.reminderTime;
-            }
-            
-            if (settings.fontSize) {
-                document.getElementById('font-size').value = settings.fontSize;
-            }
-            
-            if (settings.theme) {
-                document.getElementById('theme').value = settings.theme;
-            }
+            // Apply theme and font size
+            applyTheme(settings.theme || 'light');
+            applyFontSize(settings.fontSize || 'medium');
         }
         
-        // Apply theme to the app
+        // Apply theme to the document
         function applyTheme(theme) {
-            // Remove existing theme classes
-            document.body.classList.remove('dark-theme', 'pastel-theme');
+            document.documentElement.setAttribute('data-theme', theme);
             
-            // Add new theme class if not default
-            if (theme !== 'default') {
-                document.body.classList.add(`${theme}-theme`);
+            // Update theme color meta tag for mobile browsers
+            const themeColor = theme === 'dark' ? '#1a1a2e' : '#8b5fbf';
+            let themeColorMeta = document.querySelector('meta[name="theme-color"]');
+            if (!themeColorMeta) {
+                themeColorMeta = document.createElement('meta');
+                themeColorMeta.name = 'theme-color';
+                document.head.appendChild(themeColorMeta);
+            }
+            themeColorMeta.content = themeColor;
+        }
+        
+        // Apply font size to the document
+        function applyFontSize(size) {
+            const sizes = {
+                'small': '14px',
+                'medium': '16px',
+                'large': '18px',
+                'x-large': '20px'
+            };
+            
+            document.documentElement.style.fontSize = sizes[size] || '16px';
+        }
+        
+        // Reset settings to defaults
+        function resetSettings() {
+            if (confirm('Are you sure you want to reset all settings to defaults?')) {
+                localStorage.removeItem('wtw-settings');
+                
+                // Reset form elements to defaults
+                document.getElementById('notifications').checked = false;
+                document.getElementById('reminder-time').value = '09:00';
+                document.getElementById('font-size').value = 'medium';
+                document.getElementById('theme').value = 'light';
+                document.getElementById('auto-save').value = '2000';
+                document.getElementById('cloud-sync').checked = true;
+                
+                // Apply default theme and font size
+                applyTheme('light');
+                applyFontSize('medium');
+                
+                showNotification('Settings reset to defaults!', 'success');
             }
         }
         
@@ -4342,39 +4472,128 @@
             }
         }
         
+        // Expand first session by default
+        function expandFirstSession() {
+            const firstSession = document.querySelector('.session:first-child .collapse-content');
+            const firstHeader = document.querySelector('.session:first-child .collapse-header');
+            
+            if (firstSession && firstHeader) {
+                firstSession.classList.add('expanded');
+                firstSession.style.maxHeight = '400px'; // Reasonable default height
+                firstSession.classList.add('scrollable');
+                
+                const arrow = firstHeader.querySelector('span');
+                if (arrow) {
+                    arrow.textContent = '▲';
+                }
+            }
+        }
+        
+        // Scroll to top of page
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
         // Show notification
         function showNotification(message, type = 'info') {
-            // Remove existing notification
+            // Remove existing notification if any
             const existingNotification = document.querySelector('.notification');
             if (existingNotification) {
                 existingNotification.remove();
             }
             
-            // Create new notification
+            // Create notification element
             const notification = document.createElement('div');
             notification.className = `notification notification-${type}`;
-            notification.textContent = message;
+            notification.innerHTML = `
+                <span class="notification-message">${message}</span>
+                <button class="notification-close">&times;</button>
+            `;
             
-            // Add to page
+            // Add styles if not already added
+            if (!document.querySelector('#notification-styles')) {
+                const styles = document.createElement('style');
+                styles.id = 'notification-styles';
+                styles.textContent = `
+                    .notification {
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: white;
+                        padding: 15px 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                        z-index: 10000;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        max-width: 350px;
+                        animation: slideInRight 0.3s ease;
+                        border-left: 4px solid #8b5fbf;
+                    }
+                    .notification-success {
+                        border-left-color: #2ecc71;
+                    }
+                    .notification-warning {
+                        border-left-color: #f39c12;
+                    }
+                    .notification-error {
+                        border-left-color: #e74c3c;
+                    }
+                    .notification-info {
+                        border-left-color: #3498db;
+                    }
+                    .notification-close {
+                        background: none;
+                        border: none;
+                        font-size: 1.2rem;
+                        cursor: pointer;
+                        padding: 0;
+                        width: 20px;
+                        height: 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    @keyframes slideInRight {
+                        from {
+                            transform: translateX(100%);
+                            opacity: 0;
+                        }
+                        to {
+                            transform: translateX(0);
+                            opacity: 1;
+                        }
+                    }
+                    @media (max-width: 768px) {
+                        .notification {
+                            top: 10px;
+                            right: 10px;
+                            left: 10px;
+                            max-width: none;
+                        }
+                    }
+                `;
+                document.head.appendChild(styles);
+            }
+            
             document.body.appendChild(notification);
             
-            // Show notification
+            // Auto-remove after 5 seconds
             setTimeout(() => {
-                notification.classList.add('show');
-            }, 10);
+                if (notification.parentNode) {
+                    notification.style.animation = 'slideInRight 0.3s ease reverse';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 5000);
             
-            // Hide after 3 seconds
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.remove();
-                    }
-                }, 300);
-            }, 3000);
+            // Close on click
+            notification.querySelector('.notification-close').addEventListener('click', () => {
+                notification.remove();
+            });
         }
         
-        // Utility function to debounce rapid events
+        // Debounce function for performance
         function debounce(func, wait) {
             let timeout;
             return function executedFunction(...args) {
@@ -4387,24 +4606,133 @@
             };
         }
         
-        // Scroll to top of page
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Enhanced error handling
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+            showNotification('An error occurred. Please try again.', 'error');
+        });
+        
+        // Service Worker registration for PWA capabilities
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(function(error) {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
         }
         
-        // Expand first session by default
-        function expandFirstSession() {
-            const firstSession = document.querySelector('.collapse-content');
-            if (firstSession) {
-                firstSession.classList.add('expanded');
-                const firstHeader = document.querySelector('.collapse-header');
-                if (firstHeader) {
-                    const arrow = firstHeader.querySelector('span');
-                    arrow.textContent = '▲';
-                }
+        // Online/offline detection
+        window.addEventListener('online', function() {
+            showNotification('Back online! Syncing data...', 'success');
+            if (user) {
+                loadFromFirestore();
+            }
+        });
+        
+        window.addEventListener('offline', function() {
+            showNotification('You are currently offline', 'warning');
+        });
+        
+        // Enhanced beforeunload handler
+        window.addEventListener('beforeunload', function(e) {
+            // Save any unsaved data
+            saveData();
+        });
+        
+        // Initialize any third-party integrations
+        function initializeIntegrations() {
+            // Google Analytics (if needed)
+            if (typeof gtag !== 'undefined') {
+                gtag('config', 'GA_MEASUREMENT_ID');
+            }
+            
+            // Facebook Pixel (if needed)
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'PageView');
             }
         }
+        
+        // Export the app instance for global access if needed
+        window.WombToWorshipApp = {
+            saveData,
+            loadData: loadSavedData,
+            exportData: exportJournalData,
+            resetProgress,
+            showNotification
+        };
     });
+
+    // Add CSS for scrollable collapsible content
+    const additionalStyles = `
+        .collapse-content.scrollable {
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #8b5fbf #f0f0f0;
+        }
+        
+        .collapse-content.scrollable::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .collapse-content.scrollable::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 3px;
+        }
+        
+        .collapse-content.scrollable::-webkit-scrollbar-thumb {
+            background: #8b5fbf;
+            border-radius: 3px;
+        }
+        
+        .collapse-content.scrollable::-webkit-scrollbar-thumb:hover {
+            background: #7a4eac;
+        }
+        
+        /* Theme support */
+        [data-theme="dark"] .collapse-content.scrollable::-webkit-scrollbar-track {
+            background: #2d3748;
+        }
+        
+        [data-theme="dark"] .collapse-content.scrollable {
+            scrollbar-color: #8b5fbf #2d3748;
+        }
+        
+        /* Completion badges */
+        .completion-badge {
+            background: #2ecc71;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Session completed state */
+        .session-completed .collapse-header {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+        }
+        
+        .session-completed .collapse-header:hover {
+            background: linear-gradient(135deg, #27ae60, #219653);
+        }
+    `;
+    
+    // Inject additional styles
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = additionalStyles;
+    document.head.appendChild(styleSheet);
 </script>
  <script type="module" src="../auth-check.js"></script>
 </body>
