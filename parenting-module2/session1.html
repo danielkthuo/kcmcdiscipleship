@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Session 1: The Metaphysics of Parenthood</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+ <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="KCM Church">
+    <meta name="description" content="Discipleship Tool for Kingdom Covenant Ministries Church">
+    <meta name="keywords" content="church, discipleship, christian, ministry">
+    <meta name="author" content="Kingdom Covenant Ministries Church">
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+    <link rel="apple-touch-startup-image" href="icons/icon-512x512.png">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Viewport for mobile optimization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <!-- Preload important resources -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax.googleapis.com">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+/* ======= FULL-WIDTH MOBILE-FRIENDLY DESIGN ======= */
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --accent-color: #e74c3c;
+  --light-color: #ecf0f1;
+  --dark-color: #2c3e50;
+  --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --success-color: #2ecc71;
+}
+
+/* Reset and base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: var(--font-main);
+  background: #f9f9f9;
+  color: #333;
+  scroll-behavior: smooth;
+}
+
+/* Header */
+header {
+  width: 100vw;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  padding: 1.4rem 1rem;
+  text-align: center;
+  position: relative;
+}
+header h1 {
+  font-size: 1.4rem;
+  margin-bottom: 0.3rem;
+}
+header .subtitle {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.progress-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+}
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--accent-color);
+  transition: width 0.5s ease;
+}
+
+/* Content wrapper */
+.container {
+  width: 100vw;
+  padding: 0 4vw 80px;
+}
+
+/* Buttons */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--secondary-color);
+  color: white;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+  width: 100%;
+  transition: 0.3s;
+}
+.btn:hover {
+  background: var(--primary-color);
+  transform: scale(1.02);
+}
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--secondary-color);
+  color: var(--secondary-color);
+}
+.btn-outline:hover {
+  background: var(--secondary-color);
+  color: white;
+}
+
+/* Lesson navigation */
+.lesson-nav {
+  display: flex;
+  gap: 10px;
+  margin: 1.2rem 0;
+}
+
+/* Topic blocks */
+.topic {
+  background: white;
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  position: relative;
+}
+.topic h2 {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  border-bottom: 2px solid var(--secondary-color);
+  margin-bottom: 1rem;
+  padding-bottom: 0.3rem;
+}
+
+/* Completion icon */
+.topic-completion {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.topic-completed {
+  background: var(--success-color);
+  border-color: var(--success-color);
+  color: white;
+}
+.topic-completed::after {
+  content: "✓";
+  font-weight: bold;
+}
+
+/* Sub-sections */
+.scripture, .key-point, .activity, .reflection {
+  width: 100%;
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+.scripture {
+  background: #f8f9fa;
+  border-left: 4px solid var(--secondary-color);
+  font-style: italic;
+}
+.key-point {
+  background: #e8f4fc;
+  border-left: 4px solid var(--secondary-color);
+}
+.activity {
+  background: #fff8e1;
+  border-left: 4px solid #ffc107;
+}
+.reflection {
+  background: #f0f7ff;
+  border-left: 4px solid #4dabf7;
+}
+.reflection textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: inherit;
+  transition: border-color 0.3s;
+}
+.reflection textarea:focus {
+  border-color: var(--secondary-color);
+  outline: none;
+}
+
+/* Collapsible content */
+.collapsible {
+  width: 100%;
+  background: #f1f1f1;
+  color: var(--primary-color);
+  border: none;
+  text-align: left;
+  padding: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.collapsible:hover {
+  background: #e1e1e1;
+}
+.collapsible:after {
+  content: '\002B';
+  float: right;
+}
+.active:after {
+  content: "\2212";
+}
+.content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  background: #fff;
+  border-radius: 0 0 8px 8px;
+  padding: 0 10px;
+}
+
+/* Topic Collapsible Sections */
+.topic-collapsible {
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  border: none;
+  text-align: left;
+  padding: 16px 20px;
+  font-weight: 600;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.topic-collapsible:hover {
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+.topic-collapsible:after {
+  content: '\002B';
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.topic-collapsible.active {
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  border-radius: 12px 12px 0 0;
+  margin-bottom: 0;
+}
+.topic-collapsible.active:after {
+  content: "\2212";
+}
+.topic-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+  background: white;
+  border-radius: 0 0 12px 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Cards & sections */
+.assurance-card, .interactive-card, .activity-section {
+  background: white;
+  border-radius: 10px;
+  padding: 1.2rem;
+  margin: 1rem 0;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+}
+
+/* Bottom navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  z-index: 999;
+  padding: env(safe-area-inset-bottom) 0 10px;
+}
+.nav-item {
+  flex: 1;
+  text-align: center;
+  color: #666;
+  text-decoration: none;
+  font-size: 0.75rem;
+  padding: 6px 0;
+}
+.nav-item.active {
+  color: var(--secondary-color);
+  background: #e8f4fc;
+  border-radius: 8px;
+}
+.nav-icon {
+  display: block;
+  font-size: 1.3rem;
+}
+
+/* Footer */
+footer {
+  width: 100vw;
+  background: var(--dark-color);
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.85rem;
+  border-radius: 0;
+  margin-top: 1.5rem;
+}
+
+/* Progress sync indicator */
+.sync-status {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(255,255,255,0.9);
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.sync-status.syncing {
+  color: #f39c12;
+}
+.sync-status.synced {
+  color: var(--success-color);
+}
+.sync-status.error {
+  color: var(--accent-color);
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  h1 { font-size: 1.3rem; }
+  .btn { font-size: 0.9rem; padding: 12px; }
+  .topic h2 { font-size: 1.1rem; }
+  .reflection textarea { min-height: 120px; }
+  .topic-collapsible {
+    padding: 14px 16px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Progress summary modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.close-modal {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.progress-summary {
+  margin: 15px 0;
+}
+.progress-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* Family Rule Styles */
+.family-rule {
+  background: white;
+  border-radius: 10px;
+  padding: 1.2rem;
+  margin: 1rem 0;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+  border-left: 4px solid #4dabf7;
+}
+.family-rule h4 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+.rule-section {
+  margin-bottom: 1.5rem;
+}
+.rule-section h5 {
+  color: var(--secondary-color);
+  margin-bottom: 0.5rem;
+}
+
+/* Intercession Journal Styles */
+.intercession-journal {
+  background: white;
+  border-radius: 10px;
+  padding: 1.2rem;
+  margin: 1rem 0;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+  border-left: 4px solid #ffc107;
+}
+.intercession-journal h4 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+.prayer-example {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+}
+
+/* Arrow Illustration Styles */
+.arrow-illustration {
+  width: 100%;
+  margin: 1rem 0;
+  background: white;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+}
+.arrow-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  margin: 1rem 0;
+  background: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.archer {
+  position: absolute;
+  left: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  width: 30%;
+}
+.target {
+  position: absolute;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  width: 30%;
+}
+.arrow-path {
+  position: absolute;
+  left: 40%;
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.arrow {
+  position: absolute;
+  left: 40%;
+  width: 20%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+.arrow span {
+  font-size: 2rem;
+  color: var(--accent-color);
+}
+
+/* NEW: Scrollable content styles */
+.scrollable-content {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+/* Custom scrollbar for webkit browsers */
+.scrollable-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+  border-radius: 4px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+/* Scroll indicator for long content */
+.scroll-indicator {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.scrollable-content:hover .scroll-indicator {
+  opacity: 1;
+}
+
+/* NEW: Improved topic content with scrollable sections */
+.topic-content.scrollable {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+/* Mobile-specific scrollable adjustments */
+@media (max-width: 768px) {
+  .topic-content.scrollable {
+    max-height: 70vh;
+  }
+  
+  .scrollable-content {
+    max-height: 300px;
+  }
+}
+</style>
+</head>
+<body>
+    
+    <header>
+        <div class="header-content">
+          <br>
+            <h1>SESSION 1: THE METAPHYSICS OF PARENTHOOD</h1>
+            <p class="subtitle">Our Shared Sacred Commission - Moving from a secular, managerial model to a sacred, ontological understanding of parenting</p>
+        </div>
+        <div class="sync-status" id="syncStatus">Synced</div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="lesson-nav">
+            <a href="../progress.html" class="btn btn-outline">Back to Dashboard</a>
+            <a href="session2.html" class="btn">Next Session</a>
+        </div>
+        
+        <!-- KEY VERSE SECTION -->
+        <div class="topic">
+            <h2>Key Verse</h2>
+            <div class="scripture">
+                <p><strong>Psalm 127:3-4 (ESV)</strong> - "Behold, children are a heritage from the Lord, the fruit of the womb a reward. Like arrows in the hand of a warrior are the children of one's youth."</p>
+            </div>
+        </div>
+        
+        <!-- THEOLOGICAL EXPLORATION -->
+        <button class="topic-collapsible" id="theologyCollapsible">
+            <span>Theological Exploration</span>
+            <span class="completion-status" id="theologyStatus">●</span>
+        </button>
+        <div class="topic-content scrollable" id="theologyContent">
+            <div class="topic" id="theology">
+                <div class="topic-completion" id="theologyCompletion"></div>
+                <h2>Theological Exploration</h2>
+                
+                <!-- Heritage vs Project -->
+                <div class="assurance-card">
+                    <h4>"Heritage"/Gift (Nachalah) vs. "Project"</h4>
+                    <p>The Hebrew word <em>Nachalah</em> means gift held in trust by the true Owner. Our children are not our personal projects of our fulfillment or evidence of a well-ordered life; they are souls entrusted to us by the Sovereign King.</p>
+                    
+                    <div class="scrollable-content">
+                        <p><strong>Understanding Nachalah:</strong></p>
+                        <p>The concept of <em>Nachalah</em> in Hebrew culture represents something precious that is passed down through generations. It's not merely property but a sacred trust. When we apply this to parenting, we recognize that our children are not ours to shape according to our own desires or societal expectations. They belong to God, and we are merely stewards of their lives for a season.</p>
+                        
+                        <p><strong>Practical Implications:</strong></p>
+                        <ul>
+                            <li>We pray for discernment to understand each child's unique God-given purpose</li>
+                            <li>We resist the temptation to mold our children into our image of success</li>
+                            <li>We create space for God to work in their lives according to His will</li>
+                            <li>We release control and trust God with their futures</li>
+                        </ul>
+                        
+                        <p><strong>Biblical Examples:</strong></p>
+                        <p>Consider Hannah, who dedicated Samuel to the Lord (1 Samuel 1:27-28). She understood that her son was a gift from God, lent to her for a time. Or think of Abraham, who was willing to sacrifice Isaac, trusting that God could raise him from the dead (Hebrews 11:17-19). Both examples show parents who recognized God's ultimate ownership of their children.</p>
+                    </div>
+                    
+                    <button class="collapsible">Reflection Questions</button>
+                    <div class="content">
+                        <div class="reflection">
+                            <p>In what ways have I treated my children as "projects" rather than as gifts from God?</p>
+                            <textarea placeholder="Type your reflection here..." data-reflection-id="heritage1"></textarea>
+                            <p>How does understanding children as God's heritage change my perspective on parenting?</p>
+                            <textarea placeholder="Type your reflection here..." data-reflection-id="heritage2"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Arrows in the Hand of a Warrior -->
+                <div class="assurance-card">
+                    <h4>Arrows in the Hand of a Warrior</h4>
+                    <p>The arrow, when loosed, fulfills its purpose beyond in the hand of the archer. Our parenting will have a telos; it will aim beyond, to a target - and that target will not be the happiness, success, or even legacy of our child but their unique, God-given destiny in His Kingdom.</p>
+                    
+                    <!-- Arrow Illustration -->
+                    <div class="arrow-illustration">
+                        <h5>The Arrow Illustration</h5>
+                        <div class="arrow-container">
+                            <div class="archer">
+                                <div class="bridge-label">PARENTS</div>
+                                <div class="bridge-text">Stewards</div>
+                                <div class="bridge-text">Archers</div>
+                            </div>
+                            
+                            <div class="arrow-path">
+                                <div class="bridge-label">PARENTING JOURNEY</div>
+                                <div class="bridge-text">Aiming at God's purpose</div>
+                            </div>
+                            
+                            <div class="arrow">
+                                <span>➹</span>
+                            </div>
+                            
+                            <div class="target">
+                                <div class="bridge-label">GOD'S PURPOSE</div>
+                                <div class="bridge-text">Child's unique destiny</div>
+                                <div class="bridge-text">In His Kingdom</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="scrollable-content">
+                        <p><strong>The Archer's Role:</strong></p>
+                        <p>As parents, we are like archers preparing arrows. Our role involves:</p>
+                        <ul>
+                            <li><strong>Straightening:</strong> Helping our children develop character and integrity</li>
+                            <li><strong>Sharpening:</strong> Equipping them with wisdom, knowledge, and skills</li>
+                            <li><strong>Fletching:</strong> Providing stability through spiritual formation and values</li>
+                            <li><strong>Aiming:</strong> Directing them toward God's purposes, not our own ambitions</li>
+                        </ul>
+                        
+                        <p><strong>The Target:</strong></p>
+                        <p>The target is not worldly success, academic achievement, or social status. The true target is each child's unique role in God's kingdom. This requires us to:</p>
+                        <ul>
+                            <li>Discern each child's spiritual gifts and natural talents</li>
+                            <li>Pray for revelation of God's purpose for their lives</li>
+                            <li>Create environments where they can discover and develop their God-given calling</li>
+                            <li>Release them to follow God's path, even when it differs from our expectations</li>
+                        </ul>
+                        
+                        <p><strong>The Release:</strong></p>
+                        <p>Ultimately, we must release our children like arrows from a bow. This involves:</p>
+                        <ul>
+                            <li>Trusting God with their future</li>
+                            <li>Letting go of control as they mature</li>
+                            <li>Continuing to pray for them as they fly toward their destiny</li>
+                            <li>Celebrating how God uses them beyond our reach and influence</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="collapsible">Reflection Questions</button>
+                    <div class="content">
+                        <div class="reflection">
+                            <p>What "targets" have I been aiming for in my parenting that might differ from God's purpose for my child?</p>
+                            <textarea placeholder="Type your reflection here..." data-reflection-id="arrows1"></textarea>
+                            <p>How can I better discern and aim for God's unique purpose for each of my children?</p>
+                            <textarea placeholder="Type your reflection here..." data-reflection-id="arrows2"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- GUIDED COUPLES REFLECTION -->
+        <button class="topic-collapsible" id="reflectionCollapsible">
+            <span>Guided Couples Reflection</span>
+            <span class="completion-status" id="reflectionStatus">●</span>
+        </button>
+        <div class="topic-content scrollable" id="reflectionContent">
+            <div class="topic" id="reflection">
+                <div class="topic-completion" id="reflectionCompletion"></div>
+                <h2>Guided Couples Reflection</h2>
+                
+                <!-- The Idolatry of Identity -->
+                <div class="assurance-card">
+                    <h4>1. The Idolatry of Identity</h4>
+                    <p>Take apart where you have built your identity on the shifting sands of career, children's accomplishments, or social media approval.</p>
+                    
+                    <div class="key-point">
+                        <p><strong>Confession to each other:</strong> "My identity is not in being a competent ______, but in being a beloved son/daughter of God. From that place, I parent."</p>
+                    </div>
+                    
+                    <div class="scrollable-content">
+                        <p><strong>Common Identity Traps for Parents:</strong></p>
+                        <ul>
+                            <li><strong>The Perfect Parent Trap:</strong> Basing our worth on having well-behaved, successful children</li>
+                            <li><strong>The Provider Trap:</strong> Finding identity in career success and financial provision</li>
+                            <li><strong>The Social Media Trap:</strong> Seeking validation through likes, shares, and positive comments</li>
+                            <li><strong>The Comparison Trap:</strong> Measuring our parenting against others' apparent success</li>
+                            <li><strong>The Control Trap:</strong> Deriving security from having everything perfectly managed</li>
+                        </ul>
+                        
+                        <p><strong>Biblical Identity Foundation:</strong></p>
+                        <p>Our true identity is found in Christ alone:</p>
+                        <ul>
+                            <li>We are children of God (John 1:12)</li>
+                            <li>We are chosen and beloved (Colossians 3:12)</li>
+                            <li>We are new creations (2 Corinthians 5:17)</li>
+                            <li>We are God's workmanship (Ephesians 2:10)</li>
+                            <li>We are heirs of God (Romans 8:17)</li>
+                        </ul>
+                        
+                        <p><strong>Practical Steps to Reclaim Identity:</strong></p>
+                        <ol>
+                            <li>Regularly confess where you've built identity on shifting sands</li>
+                            <li>Meditate on Scriptures about your identity in Christ</li>
+                            <li>Practice receiving God's unconditional love daily</li>
+                            <li>Celebrate small victories without needing external validation</li>
+                            <li>Create margin for rest and reflection rather than constant doing</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="reflection">
+                        <p>Where have I built my identity on shifting sands rather than in Christ?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="identity1"></textarea>
+                        <p>How does understanding myself as God's beloved child change my approach to parenting?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="identity2"></textarea>
+                    </div>
+                </div>
+                
+                <!-- The Teleological Question -->
+                <div class="assurance-card">
+                    <h4>2. The Teleological Question</h4>
+                    <p>Look at each of your children. Ask aloud: "For what particular glory of God was this child made?" Discuss together how your everyday parenting can be recalibrated to aim at that target, instead of societal peer metrics.</p>
+                    
+                    <div class="scrollable-content">
+                        <p><strong>Discovering Each Child's Unique Purpose:</strong></p>
+                        <p>Every child is fearfully and wonderfully made (Psalm 139:14) with a specific purpose in God's kingdom. To discover this purpose:</p>
+                        <ul>
+                            <li><strong>Observe their natural inclinations:</strong> What activities bring them joy and fulfillment?</li>
+                            <li><strong>Notice their spiritual sensitivities:</strong> What aspects of God's character do they naturally reflect?</li>
+                            <li><strong>Identify their unique burdens:</strong> What injustices or needs in the world move them deeply?</li>
+                            <li><strong>Recognize their relational patterns:</strong> How do they naturally encourage, serve, or lead others?</li>
+                            <li><strong>Pay attention to their questions:</strong> What topics consistently capture their curiosity?</li>
+                        </ul>
+                        
+                        <p><strong>Recalibrating Parenting Practices:</strong></p>
+                        <p>Once you begin to discern a child's purpose, you can adjust your parenting:</p>
+                        <ul>
+                            <li><strong>Educational choices:</strong> Select learning opportunities that align with their purpose</li>
+                            <li><strong>Extracurricular activities:</strong> Choose activities that develop relevant skills and character</li>
+                            <li><strong>Discipline approach:</strong> Address behaviors that hinder their purpose while nurturing strengths</li>
+                            <li><strong>Spiritual formation:</strong> Provide specific spiritual resources and mentors</li>
+                            <li><strong>Family conversations:</strong> Discuss God's kingdom and how they might contribute</li>
+                        </ul>
+                        
+                        <p><strong>Resisting Societal Metrics:</strong></p>
+                        <p>Society measures success by grades, sports achievements, popularity, and future earning potential. As kingdom parents, we must:</p>
+                        <ul>
+                            <li>Regularly evaluate whether our priorities align with God's purposes</li>
+                            <li>Create family values that reflect eternal priorities</li>
+                            <li>Celebrate character growth and spiritual milestones</li>
+                            <li>Protect margin for spiritual development and family discipleship</li>
+                            <li>Surround our family with like-minded community for support</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="reflection">
+                        <p>For what particular glory of God was each of my children made?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="teleological1"></textarea>
+                        <p>How can our everyday parenting be recalibrated to aim at God's purpose rather than societal metrics?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="teleological2"></textarea>
+                    </div>
+                </div>
+                
+                <!-- The Burden of Being God -->
+                <div class="assurance-card">
+                    <h4>3. The Burden of Being God</h4>
+                    <p>Discuss how the pressure of "perfect parenting" is, at its core, a heresy—it is the burden of trying to be our child's providing god and savior. How does the Gospel liberate us from that by showing we are only stewards that point to the true Father and Savior?</p>
+                    
+                    <div class="scripture">
+                        <p><strong>John 15:5 (NKJV)</strong> - "I am the vine, you are the branches. He who abides in Me, and I in him, bears much fruit; for without Me you can do nothing."</p>
+                    </div>
+                    
+                    <div class="scrollable-content">
+                        <p><strong>Recognizing the "Playing God" Syndrome:</strong></p>
+                        <p>Many parents unknowingly take on roles that belong only to God:</p>
+                        <ul>
+                            <li><strong>Provider God:</strong> Feeling solely responsible for our children's future security</li>
+                            <li><strong>Savior God:</strong> Believing we can protect them from all pain and suffering</li>
+                            <li><strong>Holy Spirit God:</strong> Trying to convict and change their hearts through our efforts</li>
+                            <li><strong>Sovereign God:</strong> Attempting to control all circumstances and outcomes</li>
+                            <li><strong>Judge God:</strong> Determining their ultimate worth and value</li>
+                        </ul>
+                        
+                        <p><strong>The Gospel's Liberating Truth:</strong></p>
+                        <p>The gospel frees us from the burden of playing God by reminding us:</p>
+                        <ul>
+                            <li>God is the perfect Father who never fails (Psalm 68:5)</li>
+                            <li>Jesus is the Savior who redeems all our parenting mistakes (Romans 8:1)</li>
+                            <li>The Holy Spirit is the true heart-changer (Ezekiel 36:26-27)</li>
+                            <li>God's grace covers our inadequacies (2 Corinthians 12:9)</li>
+                            <li>Our children ultimately belong to God (Ezekiel 18:4)</li>
+                        </ul>
+                        
+                        <p><strong>Embracing Our Proper Role as Stewards:</strong></p>
+                        <p>As stewards rather than saviors, we can:</p>
+                        <ul>
+                            <li>Pray more and control less</li>
+                            <li>Trust God with outcomes we cannot determine</li>
+                            <li>Model dependence on God rather than self-sufficiency</li>
+                            <li>Point our children to Jesus as their ultimate source</li>
+                            <li>Rest in God's sovereignty over our children's lives</li>
+                            <li>Celebrate that God is writing a bigger story than we can imagine</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="reflection">
+                        <p>In what ways have I tried to be "god" in my children's lives?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="burden1"></textarea>
+                        <p>How does the Gospel liberate me from the burden of perfect parenting?</p>
+                        <textarea placeholder="Type your reflection here..." data-reflection-id="burden2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PRACTICAL IMPLEMENTATION -->
+        <button class="topic-collapsible" id="practicalCollapsible">
+            <span>Practical Implementation — Sacramentalizing the Home</span>
+            <span class="completion-status" id="practicalStatus">●</span>
+        </button>
+        <div class="topic-content scrollable" id="practicalContent">
+            <div class="topic" id="practical">
+                <div class="topic-completion" id="practicalCompletion"></div>
+                <h2>Practical Implementation — Sacramentalizing the Home</h2>
+                
+                <!-- The Family Rule -->
+                <div class="family-rule">
+                    <h4>The Family Rule</h4>
+                    <p>As a family, create a Family Rule - a one-page written summary of the spiritual constitution of your home. The Family Rule should address: What is the ultimate Telos (goal) of our family? What virtues will we develop? How will we address failure? This is not a to-do list, but rather simply a statement of being.</p>
+                    
+                    <div class="scrollable-content">
+                        <p><strong>Creating Your Family Rule:</strong></p>
+                        <p>A Family Rule is like a mission statement for your household. It articulates your family's identity, values, and purpose from a kingdom perspective.</p>
+                        
+                        <p><strong>Steps to Develop Your Family Rule:</strong></p>
+                        <ol>
+                            <li><strong>Prayerfully discern:</strong> Set aside dedicated time to seek God's heart for your family</li>
+                            <li><strong>Family discussion:</strong> Include all family members in the conversation (age-appropriately)</li>
+                            <li><strong>Identify core values:</strong> What biblical virtues do you want to characterize your home?</li>
+                            <li><strong>Define your telos:</strong> What is the ultimate purpose of your family from God's perspective?</li>
+                            <li><strong>Establish rhythms:</strong> How will you regularly reinforce your family identity?</li>
+                            <li><strong>Create accountability:</strong> How will you help each other live out your Family Rule?</li>
+                            <li><strong>Display visibly:</strong> Place your Family Rule where everyone can see it regularly</li>
+                        </ol>
+                        
+                        <p><strong>Sample Family Rule Components:</strong></p>
+                        <ul>
+                            <li><strong>Our Identity:</strong> "We are the [Family Name], a kingdom family called to..."</li>
+                            <li><strong>Our Purpose:</strong> "We exist to glorify God by..."</li>
+                            <li><strong>Our Values:</strong> "We value hospitality, generosity, truthfulness, and service"</li>
+                            <li><strong>Our Practices:</strong> "We practice daily prayer, weekly Sabbath, regular confession"</li>
+                            <li><strong>Our Response to Failure:</strong> "When we fail, we extend grace, seek forgiveness, and begin again"</li>
+                            <li><strong>Our Hope:</strong> "We trust in God's faithfulness to complete His work in us"</li>
+                        </ul>
+                        
+                        <p><strong>Living Your Family Rule:</strong></p>
+                        <p>Your Family Rule should shape daily life through:</p>
+                        <ul>
+                            <li>Regular review and discussion at family meetings</li>
+                            <li>Intentional celebration when you see family values lived out</li>
+                            <li>Gentle reminders when decisions conflict with your Rule</li>
+                            <li>Annual evaluation and potential revision as your family grows</li>
+                            <li>Sharing your Rule with close friends who can encourage you</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="rule-section">
+                        <h5>Our Family's Ultimate Telos (Goal)</h5>
+                        <textarea placeholder="Describe the ultimate purpose and goal of your family..." data-reflection-id="family-rule-telos"></textarea>
+                    </div>
+                    
+                    <div class="rule-section">
+                        <h5>Virtues We Will Cultivate</h5>
+                        <textarea placeholder="List the key virtues your family will focus on developing..." data-reflection-id="family-rule-virtues"></textarea>
+                    </div>
+                    
+                    <div class="rule-section">
+                        <h5>How We Address Failure</h5>
+                        <textarea placeholder="Describe how your family will approach mistakes and failures with grace..." data-reflection-id="family-rule-failure"></textarea>
+                    </div>
+                    
+                    <div class="rule-section">
+                        <h5>Our Family Mission Statement</h5>
+                        <textarea placeholder="Write a brief mission statement that captures your family's purpose..." data-reflection-id="family-rule-mission"></textarea>
+                    </div>
+                </div>
+                
+                <!-- The Liturgy of Intercession -->
+                <div class="intercession-journal">
+                    <h4>The Liturgy of Intercession</h4>
+                    <p>Purchase a journal. This is not a casual prayer list; it is your family's "Book of Intercession." Each week, together, write a theological-prayer for each child. Each quarter you will review and celebrate God's answers to these prayers together.</p>
+                    
+                    <div class="prayer-example">
+                        <p><strong>Example Prayer:</strong> "For [Child's Name]: That the Holy Spirit will strengthen him/her against the spirit of apathy, and that he/she will understand the good works that were prepared for him/her from the foundation of the world (Eph. 2:10)."</p>
+                    </div>
+                    
+                    <div class="scrollable-content">
+                        <p><strong>The Power of Theological Prayer:</strong></p>
+                        <p>Theological prayers are different from typical prayer requests because they:</p>
+                        <ul>
+                            <li>Are rooted in God's character and promises</li>
+                            <li>Focus on spiritual formation rather than circumstantial outcomes</li>
+                            <li>Align our desires with God's purposes</li>
+                            <li>Build our faith as we pray according to God's will</li>
+                            <li>Create a spiritual legacy for our children</li>
+                        </ul>
+                        
+                        <p><strong>Creating Your Intercession Journal:</strong></p>
+                        <ol>
+                            <li><strong>Select a special journal:</strong> Choose something beautiful that reflects the sacredness of this practice</li>
+                            <li><strong>Establish a rhythm:</strong> Set a specific time each week for writing prayers (e.g., Sunday evening)</li>
+                            <li><strong>Pray for revelation:</strong> Ask God to show you what to pray for each child</li>
+                            <li><strong>Use Scripture:</strong> Ground your prayers in specific biblical promises and truths</li>
+                            <li><strong>Be specific:</strong> Name particular character qualities, spiritual battles, or kingdom purposes</li>
+                            <li><strong>Date each entry:</strong> This creates a record of God's faithfulness over time</li>
+                            <li><strong>Leave space for answers:</strong> Note how God responds to your prayers</li>
+                        </ol>
+                        
+                        <p><strong>Types of Theological Prayers:</strong></p>
+                        <ul>
+                            <li><strong>Character prayers:</strong> For specific fruit of the Spirit to develop</li>
+                            <li><strong>Protection prayers:</strong> Against particular spiritual attacks or strongholds</li>
+                            <li><strong>Purpose prayers:</strong> For revelation of God's unique calling</li>
+                            <li><strong>Relationship prayers:</strong> For godly friendships and future marriage</li>
+                            <li><strong>Legacy prayers:</strong> For multi-generational impact</li>
+                            <li><strong>Healing prayers:</strong> For emotional, physical, or spiritual wholeness</li>
+                        </ul>
+                        
+                        <p><strong>Quarterly Review Practice:</strong></p>
+                        <p>Set aside time every three months to:</p>
+                        <ul>
+                            <li>Read through previous prayers together as a family</li>
+                            <li>Celebrate and record answers to prayer</li>
+                            <li>Notice patterns in how God is working</li>
+                            <li>Adjust future prayers based on what you're learning</li>
+                            <li>Thank God for His faithfulness even when answers aren't yet visible</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="reflection">
+                        <h5>This Week's Intercession Prayers</h5>
+                        <p>Prayer for Child 1:</p>
+                        <textarea placeholder="Write a theological prayer for your first child..." data-reflection-id="intercession-child1"></textarea>
+                        <p>Prayer for Child 2:</p>
+                        <textarea placeholder="Write a theological prayer for your second child..." data-reflection-id="intercession-child2"></textarea>
+                        <p>Prayer for Child 3:</p>
+                        <textarea placeholder="Write a theological prayer for your third child..." data-reflection-id="intercession-child3"></textarea>
+                        <p>Additional Family Prayer:</p>
+                        <textarea placeholder="Write a prayer for your family as a whole..." data-reflection-id="intercession-family"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="lesson-nav">
+            <a href="session2.html" class="btn">Next Session</a>
+            <button class="btn btn-outline" id="viewProgress">View Dashboard</button>
+        </div>
+    </div>
+    
+    <!-- Progress Summary Modal -->
+    <div class="modal" id="progressModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Your Progress Summary</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="progress-summary" id="progressSummary">
+                <!-- Progress details will be populated here -->
+            </div>
+            <div class="lesson-nav">
+                <button class="btn" id="exportProgress">Export Progress</button>
+                <button class="btn btn-outline" id="resetProgress">Reset Progress</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="../progress.html" class="nav-item">
+            <span class="nav-icon">📊</span>
+            <span>Dashboard</span>
+        </a>
+        <a href="lessons.html" class="nav-item active">
+            <span class="nav-icon">📚</span>
+            <span>Lessons</span>
+        </a>
+        <a href="resources.html" class="nav-item">
+            <span class="nav-icon">🔖</span>
+            <span>Resources</span>
+        </a>
+        <a href="#" id="logoutBtn" class="nav-item">
+            <span class="nav-icon">🚪</span>
+            <span>Logout</span>
+        </a>
+    </div>
+    
+    <footer>
+        <p>Pathlight Discipleship Curriculum &copy; 2023 | KCMC</p>
+        <p>Lit to Lead. Rooted to Grow.</p>
+    </footer>
+
+    <script>
+        // Progress tracking and sync features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize progress tracking
+            initializeProgressTracking();
+            
+            // Set up sync indicator
+            const syncStatus = document.getElementById('syncStatus');
+            
+            // Auto-save functionality
+            setupAutoSave();
+            
+            // Progress modal functionality
+            setupProgressModal();
+            
+            // Initialize collapsible sections
+            setupCollapsibleSections();
+            
+            // Initialize topic collapsible sections
+            setupTopicCollapsibleSections();
+            
+            // Load saved progress
+            loadProgress();
+            
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function(event) {
+                event.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    // In a real app, this would clear authentication tokens
+                    // and redirect to login page
+                    showNotification('You have been logged out successfully.', 'success');
+                    
+                    setTimeout(() => {
+                        // Simulate logout - in a real app, redirect to login
+                        window.location.href = '../index.html';
+                    }, 1500);
+                }
+            });
+        });
+        
+        function initializeProgressTracking() {
+            // Topic completion toggle
+            const completionElements = document.querySelectorAll('.topic-completion');
+            completionElements.forEach(element => {
+                element.addEventListener('click', function() {
+                    this.classList.toggle('topic-completed');
+                    updateProgressBar();
+                    updateTopicStatus();
+                    saveProgress();
+                });
+                
+                // Add touch feedback
+                element.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.95)';
+                });
+                
+                element.addEventListener('touchend', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+            
+            // Reflection text auto-save
+            document.querySelectorAll('.reflection textarea').forEach(textarea => {
+                textarea.addEventListener('input', function() {
+                    saveProgress();
+                });
+            });
+        }
+        
+        function setupAutoSave() {
+            // Auto-save progress every 30 seconds
+            setInterval(saveProgress, 30000);
+            
+            // Save on page unload
+            window.addEventListener('beforeunload', saveProgress);
+        }
+        
+        function setupProgressModal() {
+            const modal = document.getElementById('progressModal');
+            const viewProgressBtn = document.getElementById('viewProgress');
+            const closeModalBtn = document.getElementById('closeModal');
+            const exportProgressBtn = document.getElementById('exportProgress');
+            const resetProgressBtn = document.getElementById('resetProgress');
+            
+            viewProgressBtn.addEventListener('click', function() {
+                updateProgressSummary();
+                modal.style.display = 'flex';
+            });
+            
+            closeModalBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            exportProgressBtn.addEventListener('click', exportProgress);
+            resetProgressBtn.addEventListener('click', resetProgress);
+        }
+        
+        function setupCollapsibleSections() {
+            const coll = document.querySelectorAll('.collapsible');
+            coll.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+        }
+        
+        function setupTopicCollapsibleSections() {
+            const topicCollapsibles = document.querySelectorAll('.topic-collapsible');
+            topicCollapsibles.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = document.getElementById(this.id.replace('Collapsible', 'Content'));
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        // Set max-height to allow scrolling for long content
+                        content.style.maxHeight = '70vh';
+                    }
+                });
+            });
+            
+            // Open first topic by default
+            if (topicCollapsibles.length > 0) {
+                topicCollapsibles[0].classList.add('active');
+                const firstContent = document.getElementById('theologyContent');
+                firstContent.style.maxHeight = '70vh';
+            }
+        }
+        
+        function updateProgressBar() {
+            const completedTopics = document.querySelectorAll('.topic-completed').length;
+            const totalTopics = document.querySelectorAll('.topic-completion').length;
+            const progressPercentage = (completedTopics / totalTopics) * 100;
+            
+            document.getElementById('progressBar').style.width = progressPercentage + '%';
+        }
+        
+        function updateTopicStatus() {
+            // Update status indicators for each topic
+            const topics = ['theology', 'reflection', 'practical'];
+            
+            topics.forEach(topic => {
+                const completionElement = document.getElementById(`${topic}Completion`);
+                const statusElement = document.getElementById(`${topic}Status`);
+                
+                if (completionElement && statusElement) {
+                    if (completionElement.classList.contains('topic-completed')) {
+                        statusElement.textContent = '✓';
+                        statusElement.style.color = 'var(--success-color)';
+                    } else {
+                        statusElement.textContent = '●';
+                        statusElement.style.color = '#ccc';
+                    }
+                }
+            });
+        }
+        
+        function saveProgress() {
+            const syncStatus = document.getElementById('syncStatus');
+            syncStatus.textContent = 'Syncing...';
+            syncStatus.className = 'sync-status syncing';
+            
+            // Collect topic completion status
+            const topics = [];
+            document.querySelectorAll('.topic-completion').forEach((element, index) => {
+                topics.push({
+                    id: index,
+                    completed: element.classList.contains('topic-completed')
+                });
+            });
+            
+            // Collect reflection responses
+            const reflections = {};
+            document.querySelectorAll('.reflection textarea').forEach(textarea => {
+                const reflectionId = textarea.getAttribute('data-reflection-id');
+                reflections[reflectionId] = textarea.value;
+            });
+            
+            // Collect topic collapsible states
+            const topicStates = {};
+            document.querySelectorAll('.topic-collapsible').forEach(collapsible => {
+                topicStates[collapsible.id] = collapsible.classList.contains('active');
+            });
+            
+            // Save to localStorage
+            const progressData = {
+                topics,
+                reflections,
+                topicStates,
+                lastSaved: new Date().toISOString()
+            };
+            
+            localStorage.setItem('session1Progress', JSON.stringify(progressData));
+            
+            // Simulate network delay for sync
+            setTimeout(() => {
+                syncStatus.textContent = 'Synced';
+                syncStatus.className = 'sync-status synced';
+                showNotification('Progress saved successfully', 'success');
+            }, 800);
+        }
+        
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('session1Progress');
+            
+            if (savedProgress) {
+                const progressData = JSON.parse(savedProgress);
+                
+                // Load topic completion status
+                if (progressData.topics) {
+                    progressData.topics.forEach(topic => {
+                        const completionElement = document.querySelectorAll('.topic-completion')[topic.id];
+                        if (completionElement && topic.completed) {
+                            completionElement.classList.add('topic-completed');
+                        }
+                    });
+                }
+                
+                // Load reflection responses
+                if (progressData.reflections) {
+                    Object.keys(progressData.reflections).forEach(reflectionId => {
+                        const textarea = document.querySelector(`[data-reflection-id="${reflectionId}"]`);
+                        if (textarea) {
+                            textarea.value = progressData.reflections[reflectionId];
+                        }
+                    });
+                }
+                
+                // Load topic collapsible states
+                if (progressData.topicStates) {
+                    Object.keys(progressData.topicStates).forEach(collapsibleId => {
+                        const collapsible = document.getElementById(collapsibleId);
+                        const content = document.getElementById(collapsibleId.replace('Collapsible', 'Content'));
+                        
+                        if (collapsible && content && progressData.topicStates[collapsibleId]) {
+                            collapsible.classList.add('active');
+                            content.style.maxHeight = '70vh';
+                        }
+                    });
+                }
+                
+                updateProgressBar();
+                updateTopicStatus();
+            }
+        }
+        
+        function updateProgressSummary() {
+            const summaryElement = document.getElementById('progressSummary');
+            const completedTopics = document.querySelectorAll('.topic-completed').length;
+            const totalTopics = document.querySelectorAll('.topic-completion').length;
+            const progressPercentage = Math.round((completedTopics / totalTopics) * 100);
+            
+            let reflectionCount = 0;
+            document.querySelectorAll('.reflection textarea').forEach(textarea => {
+                if (textarea.value.trim() !== '') {
+                    reflectionCount++;
+                }
+            });
+            
+            const totalReflections = document.querySelectorAll('.reflection textarea').length;
+            const reflectionPercentage = Math.round((reflectionCount / totalReflections) * 100);
+            
+            summaryElement.innerHTML = `
+                <div class="progress-item">
+                    <span>Topics Completed:</span>
+                    <span>${completedTopics}/${totalTopics} (${progressPercentage}%)</span>
+                </div>
+                <div class="progress-item">
+                    <span>Reflections Completed:</span>
+                    <span>${reflectionCount}/${totalReflections} (${reflectionPercentage}%)</span>
+                </div>
+                <div class="progress-item">
+                    <span>Last Saved:</span>
+                    <span>${new Date().toLocaleString()}</span>
+                </div>
+            `;
+        }
+        
+        function exportProgress() {
+            const progressData = localStorage.getItem('session1Progress');
+            
+            if (!progressData) {
+                showNotification('No progress data to export', 'error');
+                return;
+            }
+            
+            // Create a blob and download link
+            const blob = new Blob([progressData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'session1-progress.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('Progress exported successfully', 'success');
+        }
+        
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress for this session? This action cannot be undone.')) {
+                localStorage.removeItem('session1Progress');
+                
+                // Reset UI
+                document.querySelectorAll('.topic-completion').forEach(element => {
+                    element.classList.remove('topic-completed');
+                });
+                
+                document.querySelectorAll('.reflection textarea').forEach(textarea => {
+                    textarea.value = '';
+                });
+                
+                document.querySelectorAll('.topic-collapsible').forEach(collapsible => {
+                    collapsible.classList.remove('active');
+                });
+                
+                document.querySelectorAll('.topic-content').forEach(content => {
+                    content.style.maxHeight = null;
+                });
+                
+                // Open first topic
+                const firstCollapsible = document.getElementById('theologyCollapsible');
+                const firstContent = document.getElementById('theologyContent');
+                if (firstCollapsible && firstContent) {
+                    firstCollapsible.classList.add('active');
+                    firstContent.style.maxHeight = '70vh';
+                }
+                
+                updateProgressBar();
+                updateTopicStatus();
+                
+                showNotification('Progress reset successfully', 'success');
+                
+                // Close modal
+                document.getElementById('progressModal').style.display = 'none';
+            }
+        }
+        
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.position = 'fixed';
+            notification.style.top = '80px';
+            notification.style.right = '20px';
+            notification.style.padding = '12px 20px';
+            notification.style.borderRadius = '8px';
+            notification.style.color = 'white';
+            notification.style.fontWeight = '500';
+            notification.style.zIndex = '9999';
+            notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+            notification.style.transition = 'transform 0.3s, opacity 0.3s';
+            notification.style.transform = 'translateX(100%)';
+            notification.style.opacity = '0';
+            
+            if (type === 'success') {
+                notification.style.background = 'var(--success-color)';
+            } else if (type === 'error') {
+                notification.style.background = 'var(--accent-color)';
+            } else {
+                notification.style.background = 'var(--secondary-color)';
+            }
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+                notification.style.opacity = '1';
+            }, 10);
+            
+            // Animate out after 3 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                notification.style.opacity = '0';
+                
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

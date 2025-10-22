@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KCMC Parenting with Purpose</title>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      color: white;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 60px;
+      padding: 10px;
+    }
+
+    .logo img {
+      height: 50px;
+      width: auto;
+      border-radius: 8px;
+    }
+
+    h1 {
+      font-size: 2.3rem;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .tagline {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .main-content {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      margin-top: 20px;
+    }
+
+    /* Vision Section */
+    .vision-section {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .vision-section h2 {
+      color: #5d5fef;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+
+    .vision-text {
+      font-size: 1.1rem;
+      color: #555;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Session Navigation */
+    .session-navigation {
+      margin: 30px 0;
+    }
+
+    .session-navigation h2 {
+      color: #5d5fef;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+    }
+
+    .session-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .session-item {
+      display: flex;
+      align-items: center;
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 15px;
+      text-decoration: none;
+      color: #333;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border-left: 4px solid #667eea;
+    }
+
+    .session-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    .session-number {
+      background: #667eea;
+      color: white;
+      font-weight: bold;
+      font-size: 0.9rem;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+
+    .session-text h5 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .session-text p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .session-item i {
+      margin-left: auto;
+      color: #667eea;
+      font-size: 1rem;
+    }
+
+    /* Curriculum Section */
+    .curriculum-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin: 40px 0;
+    }
+
+    .module-card {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 25px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-left: 4px solid #667eea;
+    }
+
+    .module-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .module-number {
+      background: #667eea;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .module-card h3 {
+      color: #444;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+
+    .module-card p {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    /* Features */
+    .features-section {
+      background: #f0f4ff;
+      padding: 40px;
+      border-radius: 10px;
+      margin: 40px 0;
+    }
+
+    .features-section h2 {
+      text-align: center;
+      color: #5d5fef;
+      margin-bottom: 30px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-item {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .feature-icon {
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+      color: #667eea;
+    }
+
+    .feature-item h4 {
+      margin-bottom: 10px;
+      color: #444;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 15px;
+      margin-top: 40px;
+    }
+
+    .cta-section h2 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: white;
+      color: #667eea;
+      padding: 15px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-top: 20px;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: white;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+
+    .scripture-verse {
+      font-style: italic;
+      margin: 20px 0;
+      color: #e0e7ff;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+      .main-content {
+        padding: 20px;
+      }
+      .curriculum-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <img src="../icons/logopng.png" alt="KCMC Logo">
+      </div>
+      <h1>KCMC PARENTING WITH PURPOSE</h1>
+      <p class="tagline">Equipping parents to raise disciples in a complex world through biblical wisdom and practical tools</p>
+    </header>
+
+    <div class="main-content">
+      <!-- Vision -->
+      <section class="vision-section">
+        <h2>Our Vision</h2>
+        <p class="vision-text">
+          To transform parenting from a task to a sacred calling, equipping mothers and fathers to partner with God
+          in the formation of eternal souls. We provide comprehensive, biblically-grounded resources that address
+          the unique challenges of 21st-century parenting.
+        </p>
+      </section>
+
+      <!-- Session Navigation -->
+      <section class="session-navigation">
+        <h2>Contents</h2>
+        <div class="session-list">
+          <a href="session1.html" class="session-item">
+            <span class="session-number">1</span>
+            <div class="session-text">
+              <h5>SESSION 1: The Metaphysics of Parenthood</h5>
+              <p>Our Shared Sacred Commission</p>
+            </div>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+
+          <a href="session2.html" class="session-item">
+            <span class="session-number">2</span>
+            <div class="session-text">
+              <h5>SESSION 2: The Divine Dance</h5>
+              <p>Complementary Vocation in Biblical Parenthood</p>
+            </div>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+
+          <a href="session3.html" class="session-item">
+            <span class="session-number">3</span>
+            <div class="session-text">
+              <h5>SESSION 3: Narrative Theology for the Family</h5>
+              <p>Weaving Our Story into God’s Story</p>
+            </div>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+
+          <a href="session4.html" class="session-item">
+            <span class="session-number">4</span>
+            <div class="session-text">
+              <h5>SESSION 4: The Discipline of Desire</h5>
+              <p>Forming Habits for the Kingdom</p>
+            </div>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      </section>
+
+      <!-- Curriculum Overview -->
+      <section class="curriculum-overview">
+        <h2 style="text-align: center; color: #5d5fef; margin-bottom: 30px;">Comprehensive Curriculum</h2>
+        <div class="curriculum-grid">
+          <div class="module-card">
+            <div class="module-number">1–4</div>
+            <h3>Foundational Calling</h3>
+            <p>Establishing your identity in Christ and understanding your sacred role as a parent. Building strong marital partnerships in parenting.</p>
+          </div>
+          <div class="module-card">
+            <div class="module-number">5–7</div>
+            <h3>Family Discipleship</h3>
+            <p>Creating Christ-centered homes, navigating technology with wisdom, and cultivating spiritual growth as a family.</p>
+          </div>
+          <div class="module-card">
+            <div class="module-number">8–10</div>
+            <h3>Character Development</h3>
+            <p>Building emotional and spiritual resilience, raising critical thinkers, and fostering whole-child well-being.</p>
+          </div>
+          <div class="module-card">
+            <div class="module-number">11–12</div>
+            <h3>Relational Wisdom</h3>
+            <p>Navigating friendships, social challenges, and preparing for the launching years with biblical wisdom.</p>
+          </div>
+          <div class="module-card">
+            <div class="module-number">13–14</div>
+            <h3>Purpose & Resilience</h3>
+            <p>Helping teens discover God's calling, building resilience through crises, and shepherding adolescent hearts.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section class="features-section">
+        <h2>What You'll Gain</h2>
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-icon">📚</div>
+            <h4>Biblical Foundation</h4>
+            <p>Rooted in Scripture and theological depth.</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🛠️</div>
+            <h4>Practical Tools</h4>
+            <p>Actionable strategies for real parenting challenges.</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">👥</div>
+            <h4>Community Support</h4>
+            <p>Connect with other parents on the same journey.</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🌱</div>
+            <h4>Growth Focused</h4>
+            <p>Resources for every stage of parenting.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Call to Action -->
+      <section class="cta-section">
+        <h2>Begin Your Transformative Parenting Journey</h2>
+        <p class="scripture-verse">"Train up a child in the way he should go; even when he is old he will not depart from it." – Proverbs 22:6</p>
+        <p>Join parents discovering the joy and purpose of intentional, Christ-centered parenting.</p>
+        <a href="#" class="cta-button">Start Learning Today</a>
+      </section>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 Kingdom Covenant Ministries Church – Parenting with Purpose</p>
+    </footer>
+  </div>
+</body>
+</html>
