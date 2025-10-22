@@ -1104,7 +1104,7 @@
     
     <!-- Bottom Navigation -->
     <div class="bottom-nav">
-        <button class="btn btn-outline" id="logoutBtn">LogOut</button>
+       
         <a href="../progress.html" class="nav-item">
             <i class="bi bi-graph-up nav-icon"></i>
             <span>Dashboard</span>
@@ -1117,6 +1117,35 @@
             <i class="bi bi-gear nav-icon"></i>
             <span>Settings</span>
         </a>
+           <a href="#" id="logoutBtn" class="nav-item">
+    <span class="nav-icon">🚪</span>
+    <span>Logout</span>
+</a>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    // Logout functionality
+    logoutBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+            // In a real app, this would clear authentication tokens
+            // and redirect to login page
+            showNotification('You have been logged out successfully.', 'success');
+            
+            setTimeout(() => {
+                // Simulate logout - in a real app, redirect to login
+                window.location.href = '../index.html';
+            }, 1500);
+        }
+    });
+});
+
+// Optional: Example notification function
+function showNotification(message, type) {
+    alert(message); // Replace this with your custom notification UI
+}
+</script>
     </div>
     
     <!-- Sync Status -->
@@ -1389,21 +1418,7 @@
             updateSyncStatus();
         });
     </script>
-    <script>
-   // Logout functionality
-            logoutBtn.addEventListener('click', function() {
-                if (confirm('Are you sure you want to logout?')) {
-                    // In a real app, this would clear authentication tokens
-                    // and redirect to login page
-                    showNotification('You have been logged out successfully.', 'success');
-                    setTimeout(() => {
-                        // Simulate logout - in a real app, redirect to login
-                        window.location.href = '../index.html';
-                    }, 1500);
-                }
-            });
-            
-    </script>
+  
     <script type="module" src="../auth-check.js"></script>
 </body>
 </html>
