@@ -5,10 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Module 1 - Foundation to New Believer</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
- <script type="module" src="../auth-check.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    
-<!-- PWA Meta Tags -->
+ <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#2c3e50">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -764,341 +761,10 @@ footer {
   padding: 8px 0;
   border-bottom: 1px solid #eee;
 }
-/* ===== NEW: SESSION 2 STYLE ENHANCEMENTS ===== */
-
-/* Progress sync indicator matching Session 2 */
-.sync-status {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 8px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.sync-status.syncing {
-    color: var(--warning-color, #f39c12);
-}
-
-.sync-status.synced {
-    color: var(--success-color, #2ecc71);
-}
-
-.sync-status.local {
-    color: var(--secondary-color, #3498db);
-}
-
-.sync-status.offline {
-    color: #666;
-}
-
-/* ===== NEW: BACK TO TOP BUTTON ===== */
-.back-to-top {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    background: var(--secondary-color);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: var(--shadow);
-    z-index: 998;
-    opacity: 0;
-    transition: opacity 0.3s, transform 0.3s;
-}
-.back-to-top.visible {
-    opacity: 1;
-}
-.back-to-top:hover {
-    transform: translateY(-3px);
-    background: var(--primary-color);
-}
-
-/* ===== NEW: DARK MODE TOGGLE ===== */
-.dark-mode-toggle {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    width: 40px;
-    height: 40px;
-    background: var(--primary-color);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: var(--shadow);
-    z-index: 998;
-}
-
-/* ===== NEW: QUICK NAVIGATION ===== */
-.quick-nav {
-    position: fixed;
-    top: 80px;
-    left: 20px;
-    background: white;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 10px;
-    z-index: 997;
-    display: none;
-}
-.quick-nav.active {
-    display: block;
-}
-.quick-nav-item {
-    display: block;
-    padding: 8px 12px;
-    color: var(--primary-color);
-    text-decoration: none;
-    border-radius: 4px;
-    margin-bottom: 5px;
-    transition: background 0.3s;
-}
-.quick-nav-item:hover {
-    background: #f0f7ff;
-}
-.quick-nav-toggle {
-    position: fixed;
-    top: 80px;
-    left: 20px;
-    width: 40px;
-    height: 40px;
-    background: var(--secondary-color);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: var(--shadow);
-    z-index: 998;
-}
-
-/* ===== NEW: NOTE-TAKING FUNCTIONALITY ===== */
-.note-section {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px dashed #ddd;
-}
-.note-input {
-    width: 100%;
-    min-height: 80px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: var(--radius);
-    font-family: inherit;
-    resize: vertical;
-    margin-bottom: 10px;
-}
-.note-save {
-    background: var(--secondary-color);
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: var(--radius);
-    cursor: pointer;
-    font-size: 0.9rem;
-}
-.saved-notes {
-    margin-top: 1rem;
-}
-.saved-note {
-    background: #f9f9f9;
-    padding: 10px;
-    border-radius: var(--radius);
-    margin-bottom: 10px;
-    border-left: 3px solid var(--secondary-color);
-}
-.note-date {
-    font-size: 0.8rem;
-    color: #666;
-    margin-bottom: 5px;
-}
-
-/* ===== NEW: DARK MODE STYLES ===== */
-body.dark-mode {
-    background: #1a1a1a;
-    color: #e0e0e0;
-}
-body.dark-mode .topic {
-    background: #2d2d2d;
-}
-body.dark-mode .scripture {
-    background: linear-gradient(to right, #2d2d2d, #3d3d3d);
-}
-body.dark-mode .key-point {
-    background: linear-gradient(to right, #2d3d4d, #3d4d5d);
-}
-body.dark-mode .activity {
-    background: linear-gradient(to right, #4d3d2d, #5d4d3d);
-}
-body.dark-mode .reflection {
-    background: linear-gradient(to right, #2d2d4d, #3d3d5d);
-}
-body.dark-mode .reflection textarea {
-    background: #3d3d3d;
-    color: #e0e0e0;
-    border-color: #555;
-}
-body.dark-mode .collapsible {
-    background: #3d3d3d;
-    color: #e0e0e0;
-}
-body.dark-mode .collapsible:hover {
-    background: #4d4d4d;
-}
-body.dark-mode .content {
-    background: #2d2d2d;
-}
-body.dark-mode .bottom-nav {
-    background: #2d2d2d;
-}
-body.dark-mode .nav-item {
-    color: #b0b0b0;
-}
-body.dark-mode .nav-item.active {
-    color: var(--secondary-color);
-    background: #3d4d5d;
-}
-body.dark-mode .saved-note {
-    background: #3d3d3d;
-}
-body.dark-mode .note-input {
-    background: #3d3d3d;
-    color: #e0e0e0;
-    border-color: #555;
-}
-body.dark-mode .quick-nav {
-    background: #2d2d2d;
-}
-body.dark-mode .quick-nav-item {
-    color: #e0e0e0;
-}
-body.dark-mode .quick-nav-item:hover {
-    background: #3d4d5d;
-}
-body.dark-mode .assurance-card,
-body.dark-mode .interactive-card,
-body.dark-mode .gospel-verse-card,
-body.dark-mode .bible-method,
-body.dark-mode .memory-system {
-    background: #2d2d2d;
-}
-
-/* Enhanced content styling matching Session 2 */
-.scripture, .key-point, .activity, .reflection {
-    position: relative;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.scripture:before {
-    content: "📖";
-    position: absolute;
-    left: -35px;
-    top: 15px;
-    font-size: 1.2rem;
-    background: white;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.key-point:before {
-    content: "💡";
-    position: absolute;
-    left: -35px;
-    top: 15px;
-    font-size: 1.2rem;
-    background: white;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.activity:before {
-    content: "🔍";
-    position: absolute;
-    left: -35px;
-    top: 15px;
-    font-size: 1.2rem;
-    background: white;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.reflection:before {
-    content: "✍️";
-    position: absolute;
-    left: -35px;
-    top: 15px;
-    font-size: 1.2rem;
-    background: white;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-body.dark-mode .scripture:before,
-body.dark-mode .key-point:before,
-body.dark-mode .activity:before,
-body.dark-mode .reflection:before {
-    background: #2d2d2d;
-}
 </style>
 </head>
 <body>
-    <!-- NEW: Dark mode toggle -->
-<div class="dark-mode-toggle" id="darkModeToggle">
-    <i class="fas fa-moon"></i>
-</div>
-
-<!-- NEW: Quick navigation toggle -->
-<div class="quick-nav-toggle" id="quickNavToggle">
-    <i class="fas fa-bars"></i>
-</div>
-
-<!-- NEW: Quick navigation menu -->
-<div class="quick-nav" id="quickNav">
-    <a href="#topic1" class="quick-nav-item">Five Assurances</a>
-    <a href="#topic2" class="quick-nav-item">Understanding the Gospel</a>
-    <a href="#topic3" class="quick-nav-item">Spiritual Growth Wheel</a>
-    <a href="#topic4" class="quick-nav-item">Reading the Bible</a>
-</div>
-
-<!-- NEW: Back to top button -->
-<div class="back-to-top" id="backToTop">
-    <i class="fas fa-arrow-up"></i>
-</div>
+    
     
     <header>
         <div class="header-content">
@@ -2118,748 +1784,427 @@ function showNotification(message, type) {
         <p>Lit to Lead. Rooted to Grow.</p>
     </footer>
 
-<script>
-    // Initialize when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize progress tracking
-        initializeProgressTracking();
-        
-        // Set up sync indicator
-        const syncStatus = document.getElementById('syncStatus');
-        
-        // Auto-save functionality
-        setupAutoSave();
-        
-        // Progress modal functionality
-        setupProgressModal();
-        
-        // Initialize matching game
-        setupMatchingGame();
-        
-        // Initialize collapsible sections
-        setupCollapsibleSections();
-        
-        // Initialize topic collapsible sections
-        setupTopicCollapsibleSections();
-        
-        // Load saved progress
-        loadProgress();
-        
-        // NEW: Set up back to top button
-        setupBackToTop();
-        
-        // NEW: Set up quick navigation
-        setupQuickNavigation();
-        
-        // NEW: Set up dark mode toggle
-        setupDarkMode();
-        
-        // NEW: Set up note-taking functionality
-        setupNoteTaking();
-        
-        // NEW: Set up online/offline detection
-        setupConnectionListener();
-    });
-    
-    // NEW: Back to top functionality
-    function setupBackToTop() {
-        const backToTopBtn = document.getElementById('backToTop');
-        
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                backToTopBtn.classList.add('visible');
-            } else {
-                backToTopBtn.classList.remove('visible');
-            }
-        });
-        
-        backToTopBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
-    
-    // NEW: Quick navigation functionality
-    function setupQuickNavigation() {
-        const quickNavToggle = document.getElementById('quickNavToggle');
-        const quickNav = document.getElementById('quickNav');
-        
-        quickNavToggle.addEventListener('click', function() {
-            quickNav.classList.toggle('active');
-        });
-        
-        // Close quick nav when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!quickNav.contains(event.target) && !quickNavToggle.contains(event.target)) {
-                quickNav.classList.remove('active');
-            }
-        });
-    }
-    
-    // NEW: Dark mode functionality
-    function setupDarkMode() {
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const darkModeIcon = darkModeToggle.querySelector('i');
-        
-        // Check for saved theme preference or respect OS preference
-        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-        const currentTheme = localStorage.getItem('theme');
-        
-        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
-            document.body.classList.add('dark-mode');
-            darkModeIcon.className = 'fas fa-sun';
-        }
-        
-        darkModeToggle.addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
+    <script>
+        // Progress tracking and sync features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize progress tracking
+            initializeProgressTracking();
             
-            if (document.body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
-                darkModeIcon.className = 'fas fa-sun';
-            } else {
-                localStorage.setItem('theme', 'light');
-                darkModeIcon.className = 'fas fa-moon';
-            }
+            // Set up sync indicator
+            const syncStatus = document.getElementById('syncStatus');
+            
+            // Auto-save functionality
+            setupAutoSave();
+            
+            // Progress modal functionality
+            setupProgressModal();
+            
+            // Initialize matching game
+            setupMatchingGame();
+            
+            // Initialize collapsible sections
+            setupCollapsibleSections();
+            
+            // Initialize topic collapsible sections
+            setupTopicCollapsibleSections();
+            
+            // Load saved progress
+            loadProgress();
         });
-    }
-    
-    // NEW: Note-taking functionality
-    function setupNoteTaking() {
-        // Set up note save buttons
-        document.querySelectorAll('.note-save').forEach(button => {
-            button.addEventListener('click', function() {
-                const noteId = this.getAttribute('data-note-id');
-                const noteInput = document.querySelector(`.note-input[data-note-id="${noteId}"]`);
-                const savedNotesContainer = document.getElementById(`${noteId}-notes`);
+        
+        function initializeProgressTracking() {
+            // Topic completion toggle
+            const completionElements = document.querySelectorAll('.topic-completion');
+            completionElements.forEach(element => {
+                element.addEventListener('click', function() {
+                    this.classList.toggle('topic-completed');
+                    updateProgressBar();
+                    updateTopicStatus();
+                    saveProgress();
+                });
                 
-                if (noteInput.value.trim() !== '') {
-                    saveNote(noteId, noteInput.value);
-                    noteInput.value = '';
-                    loadNotes(noteId, savedNotesContainer);
-                    showNotification('Note saved successfully', 'success');
-                }
-            });
-        });
-        
-        // Load all saved notes on page load
-        document.querySelectorAll('.saved-notes').forEach(container => {
-            const noteId = container.id.replace('-notes', '');
-            loadNotes(noteId, container);
-        });
-    }
-
-    function saveNote(noteId, content) {
-        const notes = JSON.parse(localStorage.getItem('module1Notes') || '{}');
-        
-        if (!notes[noteId]) {
-            notes[noteId] = [];
-        }
-        
-        notes[noteId].push({
-            content: content,
-            date: new Date().toISOString()
-        });
-        
-        localStorage.setItem('module1Notes', JSON.stringify(notes));
-        
-        // Also save to cloud if user is logged in
-        if (window.saveProgressToCloud && localStorage.getItem("isLoggedIn") === "true") {
-            const sessionData = {
-                module1Notes: notes
-            };
-            window.saveProgressToCloud(sessionData);
-        }
-    }
-
-    function loadNotes(noteId, container) {
-        const notes = JSON.parse(localStorage.getItem('module1Notes') || '{}');
-        const noteArray = notes[noteId] || [];
-        
-        container.innerHTML = '';
-        
-        if (noteArray.length === 0) {
-            container.innerHTML = '<p class="note-date">No notes yet</p>';
-            return;
-        }
-        
-        // Display notes in reverse chronological order (newest first)
-        noteArray.reverse().forEach(note => {
-            const noteElement = document.createElement('div');
-            noteElement.className = 'saved-note';
-            noteElement.innerHTML = `
-                <div class="note-date">${new Date(note.date).toLocaleString()}</div>
-                <div>${note.content}</div>
-            `;
-            container.appendChild(noteElement);
-        });
-    }
-
-    // NEW: Connection listener for online/offline status
-    function setupConnectionListener() {
-        window.addEventListener('online', function() {
-            console.log("🌐 Online - syncing data...");
-            showNotification('Back online - syncing data', 'success');
-            // Auto-save when coming back online
-            saveProgress();
-        });
-
-        window.addEventListener('offline', function() {
-            console.log("📴 Offline - saving locally only");
-            showNotification('You are offline - saving locally', 'warning');
-        });
-    }
-    
-    function initializeProgressTracking() {
-        // Topic completion toggle
-        const completionElements = document.querySelectorAll('.topic-completion');
-        completionElements.forEach(element => {
-            element.addEventListener('click', function() {
-                this.classList.toggle('topic-completed');
-                updateProgressBar();
-                updateTopicStatus();
-                saveProgress();
-            });
-            
-            // Add touch feedback
-            element.addEventListener('touchstart', function() {
-                this.style.transform = 'scale(0.95)';
-            });
-            
-            element.addEventListener('touchend', function() {
-                this.style.transform = 'scale(1)';
-            });
-        });
-        
-        // Reflection text auto-save
-        document.querySelectorAll('.reflection textarea').forEach(textarea => {
-            textarea.addEventListener('input', function() {
-                saveProgress();
-            });
-        });
-    }
-    
-    function setupAutoSave() {
-        // Auto-save every 30 seconds
-        setInterval(saveProgress, 30000);
-        
-        // Save when leaving page
-        window.addEventListener('beforeunload', saveProgress);
-    }
-    
-    function setupProgressModal() {
-        const modal = document.getElementById('progressModal');
-        const viewProgressBtn = document.getElementById('viewProgress');
-        const closeModalBtn = document.getElementById('closeModal');
-        const exportProgressBtn = document.getElementById('exportProgress');
-        const resetProgressBtn = document.getElementById('resetProgress');
-        
-        viewProgressBtn.addEventListener('click', function() {
-            updateProgressSummary();
-            modal.style.display = 'flex';
-        });
-        
-        closeModalBtn.addEventListener('click', function() {
-            modal.style.display = 'none';
-        });
-        
-        window.addEventListener('click', function(event) {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-        
-        exportProgressBtn.addEventListener('click', exportProgress);
-        resetProgressBtn.addEventListener('click', resetProgress);
-    }
-    
-    function setupMatchingGame() {
-        document.getElementById('startMatchingGame').addEventListener('click', function() {
-            const container = document.getElementById('matchingGameContainer');
-            if (container.style.display === 'none') {
-                container.style.display = 'block';
-                initializeMatchingGame();
-            } else {
-                container.style.display = 'none';
-            }
-        });
-    }
-    
-    function setupCollapsibleSections() {
-        const coll = document.querySelectorAll('.collapsible');
-        coll.forEach(item => {
-            item.addEventListener('click', function() {
-                this.classList.toggle('active');
-                const content = this.nextElementSibling;
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + 'px';
-                }
-            });
-        });
-    }
-    
-    function setupTopicCollapsibleSections() {
-        const topicCollapsibles = document.querySelectorAll('.topic-collapsible');
-        topicCollapsibles.forEach(item => {
-            item.addEventListener('click', function() {
-                this.classList.toggle('active');
-                const content = document.getElementById(this.id.replace('Collapsible', 'Content'));
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + 'px';
-                }
-            });
-        });
-        
-        // Open first topic by default
-        if (topicCollapsibles.length > 0) {
-            topicCollapsibles[0].classList.add('active');
-            const firstContent = document.getElementById('topic1Content');
-            firstContent.style.maxHeight = firstContent.scrollHeight + 'px';
-        }
-    }
-    
-    function updateProgressBar() {
-        const completedTopics = document.querySelectorAll('.topic-completed').length;
-        const totalTopics = document.querySelectorAll('.topic-completion').length;
-        const progressPercentage = (completedTopics / totalTopics) * 100;
-        
-        document.getElementById('progressBar').style.width = progressPercentage + '%';
-    }
-    
-    function updateTopicStatus() {
-        // Update status indicators for each topic
-        for (let i = 1; i <= 4; i++) {
-            const completionElement = document.getElementById(`topic${i}Completion`);
-            const statusElement = document.getElementById(`topic${i}Status`);
-            
-            if (completionElement && statusElement) {
-                if (completionElement.classList.contains('topic-completed')) {
-                    statusElement.textContent = '✓';
-                    statusElement.style.color = 'var(--success-color)';
-                } else {
-                    statusElement.textContent = '●';
-                    statusElement.style.color = '#ccc';
-                }
-            }
-        }
-    }
-    
-    // ENHANCED: Save Progress to Local Storage AND Cloud
-    async function saveProgress() {
-        const syncStatus = document.getElementById('syncStatus');
-        syncStatus.innerHTML = '<i class="fas fa-sync-alt"></i><span>Syncing...</span>';
-        syncStatus.className = 'sync-status syncing';
-        
-        // Collect completion status
-        const completionStatus = {};
-        document.querySelectorAll('.topic-completion').forEach((completion, index) => {
-            completionStatus[`completion${index+1}`] = completion.classList.contains('topic-completed');
-        });
-        
-        // Collect collapsible section states
-        const sectionStates = {};
-        document.querySelectorAll('.topic-collapsible').forEach((collapsible, index) => {
-            sectionStates[`section${index+1}`] = collapsible.classList.contains('active');
-        });
-        
-        // Collect reflection responses
-        const reflections = {};
-        document.querySelectorAll('.reflection textarea').forEach((textarea, index) => {
-            reflections[`reflection${index+1}`] = textarea.value;
-        });
-        
-        // Collect matching game progress
-        const matchingGame = {
-            score: parseInt(document.getElementById('score').textContent) || 0,
-            total: parseInt(document.getElementById('total').textContent) || 0
-        };
-        
-        // Collect notes
-        const notes = JSON.parse(localStorage.getItem('module1Notes') || '{}');
-        
-        // Save to localStorage first (for offline access)
-        const progressData = {
-            completionStatus,
-            sectionStates,
-            reflections,
-            matchingGame,
-            lastSaved: new Date().toISOString()
-        };
-        
-        localStorage.setItem('module1Progress', JSON.stringify(progressData));
-        
-        // Try to save to cloud if user is logged in
-        let cloudSuccess = false;
-        if (window.saveProgressToCloud && localStorage.getItem("isLoggedIn") === "true") {
-            const sessionData = {
-                module1Progress: progressData,
-                module1Notes: notes
-            };
-            cloudSuccess = await window.saveProgressToCloud(sessionData);
-        }
-        
-        // Update sync status based on cloud save result
-        setTimeout(() => {
-            if (cloudSuccess) {
-                syncStatus.innerHTML = '<i class="fas fa-cloud"></i><span>Cloud Synced</span>';
-                syncStatus.className = 'sync-status synced';
-                showNotification('Progress saved to cloud', 'success');
-            } else if (localStorage.getItem("isLoggedIn") === "true") {
-                syncStatus.innerHTML = '<i class="fas fa-laptop"></i><span>Local Only</span>';
-                syncStatus.className = 'sync-status local';
-                showNotification('Saved locally (offline)', 'warning');
-            } else {
-                syncStatus.innerHTML = '<i class="fas fa-user-slash"></i><span>Local Only</span>';
-                syncStatus.className = 'sync-status offline';
-                showNotification('Not logged in - saving locally', 'warning');
-            }
-        }, 800);
-    }
-    
-    // ENHANCED: Load Progress from Local Storage (cloud data loads automatically via auth-check.js)
-    function loadProgress() {
-        // Always try to load from localStorage first (fastest)
-        const savedProgress = localStorage.getItem('module1Progress');
-        const savedNotes = localStorage.getItem('module1Notes');
-        
-        if (savedProgress) {
-            const progressData = JSON.parse(savedProgress);
-            
-            // Load completion status
-            if (progressData.completionStatus) {
-                Object.keys(progressData.completionStatus).forEach(key => {
-                    const completionElements = document.querySelectorAll('.topic-completion');
-                    const index = parseInt(key.replace('completion', '')) - 1;
-                    if (completionElements[index] && progressData.completionStatus[key]) {
-                        completionElements[index].classList.add('topic-completed');
-                    }
+                // Add touch feedback
+                element.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.95)';
                 });
-            }
-            
-            // Load section states
-            if (progressData.sectionStates) {
-                Object.keys(progressData.sectionStates).forEach(key => {
-                    const index = parseInt(key.replace('section', '')) - 1;
-                    const collapsibles = document.querySelectorAll('.topic-collapsible');
-                    const contents = document.querySelectorAll('.topic-content');
-                    
-                    if (collapsibles[index] && contents[index] && progressData.sectionStates[key]) {
-                        collapsibles[index].classList.add('active');
-                        contents[index].style.maxHeight = contents[index].scrollHeight + 'px';
-                    }
+                
+                element.addEventListener('touchend', function() {
+                    this.style.transform = 'scale(1)';
                 });
-            }
-            
-            // Load reflection responses
-            if (progressData.reflections) {
-                Object.keys(progressData.reflections).forEach(key => {
-                    const textareas = document.querySelectorAll('.reflection textarea');
-                    const index = parseInt(key.replace('reflection', '')) - 1;
-                    if (textareas[index]) {
-                        textareas[index].value = progressData.reflections[key];
-                    }
-                });
-            }
-            
-            // Load matching game progress
-            if (progressData.matchingGame) {
-                document.getElementById('score').textContent = progressData.matchingGame.score;
-                document.getElementById('total').textContent = progressData.matchingGame.total;
-            }
-            
-            updateProgressBar();
-            updateTopicStatus();
-        }
-        
-        // Load notes if they exist
-        if (savedNotes) {
-            const notesData = JSON.parse(savedNotes);
-            Object.keys(notesData).forEach(noteId => {
-                const container = document.getElementById(`${noteId}-notes`);
-                if (container) {
-                    loadNotes(noteId, container);
-                }
-            });
-        }
-    }
-    
-    function updateProgressSummary() {
-        const summaryElement = document.getElementById('progressSummary');
-        const completedTopics = document.querySelectorAll('.topic-completed').length;
-        const totalTopics = document.querySelectorAll('.topic-completion').length;
-        const progressPercentage = Math.round((completedTopics / totalTopics) * 100);
-        
-        // Count completed reflections
-        let completedReflections = 0;
-        const totalReflections = document.querySelectorAll('.reflection textarea').length;
-        document.querySelectorAll('.reflection textarea').forEach(textarea => {
-            if (textarea.value.trim() !== '') {
-                completedReflections++;
-            }
-        });
-        
-        // Get matching game progress
-        const matchingScore = parseInt(document.getElementById('score').textContent) || 0;
-        const matchingTotal = parseInt(document.getElementById('total').textContent) || 0;
-        
-        // Count notes
-        const notes = JSON.parse(localStorage.getItem('module1Notes') || '{}');
-        let noteCount = 0;
-        Object.keys(notes).forEach(key => {
-            noteCount += notes[key].length;
-        });
-        
-        const userStatus = localStorage.getItem("isLoggedIn") === "true" ? 
-            `(Cloud Sync: ${localStorage.getItem("userEmail")})` : 
-            "(Local Only - Not logged in)";
-        
-        summaryElement.innerHTML = `
-            <div class="progress-item">
-                <span>Topics Completed:</span>
-                <span>${completedTopics}/${totalTopics} (${progressPercentage}%)</span>
-            </div>
-            <div class="progress-item">
-                <span>Reflections Completed:</span>
-                <span>${completedReflections}/${totalReflections}</span>
-            </div>
-            <div class="progress-item">
-                <span>Matching Game Score:</span>
-                <span>${matchingScore}/${matchingTotal}</span>
-            </div>
-            <div class="progress-item">
-                <span>Personal Notes:</span>
-                <span>${noteCount}</span>
-            </div>
-            <div class="progress-item">
-                <span>Last Saved:</span>
-                <span>${new Date().toLocaleString()}</span>
-            </div>
-            <div class="progress-item">
-                <span>Sync Status:</span>
-                <span>${userStatus}</span>
-            </div>
-        `;
-    }
-    
-    function exportProgress() {
-        const progressData = localStorage.getItem('module1Progress');
-        const noteData = localStorage.getItem('module1Notes');
-        
-        if (!progressData && !noteData) {
-            showNotification('No data to export', 'error');
-            return;
-        }
-        
-        // Combine progress and notes
-        const exportData = {
-            progress: progressData ? JSON.parse(progressData) : {},
-            notes: noteData ? JSON.parse(noteData) : {},
-            exportDate: new Date().toISOString(),
-            module: "Module 1: Foundation to New Believer"
-        };
-        
-        // Create a blob and download link
-        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'module1-data.json';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        
-        showNotification('Data exported successfully', 'success');
-    }
-    
-    function resetProgress() {
-        if (confirm('Are you sure you want to reset all progress and notes for this module? This action cannot be undone.')) {
-            localStorage.removeItem('module1Progress');
-            localStorage.removeItem('module1Notes');
-            
-            // Reset UI
-            document.querySelectorAll('.topic-completion').forEach(element => {
-                element.classList.remove('topic-completed');
             });
             
+            // Reflection text auto-save
             document.querySelectorAll('.reflection textarea').forEach(textarea => {
-                textarea.value = '';
+                textarea.addEventListener('input', function() {
+                    saveProgress();
+                });
+            });
+        }
+        
+        function setupAutoSave() {
+            // Auto-save progress every 30 seconds
+            setInterval(saveProgress, 30000);
+            
+            // Save on page unload
+            window.addEventListener('beforeunload', saveProgress);
+        }
+        
+        function setupProgressModal() {
+            const modal = document.getElementById('progressModal');
+            const viewProgressBtn = document.getElementById('viewProgress');
+            const closeModalBtn = document.getElementById('closeModal');
+            const exportProgressBtn = document.getElementById('exportProgress');
+            const resetProgressBtn = document.getElementById('resetProgress');
+            
+            viewProgressBtn.addEventListener('click', function() {
+                updateProgressSummary();
+                modal.style.display = 'flex';
             });
             
-            document.querySelectorAll('.note-input').forEach(input => {
-                input.value = '';
+            closeModalBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
             });
             
-            document.querySelectorAll('.saved-notes').forEach(container => {
-                container.innerHTML = '<p class="note-date">No notes yet</p>';
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
             });
             
-            document.querySelectorAll('.topic-collapsible').forEach(collapsible => {
-                collapsible.classList.remove('active');
+            exportProgressBtn.addEventListener('click', exportProgress);
+            resetProgressBtn.addEventListener('click', resetProgress);
+        }
+        
+        function setupMatchingGame() {
+            document.getElementById('startMatchingGame').addEventListener('click', function() {
+                const container = document.getElementById('matchingGameContainer');
+                if (container.style.display === 'none') {
+                    container.style.display = 'block';
+                    initializeMatchingGame();
+                } else {
+                    container.style.display = 'none';
+                }
+            });
+        }
+        
+        function setupCollapsibleSections() {
+            const coll = document.querySelectorAll('.collapsible');
+            coll.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+        }
+        
+        function setupTopicCollapsibleSections() {
+            const topicCollapsibles = document.querySelectorAll('.topic-collapsible');
+            topicCollapsibles.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = document.getElementById(this.id.replace('Collapsible', 'Content'));
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
             });
             
-            document.querySelectorAll('.topic-content').forEach(content => {
-                content.style.maxHeight = null;
-            });
-            
-            // Reset matching game
-            document.getElementById('score').textContent = '0';
-            
-            // Open first topic
-            const firstCollapsible = document.getElementById('topic1Collapsible');
-            const firstContent = document.getElementById('topic1Content');
-            if (firstCollapsible && firstContent) {
-                firstCollapsible.classList.add('active');
+            // Open first topic by default
+            if (topicCollapsibles.length > 0) {
+                topicCollapsibles[0].classList.add('active');
+                const firstContent = document.getElementById('topic1Content');
                 firstContent.style.maxHeight = firstContent.scrollHeight + 'px';
             }
-            
-            updateProgressBar();
-            updateTopicStatus();
-            
-            showNotification('Progress reset successfully', 'success');
-            
-            // Close modal
-            document.getElementById('progressModal').style.display = 'none';
-        }
-    }
-    
-    function showNotification(message, type) {
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.textContent = message;
-        notification.style.position = 'fixed';
-        notification.style.top = '80px';
-        notification.style.right = '20px';
-        notification.style.padding = '12px 20px';
-        notification.style.borderRadius = 'var(--radius)';
-        notification.style.color = 'white';
-        notification.style.fontWeight = '500';
-        notification.style.zIndex = '9999';
-        notification.style.boxShadow = 'var(--shadow)';
-        notification.style.transition = 'transform 0.3s, opacity 0.3s';
-        notification.style.transform = 'translateX(100%)';
-        notification.style.opacity = '0';
-        
-        if (type === 'success') {
-            notification.style.background = 'var(--success-color)';
-        } else if (type === 'error') {
-            notification.style.background = 'var(--accent-color)';
-        } else if (type === 'warning') {
-            notification.style.background = 'var(--warning-color)';
-        } else {
-            notification.style.background = 'var(--secondary-color)';
         }
         
-        document.body.appendChild(notification);
-        
-        // Animate in
-        setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
-            notification.style.opacity = '1';
-        }, 10);
-        
-        // Animate out after 3 seconds
-        setTimeout(() => {
-            notification.style.transform = 'translateX(100%)';
-            notification.style.opacity = '0';
+        function updateProgressBar() {
+            const completedTopics = document.querySelectorAll('.topic-completed').length;
+            const totalTopics = document.querySelectorAll('.topic-completion').length;
+            const progressPercentage = (completedTopics / totalTopics) * 100;
             
+            document.getElementById('progressBar').style.width = progressPercentage + '%';
+        }
+        
+        function updateTopicStatus() {
+            // Update status indicators for each topic
+            for (let i = 1; i <= 4; i++) {
+                const completionElement = document.getElementById(`topic${i}Completion`);
+                const statusElement = document.getElementById(`topic${i}Status`);
+                
+                if (completionElement && statusElement) {
+                    if (completionElement.classList.contains('topic-completed')) {
+                        statusElement.textContent = '✓';
+                        statusElement.style.color = 'var(--success-color)';
+                    } else {
+                        statusElement.textContent = '●';
+                        statusElement.style.color = '#ccc';
+                    }
+                }
+            }
+        }
+        
+        function saveProgress() {
+            const syncStatus = document.getElementById('syncStatus');
+            syncStatus.textContent = 'Syncing...';
+            syncStatus.className = 'sync-status syncing';
+            
+            // Collect topic completion status
+            const topics = [];
+            document.querySelectorAll('.topic-completion').forEach((element, index) => {
+                topics.push({
+                    id: index,
+                    completed: element.classList.contains('topic-completed')
+                });
+            });
+            
+            // Collect reflection responses
+            const reflections = {};
+            document.querySelectorAll('.reflection textarea').forEach(textarea => {
+                const reflectionId = textarea.getAttribute('data-reflection-id');
+                reflections[reflectionId] = textarea.value;
+            });
+            
+            // Collect matching game progress
+            const matchingGame = {
+                score: parseInt(document.getElementById('score').textContent) || 0,
+                total: parseInt(document.getElementById('total').textContent) || 0
+            };
+            
+            // Collect topic collapsible states
+            const topicStates = {};
+            document.querySelectorAll('.topic-collapsible').forEach(collapsible => {
+                topicStates[collapsible.id] = collapsible.classList.contains('active');
+            });
+            
+            // Save to localStorage
+            const progressData = {
+                topics: topics,
+                reflections: reflections,
+                matchingGame: matchingGame,
+                topicStates: topicStates,
+                lastUpdated: new Date().toISOString()
+            };
+            
+            localStorage.setItem('lesson1Progress', JSON.stringify(progressData));
+            
+            // Simulate sync delay
             setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 300);
-        }, 3000);
-    }
-
-    // Make loadProgress available globally for auth-check.js
-    window.loadProgress = loadProgress;
-
-    // Matching game functions (keep your existing matching game code)
-    function initializeMatchingGame() {
-        const pairs = [
-            {verse: 'Romans 8:38-39 — Nothing separates us from God\'s love', theme: 'God\'s Unfailing Love'},
-            {verse: 'John 10:28 — I give them eternal life', theme: 'Assurance of Salvation'},
-            {verse: 'Philippians 4:13 — I can do all things through Christ', theme: 'Confidence & Strength'},
-            {verse: 'Romans 8:37 — More than conquerors', theme: 'Assurance of Victory'},
-            {verse: 'Hebrews 13:5 — I will never leave you', theme: 'God\'s Presence'}
-        ];
-
-        const versesList = document.getElementById('versesList');
-        const themesList = document.getElementById('themesList');
-        const scoreSpan = document.getElementById('score');
-        const totalSpan = document.getElementById('total');
-
-        let state = {selectedVerse: null, selectedTheme: null, correct: 0, total: pairs.length};
-        totalSpan.textContent = state.total;
-
-        function shuffle(arr){ 
-            for(let i=arr.length-1;i>0;i--){
-                const j=Math.floor(Math.random()*(i+1));
-                [arr[i],arr[j]]=[arr[j],arr[i]];
-            } 
-            return arr; 
+                syncStatus.textContent = 'Synced';
+                syncStatus.className = 'sync-status synced';
+            }, 800);
         }
-
-        function renderBoard(){
-            versesList.innerHTML = '';
-            themesList.innerHTML = '';
-            const verses = shuffle([...pairs.map(p=>p.verse)]);
-            const themes = shuffle([...pairs.map(p=>p.theme)]);
+        
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('lesson1Progress');
+            if (savedProgress) {
+                const progressData = JSON.parse(savedProgress);
+                
+                // Load topic completion
+                progressData.topics.forEach(topic => {
+                    const element = document.querySelectorAll('.topic-completion')[topic.id];
+                    if (element && topic.completed) {
+                        element.classList.add('topic-completed');
+                    }
+                });
+                
+                // Load reflection responses
+                Object.keys(progressData.reflections).forEach(reflectionId => {
+                    const textarea = document.querySelector(`textarea[data-reflection-id="${reflectionId}"]`);
+                    if (textarea) {
+                        textarea.value = progressData.reflections[reflectionId];
+                    }
+                });
+                
+                // Load matching game progress
+                if (progressData.matchingGame) {
+                    document.getElementById('score').textContent = progressData.matchingGame.score;
+                    document.getElementById('total').textContent = progressData.matchingGame.total;
+                }
+                
+                // Load topic collapsible states
+                if (progressData.topicStates) {
+                    Object.keys(progressData.topicStates).forEach(collapsibleId => {
+                        const collapsible = document.getElementById(collapsibleId);
+                        const content = document.getElementById(collapsibleId.replace('Collapsible', 'Content'));
+                        
+                        if (collapsible && content) {
+                            if (progressData.topicStates[collapsibleId]) {
+                                collapsible.classList.add('active');
+                                content.style.maxHeight = content.scrollHeight + 'px';
+                            } else {
+                                collapsible.classList.remove('active');
+                                content.style.maxHeight = null;
+                            }
+                        }
+                    });
+                }
+                
+                updateProgressBar();
+                updateTopicStatus();
+            }
+        }
+        
+        function updateProgressSummary() {
+            const summaryElement = document.getElementById('progressSummary');
+            const completedTopics = document.querySelectorAll('.topic-completed').length;
+            const totalTopics = document.querySelectorAll('.topic-completion').length;
+            const progressPercentage = Math.round((completedTopics / totalTopics) * 100);
             
-            verses.forEach(v => {
-                const el = document.createElement('div');
-                el.className = 'item';
-                el.textContent = v;
-                el.onclick = () => selectItem(el, 'verse');
-                versesList.appendChild(el);
+            // Count completed reflections
+            let completedReflections = 0;
+            const totalReflections = document.querySelectorAll('.reflection textarea').length;
+            document.querySelectorAll('.reflection textarea').forEach(textarea => {
+                if (textarea.value.trim() !== '') {
+                    completedReflections++;
+                }
             });
             
-            themes.forEach(t => {
-                const el = document.createElement('div');
-                el.className = 'item';
-                el.textContent = t;
-                el.onclick = () => selectItem(el, 'theme');
-                themesList.appendChild(el);
-            });
-        }
-
-        function selectItem(el, type){
-            if(el.classList.contains('correct')) return;
-            document.querySelectorAll(type === 'verse' ? '#versesList .item' : '#themesList .item').forEach(i => i.classList.remove('selected'));
-            el.classList.add('selected');
-            if(type === 'verse') state.selectedVerse = el.textContent; 
-            else state.selectedTheme = el.textContent;
+            // Get matching game progress
+            const matchingScore = parseInt(document.getElementById('score').textContent) || 0;
+            const matchingTotal = parseInt(document.getElementById('total').textContent) || 0;
             
-            if(state.selectedVerse && state.selectedTheme) checkMatch();
+            summaryElement.innerHTML = `
+                <div class="progress-item">
+                    <span>Topics Completed:</span>
+                    <span>${completedTopics}/${totalTopics} (${progressPercentage}%)</span>
+                </div>
+                <div class="progress-item">
+                    <span>Reflections Completed:</span>
+                    <span>${completedReflections}/${totalReflections}</span>
+                </div>
+                <div class="progress-item">
+                    <span>Matching Game Score:</span>
+                    <span>${matchingScore}/${matchingTotal}</span>
+                </div>
+                <div class="progress-item">
+                    <span>Last Updated:</span>
+                    <span>${new Date().toLocaleString()}</span>
+                </div>
+            `;
         }
-
-        function checkMatch(){
-            const match = pairs.find(p => p.verse === state.selectedVerse && p.theme === state.selectedTheme);
-            const vEl = [...document.querySelectorAll('#versesList .item')].find(i => i.textContent === state.selectedVerse);
-            const tEl = [...document.querySelectorAll('#themesList .item')].find(i => i.textContent === state.selectedTheme);
-            
-            if(match){
-                vEl.classList.add('correct');
-                tEl.classList.add('correct');
-                state.correct++;
-                scoreSpan.textContent = state.correct;
-                saveProgress(); // Save game progress
+        
+        function exportProgress() {
+            const progressData = localStorage.getItem('lesson1Progress');
+            if (!progressData) {
+                alert('No progress data to export.');
+                return;
             }
             
-            vEl.classList.remove('selected');
-            tEl.classList.remove('selected');
-            state.selectedVerse = null;
-            state.selectedTheme = null;
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(progressData);
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "lesson1_progress.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
         }
+        
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress for this lesson? This cannot be undone.')) {
+                localStorage.removeItem('lesson1Progress');
+                document.querySelectorAll('.topic-completion').forEach(element => {
+                    element.classList.remove('topic-completed');
+                });
+                document.querySelectorAll('.reflection textarea').forEach(textarea => {
+                    textarea.value = '';
+                });
+                document.getElementById('score').textContent = '0';
+                updateProgressBar();
+                updateTopicStatus();
+                updateProgressSummary();
+                alert('Progress has been reset.');
+            }
+        }
+        
+        function initializeMatchingGame() {
+            const pairs = [
+                {verse: 'Romans 8:38-39 — Nothing separates us from God\'s love', theme: 'God\'s Unfailing Love'},
+                {verse: 'John 10:28 — I give them eternal life', theme: 'Assurance of Salvation'},
+                {verse: 'Philippians 4:13 — I can do all things through Christ', theme: 'Confidence & Strength'},
+                {verse: 'Romans 8:37 — More than conquerors', theme: 'Assurance of Victory'},
+                {verse: 'Hebrews 13:5 — I will never leave you', theme: 'God\'s Presence'}
+            ];
 
-        renderBoard();
-    }
-</script>
+            const versesList = document.getElementById('versesList');
+            const themesList = document.getElementById('themesList');
+            const scoreSpan = document.getElementById('score');
+            const totalSpan = document.getElementById('total');
+
+            let state = {selectedVerse: null, selectedTheme: null, correct: 0, total: pairs.length};
+            totalSpan.textContent = state.total;
+
+            function shuffle(arr){ 
+                for(let i=arr.length-1;i>0;i--){
+                    const j=Math.floor(Math.random()*(i+1));
+                    [arr[i],arr[j]]=[arr[j],arr[i]];
+                } 
+                return arr; 
+            }
+
+            function renderBoard(){
+                versesList.innerHTML = '';
+                themesList.innerHTML = '';
+                const verses = shuffle([...pairs.map(p=>p.verse)]);
+                const themes = shuffle([...pairs.map(p=>p.theme)]);
+                
+                verses.forEach(v => {
+                    const el = document.createElement('div');
+                    el.className = 'item';
+                    el.textContent = v;
+                    el.onclick = () => selectItem(el, 'verse');
+                    versesList.appendChild(el);
+                });
+                
+                themes.forEach(t => {
+                    const el = document.createElement('div');
+                    el.className = 'item';
+                    el.textContent = t;
+                    el.onclick = () => selectItem(el, 'theme');
+                    themesList.appendChild(el);
+                });
+            }
+
+            function selectItem(el, type){
+                if(el.classList.contains('correct')) return;
+                document.querySelectorAll(type === 'verse' ? '#versesList .item' : '#themesList .item').forEach(i => i.classList.remove('selected'));
+                el.classList.add('selected');
+                if(type === 'verse') state.selectedVerse = el.textContent; 
+                else state.selectedTheme = el.textContent;
+                
+                if(state.selectedVerse && state.selectedTheme) checkMatch();
+            }
+
+            function checkMatch(){
+                const match = pairs.find(p => p.verse === state.selectedVerse && p.theme === state.selectedTheme);
+                const vEl = [...document.querySelectorAll('#versesList .item')].find(i => i.textContent === state.selectedVerse);
+                const tEl = [...document.querySelectorAll('#themesList .item')].find(i => i.textContent === state.selectedTheme);
+                
+                if(match){
+                    vEl.classList.add('correct');
+                    tEl.classList.add('correct');
+                    state.correct++;
+                    scoreSpan.textContent = state.correct;
+                    saveProgress(); // Save game progress
+                }
+                
+                vEl.classList.remove('selected');
+                tEl.classList.remove('selected');
+                state.selectedVerse = null;
+                state.selectedTheme = null;
+            }
+
+            renderBoard();
+        }
+    </script>
     
 
-   
+    <script type="module" src="../auth-check.js"></script>
 </body>
 </html>

@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FOUNDATION TO NEW BELIEVERS</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Add Firebase imports -->
-    <script type="module" src="../auth-check.js"></script>
-    <!-- PWA Meta Tags -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#2c3e50">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -27,477 +27,431 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
     <!-- Preload important resources -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax.googleapis.com">
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* ===== CSS VARIABLES ===== */
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-            --success: #2ecc71;
-            --warning: #f39c12;
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --success-color: #2ecc71;
             --prayer-color: #9c27b0;
             --fellowship-color: #e67e22;
             --gospel-color: #27ae60;
-            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --radius: 8px;
         }
-
-        /* ===== RESET & BASE STYLES ===== */
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
         }
-
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden;
+        
+        body {
             font-family: var(--font-main);
-            background: #f9f9f9;
-            color: #333;
-            scroll-behavior: smooth;
             line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            padding-bottom: 80px; /* Space for bottom nav */
+            -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
         }
-
-        /* ===== HEADER ===== */
-        header {
+        
+        .container {
             width: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1.5rem 1rem;
-            text-align: center;
-            position: relative;
-            box-shadow: var(--shadow);
-        }
-
-        header h1 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        header .subtitle {
-            font-size: 1rem;
-            opacity: 0.9;
-            max-width: 800px;
             margin: 0 auto;
+            padding: 15px;
         }
-
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            width: 100%;
+        }
+        
         .progress-container {
+            width: 100%;
+            background-color: rgba(255,255,255,0.2);
+            height: 6px;
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.2);
         }
-
+        
         .progress-bar {
             height: 100%;
+            background-color: var(--accent-color);
             width: 0%;
-            background: var(--accent);
             transition: width 0.5s ease;
         }
-
-        /* ===== MAIN CONTENT ===== */
-        .container {
+        
+        .header-content {
             width: 100%;
-            padding: 0 1rem 100px;
-            max-width: 1200px;
             margin: 0 auto;
+            padding: 0 15px;
         }
-
-        /* ===== BUTTONS ===== */
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            gap: 10px;
+        }
+        
         .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            text-align: center;
+            flex: 1;
+            min-height: 48px; /* Minimum touch target size */
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--secondary);
-            color: white;
-            padding: 14px 20px;
-            border-radius: var(--radius);
-            border: none;
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 1rem;
-            width: 100%;
-            transition: all 0.3s;
-            cursor: pointer;
-            gap: 8px;
         }
-
-        .btn:hover {
-            background: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
+        
+        .btn:hover, .btn:active {
+            background-color: var(--primary-color);
         }
-
+        
         .btn-outline {
-            background: transparent;
-            border: 2px solid var(--secondary);
-            color: var(--secondary);
+            background-color: transparent;
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
         }
-
-        .btn-outline:hover {
-            background: var(--secondary);
+        
+        .btn-outline:hover, .btn-outline:active {
+            background-color: var(--secondary-color);
             color: white;
         }
-
+        
         .btn-prayer {
-            background: var(--prayer-color);
+            background-color: var(--prayer-color);
         }
-
+        
         .btn-fellowship {
-            background: var(--fellowship-color);
+            background-color: var(--fellowship-color);
         }
-
+        
         .btn-gospel {
-            background: var(--gospel-color);
+            background-color: var(--gospel-color);
         }
-
-        /* ===== NAVIGATION ===== */
-        .lesson-nav {
-            display: flex;
-            gap: 10px;
-            margin: 1.5rem 0;
-        }
-
-        /* ===== COLLAPSIBLE SECTIONS ===== */
-        .collapsible-section {
-            margin-bottom: 1rem;
-            width: 100%;
-        }
-
-        .collapsible-header {
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            text-align: left;
-            padding: 1.2rem 1.5rem;
-            font-weight: 600;
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--shadow);
-            font-size: 1.1rem;
-        }
-
-        .collapsible-header:hover {
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .collapsible-header i {
-            transition: transform 0.3s ease;
-        }
-
-        .collapsible-header.active i {
-            transform: rotate(180deg);
-        }
-
-        .collapsible-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-out;
-            background: white;
-            border-radius: 0 0 var(--radius) var(--radius);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .collapsible-content.active {
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .content-inner {
-            padding: 1.5rem;
-        }
-
-        /* ===== ENHANCED CONTENT STYLES ===== */
-        .content-section {
-            margin-bottom: 2rem;
-        }
-
-        .content-section h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--secondary);
-            font-size: 1.3rem;
-        }
-
+        
         .topic {
             background-color: white;
-            border-radius: var(--radius);
+            border-radius: 12px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
-            box-shadow: var(--shadow);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: relative;
             width: 100%;
         }
-
+        
         .topic h2 {
-            color: var(--primary);
+            color: var(--primary-color);
             margin-bottom: 1rem;
-            border-bottom: 2px solid var(--secondary);
+            border-bottom: 2px solid var(--secondary-color);
             padding-bottom: 0.5rem;
             font-size: 1.4rem;
         }
-
+        
+        .topic-completion {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+            min-height: 44px; /* Minimum touch target size */
+            min-width: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .topic-completed {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+        }
+        
+        .topic-completed::after {
+            content: "✓";
+            color: white;
+            font-weight: bold;
+        }
+        
         .scripture {
-            background: linear-gradient(to right, #f8f9fa, #e9ecef);
-            border-left: 6px solid var(--secondary);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 0 var(--radius) var(--radius) 0;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            padding: 1rem;
+            margin: 1rem 0;
             font-style: italic;
-            position: relative;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: 0 8px 8px 0;
         }
-        .scripture:before {
-            content: "📖";
-            position: absolute;
-            left: -35px;
-            top: 15px;
-            font-size: 1.2rem;
-            background: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
+        
         .key-point {
-            background: linear-gradient(to right, #e8f4fc, #d4edfc);
-            border-left: 6px solid var(--success);
+            background-color: #e8f4fc;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .key-point h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .activity {
+            background-color: #fff8e1;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .activity h4 {
+            color: #e65100;
+            margin-bottom: 0.5rem;
+        }
+        
+        .prayer-method {
+            background-color: #f3e5f5;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--prayer-color);
+        }
+        
+        .prayer-method h4 {
+            color: var(--prayer-color);
+            margin-bottom: 1rem;
+        }
+        
+        .gospel-section {
+            background-color: #e8f5e9;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--gospel-color);
+        }
+        
+        .gospel-section h4 {
+            color: var(--gospel-color);
+            margin-bottom: 1rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .interactive-element {
+            background-color: #f8f9fa;
+            border-radius: 12px;
             padding: 1.5rem;
             margin: 1.5rem 0;
-            border-radius: 0 var(--radius) var(--radius) 0;
-            position: relative;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-align: center;
+            width: 100%;
         }
-        .key-point:before {
-            content: "💡";
-            position: absolute;
-            left: -35px;
-            top: 15px;
-            font-size: 1.2rem;
-            background: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .reflection {
-            background: linear-gradient(to right, #f0f7ff, #e1f0ff);
-            border-left: 6px solid #9b59b6;
+        
+        .prayer-journal {
+            background-color: #f0f7ff;
+            border-radius: 12px;
             padding: 1.5rem;
             margin: 1.5rem 0;
-            border-radius: 0 var(--radius) var(--radius) 0;
-            position: relative;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            width: 100%;
         }
-        .reflection:before {
-            content: "✍️";
-            position: absolute;
-            left: -35px;
-            top: 15px;
-            font-size: 1.2rem;
-            background: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        
+        .prayer-journal h4 {
+            color: #1c7ed6;
+            margin-bottom: 1rem;
         }
-
-        .reflection textarea {
+        
+        .prayer-journal textarea {
             width: 100%;
             min-height: 120px;
             padding: 12px;
             border: 1px solid #ddd;
-            border-radius: var(--radius);
+            border-radius: 8px;
             font-family: inherit;
-            resize: vertical;
-            transition: border-color 0.3s;
+            margin-bottom: 10px;
+            font-size: 16px; /* Prevent zoom on iOS */
         }
-
-        .reflection textarea:focus {
-            border-color: var(--secondary);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-        }
-
-        .activity {
-            background: linear-gradient(to right, #fff8e1, #ffecb3);
-            border-left: 6px solid #ffc107;
+        
+        .prayer-timer {
+            background-color: #e8f5e9;
+            border-radius: 12px;
             padding: 1.5rem;
             margin: 1.5rem 0;
-            border-radius: 0 var(--radius) var(--radius) 0;
-            position: relative;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .activity:before {
-            content: "🎯";
-            position: absolute;
-            left: -35px;
-            top: 15px;
-            font-size: 1.2rem;
-            background: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .prayer-method {
-            background: linear-gradient(to right, #f3e5f5, #e1bee7);
-            border-left: 6px solid var(--prayer-color);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 0 var(--radius) var(--radius) 0;
-            position: relative;
-        }
-        .prayer-method:before {
-            content: "🙏";
-            position: absolute;
-            left: -35px;
-            top: 15px;
-            font-size: 1.2rem;
-            background: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .gospel-section {
-            background: linear-gradient(to right, #e8f5e9, #c8e6c9);
-            border-left: 6px solid var(--gospel-color);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 0 var(--radius) var(--radius) 0;
-            position: relative;
-        }
-        .gospel-section:before {
-            content: "✝️";
-            position: absolute;
-            left: -35px;
-            top: 15px;
-            font-size: 1.2rem;
-            background: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        /* ===== ILLUSTRATIONS ===== */
-        .illustration {
-            width: 100%;
-            margin: 1.5rem 0;
-            background: white;
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
             text-align: center;
+            width: 100%;
         }
-
-        /* Prayer Hand Styles */
-        .prayer-hand {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 20px 0;
+        
+        .timer-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 1rem 0;
         }
-
-        .hand-fingers {
+        
+        .timer-controls {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            margin-bottom: 20px;
             gap: 10px;
         }
-
-        .finger {
-            width: 70px;
-            height: 100px;
-            background-color: #f5d7b4;
-            border-radius: 35px 35px 0 0;
-            position: relative;
+        
+        .timer-controls .btn {
+            flex: 0 1 auto;
+            min-width: 80px;
+        }
+        
+        .fellowship-map {
+            background-color: #fff3e0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            width: 100%;
+        }
+        
+        .fellowship-map h4 {
+            color: var(--fellowship-color);
+            margin-bottom: 1rem;
+        }
+        
+        .map-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .map-category {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 100%;
         }
-
-        .finger-label {
-            position: absolute;
-            bottom: -30px;
-            font-weight: bold;
-            font-size: 0.8rem;
-            text-align: center;
-            width: 100px;
-            left: 50%;
-            transform: translateX(-50%);
+        
+        .map-category h5 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
         }
-
-        .finger-content {
-            margin-top: 40px;
-            text-align: center;
+        
+        .map-item {
+            background: #f9f9f9;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-
-        .finger-item {
-            margin-bottom: 15px;
+        
+        .map-item input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 8px;
+            font-size: 16px; /* Prevent zoom on iOS */
         }
-
+        
+        .add-item {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            margin-top: 10px;
+            min-height: 44px; /* Minimum touch target size */
+        }
+        
+        .reflection {
+            background-color: #f0f7ff;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #4dabf7;
+        }
+        
+        .reflection h4 {
+            color: #1c7ed6;
+            margin-bottom: 0.5rem;
+        }
+        
+        .reflection textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            margin-top: 10px;
+            font-size: 16px; /* Prevent zoom on iOS */
+        }
+        
         /* Bridge Illustration Styles */
         .bridge-container {
             background-color: #f8f9fa;
-            border-radius: var(--radius);
+            border-radius: 12px;
             padding: 1.5rem;
             margin: 1.5rem 0;
             position: relative;
             width: 100%;
         }
-
+        
         .bridge-illustration {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin: 20px 0;
         }
-
+        
         .bridge-sides {
             display: flex;
             flex-direction: column;
@@ -505,24 +459,24 @@
             margin-bottom: 20px;
             gap: 15px;
         }
-
+        
         .bridge-side {
             width: 100%;
             text-align: center;
             padding: 15px;
-            border-radius: var(--radius);
+            border-radius: 8px;
         }
-
+        
         .god-side {
             background-color: #e1f5fe;
             border: 2px solid #4fc3f7;
         }
-
+        
         .man-side {
             background-color: #ffebee;
             border: 2px solid #e57373;
         }
-
+        
         .bridge-gap {
             width: 100%;
             height: 50px;
@@ -535,14 +489,14 @@
             color: white;
             font-weight: bold;
         }
-
+        
         .bridge-cross {
             width: 100%;
             height: 70px;
             position: relative;
             margin: 20px 0;
         }
-
+        
         .cross-vertical {
             position: absolute;
             left: 50%;
@@ -552,7 +506,7 @@
             background-color: #8d6e63;
             border-radius: 5px;
         }
-
+        
         .cross-horizontal {
             position: absolute;
             top: 50%;
@@ -562,7 +516,7 @@
             background-color: #8d6e63;
             border-radius: 5px;
         }
-
+        
         .cross-label {
             position: absolute;
             top: 50%;
@@ -574,48 +528,257 @@
             font-weight: bold;
             color: #5d4037;
         }
-
+        
         .bridge-steps {
             display: flex;
             flex-direction: column;
             gap: 10px;
             margin-top: 20px;
         }
-
+        
         .bridge-step {
             background: white;
-            border-radius: var(--radius);
+            border-radius: 8px;
             padding: 15px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             width: 100%;
         }
-
+        
         .bridge-step h5 {
-            color: var(--primary);
+            color: var(--primary-color);
             margin-bottom: 10px;
             display: flex;
             align-items: center;
         }
-
+        
         .bridge-step h5 span {
             display: inline-block;
             width: 24px;
             height: 24px;
-            background-color: var(--secondary);
+            background-color: var(--secondary-color);
             color: white;
             border-radius: 50%;
             text-align: center;
             line-height: 24px;
             margin-right: 8px;
         }
-
+        
+        .gospel-verse-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--gospel-color);
+            width: 100%;
+        }
+        
+        .gospel-verse-card h4 {
+            color: var(--gospel-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Collapsible with scrollable content */
+        .collapsible {
+            background-color: #f1f1f1;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 48px; /* Minimum touch target size */
+            transition: background-color 0.3s ease;
+        }
+        
+        .collapsible:hover {
+            background-color: #e1e1e1;
+        }
+        
+        .collapsible:after {
+            content: '\002B';
+            font-weight: bold;
+            float: right;
+            transition: transform 0.3s ease;
+        }
+        
+        .collapsible.active:after {
+            content: "\2212";
+            transform: rotate(180deg);
+        }
+        
+        .content {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: white;
+            border-radius: 0 0 8px 8px;
+        }
+        
+        /* Scrollable content when expanded */
+        .content.scrollable {
+            max-height: 400px; /* Set a maximum height for scrollable sections */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding: 15px;
+            border: 1px solid #e1e1e1;
+            border-top: none;
+        }
+        
+        /* Custom scrollbar for content */
+        .content.scrollable::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .content.scrollable::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .content.scrollable::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 4px;
+        }
+        
+        .content.scrollable::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            min-height: 48px; /* Minimum touch target size */
+            justify-content: center;
+        }
+        
+        .nav-item.active {
+            color: var(--secondary-color);
+            background-color: #e8f4fc;
+        }
+        
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background-color: var(--dark-color);
+            color: white;
+            border-radius: 12px;
+            width: 100%;
+        }
+        
+        /* Prayer Hand Styles */
+        .prayer-hand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .hand-fingers {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        
+        .finger {
+            width: 70px;
+            height: 100px;
+            background-color: #f5d7b4;
+            border-radius: 35px 35px 0 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .finger-label {
+            position: absolute;
+            bottom: -30px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-align: center;
+            width: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .finger-content {
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        .finger-item {
+            margin-bottom: 15px;
+        }
+        
+        /* Day in Prayer Styles */
+        .prayer-day-schedule {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .prayer-time-slot {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--prayer-color);
+            width: 100%;
+        }
+        
+        .prayer-time-slot h5 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
         /* Fellowship Map Styles */
         .fellowship-map-container {
             display: flex;
             justify-content: center;
             margin: 20px 0;
         }
-
+        
         .fellowship-map-circle {
             width: 280px;
             height: 280px;
@@ -626,7 +789,7 @@
             align-items: center;
             justify-content: center;
         }
-
+        
         .fellowship-center {
             width: 70px;
             height: 70px;
@@ -639,50 +802,50 @@
             font-weight: bold;
             z-index: 10;
         }
-
+        
         .fellowship-category {
             position: absolute;
             width: 100px;
             text-align: center;
         }
-
+        
         .fellowship-mentors {
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
         }
-
+        
         .fellowship-peers {
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
         }
-
+        
         .fellowship-mentees {
             top: 50%;
             right: 20px;
             transform: translateY(-50%);
         }
-
+        
         .fellowship-others {
             top: 50%;
             left: 20px;
             transform: translateY(-50%);
         }
-
+        
         /* Wheel Illustration Styles */
         .wheel-container {
             text-align: center;
             margin: 20px 0;
         }
-
+        
         .wheel-illustration {
             position: relative;
             width: 280px;
             height: 280px;
             margin: 0 auto;
         }
-
+        
         .wheel-rim {
             position: absolute;
             width: 100%;
@@ -690,7 +853,7 @@
             border: 8px solid #3498db;
             border-radius: 50%;
         }
-
+        
         .wheel-hub {
             position: absolute;
             top: 50%;
@@ -707,7 +870,7 @@
             font-weight: bold;
             z-index: 10;
         }
-
+        
         .spoke-label, .rim-label {
             background: white;
             padding: 5px;
@@ -715,425 +878,186 @@
             font-weight: bold;
             font-size: 0.9rem;
         }
-
-        /* Comparison Table */
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
+        
+        /* Assessment Sliders */
+        .assessment-item {
+            margin-bottom: 15px;
+        }
+        
+        .assessment-item label {
             display: block;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .comparison-table th, .comparison-table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-
-        .comparison-table th {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .comparison-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        /* ===== BOTTOM NAVIGATION ===== */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            padding: 10px 0;
-        }
-
-        .nav-item {
-            flex: 1;
-            text-align: center;
-            color: #666;
-            text-decoration: none;
-            font-size: 0.8rem;
-            padding: 5px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .nav-item.active {
-            color: var(--secondary);
-        }
-
-        .nav-icon {
-            font-size: 1.2rem;
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
-            width: 100%;
-            background: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        /* ===== PROGRESS INDICATOR ===== */
-        .sync-status {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .sync-status.syncing {
-            color: var(--warning);
-        }
-
-        .sync-status.synced {
-            color: var(--success);
-        }
-
-        .sync-status.local {
-            color: var(--secondary);
-        }
-
-        .sync-status.offline {
-            color: #666;
-        }
-
-        /* ===== COMPLETION INDICATOR ===== */
-        .completion-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 1rem;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: var(--radius);
-        }
-
-        .completion-checkbox {
-            width: 24px;
-            height: 24px;
-            border: 2px solid #ccc;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .completion-checkbox.checked {
-            background: var(--success);
-            border-color: var(--success);
-            color: white;
-        }
-
-        /* Topic Completion */
-        .topic-completion {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            border: 2px solid #ddd;
-            background-color: white;
-            cursor: pointer;
-            min-height: 44px;
-            min-width: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .topic-completed {
-            background-color: var(--success);
-            border-color: var(--success);
-        }
-
-        .topic-completed::after {
-            content: "✓";
-            color: white;
+            margin-bottom: 5px;
             font-weight: bold;
         }
-
-        /* ===== NEW: BACK TO TOP BUTTON ===== */
-        .back-to-top {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: var(--secondary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            z-index: 998;
-            opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
-        }
-        .back-to-top.visible {
-            opacity: 1;
-        }
-        .back-to-top:hover {
-            transform: translateY(-3px);
-            background: var(--primary);
-        }
-
-        /* ===== NEW: DARK MODE TOGGLE ===== */
-        .dark-mode-toggle {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            width: 40px;
-            height: 40px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            z-index: 998;
-        }
-
-        /* ===== NEW: QUICK NAVIGATION ===== */
-        .quick-nav {
-            position: fixed;
-            top: 80px;
-            left: 20px;
-            background: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 10px;
-            z-index: 997;
-            display: none;
-        }
-        .quick-nav.active {
-            display: block;
-        }
-        .quick-nav-item {
-            display: block;
-            padding: 8px 12px;
-            color: var(--primary);
-            text-decoration: none;
-            border-radius: 4px;
-            margin-bottom: 5px;
-            transition: background 0.3s;
-        }
-        .quick-nav-item:hover {
-            background: #f0f7ff;
-        }
-        .quick-nav-toggle {
-            position: fixed;
-            top: 80px;
-            left: 20px;
-            width: 40px;
-            height: 40px;
-            background: var(--secondary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            z-index: 998;
-        }
-
-        /* ===== NEW: NOTE-TAKING FUNCTIONALITY ===== */
-        .note-section {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px dashed #ddd;
-        }
-        .note-input {
+        
+        .slider {
             width: 100%;
-            min-height: 80px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: var(--radius);
-            font-family: inherit;
-            resize: vertical;
-            margin-bottom: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
         }
-        .note-save {
-            background: var(--secondary);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: var(--radius);
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--secondary-color);
             cursor: pointer;
+        }
+
+        /* Enhanced Progress Tracking Styles */
+        .enhanced-progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .enhanced-progress-bar {
+            height: 20px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Auto-save notification */
+        .save-notification {
+            position: fixed;
+            bottom: 70px;
+            right: 15px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
             font-size: 0.9rem;
         }
-        .saved-notes {
-            margin-top: 1rem;
+        
+        .save-notification.show {
+            opacity: 1;
         }
-        .saved-note {
-            background: #f9f9f9;
-            padding: 10px;
-            border-radius: var(--radius);
-            margin-bottom: 10px;
-            border-left: 3px solid var(--secondary);
+        
+        /* Sync status styles */
+     .sync-status {
+                        position: fixed;
+                        top: 10px;
+                        right: 10px;
+                        background: rgba(255,255,255,0.9);
+                        padding: 5px 10px;
+                        border-radius: 20px;
+                        font-size: 0.8rem;
+                        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                        z-index: 1000;
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                        transition: all 0.3s ease;
+                    }
+                    .sync-status.offline {
+                        color: #f39c12;
+                    }
+                    .sync-status.online {
+                        color: #2ecc71;
+                    }
+                    .sync-status.error {
+                        color: #e74c3c;
+                    }
+                    @media (max-width: 768px) {
+                        .sync-status {
+                            top: 5px;
+                            right: 5px;
+                            font-size: 0.75rem;
+                            padding: 4px 8px;
+                        }
+                    }
+                
+        
+        /* Manual sync button */
+        #manualSync {
+            position: fixed;
+            bottom: 70px;
+            right: 15px;
+            background: var(--secondary-color, #3498db);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-size: 1.2rem;
         }
-        .note-date {
-            font-size: 0.8rem;
-            color: #666;
-            margin-bottom: 5px;
-        }
-
-        /* ===== NEW: DARK MODE STYLES ===== */
-        body.dark-mode {
-            background: #1a1a1a;
-            color: #e0e0e0;
-        }
-        body.dark-mode .collapsible-content {
-            background: #2d2d2d;
-        }
-        body.dark-mode .content-inner {
-            background: #2d2d2d;
-        }
-        body.dark-mode .topic {
-            background: #2d2d2d;
-        }
-        body.dark-mode .scripture {
-            background: linear-gradient(to right, #2d2d2d, #3d3d3d);
-        }
-        body.dark-mode .key-point {
-            background: linear-gradient(to right, #2d3d4d, #3d4d5d);
-        }
-        body.dark-mode .reflection {
-            background: linear-gradient(to right, #2d2d4d, #3d3d5d);
-        }
-        body.dark-mode .reflection textarea {
-            background: #3d3d3d;
-            color: #e0e0e0;
-            border-color: #555;
-        }
-        body.dark-mode .activity {
-            background: linear-gradient(to right, #3d3d2d, #4d4d3d);
-        }
-        body.dark-mode .prayer-method {
-            background: linear-gradient(to right, #3d2d3d, #4d3d4d);
-        }
-        body.dark-mode .gospel-section {
-            background: linear-gradient(to right, #2d3d2d, #3d4d3d);
-        }
-        body.dark-mode .illustration {
-            background: #2d2d2d;
-        }
-        body.dark-mode .completion-indicator {
-            background: #3d3d3d;
-        }
-        body.dark-mode .bottom-nav {
-            background: #2d2d2d;
-        }
-        body.dark-mode .nav-item {
-            color: #b0b0b0;
-        }
-        body.dark-mode .nav-item.active {
-            color: var(--secondary);
-            background: #3d4d5d;
-        }
-        body.dark-mode .saved-note {
-            background: #3d3d3d;
-        }
-        body.dark-mode .note-input {
-            background: #3d3d3d;
-            color: #e0e0e0;
-            border-color: #555;
-        }
-        body.dark-mode .quick-nav {
-            background: #2d2d2d;
-        }
-        body.dark-mode .quick-nav-item {
-            color: #e0e0e0;
-        }
-        body.dark-mode .quick-nav-item:hover {
-            background: #3d4d5d;
-        }
-        body.dark-mode .comparison-table th {
-            background-color: #3d3d3d;
-        }
-        body.dark-mode .comparison-table tr:nth-child(even) {
-            background-color: #2d2d2d;
-        }
-        body.dark-mode .comparison-table td {
-            border-color: #555;
-        }
-
-        /* ===== RESPONSIVE DESIGN ===== */
+        
+        /* Mobile-specific improvements */
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.3rem;
+            .container {
+                padding: 10px;
             }
             
-            header .subtitle {
+            header {
+                padding: 1rem 0;
+                margin-bottom: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .topic {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .topic h2 {
+                font-size: 1.2rem;
+            }
+            
+            .btn {
+                padding: 14px 16px;
                 font-size: 0.9rem;
             }
             
-            .collapsible-header {
-                padding: 1rem;
-                font-size: 1rem;
-            }
-            
-            .content-inner {
-                padding: 1rem;
-            }
-            
-            .hands-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .work-piece {
-                margin: 1rem 0;
-                transform: rotate(90deg);
-            }
-            
-            .lesson-nav {
-                flex-direction: column;
-            }
-            
-            .scripture:before, .key-point:before, .reflection:before, .activity:before, .prayer-method:before, .gospel-section:before {
-                left: -25px;
-                width: 20px;
-                height: 20px;
-                font-size: 0.9rem;
-            }
-            
-            .finger {
-                width: 60px;
-                height: 90px;
+            .timer-display {
+                font-size: 2rem;
             }
             
             .fellowship-map-circle {
                 width: 250px;
                 height: 250px;
+            }
+            
+            .finger {
+                width: 60px;
+                height: 90px;
             }
             
             .wheel-illustration {
@@ -1146,76 +1070,89 @@
                 height: 60px;
                 font-size: 0.9rem;
             }
+            
+            /* Adjust scrollable content height for mobile */
+            .content.scrollable {
+                max-height: 300px;
+            }
+            
+            .save-notification {
+                bottom: 60px;
+                right: 10px;
+                left: 10px;
+                text-align: center;
+            }
+            
+            .sync-status {
+                top: 5px;
+                right: 5px;
+                left: 5px;
+                max-width: none;
+                text-align: center;
+            }
+            
+            .progress-info {
+                flex-direction: column;
+                gap: 5px;
+            }
         }
-
-        @media (max-width: 480px) {
+        
+        @media (min-width: 769px) {
             .container {
-                padding: 0 0.5rem 100px;
+                max-width: 100%;
             }
             
-            .collapsible-header {
-                padding: 0.8rem;
-                font-size: 0.95rem;
+            .map-container, .bridge-steps, .prayer-day-schedule {
+                flex-direction: row;
             }
             
-            .content-inner {
-                padding: 0.8rem;
+            .bridge-sides {
+                flex-direction: row;
             }
             
-            .reflection textarea {
-                min-height: 100px;
+            .bridge-side {
+                width: 48%;
+            }
+            
+            /* Adjust scrollable content height for larger screens */
+            .content.scrollable {
+                max-height: 500px;
             }
         }
-
-        /* ===== SCROLLBAR STYLING ===== */
-        .collapsible-content::-webkit-scrollbar {
-            width: 8px;
+        
+        /* Prevent horizontal scrolling */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
         }
-
-        .collapsible-content::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
+        
+        /* Improve touch interactions */
+        button, .btn, .nav-item, .topic-completion {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
-
-        .collapsible-content::-webkit-scrollbar-thumb {
-            background: var(--secondary);
-            border-radius: 4px;
-        }
-
-        .collapsible-content::-webkit-scrollbar-thumb:hover {
-            background: var(--primary);
+        
+        /* Improve text readability on mobile */
+        p, li, td, th {
+            font-size: 16px;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
-    <!-- NEW: Dark mode toggle -->
-    <div class="dark-mode-toggle" id="darkModeToggle">
-        <i class="fas fa-moon"></i>
-    </div>
-    
-    <!-- NEW: Quick navigation toggle -->
-    <div class="quick-nav-toggle" id="quickNavToggle">
-        <i class="fas fa-bars"></i>
-    </div>
-    
-    <!-- NEW: Quick navigation menu -->
-    <div class="quick-nav" id="quickNav">
-        <a href="#topic1" class="quick-nav-item">Topic 1: Prayer</a>
-        <a href="#topic2" class="quick-nav-item">Topic 2: Fellowship</a>
-    </div>
-    
-    <!-- Header Section -->
     <header>
-        <h1>MODULE 2: FOUNDATION TO NEW BELIEVERS</h1>
-        <p class="subtitle">Discipleship Growth Topics - Clear Understanding of the Gospel, Prayer, Fellowship, and the Wheel Illustration (Spiritual Growth Wheel)</p>
+        <div class="header-content">
+            <br>
+            <h1>MODULE 2: FOUNDATION TO NEW BELIEVERS</h1>
+            <p>Discipleship Growth Topics-Clear Understanding of the Gospel, Prayer, Fellowship, and the Wheel Illustration (Spiritual Growth Wheel)</p>
+        </div>
         <div class="progress-container">
             <div class="progress-bar" id="progressBar"></div>
         </div>
     </header>
-
-    <!-- Main Content -->
+    
     <div class="container">
-        <!-- NEW: Enhanced Progress Bar -->
+        <!-- Enhanced Progress Bar -->
         <div class="enhanced-progress-container">
             <div class="enhanced-progress-bar" id="enhancedProgressBar">0%</div>
         </div>
@@ -1224,17 +1161,12 @@
             <span>Last saved: <span id="lastSaved">Not saved yet</span></span>
         </div>
         
-        <!-- Navigation Buttons -->
         <div class="lesson-nav">
-            <a href="module-lesson1.html" class="btn btn-outline">
-                <i class="fas fa-arrow-left"></i> Previous Lesson
-            </a>
-            <a href="module-lesson3.html" class="btn">
-                Next Lesson <i class="fas fa-arrow-right"></i>
-            </a>
+            <a href="module-lesson1.html" class="btn btn-outline">Previous Lesson</a>
+          
+            <a href="module-lesson3.html" class="btn">Next Lesson</a>
         </div>
         
-        <!-- Key Point -->
         <div class="key-point">
             <p>
                 These key discipleship topics form the foundation of a believer's journey — helping every Christian build a
@@ -1248,282 +1180,247 @@
             <h2>Topic 1: Prayer</h2>
             
             <!-- ACTS Prayer Method Collapsible -->
-            <div class="collapsible-section">
-                <button class="collapsible-header">
-                    ACTS Prayer Method
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="collapsible-content">
-                    <div class="content-inner">
-                        <div class="topic-section">
-                            <h3 class="text-primary fw-bold">ACTS Prayer Method</h3>
-                            <p>
-                                <strong>ACTS</strong> is a simple pattern to follow when praying — helping us cover all parts of our relationship with God.
-                            </p>
-                            <p>
-                                Prayer is much more than asking for things — it's a heart-to-heart conversation with God. It includes:
-                            </p>
-                            <ul>
-                                <li>Praising God</li>
-                                <li>Confessing our sins</li>
-                                <li>Giving thanks</li>
-                                <li>Asking for help</li>
-                            </ul>
+            <button class="collapsible">ACTS Prayer Method</button>
+            <div class="content scrollable">
+                <div class="topic-section">
+                    <h3 class="text-primary fw-bold">ACTS Prayer Method</h3>
+                    <p>
+                        <strong>ACTS</strong> is a simple pattern to follow when praying — helping us cover all parts of our relationship with God.
+                    </p>
+                    <p>
+                        Prayer is much more than asking for things — it's a heart-to-heart conversation with God. It includes:
+                    </p>
+                    <ul>
+                        <li>Praising God</li>
+                        <li>Confessing our sins</li>
+                        <li>Giving thanks</li>
+                        <li>Asking for help</li>
+                    </ul>
 
-                            <p>
-                                God wants to hear from us — not because He needs information, but because He desires relationship.
-                            </p>
+                    <p>
+                        God wants to hear from us — not because He needs information, but because He desires relationship.
+                    </p>
 
-                            <div class="scripture mb-3">
-                                <p><strong>Philippians 4:6</strong> — "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God."</p>
-                            </div>
+                    <div class="scripture mb-3">
+                        <p><strong>📖 Philippians 4:6</strong> — "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God."</p>
+                    </div>
 
-                            <div class="facilitator">
-                                <h5>👥 Facilitator Notes:</h5>
-                                <ul>
-                                    <li>Explain that prayer is not just about asking — it also includes praise, confession, and thanksgiving.</li>
-                                    <li>Demonstrate the ACTS prayer pattern with a short example prayer.</li>
-                                    <li>Emphasize how ACTS keeps our prayers balanced and our relationship with God strong.</li>
-                                    <li>Encourage learners to write an ACTS prayer during the week to practice it.</li>
-                                </ul>
-                            </div>
+                    <div class="facilitator">
+                        <h5>👥 Facilitator Notes:</h5>
+                        <ul>
+                            <li>Explain that prayer is not just about asking — it also includes praise, confession, and thanksgiving.</li>
+                            <li>Demonstrate the ACTS prayer pattern with a short example prayer.</li>
+                            <li>Emphasize how ACTS keeps our prayers balanced and our relationship with God strong.</li>
+                            <li>Encourage learners to write an ACTS prayer during the week to practice it.</li>
+                        </ul>
+                    </div>
 
-                            <div class="acts-breakdown mt-3">
-                                <h5>📘 ACTS Breakdown:</h5>
-                                <ul>
-                                    <li><strong>Adoration:</strong> Praise God for who He is — <em>Psalm 95:6</em><br>
-                                        "Come, let us bow down in worship, let us kneel before the LORD our Maker."</li>
-                                    <li><strong>Confession:</strong> Admit sin and ask forgiveness — <em>1 John 1:9</em><br>
-                                        "If we confess our sins, He is faithful and just to forgive..."</li>
-                                    <li><strong>Thanksgiving:</strong> Express gratitude for all things — <em>1 Thessalonians 5:18</em></li>
-                                    <li><strong>Supplication:</strong> Ask God for your needs — <em>John 16:24</em></li>
-                                </ul>
-                            </div>
+                    <div class="acts-breakdown mt-3">
+                        <h5>📘 ACTS Breakdown:</h5>
+                        <ul>
+                            <li><strong>Adoration:</strong> Praise God for who He is — <em>Psalm 95:6</em><br>
+                                "Come, let us bow down in worship, let us kneel before the LORD our Maker."</li>
+                            <li><strong>Confession:</strong> Admit sin and ask forgiveness — <em>1 John 1:9</em><br>
+                                "If we confess our sins, He is faithful and just to forgive..."</li>
+                            <li><strong>Thanksgiving:</strong> Express gratitude for all things — <em>1 Thessalonians 5:18</em></li>
+                            <li><strong>Supplication:</strong> Ask God for your needs — <em>John 16:24</em></li>
+                        </ul>
+                    </div>
 
-                            <div class="examples mt-3">
-                                <h5>🕊️ Example Prayers:</h5>
-                                <ol>
-                                    <li>Lord, You are wonderful and kind. I confess my mistakes and ask for forgiveness. Thank You for Your love and blessings. Guide me today and help others in need. Amen.</li>
-                                    <li>Dear God, You are amazing! I'm sorry for the wrongs I've done. Thank You for my family and all You provide. Help me be kind and caring. Amen.</li>
-                                </ol>
-                            </div>
+                    <div class="examples mt-3">
+                        <h5>🕊️ Example Prayers:</h5>
+                        <ol>
+                            <li>Lord, You are wonderful and kind. I confess my mistakes and ask for forgiveness. Thank You for Your love and blessings. Guide me today and help others in need. Amen.</li>
+                            <li>Dear God, You are amazing! I'm sorry for the wrongs I've done. Thank You for my family and all You provide. Help me be kind and caring. Amen.</li>
+                        </ol>
+                    </div>
 
-                            <div class="reflection mt-3">
-                                <h5>💭 Learner Reflection:</h5>
-                                <ul>
-                                    <li>Which part of the ACTS method do I practice most easily?</li>
-                                    <li>What steps can I take to grow in the parts I don't focus on?</li>
-                                </ul>
-                                <textarea placeholder="Share your reflection..." data-save-key="acts_reflection"></textarea>
-                                <div class="auto-save-label">
-                                    <span class="save-indicator" id="indicator_acts_reflection"></span>
-                                    Auto-saved
-                                </div>
-                            </div>
-
-                            <div class="activity mt-3">
-                                <h5>✍️ Additional Learner Activities:</h5>
-                                <ul>
-                                    <li>Spend 2 minutes each day dedicated to <strong>Adoration</strong>.</li>
-                                    <li>Each night, write one sentence of gratitude in a journal.</li>
-                                    <li>Challenge: Write a full ACTS prayer by week's end.</li>
-                                </ul>
-                            </div>
+                    <div class="reflection mt-3">
+                        <h5>💭 Learner Reflection:</h5>
+                        <ul>
+                            <li>Which part of the ACTS method do I practice most easily?</li>
+                            <li>What steps can I take to grow in the parts I don't focus on?</li>
+                        </ul>
+                        <textarea placeholder="Share your reflection..." data-save-key="acts_reflection"></textarea>
+                        <div class="auto-save-label">
+                            <span class="save-indicator" id="indicator_acts_reflection"></span>
+                            Auto-saved
                         </div>
+                    </div>
+
+                    <div class="activity mt-3">
+                        <h5>✍️ Additional Learner Activities:</h5>
+                        <ul>
+                            <li>Spend 2 minutes each day dedicated to <strong>Adoration</strong>.</li>
+                            <li>Each night, write one sentence of gratitude in a journal.</li>
+                            <li>Challenge: Write a full ACTS prayer by week's end.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
             <!-- Prayer Hand Illustration Collapsible -->
-            <div class="collapsible-section">
-                <button class="collapsible-header">
-                    ✋ Prayer Hand Illustration
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="collapsible-content">
-                    <div class="content-inner">
-                        <div class="scripture">
-                            <p><strong>📖 Colossians 4:2</strong> — "Devote yourselves to prayer, being watchful and thankful."</p>
-                        </div>
+            <button class="collapsible">✋ Prayer Hand Illustration</button>
+            <div class="content scrollable">
+                <div class="scripture">
+                    <p><strong>📖 Colossians 4:2</strong> — "Devote yourselves to prayer, being watchful and thankful."</p>
+                </div>
 
-                        <h5>👥 Facilitator Notes:</h5>
-                        <ul>
-                            <li>Show your hand and explain each finger's meaning.</li>
-                            <li>Lead a time of prayer through each category.</li>
-                            <li>Have learners draw or decorate their own "Prayer Hand."</li>
-                        </ul>
+                <h5>👥 Facilitator Notes:</h5>
+                <ul>
+                    <li>Show your hand and explain each finger's meaning.</li>
+                    <li>Lead a time of prayer through each category.</li>
+                    <li>Have learners draw or decorate their own "Prayer Hand."</li>
+                </ul>
 
-                        <div class="hand-guide">
-                            <p><strong>1️⃣ Thumb — Praise:</strong> Psalm 145:3</p>
-                            <p>Thank God for His greatness, holiness, love, and power.</p>
+                <div class="hand-guide">
+                    <p><strong>1️⃣ Thumb — Praise:</strong> Psalm 145:3</p>
+                    <p>Thank God for His greatness, holiness, love, and power.</p>
 
-                            <p><strong>2️⃣ Index — Confession:</strong> 1 John 1:9</p>
-                            <p>Admit sins and ask forgiveness.</p>
+                    <p><strong>2️⃣ Index — Confession:</strong> 1 John 1:9</p>
+                    <p>Admit sins and ask forgiveness.</p>
 
-                            <p><strong>3️⃣ Middle — Intercession:</strong> 1 Timothy 2:1</p>
-                            <p>Pray for others — family, friends, leaders, and the sick.</p>
+                    <p><strong>3️⃣ Middle — Intercession:</strong> 1 Timothy 2:1</p>
+                    <p>Pray for others — family, friends, leaders, and the sick.</p>
 
-                            <p><strong>4️⃣ Ring — Petition:</strong> Matthew 7:7</p>
-                            <p>Bring your personal needs — strength, peace, and wisdom.</p>
+                    <p><strong>4️⃣ Ring — Petition:</strong> Matthew 7:7</p>
+                    <p>Bring your personal needs — strength, peace, and wisdom.</p>
 
-                            <p><strong>5️⃣ Pinky — Thanksgiving:</strong> 1 Thessalonians 5:18</p>
-                            <p>Thank God for all blessings, big and small.</p>
+                    <p><strong>5️⃣ Pinky — Thanksgiving:</strong> 1 Thessalonians 5:18</p>
+                    <p>Thank God for all blessings, big and small.</p>
 
-                            <p>🎥 <a href="https://youtu.be/2m10fUWF-B8" target="_blank">Watch Video Clip</a></p>
-                        </div>
+                    <p>🎥 <a href="https://youtu.be/2m10fUWF-B8" target="_blank">Watch Video Clip</a></p>
+                </div>
 
-                        <div class="reflection">
-                            <h5>💭 Learner Reflection:</h5>
-                            <ul>
-                                <li>How can the Prayer Hand help you connect more deeply with God?</li>
-                                <li>Which finger will you start applying more in prayer this week?</li>
-                            </ul>
-                            <textarea placeholder="Share your reflection..." data-save-key="prayer_hand_reflection"></textarea>
-                            <div class="auto-save-label">
-                                <span class="save-indicator" id="indicator_prayer_hand_reflection"></span>
-                                Auto-saved
-                            </div>
-                        </div>
-
-                        <div class="activity">
-                            <h5>🎭 Activity: Prayer Hand Skit</h5>
-                            <p>In groups, act out the five types of prayer (praise, confession, intercession, petition, thanksgiving). Each group demonstrates one type in a 2-minute skit.</p>
-                        </div>
+                <div class="reflection">
+                    <h5>💭 Learner Reflection:</h5>
+                    <ul>
+                        <li>How can the Prayer Hand help you connect more deeply with God?</li>
+                        <li>Which finger will you start applying more in prayer this week?</li>
+                    </ul>
+                    <textarea placeholder="Share your reflection..." data-save-key="prayer_hand_reflection"></textarea>
+                    <div class="auto-save-label">
+                        <span class="save-indicator" id="indicator_prayer_hand_reflection"></span>
+                        Auto-saved
                     </div>
+                </div>
+
+                <div class="activity">
+                    <h5>🎭 Activity: Prayer Hand Skit</h5>
+                    <p>In groups, act out the five types of prayer (praise, confession, intercession, petition, thanksgiving). Each group demonstrates one type in a 2-minute skit.</p>
                 </div>
             </div>
 
             <!-- Simple Prayer List Collapsible -->
-            <div class="collapsible-section">
-                <button class="collapsible-header">
-                    🗒️ Simple Prayer List
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="collapsible-content">
-                    <div class="content-inner">
-                        <div class="scripture">
-                            <p><strong>📖 Colossians 4:2</strong> — "Devote yourselves to prayer, being watchful and thankful."</p>
-                        </div>
+            <button class="collapsible">🗒️ Simple Prayer List</button>
+            <div class="content scrollable">
+                <div class="scripture">
+                    <p><strong>📖 Colossians 4:2</strong> — "Devote yourselves to prayer, being watchful and thankful."</p>
+                </div>
 
-                        <h5>👥 Facilitator Notes:</h5>
-                        <ul>
-                            <li>Encourage learners to maintain a prayer list (digital or written).</li>
-                            <li>Review answered prayers often to build gratitude.</li>
-                            <li>Model a simple two-column "Requests" and "Answers" journal.</li>
-                        </ul>
+                <h5>👥 Facilitator Notes:</h5>
+                <ul>
+                    <li>Encourage learners to maintain a prayer list (digital or written).</li>
+                    <li>Review answered prayers often to build gratitude.</li>
+                    <li>Model a simple two-column "Requests" and "Answers" journal.</li>
+                </ul>
 
-                        <div class="reflection">
-                            <h5>💭 Reflection:</h5>
-                            <ul>
-                                <li>What people or needs will I commit to pray for consistently?</li>
-                                <li>How can recording answered prayers strengthen my faith?</li>
-                            </ul>
-                            <textarea placeholder="Share your prayer list plans..." data-save-key="prayer_list_plans"></textarea>
-                            <div class="auto-save-label">
-                                <span class="save-indicator" id="indicator_prayer_list_plans"></span>
-                                Auto-saved
-                            </div>
-                        </div>
+                <div class="reflection">
+                    <h5>💭 Reflection:</h5>
+                    <ul>
+                        <li>What people or needs will I commit to pray for consistently?</li>
+                        <li>How can recording answered prayers strengthen my faith?</li>
+                    </ul>
+                    <textarea placeholder="Share your prayer list plans..." data-save-key="prayer_list_plans"></textarea>
+                    <div class="auto-save-label">
+                        <span class="save-indicator" id="indicator_prayer_list_plans"></span>
+                        Auto-saved
                     </div>
                 </div>
             </div>
 
             <!-- Praying in the Name of Jesus Collapsible -->
-            <div class="collapsible-section">
-                <button class="collapsible-header">
-                    ✝️ Praying in the Name of Jesus
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="collapsible-content">
-                    <div class="content-inner">
-                        <div class="scripture">
-                            <p><strong>📖 John 14:13–14</strong> — "And I will do whatever you ask in My name... You may ask Me for anything in My name, and I will do it."</p>
-                        </div>
+            <button class="collapsible">✝️ Praying in the Name of Jesus</button>
+            <div class="content scrollable">
+                <div class="scripture">
+                    <p><strong>📖 John 14:13–14</strong> — "And I will do whatever you ask in My name... You may ask Me for anything in My name, and I will do it."</p>
+                </div>
 
-                        <h5>👥 Facilitator Notes:</h5>
-                        <ul>
-                            <li>Praying in Jesus' name means praying with His authority and access to the Father.</li>
-                            <li>It's not a "magic phrase," but a posture of humility, trust, and alignment with God's will.</li>
-                            <li>Use a role-play to explain how "authority" works in prayer.</li>
-                        </ul>
+                <h5>👥 Facilitator Notes:</h5>
+                <ul>
+                    <li>Praying in Jesus' name means praying with His authority and access to the Father.</li>
+                    <li>It's not a "magic phrase," but a posture of humility, trust, and alignment with God's will.</li>
+                    <li>Use a role-play to explain how "authority" works in prayer.</li>
+                </ul>
 
-                        <h5>📌 Key Points:</h5>
-                        <ul>
-                            <li>Jesus is the way to the Father (<em>John 14:6</em>).</li>
-                            <li>When we pray in Jesus' name, we trust His character, submit to His will, and reflect His mission.</li>
-                        </ul>
+                <h5>📌 Key Points:</h5>
+                <ul>
+                    <li>Jesus is the way to the Father (<em>John 14:6</em>).</li>
+                    <li>When we pray in Jesus' name, we trust His character, submit to His will, and reflect His mission.</li>
+                </ul>
 
-                        <p><strong>Example Prayer:</strong> "Lord, help me forgive my friend just like You forgave me. In Jesus' name, Amen."</p>
+                <p><strong>Example Prayer:</strong> "Lord, help me forgive my friend just like You forgave me. In Jesus' name, Amen."</p>
 
-                        <div class="reflection">
-                            <h5>💭 Reflection:</h5>
-                            <p>What does praying "in Jesus' name" mean to you personally?</p>
-                            <textarea placeholder="Share your understanding..." data-save-key="jesus_name_understanding"></textarea>
-                            <div class="auto-save-label">
-                                <span class="save-indicator" id="indicator_jesus_name_understanding"></span>
-                                Auto-saved
-                            </div>
-                        </div>
-
-                        <div class="activity">
-                            <h5>🎨 Learner Activities:</h5>
-                            <ul>
-                                <li>"Who is Jesus?" Poster — draw or list words that describe Him (Savior, King, Friend, Shepherd, etc.).</li>
-                                <li>Role Play: "Right Authority" — one child gains access "in the name" of someone else; discuss what it means spiritually.</li>
-                            </ul>
-                        </div>
+                <div class="reflection">
+                    <h5>💭 Reflection:</h5>
+                    <p>What does praying "in Jesus' name" mean to you personally?</p>
+                    <textarea placeholder="Share your understanding..." data-save-key="jesus_name_understanding"></textarea>
+                    <div class="auto-save-label">
+                        <span class="save-indicator" id="indicator_jesus_name_understanding"></span>
+                        Auto-saved
                     </div>
+                </div>
+
+                <div class="activity">
+                    <h5>🎨 Learner Activities:</h5>
+                    <ul>
+                        <li>"Who is Jesus?" Poster — draw or list words that describe Him (Savior, King, Friend, Shepherd, etc.).</li>
+                        <li>Role Play: "Right Authority" — one child gains access "in the name" of someone else; discuss what it means spiritually.</li>
+                    </ul>
                 </div>
             </div>
 
             <!-- How to Spend a Day in Prayer Collapsible -->
-            <div class="collapsible-section">
-                <button class="collapsible-header">
-                    🕰️ How to Spend a Day in Prayer
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="collapsible-content">
-                    <div class="content-inner">
-                        <div class="scripture">
-                            <p><strong>📖 Luke 5:16</strong> — "But Jesus often withdrew to lonely places and prayed."</p>
-                        </div>
+            <button class="collapsible">🕰️ How to Spend a Day in Prayer</button>
+            <div class="content scrollable">
+                <div class="scripture">
+                    <p><strong>📖 Luke 5:16</strong> — "But Jesus often withdrew to lonely places and prayed."</p>
+                </div>
 
-                        <h5>👥 Facilitator Notes:</h5>
-                        <ul>
-                            <li>Encourage learners to start small — perhaps a few focused hours of prayer.</li>
-                            <li>Include time for praise, Bible reading, journaling, and intercession.</li>
-                            <li>Remind learners that listening and silence are part of prayer too.</li>
-                        </ul>
+                <h5>👥 Facilitator Notes:</h5>
+                <ul>
+                    <li>Encourage learners to start small — perhaps a few focused hours of prayer.</li>
+                    <li>Include time for praise, Bible reading, journaling, and intercession.</li>
+                    <li>Remind learners that listening and silence are part of prayer too.</li>
+                </ul>
 
-                        <h5>🕊️ Outline for a Prayer Day:</h5>
-                        <ul>
-                            <li><strong>Morning:</strong> Praise & Thanksgiving (<em>Psalm 100:4</em>)</li>
-                            <li><strong>Mid-Morning:</strong> Bible Reading & Listening (<em>Psalm 119:18</em>)</li>
-                            <li><strong>Afternoon:</strong> Intercession (<em>1 Timothy 2:1–2</em>)</li>
-                            <li><strong>Evening:</strong> Confession, Gratitude & Reflection (<em>Psalm 139:23–24</em>)</li>
-                        </ul>
+                <h5>🕊️ Outline for a Prayer Day:</h5>
+                <ul>
+                    <li><strong>Morning:</strong> Praise & Thanksgiving (<em>Psalm 100:4</em>)</li>
+                    <li><strong>Mid-Morning:</strong> Bible Reading & Listening (<em>Psalm 119:18</em>)</li>
+                    <li><strong>Afternoon:</strong> Intercession (<em>1 Timothy 2:1–2</em>)</li>
+                    <li><strong>Evening:</strong> Confession, Gratitude & Reflection (<em>Psalm 139:23–24</em>)</li>
+                </ul>
 
-                        <div class="reflection">
-                            <h5>💭 Reflection:</h5>
-                            <ul>
-                                <li>How would my relationship with God change if I spent extended time with Him?</li>
-                                <li>What barriers do I need to overcome to make prayer a lifestyle?</li>
-                            </ul>
-                            <textarea placeholder="Share your thoughts..." data-save-key="prayer_day_reflection"></textarea>
-                            <div class="auto-save-label">
-                                <span class="save-indicator" id="indicator_prayer_day_reflection"></span>
-                                Auto-saved
-                            </div>
-                        </div>
-
-                        <div class="activity">
-                            <h5>📝 Additional Activity:</h5>
-                            <ul>
-                                <li>Plan a 2–3-hour prayer retreat using 30-minute segments.</li>
-                                <li>Keep a journal for verses, prayers, and reflections during your prayer time.</li>
-                            </ul>
-                        </div>
+                <div class="reflection">
+                    <h5>💭 Reflection:</h5>
+                    <ul>
+                        <li>How would my relationship with God change if I spent extended time with Him?</li>
+                        <li>What barriers do I need to overcome to make prayer a lifestyle?</li>
+                    </ul>
+                    <textarea placeholder="Share your thoughts..." data-save-key="prayer_day_reflection"></textarea>
+                    <div class="auto-save-label">
+                        <span class="save-indicator" id="indicator_prayer_day_reflection"></span>
+                        Auto-saved
                     </div>
+                </div>
+
+                <div class="activity">
+                    <h5>📝 Additional Activity:</h5>
+                    <ul>
+                        <li>Plan a 2–3-hour prayer retreat using 30-minute segments.</li>
+                        <li>Keep a journal for verses, prayers, and reflections during your prayer time.</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -1547,342 +1444,294 @@
                 </ul>
             </div>
             
-            <!-- Importance of Fellowship -->
-            <div class="collapsible-section">
-                <button class="collapsible-header">
-                    Importance of Fellowship
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="collapsible-content">
-                    <div class="content-inner">
-                        <div class="key-point">
-                            <h4>1. We All Grow Together</h4>
-                            <p>Just as flowers grow better together in a garden than alone, we can grow in our faith more with others who also love Jesus.</p>
-                            <div class="scripture">
-                                <p><strong>Proverbs 27:17</strong> - "Iron sharpens iron, so one person sharpens another."</p>
+            <div class="collapsible">Importance of Fellowship</div>
+            <div class="content scrollable">
+                <div class="key-point">
+                    <h4>1. We All Grow Together</h4>
+                    <p>Just as flowers grow better together in a garden than alone, we can grow in our faith more with others who also love Jesus.</p>
+                    <div class="scripture">
+                        <p><strong>Proverbs 27:17</strong> - "Iron sharpens iron, so one person sharpens another."</p>
+                    </div>
+                </div>
+                
+                <div class="key-point">
+                    <h4>2. We Help Each Other</h4>
+                    <p>When one friend is sad or struggling, other friends can pray with them, listen to them, and encourage them. We share joy and hard times with each other.</p>
+                    <div class="scripture">
+                        <p><strong>Galatians 6:2</strong> - "Bear one another's burdens, and so fulfill the law of Christ."</p>
+                    </div>
+                </div>
+                
+                <div class="key-point">
+                    <h4>3. We Learn From Each Other</h4>
+                    <p>
+                        We listen to multiple tellings of the Bible stories, sing songs, participate in activities, 
+                        and learn how to follow Jesus together. Each time we gather, we share what we've learned, 
+                        encourage one another, and grow stronger in our walk with Christ.
+                    </p>
+                    <div class="scripture">
+                        <p><strong>📖 Colossians 3:16</strong> — "Let the word of Christ dwell in you richly in all wisdom, 
+                        teaching and admonishing one another in psalms and hymns and spiritual songs, 
+                        singing with grace in your hearts to the Lord."</p>
+                    </div>
+                </div>
+                
+                <div class="key-point">
+                    <h4>4. We Are All One Family</h4>
+                    <p>God calls the church His family. We belong to God and we belong to each other.</p>
+                    <div class="scripture">
+                        <p><strong>1 Corinthians 12:27</strong> - "Now you are the body of Christ, and members individually."</p>
+                    </div>
+                </div>
+                
+                <div class="key-point">
+                    <h4>5. Jesus Is with Us</h4>
+                    <p>Jesus promises that He will be with us when we meet in His name.</p>
+                    <div class="scripture">
+                        <p><strong>Matthew 18:20</strong> - "For where two or three gather in my name, there am I with them."</p>
+                    </div>
+                </div>
+                
+                <div class="activity">
+                    <h4>Additional Learner Activity: Fellowship & Reflection</h4>
+                    <ol>
+                        <li>
+                            <strong>Small Group Sharing:</strong>  
+                            In small groups, share one story of how Christian friends helped you during a hard or happy time.  
+                            <em>Reflect:</em> How did that fellowship remind you of God's love?
+                        </li>
+                        <li>
+                            <strong>Fellowship Chant (Call & Response Style):</strong>
+                            <div class="scripture mt-2">
+                                <p><strong>Leader:</strong> What's the focus of our fellowship?</p>
+                                <p><strong>Learners:</strong> Loving Jesus, walking it out!</p>
+                                <p><strong>Leader:</strong> We grow in faith and help one another—</p>
+                                <p><strong>Learners:</strong> Sisters and brothers, loving one another!</p>
+                                <p><strong>Leader:</strong> In Church or at the home,</p>
+                                <p><strong>Learners:</strong> We show God's love — we're part of His family!</p>
+                                <p><strong>Leader:</strong> So let's be friends who care and pray —</p>
+                                <p><strong>Learners:</strong> That's what God wants us to do each day!</p>
                             </div>
-                        </div>
-                        
-                        <div class="key-point">
-                            <h4>2. We Help Each Other</h4>
-                            <p>When one friend is sad or struggling, other friends can pray with them, listen to them, and encourage them. We share joy and hard times with each other.</p>
-                            <div class="scripture">
-                                <p><strong>Galatians 6:2</strong> - "Bear one another's burdens, and so fulfill the law of Christ."</p>
-                            </div>
-                        </div>
-                        
-                        <div class="key-point">
-                            <h4>3. We Learn From Each Other</h4>
-                            <p>
-                                We listen to multiple tellings of the Bible stories, sing songs, participate in activities, 
-                                and learn how to follow Jesus together. Each time we gather, we share what we've learned, 
-                                encourage one another, and grow stronger in our walk with Christ.
-                            </p>
-                            <div class="scripture">
-                                <p><strong>📖 Colossians 3:16</strong> — "Let the word of Christ dwell in you richly in all wisdom, 
-                                teaching and admonishing one another in psalms and hymns and spiritual songs, 
-                                singing with grace in your hearts to the Lord."</p>
-                            </div>
-                        </div>
-                        
-                        <div class="key-point">
-                            <h4>4. We Are All One Family</h4>
-                            <p>God calls the church His family. We belong to God and we belong to each other.</p>
-                            <div class="scripture">
-                                <p><strong>1 Corinthians 12:27</strong> - "Now you are the body of Christ, and members individually."</p>
-                            </div>
-                        </div>
-                        
-                        <div class="key-point">
-                            <h4>5. Jesus Is with Us</h4>
-                            <p>Jesus promises that He will be with us when we meet in His name.</p>
-                            <div class="scripture">
-                                <p><strong>Matthew 18:20</strong> - "For where two or three gather in my name, there am I with them."</p>
-                            </div>
-                        </div>
-                        
-                        <div class="activity">
-                            <h4>Additional Learner Activity: Fellowship & Reflection</h4>
-                            <ol>
-                                <li>
-                                    <strong>Small Group Sharing:</strong>  
-                                    In small groups, share one story of how Christian friends helped you during a hard or happy time.  
-                                    <em>Reflect:</em> How did that fellowship remind you of God's love?
-                                </li>
-                                <li>
-                                    <strong>Fellowship Chant (Call & Response Style):</strong>
-                                    <div class="scripture mt-2">
-                                        <p><strong>Leader:</strong> What's the focus of our fellowship?</p>
-                                        <p><strong>Learners:</strong> Loving Jesus, walking it out!</p>
-                                        <p><strong>Leader:</strong> We grow in faith and help one another—</p>
-                                        <p><strong>Learners:</strong> Sisters and brothers, loving one another!</p>
-                                        <p><strong>Leader:</strong> In Church or at the home,</p>
-                                        <p><strong>Learners:</strong> We show God's love — we're part of His family!</p>
-                                        <p><strong>Leader:</strong> So let's be friends who care and pray —</p>
-                                        <p><strong>Learners:</strong> That's what God wants us to do each day!</p>
-                                    </div>
-                                    <p><em>Repeat twice to make it fun and memorable!</em></p>
-                                </li>
-                            </ol>
+                            <p><em>Repeat twice to make it fun and memorable!</em></p>
+                        </li>
+                    </ol>
 
-                            <div class="key-point mt-3">
-                                <h5>Meaning of the Chant:</h5>
-                                <ul>
-                                    <li><strong>"Loving Jesus, living it out!"</strong> → Fellowship is all about loving Jesus, and where we love Jesus, we show that love by the way we live.</li>
-                                    <li><strong>"We grow in faith and help each other"</strong> → In fellowship, we learn together, pray together, and encourage each other to draw closer to God.</li>
-                                    <li><strong>"Sisters and brothers, loving one another!"</strong> → As children of God, we are one big spiritual family. We care for one another the way real brothers and sisters in Christ do.</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="reflection">
-                            <h4>Memory Verse with Actions</h4>
-                            <div class="scripture">
-                                <p><strong>Acts 2:42 (NIV)</strong> - "They devoted themselves to the apostles' teaching and to fellowship, to the breaking of bread and to prayer."</p>
-                            </div>
-                            <p><strong>Hand Motions:</strong></p>
-                            <ul>
-                                <li>"Teaching" (open book gesture)</li>
-                                <li>"Fellowship" (link arms)</li>
-                                <li>"Breaking bread" (pretend to break bread)</li>
-                                <li>"Prayer" (hands together)</li>
-                            </ul>
-                        </div>
+                    <div class="key-point mt-3">
+                        <h5>Meaning of the Chant:</h5>
+                        <ul>
+                            <li><strong>"Loving Jesus, living it out!"</strong> → Fellowship is all about loving Jesus, and where we love Jesus, we show that love by the way we live.</li>
+                            <li><strong>"We grow in faith and help each other"</strong> → In fellowship, we learn together, pray together, and encourage each other to draw closer to God.</li>
+                            <li><strong>"Sisters and brothers, loving one another!"</strong> → As children of God, we are one big spiritual family. We care for one another the way real brothers and sisters in Christ do.</li>
+                        </ul>
                     </div>
+                </div>
+                
+                <div class="reflection">
+                    <h4>Memory Verse with Actions</h4>
+                    <div class="scripture">
+                        <p><strong>Acts 2:42 (NIV)</strong> - "They devoted themselves to the apostles' teaching and to fellowship, to the breaking of bread and to prayer."</p>
+                    </div>
+                    <p><strong>Hand Motions:</strong></p>
+                    <ul>
+                        <li>"Teaching" (open book gesture)</li>
+                        <li>"Fellowship" (link arms)</li>
+                        <li>"Breaking bread" (pretend to break bread)</li>
+                        <li>"Prayer" (hands together)</li>
+                    </ul>
                 </div>
             </div>
             
-            <!-- Characteristics of Biblical Fellowship -->
-            <div class="collapsible-section">
-                <button class="collapsible-header">
-                    Characteristics of Biblical Fellowship
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="collapsible-content">
-                    <div class="content-inner">
-                        <div class="scripture">
-                            <p><strong>John 13:34-35</strong> - "A new commandment I give to you, that you love one another; as I have loved you, that you also love one another. By this all will know that you are My disciples, if you have love for one another."</p>
-                        </div>
-                        
-                        <div class="key-point">
-                            <h4>Casual Friendship vs. Spiritual Fellowship</h4>
-                            <table class="comparison-table">
-                                <tr>
-                                    <th>Casual Friendship</th>
-                                    <th>Spiritual Fellowship</th>
-                                </tr>
-                                <tr>
-                                    <td>Based on shared interests (games, school, fun)</td>
-                                    <td>Based on shared faith in Christ</td>
-                                </tr>
-                                <tr>
-                                    <td>Focus on fun and laughter</td>
-                                    <td>Focuses on growth, support, and prayer</td>
-                                </tr>
-                                <tr>
-                                    <td>Often surface-level</td>
-                                    <td>Builds spiritual depth and character</td>
-                                </tr>
-                                <tr>
-                                    <td>No prayer, no accountability</td>
-                                    <td>Includes prayer, Bible encouragement, and care</td>
-                                </tr>
-                                <tr>
-                                    <td>Temporary and easily fades</td>
-                                    <td>Can last a lifetime and deepen over time</td>
-                                </tr>
-                            </table>
-                        </div>
-                        
-                        <div class="reflection">
-                            <h4>Reflection Questions</h4>
-                            <p>Do you have friendships that appear to be more of a fellowship? What makes them different?</p>
-                            <textarea placeholder="Share your thoughts..."></textarea>
-                            <p>Why do you think God wants us to grow in fellowship instead of just friendships?</p>
-                            <textarea placeholder="Share your thoughts..."></textarea>
-                        </div>
-                        
-                        <div class="activity">
-                            <h4>Activity: Encouragement Message</h4>
-                            <p>Write a letter, text, or card encouraging someone in your fellowship group:</p>
-                            <textarea placeholder="Write your encouraging message here..." style="width: 100%; min-height: 100px;"></textarea>
-                            <button class="btn btn-fellowship" style="margin-top: 10px;">Save Message</button>
-                        </div>
-                    </div>
+            <div class="collapsible">Characteristics of Biblical Fellowship</div>
+            <div class="content scrollable">
+                <div class="scripture">
+                    <p><strong>John 13:34-35</strong> - "A new commandment I give to you, that you love one another; as I have loved you, that you also love one another. By this all will know that you are My disciples, if you have love for one another."</p>
+                </div>
+                
+                <div class="key-point">
+                    <h4>Casual Friendship vs. Spiritual Fellowship</h4>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Casual Friendship</th>
+                            <th>Spiritual Fellowship</th>
+                        </tr>
+                        <tr>
+                            <td>Based on shared interests (games, school, fun)</td>
+                            <td>Based on shared faith in Christ</td>
+                        </tr>
+                        <tr>
+                            <td>Focus on fun and laughter</td>
+                            <td>Focuses on growth, support, and prayer</td>
+                        </tr>
+                        <tr>
+                            <td>Often surface-level</td>
+                            <td>Builds spiritual depth and character</td>
+                        </tr>
+                        <tr>
+                            <td>No prayer, no accountability</td>
+                            <td>Includes prayer, Bible encouragement, and care</td>
+                        </tr>
+                        <tr>
+                            <td>Temporary and easily fades</td>
+                            <td>Can last a lifetime and deepen over time</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="reflection">
+                    <h4>Reflection Questions</h4>
+                    <p>Do you have friendships that appear to be more of a fellowship? What makes them different?</p>
+                    <textarea placeholder="Share your thoughts..."></textarea>
+                    <p>Why do you think God wants us to grow in fellowship instead of just friendships?</p>
+                    <textarea placeholder="Share your thoughts..."></textarea>
+                </div>
+                
+                <div class="activity">
+                    <h4>Activity: Encouragement Message</h4>
+                    <p>Write a letter, text, or card encouraging someone in your fellowship group:</p>
+                    <textarea placeholder="Write your encouraging message here..." style="width: 100%; min-height: 100px;"></textarea>
+                    <button class="btn btn-fellowship" style="margin-top: 10px;">Save Message</button>
                 </div>
             </div>
             
-            <!-- Accountability in Fellowship -->
-            <div class="collapsible-section">
-                <button class="collapsible-header">
-                    Accountability in Fellowship
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="collapsible-content">
-                    <div class="content-inner">
-                        <div class="scripture">
-                            <p><strong>Galatians 6:1-2</strong> - "Brothers and sisters, if someone is caught in a sin, you who live by the Spirit should restore that person gently. But watch yourselves, or you also may be tempted. Carry each other's burdens, and in this way, you will fulfill the law of Christ."</p>
-                        </div>
-                        
-                        <div class="key-point">
-                            <h4>What is Accountability?</h4>
-                            <p>"Accountability means helping each other stay close to God and grow in faith. It means checking in, correcting with love, and encouraging each other when we stumble."</p>
-                        </div>
-                        
-                        <div class="key-point">
-                            <h4>Key Principles</h4>
-                            <ul>
-                                <li><strong>Gentleness:</strong> "Restore that person gently" - never harsh, embarrassing, or forceful</li>
-                                <li><strong>Burden-bearing:</strong> Praying with friends who are struggling, listening without gossip, helping make better decisions</li>
-                                <li><strong>Humility:</strong> "Watch yourselves" - be careful not to fall into the same sin while helping others</li>
-                                <li><strong>Same-Gender Accountability:</strong> Important for creating safe boundaries and avoiding distractions</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="activity">
-                            <h4>Activity: Accountability Partners</h4>
-                            <p>Form accountability pairs or triads (groups of 2-3 learners) within the same gender.</p>
-                            <p><strong>Ways to practice:</strong></p>
-                            <ul>
-                                <li>Choose same-gender partners for prayer and check-ins</li>
-                                <li>Check in on each other spiritually - ask how Bible reading is going, share prayer requests</li>
-                                <li>Practice respect, confidentiality, and encouraging words</li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="collapsible">Accountability in Fellowship</div>
+            <div class="content scrollable">
+                <div class="scripture">
+                    <p><strong>Galatians 6:1-2</strong> - "Brothers and sisters, if someone is caught in a sin, you who live by the Spirit should restore that person gently. But watch yourselves, or you also may be tempted. Carry each other's burdens, and in this way, you will fulfill the law of Christ."</p>
+                </div>
+                
+                <div class="key-point">
+                    <h4>What is Accountability?</h4>
+                    <p>"Accountability means helping each other stay close to God and grow in faith. It means checking in, correcting with love, and encouraging each other when we stumble."</p>
+                </div>
+                
+                <div class="key-point">
+                    <h4>Key Principles</h4>
+                    <ul>
+                        <li><strong>Gentleness:</strong> "Restore that person gently" - never harsh, embarrassing, or forceful</li>
+                        <li><strong>Burden-bearing:</strong> Praying with friends who are struggling, listening without gossip, helping make better decisions</li>
+                        <li><strong>Humility:</strong> "Watch yourselves" - be careful not to fall into the same sin while helping others</li>
+                        <li><strong>Same-Gender Accountability:</strong> Important for creating safe boundaries and avoiding distractions</li>
+                    </ul>
+                </div>
+                
+                <div class="activity">
+                    <h4>Activity: Accountability Partners</h4>
+                    <p>Form accountability pairs or triads (groups of 2-3 learners) within the same gender.</p>
+                    <p><strong>Ways to practice:</strong></p>
+                    <ul>
+                        <li>Choose same-gender partners for prayer and check-ins</li>
+                        <li>Check in on each other spiritually - ask how Bible reading is going, share prayer requests</li>
+                        <li>Practice respect, confidentiality, and encouraging words</li>
+                    </ul>
                 </div>
             </div>
             
-            <!-- Serving Together -->
-            <div class="collapsible-section">
-                <button class="collapsible-header">
-                    Serving Together
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="collapsible-content">
-                    <div class="content-inner">
-                        <div class="scripture">
-                            <p><strong>1 Peter 4:10 (NKJV)</strong> - "As each one has received a gift, minister it to one another, as good stewards of the manifold grace of God."</p>
-                        </div>
-                        
-                        <div class="key-point">
-                            <h4>Why Serve Together?</h4>
-                            <ul>
-                                <li>Serving is an act of love and obedience - reflecting Christ to others</li>
-                                <li>Fellowship includes working side-by-side to bless others</li>
-                                <li>Serving deepens friendships and builds unity</li>
-                                <li>Everyone has unique gifts to contribute</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="activity">
-                            <h4>Service Project Ideas</h4>
-                            <ul>
-                                <li>Visiting the sick or elderly</li>
-                                <li>Cleaning the church or helping with Sunday School</li>
-                                <li>Collecting food or clothing for needy families</li>
-                                <li>Writing thank-you notes for pastors, teachers, or parents</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="key-point">
-                            <h4>Real Story: The Sandwich Team</h4>
-                            <p>In a small church youth group in Nairobi, the idea of community service was born in simple terms. Every Saturday after Bible study, the kids would pool their money to buy bread, peanut butter, and bananas.</p>
-                            <p>They made 20 sandwiches, put them in paper bags, and walked right down to a street corner where they knew some children were living begging for food. A little Bible verse was handed out with each sandwich, and the kids prayed with anyone who wanted prayer.</p>
-                            <p>Initially, it seemed so small and simple, but gradually, the community took notice. One of the street boys has started coming to church, and another went back to school upon encouragement and assistance offered. The youth group became famous for kindness, and more kids evidenced their commitment to being engaged.</p>
-                            <p><strong>👉 A few sandwiches turned into a big movement for hope!</strong></p>
-                        </div>
-                        
-                        <div class="activity">
-                            <h4>Activity: Spiritual Gift Match</h4>
-                            <p>List your skills or what you enjoy doing. Discuss how each one can be used to serve others.</p>
-                            <textarea placeholder="My skills and interests..."></textarea><br>
-                            <button class="btn btn-fellowship" style="margin-top: 10px;">Save My Gifts</button>
-                        </div>
-                    </div>
+            <div class="collapsible">Serving Together</div>
+            <div class="content scrollable">
+                <div class="scripture">
+                    <p><strong>1 Peter 4:10 (NKJV)</strong> - "As each one has received a gift, minister it to one another, as good stewards of the manifold grace of God."</p>
+                </div>
+                
+                <div class="key-point">
+                    <h4>Why Serve Together?</h4>
+                    <ul>
+                        <li>Serving is an act of love and obedience - reflecting Christ to others</li>
+                        <li>Fellowship includes working side-by-side to bless others</li>
+                        <li>Serving deepens friendships and builds unity</li>
+                        <li>Everyone has unique gifts to contribute</li>
+                    </ul>
+                </div>
+                
+                <div class="activity">
+                    <h4>Service Project Ideas</h4>
+                    <ul>
+                        <li>Visiting the sick or elderly</li>
+                        <li>Cleaning the church or helping with Sunday School</li>
+                        <li>Collecting food or clothing for needy families</li>
+                        <li>Writing thank-you notes for pastors, teachers, or parents</li>
+                    </ul>
+                </div>
+                
+                <div class="key-point">
+                    <h4>Real Story: The Sandwich Team</h4>
+                    <p>In a small church youth group in Nairobi, the idea of community service was born in simple terms. Every Saturday after Bible study, the kids would pool their money to buy bread, peanut butter, and bananas.</p>
+                    <p>They made 20 sandwiches, put them in paper bags, and walked right down to a street corner where they knew some children were living begging for food. A little Bible verse was handed out with each sandwich, and the kids prayed with anyone who wanted prayer.</p>
+                    <p>Initially, it seemed so small and simple, but gradually, the community took notice. One of the street boys has started coming to church, and another went back to school upon encouragement and assistance offered. The youth group became famous for kindness, and more kids evidenced their commitment to being engaged.</p>
+                    <p><strong>👉 A few sandwiches turned into a big movement for hope!</strong></p>
+                </div>
+                
+                <div class="activity">
+                    <h4>Activity: Spiritual Gift Match</h4>
+                    <p>List your skills or what you enjoy doing. Discuss how each one can be used to serve others.</p>
+                    <textarea placeholder="My skills and interests..."></textarea><br>
+                    <button class="btn btn-fellowship" style="margin-top: 10px;">Save My Gifts</button>
                 </div>
             </div>
             
-            <!-- Group Activity: Fellowship Map -->
-            <div class="collapsible-section">
-                <button class="collapsible-header">
-                    Group Activity: Fellowship Map
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="collapsible-content">
-                    <div class="content-inner">
-                        <div class="scripture">
-                            <p><strong>Ecclesiastes 4:9-10</strong> - "Two are better than one, because they have a good return for their labor: If either of them falls down, one can help the other up. But pity anyone who falls and has no one to help them up."</p>
+            <div class="collapsible">Group Activity: Fellowship Map</div>
+            <div class="content scrollable">
+                <div class="scripture">
+                    <p><strong>Ecclesiastes 4:9-10</strong> - "Two are better than one, because they have a good return for their labor: If either of them falls down, one can help the other up. But pity anyone who falls and has no one to help them up."</p>
+                </div>
+                
+                <div class="fellowship-map-container">
+                    <div class="fellowship-map-circle">
+                        <div class="fellowship-center">ME</div>
+                        <div class="fellowship-category fellowship-mentors">
+                            <h5>Mentors</h5>
+                            <p>Older or mature believers who guide me</p>
                         </div>
-                        
-                        <div class="fellowship-map-container">
-                            <div class="fellowship-map-circle">
-                                <div class="fellowship-center">ME</div>
-                                <div class="fellowship-category fellowship-mentors">
-                                    <h5>Mentors</h5>
-                                    <p>Older or mature believers who guide me</p>
-                                </div>
-                                <br>
-                                <br>
-                                <div class="fellowship-category fellowship-peers">
-                                    <h5>Peers</h5>
-                                    <p>Christian friends who walk with me in faith</p>
-                                </div>
-                                <br>
-                                <br>
-                                <div class="fellowship-category fellowship-mentees">
-                                    <h5>Mentees</h5>
-                                    <p>Younger or newer believers I can encourage</p>
-                                </div>
-                                 <br>
-                                <br>
-                                <div class="fellowship-category fellowship-others">
-                                    <h5>Others</h5>
-                                    <p>Additional spiritual relationships</p>
-                                </div>
-                            </div>
+                        <br>
+                        <br>
+                        <div class="fellowship-category fellowship-peers">
+                            <h5>Peers</h5>
+                            <p>Christian friends who walk with me in faith</p>
                         </div>
-                        
-                        <div class="activity">
-                            <h4>Create Your Fellowship Map</h4>
-                            <p>Draw your own Fellowship Map showing your current spiritual community:</p>
-                            <div style="text-align: center; margin: 20px 0;">
-                                <div style="width: 300px; height: 300px; border: 2px dashed #ccc; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;">
-                                    <span style="color: #999;">Draw your fellowship map here</span>
-                                </div>
-                            </div>
-                            
-                            <div class="reflection">
-                                <h5>Reflection Questions:</h5>
-                                <p>Who encourages me? Who am I encouraging?</p>
-                                <textarea placeholder="Share your thoughts..."></textarea>
-                                <p>Are there any missing areas in my fellowship map?</p>
-                                <textarea placeholder="Share your thoughts..."></textarea>
-                            </div>
+                        <br>
+                        <br>
+                        <div class="fellowship-category fellowship-mentees">
+                            <h5>Mentees</h5>
+                            <p>Younger or newer believers I can encourage</p>
                         </div>
+                         <br>
+                        <br>
+                        <div class="fellowship-category fellowship-others">
+                            <h5>Others</h5>
+                            <p>Additional spiritual relationships</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activity">
+                    <h4>Create Your Fellowship Map</h4>
+                    <p>Draw your own Fellowship Map showing your current spiritual community:</p>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <div style="width: 300px; height: 300px; border: 2px dashed #ccc; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;">
+                            <span style="color: #999;">Draw your fellowship map here</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reflection">
+                        <h5>Reflection Questions:</h5>
+                        <p>Who encourages me? Who am I encouraging?</p>
+                        <textarea placeholder="Share your thoughts..."></textarea>
+                        <p>Are there any missing areas in my fellowship map?</p>
+                        <textarea placeholder="Share your thoughts..."></textarea>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Navigation Buttons -->
         <div class="lesson-nav">
-            <a href="module-lesson1.html" class="btn btn-outline">
-                <i class="fas fa-arrow-left"></i> Previous Lesson
-            </a>
-            <a href="module-lesson3.html" class="btn">
-                Next Lesson <i class="fas fa-arrow-right"></i>
-            </a>
+            <a href="module-lesson1.html" class="btn btn-outline">Previous Lesson</a>
+         
+            <a href="module-lesson3.html" class="btn">Next Lesson</a>
         </div>
-    </div>
-    
-    <!-- NEW: Back to top button -->
-    <div class="back-to-top" id="backToTop">
-        <i class="fas fa-arrow-up"></i>
     </div>
     
     <!-- Bottom Navigation Bar -->
     <div class="bottom-nav">
+      
         <a href="../progress.html" class="nav-item">
             <span class="nav-icon">📊</span>
             <span>Dashboard</span>
@@ -1895,18 +1744,48 @@
             <span class="nav-icon">🙏</span>
             <span>Prayer</span>
         </a>
-        <a href="#" id="logoutBtn" class="nav-item">
-            <span class="nav-icon">🚪</span>
-            <span>Logout</span>
-        </a>
+           <a href="#" id="logoutBtn" class="nav-item">
+    <span class="nav-icon">🚪</span>
+    <span>Logout</span>
+</a>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    // Logout functionality
+    logoutBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+            // In a real app, this would clear authentication tokens
+            // and redirect to login page
+            showNotification('You have been logged out successfully.', 'success');
+            
+            setTimeout(() => {
+                // Simulate logout - in a real app, redirect to login
+                window.location.href = '../index.html';
+            }, 1500);
+        }
+    });
+});
+
+// Optional: Example notification function
+function showNotification(message, type) {
+    alert(message); // Replace this with your custom notification UI
+}
+</script>
     </div>
     
     <!-- Sync Status -->
     <div class="sync-status" id="syncStatus">Checking connection...</div>
     
+    <!-- Manual Sync Button -->
+    <button id="manualSync" title="Sync Progress">
+        <i class="bi bi-arrow-repeat"></i>
+    </button>
+    
     <!-- Auto-save notification -->
     <div class="save-notification" id="saveNotification">
-        <i class="fas fa-check-circle"></i> Progress saved
+        <i class="bi bi-check-circle"></i> Progress saved
     </div>
     
     <footer>
@@ -1914,29 +1793,7 @@
         <p>Lit to Lead. Rooted to Grow.</p>
     </footer>
 
-    <!-- Firebase SDK -->
-    <script type="module">
-        // Import Firebase modules
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js';
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
-        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js';
-
-        // Firebase configuration
-        const firebaseConfig = {
-            // Add your Firebase configuration here
-            apiKey: "your-api-key",
-            authDomain: "your-auth-domain",
-            projectId: "your-project-id",
-            storageBucket: "your-storage-bucket",
-            messagingSenderId: "your-messaging-sender-id",
-            appId: "your-app-id"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
+    <script>
         // Enhanced Progress tracking and auto-save functionality
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize progress tracking
@@ -1949,20 +1806,18 @@
             const formFields = document.querySelectorAll('textarea, input[type="text"]');
             
             // Collapsible sections with scrollable content
-            const collapsibleHeaders = document.querySelectorAll('.collapsible-header');
-            collapsibleHeaders.forEach(header => {
-                header.addEventListener('click', function() {
-                    this.classList.toggle('active');
+            const coll = document.getElementsByClassName("collapsible");
+            for (let i = 0; i < coll.length; i++) {
+                coll[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
                     const content = this.nextElementSibling;
-                    if (content.classList.contains('active')) {
-                        content.classList.remove('active');
+                    if (content.style.maxHeight) {
                         content.style.maxHeight = null;
                     } else {
-                        content.classList.add('active');
                         content.style.maxHeight = content.scrollHeight + "px";
                     }
                 });
-            });
+            }
             
             // Topic completion toggle
             const completionElements = document.querySelectorAll('.topic-completion');
@@ -1994,46 +1849,6 @@
                 });
             });
             
-            // NEW: Dark mode toggle
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            darkModeToggle.addEventListener('click', function() {
-                document.body.classList.toggle('dark-mode');
-                const isDarkMode = document.body.classList.contains('dark-mode');
-                localStorage.setItem('darkMode', isDarkMode);
-                darkModeToggle.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-            });
-            
-            // Load dark mode preference
-            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-            if (savedDarkMode) {
-                document.body.classList.add('dark-mode');
-                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            }
-            
-            // NEW: Back to top button
-            const backToTop = document.getElementById('backToTop');
-            window.addEventListener('scroll', function() {
-                if (window.pageYOffset > 300) {
-                    backToTop.classList.add('visible');
-                } else {
-                    backToTop.classList.remove('visible');
-                }
-            });
-            
-            backToTop.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-            
-            // NEW: Quick navigation toggle
-            const quickNavToggle = document.getElementById('quickNavToggle');
-            const quickNav = document.getElementById('quickNav');
-            quickNavToggle.addEventListener('click', function() {
-                quickNav.classList.toggle('active');
-            });
-            
             // Function to save data to localStorage
             function saveData() {
                 const data = {};
@@ -2052,35 +1867,10 @@
                 const now = new Date();
                 lastSaved.textContent = now.toLocaleTimeString();
                 localStorage.setItem('lesson2SavedTime', now.toLocaleTimeString());
-                
-                // Save to Firestore if user is authenticated
-                if (auth.currentUser) {
-                    saveToFirestore(data);
-                }
             }
             
-            // Function to save data to Firestore
-            async function saveToFirestore(data) {
-                try {
-                    const user = auth.currentUser;
-                    if (user) {
-                        const userRef = doc(db, 'users', user.uid, 'lessons', 'lesson2');
-                        await setDoc(userRef, {
-                            data: data,
-                            lastUpdated: new Date(),
-                            progress: calculateProgress()
-                        });
-                        updateSyncStatus('synced');
-                    }
-                } catch (error) {
-                    console.error('Error saving to Firestore:', error);
-                    updateSyncStatus('local');
-                }
-            }
-            
-            // Function to load saved data from localStorage and Firestore
-            async function loadSavedData() {
-                // First load from localStorage
+            // Function to load saved data from localStorage
+            function loadSavedData() {
                 const savedData = localStorage.getItem('lesson2Data');
                 
                 if (savedData) {
@@ -2099,41 +1889,6 @@
                     if (savedTime) {
                         lastSaved.textContent = savedTime;
                     }
-                }
-                
-                // Then try to load from Firestore
-                try {
-                    const user = auth.currentUser;
-                    if (user) {
-                        const userRef = doc(db, 'users', user.uid, 'lessons', 'lesson2');
-                        const docSnap = await getDoc(userRef);
-                        
-                        if (docSnap.exists()) {
-                            const firestoreData = docSnap.data();
-                            
-                            // Merge Firestore data with localStorage data
-                            formFields.forEach(field => {
-                                const saveKey = field.getAttribute('data-save-key');
-                                
-                                if (saveKey && firestoreData.data[saveKey]) {
-                                    field.value = firestoreData.data[saveKey];
-                                }
-                            });
-                            
-                            // Update last saved time
-                            if (firestoreData.lastUpdated) {
-                                const firestoreTime = firestoreData.lastUpdated.toDate().toLocaleTimeString();
-                                lastSaved.textContent = firestoreTime;
-                            }
-                            
-                            updateSyncStatus('synced');
-                        } else {
-                            updateSyncStatus('local');
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error loading from Firestore:', error);
-                    updateSyncStatus('local');
                 }
             }
             
@@ -2159,9 +1914,6 @@
                 
                 // Save progress to localStorage
                 localStorage.setItem('lesson2EnhancedProgress', progressPercentage);
-                
-                // Calculate and return progress for Firestore
-                return progressPercentage;
             }
             
             // Original progress bar function (preserved)
@@ -2208,43 +1960,47 @@
                 }, 2000);
             }
             
-            // Function to update sync status
-            function updateSyncStatus(status) {
+            // Sync status functionality
+            function updateSyncStatus() {
                 const syncStatus = document.getElementById('syncStatus');
                 
-                switch(status) {
-                    case 'syncing':
-                        syncStatus.textContent = 'Syncing...';
-                        syncStatus.className = 'sync-status syncing';
-                        break;
-                    case 'synced':
-                        syncStatus.textContent = 'Synced to cloud';
-                        syncStatus.className = 'sync-status synced';
-                        break;
-                    case 'local':
-                        syncStatus.textContent = 'Saved locally';
-                        syncStatus.className = 'sync-status local';
-                        break;
-                    case 'offline':
+                // Simulate checking connection
+                setTimeout(() => {
+                    if (navigator.onLine) {
+                        syncStatus.textContent = 'Online - Synced';
+                        syncStatus.className = 'sync-status online';
+                    } else {
                         syncStatus.textContent = 'Offline - Changes saved locally';
                         syncStatus.className = 'sync-status offline';
-                        break;
-                    default:
-                        syncStatus.textContent = 'Checking connection...';
-                        syncStatus.className = 'sync-status';
-                }
+                    }
+                }, 1000);
             }
             
-            // Online/offline detection
-            window.addEventListener('online', function() {
-                updateSyncStatus('syncing');
-                // Try to sync data when coming back online
-                saveData();
+            // Manual sync functionality
+            document.getElementById('manualSync').addEventListener('click', function() {
+                const syncStatus = document.getElementById('syncStatus');
+                syncStatus.textContent = 'Syncing...';
+                syncStatus.className = 'sync-status syncing';
+                
+                // Simulate sync process
+                setTimeout(() => {
+                    syncStatus.textContent = 'Online - Synced';
+                    syncStatus.className = 'sync-status online';
+                    
+                    // Show confirmation
+                    const notification = document.getElementById('saveNotification');
+                    notification.innerHTML = '<i class="bi bi-cloud-check"></i> Synced to cloud';
+                    notification.classList.add('show');
+                    
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 2000);
+                }, 1500);
             });
             
-            window.addEventListener('offline', function() {
-                updateSyncStatus('offline');
-            });
+            // Online/offline detection
+            window.addEventListener('online', updateSyncStatus);
+            window.addEventListener('offline', updateSyncStatus);
             
             // Auto-save every 30 seconds as a backup
             setInterval(saveData, 30000);
@@ -2261,40 +2017,10 @@
             loadProgress();
             
             // Initialize sync status
-            if (navigator.onLine) {
-                updateSyncStatus('synced');
-            } else {
-                updateSyncStatus('offline');
-            }
-            
-            // Logout functionality
-            document.getElementById('logoutBtn').addEventListener('click', function(event) {
-                event.preventDefault();
-                if (confirm('Are you sure you want to logout?')) {
-                    // In a real app, this would clear authentication tokens
-                    // and redirect to login page
-                    alert('You have been logged out successfully.');
-                    
-                    setTimeout(() => {
-                        // Simulate logout - in a real app, redirect to login
-                        window.location.href = '../index.html';
-                    }, 1500);
-                }
-            });
-            
-            // Listen for auth state changes
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // User is signed in
-                    updateSyncStatus('synced');
-                    // Load data from Firestore
-                    loadSavedData();
-                } else {
-                    // User is signed out
-                    updateSyncStatus('local');
-                }
-            });
+            updateSyncStatus();
         });
     </script>
+ 
+    <script type="module" src="../auth-check.js"></script>
 </body>
 </html>
