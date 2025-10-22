@@ -1,187 +1,125 @@
-// auth-check.js - Real Authentication Version
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-import { 
-    getAuth, 
-    onAuthStateChanged, 
-    signOut 
-} from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-import { 
-    getFirestore, 
-    doc, 
-    setDoc, 
-    getDoc, 
-    onSnapshot 
-} from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyC8yqqIrJeUjnXRH2VBursxfiGnmqGLwxQ",
-    authDomain: "kcmcpathlight.firebaseapp.com",
-    projectId: "kcmcpathlight",
-    storageBucket: "kcmcpathlight.firebasestorage.app",
-    messagingSenderId: "469006859881",
-    appId: "1:469006859881:web:0320573397120718bdecf8"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-console.log("🔐 Firebase Auth initialized");
-
-// Auth state listener
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        console.log("✅ User authenticated:", user.email);
-        
-        // Store session info
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("userEmail", user.email);
-        localStorage.setItem("userId", user.uid);
-        
-        // Load user progress from Firestore
-        loadUserProgress(user.uid);
-        
-        // Set up real-time listener for progress updates
-        setupProgressListener(user.uid);
-        
-    } else {
-        console.warn("🚫 No user detected — redirecting to login...");
-        
-        // Clear local storage
-        localStorage.removeItem("isLoggedIn");
-        localStorage.removeItem("userEmail");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("session3Progress");
-        localStorage.removeItem("session3Notes");
-
-        // Store intended URL for return after login
-        if (!window.location.pathname.includes('login.html') && 
-            !window.location.pathname.includes('register.html')) {
-            sessionStorage.setItem("redirectUrl", window.location.href);
-        }
-
-        // Redirect to login page
-        setTimeout(() => {
-            if (!window.location.pathname.includes('login.html') && 
-                !window.location.pathname.includes('register.html')) {
-                window.location.href = "login.html";
-            }
-        }, 500);
-    }
-});
-
-// Load user progress from Firestore
-async function loadUserProgress(userId) {
-    try {
-        const docRef = doc(db, "userProgress", userId);
-        const docSnap = await getDoc(docRef);
-        
-        if (docSnap.exists()) {
-            const userData = docSnap.data();
-            console.log("📥 Loaded user progress from cloud:", userData);
-            
-            // Store in localStorage for offline access
-            if (userData.session3Progress) {
-                localStorage.setItem('session3Progress', JSON.stringify(userData.session3Progress));
-            }
-            if (userData.session3Notes) {
-                localStorage.setItem('session3Notes', JSON.stringify(userData.session3Notes));
-            }
-            
-            // Trigger UI update if function exists
-            if (window.loadProgress) {
-                window.loadProgress();
-            }
-        } else {
-            console.log("📭 No existing progress found in cloud");
-            
-            // Create initial progress document
-            const initialData = {
-                email: localStorage.getItem("userEmail"),
-                createdAt: new Date().toISOString(),
-                lastUpdated: new Date().toISOString()
-            };
-            
-            await setDoc(docRef, initialData);
-            console.log("✅ Created initial progress document");
-        }
-    } catch (error) {
-        console.error("❌ Error loading progress:", error);
-    }
-}
-
-// Set up real-time progress listener
-function setupProgressListener(userId) {
-    const docRef = doc(db, "userProgress", userId);
+// ENHANCED: Save Progress to Local Storage AND Cloud
+async function saveProgress() {
+    const syncStatus = document.getElementById('syncStatus');
+    syncStatus.innerHTML = '<i class="fas fa-sync-alt"></i><span>Syncing...</span>';
+    syncStatus.className = 'sync-status syncing';
     
-    onSnapshot(docRef, (docSnap) => {
-        if (docSnap.exists()) {
-            const userData = docSnap.data();
-            console.log("🔄 Real-time update received:", userData);
-            
-            // Update local storage with latest data
-            if (userData.session3Progress) {
-                localStorage.setItem('session3Progress', JSON.stringify(userData.session3Progress));
-            }
-            if (userData.session3Notes) {
-                localStorage.setItem('session3Notes', JSON.stringify(userData.session3Notes));
-            }
-            
-            // Update UI if needed
-            if (window.loadProgress) {
-                window.loadProgress();
-            }
-        }
+    // Collect completion status
+    const completionStatus = {};
+    document.querySelectorAll('.topic-completion').forEach((completion, index) => {
+        completionStatus[`completion${index+1}`] = completion.classList.contains('topic-completed');
     });
-}
-
-// Save progress to Firestore
-window.saveProgressToCloud = async function(sessionData) {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-        console.warn("🚫 No user ID found - saving locally only");
-        return false;
+    
+    // Collect collapsible section states
+    const sectionStates = {};
+    document.querySelectorAll('.topic-collapsible').forEach((collapsible, index) => {
+        sectionStates[`section${index+1}`] = collapsible.classList.contains('active');
+    });
+    
+    // Collect reflection responses
+    const reflections = {};
+    document.querySelectorAll('.reflection textarea').forEach((textarea, index) => {
+        reflections[`reflection${index+1}`] = textarea.value;
+    });
+    
+    // Collect notes
+    const notes = JSON.parse(localStorage.getItem('session1Notes') || '{}');
+    
+    // Save to localStorage first (for offline access)
+    const progressData = {
+        completionStatus,
+        sectionStates,
+        reflections,
+        lastSaved: new Date().toISOString()
+    };
+    
+    localStorage.setItem('session1Progress', JSON.stringify(progressData));
+    
+    // Try to save to cloud if user is logged in
+    let cloudSuccess = false;
+    if (window.saveProgressToCloud && localStorage.getItem("isLoggedIn") === "true") {
+        const sessionData = {
+            session1Progress: progressData,
+            session1Notes: notes
+        };
+        cloudSuccess = await window.saveProgressToCloud(sessionData);
     }
     
-    try {
-        const docRef = doc(db, "userProgress", userId);
-        
-        // Merge with existing data
-        const docSnap = await getDoc(docRef);
-        const existingData = docSnap.exists() ? docSnap.data() : {};
-        
-        const updateData = {
-            ...existingData,
-            ...sessionData,
-            lastUpdated: new Date().toISOString(),
-            email: localStorage.getItem("userEmail")
-        };
-        
-        await setDoc(docRef, updateData);
-        console.log("✅ Progress saved to cloud successfully");
-        return true;
-    } catch (error) {
-        console.error("❌ Error saving to cloud:", error);
-        return false;
-    }
-};
+    // Update sync status based on cloud save result
+    setTimeout(() => {
+        if (cloudSuccess) {
+            syncStatus.innerHTML = '<i class="fas fa-cloud"></i><span>Cloud Synced</span>';
+            syncStatus.className = 'sync-status synced';
+            showNotification('Progress saved to cloud', 'success');
+        } else if (localStorage.getItem("isLoggedIn") === "true") {
+            syncStatus.innerHTML = '<i class="fas fa-laptop"></i><span>Local Only</span>';
+            syncStatus.className = 'sync-status local';
+            showNotification('Saved locally (offline)', 'warning');
+        } else {
+            syncStatus.innerHTML = '<i class="fas fa-user-slash"></i><span>Local Only</span>';
+            syncStatus.className = 'sync-status offline';
+            showNotification('Not logged in - saving locally', 'warning');
+        }
+    }, 800);
+}
 
-// Logout function
-window.logoutUser = async function() {
-    try {
-        await signOut(auth);
-        localStorage.clear();
-        window.location.href = "login.html";
-    } catch (error) {
-        console.error("Logout error:", error);
+// ENHANCED: Load Progress from Local Storage (cloud data loads automatically via auth-check.js)
+function loadProgress() {
+    // Always try to load from localStorage first (fastest)
+    const savedProgress = localStorage.getItem('session1Progress');
+    const savedNotes = localStorage.getItem('session1Notes');
+    
+    if (savedProgress) {
+        const progressData = JSON.parse(savedProgress);
+        
+        // Load completion status
+        if (progressData.completionStatus) {
+            Object.keys(progressData.completionStatus).forEach(key => {
+                const completionElements = document.querySelectorAll('.topic-completion');
+                const index = parseInt(key.replace('completion', '')) - 1;
+                if (completionElements[index] && progressData.completionStatus[key]) {
+                    completionElements[index].classList.add('topic-completed');
+                }
+            });
+        }
+        
+        // Load section states
+        if (progressData.sectionStates) {
+            Object.keys(progressData.sectionStates).forEach(key => {
+                const index = parseInt(key.replace('section', '')) - 1;
+                const collapsibles = document.querySelectorAll('.topic-collapsible');
+                const contents = document.querySelectorAll('.topic-content');
+                
+                if (collapsibles[index] && contents[index] && progressData.sectionStates[key]) {
+                    collapsibles[index].classList.add('active');
+                    contents[index].style.maxHeight = '70vh';
+                }
+            });
+        }
+        
+        // Load reflection responses
+        if (progressData.reflections) {
+            Object.keys(progressData.reflections).forEach(key => {
+                const textareas = document.querySelectorAll('.reflection textarea');
+                const index = parseInt(key.replace('reflection', '')) - 1;
+                if (textareas[index]) {
+                    textareas[index].value = progressData.reflections[key];
+                }
+            });
+        }
+        
+        updateProgressBar();
+        updateTopicStatus();
     }
-};
-
-// Get current user info
-window.getCurrentUser = function() {
-    return {
-        email: localStorage.getItem("userEmail"),
-        uid: localStorage.getItem("userId"),
-        isLoggedIn: localStorage.getItem("isLoggedIn") === "true"
-    };
-};
+    
+    // Load notes if they exist
+    if (savedNotes) {
+        const notesData = JSON.parse(savedNotes);
+        Object.keys(notesData).forEach(noteId => {
+            const container = document.getElementById(`${noteId}-notes`);
+            if (container) {
+                loadNotes(noteId, container);
+            }
+        });
+    }
+}
