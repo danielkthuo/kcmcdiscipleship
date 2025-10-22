@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session 2: The Divine Dance</title>
+    <title>Session 3: Narrative Theology for the Family</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Add Firebase imports -->
     <script type="module" src="../auth-check.js"></script>
@@ -326,38 +326,44 @@
             text-align: center;
         }
 
-        .hands-container {
+        .narrative-container {
             display: flex;
-            justify-content: space-around;
+            flex-direction: column;
             align-items: center;
             margin: 1.5rem 0;
-            flex-wrap: wrap;
         }
 
-        .hand {
-            text-align: center;
-            padding: 1rem;
-            flex: 1;
-            min-width: 150px;
+        .narrative-stage {
+            width: 100%;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: relative;
         }
 
-        .hand-icon {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
+        .narrative-stage h4 {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .work-piece {
+        .stage-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 1rem;
+            color: white;
+            font-weight: bold;
         }
 
-        .child-icon {
-            font-size: 2.5rem;
-            color: var(--accent);
-        }
+        .stage-1 { background: linear-gradient(135deg, #27ae60, #2ecc71); }
+        .stage-2 { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .stage-3 { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .stage-4 { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
 
         /* ===== BOTTOM NAVIGATION ===== */
         .bottom-nav {
@@ -653,6 +659,9 @@
         body.dark-mode .quick-nav-item:hover {
             background: #3d4d5d;
         }
+        body.dark-mode .narrative-stage {
+            background: #2d2d2d;
+        }
 
         /* ===== RESPONSIVE DESIGN ===== */
         @media (max-width: 768px) {
@@ -671,16 +680,6 @@
             
             .content-inner {
                 padding: 1rem;
-            }
-            
-            .hands-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .work-piece {
-                margin: 1rem 0;
-                transform: rotate(90deg);
             }
             
             .lesson-nav {
@@ -747,16 +746,15 @@
     
     <!-- NEW: Quick navigation menu -->
     <div class="quick-nav" id="quickNav">
-        <a href="#key-figures" class="quick-nav-item">Key Figures & Scriptures</a>
-        <a href="#theological-deep-dive" class="quick-nav-item">Theological Deep Dive</a>
-        <a href="#marital-reflection" class="quick-nav-item">Facilitated Marital Reflection</a>
-        <a href="#practical-application" class="quick-nav-item">Practical Application</a>
+        <a href="#key-verse" class="quick-nav-item">Key Verse & Introduction</a>
+        <a href="#four-act-play" class="quick-nav-item">The Four-Act Play</a>
+        <a href="#couples-reflection" class="quick-nav-item">Guided Couple's Reflection</a>
     </div>
     
     <!-- Header Section -->
     <header>
-        <h1>SESSION 2: THE DIVINE DANCE</h1>
-        <p class="subtitle">Complementary Vocation in Biblical Parenthood - The different yet related vocations of mother and father</p>
+        <h1>SESSION 3: NARRATIVE THEOLOGY FOR THE FAMILY</h1>
+        <p class="subtitle">Weaving Our Story Into God's Story</p>
         <div class="progress-container">
             <div class="progress-bar" id="progressBar"></div>
         </div>
@@ -770,11 +768,11 @@
     <div class="container">
         <!-- Navigation -->
         <div class="lesson-nav">
-            <a href="session1.html" class="btn btn-outline">
+            <a href="session2.html" class="btn btn-outline">
                 <i class="fas fa-arrow-left"></i>
                 Previous Session
             </a>
-            <a href="session3.html" class="btn">
+            <a href="session4.html" class="btn">
                 Next Session
                 <i class="fas fa-arrow-right"></i>
             </a>
@@ -783,48 +781,29 @@
         <!-- Collapsible Section 1 -->
         <div class="collapsible-section">
             <button class="collapsible-header" id="header1">
-                <span>Key Figures & Scriptures</span>
+                <span>Key Verse & Introduction</span>
                 <i class="fas fa-chevron-down"></i>
             </button>
             <div class="collapsible-content" id="content1">
                 <div class="content-inner">
-                    <div class="content-section" id="key-figures">
-                        <h3>The Mother (The Ark of the Covenant)</h3>
-                        <p><strong>Hannah (1 Samuel 1-2) and Mary (Luke 1-2)</strong></p>
-                        <p>The mother is the "Ark" who bears, raises, and presents the sacred life to God and the world. Her "yes" (fiat) is the supporting reality for incarnation.</p>
+                    <div class="content-section" id="key-verse">
+                        <h3>Theme</h3>
+                        <p>Acknowledging that discipleship is putting our child's individual narrative into the larger metanarrative of Scripture.</p>
                         
                         <div class="scripture">
-                            <p><strong>1 Samuel 1:27-28</strong> - "I prayed for this child, and the Lord has granted me what I asked of him. So now I give him to the Lord. For his whole life he will be given over to the Lord."</p>
+                            <p><strong>Psalm 78:4 NKJV</strong> - "We will not hide them from their children, telling to the generation to come the praises of the Lord, And His strength and His wonderful works that He has done."</p>
                         </div>
                         
-                        <div class="scripture">
-                            <p><strong>Luke 1:38</strong> - "I am the Lord's servant," Mary answered. "May your word to me be fulfilled."</p>
+                        <div class="key-point">
+                            <p><strong>Understanding Narrative Theology:</strong> Our lives are not random sets of events but are part of a divine drama. As parents, we have the privilege and responsibility to help our children understand how their personal stories fit into God's grand story of creation, fall, redemption, and restoration.</p>
                         </div>
                         
                         <!-- NEW: Note-taking section -->
                         <div class="note-section">
                             <h4>Personal Notes</h4>
-                            <textarea class="note-input" placeholder="Add your personal notes about the mother as Ark of the Covenant..." data-note-id="mother-ark"></textarea>
-                            <button class="note-save" data-note-id="mother-ark">Save Note</button>
-                            <div class="saved-notes" id="mother-ark-notes"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="content-section">
-                        <h3>The Father (The Priest-Prophet)</h3>
-                        <p><strong>Joseph (Matthew 1) and the Father of the Prodigal (Luke 15)</strong></p>
-                        <p>The father is the one who names, blesses, protects, and establishes the identity and mission of the child. He is the steward of the covenant in the home.</p>
-                        
-                        <div class="scripture">
-                            <p><strong>Matthew 1:24-25</strong> - "When Joseph woke up, he did what the angel of the Lord had commanded him and took Mary home as his wife. But he did not consummate their marriage until she gave birth to a son. And he gave him the name Jesus."</p>
-                        </div>
-                        
-                        <!-- NEW: Note-taking section -->
-                        <div class="note-section">
-                            <h4>Personal Notes</h4>
-                            <textarea class="note-input" placeholder="Add your personal notes about the father as Priest-Prophet..." data-note-id="father-priest"></textarea>
-                            <button class="note-save" data-note-id="father-priest">Save Note</button>
-                            <div class="saved-notes" id="father-priest-notes"></div>
+                            <textarea class="note-input" placeholder="Add your personal notes about narrative theology..." data-note-id="narrative-intro"></textarea>
+                            <button class="note-save" data-note-id="narrative-intro">Save Note</button>
+                            <div class="saved-notes" id="narrative-intro-notes"></div>
                         </div>
                     </div>
                     
@@ -841,54 +820,135 @@
         <!-- Collapsible Section 2 -->
         <div class="collapsible-section">
             <button class="collapsible-header" id="header2">
-                <span>Theological Deep Dive</span>
+                <span>The Four-Act Play</span>
                 <i class="fas fa-chevron-down"></i>
             </button>
             <div class="collapsible-content" id="content2">
                 <div class="content-inner">
-                    <div class="content-section" id="theological-deep-dive">
-                        <h3>The Kenotic Mother (Self-emptying love)</h3>
-                        <p>Hannah offering Samuel and Mary's "Let it be" express the kenosis (Philippians 2:7) - a mother's love is, often, a pouring out of herself; her body, her sleep, her energy. This is not simply biology; it is a profound theological reflection of Christ's self-giving love.</p>
+                    <div class="content-section" id="four-act-play">
+                        <h3>The Divine Drama</h3>
+                        <p>Our lives are part of a four-act divine drama that gives meaning and purpose to our existence. Understanding this framework helps us parent with eternal perspective.</p>
                         
-                        <div class="scripture">
-                            <p><strong>Philippians 2:7</strong> - "Rather, he made himself nothing by taking the very nature of a servant, being made in human likeness."</p>
+                        <div class="narrative-container">
+                            <div class="narrative-stage stage-1">
+                                <h4>
+                                    <span class="stage-icon">1</span>
+                                    Creation - Wonderfully Made in God's Image
+                                </h4>
+                                <p>The child is fearfully and wonderfully made, bearing the image of God.</p>
+                                
+                                <div class="scripture">
+                                    <p><strong>Psalm 139:14</strong> - "I praise you because I am fearfully and wonderfully made."</p>
+                                </div>
+                                
+                                <div class="key-point">
+                                    <p><strong>Parenting Application:</strong> Each child is initially a beautiful reflection of God's creative heart. They have the Imago Dei – with which comes worth, dignity, and purpose. As parents, we are gifted with the responsibility of nurturing that truth from the earliest of years by:</p>
+                                    <ul>
+                                        <li>Affirming their individuality and gifts from God</li>
+                                        <li>Inviting wonder, creativity, and thanksgiving for creation</li>
+                                        <li>Helping them understand that their bodies, minds, and abilities are good gifts according to God</li>
+                                    </ul>
+                                </div>
+                                
+                                <!-- NEW: Note-taking section -->
+                                <div class="note-section">
+                                    <h4>Personal Notes - Creation</h4>
+                                    <textarea class="note-input" placeholder="Add your personal notes about creation..." data-note-id="creation-stage"></textarea>
+                                    <button class="note-save" data-note-id="creation-stage">Save Note</button>
+                                    <div class="saved-notes" id="creation-stage-notes"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="narrative-stage stage-2">
+                                <h4>
+                                    <span class="stage-icon">2</span>
+                                    Fall — Living in a Broken World
+                                </h4>
+                                <p>Although all children are made in the image of God, each of them lives in a world broken by sin.</p>
+                                
+                                <div class="scripture">
+                                    <p><strong>Romans 3:23</strong> - "For all have sinned and fall short of the glory of God."</p>
+                                </div>
+                                
+                                <div class="key-point">
+                                    <p><strong>Parenting Application:</strong> Even with the best of intentions, parents and children hurt, disobey, or make mistakes. Understanding the Fall allows parents to:</p>
+                                    <ul>
+                                        <li>Teach honesty and repentance without shame</li>
+                                        <li>Help children name their feelings when they struggle</li>
+                                        <li>Model forgiveness and humility when parents themselves fall short</li>
+                                    </ul>
+                                </div>
+                                
+                                <!-- NEW: Note-taking section -->
+                                <div class="note-section">
+                                    <h4>Personal Notes - Fall</h4>
+                                    <textarea class="note-input" placeholder="Add your personal notes about the Fall..." data-note-id="fall-stage"></textarea>
+                                    <button class="note-save" data-note-id="fall-stage">Save Note</button>
+                                    <div class="saved-notes" id="fall-stage-notes"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="narrative-stage stage-3">
+                                <h4>
+                                    <span class="stage-icon">3</span>
+                                    Redemption - Loved and Saved in Christ
+                                </h4>
+                                <p>The child is the object of God's saving love in Christ.</p>
+                                
+                                <div class="scripture">
+                                    <p><strong>Romans 5:8</strong> - "While we were still sinners, Christ died for us."</p>
+                                </div>
+                                
+                                <div class="key-point">
+                                    <p><strong>Parenting Application:</strong> In Christ, God meets us in our brokenness with redeeming love. Redemption is not just a concept — it is a daily reality in a believer's parenting life. Every time we forgive, show compassion, or remind our children that nothing can separate them from the love of God, we are living out redemption. Parents can:</p>
+                                    <ul>
+                                        <li>Take teachable moments to discuss God's forgiveness and grace</li>
+                                        <li>Pray together when mistakes are made, reminding them of Christ's love</li>
+                                        <li>Exhibit a love that is unconditional, and points back to the cross</li>
+                                    </ul>
+                                </div>
+                                
+                                <!-- NEW: Note-taking section -->
+                                <div class="note-section">
+                                    <h4>Personal Notes - Redemption</h4>
+                                    <textarea class="note-input" placeholder="Add your personal notes about redemption..." data-note-id="redemption-stage"></textarea>
+                                    <button class="note-save" data-note-id="redemption-stage">Save Note</button>
+                                    <div class="saved-notes" id="redemption-stage-notes"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="narrative-stage stage-4">
+                                <h4>
+                                    <span class="stage-icon">4</span>
+                                    Restoration: Called to Participate in God's Work
+                                </h4>
+                                <p>The child is called to participate in God's work of renewing all things.</p>
+                                
+                                <div class="key-point">
+                                    <p><strong>Parenting Application:</strong> The story God has planned does not conclude with forgiveness; it progresses to renewal. Children who understand they are loved and forgiven become capable of becoming facilitators of restoration - peacemakers, helpers, and light-bringers in the home, at school, and in their communities. Parents can expand this knowledge by:</p>
+                                    <ul>
+                                        <li>Encouraging actions of kindness, service, and responsibility</li>
+                                        <li>Affording children responsibility in the story and to see themselves as part of God's mission</li>
+                                        <li>Celebrating occasions when they offered healing or hope to another</li>
+                                    </ul>
+                                </div>
+                                
+                                <!-- NEW: Note-taking section -->
+                                <div class="note-section">
+                                    <h4>Personal Notes - Restoration</h4>
+                                    <textarea class="note-input" placeholder="Add your personal notes about restoration..." data-note-id="restoration-stage"></textarea>
+                                    <button class="note-save" data-note-id="restoration-stage">Save Note</button>
+                                    <div class="saved-notes" id="restoration-stage-notes"></div>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="key-point">
-                            <p><strong>Understanding Kenosis:</strong> Kenosis comes from the Greek word meaning "emptying." In Philippians 2, Paul describes how Christ "emptied himself" by taking on human form and submitting to death on a cross.</p>
+                        <div class="completion-indicator">
+                            <div class="completion-checkbox" id="completion2">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Mark as complete</span>
                         </div>
-                        
-                        <!-- NEW: Note-taking section -->
-                        <div class="note-section">
-                            <h4>Personal Notes</h4>
-                            <textarea class="note-input" placeholder="Add your personal notes about kenotic motherhood..." data-note-id="kenotic-mother"></textarea>
-                            <button class="note-save" data-note-id="kenotic-mother">Save Note</button>
-                            <div class="saved-notes" id="kenotic-mother-notes"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="content-section">
-                        <h3>The Logos Father (A Love that Orders)</h3>
-                        <p>Joseph submitted to the angel ("he did what was commanded") and named the child Jesus as the Logos—the Word that orders chaos. Fathers help to speak truth, bound, and give an ordered structure for love to flourish in, imaging God the Father who speaks creation into being.</p>
-                        
-                        <div class="scripture">
-                            <p><strong>John 1:1</strong> - "In the beginning was the Word, and the Word was with God, and the Word was God."</p>
-                        </div>
-                        
-                        <!-- NEW: Note-taking section -->
-                        <div class="note-section">
-                            <h4>Personal Notes</h4>
-                            <textarea class="note-input" placeholder="Add your personal notes about logos fatherhood..." data-note-id="logos-father"></textarea>
-                            <button class="note-save" data-note-id="logos-father">Save Note</button>
-                            <div class="saved-notes" id="logos-father-notes"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="completion-indicator">
-                        <div class="completion-checkbox" id="completion2">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span>Mark as complete</span>
                     </div>
                 </div>
             </div>
@@ -897,152 +957,65 @@
         <!-- Collapsible Section 3 -->
         <div class="collapsible-section">
             <button class="collapsible-header" id="header3">
-                <span>Facilitated Marital Reflection</span>
+                <span>Guided Couple's Reflection</span>
                 <i class="fas fa-chevron-down"></i>
             </button>
             <div class="collapsible-content" id="content3">
                 <div class="content-inner">
-                    <div class="content-section" id="marital-reflection">
-                        <h3>Kenosis vs. Domination</h3>
-                        <p>Moms, how are you emptying yourself until resentment builds up? Dads, how can you prepare the ways for your wife's renewal? Talk about how the husband's logos-love needs to create a "safe haven" for the wife's kenotic-love.</p>
+                    <div class="content-section" id="couples-reflection">
+                        <h3>Parenting the Gospel Story</h3>
+                        <p>Parenting is not just about behavior management — it is about discipling hearts and helping our kids find their role in God's redemptive story. As a couple, set apart time each week to prayerfully and honestly reflect on how the gospel contributes to your parenting in community.</p>
                         
-                        <div class="reflection">
-                            <p>Mother's Reflection: Where am I experiencing kenotic exhaustion, and what would genuine renewal look like?</p>
-                            <textarea placeholder="Type your reflection here..." data-reflection-id="kenosis1"></textarea>
+                        <div class="content-section">
+                            <h3>1. Diagnosing the Fall — The False Story Behind the Sin</h3>
+                            <p>Think of a specific occasion of your child sinning recently. Rather than just focusing on the behavior, talk about, "What false story was our child believing in that moment?" (e.g., "I need to lie to be safe.") In the story of the Fall and ultimate salvation story of the Cross, how can we tell that moment's story differently?</p>
                             
-                            <p>Father's Reflection: How can I better create a "safe haven" that supports my wife's kenotic love?</p>
-                            <textarea placeholder="Type your reflection here..." data-reflection-id="kenosis2"></textarea>
-                        </div>
-                        
-                        <!-- NEW: Note-taking section -->
-                        <div class="note-section">
-                            <h4>Personal Notes</h4>
-                            <textarea class="note-input" placeholder="Add your personal notes about kenosis vs domination..." data-note-id="kenosis-domination"></textarea>
-                            <button class="note-save" data-note-id="kenosis-domination">Save Note</button>
-                            <div class="saved-notes" id="kenosis-domination-notes"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="content-section">
-                        <h3>Logos vs. Abdication</h3>
-                        <p>For fathers, in what domains have you abdicated your role as priest-prophet, and created a leadership vacuum? For mothers, in what ways can you support and encourage your husband's leadership, without overstepping? Consider the distinction between domineering control and loving, decisive leadership.</p>
-                        
-                        <div class="reflection">
-                            <p>Father's Reflection: Where have I abdicated my role as priest-prophet in our family?</p>
-                            <textarea placeholder="Type your reflection here..." data-reflection-id="logos1"></textarea>
+                            <div class="scripture">
+                                <p><strong>Jeremiah 17:9</strong> - "The heart is deceitful above all things, and desperately sick; who can know it?"</p>
+                            </div>
                             
-                            <p>Mother's Reflection: How can I better support my husband's leadership without overstepping?</p>
-                            <textarea placeholder="Type your reflection here..." data-reflection-id="logos2"></textarea>
-                        </div>
-                        
-                        <!-- NEW: Note-taking section -->
-                        <div class="note-section">
-                            <h4>Personal Notes</h4>
-                            <textarea class="note-input" placeholder="Add your personal notes about logos vs abdication..." data-note-id="logos-abdication"></textarea>
-                            <button class="note-save" data-note-id="logos-abdication">Save Note</button>
-                            <div class="saved-notes" id="logos-abdication-notes"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="content-section">
-                        <h3>The Parable of the Two Hands</h3>
-                        <p>Parenting is like a craftsman using two hands. One hand (the mother) holds the work steady and naturally. The other (the father) shapes and directs with purposeful action.</p>
-                        
-                        <div class="illustration">
-                            <h4>The Two Hands of Parenting</h4>
-                            <div class="hands-container">
-                                <div class="hand">
-                                    <div class="hand-icon">
-                                        <i class="fas fa-female"></i>
-                                    </div>
-                                    <div class="hand-label">MOTHER</div>
-                                    <div class="hand-description">Holds steady<br>Nurtures</div>
-                                </div>
+                            <div class="key-point">
+                                <p><strong>Understanding False Stories:</strong> Every sinful behavior in a child's life is based on a false belief — a small lie that distorts God's truth. When we slow down to look beyond the behavior (the tantrum, the lie, or the disobedience), we often discover a broader story.</p>
+                            </div>
+                            
+                            <div class="reflection">
+                                <p>Describe a recent instance of your child's misbehavior:</p>
+                                <textarea placeholder="Describe the situation and behavior..." data-reflection-id="false-story1"></textarea>
                                 
-                                <div class="work-piece">
-                                    <div class="child-icon">
-                                        <i class="fas fa-child"></i>
-                                    </div>
-                                </div>
+                                <p>What false story might your child have been believing in that moment?</p>
+                                <textarea placeholder="What false belief might have driven this behavior? (e.g., 'I need to lie to be safe')" data-reflection-id="false-story2"></textarea>
                                 
-                                <div class="hand">
-                                    <div class="hand-icon">
-                                        <i class="fas fa-male"></i>
-                                    </div>
-                                    <div class="hand-label">FATHER</div>
-                                    <div class="hand-description">Shapes purpose<br>Directs</div>
-                                </div>
+                                <p>How can you retell this story through the lens of the gospel?</p>
+                                <textarea placeholder="How can you reframe this with God's truth?" data-reflection-id="false-story3"></textarea>
                             </div>
                         </div>
                         
-                        <div class="reflection">
-                            <p>Where are our "two hands" working in beautiful harmony in our parenting?</p>
-                            <textarea placeholder="Type your reflection here..." data-reflection-id="two-hands1"></textarea>
+                        <div class="content-section">
+                            <h3>2. The "Redemptive Moment" Plan</h3>
+                            <p>Think of a repeated pattern that is problematic. How can you, as a team, get ahead of the game and create a way to "script a redemptive moment"? Let's take sibling rivalry as an example: create a simple family liturgy that says, "In this house, we are not opponents/competitors...we are teammates. We are here to build each other up...because we are on the same team."</p>
                             
-                            <p>Where might our "two hands" be working against each other?</p>
-                            <textarea placeholder="Type your reflection here..." data-reflection-id="two-hands2"></textarea>
+                            <div class="key-point">
+                                <p><strong>Creating Redemptive Rhythms:</strong> Instead of just reacting to problems, we can proactively create family practices that reinforce gospel truths and reshape our family culture.</p>
+                            </div>
+                            
+                            <div class="reflection">
+                                <p>Identify a recurring challenge in your family:</p>
+                                <textarea placeholder="Describe the pattern or challenge..." data-reflection-id="redemptive1"></textarea>
+                                
+                                <p>What gospel truth can counter this pattern?</p>
+                                <textarea placeholder="What biblical truth addresses this issue?" data-reflection-id="redemptive2"></textarea>
+                                
+                                <p>Create a simple "family liturgy" or practice to reinforce this truth:</p>
+                                <textarea placeholder="Design a simple phrase, prayer, or practice..." data-reflection-id="redemptive3"></textarea>
+                            </div>
                         </div>
                         
-                        <!-- NEW: Note-taking section -->
-                        <div class="note-section">
-                            <h4>Personal Notes</h4>
-                            <textarea class="note-input" placeholder="Add your personal notes about the two hands parable..." data-note-id="two-hands"></textarea>
-                            <button class="note-save" data-note-id="two-hands">Save Note</button>
-                            <div class="saved-notes" id="two-hands-notes"></div>
+                        <div class="completion-indicator">
+                            <div class="completion-checkbox" id="completion3">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Mark as complete</span>
                         </div>
-                    </div>
-                    
-                    <div class="completion-indicator">
-                        <div class="completion-checkbox" id="completion3">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span>Mark as complete</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Collapsible Section 4 -->
-        <div class="collapsible-section">
-            <button class="collapsible-header" id="header4">
-                <span>Practical Application</span>
-                <i class="fas fa-chevron-down"></i>
-            </button>
-            <div class="collapsible-content" id="content4">
-                <div class="content-inner">
-                    <div class="content-section" id="practical-application">
-                        <h3>Weekly Parenting Reflection</h3>
-                        <p>Allow a few quiet moments together to be thoughtful. Allow each parent time and space to answer these two questions:</p>
-                        
-                        <div class="key-point">
-                            <p><strong>"Where did you see the spirit of Hannah/Mary in me this week?"</strong></p>
-                            <p>For example: "In your response to the children, you were very patient." or "I noticed how you sacrificed your own plans to care for our sick child."</p>
-                        </div>
-                        
-                        <div class="key-point">
-                            <p><strong>"Where did you see the spirit of Joseph/the Prodigal's Father in me this week?"</strong></p>
-                            <p>For example: "In the way you remained calm while you enforced that boundary." or "I appreciated how you guided our family conversation with wisdom."</p>
-                        </div>
-                        
-                        <div class="reflection">
-                            <p>This Week's Parenting Reflection</p>
-                            <textarea placeholder="Share your observations and reflections here..." data-reflection-id="weekly-reflection"></textarea>
-                        </div>
-                        
-                        <!-- NEW: Note-taking section -->
-                        <div class="note-section">
-                            <h4>Personal Notes</h4>
-                            <textarea class="note-input" placeholder="Add your personal notes about weekly parenting reflection..." data-note-id="weekly-reflection"></textarea>
-                            <button class="note-save" data-note-id="weekly-reflection">Save Note</button>
-                            <div class="saved-notes" id="weekly-reflection-notes"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="completion-indicator">
-                        <div class="completion-checkbox" id="completion4">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span>Mark as complete</span>
                     </div>
                 </div>
             </div>
@@ -1059,11 +1032,11 @@
                 Save Progress
             </button>
         </div>
-    </div>
-
-    <!-- NEW: Back to top button -->
-    <div class="back-to-top" id="backToTop">
-        <i class="fas fa-arrow-up"></i>
+        
+        <!-- NEW: Back to top button -->
+        <div class="back-to-top" id="backToTop">
+            <i class="fas fa-arrow-up"></i>
+        </div>
     </div>
 
     <!-- Bottom Navigation Bar -->
@@ -1269,7 +1242,7 @@
         }
 
         function saveNote(noteId, content) {
-            const notes = JSON.parse(localStorage.getItem('session2Notes') || '{}');
+            const notes = JSON.parse(localStorage.getItem('session3Notes') || '{}');
             
             if (!notes[noteId]) {
                 notes[noteId] = [];
@@ -1280,19 +1253,19 @@
                 date: new Date().toISOString()
             });
             
-            localStorage.setItem('session2Notes', JSON.stringify(notes));
+            localStorage.setItem('session3Notes', JSON.stringify(notes));
             
             // Also save to cloud if user is logged in
             if (window.saveProgressToCloud && localStorage.getItem("isLoggedIn") === "true") {
                 const sessionData = {
-                    session2Notes: notes
+                    session3Notes: notes
                 };
                 window.saveProgressToCloud(sessionData);
             }
         }
 
         function loadNotes(noteId, container) {
-            const notes = JSON.parse(localStorage.getItem('session2Notes') || '{}');
+            const notes = JSON.parse(localStorage.getItem('session3Notes') || '{}');
             const noteArray = notes[noteId] || [];
             
             container.innerHTML = '';
@@ -1372,7 +1345,7 @@
             });
             
             // Collect notes
-            const notes = JSON.parse(localStorage.getItem('session2Notes') || '{}');
+            const notes = JSON.parse(localStorage.getItem('session3Notes') || '{}');
             
             // Save to localStorage first (for offline access)
             const progressData = {
@@ -1382,14 +1355,14 @@
                 lastSaved: new Date().toISOString()
             };
             
-            localStorage.setItem('session2Progress', JSON.stringify(progressData));
+            localStorage.setItem('session3Progress', JSON.stringify(progressData));
             
             // Try to save to cloud if user is logged in
             let cloudSuccess = false;
             if (window.saveProgressToCloud && localStorage.getItem("isLoggedIn") === "true") {
                 const sessionData = {
-                    session2Progress: progressData,
-                    session2Notes: notes
+                    session3Progress: progressData,
+                    session3Notes: notes
                 };
                 cloudSuccess = await window.saveProgressToCloud(sessionData);
             }
@@ -1415,8 +1388,8 @@
         // ENHANCED: Load Progress from Local Storage (cloud data loads automatically via auth-check.js)
         function loadProgress() {
             // Always try to load from localStorage first (fastest)
-            const savedProgress = localStorage.getItem('session2Progress');
-            const savedNotes = localStorage.getItem('session2Notes');
+            const savedProgress = localStorage.getItem('session3Progress');
+            const savedNotes = localStorage.getItem('session3Notes');
             
             if (savedProgress) {
                 const progressData = JSON.parse(savedProgress);
@@ -1459,7 +1432,7 @@
                 // Load reflection responses
                 if (progressData.reflections) {
                     Object.keys(progressData.reflections).forEach(key => {
-                        const textarea = document.querySelector(`.reflection textarea:nth-of-type(${key.replace('reflection', '')})`);
+                        const textarea = document.querySelector(`[data-reflection-id="${key.replace('reflection', '')}"]`);
                         if (textarea) {
                             textarea.value = progressData.reflections[key];
                         }
@@ -1488,7 +1461,7 @@
             const progress = Math.round((checked.length / checkboxes.length) * 100);
             
             // Count notes
-            const notes = JSON.parse(localStorage.getItem('session2Notes') || '{}');
+            const notes = JSON.parse(localStorage.getItem('session3Notes') || '{}');
             let noteCount = 0;
             Object.keys(notes).forEach(key => {
                 noteCount += notes[key].length;

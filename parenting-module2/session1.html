@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Session 1: The Metaphysics of Parenthood</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
- <!-- PWA Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Session 1: The Metaphysics of Parenthood</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="module" src="../auth-check.js"></script>
+    <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#2c3e50">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -28,555 +30,866 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax.googleapis.com">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<style>
-/* ======= FULL-WIDTH MOBILE-FRIENDLY DESIGN ======= */
-:root {
-  --primary-color: #2c3e50;
-  --secondary-color: #3498db;
-  --accent-color: #e74c3c;
-  --light-color: #ecf0f1;
-  --dark-color: #2c3e50;
-  --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  --success-color: #2ecc71;
-}
+    
+    <style>
+        /* ======= FULL-WIDTH MOBILE-FRIENDLY DESIGN ======= */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+        }
 
-/* Reset and base */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
+        /* Reset and base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  font-family: var(--font-main);
-  background: #f9f9f9;
-  color: #333;
-  scroll-behavior: smooth;
-}
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            font-family: var(--font-main);
+            background: #f9f9f9;
+            color: #333;
+            scroll-behavior: smooth;
+            line-height: 1.6;
+        }
 
-/* Header */
-header {
-  width: 100vw;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: white;
-  padding: 1.4rem 1rem;
-  text-align: center;
-  position: relative;
-}
-header h1 {
-  font-size: 1.4rem;
-  margin-bottom: 0.3rem;
-}
-header .subtitle {
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-.progress-container {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 6px;
-  background: rgba(255,255,255,0.2);
-}
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: var(--accent-color);
-  transition: width 0.5s ease;
-}
+        /* Header */
+        header {
+            width: 100vw;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.4rem 1rem;
+            text-align: center;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+        header h1 {
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+        }
+        header .subtitle {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .progress-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-color);
+            transition: width 0.5s ease;
+        }
 
-/* Content wrapper */
-.container {
-  width: 100vw;
-  padding: 0 4vw 80px;
-}
+        /* Content wrapper */
+        .container {
+            width: 100vw;
+            padding: 0 4vw 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-/* Buttons */
-.btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--secondary-color);
-  color: white;
-  padding: 14px;
-  border-radius: 10px;
-  border: none;
-  font-weight: 600;
-  text-decoration: none;
-  font-size: 1rem;
-  width: 100%;
-  transition: 0.3s;
-}
-.btn:hover {
-  background: var(--primary-color);
-  transform: scale(1.02);
-}
-.btn-outline {
-  background: transparent;
-  border: 2px solid var(--secondary-color);
-  color: var(--secondary-color);
-}
-.btn-outline:hover {
-  background: var(--secondary-color);
-  color: white;
-}
+        /* Buttons */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary-color);
+            color: white;
+            padding: 14px;
+            border-radius: var(--radius);
+            border: none;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1rem;
+            width: 100%;
+            transition: all 0.3s;
+            cursor: pointer;
+            gap: 8px;
+        }
+        .btn:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+        }
+        .btn-outline:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
 
-/* Lesson navigation */
-.lesson-nav {
-  display: flex;
-  gap: 10px;
-  margin: 1.2rem 0;
-}
+        /* Lesson navigation */
+        .lesson-nav {
+            display: flex;
+            gap: 10px;
+            margin: 1.2rem 0;
+        }
 
-/* Topic blocks - FULL WIDTH */
-.topic {
-  background: white;
-  border-radius: 0;
-  padding: 1.2rem 4vw;
-  margin-bottom: 0;
-  position: relative;
-  width: 100vw;
-  margin-left: -4vw;
-}
-.topic h2 {
-  font-size: 1.4rem;
-  color: var(--primary-color);
-  border-bottom: 2px solid var(--secondary-color);
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
-}
+        /* Topic blocks - FULL WIDTH */
+        .topic {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+        .topic h2 {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+        }
 
-/* Completion icon */
-.topic-completion {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 30px;
-  height: 30px;
-  border: 2px solid #ccc;
-  border-radius: 50%;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.topic-completed {
-  background: var(--success-color);
-  border-color: var(--success-color);
-  color: white;
-}
-.topic-completed::after {
-  content: "✓";
-  font-weight: bold;
-}
+        /* Completion icon */
+        .topic-completion {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        .topic-completed {
+            background: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+        .topic-completed::after {
+            content: "✓";
+            font-weight: bold;
+        }
 
-/* Sub-sections - FULL WIDTH */
-.scripture, .key-point, .activity, .reflection {
-  width: 100%;
-  border-radius: 0;
-  padding: 1.5rem 0;
-  margin: 1.5rem 0;
-}
-.scripture {
-  background: #f8f9fa;
-  border-left: 6px solid var(--secondary-color);
-  font-style: italic;
-  padding-left: 1.5rem;
-}
-.key-point {
-  background: #e8f4fc;
-  border-left: 6px solid var(--secondary-color);
-  padding-left: 1.5rem;
-}
-.activity {
-  background: #fff8e1;
-  border-left: 6px solid #ffc107;
-  padding-left: 1.5rem;
-}
-.reflection {
-  background: #f0f7ff;
-  border-left: 6px solid #4dabf7;
-  padding-left: 1.5rem;
-}
-.reflection textarea {
-  width: 100%;
-  min-height: 120px;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-family: inherit;
-  transition: border-color 0.3s;
-  font-size: 1rem;
-}
-.reflection textarea:focus {
-  border-color: var(--secondary-color);
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-}
+        /* Enhanced content type styling */
+        .scripture {
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            border-left: 6px solid var(--secondary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            font-style: italic;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .scripture:before {
+            content: "📖";
+            position: absolute;
+            left: -35px;
+            top: 15px;
+            font-size: 1.2rem;
+            background: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .key-point {
+            background: linear-gradient(to right, #e8f4fc, #d4edfc);
+            border-left: 6px solid var(--success-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .key-point:before {
+            content: "💡";
+            position: absolute;
+            left: -35px;
+            top: 15px;
+            font-size: 1.2rem;
+            background: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .activity {
+            background: linear-gradient(to right, #fff8e1, #fff3cd);
+            border-left: 6px solid var(--warning-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .activity:before {
+            content: "🔍";
+            position: absolute;
+            left: -35px;
+            top: 15px;
+            font-size: 1.2rem;
+            background: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .reflection {
+            background: linear-gradient(to right, #f0f7ff, #e1f0ff);
+            border-left: 6px solid #9b59b6;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .reflection:before {
+            content: "✍️";
+            position: absolute;
+            left: -35px;
+            top: 15px;
+            font-size: 1.2rem;
+            background: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .reflection textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-family: inherit;
+            transition: border-color 0.3s;
+            font-size: 1rem;
+            resize: vertical;
+        }
+        .reflection textarea:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
 
-/* Collapsible content */
-.collapsible {
-  width: 100%;
-  background: #f1f1f1;
-  color: var(--primary-color);
-  border: none;
-  text-align: left;
-  padding: 16px 20px;
-  font-weight: 600;
-  border-radius: 8px;
-  margin-top: 15px;
-  cursor: pointer;
-  transition: background 0.3s;
-  font-size: 1rem;
-}
-.collapsible:hover {
-  background: #e1e1e1;
-}
-.collapsible:after {
-  content: '\002B';
-  float: right;
-  font-size: 1.2rem;
-}
-.active:after {
-  content: "\2212";
-}
-.content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-out;
-  background: #fff;
-  border-radius: 0 0 8px 8px;
-  padding: 0 20px;
-}
+        /* Collapsible content */
+        .collapsible {
+            width: 100%;
+            background: #f1f1f1;
+            color: var(--primary-color);
+            border: none;
+            text-align: left;
+            padding: 16px 20px;
+            font-weight: 600;
+            border-radius: var(--radius);
+            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .collapsible:hover {
+            background: #e1e1e1;
+        }
+        .collapsible:after {
+            content: '\002B';
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .collapsible.active:after {
+            content: "\2212";
+        }
+        .content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: #fff;
+            border-radius: 0 0 var(--radius) var(--radius);
+            padding: 0 20px;
+        }
 
-/* Topic Collapsible Sections */
-.topic-collapsible {
-  width: 100vw;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: white;
-  border: none;
-  text-align: left;
-  padding: 20px 4vw;
-  font-weight: 600;
-  border-radius: 0;
-  margin-bottom: 0;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  margin-left: -4vw;
-  font-size: 1.1rem;
-}
-.topic-collapsible:hover {
-  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-}
-.topic-collapsible:after {
-  content: '\002B';
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-.topic-collapsible.active {
-  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-  border-radius: 0;
-  margin-bottom: 0;
-}
-.topic-collapsible.active:after {
-  content: "\2212";
-}
-.topic-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s ease-out;
-  background: white;
-  border-radius: 0;
-  margin-bottom: 0;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
+        /* Topic Collapsible Sections */
+        .topic-collapsible {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            text-align: left;
+            padding: 20px;
+            font-weight: 600;
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            font-size: 1.1rem;
+        }
+        .topic-collapsible:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .topic-collapsible:after {
+            content: '\002B';
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .topic-collapsible.active {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            border-radius: var(--radius) var(--radius) 0 0;
+            margin-bottom: 0;
+        }
+        .topic-collapsible.active:after {
+            content: "\2212";
+        }
+        .topic-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            background: white;
+            border-radius: 0 0 var(--radius) var(--radius);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
 
-/* Bottom navigation */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100vw;
-  background: white;
-  display: flex;
-  justify-content: space-around;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-  z-index: 999;
-  padding: env(safe-area-inset-bottom) 0 10px;
-}
-.nav-item {
-  flex: 1;
-  text-align: center;
-  color: #666;
-  text-decoration: none;
-  font-size: 0.75rem;
-  padding: 6px 0;
-}
-.nav-item.active {
-  color: var(--secondary-color);
-  background: #e8f4fc;
-  border-radius: 8px;
-}
-.nav-icon {
-  display: block;
-  font-size: 1.3rem;
-}
+        /* Bottom navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100vw;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 999;
+            padding: env(safe-area-inset-bottom) 0 10px;
+        }
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.75rem;
+            padding: 6px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .nav-item.active {
+            color: var(--secondary-color);
+            background: #e8f4fc;
+            border-radius: 8px;
+        }
+        .nav-icon {
+            display: block;
+            font-size: 1.3rem;
+        }
 
-/* Footer */
-footer {
-  width: 100vw;
-  background: var(--dark-color);
-  color: white;
-  text-align: center;
-  padding: 1rem;
-  font-size: 0.85rem;
-  border-radius: 0;
-  margin-top: 1.5rem;
-}
+        /* Footer */
+        footer {
+            width: 100vw;
+            background: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.85rem;
+            border-radius: 0;
+            margin-top: 1.5rem;
+        }
 
-/* Progress sync indicator */
-.sync-status {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  background: rgba(255,255,255,0.9);
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
+        /* Progress sync indicator */
+        .sync-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.9);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .sync-status.syncing {
+            color: var(--warning-color);
+        }
+        .sync-status.synced {
+            color: var(--success-color);
+        }
+        .sync-status.error {
+            color: var(--accent-color);
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.3rem; }
+            .btn { font-size: 0.9rem; padding: 12px; }
+            .topic h2 { font-size: 1.2rem; }
+            .reflection textarea { min-height: 120px; }
+            .topic-collapsible {
+                padding: 16px;
+                font-size: 1rem;
+            }
+            .scripture:before, .key-point:before, .activity:before, .reflection:before {
+                left: -25px;
+                width: 20px;
+                height: 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Progress summary modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        .progress-summary {
+            margin: 15px 0;
+        }
+        .progress-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Arrow Illustration Styles */
+        .arrow-illustration {
+            width: 100%;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+        .arrow-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin: 1rem 0;
+            background: #f8f9fa;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        .archer {
+            position: absolute;
+            left: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+            width: 30%;
+        }
+        .target {
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+            width: 30%;
+        }
+        .arrow-path {
+            position: absolute;
+            left: 40%;
+            width: 20%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .arrow {
+            position: absolute;
+            left: 40%;
+            width: 20%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        .arrow span {
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+
+        /* NEW: Scrollable content styles */
+        .scrollable-content {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: var(--radius);
+            background: #f9f9f9;
+        }
+
+        /* Custom scrollbar for webkit browsers */
+        .scrollable-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollable-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .scrollable-content::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 4px;
+        }
+
+        .scrollable-content::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+
+        /* NEW: Improved topic content with scrollable sections */
+        .topic-content.scrollable {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        /* Mobile-specific scrollable adjustments */
+        @media (max-width: 768px) {
+            .topic-content.scrollable {
+                max-height: 70vh;
+            }
+            
+            .scrollable-content {
+                max-height: 300px;
+            }
+        }
+
+        /* Section headers */
+        .section-header {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        /* Content spacing */
+        .content-section {
+            margin: 1.5rem 0;
+            padding: 0;
+        }
+
+        /* Lists styling */
+        .content-section ul, .content-section ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+        }
+
+        /* Strong text emphasis */
+        .content-section strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* Remove card styles */
+        .assurance-card, .interactive-card, .activity-section,
+        .family-rule, .intercession-journal {
+            background: transparent;
+            border-radius: 0;
+            padding: 0;
+            margin: 0;
+            box-shadow: none;
+            border-left: none;
+        }
+        
+        /* NEW: Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+        }
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            background: var(--primary-color);
+        }
+        
+        /* NEW: Quick navigation menu */
+        .quick-nav {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 10px;
+            z-index: 997;
+            display: none;
+        }
+        .quick-nav.active {
+            display: block;
+        }
+        .quick-nav-item {
+            display: block;
+            padding: 8px 12px;
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background 0.3s;
+        }
+        .quick-nav-item:hover {
+            background: #f0f7ff;
+        }
+        .quick-nav-toggle {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 998;
+        }
+        
+        /* NEW: Note-taking functionality */
+        .note-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #ddd;
+        }
+        .note-input {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-family: inherit;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+        .note-save {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .saved-notes {
+            margin-top: 1rem;
+        }
+        .saved-note {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            border-left: 3px solid var(--secondary-color);
+        }
+        .note-date {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        /* NEW: Dark mode styles */
+        body.dark-mode {
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+        body.dark-mode .topic {
+            background: #2d2d2d;
+            color: #e0e0e0;
+        }
+        body.dark-mode .scripture {
+            background: linear-gradient(to right, #2d2d2d, #3d3d3d);
+        }
+        body.dark-mode .key-point {
+            background: linear-gradient(to right, #2d3d4d, #3d4d5d);
+        }
+        body.dark-mode .reflection {
+            background: linear-gradient(to right, #2d2d4d, #3d3d5d);
+        }
+        body.dark-mode .activity {
+            background: linear-gradient(to right, #4d3d2d, #5d4d3d);
+        }
+        body.dark-mode .scrollable-content {
+            background: #2d2d2d;
+        }
+        body.dark-mode .reflection textarea {
+            background: #3d3d3d;
+            color: #e0e0e0;
+            border-color: #555;
+        }
+        body.dark-mode .collapsible {
+            background: #3d3d3d;
+            color: #e0e0e0;
+        }
+        body.dark-mode .collapsible:hover {
+            background: #4d4d4d;
+        }
+        body.dark-mode .content {
+            background: #2d2d2d;
+        }
+        body.dark-mode .bottom-nav {
+            background: #2d2d2d;
+            color: #e0e0e0;
+        }
+        body.dark-mode .nav-item {
+            color: #b0b0b0;
+        }
+        body.dark-mode .nav-item.active {
+            color: var(--secondary-color);
+            background: #3d4d5d;
+        }
+        body.dark-mode .modal-content {
+            background: #2d2d2d;
+            color: #e0e0e0;
+        }
+        body.dark-mode .progress-item {
+            border-bottom-color: #444;
+        }
+        body.dark-mode .arrow-container {
+            background: #2d2d2d;
+        }
+        
+        /* NEW: Dark mode toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 998;
+        }
+/* Sync status colors matching Session 2 */
 .sync-status.syncing {
-  color: #f39c12;
+    color: var(--warning-color);
 }
+
 .sync-status.synced {
-  color: var(--success-color);
-}
-.sync-status.error {
-  color: var(--accent-color);
+    color: var(--success-color);
 }
 
-/* Mobile adjustments */
-@media (max-width: 600px) {
-  h1 { font-size: 1.3rem; }
-  .btn { font-size: 0.9rem; padding: 12px; }
-  .topic h2 { font-size: 1.2rem; }
-  .reflection textarea { min-height: 120px; }
-  .topic-collapsible {
-    padding: 16px 4vw;
-    font-size: 1rem;
-  }
+.sync-status.local {
+    color: var(--secondary-color);
 }
 
-/* Progress summary modal */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  z-index: 2000;
-  align-items: center;
-  justify-content: center;
+.sync-status.offline {
+    color: #666;
 }
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 500px;
-  max-height: 80vh;
-  overflow-y: auto;
-}
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-.close-modal {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-.progress-summary {
-  margin: 15px 0;
-}
-.progress-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-}
-
-/* Arrow Illustration Styles */
-.arrow-illustration {
-  width: 100%;
-  margin: 1.5rem 0;
-  background: white;
-  border-radius: 0;
-  padding: 1.5rem 0;
-}
-.arrow-container {
-  position: relative;
-  width: 100%;
-  height: 200px;
-  margin: 1rem 0;
-  background: #f8f9fa;
-  border-radius: 0;
-  overflow: hidden;
-}
-.archer {
-  position: absolute;
-  left: 10%;
-  top: 50%;
-  transform: translateY(-50%);
-  text-align: center;
-  width: 30%;
-}
-.target {
-  position: absolute;
-  right: 10%;
-  top: 50%;
-  transform: translateY(-50%);
-  text-align: center;
-  width: 30%;
-}
-.arrow-path {
-  position: absolute;
-  left: 40%;
-  width: 20%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-.arrow {
-  position: absolute;
-  left: 40%;
-  width: 20%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-}
-.arrow span {
-  font-size: 2rem;
-  color: var(--accent-color);
-}
-
-/* NEW: Scrollable content styles */
-.scrollable-content {
-  max-height: 400px;
-  overflow-y: auto;
-  padding: 15px;
-  margin-top: 15px;
-  border-radius: 0;
-  background: #f9f9f9;
-}
-
-/* Custom scrollbar for webkit browsers */
-.scrollable-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.scrollable-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-.scrollable-content::-webkit-scrollbar-thumb {
-  background: var(--secondary-color);
-  border-radius: 4px;
-}
-
-.scrollable-content::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-color);
-}
-
-/* NEW: Improved topic content with scrollable sections */
-.topic-content.scrollable {
-  max-height: 70vh;
-  overflow-y: auto;
-  padding: 0;
-}
-
-/* Mobile-specific scrollable adjustments */
-@media (max-width: 768px) {
-  .topic-content.scrollable {
-    max-height: 70vh;
-  }
-  
-  .scrollable-content {
-    max-height: 300px;
-  }
-}
-
-/* Section headers */
-.section-header {
-  font-size: 1.3rem;
-  color: var(--primary-color);
-  margin: 2rem 0 1rem 0;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--secondary-color);
-}
-
-/* Content spacing */
-.content-section {
-  margin: 1.5rem 0;
-  padding: 0;
-}
-
-/* Lists styling */
-.content-section ul, .content-section ol {
-  margin: 1rem 0;
-  padding-left: 1.5rem;
-}
-
-.content-section li {
-  margin-bottom: 0.8rem;
-  line-height: 1.5;
-}
-
-/* Strong text emphasis */
-.content-section strong {
-  color: var(--primary-color);
-  font-weight: 600;
-}
-
-/* Remove card styles */
-.assurance-card, .interactive-card, .activity-section,
-.family-rule, .intercession-journal {
-  background: transparent;
-  border-radius: 0;
-  padding: 0;
-  margin: 0;
-  box-shadow: none;
-  border-left: none;
-}
-</style>
+    </style>
 </head>
 <body>
     
@@ -592,17 +905,49 @@ footer {
         </div>
     </header>
     
+    <!-- NEW: Dark mode toggle -->
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+    
+    <!-- NEW: Quick navigation toggle -->
+    <div class="quick-nav-toggle" id="quickNavToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <!-- NEW: Quick navigation menu -->
+    <div class="quick-nav" id="quickNav">
+        <a href="#key-verse" class="quick-nav-item">Key Verse</a>
+        <a href="#theology" class="quick-nav-item">Theological Exploration</a>
+        <a href="#reflection" class="quick-nav-item">Guided Couples Reflection</a>
+        <a href="#practical" class="quick-nav-item">Practical Implementation</a>
+    </div>
+    
     <div class="container">
         <div class="lesson-nav">
-            <a href="../progress.html" class="btn btn-outline">Back to Dashboard</a>
-            <a href="session2.html" class="btn">Next Session</a>
+            <a href="../progress.html" class="btn btn-outline">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+            <a href="session2.html" class="btn">
+                Next Session
+                <i class="fas fa-arrow-right"></i>
+            </a>
         </div>
         
         <!-- KEY VERSE SECTION -->
-        <div class="topic">
+        <div class="topic" id="key-verse">
             <h2>Key Verse</h2>
             <div class="scripture">
                 <p><strong>Psalm 127:3-4 (ESV)</strong> - "Behold, children are a heritage from the Lord, the fruit of the womb a reward. Like arrows in the hand of a warrior are the children of one's youth."</p>
+            </div>
+            
+            <!-- NEW: Note-taking section -->
+            <div class="note-section">
+                <h4>Personal Notes</h4>
+                <textarea class="note-input" placeholder="Add your personal notes about this key verse..." data-note-id="key-verse"></textarea>
+                <button class="note-save" data-note-id="key-verse">Save Note</button>
+                <div class="saved-notes" id="key-verse-notes"></div>
             </div>
         </div>
         
@@ -645,6 +990,14 @@ footer {
                             <p>How does understanding children as God's heritage change my perspective on parenting?</p>
                             <textarea placeholder="Type your reflection here..." data-reflection-id="heritage2"></textarea>
                         </div>
+                    </div>
+                    
+                    <!-- NEW: Note-taking section -->
+                    <div class="note-section">
+                        <h4>Personal Notes</h4>
+                        <textarea class="note-input" placeholder="Add your personal notes about heritage vs project..." data-note-id="heritage-vs-project"></textarea>
+                        <button class="note-save" data-note-id="heritage-vs-project">Save Note</button>
+                        <div class="saved-notes" id="heritage-vs-project-notes"></div>
                     </div>
                 </div>
                 
@@ -718,6 +1071,14 @@ footer {
                             <textarea placeholder="Type your reflection here..." data-reflection-id="arrows2"></textarea>
                         </div>
                     </div>
+                    
+                    <!-- NEW: Note-taking section -->
+                    <div class="note-section">
+                        <h4>Personal Notes</h4>
+                        <textarea class="note-input" placeholder="Add your personal notes about arrows in the hand of a warrior..." data-note-id="arrows-warrior"></textarea>
+                        <button class="note-save" data-note-id="arrows-warrior">Save Note</button>
+                        <div class="saved-notes" id="arrows-warrior-notes"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -777,6 +1138,14 @@ footer {
                         <p>How does understanding myself as God's beloved child change my approach to parenting?</p>
                         <textarea placeholder="Type your reflection here..." data-reflection-id="identity2"></textarea>
                     </div>
+                    
+                    <!-- NEW: Note-taking section -->
+                    <div class="note-section">
+                        <h4>Personal Notes</h4>
+                        <textarea class="note-input" placeholder="Add your personal notes about identity idolatry..." data-note-id="identity-idolatry"></textarea>
+                        <button class="note-save" data-note-id="identity-idolatry">Save Note</button>
+                        <div class="saved-notes" id="identity-idolatry-notes"></div>
+                    </div>
                 </div>
                 
                 <!-- The Teleological Question -->
@@ -821,6 +1190,14 @@ footer {
                         <textarea placeholder="Type your reflection here..." data-reflection-id="teleological1"></textarea>
                         <p>How can our everyday parenting be recalibrated to aim at God's purpose rather than societal metrics?</p>
                         <textarea placeholder="Type your reflection here..." data-reflection-id="teleological2"></textarea>
+                    </div>
+                    
+                    <!-- NEW: Note-taking section -->
+                    <div class="note-section">
+                        <h4>Personal Notes</h4>
+                        <textarea class="note-input" placeholder="Add your personal notes about the teleological question..." data-note-id="teleological-question"></textarea>
+                        <button class="note-save" data-note-id="teleological-question">Save Note</button>
+                        <div class="saved-notes" id="teleological-question-notes"></div>
                     </div>
                 </div>
                 
@@ -871,6 +1248,14 @@ footer {
                         <textarea placeholder="Type your reflection here..." data-reflection-id="burden1"></textarea>
                         <p>How does the Gospel liberate me from the burden of perfect parenting?</p>
                         <textarea placeholder="Type your reflection here..." data-reflection-id="burden2"></textarea>
+                    </div>
+                    
+                    <!-- NEW: Note-taking section -->
+                    <div class="note-section">
+                        <h4>Personal Notes</h4>
+                        <textarea class="note-input" placeholder="Add your personal notes about the burden of being God..." data-note-id="burden-god"></textarea>
+                        <button class="note-save" data-note-id="burden-god">Save Note</button>
+                        <div class="saved-notes" id="burden-god-notes"></div>
                     </div>
                 </div>
             </div>
@@ -938,6 +1323,14 @@ footer {
                         <p>Our Family Mission Statement</p>
                         <textarea placeholder="Write a brief mission statement that captures your family's purpose..." data-reflection-id="family-rule-mission"></textarea>
                     </div>
+                    
+                    <!-- NEW: Note-taking section -->
+                    <div class="note-section">
+                        <h4>Personal Notes</h4>
+                        <textarea class="note-input" placeholder="Add your personal notes about the family rule..." data-note-id="family-rule"></textarea>
+                        <button class="note-save" data-note-id="family-rule">Save Note</button>
+                        <div class="saved-notes" id="family-rule-notes"></div>
+                    </div>
                 </div>
                 
                 <!-- The Liturgy of Intercession -->
@@ -1003,14 +1396,33 @@ footer {
                         <p>Additional Family Prayer:</p>
                         <textarea placeholder="Write a prayer for your family as a whole..." data-reflection-id="intercession-family"></textarea>
                     </div>
+                    
+                    <!-- NEW: Note-taking section -->
+                    <div class="note-section">
+                        <h4>Personal Notes</h4>
+                        <textarea class="note-input" placeholder="Add your personal notes about the liturgy of intercession..." data-note-id="liturgy-intercession"></textarea>
+                        <button class="note-save" data-note-id="liturgy-intercession">Save Note</button>
+                        <div class="saved-notes" id="liturgy-intercession-notes"></div>
+                    </div>
                 </div>
             </div>
         </div>
         
         <div class="lesson-nav">
-            <a href="session2.html" class="btn">Next Session</a>
-            <button class="btn btn-outline" id="viewProgress">View Dashboard</button>
+            <a href="session2.html" class="btn">
+                <i class="fas fa-arrow-right"></i>
+                Next Session
+            </a>
+            <button class="btn btn-outline" id="viewProgress">
+                <i class="fas fa-chart-bar"></i>
+                View Dashboard
+            </button>
         </div>
+    </div>
+    
+    <!-- NEW: Back to top button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
     </div>
     
     <!-- Progress Summary Modal -->
@@ -1024,8 +1436,14 @@ footer {
                 <!-- Progress details will be populated here -->
             </div>
             <div class="lesson-nav">
-                <button class="btn" id="exportProgress">Export Progress</button>
-                <button class="btn btn-outline" id="resetProgress">Reset Progress</button>
+                <button class="btn" id="exportProgress">
+                    <i class="fas fa-download"></i>
+                    Export Progress
+                </button>
+                <button class="btn btn-outline" id="resetProgress">
+                    <i class="fas fa-redo"></i>
+                    Reset Progress
+                </button>
             </div>
         </div>
     </div>
@@ -1033,19 +1451,19 @@ footer {
     <!-- Bottom Navigation Bar -->
     <div class="bottom-nav">
         <a href="../progress.html" class="nav-item">
-            <span class="nav-icon">📊</span>
+            <i class="fas fa-chart-bar nav-icon"></i>
             <span>Dashboard</span>
         </a>
         <a href="lessons.html" class="nav-item active">
-            <span class="nav-icon">📚</span>
+            <i class="fas fa-book nav-icon"></i>
             <span>Lessons</span>
         </a>
         <a href="resources.html" class="nav-item">
-            <span class="nav-icon">🔖</span>
+            <i class="fas fa-tools nav-icon"></i>
             <span>Resources</span>
         </a>
         <a href="#" id="logoutBtn" class="nav-item">
-            <span class="nav-icon">🚪</span>
+            <i class="fas fa-sign-out-alt nav-icon"></i>
             <span>Logout</span>
         </a>
     </div>
@@ -1055,400 +1473,644 @@ footer {
         <p>Lit to Lead. Rooted to Grow.</p>
     </footer>
 
-    <script>
-        // Progress tracking and sync features
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize progress tracking
-            initializeProgressTracking();
+<script>
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize progress tracking
+        initializeProgressTracking();
+        
+        // Set up sync indicator
+        const syncStatus = document.getElementById('syncStatus');
+        
+        // Auto-save functionality
+        setupAutoSave();
+        
+        // Progress modal functionality
+        setupProgressModal();
+        
+        // Initialize collapsible sections
+        setupCollapsibleSections();
+        
+        // Initialize topic collapsible sections
+        setupTopicCollapsibleSections();
+        
+        // Load saved progress
+        loadProgress();
+        
+        // NEW: Set up back to top button
+        setupBackToTop();
+        
+        // NEW: Set up quick navigation
+        setupQuickNavigation();
+        
+        // NEW: Set up dark mode toggle
+        setupDarkMode();
+        
+        // NEW: Set up note-taking functionality
+        setupNoteTaking();
+        
+        // NEW: Set up online/offline detection
+        setupConnectionListener();
+        
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function(event) {
+            event.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                // In a real app, this would clear authentication tokens
+                // and redirect to login page
+                showNotification('You have been logged out successfully.', 'success');
+                
+                setTimeout(() => {
+                    // Simulate logout - in a real app, redirect to login
+                    window.location.href = '../index.html';
+                }, 1500);
+            }
+        });
+    });
+    
+    function initializeProgressTracking() {
+        // Topic completion toggle
+        const completionElements = document.querySelectorAll('.topic-completion');
+        completionElements.forEach(element => {
+            element.addEventListener('click', function() {
+                this.classList.toggle('topic-completed');
+                updateProgressBar();
+                updateTopicStatus();
+                saveProgress();
+            });
             
-            // Set up sync indicator
-            const syncStatus = document.getElementById('syncStatus');
+            // Add touch feedback
+            element.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            });
             
-            // Auto-save functionality
-            setupAutoSave();
-            
-            // Progress modal functionality
-            setupProgressModal();
-            
-            // Initialize collapsible sections
-            setupCollapsibleSections();
-            
-            // Initialize topic collapsible sections
-            setupTopicCollapsibleSections();
-            
-            // Load saved progress
-            loadProgress();
-            
-            // Logout functionality
-            document.getElementById('logoutBtn').addEventListener('click', function(event) {
-                event.preventDefault();
-                if (confirm('Are you sure you want to logout?')) {
-                    // In a real app, this would clear authentication tokens
-                    // and redirect to login page
-                    showNotification('You have been logged out successfully.', 'success');
-                    
-                    setTimeout(() => {
-                        // Simulate logout - in a real app, redirect to login
-                        window.location.href = '../index.html';
-                    }, 1500);
+            element.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+        
+        // Reflection text auto-save
+        document.querySelectorAll('.reflection textarea').forEach(textarea => {
+            textarea.addEventListener('input', function() {
+                saveProgress();
+            });
+        });
+    }
+    
+    function setupAutoSave() {
+        // Auto-save every 30 seconds
+        setInterval(saveProgress, 30000);
+        
+        // Save when leaving page
+        window.addEventListener('beforeunload', saveProgress);
+    }
+    
+    function setupProgressModal() {
+        const modal = document.getElementById('progressModal');
+        const viewProgressBtn = document.getElementById('viewProgress');
+        const closeModalBtn = document.getElementById('closeModal');
+        const exportProgressBtn = document.getElementById('exportProgress');
+        const resetProgressBtn = document.getElementById('resetProgress');
+        
+        viewProgressBtn.addEventListener('click', function() {
+            updateProgressSummary();
+            modal.style.display = 'flex';
+        });
+        
+        closeModalBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        exportProgressBtn.addEventListener('click', exportProgress);
+        resetProgressBtn.addEventListener('click', resetProgress);
+    }
+    
+    function setupCollapsibleSections() {
+        const coll = document.querySelectorAll('.collapsible');
+        coll.forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                }
+            });
+        });
+    }
+    
+    function setupTopicCollapsibleSections() {
+        const topicCollapsibles = document.querySelectorAll('.topic-collapsible');
+        topicCollapsibles.forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const content = document.getElementById(this.id.replace('Collapsible', 'Content'));
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    // Set max-height to allow scrolling for long content
+                    content.style.maxHeight = '70vh';
                 }
             });
         });
         
-        function initializeProgressTracking() {
-            // Topic completion toggle
-            const completionElements = document.querySelectorAll('.topic-completion');
-            completionElements.forEach(element => {
-                element.addEventListener('click', function() {
-                    this.classList.toggle('topic-completed');
-                    updateProgressBar();
-                    updateTopicStatus();
-                    saveProgress();
-                });
-                
-                // Add touch feedback
-                element.addEventListener('touchstart', function() {
-                    this.style.transform = 'scale(0.95)';
-                });
-                
-                element.addEventListener('touchend', function() {
-                    this.style.transform = 'scale(1)';
-                });
+        // Open first topic by default
+        if (topicCollapsibles.length > 0) {
+            topicCollapsibles[0].classList.add('active');
+            const firstContent = document.getElementById('theologyContent');
+            firstContent.style.maxHeight = '70vh';
+        }
+    }
+    
+    // NEW: Back to top functionality
+    function setupBackToTop() {
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
-            
-            // Reflection text auto-save
-            document.querySelectorAll('.reflection textarea').forEach(textarea => {
-                textarea.addEventListener('input', function() {
-                    saveProgress();
-                });
-            });
+        });
+    }
+    
+    // NEW: Quick navigation functionality
+    function setupQuickNavigation() {
+        const quickNavToggle = document.getElementById('quickNavToggle');
+        const quickNav = document.getElementById('quickNav');
+        
+        quickNavToggle.addEventListener('click', function() {
+            quickNav.classList.toggle('active');
+        });
+        
+        // Close quick nav when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!quickNav.contains(event.target) && !quickNavToggle.contains(event.target)) {
+                quickNav.classList.remove('active');
+            }
+        });
+    }
+    
+    // NEW: Dark mode functionality
+    function setupDarkMode() {
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = darkModeToggle.querySelector('i');
+        
+        // Check for saved theme preference or respect OS preference
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            document.body.classList.add('dark-mode');
+            darkModeIcon.className = 'fas fa-sun';
         }
         
-        function setupAutoSave() {
-            // Auto-save progress every 30 seconds
-            setInterval(saveProgress, 30000);
+        darkModeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
             
-            // Save on page unload
-            window.addEventListener('beforeunload', saveProgress);
-        }
-        
-        function setupProgressModal() {
-            const modal = document.getElementById('progressModal');
-            const viewProgressBtn = document.getElementById('viewProgress');
-            const closeModalBtn = document.getElementById('closeModal');
-            const exportProgressBtn = document.getElementById('exportProgress');
-            const resetProgressBtn = document.getElementById('resetProgress');
-            
-            viewProgressBtn.addEventListener('click', function() {
-                updateProgressSummary();
-                modal.style.display = 'flex';
-            });
-            
-            closeModalBtn.addEventListener('click', function() {
-                modal.style.display = 'none';
-            });
-            
-            window.addEventListener('click', function(event) {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                darkModeIcon.className = 'fas fa-sun';
+            } else {
+                localStorage.setItem('theme', 'light');
+                darkModeIcon.className = 'fas fa-moon';
+            }
+        });
+    }
+    
+    // NEW: Note-taking functionality
+    function setupNoteTaking() {
+        // Set up note save buttons
+        document.querySelectorAll('.note-save').forEach(button => {
+            button.addEventListener('click', function() {
+                const noteId = this.getAttribute('data-note-id');
+                const noteInput = document.querySelector(`.note-input[data-note-id="${noteId}"]`);
+                const savedNotesContainer = document.getElementById(`${noteId}-notes`);
+                
+                if (noteInput.value.trim() !== '') {
+                    saveNote(noteId, noteInput.value);
+                    noteInput.value = '';
+                    loadNotes(noteId, savedNotesContainer);
+                    showNotification('Note saved successfully', 'success');
                 }
             });
-            
-            exportProgressBtn.addEventListener('click', exportProgress);
-            resetProgressBtn.addEventListener('click', resetProgress);
+        });
+        
+        // Load all saved notes on page load
+        document.querySelectorAll('.saved-notes').forEach(container => {
+            const noteId = container.id.replace('-notes', '');
+            loadNotes(noteId, container);
+        });
+    }
+
+    function saveNote(noteId, content) {
+        const notes = JSON.parse(localStorage.getItem('session1Notes') || '{}');
+        
+        if (!notes[noteId]) {
+            notes[noteId] = [];
         }
         
-        function setupCollapsibleSections() {
-            const coll = document.querySelectorAll('.collapsible');
-            coll.forEach(item => {
-                item.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    const content = this.nextElementSibling;
-                    if (content.style.maxHeight) {
-                        content.style.maxHeight = null;
-                    } else {
-                        content.style.maxHeight = content.scrollHeight + 'px';
-                    }
-                });
-            });
+        notes[noteId].push({
+            content: content,
+            date: new Date().toISOString()
+        });
+        
+        localStorage.setItem('session1Notes', JSON.stringify(notes));
+        
+        // Also save to cloud if user is logged in
+        if (window.saveProgressToCloud && localStorage.getItem("isLoggedIn") === "true") {
+            const sessionData = {
+                session1Notes: notes
+            };
+            window.saveProgressToCloud(sessionData);
+        }
+    }
+
+    function loadNotes(noteId, container) {
+        const notes = JSON.parse(localStorage.getItem('session1Notes') || '{}');
+        const noteArray = notes[noteId] || [];
+        
+        container.innerHTML = '';
+        
+        if (noteArray.length === 0) {
+            container.innerHTML = '<p class="note-date">No notes yet</p>';
+            return;
         }
         
-        function setupTopicCollapsibleSections() {
-            const topicCollapsibles = document.querySelectorAll('.topic-collapsible');
-            topicCollapsibles.forEach(item => {
-                item.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    const content = document.getElementById(this.id.replace('Collapsible', 'Content'));
-                    if (content.style.maxHeight) {
-                        content.style.maxHeight = null;
-                    } else {
-                        // Set max-height to allow scrolling for long content
-                        content.style.maxHeight = '70vh';
+        // Display notes in reverse chronological order (newest first)
+        noteArray.reverse().forEach(note => {
+            const noteElement = document.createElement('div');
+            noteElement.className = 'saved-note';
+            noteElement.innerHTML = `
+                <div class="note-date">${new Date(note.date).toLocaleString()}</div>
+                <div>${note.content}</div>
+            `;
+            container.appendChild(noteElement);
+        });
+    }
+
+    // NEW: Connection listener for online/offline status
+    function setupConnectionListener() {
+        window.addEventListener('online', function() {
+            console.log("🌐 Online - syncing data...");
+            showNotification('Back online - syncing data', 'success');
+            // Auto-save when coming back online
+            saveProgress();
+        });
+
+        window.addEventListener('offline', function() {
+            console.log("📴 Offline - saving locally only");
+            showNotification('You are offline - saving locally', 'warning');
+        });
+    }
+
+    // ENHANCED: Save Progress to Local Storage AND Cloud
+    async function saveProgress() {
+        const syncStatus = document.getElementById('syncStatus');
+        syncStatus.innerHTML = '<i class="fas fa-sync-alt"></i><span>Syncing...</span>';
+        syncStatus.className = 'sync-status syncing';
+        
+        // Collect completion status
+        const completionStatus = {};
+        document.querySelectorAll('.topic-completion').forEach((completion, index) => {
+            completionStatus[`completion${index+1}`] = completion.classList.contains('topic-completed');
+        });
+        
+        // Collect collapsible section states
+        const sectionStates = {};
+        document.querySelectorAll('.topic-collapsible').forEach((collapsible, index) => {
+            sectionStates[`section${index+1}`] = collapsible.classList.contains('active');
+        });
+        
+        // Collect reflection responses
+        const reflections = {};
+        document.querySelectorAll('.reflection textarea').forEach((textarea, index) => {
+            reflections[`reflection${index+1}`] = textarea.value;
+        });
+        
+        // Collect notes
+        const notes = JSON.parse(localStorage.getItem('session1Notes') || '{}');
+        
+        // Save to localStorage first (for offline access)
+        const progressData = {
+            completionStatus,
+            sectionStates,
+            reflections,
+            lastSaved: new Date().toISOString()
+        };
+        
+        localStorage.setItem('session1Progress', JSON.stringify(progressData));
+        
+        // Try to save to cloud if user is logged in
+        let cloudSuccess = false;
+        if (window.saveProgressToCloud && localStorage.getItem("isLoggedIn") === "true") {
+            const sessionData = {
+                session1Progress: progressData,
+                session1Notes: notes
+            };
+            cloudSuccess = await window.saveProgressToCloud(sessionData);
+        }
+        
+        // Update sync status based on cloud save result
+        setTimeout(() => {
+            if (cloudSuccess) {
+                syncStatus.innerHTML = '<i class="fas fa-cloud"></i><span>Cloud Synced</span>';
+                syncStatus.className = 'sync-status synced';
+                showNotification('Progress saved to cloud', 'success');
+            } else if (localStorage.getItem("isLoggedIn") === "true") {
+                syncStatus.innerHTML = '<i class="fas fa-laptop"></i><span>Local Only</span>';
+                syncStatus.className = 'sync-status local';
+                showNotification('Saved locally (offline)', 'warning');
+            } else {
+                syncStatus.innerHTML = '<i class="fas fa-user-slash"></i><span>Local Only</span>';
+                syncStatus.className = 'sync-status offline';
+                showNotification('Not logged in - saving locally', 'warning');
+            }
+        }, 800);
+    }
+
+    // ENHANCED: Load Progress from Local Storage (cloud data loads automatically via auth-check.js)
+    function loadProgress() {
+        // Always try to load from localStorage first (fastest)
+        const savedProgress = localStorage.getItem('session1Progress');
+        const savedNotes = localStorage.getItem('session1Notes');
+        
+        if (savedProgress) {
+            const progressData = JSON.parse(savedProgress);
+            
+            // Load completion status
+            if (progressData.completionStatus) {
+                Object.keys(progressData.completionStatus).forEach(key => {
+                    const completionElements = document.querySelectorAll('.topic-completion');
+                    const index = parseInt(key.replace('completion', '')) - 1;
+                    if (completionElements[index] && progressData.completionStatus[key]) {
+                        completionElements[index].classList.add('topic-completed');
                     }
                 });
+            }
+            
+            // Load section states
+            if (progressData.sectionStates) {
+                Object.keys(progressData.sectionStates).forEach(key => {
+                    const index = parseInt(key.replace('section', '')) - 1;
+                    const collapsibles = document.querySelectorAll('.topic-collapsible');
+                    const contents = document.querySelectorAll('.topic-content');
+                    
+                    if (collapsibles[index] && contents[index] && progressData.sectionStates[key]) {
+                        collapsibles[index].classList.add('active');
+                        contents[index].style.maxHeight = '70vh';
+                    }
+                });
+            }
+            
+            // Load reflection responses
+            if (progressData.reflections) {
+                Object.keys(progressData.reflections).forEach(key => {
+                    const textareas = document.querySelectorAll('.reflection textarea');
+                    const index = parseInt(key.replace('reflection', '')) - 1;
+                    if (textareas[index]) {
+                        textareas[index].value = progressData.reflections[key];
+                    }
+                });
+            }
+            
+            updateProgressBar();
+            updateTopicStatus();
+        }
+        
+        // Load notes if they exist
+        if (savedNotes) {
+            const notesData = JSON.parse(savedNotes);
+            Object.keys(notesData).forEach(noteId => {
+                const container = document.getElementById(`${noteId}-notes`);
+                if (container) {
+                    loadNotes(noteId, container);
+                }
+            });
+        }
+    }
+    
+    function updateProgressBar() {
+        const completedTopics = document.querySelectorAll('.topic-completed').length;
+        const totalTopics = document.querySelectorAll('.topic-completion').length;
+        const progress = (completedTopics / totalTopics) * 100;
+        
+        document.getElementById('progressBar').style.width = progress + '%';
+    }
+    
+    function updateTopicStatus() {
+        // Update status indicators for each topic
+        const topics = ['theology', 'reflection', 'practical'];
+        
+        topics.forEach(topic => {
+            const completionElement = document.getElementById(`${topic}Completion`);
+            const statusElement = document.getElementById(`${topic}Status`);
+            
+            if (completionElement && statusElement) {
+                if (completionElement.classList.contains('topic-completed')) {
+                    statusElement.textContent = '✓';
+                    statusElement.style.color = 'var(--success-color)';
+                } else {
+                    statusElement.textContent = '●';
+                    statusElement.style.color = '#ccc';
+                }
+            }
+        });
+    }
+    
+    function updateProgressSummary() {
+        const summaryElement = document.getElementById('progressSummary');
+        const completedTopics = document.querySelectorAll('.topic-completed').length;
+        const totalTopics = document.querySelectorAll('.topic-completion').length;
+        const progressPercentage = Math.round((completedTopics / totalTopics) * 100);
+        
+        let reflectionCount = 0;
+        document.querySelectorAll('.reflection textarea').forEach(textarea => {
+            if (textarea.value.trim() !== '') {
+                reflectionCount++;
+            }
+        });
+        
+        const totalReflections = document.querySelectorAll('.reflection textarea').length;
+        const reflectionPercentage = Math.round((reflectionCount / totalReflections) * 100);
+        
+        // Count notes
+        const notes = JSON.parse(localStorage.getItem('session1Notes') || '{}');
+        let noteCount = 0;
+        Object.keys(notes).forEach(key => {
+            noteCount += notes[key].length;
+        });
+        
+        const userStatus = localStorage.getItem("isLoggedIn") === "true" ? 
+            `(Cloud Sync: ${localStorage.getItem("userEmail")})` : 
+            "(Local Only - Not logged in)";
+        
+        summaryElement.innerHTML = `
+            <div class="progress-item">
+                <span>Topics Completed:</span>
+                <span>${completedTopics}/${totalTopics} (${progressPercentage}%)</span>
+            </div>
+            <div class="progress-item">
+                <span>Reflections Completed:</span>
+                <span>${reflectionCount}/${totalReflections} (${reflectionPercentage}%)</span>
+            </div>
+            <div class="progress-item">
+                <span>Personal Notes:</span>
+                <span>${noteCount}</span>
+            </div>
+            <div class="progress-item">
+                <span>Last Saved:</span>
+                <span>${new Date().toLocaleString()}</span>
+            </div>
+            <div class="progress-item">
+                <span>Sync Status:</span>
+                <span>${userStatus}</span>
+            </div>
+        `;
+    }
+    
+    function exportProgress() {
+        const progressData = localStorage.getItem('session1Progress');
+        const noteData = localStorage.getItem('session1Notes');
+        
+        if (!progressData && !noteData) {
+            showNotification('No data to export', 'error');
+            return;
+        }
+        
+        // Combine progress and notes
+        const exportData = {
+            progress: progressData ? JSON.parse(progressData) : {},
+            notes: noteData ? JSON.parse(noteData) : {},
+            exportDate: new Date().toISOString(),
+            session: "Session 1: The Metaphysics of Parenthood"
+        };
+        
+        // Create a blob and download link
+        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'session1-data.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showNotification('Data exported successfully', 'success');
+    }
+    
+    function resetProgress() {
+        if (confirm('Are you sure you want to reset all progress and notes for this session? This action cannot be undone.')) {
+            localStorage.removeItem('session1Progress');
+            localStorage.removeItem('session1Notes');
+            
+            // Reset UI
+            document.querySelectorAll('.topic-completion').forEach(element => {
+                element.classList.remove('topic-completed');
             });
             
-            // Open first topic by default
-            if (topicCollapsibles.length > 0) {
-                topicCollapsibles[0].classList.add('active');
-                const firstContent = document.getElementById('theologyContent');
+            document.querySelectorAll('.reflection textarea').forEach(textarea => {
+                textarea.value = '';
+            });
+            
+            document.querySelectorAll('.note-input').forEach(input => {
+                input.value = '';
+            });
+            
+            document.querySelectorAll('.saved-notes').forEach(container => {
+                container.innerHTML = '<p class="note-date">No notes yet</p>';
+            });
+            
+            document.querySelectorAll('.topic-collapsible').forEach(collapsible => {
+                collapsible.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.topic-content').forEach(content => {
+                content.style.maxHeight = null;
+            });
+            
+            // Open first topic
+            const firstCollapsible = document.getElementById('theologyCollapsible');
+            const firstContent = document.getElementById('theologyContent');
+            if (firstCollapsible && firstContent) {
+                firstCollapsible.classList.add('active');
                 firstContent.style.maxHeight = '70vh';
             }
+            
+            updateProgressBar();
+            updateTopicStatus();
+            
+            showNotification('Progress reset successfully', 'success');
+            
+            // Close modal
+            document.getElementById('progressModal').style.display = 'none';
+        }
+    }
+    
+    function showNotification(message, type) {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.textContent = message;
+        notification.style.position = 'fixed';
+        notification.style.top = '80px';
+        notification.style.right = '20px';
+        notification.style.padding = '12px 20px';
+        notification.style.borderRadius = 'var(--radius)';
+        notification.style.color = 'white';
+        notification.style.fontWeight = '500';
+        notification.style.zIndex = '9999';
+        notification.style.boxShadow = 'var(--shadow)';
+        notification.style.transition = 'transform 0.3s, opacity 0.3s';
+        notification.style.transform = 'translateX(100%)';
+        notification.style.opacity = '0';
+        
+        if (type === 'success') {
+            notification.style.background = 'var(--success-color)';
+        } else if (type === 'error') {
+            notification.style.background = 'var(--accent-color)';
+        } else if (type === 'warning') {
+            notification.style.background = 'var(--warning-color)';
+        } else {
+            notification.style.background = 'var(--secondary-color)';
         }
         
-        function updateProgressBar() {
-            const completedTopics = document.querySelectorAll('.topic-completed').length;
-            const totalTopics = document.querySelectorAll('.topic-completion').length;
-            const progressPercentage = (completedTopics / totalTopics) * 100;
-            
-            document.getElementById('progressBar').style.width = progressPercentage + '%';
-        }
+        document.body.appendChild(notification);
         
-        function updateTopicStatus() {
-            // Update status indicators for each topic
-            const topics = ['theology', 'reflection', 'practical'];
-            
-            topics.forEach(topic => {
-                const completionElement = document.getElementById(`${topic}Completion`);
-                const statusElement = document.getElementById(`${topic}Status`);
-                
-                if (completionElement && statusElement) {
-                    if (completionElement.classList.contains('topic-completed')) {
-                        statusElement.textContent = '✓';
-                        statusElement.style.color = 'var(--success-color)';
-                    } else {
-                        statusElement.textContent = '●';
-                        statusElement.style.color = '#ccc';
-                    }
-                }
-            });
-        }
+        // Animate in
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+            notification.style.opacity = '1';
+        }, 10);
         
-        function saveProgress() {
-            const syncStatus = document.getElementById('syncStatus');
-            syncStatus.textContent = 'Syncing...';
-            syncStatus.className = 'sync-status syncing';
-            
-            // Collect topic completion status
-            const topics = [];
-            document.querySelectorAll('.topic-completion').forEach((element, index) => {
-                topics.push({
-                    id: index,
-                    completed: element.classList.contains('topic-completed')
-                });
-            });
-            
-            // Collect reflection responses
-            const reflections = {};
-            document.querySelectorAll('.reflection textarea').forEach(textarea => {
-                const reflectionId = textarea.getAttribute('data-reflection-id');
-                reflections[reflectionId] = textarea.value;
-            });
-            
-            // Collect topic collapsible states
-            const topicStates = {};
-            document.querySelectorAll('.topic-collapsible').forEach(collapsible => {
-                topicStates[collapsible.id] = collapsible.classList.contains('active');
-            });
-            
-            // Save to localStorage
-            const progressData = {
-                topics,
-                reflections,
-                topicStates,
-                lastSaved: new Date().toISOString()
-            };
-            
-            localStorage.setItem('session1Progress', JSON.stringify(progressData));
-            
-            // Simulate network delay for sync
-            setTimeout(() => {
-                syncStatus.textContent = 'Synced';
-                syncStatus.className = 'sync-status synced';
-                showNotification('Progress saved successfully', 'success');
-            }, 800);
-        }
-        
-        function loadProgress() {
-            const savedProgress = localStorage.getItem('session1Progress');
-            
-            if (savedProgress) {
-                const progressData = JSON.parse(savedProgress);
-                
-                // Load topic completion status
-                if (progressData.topics) {
-                    progressData.topics.forEach(topic => {
-                        const completionElement = document.querySelectorAll('.topic-completion')[topic.id];
-                        if (completionElement && topic.completed) {
-                            completionElement.classList.add('topic-completed');
-                        }
-                    });
-                }
-                
-                // Load reflection responses
-                if (progressData.reflections) {
-                    Object.keys(progressData.reflections).forEach(reflectionId => {
-                        const textarea = document.querySelector(`[data-reflection-id="${reflectionId}"]`);
-                        if (textarea) {
-                            textarea.value = progressData.reflections[reflectionId];
-                        }
-                    });
-                }
-                
-                // Load topic collapsible states
-                if (progressData.topicStates) {
-                    Object.keys(progressData.topicStates).forEach(collapsibleId => {
-                        const collapsible = document.getElementById(collapsibleId);
-                        const content = document.getElementById(collapsibleId.replace('Collapsible', 'Content'));
-                        
-                        if (collapsible && content && progressData.topicStates[collapsibleId]) {
-                            collapsible.classList.add('active');
-                            content.style.maxHeight = '70vh';
-                        }
-                    });
-                }
-                
-                updateProgressBar();
-                updateTopicStatus();
-            }
-        }
-        
-        function updateProgressSummary() {
-            const summaryElement = document.getElementById('progressSummary');
-            const completedTopics = document.querySelectorAll('.topic-completed').length;
-            const totalTopics = document.querySelectorAll('.topic-completion').length;
-            const progressPercentage = Math.round((completedTopics / totalTopics) * 100);
-            
-            let reflectionCount = 0;
-            document.querySelectorAll('.reflection textarea').forEach(textarea => {
-                if (textarea.value.trim() !== '') {
-                    reflectionCount++;
-                }
-            });
-            
-            const totalReflections = document.querySelectorAll('.reflection textarea').length;
-            const reflectionPercentage = Math.round((reflectionCount / totalReflections) * 100);
-            
-            summaryElement.innerHTML = `
-                <div class="progress-item">
-                    <span>Topics Completed:</span>
-                    <span>${completedTopics}/${totalTopics} (${progressPercentage}%)</span>
-                </div>
-                <div class="progress-item">
-                    <span>Reflections Completed:</span>
-                    <span>${reflectionCount}/${totalReflections} (${reflectionPercentage}%)</span>
-                </div>
-                <div class="progress-item">
-                    <span>Last Saved:</span>
-                    <span>${new Date().toLocaleString()}</span>
-                </div>
-            `;
-        }
-        
-        function exportProgress() {
-            const progressData = localStorage.getItem('session1Progress');
-            
-            if (!progressData) {
-                showNotification('No progress data to export', 'error');
-                return;
-            }
-            
-            // Create a blob and download link
-            const blob = new Blob([progressData], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'session1-progress.json';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showNotification('Progress exported successfully', 'success');
-        }
-        
-        function resetProgress() {
-            if (confirm('Are you sure you want to reset all progress for this session? This action cannot be undone.')) {
-                localStorage.removeItem('session1Progress');
-                
-                // Reset UI
-                document.querySelectorAll('.topic-completion').forEach(element => {
-                    element.classList.remove('topic-completed');
-                });
-                
-                document.querySelectorAll('.reflection textarea').forEach(textarea => {
-                    textarea.value = '';
-                });
-                
-                document.querySelectorAll('.topic-collapsible').forEach(collapsible => {
-                    collapsible.classList.remove('active');
-                });
-                
-                document.querySelectorAll('.topic-content').forEach(content => {
-                    content.style.maxHeight = null;
-                });
-                
-                // Open first topic
-                const firstCollapsible = document.getElementById('theologyCollapsible');
-                const firstContent = document.getElementById('theologyContent');
-                if (firstCollapsible && firstContent) {
-                    firstCollapsible.classList.add('active');
-                    firstContent.style.maxHeight = '70vh';
-                }
-                
-                updateProgressBar();
-                updateTopicStatus();
-                
-                showNotification('Progress reset successfully', 'success');
-                
-                // Close modal
-                document.getElementById('progressModal').style.display = 'none';
-            }
-        }
-        
-        function showNotification(message, type) {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.textContent = message;
-            notification.style.position = 'fixed';
-            notification.style.top = '80px';
-            notification.style.right = '20px';
-            notification.style.padding = '12px 20px';
-            notification.style.borderRadius = '8px';
-            notification.style.color = 'white';
-            notification.style.fontWeight = '500';
-            notification.style.zIndex = '9999';
-            notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-            notification.style.transition = 'transform 0.3s, opacity 0.3s';
+        // Animate out after 3 seconds
+        setTimeout(() => {
             notification.style.transform = 'translateX(100%)';
             notification.style.opacity = '0';
             
-            if (type === 'success') {
-                notification.style.background = 'var(--success-color)';
-            } else if (type === 'error') {
-                notification.style.background = 'var(--accent-color)';
-            } else {
-                notification.style.background = 'var(--secondary-color)';
-            }
-            
-            document.body.appendChild(notification);
-            
-            // Animate in
             setTimeout(() => {
-                notification.style.transform = 'translateX(0)';
-                notification.style.opacity = '1';
-            }, 10);
-            
-            // Animate out after 3 seconds
-            setTimeout(() => {
-                notification.style.transform = 'translateX(100%)';
-                notification.style.opacity = '0';
-                
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
-        }
-    </script>
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+
+    // Make loadProgress available globally for auth-check.js
+    window.loadProgress = loadProgress;
+</script>
 </body>
 </html>
