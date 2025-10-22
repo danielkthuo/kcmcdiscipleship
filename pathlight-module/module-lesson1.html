@@ -1789,7 +1789,8 @@ function showNotification(message, type) {
     </footer>
 
     <!-- Firebase SDK -->
-   <script type="module">
+<!-- Firebase SDK -->
+<script type="module">
     // Import Firebase modules with AUTHENTICATION
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { 
@@ -1822,6 +1823,10 @@ function showNotification(message, type) {
 
     console.log("🔥 Firebase initialized with authentication");
 
+    // Global variables to track Firebase readiness
+    window.firebaseReady = false;
+    window.firebaseError = null;
+
     // Check authentication state
     onAuthStateChanged(auth, (user) => {
         if (!user) {
@@ -1837,6 +1842,7 @@ function showNotification(message, type) {
                 localStorage.setItem('userEmail', user.email);
                 localStorage.setItem('isLoggedIn', 'true');
             }
+            window.firebaseReady = true;
         }
     });
 
@@ -1851,7 +1857,12 @@ function showNotification(message, type) {
     };
 
     // Save progress to Firestore
-    window.saveProgressToCloud = async function(progressData) {
+    const saveProgressToCloud = async function(progressData) {
+        if (!window.firebaseReady) {
+            console.error("Firebase not ready yet");
+            return false;
+        }
+
         const userId = getUserId();
         if (!userId) {
             console.error("🚫 User not authenticated - cannot save progress");
@@ -1859,6 +1870,8 @@ function showNotification(message, type) {
         }
         
         try {
+            console.log("🔄 Attempting to save progress to Firestore for user:", userId);
+            
             const docRef = doc(db, "userProgress", userId);
             
             // Get existing data to merge
@@ -1878,12 +1891,18 @@ function showNotification(message, type) {
             return true;
         } catch (error) {
             console.error("❌ Error saving to Firestore:", error);
+            window.firebaseError = error.message;
             return false;
         }
     };
 
     // Load progress from Firestore
-    window.loadProgressFromCloud = async function() {
+    const loadProgressFromCloud = async function() {
+        if (!window.firebaseReady) {
+            console.error("Firebase not ready yet");
+            return null;
+        }
+
         const userId = getUserId();
         if (!userId) {
             console.error("🚫 User not authenticated - cannot load progress");
@@ -1891,6 +1910,8 @@ function showNotification(message, type) {
         }
 
         try {
+            console.log("📥 Loading progress from Firestore for user:", userId);
+            
             const docRef = doc(db, "userProgress", userId);
             const docSnap = await getDoc(docRef);
             
@@ -1908,6 +1929,7 @@ function showNotification(message, type) {
             }
         } catch (error) {
             console.error("❌ Error loading progress from Firestore:", error);
+            window.firebaseError = error.message;
             return null;
         }
     };
@@ -1920,26 +1942,45 @@ function showNotification(message, type) {
             return;
         }
 
-        const docRef = doc(db, "userProgress", userId);
-        
-        onSnapshot(docRef, (docSnap) => {
-            if (docSnap.exists()) {
-                const userData = docSnap.data();
-                console.log("🔄 Real-time update received:", userData);
-                
-                if (userData.session3Progress) {
-                    localStorage.setItem('session3Progress', JSON.stringify(userData.session3Progress));
+        try {
+            const docRef = doc(db, "userProgress", userId);
+            
+            onSnapshot(docRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const userData = docSnap.data();
+                    console.log("🔄 Real-time update received:", userData);
                     
-                    if (window.applyCloudProgress) {
-                        window.applyCloudProgress(userData.session3Progress);
+                    if (userData.session3Progress) {
+                        localStorage.setItem('session3Progress', JSON.stringify(userData.session3Progress));
+                        
+                        if (window.applyCloudProgress) {
+                            window.applyCloudProgress(userData.session3Progress);
+                        }
                     }
                 }
-            }
-        });
+            });
+            console.log("✅ Real-time listener setup successfully");
+        } catch (error) {
+            console.error("❌ Error setting up real-time listener:", error);
+        }
     }
 
-    // Initialize real-time listener
-    setupProgressListener();
+    // Initialize real-time listener when Firebase is ready
+    setTimeout(() => {
+        if (window.firebaseReady) {
+            setupProgressListener();
+        }
+    }, 2000);
+
+    // Make functions available globally
+    window.getUserId = getUserId;
+    window.saveProgressToCloud = saveProgressToCloud;
+    window.loadProgressFromCloud = loadProgressFromCloud;
+    window.firebaseApp = app;
+    window.firestoreDb = db;
+    window.setupProgressListener = setupProgressListener;
+
+    console.log("✅ Firebase functions exposed to global scope");
 
     // Logout function for lesson pages
     window.logoutUser = async function() {
@@ -1953,105 +1994,57 @@ function showNotification(message, type) {
         }
     };
 
-    // Make functions available globally
-    window.getUserId = getUserId;
-    window.firebaseApp = app;
-    window.firestoreDb = db;
-
-        // Load progress from Firestore
-        window.loadProgressFromCloud = async function() {
-            try {
-                const userId = getUserId();
-                const docRef = doc(db, "userProgress", userId);
-                const docSnap = await getDoc(docRef);
-                
-                if (docSnap.exists()) {
-                    const userData = docSnap.data();
-                    console.log("📥 Loaded user progress from Firestore:", userData);
-                    
-                    if (userData.session3Progress) {
-                        // Store in localStorage for offline access
-                        localStorage.setItem('session3Progress', JSON.stringify(userData.session3Progress));
-                        // Apply the loaded progress to the UI
-                        if (window.applyCloudProgress) {
-                            window.applyCloudProgress(userData.session3Progress);
-                        }
-                    }
-                    return userData.session3Progress || null;
-                } else {
-                    console.log("📭 No existing progress found in Firestore");
-                    return null;
-                }
-            } catch (error) {
-                console.error("❌ Error loading progress from Firestore:", error);
-                return null;
-            }
-        };
-
-        // Set up real-time listener for progress updates
-        function setupProgressListener() {
-            const userId = getUserId();
-            const docRef = doc(db, "userProgress", userId);
-            
-            onSnapshot(docRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    const userData = docSnap.data();
-                    console.log("🔄 Real-time update received:", userData);
-                    
-                    // Update local storage with latest data
-                    if (userData.session3Progress) {
-                        localStorage.setItem('session3Progress', JSON.stringify(userData.session3Progress));
-                        
-                        // Update UI if we're on the lesson page
-                        if (window.applyCloudProgress) {
-                            window.applyCloudProgress(userData.session3Progress);
-                        }
-                    }
-                }
-            });
-        }
-
-        // Initialize real-time listener
-        setupProgressListener();
-
-        // Make functions available globally
-        window.getUserId = getUserId;
-        window.firebaseApp = app;
-        window.firestoreDb = db;
-    </script>
+</script>
 
     <script>
         // Progress tracking and sync features
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize progress tracking
-            initializeProgressTracking();
-            
-            // Set up sync indicator
-            const syncStatus = document.getElementById('syncStatus');
-            
-            // Auto-save functionality
-            setupAutoSave();
-            
-            // Progress modal functionality
-            setupProgressModal();
-            
-            // Initialize matching game
-            setupMatchingGame();
-            
-            // Initialize collapsible sections
-            setupCollapsibleSections();
-            
-            // Initialize topic collapsible sections
-            setupTopicCollapsibleSections();
-            
-            // Load saved progress
-            loadProgress();
-            
-            // Load cloud progress after a short delay
+       document.addEventListener('DOMContentLoaded', function() {
+    console.log("🚀 DOM Content Loaded - Initializing...");
+    
+    // Initialize progress tracking
+    initializeProgressTracking();
+    
+    // Set up sync indicator
+    const syncStatus = document.getElementById('syncStatus');
+    
+    // Auto-save functionality
+    setupAutoSave();
+    
+    // Progress modal functionality
+    setupProgressModal();
+    
+    // Initialize matching game
+    setupMatchingGame();
+    
+    // Initialize collapsible sections
+    setupCollapsibleSections();
+    
+    // Initialize topic collapsible sections
+    setupTopicCollapsibleSections();
+    
+    // Load saved progress
+    loadProgress();
+    
+    // Load cloud progress after a short delay
+    setTimeout(() => {
+        console.log("🔄 Checking Firebase status before loading cloud progress...");
+        console.log("firebaseReady:", window.firebaseReady);
+        console.log("saveProgressToCloud available:", typeof window.saveProgressToCloud);
+        
+        if (window.firebaseReady && window.loadProgressFromCloud) {
+            loadCloudProgress();
+        } else {
+            console.warn("Firebase not ready yet, will try again in 3 seconds");
             setTimeout(() => {
-                loadCloudProgress();
-            }, 1000);
-        });
+                if (window.firebaseReady && window.loadProgressFromCloud) {
+                    loadCloudProgress();
+                } else {
+                    console.error("Firebase still not ready after retry");
+                }
+            }, 3000);
+        }
+    }, 1000);
+});
         
         function initializeProgressTracking() {
             // Topic completion toggle
@@ -2197,71 +2190,84 @@ function showNotification(message, type) {
         }
         
         async function saveProgress() {
-            const syncStatus = document.getElementById('syncStatus');
-            syncStatus.textContent = 'Syncing...';
-            syncStatus.className = 'sync-status syncing';
-            
-            // Collect topic completion status
-            const topics = [];
-            document.querySelectorAll('.topic-completion').forEach((element, index) => {
-                topics.push({
-                    id: index,
-                    completed: element.classList.contains('topic-completed')
-                });
-            });
-            
-            // Collect reflection responses
-            const reflections = {};
-            document.querySelectorAll('.reflection textarea').forEach(textarea => {
-                const reflectionId = textarea.getAttribute('data-reflection-id');
-                reflections[reflectionId] = textarea.value;
-            });
-            
-            // Collect matching game progress
-            const matchingGame = {
-                score: parseInt(document.getElementById('score').textContent) || 0,
-                total: parseInt(document.getElementById('total').textContent) || 0
-            };
-            
-            // Collect topic collapsible states
-            const topicStates = {};
-            document.querySelectorAll('.topic-collapsible').forEach(collapsible => {
-                topicStates[collapsible.id] = collapsible.classList.contains('active');
-            });
-            
-            // Save to localStorage
-            const progressData = {
-                topics: topics,
-                reflections: reflections,
-                matchingGame: matchingGame,
-                topicStates: topicStates,
-                lastUpdated: new Date().toISOString()
-            };
-            
-            localStorage.setItem('lesson1Progress', JSON.stringify(progressData));
-            
-            // ✅ Save to Firestore
-            try {
-                if (window.saveProgressToCloud) {
-                    const success = await window.saveProgressToCloud(progressData);
-                    if (success) {
-                        syncStatus.textContent = 'Synced to Cloud';
-                        syncStatus.className = 'sync-status synced';
-                    } else {
-                        syncStatus.textContent = 'Local Only';
-                        syncStatus.className = 'sync-status error';
-                    }
-                } else {
-                    syncStatus.textContent = 'Cloud Save Unavailable';
-                    syncStatus.className = 'sync-status error';
-                }
-            } catch (error) {
-                console.error('Cloud sync failed:', error);
-                syncStatus.textContent = 'Sync Failed';
-                syncStatus.className = 'sync-status error';
-            }
-        }
+    const syncStatus = document.getElementById('syncStatus');
+    syncStatus.textContent = 'Syncing...';
+    syncStatus.className = 'sync-status syncing';
+    
+    // Collect topic completion status
+    const topics = [];
+    document.querySelectorAll('.topic-completion').forEach((element, index) => {
+        topics.push({
+            id: index,
+            completed: element.classList.contains('topic-completed')
+        });
+    });
+    
+    // Collect reflection responses
+    const reflections = {};
+    document.querySelectorAll('.reflection textarea').forEach(textarea => {
+        const reflectionId = textarea.getAttribute('data-reflection-id');
+        reflections[reflectionId] = textarea.value;
+    });
+    
+    // Collect matching game progress
+    const matchingGame = {
+        score: parseInt(document.getElementById('score').textContent) || 0,
+        total: parseInt(document.getElementById('total').textContent) || 0
+    };
+    
+    // Collect topic collapsible states
+    const topicStates = {};
+    document.querySelectorAll('.topic-collapsible').forEach(collapsible => {
+        topicStates[collapsible.id] = collapsible.classList.contains('active');
+    });
+    
+    // Save to localStorage
+    const progressData = {
+        topics: topics,
+        reflections: reflections,
+        matchingGame: matchingGame,
+        topicStates: topicStates,
+        lastUpdated: new Date().toISOString()
+    };
+    
+    localStorage.setItem('lesson1Progress', JSON.stringify(progressData));
+    
+    // ✅ Save to Firestore with better error handling
+    try {
+        console.log("🔄 Checking if saveProgressToCloud is available...");
+        console.log("saveProgressToCloud available:", typeof window.saveProgressToCloud);
+        console.log("firebaseReady:", window.firebaseReady);
+        console.log("firebaseError:", window.firebaseError);
         
+        if (window.saveProgressToCloud && typeof window.saveProgressToCloud === 'function') {
+            console.log("🔄 Calling saveProgressToCloud...");
+            const success = await window.saveProgressToCloud(progressData);
+            console.log("Save result:", success);
+            
+            if (success) {
+                syncStatus.textContent = 'Synced to Cloud';
+                syncStatus.className = 'sync-status synced';
+                console.log("✅ Successfully synced to cloud");
+            } else {
+                syncStatus.textContent = 'Sync Failed - Check Console';
+                syncStatus.className = 'sync-status error';
+                console.error("❌ Cloud save failed - check Firebase configuration");
+            }
+        } else {
+            syncStatus.textContent = 'Cloud Save Not Available';
+            syncStatus.className = 'sync-status error';
+            console.error("❌ saveProgressToCloud function not available");
+            console.error("Available window properties:", Object.keys(window).filter(key => 
+                key.includes('firebase') || key.includes('save') || key.includes('cloud')
+            ));
+        }
+    } catch (error) {
+        console.error('Cloud sync failed with error:', error);
+        syncStatus.textContent = 'Sync Error';
+        syncStatus.className = 'sync-status error';
+    }
+}
         function loadProgress() {
             const savedProgress = localStorage.getItem('lesson1Progress');
             if (savedProgress) {
