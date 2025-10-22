@@ -923,17 +923,20 @@
         <a href="#practical" class="quick-nav-item">Practical Implementation</a>
     </div>
     
-    <div class="container">
-        <div class="lesson-nav">
-            <a href="../progress.html" class="btn btn-outline">
-                <i class="fas fa-arrow-left"></i>
-                Back to Dashboard
-            </a>
-            <a href="session2.html" class="btn">
-                Next Session
-                <i class="fas fa-arrow-right"></i>
-            </a>
-        </div>
+    <div class="lesson-nav">
+    <a href="../progress.html" class="btn btn-outline">
+        <i class="fas fa-arrow-left"></i>
+        Back to Dashboard
+    </a>
+    <button class="btn btn-outline" id="manualSync">
+        <i class="fas fa-sync-alt"></i>
+        Sync Now
+    </button>
+    <a href="session2.html" class="btn">
+        Next Session
+        <i class="fas fa-arrow-right"></i>
+    </a>
+</div>
         
         <!-- KEY VERSE SECTION -->
         <div class="topic" id="key-verse">
@@ -1409,16 +1412,19 @@
         </div>
         
         <div class="lesson-nav">
-            <a href="session2.html" class="btn">
-                <i class="fas fa-arrow-right"></i>
-                Next Session
-            </a>
-            <button class="btn btn-outline" id="viewProgress">
-                <i class="fas fa-chart-bar"></i>
-                View Dashboard
-            </button>
-        </div>
-    </div>
+    <a href="../progress.html" class="btn btn-outline">
+        <i class="fas fa-arrow-left"></i>
+        Back to Dashboard
+    </a>
+    <button class="btn btn-outline" id="manualSync">
+        <i class="fas fa-sync-alt"></i>
+        Sync Now
+    </button>
+    <a href="session2.html" class="btn">
+        Next Session
+        <i class="fas fa-arrow-right"></i>
+    </a>
+</div>
     
     <!-- NEW: Back to top button -->
     <div class="back-to-top" id="backToTop">
@@ -2111,6 +2117,86 @@
 
     // Make loadProgress available globally for auth-check.js
     window.loadProgress = loadProgress;
+</script>
+<script>
+    // Add to your DOMContentLoaded event listener
+document.getElementById('manualSync').addEventListener('click', function() {
+    if (window.manualCloudSync) {
+        window.manualCloudSync();
+        showNotification('Syncing from cloud...', 'success');
+    } else {
+        showNotification('Cloud sync not available', 'error');
+    }
+});
+
+// Enhanced loadProgress to handle cloud data
+function loadProgress() {
+    console.log("🔄 loadProgress called");
+    
+    // Always try to load from localStorage first (fastest)
+    const savedProgress = localStorage.getItem('session1Progress');
+    const savedNotes = localStorage.getItem('session1Notes');
+    
+    if (savedProgress) {
+        const progressData = JSON.parse(savedProgress);
+        console.log("📁 Loading progress data:", progressData);
+        
+        // Load completion status
+        if (progressData.completionStatus) {
+            Object.keys(progressData.completionStatus).forEach(key => {
+                const completionElements = document.querySelectorAll('.topic-completion');
+                const index = parseInt(key.replace('completion', '')) - 1;
+                if (completionElements[index] && progressData.completionStatus[key]) {
+                    completionElements[index].classList.add('topic-completed');
+                }
+            });
+        }
+        
+        // Load section states
+        if (progressData.sectionStates) {
+            Object.keys(progressData.sectionStates).forEach(key => {
+                const index = parseInt(key.replace('section', '')) - 1;
+                const collapsibles = document.querySelectorAll('.topic-collapsible');
+                const contents = document.querySelectorAll('.topic-content');
+                
+                if (collapsibles[index] && contents[index] && progressData.sectionStates[key]) {
+                    collapsibles[index].classList.add('active');
+                    contents[index].style.maxHeight = '70vh';
+                }
+            });
+        }
+        
+        // Load reflection responses
+        if (progressData.reflections) {
+            Object.keys(progressData.reflections).forEach(key => {
+                const textareas = document.querySelectorAll('.reflection textarea');
+                const index = parseInt(key.replace('reflection', '')) - 1;
+                if (textareas[index] && progressData.reflections[key]) {
+                    textareas[index].value = progressData.reflections[key];
+                }
+            });
+        }
+        
+        updateProgressBar();
+        updateTopicStatus();
+    }
+    
+    // Load notes if they exist
+    if (savedNotes) {
+        const notesData = JSON.parse(savedNotes);
+        Object.keys(notesData).forEach(noteId => {
+            const container = document.getElementById(`${noteId}-notes`);
+            if (container) {
+                loadNotes(noteId, container);
+            }
+        });
+    }
+    
+    console.log("✅ loadProgress completed");
+}
+
+// Make sure loadProgress is available globally
+window.loadProgress = loadProgress;
 </script>
 </body>
 </html>
