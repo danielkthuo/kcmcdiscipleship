@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parenting Session: The Divine Dance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== CSS VARIABLES ===== */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+        }
+
+        /* ===== RESET & BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            font-family: var(--font-main);
+            background: #f9f9f9;
+            color: #333;
+            scroll-behavior: smooth;
+            line-height: 1.6;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .progress-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+            transition: width 0.5s ease;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .container {
+            width: 100%;
+            padding: 0 1rem 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary);
+            color: white;
+            padding: 14px 20px;
+            border-radius: var(--radius);
+            border: none;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1rem;
+            width: 100%;
+            transition: all 0.3s;
+            cursor: pointer;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+        }
+
+        .btn-outline:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .lesson-nav {
+            display: flex;
+            gap: 10px;
+            margin: 1.5rem 0;
+        }
+
+        /* ===== COLLAPSIBLE SECTIONS ===== */
+        .collapsible-section {
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+
+        .collapsible-header {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            text-align: left;
+            padding: 1.2rem 1.5rem;
+            font-weight: 600;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            font-size: 1.1rem;
+        }
+
+        .collapsible-header:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .collapsible-header i {
+            transition: transform 0.3s ease;
+        }
+
+        .collapsible-header.active i {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            background: white;
+            border-radius: 0 0 var(--radius) var(--radius);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .collapsible-content.active {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .content-inner {
+            padding: 1.5rem;
+        }
+
+        /* ===== CONTENT STYLES ===== */
+        .content-section {
+            margin-bottom: 2rem;
+        }
+
+        .content-section h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary);
+            font-size: 1.3rem;
+        }
+
+        .scripture {
+            background: #f8f9fa;
+            border-left: 4px solid var(--secondary);
+            padding: 1.2rem;
+            margin: 1.2rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            font-style: italic;
+        }
+
+        .key-point {
+            background: #e8f4fc;
+            border-left: 4px solid var(--secondary);
+            padding: 1.2rem;
+            margin: 1.2rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .reflection {
+            background: #f0f7ff;
+            border-left: 4px solid #4dabf7;
+            padding: 1.2rem;
+            margin: 1.2rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .reflection textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        .reflection textarea:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        /* ===== ILLUSTRATIONS ===== */
+        .illustration {
+            width: 100%;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+
+        .hands-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .hand {
+            text-align: center;
+            padding: 1rem;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .hand-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .work-piece {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 1rem;
+        }
+
+        .child-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+        }
+
+        /* ===== BOTTOM NAVIGATION ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 10px 0;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 5px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-item.active {
+            color: var(--secondary);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            width: 100%;
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        /* ===== PROGRESS INDICATOR ===== */
+        .sync-status {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .sync-status.syncing {
+            color: var(--warning);
+        }
+
+        .sync-status.synced {
+            color: var(--success);
+        }
+
+        /* ===== COMPLETION INDICATOR ===== */
+        .completion-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 1rem;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: var(--radius);
+        }
+
+        .completion-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .completion-checkbox.checked {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.3rem;
+            }
+            
+            header .subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .collapsible-header {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            
+            .content-inner {
+                padding: 1rem;
+            }
+            
+            .hands-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .work-piece {
+                margin: 1rem 0;
+                transform: rotate(90deg);
+            }
+            
+            .lesson-nav {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 0.5rem 100px;
+            }
+            
+            .collapsible-header {
+                padding: 0.8rem;
+                font-size: 0.95rem;
+            }
+            
+            .content-inner {
+                padding: 0.8rem;
+            }
+            
+            .reflection textarea {
+                min-height: 100px;
+            }
+        }
+
+        /* ===== SCROLLBAR STYLING ===== */
+        .collapsible-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .collapsible-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .collapsible-content::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        .collapsible-content::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>SESSION 2: THE DIVINE DANCE</h1>
+        <p class="subtitle">Complementary Vocation in Biblical Parenthood - The different yet related vocations of mother and father</p>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="sync-status" id="syncStatus">
+            <i class="fas fa-check-circle"></i>
+            <span>Synced</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Navigation -->
+        <div class="lesson-nav">
+            <a href="#" class="btn btn-outline">
+                <i class="fas fa-arrow-left"></i>
+                Previous Session
+            </a>
+            <a href="#" class="btn">
+                Next Session
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <!-- Collapsible Section 1 -->
+        <div class="collapsible-section">
+            <button class="collapsible-header" id="header1">
+                <span>Key Figures & Scriptures</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="collapsible-content" id="content1">
+                <div class="content-inner">
+                    <div class="content-section">
+                        <h3>The Mother (The Ark of the Covenant)</h3>
+                        <p><strong>Hannah (1 Samuel 1-2) and Mary (Luke 1-2)</strong></p>
+                        <p>The mother is the "Ark" who bears, raises, and presents the sacred life to God and the world. Her "yes" (fiat) is the supporting reality for incarnation.</p>
+                        
+                        <div class="scripture">
+                            <p><strong>1 Samuel 1:27-28</strong> - "I prayed for this child, and the Lord has granted me what I asked of him. So now I give him to the Lord. For his whole life he will be given over to the Lord."</p>
+                        </div>
+                        
+                        <div class="scripture">
+                            <p><strong>Luke 1:38</strong> - "I am the Lord's servant," Mary answered. "May your word to me be fulfilled."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3>The Father (The Priest-Prophet)</h3>
+                        <p><strong>Joseph (Matthew 1) and the Father of the Prodigal (Luke 15)</strong></p>
+                        <p>The father is the one who names, blesses, protects, and establishes the identity and mission of the child. He is the steward of the covenant in the home.</p>
+                        
+                        <div class="scripture">
+                            <p><strong>Matthew 1:24-25</strong> - "When Joseph woke up, he did what the angel of the Lord had commanded him and took Mary home as his wife. But he did not consummate their marriage until she gave birth to a son. And he gave him the name Jesus."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="completion-indicator">
+                        <div class="completion-checkbox" id="completion1">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>Mark as complete</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Collapsible Section 2 -->
+        <div class="collapsible-section">
+            <button class="collapsible-header" id="header2">
+                <span>Theological Deep Dive</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="collapsible-content" id="content2">
+                <div class="content-inner">
+                    <div class="content-section">
+                        <h3>The Kenotic Mother (Self-emptying love)</h3>
+                        <p>Hannah offering Samuel and Mary's "Let it be" express the kenosis (Philippians 2:7) - a mother's love is, often, a pouring out of herself; her body, her sleep, her energy. This is not simply biology; it is a profound theological reflection of Christ's self-giving love.</p>
+                        
+                        <div class="scripture">
+                            <p><strong>Philippians 2:7</strong> - "Rather, he made himself nothing by taking the very nature of a servant, being made in human likeness."</p>
+                        </div>
+                        
+                        <div class="key-point">
+                            <p><strong>Understanding Kenosis:</strong> Kenosis comes from the Greek word meaning "emptying." In Philippians 2, Paul describes how Christ "emptied himself" by taking on human form and submitting to death on a cross.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3>The Logos Father (A Love that Orders)</h3>
+                        <p>Joseph submitted to the angel ("he did what was commanded") and named the child Jesus as the Logos—the Word that orders chaos. Fathers help to speak truth, bound, and give an ordered structure for love to flourish in, imaging God the Father who speaks creation into being.</p>
+                        
+                        <div class="scripture">
+                            <p><strong>John 1:1</strong> - "In the beginning was the Word, and the Word was with God, and the Word was God."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="completion-indicator">
+                        <div class="completion-checkbox" id="completion2">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>Mark as complete</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Collapsible Section 3 -->
+        <div class="collapsible-section">
+            <button class="collapsible-header" id="header3">
+                <span>Facilitated Marital Reflection</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="collapsible-content" id="content3">
+                <div class="content-inner">
+                    <div class="content-section">
+                        <h3>Kenosis vs. Domination</h3>
+                        <p>Moms, how are you emptying yourself until resentment builds up? Dads, how can you prepare the ways for your wife's renewal? Talk about how the husband's logos-love needs to create a "safe haven" for the wife's kenotic-love.</p>
+                        
+                        <div class="reflection">
+                            <p>Mother's Reflection: Where am I experiencing kenotic exhaustion, and what would genuine renewal look like?</p>
+                            <textarea placeholder="Type your reflection here..."></textarea>
+                            
+                            <p>Father's Reflection: How can I better create a "safe haven" that supports my wife's kenotic love?</p>
+                            <textarea placeholder="Type your reflection here..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3>The Parable of the Two Hands</h3>
+                        <p>Parenting is like a craftsman using two hands. One hand (the mother) holds the work steady and naturally. The other (the father) shapes and directs with purposeful action.</p>
+                        
+                        <div class="illustration">
+                            <h4>The Two Hands of Parenting</h4>
+                            <div class="hands-container">
+                                <div class="hand">
+                                    <div class="hand-icon">
+                                        <i class="fas fa-female"></i>
+                                    </div>
+                                    <div class="hand-label">MOTHER</div>
+                                    <div class="hand-description">Holds steady<br>Nurtures</div>
+                                </div>
+                                
+                                <div class="work-piece">
+                                    <div class="child-icon">
+                                        <i class="fas fa-child"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="hand">
+                                    <div class="hand-icon">
+                                        <i class="fas fa-male"></i>
+                                    </div>
+                                    <div class="hand-label">FATHER</div>
+                                    <div class="hand-description">Shapes purpose<br>Directs</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="reflection">
+                            <p>Where are our "two hands" working in beautiful harmony in our parenting?</p>
+                            <textarea placeholder="Type your reflection here..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="completion-indicator">
+                        <div class="completion-checkbox" id="completion3">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>Mark as complete</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Collapsible Section 4 -->
+        <div class="collapsible-section">
+            <button class="collapsible-header" id="header4">
+                <span>Practical Application</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="collapsible-content" id="content4">
+                <div class="content-inner">
+                    <div class="content-section">
+                        <h3>Weekly Parenting Reflection</h3>
+                        <p>Allow a few quiet moments together to be thoughtful. Allow each parent time and space to answer these two questions:</p>
+                        
+                        <div class="key-point">
+                            <p><strong>"Where did you see the spirit of Hannah/Mary in me this week?"</strong></p>
+                            <p>For example: "In your response to the children, you were very patient." or "I noticed how you sacrificed your own plans to care for our sick child."</p>
+                        </div>
+                        
+                        <div class="key-point">
+                            <p><strong>"Where did you see the spirit of Joseph/the Prodigal's Father in me this week?"</strong></p>
+                            <p>For example: "In the way you remained calm while you enforced that boundary." or "I appreciated how you guided our family conversation with wisdom."</p>
+                        </div>
+                        
+                        <div class="reflection">
+                            <p>This Week's Parenting Reflection</p>
+                            <textarea placeholder="Share your observations and reflections here..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="completion-indicator">
+                        <div class="completion-checkbox" id="completion4">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>Mark as complete</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="lesson-nav">
+            <button class="btn btn-outline" id="viewProgress">
+                <i class="fas fa-chart-bar"></i>
+                View Progress
+            </button>
+            <button class="btn" id="saveProgress">
+                <i class="fas fa-save"></i>
+                Save Progress
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="#" class="nav-item">
+            <i class="fas fa-home nav-icon"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="nav-item active">
+            <i class="fas fa-book nav-icon"></i>
+            <span>Lessons</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-tools nav-icon"></i>
+            <span>Resources</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-user nav-icon"></i>
+            <span>Profile</span>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Pathlight Discipleship Curriculum &copy; 2023 | KCMC</p>
+        <p>Lit to Lead. Rooted to Grow.</p>
+    </footer>
+
+    <script>
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up collapsible sections
+            setupCollapsibleSections();
+            
+            // Set up completion checkboxes
+            setupCompletionCheckboxes();
+            
+            // Set up auto-save
+            setupAutoSave();
+            
+            // Load saved progress
+            loadProgress();
+            
+            // Set up progress buttons
+            document.getElementById('viewProgress').addEventListener('click', showProgressSummary);
+            document.getElementById('saveProgress').addEventListener('click', saveProgress);
+        });
+
+        // Collapsible Sections Functionality
+        function setupCollapsibleSections() {
+            const headers = document.querySelectorAll('.collapsible-header');
+            
+            headers.forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const isActive = this.classList.contains('active');
+                    
+                    // Close all sections first
+                    document.querySelectorAll('.collapsible-header').forEach(h => {
+                        h.classList.remove('active');
+                    });
+                    document.querySelectorAll('.collapsible-content').forEach(c => {
+                        c.classList.remove('active');
+                        c.style.maxHeight = null;
+                    });
+                    
+                    // If this section wasn't active, open it
+                    if (!isActive) {
+                        this.classList.add('active');
+                        content.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                    
+                    // Update progress bar
+                    updateProgressBar();
+                    // Auto-save progress
+                    saveProgress();
+                });
+            });
+            
+            // Open first section by default
+            if (headers.length > 0) {
+                headers[0].click();
+            }
+        }
+
+        // Completion Checkboxes Functionality
+        function setupCompletionCheckboxes() {
+            const checkboxes = document.querySelectorAll('.completion-checkbox');
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('click', function() {
+                    this.classList.toggle('checked');
+                    updateProgressBar();
+                    // Auto-save progress
+                    saveProgress();
+                });
+            });
+        }
+
+        // Progress Bar Update
+        function updateProgressBar() {
+            const checkboxes = document.querySelectorAll('.completion-checkbox');
+            const checked = document.querySelectorAll('.completion-checkbox.checked');
+            const progress = (checked.length / checkboxes.length) * 100;
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Auto-save Functionality
+        function setupAutoSave() {
+            // Auto-save every 30 seconds
+            setInterval(saveProgress, 30000);
+            
+            // Save when leaving page
+            window.addEventListener('beforeunload', saveProgress);
+        }
+
+        // Save Progress to Local Storage
+        function saveProgress() {
+            const syncStatus = document.getElementById('syncStatus');
+            syncStatus.innerHTML = '<i class="fas fa-sync-alt"></i><span>Syncing...</span>';
+            syncStatus.className = 'sync-status syncing';
+            
+            // Collect completion status
+            const completionStatus = {};
+            document.querySelectorAll('.completion-checkbox').forEach((checkbox, index) => {
+                completionStatus[`completion${index+1}`] = checkbox.classList.contains('checked');
+            });
+            
+            // Collect collapsible section states
+            const sectionStates = {};
+            document.querySelectorAll('.collapsible-header').forEach((header, index) => {
+                sectionStates[`section${index+1}`] = header.classList.contains('active');
+            });
+            
+            // Collect reflection responses
+            const reflections = {};
+            document.querySelectorAll('.reflection textarea').forEach((textarea, index) => {
+                reflections[`reflection${index+1}`] = textarea.value;
+            });
+            
+            // Save to localStorage
+            const progressData = {
+                completionStatus,
+                sectionStates,
+                reflections,
+                lastSaved: new Date().toISOString()
+            };
+            
+            localStorage.setItem('session2Progress', JSON.stringify(progressData));
+            
+            // Update sync status
+            setTimeout(() => {
+                syncStatus.innerHTML = '<i class="fas fa-check-circle"></i><span>Synced</span>';
+                syncStatus.className = 'sync-status synced';
+            }, 800);
+        }
+
+        // Load Progress from Local Storage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('session2Progress');
+            
+            if (savedProgress) {
+                const progressData = JSON.parse(savedProgress);
+                
+                // Load completion status
+                if (progressData.completionStatus) {
+                    Object.keys(progressData.completionStatus).forEach(key => {
+                        const checkbox = document.getElementById(key);
+                        if (checkbox && progressData.completionStatus[key]) {
+                            checkbox.classList.add('checked');
+                        }
+                    });
+                }
+                
+                // Load section states
+                if (progressData.sectionStates) {
+                    // Close all sections first
+                    document.querySelectorAll('.collapsible-header').forEach(h => {
+                        h.classList.remove('active');
+                    });
+                    document.querySelectorAll('.collapsible-content').forEach(c => {
+                        c.classList.remove('active');
+                        c.style.maxHeight = null;
+                    });
+                    
+                    // Open saved active sections
+                    Object.keys(progressData.sectionStates).forEach(key => {
+                        if (progressData.sectionStates[key]) {
+                            const header = document.getElementById(key.replace('section', 'header'));
+                            const content = document.getElementById(key.replace('section', 'content'));
+                            if (header && content) {
+                                header.classList.add('active');
+                                content.classList.add('active');
+                                content.style.maxHeight = content.scrollHeight + 'px';
+                            }
+                        }
+                    });
+                }
+                
+                // Load reflection responses
+                if (progressData.reflections) {
+                    Object.keys(progressData.reflections).forEach(key => {
+                        const textarea = document.querySelector(`.reflection textarea:nth-of-type(${key.replace('reflection', '')})`);
+                        if (textarea) {
+                            textarea.value = progressData.reflections[key];
+                        }
+                    });
+                }
+                
+                updateProgressBar();
+            }
+        }
+
+        // Show Progress Summary
+        function showProgressSummary() {
+            const checkboxes = document.querySelectorAll('.completion-checkbox');
+            const checked = document.querySelectorAll('.completion-checkbox.checked');
+            const progress = Math.round((checked.length / checkboxes.length) * 100);
+            
+            alert(`Your progress: ${progress}% completed\n\n${checked.length} out of ${checkboxes.length} sections marked as complete.`);
+        }
+    </script>
+</body>
+</html>
