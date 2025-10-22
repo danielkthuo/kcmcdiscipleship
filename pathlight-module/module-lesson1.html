@@ -1810,17 +1810,18 @@ function showNotification(message, type) {
 
         console.log("🔥 Firebase initialized for progress saving");
 
-        // Mock user ID for demo purposes - in real app, this would come from authentication
-        const getUserId = () => {
-            // Try to get from localStorage first (set by auth system)
-            const savedUserId = localStorage.getItem('userId');
-            if (savedUserId) return savedUserId;
-            
-            // For demo purposes, create a random user ID
-            const demoUserId = 'demo-user-' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('userId', demoUserId);
-            return demoUserId;
-        };
+        
+       // ✅ REAL AUTHENTICATION CHECK
+const getUserId = () => {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        // Redirect to login if no user ID found
+        alert('Please log in to access this content');
+        window.location.href = 'login.html';
+        return null;
+    }
+    return userId;
+};
 
         // Save progress to Firestore
         window.saveProgressToCloud = async function(progressData) {
