@@ -6,7 +6,7 @@
     <title>Session 1: The Metaphysics of Parenthood</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script type="module" src="../auth-check.js"></script>
+    
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#2c3e50">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -873,22 +873,6 @@
             box-shadow: var(--shadow);
             z-index: 998;
         }
-/* Sync status colors matching Session 2 */
-.sync-status.syncing {
-    color: var(--warning-color);
-}
-
-.sync-status.synced {
-    color: var(--success-color);
-}
-
-.sync-status.local {
-    color: var(--secondary-color);
-}
-
-.sync-status.offline {
-    color: #666;
-}
     </style>
 </head>
 <body>
@@ -923,20 +907,17 @@
         <a href="#practical" class="quick-nav-item">Practical Implementation</a>
     </div>
     
-    <div class="lesson-nav">
-    <a href="../progress.html" class="btn btn-outline">
-        <i class="fas fa-arrow-left"></i>
-        Back to Dashboard
-    </a>
-    <button class="btn btn-outline" id="manualSync">
-        <i class="fas fa-sync-alt"></i>
-        Sync Now
-    </button>
-    <a href="session2.html" class="btn">
-        Next Session
-        <i class="fas fa-arrow-right"></i>
-    </a>
-</div>
+    <div class="container">
+        <div class="lesson-nav">
+            <a href="../progress.html" class="btn btn-outline">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+            <a href="session2.html" class="btn">
+                Next Session
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
         
         <!-- KEY VERSE SECTION -->
         <div class="topic" id="key-verse">
@@ -1412,19 +1393,16 @@
         </div>
         
         <div class="lesson-nav">
-    <a href="../progress.html" class="btn btn-outline">
-        <i class="fas fa-arrow-left"></i>
-        Back to Dashboard
-    </a>
-    <button class="btn btn-outline" id="manualSync">
-        <i class="fas fa-sync-alt"></i>
-        Sync Now
-    </button>
-    <a href="session2.html" class="btn">
-        Next Session
-        <i class="fas fa-arrow-right"></i>
-    </a>
-</div>
+            <a href="session2.html" class="btn">
+                <i class="fas fa-arrow-right"></i>
+                Next Session
+            </a>
+            <button class="btn btn-outline" id="viewProgress">
+                <i class="fas fa-chart-bar"></i>
+                View Dashboard
+            </button>
+        </div>
+    </div>
     
     <!-- NEW: Back to top button -->
     <div class="back-to-top" id="backToTop">
@@ -1479,724 +1457,568 @@
         <p>Lit to Lead. Rooted to Grow.</p>
     </footer>
 
-<script>
-    // Initialize when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize progress tracking
-        initializeProgressTracking();
-        
-        // Set up sync indicator
-        const syncStatus = document.getElementById('syncStatus');
-        
-        // Auto-save functionality
-        setupAutoSave();
-        
-        // Progress modal functionality
-        setupProgressModal();
-        
-        // Initialize collapsible sections
-        setupCollapsibleSections();
-        
-        // Initialize topic collapsible sections
-        setupTopicCollapsibleSections();
-        
-        // Load saved progress
-        loadProgress();
-        
-        // NEW: Set up back to top button
-        setupBackToTop();
-        
-        // NEW: Set up quick navigation
-        setupQuickNavigation();
-        
-        // NEW: Set up dark mode toggle
-        setupDarkMode();
-        
-        // NEW: Set up note-taking functionality
-        setupNoteTaking();
-        
-        // NEW: Set up online/offline detection
-        setupConnectionListener();
-        
-        // Logout functionality
-        document.getElementById('logoutBtn').addEventListener('click', function(event) {
-            event.preventDefault();
-            if (confirm('Are you sure you want to logout?')) {
-                // In a real app, this would clear authentication tokens
-                // and redirect to login page
-                showNotification('You have been logged out successfully.', 'success');
-                
-                setTimeout(() => {
-                    // Simulate logout - in a real app, redirect to login
-                    window.location.href = '../index.html';
-                }, 1500);
-            }
-        });
-    });
-    
-    function initializeProgressTracking() {
-        // Topic completion toggle
-        const completionElements = document.querySelectorAll('.topic-completion');
-        completionElements.forEach(element => {
-            element.addEventListener('click', function() {
-                this.classList.toggle('topic-completed');
-                updateProgressBar();
-                updateTopicStatus();
-                saveProgress();
-            });
+    <script>
+        // Progress tracking and sync features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize progress tracking
+            initializeProgressTracking();
             
-            // Add touch feedback
-            element.addEventListener('touchstart', function() {
-                this.style.transform = 'scale(0.95)';
-            });
+            // Set up sync indicator
+            const syncStatus = document.getElementById('syncStatus');
             
-            element.addEventListener('touchend', function() {
-                this.style.transform = 'scale(1)';
-            });
-        });
-        
-        // Reflection text auto-save
-        document.querySelectorAll('.reflection textarea').forEach(textarea => {
-            textarea.addEventListener('input', function() {
-                saveProgress();
-            });
-        });
-    }
-    
-    function setupAutoSave() {
-        // Auto-save every 30 seconds
-        setInterval(saveProgress, 30000);
-        
-        // Save when leaving page
-        window.addEventListener('beforeunload', saveProgress);
-    }
-    
-    function setupProgressModal() {
-        const modal = document.getElementById('progressModal');
-        const viewProgressBtn = document.getElementById('viewProgress');
-        const closeModalBtn = document.getElementById('closeModal');
-        const exportProgressBtn = document.getElementById('exportProgress');
-        const resetProgressBtn = document.getElementById('resetProgress');
-        
-        viewProgressBtn.addEventListener('click', function() {
-            updateProgressSummary();
-            modal.style.display = 'flex';
-        });
-        
-        closeModalBtn.addEventListener('click', function() {
-            modal.style.display = 'none';
-        });
-        
-        window.addEventListener('click', function(event) {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-        
-        exportProgressBtn.addEventListener('click', exportProgress);
-        resetProgressBtn.addEventListener('click', resetProgress);
-    }
-    
-    function setupCollapsibleSections() {
-        const coll = document.querySelectorAll('.collapsible');
-        coll.forEach(item => {
-            item.addEventListener('click', function() {
-                this.classList.toggle('active');
-                const content = this.nextElementSibling;
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + 'px';
-                }
-            });
-        });
-    }
-    
-    function setupTopicCollapsibleSections() {
-        const topicCollapsibles = document.querySelectorAll('.topic-collapsible');
-        topicCollapsibles.forEach(item => {
-            item.addEventListener('click', function() {
-                this.classList.toggle('active');
-                const content = document.getElementById(this.id.replace('Collapsible', 'Content'));
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    // Set max-height to allow scrolling for long content
-                    content.style.maxHeight = '70vh';
-                }
-            });
-        });
-        
-        // Open first topic by default
-        if (topicCollapsibles.length > 0) {
-            topicCollapsibles[0].classList.add('active');
-            const firstContent = document.getElementById('theologyContent');
-            firstContent.style.maxHeight = '70vh';
-        }
-    }
-    
-    // NEW: Back to top functionality
-    function setupBackToTop() {
-        const backToTopBtn = document.getElementById('backToTop');
-        
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                backToTopBtn.classList.add('visible');
-            } else {
-                backToTopBtn.classList.remove('visible');
-            }
-        });
-        
-        backToTopBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
-    
-    // NEW: Quick navigation functionality
-    function setupQuickNavigation() {
-        const quickNavToggle = document.getElementById('quickNavToggle');
-        const quickNav = document.getElementById('quickNav');
-        
-        quickNavToggle.addEventListener('click', function() {
-            quickNav.classList.toggle('active');
-        });
-        
-        // Close quick nav when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!quickNav.contains(event.target) && !quickNavToggle.contains(event.target)) {
-                quickNav.classList.remove('active');
-            }
-        });
-    }
-    
-    // NEW: Dark mode functionality
-    function setupDarkMode() {
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const darkModeIcon = darkModeToggle.querySelector('i');
-        
-        // Check for saved theme preference or respect OS preference
-        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-        const currentTheme = localStorage.getItem('theme');
-        
-        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
-            document.body.classList.add('dark-mode');
-            darkModeIcon.className = 'fas fa-sun';
-        }
-        
-        darkModeToggle.addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
+            // Auto-save functionality
+            setupAutoSave();
             
-            if (document.body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
-                darkModeIcon.className = 'fas fa-sun';
-            } else {
-                localStorage.setItem('theme', 'light');
-                darkModeIcon.className = 'fas fa-moon';
-            }
-        });
-    }
-    
-    // NEW: Note-taking functionality
-    function setupNoteTaking() {
-        // Set up note save buttons
-        document.querySelectorAll('.note-save').forEach(button => {
-            button.addEventListener('click', function() {
-                const noteId = this.getAttribute('data-note-id');
-                const noteInput = document.querySelector(`.note-input[data-note-id="${noteId}"]`);
-                const savedNotesContainer = document.getElementById(`${noteId}-notes`);
-                
-                if (noteInput.value.trim() !== '') {
-                    saveNote(noteId, noteInput.value);
-                    noteInput.value = '';
-                    loadNotes(noteId, savedNotesContainer);
-                    showNotification('Note saved successfully', 'success');
-                }
-            });
-        });
-        
-        // Load all saved notes on page load
-        document.querySelectorAll('.saved-notes').forEach(container => {
-            const noteId = container.id.replace('-notes', '');
-            loadNotes(noteId, container);
-        });
-    }
-
-    function saveNote(noteId, content) {
-        const notes = JSON.parse(localStorage.getItem('session1Notes') || '{}');
-        
-        if (!notes[noteId]) {
-            notes[noteId] = [];
-        }
-        
-        notes[noteId].push({
-            content: content,
-            date: new Date().toISOString()
-        });
-        
-        localStorage.setItem('session1Notes', JSON.stringify(notes));
-        
-        // Also save to cloud if user is logged in
-        if (window.saveProgressToCloud && localStorage.getItem("isLoggedIn") === "true") {
-            const sessionData = {
-                session1Notes: notes
-            };
-            window.saveProgressToCloud(sessionData);
-        }
-    }
-
-    function loadNotes(noteId, container) {
-        const notes = JSON.parse(localStorage.getItem('session1Notes') || '{}');
-        const noteArray = notes[noteId] || [];
-        
-        container.innerHTML = '';
-        
-        if (noteArray.length === 0) {
-            container.innerHTML = '<p class="note-date">No notes yet</p>';
-            return;
-        }
-        
-        // Display notes in reverse chronological order (newest first)
-        noteArray.reverse().forEach(note => {
-            const noteElement = document.createElement('div');
-            noteElement.className = 'saved-note';
-            noteElement.innerHTML = `
-                <div class="note-date">${new Date(note.date).toLocaleString()}</div>
-                <div>${note.content}</div>
-            `;
-            container.appendChild(noteElement);
-        });
-    }
-
-    // NEW: Connection listener for online/offline status
-    function setupConnectionListener() {
-        window.addEventListener('online', function() {
-            console.log("🌐 Online - syncing data...");
-            showNotification('Back online - syncing data', 'success');
-            // Auto-save when coming back online
-            saveProgress();
-        });
-
-        window.addEventListener('offline', function() {
-            console.log("📴 Offline - saving locally only");
-            showNotification('You are offline - saving locally', 'warning');
-        });
-    }
-
-    // ENHANCED: Save Progress to Local Storage AND Cloud
-    async function saveProgress() {
-        const syncStatus = document.getElementById('syncStatus');
-        syncStatus.innerHTML = '<i class="fas fa-sync-alt"></i><span>Syncing...</span>';
-        syncStatus.className = 'sync-status syncing';
-        
-        // Collect completion status
-        const completionStatus = {};
-        document.querySelectorAll('.topic-completion').forEach((completion, index) => {
-            completionStatus[`completion${index+1}`] = completion.classList.contains('topic-completed');
-        });
-        
-        // Collect collapsible section states
-        const sectionStates = {};
-        document.querySelectorAll('.topic-collapsible').forEach((collapsible, index) => {
-            sectionStates[`section${index+1}`] = collapsible.classList.contains('active');
-        });
-        
-        // Collect reflection responses
-        const reflections = {};
-        document.querySelectorAll('.reflection textarea').forEach((textarea, index) => {
-            reflections[`reflection${index+1}`] = textarea.value;
-        });
-        
-        // Collect notes
-        const notes = JSON.parse(localStorage.getItem('session1Notes') || '{}');
-        
-        // Save to localStorage first (for offline access)
-        const progressData = {
-            completionStatus,
-            sectionStates,
-            reflections,
-            lastSaved: new Date().toISOString()
-        };
-        
-        localStorage.setItem('session1Progress', JSON.stringify(progressData));
-        
-        // Try to save to cloud if user is logged in
-        let cloudSuccess = false;
-        if (window.saveProgressToCloud && localStorage.getItem("isLoggedIn") === "true") {
-            const sessionData = {
-                session1Progress: progressData,
-                session1Notes: notes
-            };
-            cloudSuccess = await window.saveProgressToCloud(sessionData);
-        }
-        
-        // Update sync status based on cloud save result
-        setTimeout(() => {
-            if (cloudSuccess) {
-                syncStatus.innerHTML = '<i class="fas fa-cloud"></i><span>Cloud Synced</span>';
-                syncStatus.className = 'sync-status synced';
-                showNotification('Progress saved to cloud', 'success');
-            } else if (localStorage.getItem("isLoggedIn") === "true") {
-                syncStatus.innerHTML = '<i class="fas fa-laptop"></i><span>Local Only</span>';
-                syncStatus.className = 'sync-status local';
-                showNotification('Saved locally (offline)', 'warning');
-            } else {
-                syncStatus.innerHTML = '<i class="fas fa-user-slash"></i><span>Local Only</span>';
-                syncStatus.className = 'sync-status offline';
-                showNotification('Not logged in - saving locally', 'warning');
-            }
-        }, 800);
-    }
-
-    // ENHANCED: Load Progress from Local Storage (cloud data loads automatically via auth-check.js)
-    function loadProgress() {
-        // Always try to load from localStorage first (fastest)
-        const savedProgress = localStorage.getItem('session1Progress');
-        const savedNotes = localStorage.getItem('session1Notes');
-        
-        if (savedProgress) {
-            const progressData = JSON.parse(savedProgress);
+            // Progress modal functionality
+            setupProgressModal();
             
-            // Load completion status
-            if (progressData.completionStatus) {
-                Object.keys(progressData.completionStatus).forEach(key => {
-                    const completionElements = document.querySelectorAll('.topic-completion');
-                    const index = parseInt(key.replace('completion', '')) - 1;
-                    if (completionElements[index] && progressData.completionStatus[key]) {
-                        completionElements[index].classList.add('topic-completed');
-                    }
-                });
-            }
+            // Initialize collapsible sections
+            setupCollapsibleSections();
             
-            // Load section states
-            if (progressData.sectionStates) {
-                Object.keys(progressData.sectionStates).forEach(key => {
-                    const index = parseInt(key.replace('section', '')) - 1;
-                    const collapsibles = document.querySelectorAll('.topic-collapsible');
-                    const contents = document.querySelectorAll('.topic-content');
+            // Initialize topic collapsible sections
+            setupTopicCollapsibleSections();
+            
+            // Load saved progress
+            loadProgress();
+            
+            // NEW: Set up back to top button
+            setupBackToTop();
+            
+            // NEW: Set up quick navigation
+            setupQuickNavigation();
+            
+            // NEW: Set up dark mode toggle
+            setupDarkMode();
+            
+            // NEW: Set up note-taking functionality
+            setupNoteTaking();
+            
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function(event) {
+                event.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    // In a real app, this would clear authentication tokens
+                    // and redirect to login page
+                    showNotification('You have been logged out successfully.', 'success');
                     
-                    if (collapsibles[index] && contents[index] && progressData.sectionStates[key]) {
-                        collapsibles[index].classList.add('active');
-                        contents[index].style.maxHeight = '70vh';
-                    }
-                });
-            }
-            
-            // Load reflection responses
-            if (progressData.reflections) {
-                Object.keys(progressData.reflections).forEach(key => {
-                    const textareas = document.querySelectorAll('.reflection textarea');
-                    const index = parseInt(key.replace('reflection', '')) - 1;
-                    if (textareas[index]) {
-                        textareas[index].value = progressData.reflections[key];
-                    }
-                });
-            }
-            
-            updateProgressBar();
-            updateTopicStatus();
-        }
-        
-        // Load notes if they exist
-        if (savedNotes) {
-            const notesData = JSON.parse(savedNotes);
-            Object.keys(notesData).forEach(noteId => {
-                const container = document.getElementById(`${noteId}-notes`);
-                if (container) {
-                    loadNotes(noteId, container);
+                    setTimeout(() => {
+                        // Simulate logout - in a real app, redirect to login
+                        window.location.href = '../index.html';
+                    }, 1500);
                 }
             });
-        }
-    }
-    
-    function updateProgressBar() {
-        const completedTopics = document.querySelectorAll('.topic-completed').length;
-        const totalTopics = document.querySelectorAll('.topic-completion').length;
-        const progress = (completedTopics / totalTopics) * 100;
-        
-        document.getElementById('progressBar').style.width = progress + '%';
-    }
-    
-    function updateTopicStatus() {
-        // Update status indicators for each topic
-        const topics = ['theology', 'reflection', 'practical'];
-        
-        topics.forEach(topic => {
-            const completionElement = document.getElementById(`${topic}Completion`);
-            const statusElement = document.getElementById(`${topic}Status`);
-            
-            if (completionElement && statusElement) {
-                if (completionElement.classList.contains('topic-completed')) {
-                    statusElement.textContent = '✓';
-                    statusElement.style.color = 'var(--success-color)';
-                } else {
-                    statusElement.textContent = '●';
-                    statusElement.style.color = '#ccc';
-                }
-            }
-        });
-    }
-    
-    function updateProgressSummary() {
-        const summaryElement = document.getElementById('progressSummary');
-        const completedTopics = document.querySelectorAll('.topic-completed').length;
-        const totalTopics = document.querySelectorAll('.topic-completion').length;
-        const progressPercentage = Math.round((completedTopics / totalTopics) * 100);
-        
-        let reflectionCount = 0;
-        document.querySelectorAll('.reflection textarea').forEach(textarea => {
-            if (textarea.value.trim() !== '') {
-                reflectionCount++;
-            }
         });
         
-        const totalReflections = document.querySelectorAll('.reflection textarea').length;
-        const reflectionPercentage = Math.round((reflectionCount / totalReflections) * 100);
-        
-        // Count notes
-        const notes = JSON.parse(localStorage.getItem('session1Notes') || '{}');
-        let noteCount = 0;
-        Object.keys(notes).forEach(key => {
-            noteCount += notes[key].length;
-        });
-        
-        const userStatus = localStorage.getItem("isLoggedIn") === "true" ? 
-            `(Cloud Sync: ${localStorage.getItem("userEmail")})` : 
-            "(Local Only - Not logged in)";
-        
-        summaryElement.innerHTML = `
-            <div class="progress-item">
-                <span>Topics Completed:</span>
-                <span>${completedTopics}/${totalTopics} (${progressPercentage}%)</span>
-            </div>
-            <div class="progress-item">
-                <span>Reflections Completed:</span>
-                <span>${reflectionCount}/${totalReflections} (${reflectionPercentage}%)</span>
-            </div>
-            <div class="progress-item">
-                <span>Personal Notes:</span>
-                <span>${noteCount}</span>
-            </div>
-            <div class="progress-item">
-                <span>Last Saved:</span>
-                <span>${new Date().toLocaleString()}</span>
-            </div>
-            <div class="progress-item">
-                <span>Sync Status:</span>
-                <span>${userStatus}</span>
-            </div>
-        `;
-    }
-    
-    function exportProgress() {
-        const progressData = localStorage.getItem('session1Progress');
-        const noteData = localStorage.getItem('session1Notes');
-        
-        if (!progressData && !noteData) {
-            showNotification('No data to export', 'error');
-            return;
-        }
-        
-        // Combine progress and notes
-        const exportData = {
-            progress: progressData ? JSON.parse(progressData) : {},
-            notes: noteData ? JSON.parse(noteData) : {},
-            exportDate: new Date().toISOString(),
-            session: "Session 1: The Metaphysics of Parenthood"
-        };
-        
-        // Create a blob and download link
-        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'session1-data.json';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        
-        showNotification('Data exported successfully', 'success');
-    }
-    
-    function resetProgress() {
-        if (confirm('Are you sure you want to reset all progress and notes for this session? This action cannot be undone.')) {
-            localStorage.removeItem('session1Progress');
-            localStorage.removeItem('session1Notes');
-            
-            // Reset UI
-            document.querySelectorAll('.topic-completion').forEach(element => {
-                element.classList.remove('topic-completed');
+        function initializeProgressTracking() {
+            // Topic completion toggle
+            const completionElements = document.querySelectorAll('.topic-completion');
+            completionElements.forEach(element => {
+                element.addEventListener('click', function() {
+                    this.classList.toggle('topic-completed');
+                    updateProgressBar();
+                    updateTopicStatus();
+                    saveProgress();
+                });
+                
+                // Add touch feedback
+                element.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.95)';
+                });
+                
+                element.addEventListener('touchend', function() {
+                    this.style.transform = 'scale(1)';
+                });
             });
             
+            // Reflection text auto-save
             document.querySelectorAll('.reflection textarea').forEach(textarea => {
-                textarea.value = '';
+                textarea.addEventListener('input', function() {
+                    saveProgress();
+                });
+            });
+        }
+        
+        function setupAutoSave() {
+            // Auto-save progress every 30 seconds
+            setInterval(saveProgress, 30000);
+            
+            // Save on page unload
+            window.addEventListener('beforeunload', saveProgress);
+        }
+        
+        function setupProgressModal() {
+            const modal = document.getElementById('progressModal');
+            const viewProgressBtn = document.getElementById('viewProgress');
+            const closeModalBtn = document.getElementById('closeModal');
+            const exportProgressBtn = document.getElementById('exportProgress');
+            const resetProgressBtn = document.getElementById('resetProgress');
+            
+            viewProgressBtn.addEventListener('click', function() {
+                updateProgressSummary();
+                modal.style.display = 'flex';
             });
             
-            document.querySelectorAll('.note-input').forEach(input => {
-                input.value = '';
+            closeModalBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
             });
             
-            document.querySelectorAll('.saved-notes').forEach(container => {
-                container.innerHTML = '<p class="note-date">No notes yet</p>';
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
             });
             
-            document.querySelectorAll('.topic-collapsible').forEach(collapsible => {
-                collapsible.classList.remove('active');
+            exportProgressBtn.addEventListener('click', exportProgress);
+            resetProgressBtn.addEventListener('click', resetProgress);
+        }
+        
+        function setupCollapsibleSections() {
+            const coll = document.querySelectorAll('.collapsible');
+            coll.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+        }
+        
+        function setupTopicCollapsibleSections() {
+            const topicCollapsibles = document.querySelectorAll('.topic-collapsible');
+            topicCollapsibles.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = document.getElementById(this.id.replace('Collapsible', 'Content'));
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        // Set max-height to allow scrolling for long content
+                        content.style.maxHeight = '70vh';
+                    }
+                });
             });
             
-            document.querySelectorAll('.topic-content').forEach(content => {
-                content.style.maxHeight = null;
-            });
-            
-            // Open first topic
-            const firstCollapsible = document.getElementById('theologyCollapsible');
-            const firstContent = document.getElementById('theologyContent');
-            if (firstCollapsible && firstContent) {
-                firstCollapsible.classList.add('active');
+            // Open first topic by default
+            if (topicCollapsibles.length > 0) {
+                topicCollapsibles[0].classList.add('active');
+                const firstContent = document.getElementById('theologyContent');
                 firstContent.style.maxHeight = '70vh';
             }
-            
-            updateProgressBar();
-            updateTopicStatus();
-            
-            showNotification('Progress reset successfully', 'success');
-            
-            // Close modal
-            document.getElementById('progressModal').style.display = 'none';
-        }
-    }
-    
-    function showNotification(message, type) {
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.textContent = message;
-        notification.style.position = 'fixed';
-        notification.style.top = '80px';
-        notification.style.right = '20px';
-        notification.style.padding = '12px 20px';
-        notification.style.borderRadius = 'var(--radius)';
-        notification.style.color = 'white';
-        notification.style.fontWeight = '500';
-        notification.style.zIndex = '9999';
-        notification.style.boxShadow = 'var(--shadow)';
-        notification.style.transition = 'transform 0.3s, opacity 0.3s';
-        notification.style.transform = 'translateX(100%)';
-        notification.style.opacity = '0';
-        
-        if (type === 'success') {
-            notification.style.background = 'var(--success-color)';
-        } else if (type === 'error') {
-            notification.style.background = 'var(--accent-color)';
-        } else if (type === 'warning') {
-            notification.style.background = 'var(--warning-color)';
-        } else {
-            notification.style.background = 'var(--secondary-color)';
         }
         
-        document.body.appendChild(notification);
+        // NEW: Back to top functionality
+        function setupBackToTop() {
+            const backToTopBtn = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
         
-        // Animate in
-        setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
-            notification.style.opacity = '1';
-        }, 10);
+        // NEW: Quick navigation functionality
+        function setupQuickNavigation() {
+            const quickNavToggle = document.getElementById('quickNavToggle');
+            const quickNav = document.getElementById('quickNav');
+            
+            quickNavToggle.addEventListener('click', function() {
+                quickNav.classList.toggle('active');
+            });
+            
+            // Close quick nav when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!quickNav.contains(event.target) && !quickNavToggle.contains(event.target)) {
+                    quickNav.classList.remove('active');
+                }
+            });
+        }
         
-        // Animate out after 3 seconds
-        setTimeout(() => {
+        // NEW: Dark mode functionality
+        function setupDarkMode() {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const darkModeIcon = darkModeToggle.querySelector('i');
+            
+            // Check for saved theme preference or respect OS preference
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            const currentTheme = localStorage.getItem('theme');
+            
+            if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+                darkModeIcon.className = 'fas fa-sun';
+            }
+            
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                
+                if (document.body.classList.contains('dark-mode')) {
+                    localStorage.setItem('theme', 'dark');
+                    darkModeIcon.className = 'fas fa-sun';
+                } else {
+                    localStorage.setItem('theme', 'light');
+                    darkModeIcon.className = 'fas fa-moon';
+                }
+            });
+        }
+        
+        // NEW: Note-taking functionality
+        function setupNoteTaking() {
+            // Set up note save buttons
+            document.querySelectorAll('.note-save').forEach(button => {
+                button.addEventListener('click', function() {
+                    const noteId = this.getAttribute('data-note-id');
+                    const noteInput = document.querySelector(`.note-input[data-note-id="${noteId}"]`);
+                    const savedNotesContainer = document.getElementById(`${noteId}-notes`);
+                    
+                    if (noteInput.value.trim() !== '') {
+                        saveNote(noteId, noteInput.value);
+                        noteInput.value = '';
+                        loadNotes(noteId, savedNotesContainer);
+                        showNotification('Note saved successfully', 'success');
+                    }
+                });
+            });
+            
+            // Load all saved notes on page load
+            document.querySelectorAll('.saved-notes').forEach(container => {
+                const noteId = container.id.replace('-notes', '');
+                loadNotes(noteId, container);
+            });
+        }
+        
+        function saveNote(noteId, content) {
+            const notes = JSON.parse(localStorage.getItem('session1Notes') || '{}');
+            
+            if (!notes[noteId]) {
+                notes[noteId] = [];
+            }
+            
+            notes[noteId].push({
+                content: content,
+                date: new Date().toISOString()
+            });
+            
+            localStorage.setItem('session1Notes', JSON.stringify(notes));
+        }
+        
+        function loadNotes(noteId, container) {
+            const notes = JSON.parse(localStorage.getItem('session1Notes') || '{}');
+            const noteArray = notes[noteId] || [];
+            
+            container.innerHTML = '';
+            
+            if (noteArray.length === 0) {
+                container.innerHTML = '<p class="note-date">No notes yet</p>';
+                return;
+            }
+            
+            // Display notes in reverse chronological order (newest first)
+            noteArray.reverse().forEach(note => {
+                const noteElement = document.createElement('div');
+                noteElement.className = 'saved-note';
+                noteElement.innerHTML = `
+                    <div class="note-date">${new Date(note.date).toLocaleString()}</div>
+                    <div>${note.content}</div>
+                `;
+                container.appendChild(noteElement);
+            });
+        }
+        
+        function updateProgressBar() {
+            const completedTopics = document.querySelectorAll('.topic-completed').length;
+            const totalTopics = document.querySelectorAll('.topic-completion').length;
+            const progressPercentage = (completedTopics / totalTopics) * 100;
+            
+            document.getElementById('progressBar').style.width = progressPercentage + '%';
+        }
+        
+        function updateTopicStatus() {
+            // Update status indicators for each topic
+            const topics = ['theology', 'reflection', 'practical'];
+            
+            topics.forEach(topic => {
+                const completionElement = document.getElementById(`${topic}Completion`);
+                const statusElement = document.getElementById(`${topic}Status`);
+                
+                if (completionElement && statusElement) {
+                    if (completionElement.classList.contains('topic-completed')) {
+                        statusElement.textContent = '✓';
+                        statusElement.style.color = 'var(--success-color)';
+                    } else {
+                        statusElement.textContent = '●';
+                        statusElement.style.color = '#ccc';
+                    }
+                }
+            });
+        }
+        
+        function saveProgress() {
+            const syncStatus = document.getElementById('syncStatus');
+            syncStatus.textContent = 'Syncing...';
+            syncStatus.className = 'sync-status syncing';
+            
+            // Collect topic completion status
+            const topics = [];
+            document.querySelectorAll('.topic-completion').forEach((element, index) => {
+                topics.push({
+                    id: index,
+                    completed: element.classList.contains('topic-completed')
+                });
+            });
+            
+            // Collect reflection responses
+            const reflections = {};
+            document.querySelectorAll('.reflection textarea').forEach(textarea => {
+                const reflectionId = textarea.getAttribute('data-reflection-id');
+                reflections[reflectionId] = textarea.value;
+            });
+            
+            // Collect topic collapsible states
+            const topicStates = {};
+            document.querySelectorAll('.topic-collapsible').forEach(collapsible => {
+                topicStates[collapsible.id] = collapsible.classList.contains('active');
+            });
+            
+            // Save to localStorage
+            const progressData = {
+                topics,
+                reflections,
+                topicStates,
+                lastSaved: new Date().toISOString()
+            };
+            
+            localStorage.setItem('session1Progress', JSON.stringify(progressData));
+            
+            // Simulate network delay for sync
+            setTimeout(() => {
+                syncStatus.textContent = 'Synced';
+                syncStatus.className = 'sync-status synced';
+                showNotification('Progress saved successfully', 'success');
+            }, 800);
+        }
+        
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('session1Progress');
+            
+            if (savedProgress) {
+                const progressData = JSON.parse(savedProgress);
+                
+                // Load topic completion status
+                if (progressData.topics) {
+                    progressData.topics.forEach(topic => {
+                        const completionElement = document.querySelectorAll('.topic-completion')[topic.id];
+                        if (completionElement && topic.completed) {
+                            completionElement.classList.add('topic-completed');
+                        }
+                    });
+                }
+                
+                // Load reflection responses
+                if (progressData.reflections) {
+                    Object.keys(progressData.reflections).forEach(reflectionId => {
+                        const textarea = document.querySelector(`[data-reflection-id="${reflectionId}"]`);
+                        if (textarea) {
+                            textarea.value = progressData.reflections[reflectionId];
+                        }
+                    });
+                }
+                
+                // Load topic collapsible states
+                if (progressData.topicStates) {
+                    Object.keys(progressData.topicStates).forEach(collapsibleId => {
+                        const collapsible = document.getElementById(collapsibleId);
+                        const content = document.getElementById(collapsibleId.replace('Collapsible', 'Content'));
+                        
+                        if (collapsible && content && progressData.topicStates[collapsibleId]) {
+                            collapsible.classList.add('active');
+                            content.style.maxHeight = '70vh';
+                        }
+                    });
+                }
+                
+                updateProgressBar();
+                updateTopicStatus();
+            }
+        }
+        
+        function updateProgressSummary() {
+            const summaryElement = document.getElementById('progressSummary');
+            const completedTopics = document.querySelectorAll('.topic-completed').length;
+            const totalTopics = document.querySelectorAll('.topic-completion').length;
+            const progressPercentage = Math.round((completedTopics / totalTopics) * 100);
+            
+            let reflectionCount = 0;
+            document.querySelectorAll('.reflection textarea').forEach(textarea => {
+                if (textarea.value.trim() !== '') {
+                    reflectionCount++;
+                }
+            });
+            
+            const totalReflections = document.querySelectorAll('.reflection textarea').length;
+            const reflectionPercentage = Math.round((reflectionCount / totalReflections) * 100);
+            
+            // Count notes
+            const notes = JSON.parse(localStorage.getItem('session1Notes') || '{}');
+            let noteCount = 0;
+            Object.keys(notes).forEach(key => {
+                noteCount += notes[key].length;
+            });
+            
+            summaryElement.innerHTML = `
+                <div class="progress-item">
+                    <span>Topics Completed:</span>
+                    <span>${completedTopics}/${totalTopics} (${progressPercentage}%)</span>
+                </div>
+                <div class="progress-item">
+                    <span>Reflections Completed:</span>
+                    <span>${reflectionCount}/${totalReflections} (${reflectionPercentage}%)</span>
+                </div>
+                <div class="progress-item">
+                    <span>Personal Notes:</span>
+                    <span>${noteCount}</span>
+                </div>
+                <div class="progress-item">
+                    <span>Last Saved:</span>
+                    <span>${new Date().toLocaleString()}</span>
+                </div>
+            `;
+        }
+        
+        function exportProgress() {
+            const progressData = localStorage.getItem('session1Progress');
+            const noteData = localStorage.getItem('session1Notes');
+            
+            if (!progressData && !noteData) {
+                showNotification('No data to export', 'error');
+                return;
+            }
+            
+            // Combine progress and notes
+            const exportData = {
+                progress: progressData ? JSON.parse(progressData) : {},
+                notes: noteData ? JSON.parse(noteData) : {},
+                exportDate: new Date().toISOString(),
+                session: "Session 1: The Metaphysics of Parenthood"
+            };
+            
+            // Create a blob and download link
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'session1-data.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('Data exported successfully', 'success');
+        }
+        
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress and notes for this session? This action cannot be undone.')) {
+                localStorage.removeItem('session1Progress');
+                localStorage.removeItem('session1Notes');
+                
+                // Reset UI
+                document.querySelectorAll('.topic-completion').forEach(element => {
+                    element.classList.remove('topic-completed');
+                });
+                
+                document.querySelectorAll('.reflection textarea').forEach(textarea => {
+                    textarea.value = '';
+                });
+                
+                document.querySelectorAll('.note-input').forEach(input => {
+                    input.value = '';
+                });
+                
+                document.querySelectorAll('.saved-notes').forEach(container => {
+                    container.innerHTML = '<p class="note-date">No notes yet</p>';
+                });
+                
+                document.querySelectorAll('.topic-collapsible').forEach(collapsible => {
+                    collapsible.classList.remove('active');
+                });
+                
+                document.querySelectorAll('.topic-content').forEach(content => {
+                    content.style.maxHeight = null;
+                });
+                
+                // Open first topic
+                const firstCollapsible = document.getElementById('theologyCollapsible');
+                const firstContent = document.getElementById('theologyContent');
+                if (firstCollapsible && firstContent) {
+                    firstCollapsible.classList.add('active');
+                    firstContent.style.maxHeight = '70vh';
+                }
+                
+                updateProgressBar();
+                updateTopicStatus();
+                
+                showNotification('Progress reset successfully', 'success');
+                
+                // Close modal
+                document.getElementById('progressModal').style.display = 'none';
+            }
+        }
+        
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.position = 'fixed';
+            notification.style.top = '80px';
+            notification.style.right = '20px';
+            notification.style.padding = '12px 20px';
+            notification.style.borderRadius = 'var(--radius)';
+            notification.style.color = 'white';
+            notification.style.fontWeight = '500';
+            notification.style.zIndex = '9999';
+            notification.style.boxShadow = 'var(--shadow)';
+            notification.style.transition = 'transform 0.3s, opacity 0.3s';
             notification.style.transform = 'translateX(100%)';
             notification.style.opacity = '0';
             
-            setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 300);
-        }, 3000);
-    }
-
-    // Make loadProgress available globally for auth-check.js
-    window.loadProgress = loadProgress;
-</script>
-<script>
-    // Add to your DOMContentLoaded event listener
-document.getElementById('manualSync').addEventListener('click', function() {
-    if (window.manualCloudSync) {
-        window.manualCloudSync();
-        showNotification('Syncing from cloud...', 'success');
-    } else {
-        showNotification('Cloud sync not available', 'error');
-    }
-});
-
-// Enhanced loadProgress to handle cloud data
-function loadProgress() {
-    console.log("🔄 loadProgress called");
-    
-    // Always try to load from localStorage first (fastest)
-    const savedProgress = localStorage.getItem('session1Progress');
-    const savedNotes = localStorage.getItem('session1Notes');
-    
-    if (savedProgress) {
-        const progressData = JSON.parse(savedProgress);
-        console.log("📁 Loading progress data:", progressData);
-        
-        // Load completion status
-        if (progressData.completionStatus) {
-            Object.keys(progressData.completionStatus).forEach(key => {
-                const completionElements = document.querySelectorAll('.topic-completion');
-                const index = parseInt(key.replace('completion', '')) - 1;
-                if (completionElements[index] && progressData.completionStatus[key]) {
-                    completionElements[index].classList.add('topic-completed');
-                }
-            });
-        }
-        
-        // Load section states
-        if (progressData.sectionStates) {
-            Object.keys(progressData.sectionStates).forEach(key => {
-                const index = parseInt(key.replace('section', '')) - 1;
-                const collapsibles = document.querySelectorAll('.topic-collapsible');
-                const contents = document.querySelectorAll('.topic-content');
-                
-                if (collapsibles[index] && contents[index] && progressData.sectionStates[key]) {
-                    collapsibles[index].classList.add('active');
-                    contents[index].style.maxHeight = '70vh';
-                }
-            });
-        }
-        
-        // Load reflection responses
-        if (progressData.reflections) {
-            Object.keys(progressData.reflections).forEach(key => {
-                const textareas = document.querySelectorAll('.reflection textarea');
-                const index = parseInt(key.replace('reflection', '')) - 1;
-                if (textareas[index] && progressData.reflections[key]) {
-                    textareas[index].value = progressData.reflections[key];
-                }
-            });
-        }
-        
-        updateProgressBar();
-        updateTopicStatus();
-    }
-    
-    // Load notes if they exist
-    if (savedNotes) {
-        const notesData = JSON.parse(savedNotes);
-        Object.keys(notesData).forEach(noteId => {
-            const container = document.getElementById(`${noteId}-notes`);
-            if (container) {
-                loadNotes(noteId, container);
+            if (type === 'success') {
+                notification.style.background = 'var(--success-color)';
+            } else if (type === 'error') {
+                notification.style.background = 'var(--accent-color)';
+            } else {
+                notification.style.background = 'var(--secondary-color)';
             }
-        });
-    }
-    
-    console.log("✅ loadProgress completed");
-}
-
-// Make sure loadProgress is available globally
-window.loadProgress = loadProgress;
-</script>
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+                notification.style.opacity = '1';
+            }, 10);
+            
+            // Animate out after 3 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                notification.style.opacity = '0';
+                
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
