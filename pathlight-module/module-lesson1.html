@@ -772,7 +772,7 @@ footer {
             <h1>MODULE 1: FOUNDATION TO NEW BELIEVER</h1>
             <p class="subtitle">The 5 Assurances of a Christian-Understanding the foundational truths of Christianity and steps to grow in faith</p>
         </div>
-        <div class="sync-status" id="syncStatus">Synced</div>
+        <div class="sync-status" id="syncStatus">Ready</div>
         <div class="progress-container">
             <div class="progress-bar" id="progressBar"></div>
         </div>
@@ -781,6 +781,10 @@ footer {
     <div class="container">
         <div class="lesson-nav">
             <a href="../progress.html" class="btn btn-outline">Back to Dashboard</a>
+            <button class="btn" id="manualSync">
+                <span class="nav-icon">🔄</span>
+                <span>Sync Now</span>
+            </button>
             <a href="module-lesson2.html" class="btn">Next Lesson</a>
         </div>
         
@@ -1784,6 +1788,128 @@ function showNotification(message, type) {
         <p>Lit to Lead. Rooted to Grow.</p>
     </footer>
 
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC8yqqIrJeUjnXRH2VBursxfiGnmqGLwxQ",
+            authDomain: "kcmcpathlight.firebaseapp.com",
+            projectId: "kcmcpathlight",
+            storageBucket: "kcmcpathlight.firebasestorage.app",
+            messagingSenderId: "469006859881",
+            appId: "1:469006859881:web:0320573397120718bdecf8"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        console.log("🔥 Firebase initialized for progress saving");
+
+        // Mock user ID for demo purposes - in real app, this would come from authentication
+        const getUserId = () => {
+            // Try to get from localStorage first (set by auth system)
+            const savedUserId = localStorage.getItem('userId');
+            if (savedUserId) return savedUserId;
+            
+            // For demo purposes, create a random user ID
+            const demoUserId = 'demo-user-' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('userId', demoUserId);
+            return demoUserId;
+        };
+
+        // Save progress to Firestore
+        window.saveProgressToCloud = async function(progressData) {
+            try {
+                const userId = getUserId();
+                const docRef = doc(db, "userProgress", userId);
+                
+                // Get existing data to merge
+                const docSnap = await getDoc(docRef);
+                const existingData = docSnap.exists() ? docSnap.data() : {};
+                
+                const updateData = {
+                    ...existingData,
+                    session3Progress: progressData,
+                    lastUpdated: new Date().toISOString(),
+                    email: "demo@user.com" // In real app, this would come from auth
+                };
+                
+                await setDoc(docRef, updateData);
+                console.log("✅ Progress saved to Firestore successfully");
+                return true;
+            } catch (error) {
+                console.error("❌ Error saving to Firestore:", error);
+                return false;
+            }
+        };
+
+        // Load progress from Firestore
+        window.loadProgressFromCloud = async function() {
+            try {
+                const userId = getUserId();
+                const docRef = doc(db, "userProgress", userId);
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    const userData = docSnap.data();
+                    console.log("📥 Loaded user progress from Firestore:", userData);
+                    
+                    if (userData.session3Progress) {
+                        // Store in localStorage for offline access
+                        localStorage.setItem('session3Progress', JSON.stringify(userData.session3Progress));
+                        // Apply the loaded progress to the UI
+                        if (window.applyCloudProgress) {
+                            window.applyCloudProgress(userData.session3Progress);
+                        }
+                    }
+                    return userData.session3Progress || null;
+                } else {
+                    console.log("📭 No existing progress found in Firestore");
+                    return null;
+                }
+            } catch (error) {
+                console.error("❌ Error loading progress from Firestore:", error);
+                return null;
+            }
+        };
+
+        // Set up real-time listener for progress updates
+        function setupProgressListener() {
+            const userId = getUserId();
+            const docRef = doc(db, "userProgress", userId);
+            
+            onSnapshot(docRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const userData = docSnap.data();
+                    console.log("🔄 Real-time update received:", userData);
+                    
+                    // Update local storage with latest data
+                    if (userData.session3Progress) {
+                        localStorage.setItem('session3Progress', JSON.stringify(userData.session3Progress));
+                        
+                        // Update UI if we're on the lesson page
+                        if (window.applyCloudProgress) {
+                            window.applyCloudProgress(userData.session3Progress);
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize real-time listener
+        setupProgressListener();
+
+        // Make functions available globally
+        window.getUserId = getUserId;
+        window.firebaseApp = app;
+        window.firestoreDb = db;
+    </script>
+
     <script>
         // Progress tracking and sync features
         document.addEventListener('DOMContentLoaded', function() {
@@ -1810,6 +1936,11 @@ function showNotification(message, type) {
             
             // Load saved progress
             loadProgress();
+            
+            // Load cloud progress after a short delay
+            setTimeout(() => {
+                loadCloudProgress();
+            }, 1000);
         });
         
         function initializeProgressTracking() {
@@ -1838,6 +1969,11 @@ function showNotification(message, type) {
                 textarea.addEventListener('input', function() {
                     saveProgress();
                 });
+            });
+
+            // Manual sync button
+            document.getElementById('manualSync').addEventListener('click', function() {
+                saveProgress();
             });
         }
         
@@ -1950,7 +2086,7 @@ function showNotification(message, type) {
             }
         }
         
-        function saveProgress() {
+        async function saveProgress() {
             const syncStatus = document.getElementById('syncStatus');
             syncStatus.textContent = 'Syncing...';
             syncStatus.className = 'sync-status syncing';
@@ -1994,62 +2130,103 @@ function showNotification(message, type) {
             
             localStorage.setItem('lesson1Progress', JSON.stringify(progressData));
             
-            // Simulate sync delay
-            setTimeout(() => {
-                syncStatus.textContent = 'Synced';
-                syncStatus.className = 'sync-status synced';
-            }, 800);
+            // ✅ Save to Firestore
+            try {
+                if (window.saveProgressToCloud) {
+                    const success = await window.saveProgressToCloud(progressData);
+                    if (success) {
+                        syncStatus.textContent = 'Synced to Cloud';
+                        syncStatus.className = 'sync-status synced';
+                    } else {
+                        syncStatus.textContent = 'Local Only';
+                        syncStatus.className = 'sync-status error';
+                    }
+                } else {
+                    syncStatus.textContent = 'Cloud Save Unavailable';
+                    syncStatus.className = 'sync-status error';
+                }
+            } catch (error) {
+                console.error('Cloud sync failed:', error);
+                syncStatus.textContent = 'Sync Failed';
+                syncStatus.className = 'sync-status error';
+            }
         }
         
         function loadProgress() {
             const savedProgress = localStorage.getItem('lesson1Progress');
             if (savedProgress) {
                 const progressData = JSON.parse(savedProgress);
-                
-                // Load topic completion
+                applyProgressData(progressData);
+            }
+        }
+        
+        async function loadCloudProgress() {
+            try {
+                if (window.loadProgressFromCloud) {
+                    const cloudProgress = await window.loadProgressFromCloud();
+                    if (cloudProgress) {
+                        console.log('✅ Loaded cloud progress');
+                        applyProgressData(cloudProgress);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading cloud progress:', error);
+            }
+        }
+        
+        function applyProgressData(progressData) {
+            // Apply topic completion
+            if (progressData.topics) {
                 progressData.topics.forEach(topic => {
                     const element = document.querySelectorAll('.topic-completion')[topic.id];
                     if (element && topic.completed) {
                         element.classList.add('topic-completed');
+                    } else if (element) {
+                        element.classList.remove('topic-completed');
                     }
                 });
-                
-                // Load reflection responses
+            }
+            
+            // Apply reflection responses
+            if (progressData.reflections) {
                 Object.keys(progressData.reflections).forEach(reflectionId => {
                     const textarea = document.querySelector(`textarea[data-reflection-id="${reflectionId}"]`);
                     if (textarea) {
                         textarea.value = progressData.reflections[reflectionId];
                     }
                 });
-                
-                // Load matching game progress
-                if (progressData.matchingGame) {
-                    document.getElementById('score').textContent = progressData.matchingGame.score;
-                    document.getElementById('total').textContent = progressData.matchingGame.total;
-                }
-                
-                // Load topic collapsible states
-                if (progressData.topicStates) {
-                    Object.keys(progressData.topicStates).forEach(collapsibleId => {
-                        const collapsible = document.getElementById(collapsibleId);
-                        const content = document.getElementById(collapsibleId.replace('Collapsible', 'Content'));
-                        
-                        if (collapsible && content) {
-                            if (progressData.topicStates[collapsibleId]) {
-                                collapsible.classList.add('active');
-                                content.style.maxHeight = content.scrollHeight + 'px';
-                            } else {
-                                collapsible.classList.remove('active');
-                                content.style.maxHeight = null;
-                            }
-                        }
-                    });
-                }
-                
-                updateProgressBar();
-                updateTopicStatus();
             }
+            
+            // Apply matching game progress
+            if (progressData.matchingGame) {
+                document.getElementById('score').textContent = progressData.matchingGame.score;
+                document.getElementById('total').textContent = progressData.matchingGame.total;
+            }
+            
+            // Apply topic collapsible states
+            if (progressData.topicStates) {
+                Object.keys(progressData.topicStates).forEach(collapsibleId => {
+                    const collapsible = document.getElementById(collapsibleId);
+                    const content = document.getElementById(collapsibleId.replace('Collapsible', 'Content'));
+                    
+                    if (collapsible && content) {
+                        if (progressData.topicStates[collapsibleId]) {
+                            collapsible.classList.add('active');
+                            content.style.maxHeight = content.scrollHeight + 'px';
+                        } else {
+                            collapsible.classList.remove('active');
+                            content.style.maxHeight = null;
+                        }
+                    }
+                });
+            }
+            
+            updateProgressBar();
+            updateTopicStatus();
         }
+        
+        // Make applyProgressData available globally for real-time updates
+        window.applyCloudProgress = applyProgressData;
         
         function updateProgressSummary() {
             const summaryElement = document.getElementById('progressSummary');
@@ -2086,6 +2263,10 @@ function showNotification(message, type) {
                 <div class="progress-item">
                     <span>Last Updated:</span>
                     <span>${new Date().toLocaleString()}</span>
+                </div>
+                <div class="progress-item">
+                    <span>User ID:</span>
+                    <span>${window.getUserId ? window.getUserId() : 'Not set'}</span>
                 </div>
             `;
         }
@@ -2203,8 +2384,5 @@ function showNotification(message, type) {
             renderBoard();
         }
     </script>
-    
-
-    <script type="module" src="../auth-check.js"></script>
 </body>
 </html>
