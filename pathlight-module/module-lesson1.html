@@ -1789,65 +1789,174 @@ function showNotification(message, type) {
     </footer>
 
     <!-- Firebase SDK -->
-    <script type="module">
-        // Import Firebase modules
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+   <script type="module">
+    // Import Firebase modules with AUTHENTICATION
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { 
+        getAuth, 
+        onAuthStateChanged,
+        signOut 
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { 
+        getFirestore, 
+        doc, 
+        setDoc, 
+        getDoc, 
+        onSnapshot 
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyC8yqqIrJeUjnXRH2VBursxfiGnmqGLwxQ",
-            authDomain: "kcmcpathlight.firebaseapp.com",
-            projectId: "kcmcpathlight",
-            storageBucket: "kcmcpathlight.firebasestorage.app",
-            messagingSenderId: "469006859881",
-            appId: "1:469006859881:web:0320573397120718bdecf8"
-        };
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyC8yqqIrJeUjnXRH2VBursxfiGnmqGLwxQ",
+        authDomain: "kcmcpathlight.firebaseapp.com",
+        projectId: "kcmcpathlight",
+        storageBucket: "kcmcpathlight.firebasestorage.app",
+        messagingSenderId: "469006859881",
+        appId: "1:469006859881:web:0320573397120718bdecf8"
+    };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-        console.log("🔥 Firebase initialized for progress saving");
+    console.log("🔥 Firebase initialized with authentication");
 
-        
-       // ✅ REAL AUTHENTICATION CHECK
-const getUserId = () => {
-    const userId = localStorage.getItem('userId');
-    if (!userId) {
-        // Redirect to login if no user ID found
-        alert('Please log in to access this content');
-        window.location.href = 'login.html';
-        return null;
-    }
-    return userId;
-};
-
-        // Save progress to Firestore
-        window.saveProgressToCloud = async function(progressData) {
-            try {
-                const userId = getUserId();
-                const docRef = doc(db, "userProgress", userId);
-                
-                // Get existing data to merge
-                const docSnap = await getDoc(docRef);
-                const existingData = docSnap.exists() ? docSnap.data() : {};
-                
-                const updateData = {
-                    ...existingData,
-                    session3Progress: progressData,
-                    lastUpdated: new Date().toISOString(),
-                    email: "demo@user.com" // In real app, this would come from auth
-                };
-                
-                await setDoc(docRef, updateData);
-                console.log("✅ Progress saved to Firestore successfully");
-                return true;
-            } catch (error) {
-                console.error("❌ Error saving to Firestore:", error);
-                return false;
+    // Check authentication state
+    onAuthStateChanged(auth, (user) => {
+        if (!user) {
+            // User is not authenticated, redirect to login
+            console.warn('User not authenticated, redirecting to login...');
+            alert('Please log in to access this content');
+            window.location.href = '../login.html';
+        } else {
+            console.log('✅ User authenticated:', user.email);
+            // Ensure user data is stored
+            if (!localStorage.getItem('userId')) {
+                localStorage.setItem('userId', user.uid);
+                localStorage.setItem('userEmail', user.email);
+                localStorage.setItem('isLoggedIn', 'true');
             }
-        };
+        }
+    });
+
+    // ✅ REAL AUTHENTICATION CHECK
+    const getUserId = () => {
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+            console.error('No user ID found - user not authenticated');
+            return null;
+        }
+        return userId;
+    };
+
+    // Save progress to Firestore
+    window.saveProgressToCloud = async function(progressData) {
+        const userId = getUserId();
+        if (!userId) {
+            console.error("🚫 User not authenticated - cannot save progress");
+            return false;
+        }
+        
+        try {
+            const docRef = doc(db, "userProgress", userId);
+            
+            // Get existing data to merge
+            const docSnap = await getDoc(docRef);
+            const existingData = docSnap.exists() ? docSnap.data() : {};
+            
+            const updateData = {
+                ...existingData,
+                session3Progress: progressData,
+                lastUpdated: new Date().toISOString(),
+                email: localStorage.getItem("userEmail") || "user@kcmc.org",
+                displayName: localStorage.getItem("userEmail")?.split('@')[0] || 'User'
+            };
+            
+            await setDoc(docRef, updateData);
+            console.log("✅ Progress saved to Firestore successfully for user:", userId);
+            return true;
+        } catch (error) {
+            console.error("❌ Error saving to Firestore:", error);
+            return false;
+        }
+    };
+
+    // Load progress from Firestore
+    window.loadProgressFromCloud = async function() {
+        const userId = getUserId();
+        if (!userId) {
+            console.error("🚫 User not authenticated - cannot load progress");
+            return null;
+        }
+
+        try {
+            const docRef = doc(db, "userProgress", userId);
+            const docSnap = await getDoc(docRef);
+            
+            if (docSnap.exists()) {
+                const userData = docSnap.data();
+                console.log("📥 Loaded user progress from Firestore:", userData);
+                
+                if (userData.session3Progress) {
+                    localStorage.setItem('session3Progress', JSON.stringify(userData.session3Progress));
+                }
+                return userData.session3Progress || null;
+            } else {
+                console.log("📭 No existing progress found in Firestore");
+                return null;
+            }
+        } catch (error) {
+            console.error("❌ Error loading progress from Firestore:", error);
+            return null;
+        }
+    };
+
+    // Set up real-time listener for progress updates
+    function setupProgressListener() {
+        const userId = getUserId();
+        if (!userId) {
+            console.error("🚫 User not authenticated - cannot setup real-time listener");
+            return;
+        }
+
+        const docRef = doc(db, "userProgress", userId);
+        
+        onSnapshot(docRef, (docSnap) => {
+            if (docSnap.exists()) {
+                const userData = docSnap.data();
+                console.log("🔄 Real-time update received:", userData);
+                
+                if (userData.session3Progress) {
+                    localStorage.setItem('session3Progress', JSON.stringify(userData.session3Progress));
+                    
+                    if (window.applyCloudProgress) {
+                        window.applyCloudProgress(userData.session3Progress);
+                    }
+                }
+            }
+        });
+    }
+
+    // Initialize real-time listener
+    setupProgressListener();
+
+    // Logout function for lesson pages
+    window.logoutUser = async function() {
+        try {
+            await signOut(auth);
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.href = '../login.html';
+        } catch (error) {
+            console.error("Logout error:", error);
+        }
+    };
+
+    // Make functions available globally
+    window.getUserId = getUserId;
+    window.firebaseApp = app;
+    window.firestoreDb = db;
 
         // Load progress from Firestore
         window.loadProgressFromCloud = async function() {
