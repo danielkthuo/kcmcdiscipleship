@@ -1753,35 +1753,61 @@ footer {
             <span class="nav-icon">🔖</span>
             <span>Resources</span>
         </a>
-        <a href="#" id="logoutBtn" class="nav-item">
+<!-- Logout Button -->
+<a href="#" id="logoutBtn" class="nav-item">
     <span class="nav-icon">🚪</span>
     <span>Logout</span>
 </a>
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const logoutBtn = document.getElementById('logoutBtn');
 
-    // Logout functionality
-    logoutBtn.addEventListener('click', function(event) {
+    logoutBtn.addEventListener('click', async function (event) {
         event.preventDefault();
+
         if (confirm('Are you sure you want to logout?')) {
-            // In a real app, this would clear authentication tokens
-            // and redirect to login page
-            showNotification('You have been logged out successfully.', 'success');
-            
-            setTimeout(() => {
-                // Simulate logout - in a real app, redirect to login
-                window.location.href = '../index.html';
-            }, 1500);
+            try {
+                // ✅ Preserve progress data before logout
+                const lesson1Progress = localStorage.getItem('lesson1Progress');
+
+                // ✅ Firebase logout (if Firebase Auth is used)
+                if (typeof signOut === 'function' && typeof auth !== 'undefined') {
+                    await signOut(auth);
+                }
+
+                // ✅ Clear only authentication/session data
+                localStorage.removeItem("isLoggedIn");
+                localStorage.removeItem("userEmail");
+                localStorage.removeItem("userId");
+
+                // ✅ Restore progress after cleanup (safety net)
+                if (lesson1Progress) {
+                    localStorage.setItem('lesson1Progress', lesson1Progress);
+                }
+
+                // ✅ Show notification
+                showNotification('You have been logged out successfully.', 'success');
+
+                // ✅ Redirect to login after short delay
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+            } catch (error) {
+                console.error('Logout error:', error);
+                showNotification('An error occurred while logging out.', 'error');
+            }
         }
     });
 });
 
-// Optional: Example notification function
+// ✅ Optional custom notification handler
 function showNotification(message, type) {
-    alert(message); // Replace this with your custom notification UI
+    // Simple fallback alert (replace with custom UI if desired)
+    alert(message);
 }
 </script>
+
     </div>
     
     <footer>
@@ -2082,7 +2108,34 @@ function showNotification(message, type) {
                 console.error('Error loading cloud progress:', error);
             }
         }
-        
+
+        async function loadProgress() {
+    console.log("🔄 Loading progress...");
+    
+    // Try to load from cloud first
+    try {
+        if (window.firebaseReady && window.loadProgressFromCloud) {
+            console.log("📥 Attempting to load from cloud...");
+            const cloudProgress = await window.loadProgressFromCloud();
+            if (cloudProgress) {
+                console.log("✅ Loaded from cloud:", cloudProgress);
+                applyProgressData(cloudProgress);
+                return; // Exit if cloud data loaded successfully
+            }
+        }
+    } catch (error) {
+        console.error("❌ Cloud load failed:", error);
+    }
+    
+    // Fall back to local storage
+    const localProgress = localStorage.getItem('lesson1Progress');
+    if (localProgress) {
+        console.log("📥 Loaded from local storage");
+        applyProgressData(JSON.parse(localProgress));
+    } else {
+        console.log("📭 No progress data found");
+    }
+}
         function applyProgressData(progressData) {
             // Apply topic completion
             if (progressData.topics) {
