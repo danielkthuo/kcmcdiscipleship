@@ -54,11 +54,12 @@ const LESSON_CONFIG = {
     storageKey: 'lesson3Progress', 
     pagePattern: /module-lesson3\.html$/,
     defaultData: {
-      topics: [],
-      formData: {},
-       reflections: {},
-      activities: {},
-       Worksheet: {},
+     topics: [],
+        formData: {},
+        worksheet: {},
+        activities: {},
+        reflections: {},
+        collapsibleStates: {},
       lastUpdated: new Date().toISOString()
     }
   },

@@ -1167,7 +1167,7 @@ function showNotification(message, type) {
     </footer>
 
 <script>
-// Consolidated progress management for lesson 3 - FIXED VERSION
+    // Consolidated progress management for lesson 3 - FIXED VERSION
 document.addEventListener('DOMContentLoaded', function() {
     console.log('📚 Lesson 3 page loaded, initializing...');
     
@@ -1219,6 +1219,48 @@ function initializeCloudSync() {
     } else {
         console.log('⚠️ Universal progress system not available, using local only');
     }
+    
+    // Enhanced completion tracking with cloud sync
+    const completionElements = document.querySelectorAll('.topic-completion');
+    completionElements.forEach(element => {
+        element.addEventListener('click', function() {
+            setTimeout(() => {
+                if (window.saveProgressToCloud && window.firebaseAuth && window.firebaseAuth.currentUser) {
+                    const progressData = getCurrentLessonProgressData();
+                    const saveData = { lesson3Progress: progressData };
+                    console.log('☁️ Topic completion saved to cloud for lesson3');
+                    window.saveProgressToCloud(saveData);
+                }
+            }, 500);
+        });
+    });
+    
+    // Auto-save form fields with cloud sync
+    const formFields = document.querySelectorAll('textarea[data-save-key], input[type="text"][data-save-key]');
+    formFields.forEach(field => {
+        let saveTimeout;
+        field.addEventListener('input', function() {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                if (window.saveProgressToCloud && window.firebaseAuth && window.firebaseAuth.currentUser) {
+                    const progressData = getCurrentLessonProgressData();
+                    const saveData = { lesson3Progress: progressData };
+                    console.log('☁️ Form field saved to cloud for lesson3');
+                    window.saveProgressToCloud(saveData);
+                }
+            }, 2000);
+        });
+    });
+    
+    // Sync progress every 2 minutes
+    setInterval(() => {
+        if (window.saveProgressToCloud && window.firebaseAuth && window.firebaseAuth.currentUser) {
+            const progressData = getCurrentLessonProgressData();
+            const saveData = { lesson3Progress: progressData };
+            console.log('🔄 Auto-syncing lesson3 to cloud...');
+            window.saveProgressToCloud(saveData);
+        }
+    }, 120000);
 }
 
 function initializeUI() {
@@ -1242,6 +1284,13 @@ function initializeUI() {
             
             // Save UI state
             saveLocalProgress();
+            
+            // Sync to cloud if available
+            if (window.saveProgressToCloud && window.firebaseAuth && window.firebaseAuth.currentUser) {
+                const progressData = getCurrentLessonProgressData();
+                const saveData = { lesson3Progress: progressData };
+                window.saveProgressToCloud(saveData);
+            }
         });
     });
     
@@ -1403,6 +1452,8 @@ function loadSavedProgress() {
 function applySavedProgress(progressData) {
     if (!progressData) return;
     
+    console.log('🔄 Applying saved progress for lesson 3:', progressData);
+    
     // Load topic completion
     if (progressData.topics) {
         progressData.topics.forEach(topic => {
@@ -1433,6 +1484,22 @@ function applySavedProgress(progressData) {
                     field.value = progressData.worksheet[topic][question];
                 }
             });
+        });
+    }
+    
+    // Load collapsible states
+    if (progressData.collapsibleStates) {
+        Object.keys(progressData.collapsibleStates).forEach(collapsibleKey => {
+            const index = collapsibleKey.replace('collapsible-', '');
+            const collapsibles = document.querySelectorAll('.collapsible');
+            if (collapsibles[index] && progressData.collapsibleStates[collapsibleKey]) {
+                collapsibles[index].classList.add('active');
+                const content = collapsibles[index].nextElementSibling;
+                if (content) {
+                    content.classList.add('open');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                }
+            }
         });
     }
     
