@@ -55,8 +55,7 @@ const LESSON_CONFIG = {
     pagePattern: /module-lesson3\.html$/,
     defaultData: {
      topics: [],
-        formData: {},
-        worksheet: {},
+       worksheet: {},
         activities: {},
         reflections: {},
         collapsibleStates: {},
