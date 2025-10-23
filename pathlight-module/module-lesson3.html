@@ -1523,6 +1523,8 @@ function getCurrentLessonProgressData() {
         topics: [],
         formData: {},
         worksheet: {},
+        activities: {},
+        reflections: {},
         collapsibleStates: {},
         lastUpdated: new Date().toISOString()
     };
@@ -1626,6 +1628,7 @@ window.initializeLessonProgress = function(lessonKey) {
     }, 120000);
 };
 </script>
+
 <script type="module" src="../auth-check.js"></script>
 </body>
 </html>
