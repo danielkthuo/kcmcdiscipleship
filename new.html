@@ -48,12 +48,20 @@
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { 
-            getAuth, 
-            createUserWithEmailAndPassword 
-        } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
+   <!-- In both login.html and new.html -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { 
+        getAuth, 
+        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
+        onAuthStateChanged,
+        setPersistence,
+        browserSessionPersistence
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+    // ... rest of your auth code
 
         const firebaseConfig = {
             apiKey: "AIzaSyC8yqqIrJeUjnXRH2VBursxfiGnmqGLwxQ",

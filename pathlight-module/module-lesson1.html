@@ -1752,6 +1752,8 @@ footer {
     <span class="nav-icon">🚪</span>
     <span>Logout</span>
 </a>
+
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const logoutBtn = document.getElementById('logoutBtn');
@@ -1783,7 +1785,94 @@ function showNotification(message, type) {
         <p>Pathlight Discipleship Curriculum &copy; 2023 | KCMC</p>
         <p>Lit to Lead. Rooted to Grow.</p>
     </footer>
+<script>
+  // Enhanced progress management for lesson page
+document.addEventListener('DOMContentLoaded', function() {
+    // Override the existing saveProgress function to include cloud sync
+    const originalSaveProgress = window.saveProgress;
+    
+    window.saveProgress = function() {
+        if (typeof originalSaveProgress === 'function') {
+            originalSaveProgress();
+        }
+        
+        // Get current progress data
+        const progressData = getCurrentProgressData();
+        
+        // Save to cloud
+        if (window.saveProgressToCloud) {
+            window.saveProgressToCloud(progressData);
+        }
+    };
+    
+    // Enhanced completion tracking with cloud sync
+    const completionElements = document.querySelectorAll('.topic-completion');
+    completionElements.forEach(element => {
+        element.addEventListener('click', function() {
+            setTimeout(() => {
+                if (window.saveProgressToCloud) {
+                    const progressData = getCurrentProgressData();
+                    window.saveProgressToCloud(progressData);
+                }
+            }, 500);
+        });
+    });
+    
+    // Auto-save reflections with cloud sync
+    document.querySelectorAll('.reflection textarea').forEach(textarea => {
+        let saveTimeout;
+        textarea.addEventListener('input', function() {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                if (window.saveProgressToCloud) {
+                    const progressData = getCurrentProgressData();
+                    window.saveProgressToCloud(progressData);
+                }
+            }, 2000);
+        });
+    });
+    
+    // Sync progress every 2 minutes
+    setInterval(() => {
+        if (window.saveProgressToCloud && auth.currentUser) {
+            const progressData = getCurrentProgressData();
+            window.saveProgressToCloud(progressData);
+        }
+    }, 120000);
+});
 
+function getCurrentProgressData() {
+    // Collect all progress data from the page
+    const progressData = {
+        topics: [],
+        reflections: {},
+        matchingGame: {},
+        lastUpdated: new Date().toISOString()
+    };
+    
+    // Get topic completion status
+    document.querySelectorAll('.topic-completion').forEach((element, index) => {
+        progressData.topics.push({
+            id: index,
+            completed: element.classList.contains('topic-completed')
+        });
+    });
+    
+    // Get reflection responses
+    document.querySelectorAll('.reflection textarea').forEach(textarea => {
+        const reflectionId = textarea.getAttribute('data-reflection-id');
+        progressData.reflections[reflectionId] = textarea.value;
+    });
+    
+    // Get matching game progress
+    progressData.matchingGame = {
+        score: parseInt(document.getElementById('score')?.textContent) || 0,
+        total: parseInt(document.getElementById('total')?.textContent) || 0
+    };
+    
+    return progressData;
+}
+</script>
     <script>
         // Progress tracking and sync features
         document.addEventListener('DOMContentLoaded', function() {
