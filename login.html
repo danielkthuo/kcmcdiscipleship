@@ -91,65 +91,65 @@
   </div>
 
   <!-- Firebase & App Script -->
- <!-- login.html -->
-<script type="module">
+  <script type="module">
+    // ✅ Import Firebase SDK
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-    import { 
-        getAuth, 
-        signInWithEmailAndPassword,
-        onAuthStateChanged,
-        setPersistence,
-        browserSessionPersistence
-    } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
+    // ✅ Firebase Config (same as register.html)
     const firebaseConfig = {
-        apiKey: "AIzaSyC8yqqIrJeUjnXRH2VBursxfiGnmqGLwxQ",
-        authDomain: "kcmcpathlight.firebaseapp.com",
-        projectId: "kcmcpathlight",
-        storageBucket: "kcmcpathlight.appspot.com",
-        messagingSenderId: "469006859881",
-        appId: "1:469006859881:web:0320573397120718bdecf8",
+    apiKey: "AIzaSyC8yqqIrJeUjnXRH2VBursxfiGnmqGLwxQ",
+  authDomain: "kcmcpathlight.firebaseapp.com",
+  projectId: "kcmcpathlight",
+  storageBucket: "kcmcpathlight.firebasestorage.app",
+  messagingSenderId: "469006859881",
+  appId: "1:469006859881:web:0320573397120718bdecf8",
     };
 
+    // ✅ Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Set persistence
-    setPersistence(auth, browserSessionPersistence);
+    // ✅ Form Logic
+    const form = document.getElementById("loginForm");
+    const loginBtn = document.getElementById("loginBtn");
+    const btnText = document.getElementById("loginBtnText");
+    const spinner = document.getElementById("loginSpinner");
 
-    // Check if user is already logged in
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            // User is signed in, redirect to progress page
-            window.location.href = "progress.html";
-        }
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      btnText.textContent = "Signing In...";
+      spinner.classList.remove("d-none");
+      loginBtn.disabled = true;
+
+      try {
+        // ✅ Sign in with Firebase Auth
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        alert("✅ Login successful! Redirecting...");
+
+        // ✅ Redirect to progress.html after 2s
+        setTimeout(() => {
+          window.location.href = "progress.html";
+        }, 2000);
+
+      } catch (error) {
+        alert("❌ " + error.message);
+      } finally {
+        btnText.textContent = "Sign In";
+        spinner.classList.add("d-none");
+        loginBtn.disabled = false;
+      }
     });
 
-    // Login form handler
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        
-        try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-            
-            // Store user info in localStorage
-            localStorage.setItem('userEmail', user.email);
-            localStorage.setItem('userId', user.uid);
-            localStorage.setItem('isLoggedIn', 'true');
-            
-            // Redirect to progress page
-            window.location.href = "progress.html";
-            
-        } catch (error) {
-            console.error("Login error:", error);
-            alert("Login failed: " + error.message);
-        }
-    });
-</script>
+    // ✅ Optional: Auto logout after inactivity
+    // You can add this logic on `progress.html` to auto sign-out users after a set time.
+  </script>
   <script type="module" src="auth-check.js"></script>
 </body>
 </html>
