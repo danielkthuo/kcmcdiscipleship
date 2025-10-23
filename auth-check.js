@@ -55,7 +55,8 @@ const LESSON_CONFIG = {
     pagePattern: /module-lesson3\.html$/,
     defaultData: {
      topics: [],
-       worksheet: {},
+        formData: {},
+        worksheet: {},
         activities: {},
         reflections: {},
         collapsibleStates: {},
@@ -67,9 +68,10 @@ const LESSON_CONFIG = {
     storageKey: 'lesson4Progress', 
     pagePattern: /module-lesson4\.html$/,
     defaultData: {
-     topics: [],
-        formData: {},
-        reflections: {},
+      topics: [],
+      reflections: {},
+      activities: {},
+       Worksheet: {},
       lastUpdated: new Date().toISOString()
     }
   },
@@ -78,9 +80,10 @@ const LESSON_CONFIG = {
     storageKey: 'lesson5Progress', 
     pagePattern: /module-lesson5\.html$/,
     defaultData: {
-   topics: [],
-        formData: {},
-        reflections: {},
+      topics: [],
+      reflections: {},
+      activities: {},
+       Worksheet: {},
       lastUpdated: new Date().toISOString()
     }
   },
