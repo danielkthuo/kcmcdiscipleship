@@ -1589,6 +1589,7 @@ function getCurrentLessonProgressData() {
     const progressData = {
         topics: [],
         formData: {},
+        worksheet: {},
         reflections: {},
         collapsibleStates: {},
         lastUpdated: new Date().toISOString()
@@ -1612,6 +1613,7 @@ function getCurrentLessonProgressData() {
     });
     
     // Also capture worksheet data for backward compatibility
+    progressData.worksheet = {};
     const worksheetFields = document.querySelectorAll('[data-topic][data-question]');
     worksheetFields.forEach(field => {
         const topic = field.getAttribute('data-topic');

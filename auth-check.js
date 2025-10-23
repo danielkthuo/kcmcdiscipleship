@@ -49,20 +49,19 @@ const LESSON_CONFIG = {
       lastUpdated: new Date().toISOString()
     }
   },
-  'lesson3': {
-    name: 'Lordship', // Update this
-    storageKey: 'lesson3Progress', 
-    pagePattern: /module-lesson3\.html$/,
-    defaultData: {
-     topics: [],
-        formData: {},
-        worksheet: {},
-        activities: {},
-        reflections: {},
-        collapsibleStates: {},
-      lastUpdated: new Date().toISOString()
-    }
-  },
+'lesson3': {
+  name: 'Lordship',
+  storageKey: 'lesson3Progress', 
+  pagePattern: /module-lesson3\.html$/,
+  defaultData: {
+    topics: [],
+    formData: {},
+    worksheet: {},
+    reflections: {},
+    collapsibleStates: {},
+    lastUpdated: new Date().toISOString()
+  }
+},
    'lesson4': {
     name: 'Doctrine', // Update this
     storageKey: 'lesson4Progress', 
