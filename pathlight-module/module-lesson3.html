@@ -1166,8 +1166,8 @@ function showNotification(message, type) {
         <p>Lit to Lead. Rooted to Grow.</p>
     </footer>
 
-   <script>
-// Consolidated progress management for lesson 3
+<script>
+// Consolidated progress management for lesson 3 - FIXED VERSION
 document.addEventListener('DOMContentLoaded', function() {
     console.log('📚 Lesson 3 page loaded, initializing...');
     
@@ -1187,9 +1187,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize all lesson functionality
     initializeLessonThree();
-    
-    // Initialize cloud sync for this lesson
-    initializeCloudSync();
 });
 
 function showNotification(message, type) {
@@ -1202,6 +1199,9 @@ function initializeLessonThree() {
     
     // Initialize progress tracking
     initializeProgressTracking();
+    
+    // Initialize cloud sync for this lesson
+    initializeCloudSync();
     
     // Load saved progress
     loadSavedProgress();
@@ -1216,14 +1216,9 @@ function initializeCloudSync() {
     // Use the universal lesson progress system
     if (window.initializeLessonProgress) {
         window.initializeLessonProgress('lesson3Progress');
+    } else {
+        console.log('⚠️ Universal progress system not available, using local only');
     }
-    
-    // Wait for auth to be ready
-    setTimeout(() => {
-        if (window.firebaseAuth && window.firebaseAuth.currentUser) {
-            console.log('👤 User authenticated, cloud sync ready');
-        }
-    }, 2000);
 }
 
 function initializeUI() {
@@ -1244,6 +1239,9 @@ function initializeUI() {
                 content.classList.add('open');
                 content.style.maxHeight = content.scrollHeight + 'px';
             }
+            
+            // Save UI state
+            saveLocalProgress();
         });
     });
     
@@ -1257,26 +1255,43 @@ function initializeUI() {
 }
 
 function initializeProgressTracking() {
-    // Topic completion toggle - ensure compatibility with both systems
+    // Topic completion toggle - FIXED: Use proper class names
     const completionElements = document.querySelectorAll('.topic-completion');
     completionElements.forEach(element => {
         element.addEventListener('click', function() {
-            // Toggle both class names for compatibility
+            // Toggle completion state
             this.classList.toggle('completed');
-            this.classList.toggle('topic-completed');
             
             updateAllProgress();
             saveLocalProgress();
+            
+            // Cloud sync if available
+            if (window.saveProgressToCloud && window.firebaseAuth && window.firebaseAuth.currentUser) {
+                const progressData = getCurrentLessonProgressData();
+                const saveData = { lesson3Progress: progressData };
+                window.saveProgressToCloud(saveData);
+            }
         });
     });
     
-    // Form field auto-save
-    const formFields = document.querySelectorAll('textarea, input[type="text"]');
+    // Form field auto-save - FIXED: Proper data attribute handling
+    const formFields = document.querySelectorAll('textarea[data-save-key], input[type="text"][data-save-key]');
     formFields.forEach(field => {
+        let saveTimeout;
         field.addEventListener('input', function() {
-            updateAllProgress();
-            saveLocalProgress();
-            showSaveNotification();
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                updateAllProgress();
+                saveLocalProgress();
+                showSaveNotification();
+                
+                // Cloud sync if available
+                if (window.saveProgressToCloud && window.firebaseAuth && window.firebaseAuth.currentUser) {
+                    const progressData = getCurrentLessonProgressData();
+                    const saveData = { lesson3Progress: progressData };
+                    window.saveProgressToCloud(saveData);
+                }
+            }, 1000);
         });
     });
     
@@ -1303,7 +1318,6 @@ function initializeSync() {
 
 function updateAllProgress() {
     updateLocalProgress();
-    // Universal progress bar will be updated via cloud sync
 }
 
 function updateLocalProgress() {
@@ -1313,7 +1327,8 @@ function updateLocalProgress() {
     
     if (!progressBar || !progressText) return;
     
-    const formFields = document.querySelectorAll('textarea, input[type="text"]');
+    // Count completed form fields with data-save-key
+    const formFields = document.querySelectorAll('textarea[data-save-key], input[type="text"][data-save-key]');
     const topicCompletions = document.querySelectorAll('.topic-completion');
     
     let completedFields = 0;
@@ -1326,9 +1341,9 @@ function updateLocalProgress() {
         }
     });
     
-    // Count completed topics (check both class names for compatibility)
+    // Count completed topics
     topicCompletions.forEach(checkbox => {
-        if (checkbox.classList.contains('completed') || checkbox.classList.contains('topic-completed')) {
+        if (checkbox.classList.contains('completed')) {
             completedTopics++;
         }
     });
@@ -1337,8 +1352,8 @@ function updateLocalProgress() {
     const totalTopics = topicCompletions.length;
     
     // Calculate overall progress (weighted: 70% form fields, 30% topic completion)
-    const formProgress = totalFields > 0 ? Math.round((completedFields / totalFields) * 100) : 0;
-    const topicProgress = totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
+    const formProgress = totalFields > 0 ? (completedFields / totalFields) * 100 : 0;
+    const topicProgress = totalTopics > 0 ? (completedTopics / totalTopics) * 100 : 0;
     const progressPercentage = Math.round((formProgress * 0.7) + (topicProgress * 0.3));
     
     progressBar.style.width = `${progressPercentage}%`;
@@ -1353,9 +1368,10 @@ function updateLocalProgress() {
 }
 
 function saveLocalProgress() {
-    // Save all progress data in universal format
     const progressData = getCurrentLessonProgressData();
     localStorage.setItem('lesson3Progress', JSON.stringify(progressData));
+    
+    console.log('💾 Lesson 3 progress saved locally');
     
     // Update sync status
     const syncStatus = document.getElementById('syncStatus');
@@ -1372,54 +1388,51 @@ function saveLocalProgress() {
 function loadSavedProgress() {
     const savedProgress = localStorage.getItem('lesson3Progress');
     if (savedProgress) {
-        const progressData = JSON.parse(savedProgress);
-        applySavedProgress(progressData);
+        try {
+            const progressData = JSON.parse(savedProgress);
+            applySavedProgress(progressData);
+            console.log('✅ Loaded saved progress for lesson 3');
+        } catch (error) {
+            console.error('❌ Error loading saved progress:', error);
+        }
+    } else {
+        console.log('📝 No saved progress found for lesson 3');
     }
 }
 
 function applySavedProgress(progressData) {
     if (!progressData) return;
     
-    // Load topic completion (compatible with both systems)
+    // Load topic completion
     if (progressData.topics) {
         progressData.topics.forEach(topic => {
             const element = document.querySelectorAll('.topic-completion')[topic.id];
             if (element && topic.completed) {
-                element.classList.add('completed', 'topic-completed');
+                element.classList.add('completed');
             }
         });
     }
     
-    // Load reflection responses
-    if (progressData.reflections) {
-        Object.keys(progressData.reflections).forEach(reflectionId => {
-            const textarea = document.querySelector(`textarea[data-reflection-id="${reflectionId}"]`);
-            if (textarea) {
-                textarea.value = progressData.reflections[reflectionId];
-            }
-        });
-    }
-    
-    // Load worksheet data (for backward compatibility)
-    if (progressData.worksheet) {
-        const formFields = document.querySelectorAll('textarea, input[type="text"]');
+    // Load form data with data-save-key
+    if (progressData.formData) {
+        const formFields = document.querySelectorAll('textarea[data-save-key], input[type="text"][data-save-key]');
         formFields.forEach(field => {
-            const topic = field.getAttribute('data-topic');
-            const question = field.getAttribute('data-question');
-            const reflectionId = field.getAttribute('data-reflection-id');
-            
-            let value = null;
-            
-            // Try multiple attribute combinations for compatibility
-            if (reflectionId && progressData.reflections && progressData.reflections[reflectionId]) {
-                value = progressData.reflections[reflectionId];
-            } else if (topic && question && progressData.worksheet[topic] && progressData.worksheet[topic][question]) {
-                value = progressData.worksheet[topic][question];
+            const saveKey = field.getAttribute('data-save-key');
+            if (saveKey && progressData.formData[saveKey] !== undefined) {
+                field.value = progressData.formData[saveKey];
             }
-            
-            if (value !== null) {
-                field.value = value;
-            }
+        });
+    }
+    
+    // Load worksheet data (backward compatibility)
+    if (progressData.worksheet) {
+        Object.keys(progressData.worksheet).forEach(topic => {
+            Object.keys(progressData.worksheet[topic]).forEach(question => {
+                const field = document.querySelector(`[data-topic="${topic}"][data-question="${question}"]`);
+                if (field) {
+                    field.value = progressData.worksheet[topic][question];
+                }
+            });
         });
     }
     
@@ -1508,32 +1521,32 @@ function showSyncNotification(message) {
 function getCurrentLessonProgressData() {
     const progressData = {
         topics: [],
-        reflections: {},
+        formData: {},
         worksheet: {},
-        activities: {},
+        collapsibleStates: {},
         lastUpdated: new Date().toISOString()
     };
     
-    // Get topic completion status (universal format)
+    // Get topic completion status
     document.querySelectorAll('.topic-completion').forEach((element, index) => {
-        const isCompleted = element.classList.contains('completed') || element.classList.contains('topic-completed');
         progressData.topics.push({
             id: index,
-            completed: isCompleted
+            completed: element.classList.contains('completed')
         });
     });
     
-    // Get reflection responses (universal format)
-    document.querySelectorAll('.reflection textarea').forEach(textarea => {
-        const reflectionId = textarea.getAttribute('data-reflection-id');
-        if (reflectionId) {
-            progressData.reflections[reflectionId] = textarea.value;
+    // Get all form data with data-save-key (primary method)
+    const formFields = document.querySelectorAll('textarea[data-save-key], input[type="text"][data-save-key]');
+    formFields.forEach(field => {
+        const saveKey = field.getAttribute('data-save-key');
+        if (saveKey) {
+            progressData.formData[saveKey] = field.value;
         }
     });
     
-    // Get worksheet data (backward compatibility)
-    const formFields = document.querySelectorAll('textarea, input[type="text"]');
-    formFields.forEach(field => {
+    // Also capture worksheet data for backward compatibility
+    const worksheetFields = document.querySelectorAll('[data-topic][data-question]');
+    worksheetFields.forEach(field => {
         const topic = field.getAttribute('data-topic');
         const question = field.getAttribute('data-question');
         
@@ -1543,12 +1556,11 @@ function getCurrentLessonProgressData() {
             }
             progressData.worksheet[topic][question] = field.value;
         }
-        
-        // Also capture any fields with reflection IDs but no topic/question
-        const reflectionId = field.getAttribute('data-reflection-id');
-        if (reflectionId && !progressData.reflections[reflectionId]) {
-            progressData.reflections[reflectionId] = field.value;
-        }
+    });
+    
+    // Get collapsible states
+    document.querySelectorAll('.collapsible').forEach((collapsible, index) => {
+        progressData.collapsibleStates[`collapsible-${index}`] = collapsible.classList.contains('active');
     });
     
     return progressData;
@@ -1563,8 +1575,57 @@ window.manualLoadProgress = function(progressData) {
 // Make functions available globally for cloud sync
 window.getCurrentLessonProgressData = getCurrentLessonProgressData;
 window.applySavedProgress = applySavedProgress;
-</script>
 
+// Initialize lesson progress system for cloud sync
+window.initializeLessonProgress = function(lessonKey) {
+    console.log(`🎯 Initializing cloud progress for: ${lessonKey}`);
+    
+    // Enhanced completion tracking with cloud sync
+    const completionElements = document.querySelectorAll('.topic-completion');
+    completionElements.forEach(element => {
+        element.addEventListener('click', function() {
+            setTimeout(() => {
+                if (window.saveProgressToCloud) {
+                    const progressData = getCurrentLessonProgressData();
+                    const saveData = {};
+                    saveData[lessonKey] = progressData;
+                    console.log(`☁️ Topic completion saved to cloud for ${lessonKey}`);
+                    window.saveProgressToCloud(saveData);
+                }
+            }, 500);
+        });
+    });
+    
+    // Auto-save form fields with cloud sync
+    const formFields = document.querySelectorAll('textarea[data-save-key], input[type="text"][data-save-key]');
+    formFields.forEach(field => {
+        let saveTimeout;
+        field.addEventListener('input', function() {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                if (window.saveProgressToCloud) {
+                    const progressData = getCurrentLessonProgressData();
+                    const saveData = {};
+                    saveData[lessonKey] = progressData;
+                    console.log(`☁️ Form field saved to cloud for ${lessonKey}`);
+                    window.saveProgressToCloud(saveData);
+                }
+            }, 2000);
+        });
+    });
+    
+    // Sync progress every 2 minutes
+    setInterval(() => {
+        if (window.saveProgressToCloud && window.firebaseAuth && window.firebaseAuth.currentUser) {
+            const progressData = getCurrentLessonProgressData();
+            const saveData = {};
+            saveData[lessonKey] = progressData;
+            console.log(`🔄 Auto-syncing ${lessonKey} to cloud...`);
+            window.saveProgressToCloud(saveData);
+        }
+    }, 120000);
+};
+</script>
 <script type="module" src="../auth-check.js"></script>
 </body>
 </html>
