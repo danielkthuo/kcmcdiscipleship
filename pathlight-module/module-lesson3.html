@@ -1587,11 +1587,9 @@ function showSyncNotification(message) {
 // Universal progress data collection (compatible with cloud sync)
 function getCurrentLessonProgressData() {
     const progressData = {
-        topics: [],
-       // formData: {},
-        worksheet: {},
-        activities: {},
-        reflections: {},
+       topics: [],
+        formData: {},
+        reflectionData: {},
         collapsibleStates: {},
         lastUpdated: new Date().toISOString()
     };

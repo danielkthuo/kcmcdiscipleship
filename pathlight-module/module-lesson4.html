@@ -1519,9 +1519,10 @@ function applySavedProgress(progressData) {
 
 function getCurrentProgressData() {
     const progressData = {
-        topics: [],
+      topics: [],
         formData: {},
-        reflections: {},
+        reflectionData: {},
+        collapsibleStates: {},
         lastUpdated: new Date().toISOString()
     };
     
