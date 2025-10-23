@@ -1,4 +1,4 @@
-// ✅ Enhanced auth-check.js - Unified Firebase Sync System
+// ✅ Enhanced auth-check.js - Multi-Lesson Firebase Sync System
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
@@ -24,6 +24,38 @@ console.log("🔐 Firebase initialized...");
 let isSyncing = false;
 let pendingSync = false;
 
+// Lesson configuration - Add new lessons here as you create them
+const LESSON_CONFIG = {
+  'lesson1': {
+    name: 'Foundation to New Believer',
+    storageKey: 'lesson1Progress',
+    pagePattern: /module-lesson1\.html$/,
+    defaultData: {
+      topics: [],
+      reflections: {},
+      matchingGame: { score: 0, total: 0 },
+      lastUpdated: new Date().toISOString()
+    }
+  },
+  'lesson2': {
+    name: 'Next Lesson Name', // Update this
+    storageKey: 'lesson2Progress', 
+    pagePattern: /module-lesson2\.html$/,
+    defaultData: {
+      topics: [],
+      reflections: {},
+      activities: {},
+      lastUpdated: new Date().toISOString()
+    }
+  },
+  'session1': {
+    name: 'General Session',
+    storageKey: 'session1Progress',
+    defaultData: {}
+  }
+  // Add more lessons here following the same pattern
+};
+
 // 🚦 Enhanced auth state listener with progress sync
 onAuthStateChanged(auth, async (user) => {
   if (user) {
@@ -32,11 +64,14 @@ onAuthStateChanged(auth, async (user) => {
     localStorage.setItem("userEmail", user.email);
     localStorage.setItem("userId", user.uid);
 
-    // Load progress after login with retry logic
-    await loadProgressFromCloud();
+    // Load all progress data after login
+    await loadAllProgressFromCloud();
     
     // Set up auto-save listeners
     setupAutoSaveListeners();
+    
+    // Trigger page-specific progress loading
+    triggerCurrentPageProgressLoad();
   } else {
     console.warn("🚫 Not logged in, redirecting...");
     localStorage.removeItem("isLoggedIn");
@@ -51,8 +86,8 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// ☁️ Enhanced Save Progress to Firestore
-window.saveProgressToCloud = async function (sessionData = null) {
+// ☁️ Enhanced Save Progress to Firestore - All Lessons
+window.saveProgressToCloud = async function (specificLessonData = null) {
   if (isSyncing) {
     pendingSync = true;
     return;
@@ -66,9 +101,20 @@ window.saveProgressToCloud = async function (sessionData = null) {
       return false;
     }
 
-    // Get current progress data if not provided
-    if (!sessionData) {
-      sessionData = getCurrentProgressData();
+    // Get all progress data
+    const allProgressData = getAllProgressData();
+    
+    // If specific lesson data provided, merge it
+    if (specificLessonData) {
+      Object.keys(specificLessonData).forEach(lessonKey => {
+        if (allProgressData[lessonKey]) {
+          allProgressData[lessonKey] = {
+            ...allProgressData[lessonKey],
+            ...specificLessonData[lessonKey],
+            lastUpdated: new Date().toISOString()
+          };
+        }
+      });
     }
 
     const userDocRef = doc(db, "userProgress", user.uid);
@@ -77,14 +123,15 @@ window.saveProgressToCloud = async function (sessionData = null) {
       {
         lastUpdated: new Date().toISOString(),
         email: user.email,
-        session1Progress: sessionData,
+        // Save all lesson progress
+        ...allProgressData,
         device: navigator.userAgent,
         lastSync: new Date().toISOString()
       },
       { merge: true }
     );
     
-    console.log("✅ Progress synced to cloud");
+    console.log("✅ All progress synced to cloud:", Object.keys(allProgressData));
     updateSyncStatus('synced');
     return true;
   } catch (err) {
@@ -100,8 +147,8 @@ window.saveProgressToCloud = async function (sessionData = null) {
   }
 };
 
-// 📥 Enhanced Load and Merge Progress from Firestore
-async function loadProgressFromCloud() {
+// 📥 Enhanced Load and Merge Progress from Firestore - All Lessons
+async function loadAllProgressFromCloud() {
   try {
     const user = auth.currentUser;
     if (!user) {
@@ -114,21 +161,19 @@ async function loadProgressFromCloud() {
 
     if (docSnap.exists()) {
       const cloudData = docSnap.data();
-      console.log("☁️ Cloud data found:", cloudData);
+      console.log("☁️ Cloud data found, merging all lessons...");
 
-      // Enhanced merge with conflict resolution
-      mergeCloudData(cloudData);
+      // Merge all lesson data from cloud
+      mergeAllCloudData(cloudData);
       
-      // Update UI if loadProgress function exists
-      if (window.loadProgress) {
-        setTimeout(() => window.loadProgress(), 100);
-      }
+      // Trigger progress loading for current page
+      triggerCurrentPageProgressLoad();
     } else {
-      console.log("📭 No progress data in cloud");
+      console.log("📭 No progress data in cloud - initializing new user document");
       // Initialize cloud document with current local data
-      const localData = getCurrentProgressData();
-      if (localData && Object.keys(localData).length > 0) {
-        await window.saveProgressToCloud(localData);
+      const localData = getAllProgressData();
+      if (Object.keys(localData).length > 0) {
+        await window.saveProgressToCloud();
       }
     }
   } catch (err) {
@@ -137,67 +182,86 @@ async function loadProgressFromCloud() {
   }
 }
 
-// 🔄 Enhanced Merge Cloud + Local Storage with Conflict Resolution
-function mergeCloudData(cloudData) {
-  if (!cloudData.session1Progress) return;
+// 🔄 Enhanced Merge All Cloud Data
+function mergeAllCloudData(cloudData) {
+  Object.keys(LESSON_CONFIG).forEach(lessonKey => {
+    const config = LESSON_CONFIG[lessonKey];
+    const cloudLessonData = cloudData[config.storageKey];
+    
+    if (cloudLessonData) {
+      mergeLessonData(config.storageKey, cloudLessonData, cloudData.lastUpdated);
+    }
+  });
+}
 
-  const local = localStorage.getItem("session1Progress");
-  const cloudProgress = cloudData.session1Progress || {};
+// 🔄 Merge Individual Lesson Data
+function mergeLessonData(storageKey, cloudLessonData, cloudLastUpdated) {
+  const local = localStorage.getItem(storageKey);
   
   if (!local) {
     // No local data, use cloud data
-    localStorage.setItem("session1Progress", JSON.stringify(cloudProgress));
-    console.log("✅ Loaded cloud progress (no local data)");
+    localStorage.setItem(storageKey, JSON.stringify(cloudLessonData));
+    console.log(`✅ Loaded cloud ${storageKey} (no local data)`);
     return;
   }
 
   const localProgress = JSON.parse(local);
-  const cloudLastUpdated = new Date(cloudData.lastUpdated || 0);
-  const localLastUpdated = new Date(localProgress.lastUpdated || 0);
+  const cloudUpdated = new Date(cloudLastUpdated || 0);
+  const localUpdated = new Date(localProgress.lastUpdated || 0);
 
   let merged;
   
   // Conflict resolution: Use most recently updated data
-  if (cloudLastUpdated > localLastUpdated) {
-    console.log("🔄 Using cloud data (newer)");
+  if (cloudUpdated > localUpdated) {
+    console.log(`🔄 Using cloud ${storageKey} data (newer)`);
     merged = {
-      ...cloudProgress,
-      // Preserve any local data that might not be in cloud
-      ...localProgress,
-      completionStatus: { 
-        ...cloudProgress.completionStatus, 
-        ...localProgress.completionStatus 
-      },
+      ...cloudLessonData,
+      ...localProgress, // Preserve local data not in cloud
       lastSynced: new Date().toISOString(),
-      lastUpdated: cloudData.lastUpdated
+      lastUpdated: cloudLastUpdated
     };
   } else {
-    console.log("🔄 Using local data (newer or equal)");
+    console.log(`🔄 Using local ${storageKey} data (newer or equal)`);
     merged = {
       ...localProgress,
-      ...cloudProgress,
-      completionStatus: { 
-        ...localProgress.completionStatus, 
-        ...cloudProgress.completionStatus 
-      },
+      ...cloudLessonData, // Include cloud data
       lastSynced: new Date().toISOString(),
       lastUpdated: localProgress.lastUpdated
     };
   }
 
-  localStorage.setItem("session1Progress", JSON.stringify(merged));
-  console.log("✅ Merged cloud + local progress");
+  localStorage.setItem(storageKey, JSON.stringify(merged));
+  console.log(`✅ Merged cloud + local ${storageKey}`);
 }
 
 // 🛠️ Helper Functions
-function getCurrentProgressData() {
-  try {
-    const progressData = localStorage.getItem("session1Progress");
-    return progressData ? JSON.parse(progressData) : {};
-  } catch (error) {
-    console.error("❌ Error getting current progress:", error);
-    return {};
+function getAllProgressData() {
+  const allData = {};
+  
+  Object.keys(LESSON_CONFIG).forEach(lessonKey => {
+    const config = LESSON_CONFIG[lessonKey];
+    try {
+      const progressData = localStorage.getItem(config.storageKey);
+      allData[config.storageKey] = progressData ? JSON.parse(progressData) : config.defaultData;
+    } catch (error) {
+      console.error(`❌ Error getting ${config.storageKey}:`, error);
+      allData[config.storageKey] = config.defaultData;
+    }
+  });
+  
+  return allData;
+}
+
+function getCurrentLessonConfig() {
+  const currentPath = window.location.pathname;
+  
+  for (const [lessonKey, config] of Object.entries(LESSON_CONFIG)) {
+    if (config.pagePattern && config.pagePattern.test(currentPath)) {
+      return config;
+    }
   }
+  
+  return null;
 }
 
 function updateSyncStatus(status) {
@@ -215,16 +279,41 @@ function updateSyncStatus(status) {
 function setupAutoSaveListeners() {
   // Listen for storage events (changes from other tabs)
   window.addEventListener('storage', (e) => {
-    if (e.key === 'session1Progress' && e.newValue) {
-      console.log('🔄 Storage change detected, reloading progress');
-      if (window.loadProgress) {
-        window.loadProgress();
-      }
+    console.log('🔄 Storage change detected:', e.key);
+    if (e.key && e.key.endsWith('Progress') && e.newValue) {
+      triggerCurrentPageProgressLoad();
     }
   });
+}
+
+function triggerCurrentPageProgressLoad() {
+  const currentLesson = getCurrentLessonConfig();
+  
+  if (currentLesson) {
+    console.log(`📚 ${currentLesson.name} page detected, loading progress...`);
+    
+    // Wait for page to load, then trigger progress loading
+    setTimeout(() => {
+      const savedProgress = localStorage.getItem(currentLesson.storageKey);
+      if (savedProgress) {
+        console.log(`🔄 Loading ${currentLesson.storageKey} progress`);
+        
+        // Use page-specific load function if available
+        if (window.loadProgress && typeof window.loadProgress === 'function') {
+          window.loadProgress(JSON.parse(savedProgress));
+        } else if (window.manualLoadProgress && typeof window.manualLoadProgress === 'function') {
+          window.manualLoadProgress(JSON.parse(savedProgress));
+        } else {
+          console.log(`ℹ️ No progress loader found for ${currentLesson.name}`);
+        }
+      }
+    }, 1000);
+  }
 }
 
 // 🎯 Export for use in other modules
 window.firebaseAuth = auth;
 window.firebaseDb = db;
 window.firebaseApp = app;
+window.getCurrentLessonConfig = getCurrentLessonConfig;
+window.getAllProgressData = getAllProgressData;

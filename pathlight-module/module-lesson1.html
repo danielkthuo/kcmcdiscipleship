@@ -1786,24 +1786,469 @@ function showNotification(message, type) {
         <p>Lit to Lead. Rooted to Grow.</p>
     </footer>
 <script>
-  // Enhanced progress management for lesson page
+// Consolidated progress management for lesson one
 document.addEventListener('DOMContentLoaded', function() {
-    // Override the existing saveProgress function to include cloud sync
-    const originalSaveProgress = window.saveProgress;
+    console.log('📚 Lesson 1 page loaded, initializing...');
     
-    window.saveProgress = function() {
-        if (typeof originalSaveProgress === 'function') {
-            originalSaveProgress();
+    // Logout functionality
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                showNotification('You have been logged out successfully.', 'success');
+                setTimeout(() => {
+                    window.location.href = '../index.html';
+                }, 1500);
+            }
+        });
+    }
+
+    // Initialize all lesson functionality
+    initializeLessonOne();
+    
+    // Initialize cloud sync for this lesson
+    initializeCloudSync();
+});
+
+function showNotification(message, type) {
+    alert(message); // Replace with your custom notification UI
+}
+
+function initializeLessonOne() {
+    // Initialize progress tracking
+    initializeProgressTracking();
+    
+    // Set up sync indicator
+    const syncStatus = document.getElementById('syncStatus');
+    
+    // Auto-save functionality
+    setupAutoSave();
+    
+    // Progress modal functionality
+    setupProgressModal();
+    
+    // Initialize matching game
+    setupMatchingGame();
+    
+    // Initialize collapsible sections
+    setupCollapsibleSections();
+    
+    // Initialize topic collapsible sections
+    setupTopicCollapsibleSections();
+    
+    // Load saved progress
+    loadProgress();
+}
+
+function initializeCloudSync() {
+    console.log('☁️ Initializing cloud sync for lesson 1...');
+    
+    // Use the universal lesson progress system
+    initializeLessonProgress('lesson1Progress');
+    
+    // Wait for auth to be ready
+    setTimeout(() => {
+        if (window.firebaseAuth && window.firebaseAuth.currentUser) {
+            console.log('👤 User authenticated, cloud sync ready');
+        } else {
+            console.log('⏳ Waiting for authentication...');
+        }
+    }, 2000);
+}
+
+function initializeProgressTracking() {
+    // Topic completion toggle
+    const completionElements = document.querySelectorAll('.topic-completion');
+    completionElements.forEach(element => {
+        element.addEventListener('click', function() {
+            this.classList.toggle('topic-completed');
+            updateProgressBar();
+            updateTopicStatus();
+            saveLocalProgress(); // Save to localStorage
+        });
+        
+        // Add touch feedback
+        element.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+        });
+        
+        element.addEventListener('touchend', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+    
+    // Reflection text auto-save
+    document.querySelectorAll('.reflection textarea').forEach(textarea => {
+        textarea.addEventListener('input', function() {
+            saveLocalProgress(); // Save to localStorage
+        });
+    });
+}
+
+function setupAutoSave() {
+    // Auto-save progress every 30 seconds
+    setInterval(saveLocalProgress, 30000);
+    
+    // Save on page unload
+    window.addEventListener('beforeunload', saveLocalProgress);
+}
+
+function setupProgressModal() {
+    const modal = document.getElementById('progressModal');
+    const viewProgressBtn = document.getElementById('viewProgress');
+    const closeModalBtn = document.getElementById('closeModal');
+    const exportProgressBtn = document.getElementById('exportProgress');
+    const resetProgressBtn = document.getElementById('resetProgress');
+    
+    if (viewProgressBtn) {
+        viewProgressBtn.addEventListener('click', function() {
+            updateProgressSummary();
+            modal.style.display = 'flex';
+        });
+    }
+    
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+    }
+    
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+    
+    if (exportProgressBtn) {
+        exportProgressBtn.addEventListener('click', exportProgress);
+    }
+    
+    if (resetProgressBtn) {
+        resetProgressBtn.addEventListener('click', resetProgress);
+    }
+}
+
+function setupMatchingGame() {
+    const startBtn = document.getElementById('startMatchingGame');
+    if (startBtn) {
+        startBtn.addEventListener('click', function() {
+            const container = document.getElementById('matchingGameContainer');
+            if (container.style.display === 'none') {
+                container.style.display = 'block';
+                initializeMatchingGame();
+            } else {
+                container.style.display = 'none';
+            }
+        });
+    }
+}
+
+function setupCollapsibleSections() {
+    const coll = document.querySelectorAll('.collapsible');
+    coll.forEach(item => {
+        item.addEventListener('click', function() {
+            this.classList.toggle('active');
+            const content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+            }
+        });
+    });
+}
+
+function setupTopicCollapsibleSections() {
+    const topicCollapsibles = document.querySelectorAll('.topic-collapsible');
+    topicCollapsibles.forEach(item => {
+        item.addEventListener('click', function() {
+            this.classList.toggle('active');
+            const content = document.getElementById(this.id.replace('Collapsible', 'Content'));
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+            }
+        });
+    });
+    
+    // Open first topic by default
+    if (topicCollapsibles.length > 0) {
+        topicCollapsibles[0].classList.add('active');
+        const firstContent = document.getElementById('topic1Content');
+        firstContent.style.maxHeight = firstContent.scrollHeight + 'px';
+    }
+}
+
+function updateProgressBar() {
+    const completedTopics = document.querySelectorAll('.topic-completed').length;
+    const totalTopics = document.querySelectorAll('.topic-completion').length;
+    const progressPercentage = totalTopics > 0 ? (completedTopics / totalTopics) * 100 : 0;
+    
+    const progressBar = document.getElementById('progressBar');
+    if (progressBar) {
+        progressBar.style.width = progressPercentage + '%';
+    }
+}
+
+function updateTopicStatus() {
+    // Update status indicators for each topic
+    for (let i = 1; i <= 4; i++) {
+        const completionElement = document.getElementById(`topic${i}Completion`);
+        const statusElement = document.getElementById(`topic${i}Status`);
+        
+        if (completionElement && statusElement) {
+            if (completionElement.classList.contains('topic-completed')) {
+                statusElement.textContent = '✓';
+                statusElement.style.color = 'var(--success-color)';
+            } else {
+                statusElement.textContent = '●';
+                statusElement.style.color = '#ccc';
+            }
+        }
+    }
+}
+
+function saveLocalProgress() {
+    const syncStatus = document.getElementById('syncStatus');
+    if (syncStatus) {
+        syncStatus.textContent = 'Saving...';
+        syncStatus.className = 'sync-status syncing';
+    }
+    
+    const progressData = getCurrentLessonProgressData();
+    localStorage.setItem('lesson1Progress', JSON.stringify(progressData));
+    
+    if (syncStatus) {
+        setTimeout(() => {
+            syncStatus.textContent = 'Saved';
+            syncStatus.className = 'sync-status synced';
+        }, 500);
+    }
+}
+
+function loadProgress() {
+    const savedProgress = localStorage.getItem('lesson1Progress');
+    if (savedProgress) {
+        const progressData = JSON.parse(savedProgress);
+        applyProgressData(progressData);
+    }
+}
+
+function applyProgressData(progressData) {
+    if (!progressData) return;
+    
+    // Load topic completion
+    if (progressData.topics) {
+        progressData.topics.forEach(topic => {
+            const element = document.querySelectorAll('.topic-completion')[topic.id];
+            if (element && topic.completed) {
+                element.classList.add('topic-completed');
+            }
+        });
+    }
+    
+    // Load reflection responses
+    if (progressData.reflections) {
+        Object.keys(progressData.reflections).forEach(reflectionId => {
+            const textarea = document.querySelector(`textarea[data-reflection-id="${reflectionId}"]`);
+            if (textarea) {
+                textarea.value = progressData.reflections[reflectionId];
+            }
+        });
+    }
+    
+    // Load matching game progress
+    if (progressData.matchingGame) {
+        const scoreElement = document.getElementById('score');
+        const totalElement = document.getElementById('total');
+        if (scoreElement) scoreElement.textContent = progressData.matchingGame.score || 0;
+        if (totalElement) totalElement.textContent = progressData.matchingGame.total || 0;
+    }
+    
+    // Load topic collapsible states
+    if (progressData.topicStates) {
+        Object.keys(progressData.topicStates).forEach(collapsibleId => {
+            const collapsible = document.getElementById(collapsibleId);
+            const content = document.getElementById(collapsibleId.replace('Collapsible', 'Content'));
+            
+            if (collapsible && content) {
+                if (progressData.topicStates[collapsibleId]) {
+                    collapsible.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    collapsible.classList.remove('active');
+                    content.style.maxHeight = null;
+                }
+            }
+        });
+    }
+    
+    updateProgressBar();
+    updateTopicStatus();
+}
+
+function updateProgressSummary() {
+    const summaryElement = document.getElementById('progressSummary');
+    if (!summaryElement) return;
+    
+    const completedTopics = document.querySelectorAll('.topic-completed').length;
+    const totalTopics = document.querySelectorAll('.topic-completion').length;
+    const progressPercentage = totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
+    
+    // Count completed reflections
+    let completedReflections = 0;
+    const totalReflections = document.querySelectorAll('.reflection textarea').length;
+    document.querySelectorAll('.reflection textarea').forEach(textarea => {
+        if (textarea.value.trim() !== '') {
+            completedReflections++;
+        }
+    });
+    
+    // Get matching game progress
+    const matchingScore = parseInt(document.getElementById('score')?.textContent) || 0;
+    const matchingTotal = parseInt(document.getElementById('total')?.textContent) || 0;
+    
+    summaryElement.innerHTML = `
+        <div class="progress-item">
+            <span>Topics Completed:</span>
+            <span>${completedTopics}/${totalTopics} (${progressPercentage}%)</span>
+        </div>
+        <div class="progress-item">
+            <span>Reflections Completed:</span>
+            <span>${completedReflections}/${totalReflections}</span>
+        </div>
+        <div class="progress-item">
+            <span>Matching Game Score:</span>
+            <span>${matchingScore}/${matchingTotal}</span>
+        </div>
+        <div class="progress-item">
+            <span>Last Updated:</span>
+            <span>${new Date().toLocaleString()}</span>
+        </div>
+    `;
+}
+
+function exportProgress() {
+    const progressData = localStorage.getItem('lesson1Progress');
+    if (!progressData) {
+        alert('No progress data to export.');
+        return;
+    }
+    
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(progressData);
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "lesson1_progress.json");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+}
+
+function resetProgress() {
+    if (confirm('Are you sure you want to reset all progress for this lesson? This cannot be undone.')) {
+        localStorage.removeItem('lesson1Progress');
+        document.querySelectorAll('.topic-completion').forEach(element => {
+            element.classList.remove('topic-completed');
+        });
+        document.querySelectorAll('.reflection textarea').forEach(textarea => {
+            textarea.value = '';
+        });
+        const scoreElement = document.getElementById('score');
+        if (scoreElement) scoreElement.textContent = '0';
+        updateProgressBar();
+        updateTopicStatus();
+        updateProgressSummary();
+        alert('Progress has been reset.');
+    }
+}
+
+function initializeMatchingGame() {
+    const pairs = [
+        {verse: 'Romans 8:38-39 — Nothing separates us from God\'s love', theme: 'God\'s Unfailing Love'},
+        {verse: 'John 10:28 — I give them eternal life', theme: 'Assurance of Salvation'},
+        {verse: 'Philippians 4:13 — I can do all things through Christ', theme: 'Confidence & Strength'},
+        {verse: 'Romans 8:37 — More than conquerors', theme: 'Assurance of Victory'},
+        {verse: 'Hebrews 13:5 — I will never leave you', theme: 'God\'s Presence'}
+    ];
+
+    const versesList = document.getElementById('versesList');
+    const themesList = document.getElementById('themesList');
+    const scoreSpan = document.getElementById('score');
+    const totalSpan = document.getElementById('total');
+
+    if (!versesList || !themesList || !scoreSpan || !totalSpan) return;
+
+    let state = {selectedVerse: null, selectedTheme: null, correct: 0, total: pairs.length};
+    totalSpan.textContent = state.total;
+
+    function shuffle(arr){ 
+        for(let i=arr.length-1;i>0;i--){
+            const j=Math.floor(Math.random()*(i+1));
+            [arr[i],arr[j]]=[arr[j],arr[i]];
+        } 
+        return arr; 
+    }
+
+    function renderBoard(){
+        versesList.innerHTML = '';
+        themesList.innerHTML = '';
+        const verses = shuffle([...pairs.map(p=>p.verse)]);
+        const themes = shuffle([...pairs.map(p=>p.theme)]);
+        
+        verses.forEach(v => {
+            const el = document.createElement('div');
+            el.className = 'item';
+            el.textContent = v;
+            el.onclick = () => selectItem(el, 'verse');
+            versesList.appendChild(el);
+        });
+        
+        themes.forEach(t => {
+            const el = document.createElement('div');
+            el.className = 'item';
+            el.textContent = t;
+            el.onclick = () => selectItem(el, 'theme');
+            themesList.appendChild(el);
+        });
+    }
+
+    function selectItem(el, type){
+        if(el.classList.contains('correct')) return;
+        document.querySelectorAll(type === 'verse' ? '#versesList .item' : '#themesList .item').forEach(i => i.classList.remove('selected'));
+        el.classList.add('selected');
+        if(type === 'verse') state.selectedVerse = el.textContent; 
+        else state.selectedTheme = el.textContent;
+        
+        if(state.selectedVerse && state.selectedTheme) checkMatch();
+    }
+
+    function checkMatch(){
+        const match = pairs.find(p => p.verse === state.selectedVerse && p.theme === state.selectedTheme);
+        const vEl = [...document.querySelectorAll('#versesList .item')].find(i => i.textContent === state.selectedVerse);
+        const tEl = [...document.querySelectorAll('#themesList .item')].find(i => i.textContent === state.selectedTheme);
+        
+        if(match){
+            vEl.classList.add('correct');
+            tEl.classList.add('correct');
+            state.correct++;
+            scoreSpan.textContent = state.correct;
+            saveLocalProgress(); // Save game progress
         }
         
-        // Get current progress data
-        const progressData = getCurrentProgressData();
-        
-        // Save to cloud
-        if (window.saveProgressToCloud) {
-            window.saveProgressToCloud(progressData);
-        }
-    };
+        vEl.classList.remove('selected');
+        tEl.classList.remove('selected');
+        state.selectedVerse = null;
+        state.selectedTheme = null;
+    }
+
+    renderBoard();
+}
+
+// Universal cloud sync functions (compatible with multi-lesson system)
+function initializeLessonProgress(lessonKey) {
+    console.log(`🎯 Initializing cloud progress for: ${lessonKey}`);
     
     // Enhanced completion tracking with cloud sync
     const completionElements = document.querySelectorAll('.topic-completion');
@@ -1811,8 +2256,11 @@ document.addEventListener('DOMContentLoaded', function() {
         element.addEventListener('click', function() {
             setTimeout(() => {
                 if (window.saveProgressToCloud) {
-                    const progressData = getCurrentProgressData();
-                    window.saveProgressToCloud(progressData);
+                    const progressData = getCurrentLessonProgressData();
+                    const saveData = {};
+                    saveData[lessonKey] = progressData;
+                    console.log(`☁️ Topic completion saved to cloud for ${lessonKey}`);
+                    window.saveProgressToCloud(saveData);
                 }
             }, 500);
         });
@@ -1825,8 +2273,11 @@ document.addEventListener('DOMContentLoaded', function() {
             clearTimeout(saveTimeout);
             saveTimeout = setTimeout(() => {
                 if (window.saveProgressToCloud) {
-                    const progressData = getCurrentProgressData();
-                    window.saveProgressToCloud(progressData);
+                    const progressData = getCurrentLessonProgressData();
+                    const saveData = {};
+                    saveData[lessonKey] = progressData;
+                    console.log(`☁️ Reflection saved to cloud for ${lessonKey}`);
+                    window.saveProgressToCloud(saveData);
                 }
             }, 2000);
         });
@@ -1834,19 +2285,29 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Sync progress every 2 minutes
     setInterval(() => {
-        if (window.saveProgressToCloud && auth.currentUser) {
-            const progressData = getCurrentProgressData();
-            window.saveProgressToCloud(progressData);
+        if (window.saveProgressToCloud && window.firebaseAuth && window.firebaseAuth.currentUser) {
+            const progressData = getCurrentLessonProgressData();
+            const saveData = {};
+            saveData[lessonKey] = progressData;
+            console.log(`🔄 Auto-syncing ${lessonKey} to cloud...`);
+            window.saveProgressToCloud(saveData);
         }
     }, 120000);
-});
+    
+    // Universal progress loading function for cloud data
+    window.manualLoadProgress = function(progressData) {
+        console.log(`🔄 Loading cloud progress for ${lessonKey}:`, progressData);
+        applyProgressData(progressData);
+    };
+}
 
-function getCurrentProgressData() {
-    // Collect all progress data from the page
+function getCurrentLessonProgressData() {
+    // Collect all progress data from the current lesson page
     const progressData = {
         topics: [],
         reflections: {},
         matchingGame: {},
+        topicStates: {},
         lastUpdated: new Date().toISOString()
     };
     
@@ -1865,434 +2326,25 @@ function getCurrentProgressData() {
     });
     
     // Get matching game progress
+    const scoreElement = document.getElementById('score');
+    const totalElement = document.getElementById('total');
     progressData.matchingGame = {
-        score: parseInt(document.getElementById('score')?.textContent) || 0,
-        total: parseInt(document.getElementById('total')?.textContent) || 0
+        score: scoreElement ? parseInt(scoreElement.textContent) || 0 : 0,
+        total: totalElement ? parseInt(totalElement.textContent) || 0 : 0
     };
+    
+    // Get topic collapsible states
+    document.querySelectorAll('.topic-collapsible').forEach(collapsible => {
+        progressData.topicStates[collapsible.id] = collapsible.classList.contains('active');
+    });
     
     return progressData;
 }
+
+// Make functions available globally
+window.getCurrentLessonProgressData = getCurrentLessonProgressData;
+window.applyProgressData = applyProgressData;
 </script>
-    <script>
-        // Progress tracking and sync features
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize progress tracking
-            initializeProgressTracking();
-            
-            // Set up sync indicator
-            const syncStatus = document.getElementById('syncStatus');
-            
-            // Auto-save functionality
-            setupAutoSave();
-            
-            // Progress modal functionality
-            setupProgressModal();
-            
-            // Initialize matching game
-            setupMatchingGame();
-            
-            // Initialize collapsible sections
-            setupCollapsibleSections();
-            
-            // Initialize topic collapsible sections
-            setupTopicCollapsibleSections();
-            
-            // Load saved progress
-            loadProgress();
-        });
-        
-        function initializeProgressTracking() {
-            // Topic completion toggle
-            const completionElements = document.querySelectorAll('.topic-completion');
-            completionElements.forEach(element => {
-                element.addEventListener('click', function() {
-                    this.classList.toggle('topic-completed');
-                    updateProgressBar();
-                    updateTopicStatus();
-                    saveProgress();
-                });
-                
-                // Add touch feedback
-                element.addEventListener('touchstart', function() {
-                    this.style.transform = 'scale(0.95)';
-                });
-                
-                element.addEventListener('touchend', function() {
-                    this.style.transform = 'scale(1)';
-                });
-            });
-            
-            // Reflection text auto-save
-            document.querySelectorAll('.reflection textarea').forEach(textarea => {
-                textarea.addEventListener('input', function() {
-                    saveProgress();
-                });
-            });
-        }
-        
-        function setupAutoSave() {
-            // Auto-save progress every 30 seconds
-            setInterval(saveProgress, 30000);
-            
-            // Save on page unload
-            window.addEventListener('beforeunload', saveProgress);
-        }
-        
-        function setupProgressModal() {
-            const modal = document.getElementById('progressModal');
-            const viewProgressBtn = document.getElementById('viewProgress');
-            const closeModalBtn = document.getElementById('closeModal');
-            const exportProgressBtn = document.getElementById('exportProgress');
-            const resetProgressBtn = document.getElementById('resetProgress');
-            
-            viewProgressBtn.addEventListener('click', function() {
-                updateProgressSummary();
-                modal.style.display = 'flex';
-            });
-            
-            closeModalBtn.addEventListener('click', function() {
-                modal.style.display = 'none';
-            });
-            
-            window.addEventListener('click', function(event) {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-            
-            exportProgressBtn.addEventListener('click', exportProgress);
-            resetProgressBtn.addEventListener('click', resetProgress);
-        }
-        
-        function setupMatchingGame() {
-            document.getElementById('startMatchingGame').addEventListener('click', function() {
-                const container = document.getElementById('matchingGameContainer');
-                if (container.style.display === 'none') {
-                    container.style.display = 'block';
-                    initializeMatchingGame();
-                } else {
-                    container.style.display = 'none';
-                }
-            });
-        }
-        
-        function setupCollapsibleSections() {
-            const coll = document.querySelectorAll('.collapsible');
-            coll.forEach(item => {
-                item.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    const content = this.nextElementSibling;
-                    if (content.style.maxHeight) {
-                        content.style.maxHeight = null;
-                    } else {
-                        content.style.maxHeight = content.scrollHeight + 'px';
-                    }
-                });
-            });
-        }
-        
-        function setupTopicCollapsibleSections() {
-            const topicCollapsibles = document.querySelectorAll('.topic-collapsible');
-            topicCollapsibles.forEach(item => {
-                item.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    const content = document.getElementById(this.id.replace('Collapsible', 'Content'));
-                    if (content.style.maxHeight) {
-                        content.style.maxHeight = null;
-                    } else {
-                        content.style.maxHeight = content.scrollHeight + 'px';
-                    }
-                });
-            });
-            
-            // Open first topic by default
-            if (topicCollapsibles.length > 0) {
-                topicCollapsibles[0].classList.add('active');
-                const firstContent = document.getElementById('topic1Content');
-                firstContent.style.maxHeight = firstContent.scrollHeight + 'px';
-            }
-        }
-        
-        function updateProgressBar() {
-            const completedTopics = document.querySelectorAll('.topic-completed').length;
-            const totalTopics = document.querySelectorAll('.topic-completion').length;
-            const progressPercentage = (completedTopics / totalTopics) * 100;
-            
-            document.getElementById('progressBar').style.width = progressPercentage + '%';
-        }
-        
-        function updateTopicStatus() {
-            // Update status indicators for each topic
-            for (let i = 1; i <= 4; i++) {
-                const completionElement = document.getElementById(`topic${i}Completion`);
-                const statusElement = document.getElementById(`topic${i}Status`);
-                
-                if (completionElement && statusElement) {
-                    if (completionElement.classList.contains('topic-completed')) {
-                        statusElement.textContent = '✓';
-                        statusElement.style.color = 'var(--success-color)';
-                    } else {
-                        statusElement.textContent = '●';
-                        statusElement.style.color = '#ccc';
-                    }
-                }
-            }
-        }
-        
-        function saveProgress() {
-            const syncStatus = document.getElementById('syncStatus');
-            syncStatus.textContent = 'Syncing...';
-            syncStatus.className = 'sync-status syncing';
-            
-            // Collect topic completion status
-            const topics = [];
-            document.querySelectorAll('.topic-completion').forEach((element, index) => {
-                topics.push({
-                    id: index,
-                    completed: element.classList.contains('topic-completed')
-                });
-            });
-            
-            // Collect reflection responses
-            const reflections = {};
-            document.querySelectorAll('.reflection textarea').forEach(textarea => {
-                const reflectionId = textarea.getAttribute('data-reflection-id');
-                reflections[reflectionId] = textarea.value;
-            });
-            
-            // Collect matching game progress
-            const matchingGame = {
-                score: parseInt(document.getElementById('score').textContent) || 0,
-                total: parseInt(document.getElementById('total').textContent) || 0
-            };
-            
-            // Collect topic collapsible states
-            const topicStates = {};
-            document.querySelectorAll('.topic-collapsible').forEach(collapsible => {
-                topicStates[collapsible.id] = collapsible.classList.contains('active');
-            });
-            
-            // Save to localStorage
-            const progressData = {
-                topics: topics,
-                reflections: reflections,
-                matchingGame: matchingGame,
-                topicStates: topicStates,
-                lastUpdated: new Date().toISOString()
-            };
-            
-            localStorage.setItem('lesson1Progress', JSON.stringify(progressData));
-            
-            // Simulate sync delay
-            setTimeout(() => {
-                syncStatus.textContent = 'Synced';
-                syncStatus.className = 'sync-status synced';
-            }, 800);
-        }
-        
-        function loadProgress() {
-            const savedProgress = localStorage.getItem('lesson1Progress');
-            if (savedProgress) {
-                const progressData = JSON.parse(savedProgress);
-                
-                // Load topic completion
-                progressData.topics.forEach(topic => {
-                    const element = document.querySelectorAll('.topic-completion')[topic.id];
-                    if (element && topic.completed) {
-                        element.classList.add('topic-completed');
-                    }
-                });
-                
-                // Load reflection responses
-                Object.keys(progressData.reflections).forEach(reflectionId => {
-                    const textarea = document.querySelector(`textarea[data-reflection-id="${reflectionId}"]`);
-                    if (textarea) {
-                        textarea.value = progressData.reflections[reflectionId];
-                    }
-                });
-                
-                // Load matching game progress
-                if (progressData.matchingGame) {
-                    document.getElementById('score').textContent = progressData.matchingGame.score;
-                    document.getElementById('total').textContent = progressData.matchingGame.total;
-                }
-                
-                // Load topic collapsible states
-                if (progressData.topicStates) {
-                    Object.keys(progressData.topicStates).forEach(collapsibleId => {
-                        const collapsible = document.getElementById(collapsibleId);
-                        const content = document.getElementById(collapsibleId.replace('Collapsible', 'Content'));
-                        
-                        if (collapsible && content) {
-                            if (progressData.topicStates[collapsibleId]) {
-                                collapsible.classList.add('active');
-                                content.style.maxHeight = content.scrollHeight + 'px';
-                            } else {
-                                collapsible.classList.remove('active');
-                                content.style.maxHeight = null;
-                            }
-                        }
-                    });
-                }
-                
-                updateProgressBar();
-                updateTopicStatus();
-            }
-        }
-        
-        function updateProgressSummary() {
-            const summaryElement = document.getElementById('progressSummary');
-            const completedTopics = document.querySelectorAll('.topic-completed').length;
-            const totalTopics = document.querySelectorAll('.topic-completion').length;
-            const progressPercentage = Math.round((completedTopics / totalTopics) * 100);
-            
-            // Count completed reflections
-            let completedReflections = 0;
-            const totalReflections = document.querySelectorAll('.reflection textarea').length;
-            document.querySelectorAll('.reflection textarea').forEach(textarea => {
-                if (textarea.value.trim() !== '') {
-                    completedReflections++;
-                }
-            });
-            
-            // Get matching game progress
-            const matchingScore = parseInt(document.getElementById('score').textContent) || 0;
-            const matchingTotal = parseInt(document.getElementById('total').textContent) || 0;
-            
-            summaryElement.innerHTML = `
-                <div class="progress-item">
-                    <span>Topics Completed:</span>
-                    <span>${completedTopics}/${totalTopics} (${progressPercentage}%)</span>
-                </div>
-                <div class="progress-item">
-                    <span>Reflections Completed:</span>
-                    <span>${completedReflections}/${totalReflections}</span>
-                </div>
-                <div class="progress-item">
-                    <span>Matching Game Score:</span>
-                    <span>${matchingScore}/${matchingTotal}</span>
-                </div>
-                <div class="progress-item">
-                    <span>Last Updated:</span>
-                    <span>${new Date().toLocaleString()}</span>
-                </div>
-            `;
-        }
-        
-        function exportProgress() {
-            const progressData = localStorage.getItem('lesson1Progress');
-            if (!progressData) {
-                alert('No progress data to export.');
-                return;
-            }
-            
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(progressData);
-            const downloadAnchorNode = document.createElement('a');
-            downloadAnchorNode.setAttribute("href", dataStr);
-            downloadAnchorNode.setAttribute("download", "lesson1_progress.json");
-            document.body.appendChild(downloadAnchorNode);
-            downloadAnchorNode.click();
-            downloadAnchorNode.remove();
-        }
-        
-        function resetProgress() {
-            if (confirm('Are you sure you want to reset all progress for this lesson? This cannot be undone.')) {
-                localStorage.removeItem('lesson1Progress');
-                document.querySelectorAll('.topic-completion').forEach(element => {
-                    element.classList.remove('topic-completed');
-                });
-                document.querySelectorAll('.reflection textarea').forEach(textarea => {
-                    textarea.value = '';
-                });
-                document.getElementById('score').textContent = '0';
-                updateProgressBar();
-                updateTopicStatus();
-                updateProgressSummary();
-                alert('Progress has been reset.');
-            }
-        }
-        
-        function initializeMatchingGame() {
-            const pairs = [
-                {verse: 'Romans 8:38-39 — Nothing separates us from God\'s love', theme: 'God\'s Unfailing Love'},
-                {verse: 'John 10:28 — I give them eternal life', theme: 'Assurance of Salvation'},
-                {verse: 'Philippians 4:13 — I can do all things through Christ', theme: 'Confidence & Strength'},
-                {verse: 'Romans 8:37 — More than conquerors', theme: 'Assurance of Victory'},
-                {verse: 'Hebrews 13:5 — I will never leave you', theme: 'God\'s Presence'}
-            ];
-
-            const versesList = document.getElementById('versesList');
-            const themesList = document.getElementById('themesList');
-            const scoreSpan = document.getElementById('score');
-            const totalSpan = document.getElementById('total');
-
-            let state = {selectedVerse: null, selectedTheme: null, correct: 0, total: pairs.length};
-            totalSpan.textContent = state.total;
-
-            function shuffle(arr){ 
-                for(let i=arr.length-1;i>0;i--){
-                    const j=Math.floor(Math.random()*(i+1));
-                    [arr[i],arr[j]]=[arr[j],arr[i]];
-                } 
-                return arr; 
-            }
-
-            function renderBoard(){
-                versesList.innerHTML = '';
-                themesList.innerHTML = '';
-                const verses = shuffle([...pairs.map(p=>p.verse)]);
-                const themes = shuffle([...pairs.map(p=>p.theme)]);
-                
-                verses.forEach(v => {
-                    const el = document.createElement('div');
-                    el.className = 'item';
-                    el.textContent = v;
-                    el.onclick = () => selectItem(el, 'verse');
-                    versesList.appendChild(el);
-                });
-                
-                themes.forEach(t => {
-                    const el = document.createElement('div');
-                    el.className = 'item';
-                    el.textContent = t;
-                    el.onclick = () => selectItem(el, 'theme');
-                    themesList.appendChild(el);
-                });
-            }
-
-            function selectItem(el, type){
-                if(el.classList.contains('correct')) return;
-                document.querySelectorAll(type === 'verse' ? '#versesList .item' : '#themesList .item').forEach(i => i.classList.remove('selected'));
-                el.classList.add('selected');
-                if(type === 'verse') state.selectedVerse = el.textContent; 
-                else state.selectedTheme = el.textContent;
-                
-                if(state.selectedVerse && state.selectedTheme) checkMatch();
-            }
-
-            function checkMatch(){
-                const match = pairs.find(p => p.verse === state.selectedVerse && p.theme === state.selectedTheme);
-                const vEl = [...document.querySelectorAll('#versesList .item')].find(i => i.textContent === state.selectedVerse);
-                const tEl = [...document.querySelectorAll('#themesList .item')].find(i => i.textContent === state.selectedTheme);
-                
-                if(match){
-                    vEl.classList.add('correct');
-                    tEl.classList.add('correct');
-                    state.correct++;
-                    scoreSpan.textContent = state.correct;
-                    saveProgress(); // Save game progress
-                }
-                
-                vEl.classList.remove('selected');
-                tEl.classList.remove('selected');
-                state.selectedVerse = null;
-                state.selectedTheme = null;
-            }
-
-            renderBoard();
-        }
-    </script>
-    
 
     <script type="module" src="../auth-check.js"></script>
 </body>
