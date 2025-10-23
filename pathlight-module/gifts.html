@@ -2760,7 +2760,221 @@ function showNotification(message, type) {
             updateSyncStatus();
         });
     </script>
- 
+ <script>
+    // Universal progress management for any lesson page
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📚 Lesson page loaded, initializing cloud sync...');
+    
+    // Get current lesson configuration
+    const currentLesson = window.getCurrentLessonConfig ? window.getCurrentLessonConfig() : null;
+    const lessonKey = currentLesson ? currentLesson.storageKey : 'lesson1Progress'; // fallback
+    
+    // Initialize progress tracking for this lesson
+    initializeLessonProgress(lessonKey);
+    
+    // Wait for auth to be ready
+    setTimeout(() => {
+        if (window.firebaseAuth && window.firebaseAuth.currentUser) {
+            console.log('👤 User authenticated, progress sync ready');
+        }
+    }, 2000);
+});
+
+function initializeLessonProgress(lessonKey) {
+    console.log(`🎯 Initializing progress for: ${lessonKey}`);
+    
+    // Override the existing saveProgress function to include cloud sync
+    const originalSaveProgress = window.saveProgress;
+    
+    window.saveProgress = function() {
+        if (typeof originalSaveProgress === 'function') {
+            originalSaveProgress();
+        }
+        
+        // Get current progress data for this lesson
+        const progressData = getCurrentLessonProgressData();
+        
+        // Save to cloud
+        if (window.saveProgressToCloud) {
+            console.log(`☁️ Saving ${lessonKey} to cloud...`);
+            const saveData = {};
+            saveData[lessonKey] = progressData;
+            window.saveProgressToCloud(saveData);
+        }
+    };
+    
+    // Enhanced completion tracking with cloud sync
+    const completionElements = document.querySelectorAll('.topic-completion');
+    completionElements.forEach(element => {
+        element.addEventListener('click', function() {
+            setTimeout(() => {
+                if (window.saveProgressToCloud) {
+                    const progressData = getCurrentLessonProgressData();
+                    const saveData = {};
+                    saveData[lessonKey] = progressData;
+                    console.log(`☁️ Topic completion saved to cloud for ${lessonKey}`);
+                    window.saveProgressToCloud(saveData);
+                }
+            }, 500);
+        });
+    });
+    
+    // Auto-save reflections with cloud sync
+    document.querySelectorAll('.reflection textarea').forEach(textarea => {
+        let saveTimeout;
+        textarea.addEventListener('input', function() {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                if (window.saveProgressToCloud) {
+                    const progressData = getCurrentLessonProgressData();
+                    const saveData = {};
+                    saveData[lessonKey] = progressData;
+                    console.log(`☁️ Reflection saved to cloud for ${lessonKey}`);
+                    window.saveProgressToCloud(saveData);
+                }
+            }, 2000);
+        });
+    });
+    
+    // Auto-save any interactive elements
+    document.querySelectorAll('.activity input, .game-button, .quiz-option').forEach(element => {
+        element.addEventListener('change', function() {
+            setTimeout(() => {
+                if (window.saveProgressToCloud) {
+                    const progressData = getCurrentLessonProgressData();
+                    const saveData = {};
+                    saveData[lessonKey] = progressData;
+                    window.saveProgressToCloud(saveData);
+                }
+            }, 1000);
+        });
+    });
+    
+    // Sync progress every 2 minutes
+    setInterval(() => {
+        if (window.saveProgressToCloud && window.firebaseAuth && window.firebaseAuth.currentUser) {
+            const progressData = getCurrentLessonProgressData();
+            const saveData = {};
+            saveData[lessonKey] = progressData;
+            console.log(`🔄 Auto-syncing ${lessonKey} to cloud...`);
+            window.saveProgressToCloud(saveData);
+        }
+    }, 120000);
+    
+    // Universal progress loading function
+    window.manualLoadProgress = function(progressData) {
+        console.log(`🔄 Loading progress for ${lessonKey}:`, progressData);
+        
+        if (!progressData) return;
+        
+        // Load topic completion (standard for all lessons)
+        if (progressData.topics) {
+            progressData.topics.forEach(topic => {
+                const element = document.querySelectorAll('.topic-completion')[topic.id];
+                if (element) {
+                    if (topic.completed) {
+                        element.classList.add('topic-completed');
+                    } else {
+                        element.classList.remove('topic-completed');
+                    }
+                }
+            });
+        }
+        
+        // Load reflection responses (standard for all lessons)
+        if (progressData.reflections) {
+            Object.keys(progressData.reflections).forEach(reflectionId => {
+                const textarea = document.querySelector(`textarea[data-reflection-id="${reflectionId}"]`);
+                if (textarea) {
+                    textarea.value = progressData.reflections[reflectionId];
+                }
+            });
+        }
+        
+        // Load game progress if exists
+        if (progressData.matchingGame) {
+            const scoreElement = document.getElementById('score');
+            const totalElement = document.getElementById('total');
+            if (scoreElement) scoreElement.textContent = progressData.matchingGame.score || 0;
+            if (totalElement) totalElement.textContent = progressData.matchingGame.total || 0;
+        }
+        
+        // Load activity progress if exists
+        if (progressData.activities) {
+            Object.keys(progressData.activities).forEach(activityId => {
+                const element = document.querySelector(`[data-activity-id="${activityId}"]`);
+                if (element) {
+                    // Custom logic per activity type
+                    if (element.type === 'checkbox' || element.type === 'radio') {
+                        element.checked = progressData.activities[activityId];
+                    } else {
+                        element.value = progressData.activities[activityId];
+                    }
+                }
+            });
+        }
+        
+        // Update UI
+        if (window.updateProgressBar) window.updateProgressBar();
+        if (window.updateTopicStatus) window.updateTopicStatus();
+        
+        console.log(`✅ Progress loading complete for ${lessonKey}`);
+    };
+}
+
+function getCurrentLessonProgressData() {
+    // Collect all progress data from the current lesson page
+    const progressData = {
+        topics: [],
+        reflections: {},
+        lastUpdated: new Date().toISOString()
+    };
+    
+    // Get topic completion status (standard)
+    document.querySelectorAll('.topic-completion').forEach((element, index) => {
+        progressData.topics.push({
+            id: index,
+            completed: element.classList.contains('topic-completed')
+        });
+    });
+    
+    // Get reflection responses (standard)
+    document.querySelectorAll('.reflection textarea').forEach(textarea => {
+        const reflectionId = textarea.getAttribute('data-reflection-id');
+        progressData.reflections[reflectionId] = textarea.value;
+    });
+    
+    // Get matching game progress if exists
+    const scoreElement = document.getElementById('score');
+    const totalElement = document.getElementById('total');
+    if (scoreElement || totalElement) {
+        progressData.matchingGame = {
+            score: scoreElement ? parseInt(scoreElement.textContent) || 0 : 0,
+            total: totalElement ? parseInt(totalElement.textContent) || 0 : 0
+        };
+    }
+    
+    // Get custom activity data if any
+    const activityElements = document.querySelectorAll('[data-activity-id]');
+    if (activityElements.length > 0) {
+        progressData.activities = {};
+        activityElements.forEach(element => {
+            const activityId = element.getAttribute('data-activity-id');
+            if (element.type === 'checkbox' || element.type === 'radio') {
+                progressData.activities[activityId] = element.checked;
+            } else {
+                progressData.activities[activityId] = element.value;
+            }
+        });
+    }
+    
+    return progressData;
+}
+
+// Make functions available globally
+window.getCurrentLessonProgressData = getCurrentLessonProgressData;
+window.initializeLessonProgress = initializeLessonProgress;
+ </script>
        <script type="module" src="../auth-check.js"></script>
 </body>
 </html>

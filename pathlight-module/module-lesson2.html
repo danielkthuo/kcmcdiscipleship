@@ -1749,278 +1749,364 @@
     <span>Logout</span>
 </a>
 <script>
+// Consolidated progress management for lesson 2
 document.addEventListener('DOMContentLoaded', function() {
-    const logoutBtn = document.getElementById('logoutBtn');
-
+    console.log('📚 Lesson 2 page loaded, initializing...');
+    
     // Logout functionality
-    logoutBtn.addEventListener('click', function(event) {
-        event.preventDefault();
-        if (confirm('Are you sure you want to logout?')) {
-            // In a real app, this would clear authentication tokens
-            // and redirect to login page
-            showNotification('You have been logged out successfully.', 'success');
-            
-            setTimeout(() => {
-                // Simulate logout - in a real app, redirect to login
-                window.location.href = '../index.html';
-            }, 1500);
-        }
-    });
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                showNotification('You have been logged out successfully.', 'success');
+                setTimeout(() => {
+                    window.location.href = '../index.html';
+                }, 1500);
+            }
+        });
+    }
+
+    // Initialize all lesson functionality
+    initializeLessonTwo();
+    
+    // Initialize cloud sync for this lesson
+    initializeCloudSync();
 });
 
-// Optional: Example notification function
 function showNotification(message, type) {
-    alert(message); // Replace this with your custom notification UI
+    alert(message);
 }
-</script>
-    </div>
-    
-    <!-- Sync Status -->
-    <div class="sync-status" id="syncStatus">Checking connection...</div>
-    
-    <!-- Manual Sync Button -->
-    <button id="manualSync" title="Sync Progress">
-        <i class="bi bi-arrow-repeat"></i>
-    </button>
-    
-    <!-- Auto-save notification -->
-    <div class="save-notification" id="saveNotification">
-        <i class="bi bi-check-circle"></i> Progress saved
-    </div>
-    
-    <footer>
-        <p>Pathlight Discipleship Curriculum &copy; 2023 | KCMC</p>
-        <p>Lit to Lead. Rooted to Grow.</p>
-    </footer>
 
-    <script>
-        // Enhanced Progress tracking and auto-save functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize progress tracking
-            const enhancedProgressBar = document.getElementById('enhancedProgressBar');
-            const progressText = document.getElementById('progressText');
-            const lastSaved = document.getElementById('lastSaved');
-            const saveNotification = document.getElementById('saveNotification');
-            
-            // Get all form fields
-            const formFields = document.querySelectorAll('textarea, input[type="text"]');
-            
-            // Collapsible sections with scrollable content
-            const coll = document.getElementsByClassName("collapsible");
-            for (let i = 0; i < coll.length; i++) {
-                coll[i].addEventListener("click", function() {
-                    this.classList.toggle("active");
-                    const content = this.nextElementSibling;
-                    if (content.style.maxHeight) {
-                        content.style.maxHeight = null;
-                    } else {
-                        content.style.maxHeight = content.scrollHeight + "px";
-                    }
-                });
+function initializeLessonTwo() {
+    // Initialize UI elements
+    initializeUI();
+    
+    // Initialize progress tracking
+    initializeProgressTracking();
+    
+    // Load saved progress
+    loadSavedProgress();
+    
+    // Initialize sync functionality
+    initializeSync();
+}
+
+function initializeCloudSync() {
+    console.log('☁️ Initializing cloud sync for lesson 2...');
+    
+    // Use the universal lesson progress system
+    if (window.initializeLessonProgress) {
+        window.initializeLessonProgress('lesson2Progress');
+    }
+    
+    // Wait for auth to be ready
+    setTimeout(() => {
+        if (window.firebaseAuth && window.firebaseAuth.currentUser) {
+            console.log('👤 User authenticated, cloud sync ready');
+        }
+    }, 2000);
+}
+
+function initializeUI() {
+    // Collapsible sections
+    const coll = document.getElementsByClassName("collapsible");
+    for (let i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            const content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
             }
-            
-            // Topic completion toggle
-            const completionElements = document.querySelectorAll('.topic-completion');
-            completionElements.forEach(element => {
-                element.addEventListener('click', function() {
-                    this.classList.toggle('topic-completed');
-                    updateEnhancedProgress();
-                    saveProgress();
-                });
-            });
-            
-            // Load saved data from localStorage
-            loadSavedData();
-            
-            // Calculate initial progress
-            updateEnhancedProgress();
-            
-            // Add event listeners to all form fields
-            formFields.forEach(field => {
-                field.addEventListener('input', function() {
-                    // Save data to localStorage
-                    saveData();
-                    
-                    // Update progress
-                    updateEnhancedProgress();
-                    
-                    // Show save notification
-                    showSaveNotification();
-                });
-            });
-            
-            // Function to save data to localStorage
-            function saveData() {
-                const data = {};
-                
-                formFields.forEach(field => {
-                    const saveKey = field.getAttribute('data-save-key');
-                    
-                    if (saveKey) {
-                        data[saveKey] = field.value;
-                    }
-                });
-                
-                localStorage.setItem('lesson2Data', JSON.stringify(data));
-                
-                // Update last saved time
-                const now = new Date();
-                lastSaved.textContent = now.toLocaleTimeString();
-                localStorage.setItem('lesson2SavedTime', now.toLocaleTimeString());
-            }
-            
-            // Function to load saved data from localStorage
-            function loadSavedData() {
-                const savedData = localStorage.getItem('lesson2Data');
-                
-                if (savedData) {
-                    const data = JSON.parse(savedData);
-                    
-                    formFields.forEach(field => {
-                        const saveKey = field.getAttribute('data-save-key');
-                        
-                        if (saveKey && data[saveKey]) {
-                            field.value = data[saveKey];
-                        }
-                    });
-                    
-                    // Update last saved time
-                    const savedTime = localStorage.getItem('lesson2SavedTime');
-                    if (savedTime) {
-                        lastSaved.textContent = savedTime;
-                    }
-                }
-            }
-            
-            // Function to update enhanced progress bar
-            function updateEnhancedProgress() {
-                let completedFields = 0;
-                
-                formFields.forEach(field => {
-                    if (field.value.trim() !== '') {
-                        completedFields++;
-                    }
-                });
-                
-                const totalFields = formFields.length;
-                const progressPercentage = Math.round((completedFields / totalFields) * 100);
-                
-                enhancedProgressBar.style.width = `${progressPercentage}%`;
-                enhancedProgressBar.textContent = `${progressPercentage}%`;
-                progressText.textContent = `${progressPercentage}%`;
-                
-                // Update original progress bar
-                updateProgressBar();
-                
-                // Save progress to localStorage
-                localStorage.setItem('lesson2EnhancedProgress', progressPercentage);
-            }
-            
-            // Original progress bar function (preserved)
-            function updateProgressBar() {
-                const completedTopics = document.querySelectorAll('.topic-completed').length;
-                const totalTopics = document.querySelectorAll('.topic-completion').length;
-                const progressPercentage = (completedTopics / totalTopics) * 100;
-                
-                document.getElementById('progressBar').style.width = progressPercentage + '%';
-            }
-            
-            function saveProgress() {
-                const topics = [];
-                document.querySelectorAll('.topic-completion').forEach((element, index) => {
-                    topics.push({
-                        id: index,
-                        completed: element.classList.contains('topic-completed')
-                    });
-                });
-                
-                localStorage.setItem('lesson2Progress', JSON.stringify(topics));
-            }
-            
-            function loadProgress() {
-                const savedProgress = localStorage.getItem('lesson2Progress');
-                if (savedProgress) {
-                    const topics = JSON.parse(savedProgress);
-                    topics.forEach(topic => {
-                        const element = document.querySelectorAll('.topic-completion')[topic.id];
-                        if (element && topic.completed) {
-                            element.classList.add('topic-completed');
-                        }
-                    });
-                    updateProgressBar();
-                }
-            }
-            
-            // Function to show save notification
-            function showSaveNotification() {
-                saveNotification.classList.add('show');
-                
-                setTimeout(() => {
-                    saveNotification.classList.remove('show');
-                }, 2000);
-            }
-            
-            // Sync status functionality
-            function updateSyncStatus() {
-                const syncStatus = document.getElementById('syncStatus');
-                
-                // Simulate checking connection
-                setTimeout(() => {
-                    if (navigator.onLine) {
-                        syncStatus.textContent = 'Online - Synced';
-                        syncStatus.className = 'sync-status online';
-                    } else {
-                        syncStatus.textContent = 'Offline - Changes saved locally';
-                        syncStatus.className = 'sync-status offline';
-                    }
-                }, 1000);
-            }
-            
-            // Manual sync functionality
-            document.getElementById('manualSync').addEventListener('click', function() {
-                const syncStatus = document.getElementById('syncStatus');
-                syncStatus.textContent = 'Syncing...';
-                syncStatus.className = 'sync-status syncing';
-                
-                // Simulate sync process
-                setTimeout(() => {
-                    syncStatus.textContent = 'Online - Synced';
-                    syncStatus.className = 'sync-status online';
-                    
-                    // Show confirmation
-                    const notification = document.getElementById('saveNotification');
-                    notification.innerHTML = '<i class="bi bi-cloud-check"></i> Synced to cloud';
-                    notification.classList.add('show');
-                    
-                    setTimeout(() => {
-                        notification.classList.remove('show');
-                    }, 2000);
-                }, 1500);
-            });
-            
-            // Online/offline detection
-            window.addEventListener('online', updateSyncStatus);
-            window.addEventListener('offline', updateSyncStatus);
-            
-            // Auto-save every 30 seconds as a backup
-            setInterval(saveData, 30000);
-            
-            // Load saved progress if available
-            const savedEnhancedProgress = localStorage.getItem('lesson2EnhancedProgress');
-            if (savedEnhancedProgress) {
-                enhancedProgressBar.style.width = `${savedEnhancedProgress}%`;
-                enhancedProgressBar.textContent = `${savedEnhancedProgress}%`;
-                progressText.textContent = `${savedEnhancedProgress}%`;
-            }
-            
-            // Load original progress
-            loadProgress();
-            
-            // Initialize sync status
-            updateSyncStatus();
         });
-    </script>
- 
-    <script type="module" src="../auth-check.js"></script>
+    }
+}
+
+function initializeProgressTracking() {
+    // Topic completion toggle
+    const completionElements = document.querySelectorAll('.topic-completion');
+    completionElements.forEach(element => {
+        element.addEventListener('click', function() {
+            this.classList.toggle('topic-completed');
+            updateAllProgress();
+            saveLocalProgress();
+        });
+    });
+    
+    // Form field auto-save
+    const formFields = document.querySelectorAll('textarea, input[type="text"]');
+    formFields.forEach(field => {
+        field.addEventListener('input', function() {
+            updateAllProgress();
+            saveLocalProgress();
+            showSaveNotification();
+        });
+    });
+    
+    // Auto-save as backup
+    setInterval(saveLocalProgress, 30000);
+}
+
+function initializeSync() {
+    // Manual sync functionality
+    const manualSync = document.getElementById('manualSync');
+    if (manualSync) {
+        manualSync.addEventListener('click', function() {
+            triggerManualSync();
+        });
+    }
+    
+    // Online/offline detection
+    window.addEventListener('online', updateSyncStatus);
+    window.addEventListener('offline', updateSyncStatus);
+    
+    // Initialize sync status
+    updateSyncStatus();
+}
+
+function updateAllProgress() {
+    updateEnhancedProgress();
+    updateBasicProgress();
+}
+
+function updateEnhancedProgress() {
+    const enhancedProgressBar = document.getElementById('enhancedProgressBar');
+    const progressText = document.getElementById('progressText');
+    const lastSaved = document.getElementById('lastSaved');
+    
+    if (!enhancedProgressBar || !progressText) return;
+    
+    const formFields = document.querySelectorAll('textarea, input[type="text"]');
+    let completedFields = 0;
+    
+    formFields.forEach(field => {
+        if (field.value.trim() !== '') {
+            completedFields++;
+        }
+    });
+    
+    const totalFields = formFields.length;
+    const progressPercentage = totalFields > 0 ? Math.round((completedFields / totalFields) * 100) : 0;
+    
+    enhancedProgressBar.style.width = `${progressPercentage}%`;
+    enhancedProgressBar.textContent = `${progressPercentage}%`;
+    progressText.textContent = `${progressPercentage}%`;
+    
+    // Update last saved time
+    if (lastSaved) {
+        const now = new Date();
+        lastSaved.textContent = now.toLocaleTimeString();
+    }
+}
+
+function updateBasicProgress() {
+    const progressBar = document.getElementById('progressBar');
+    if (!progressBar) return;
+    
+    const completedTopics = document.querySelectorAll('.topic-completed').length;
+    const totalTopics = document.querySelectorAll('.topic-completion').length;
+    const progressPercentage = totalTopics > 0 ? (completedTopics / totalTopics) * 100 : 0;
+    
+    progressBar.style.width = progressPercentage + '%';
+}
+
+function saveLocalProgress() {
+    // Save form data
+    const formFields = document.querySelectorAll('textarea, input[type="text"]');
+    const formData = {};
+    
+    formFields.forEach(field => {
+        const saveKey = field.getAttribute('data-save-key') || field.getAttribute('data-reflection-id') || field.name;
+        if (saveKey) {
+            formData[saveKey] = field.value;
+        }
+    });
+    
+    // Save topic completion
+    const topics = [];
+    document.querySelectorAll('.topic-completion').forEach((element, index) => {
+        topics.push({
+            id: index,
+            completed: element.classList.contains('topic-completed')
+        });
+    });
+    
+    // Save all progress data
+    const progressData = {
+        formData: formData,
+        topics: topics,
+        lastUpdated: new Date().toISOString()
+    };
+    
+    localStorage.setItem('lesson2Progress', JSON.stringify(progressData));
+    
+    // Update sync status
+    const syncStatus = document.getElementById('syncStatus');
+    if (syncStatus) {
+        syncStatus.textContent = 'Saved locally';
+        syncStatus.className = 'sync-status saved';
+        
+        setTimeout(() => {
+            updateSyncStatus();
+        }, 2000);
+    }
+}
+
+function loadSavedProgress() {
+    const savedProgress = localStorage.getItem('lesson2Progress');
+    if (savedProgress) {
+        const progressData = JSON.parse(savedProgress);
+        applySavedProgress(progressData);
+    }
+}
+
+function applySavedProgress(progressData) {
+    if (!progressData) return;
+    
+    // Load form data
+    if (progressData.formData) {
+        const formFields = document.querySelectorAll('textarea, input[type="text"]');
+        formFields.forEach(field => {
+            const saveKey = field.getAttribute('data-save-key') || field.getAttribute('data-reflection-id') || field.name;
+            if (saveKey && progressData.formData[saveKey]) {
+                field.value = progressData.formData[saveKey];
+            }
+        });
+    }
+    
+    // Load topic completion
+    if (progressData.topics) {
+        progressData.topics.forEach(topic => {
+            const element = document.querySelectorAll('.topic-completion')[topic.id];
+            if (element && topic.completed) {
+                element.classList.add('topic-completed');
+            }
+        });
+    }
+    
+    updateAllProgress();
+}
+
+function updateSyncStatus() {
+    const syncStatus = document.getElementById('syncStatus');
+    if (!syncStatus) return;
+    
+    if (navigator.onLine) {
+        if (window.firebaseAuth && window.firebaseAuth.currentUser) {
+            syncStatus.textContent = 'Online - Synced';
+            syncStatus.className = 'sync-status online';
+        } else {
+            syncStatus.textContent = 'Online - Ready to sync';
+            syncStatus.className = 'sync-status online';
+        }
+    } else {
+        syncStatus.textContent = 'Offline - Changes saved locally';
+        syncStatus.className = 'sync-status offline';
+    }
+}
+
+function triggerManualSync() {
+    const syncStatus = document.getElementById('syncStatus');
+    if (!syncStatus) return;
+    
+    syncStatus.textContent = 'Syncing...';
+    syncStatus.className = 'sync-status syncing';
+    
+    // Save locally first
+    saveLocalProgress();
+    
+    // Then sync to cloud if available
+    if (window.saveProgressToCloud && window.firebaseAuth && window.firebaseAuth.currentUser) {
+        const progressData = getCurrentLessonProgressData();
+        const saveData = { lesson2Progress: progressData };
+        
+        window.saveProgressToCloud(saveData)
+            .then(() => {
+                syncStatus.textContent = 'Synced to cloud';
+                syncStatus.className = 'sync-status synced';
+                showSyncNotification('Synced to cloud');
+            })
+            .catch(() => {
+                syncStatus.textContent = 'Sync failed - Saved locally';
+                syncStatus.className = 'sync-status error';
+            });
+    } else {
+        // No cloud sync available
+        setTimeout(() => {
+            syncStatus.textContent = 'Saved locally';
+            syncStatus.className = 'sync-status saved';
+            showSyncNotification('Saved locally');
+        }, 1000);
+    }
+}
+
+function showSaveNotification() {
+    const notification = document.getElementById('saveNotification');
+    if (notification) {
+        notification.innerHTML = '<i class="bi bi-check-circle"></i> Progress saved';
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 2000);
+    }
+}
+
+function showSyncNotification(message) {
+    const notification = document.getElementById('saveNotification');
+    if (notification) {
+        notification.innerHTML = `<i class="bi bi-cloud-check"></i> ${message}`;
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
+    }
+}
+
+// Universal progress data collection (compatible with cloud sync)
+function getCurrentLessonProgressData() {
+    const progressData = {
+        topics: [],
+        reflections: {},
+        formData: {},
+        lastUpdated: new Date().toISOString()
+    };
+    
+    // Get topic completion status
+    document.querySelectorAll('.topic-completion').forEach((element, index) => {
+        progressData.topics.push({
+            id: index,
+            completed: element.classList.contains('topic-completed')
+        });
+    });
+    
+    // Get reflection responses
+    document.querySelectorAll('.reflection textarea').forEach(textarea => {
+        const reflectionId = textarea.getAttribute('data-reflection-id');
+        progressData.reflections[reflectionId] = textarea.value;
+    });
+    
+    // Get all form data
+    const formFields = document.querySelectorAll('textarea, input[type="text"]');
+    formFields.forEach(field => {
+        const saveKey = field.getAttribute('data-save-key') || field.getAttribute('data-reflection-id') || field.name;
+        if (saveKey) {
+            progressData.formData[saveKey] = field.value;
+        }
+    });
+    
+    return progressData;
+}
+
+// Make functions available globally for cloud sync
+window.getCurrentLessonProgressData = getCurrentLessonProgressData;
+window.applySavedProgress = applySavedProgress;
+</script>
+
+<script type="module" src="../auth-check.js"></script>
+
 </body>
 </html>

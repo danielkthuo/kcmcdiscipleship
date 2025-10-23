@@ -38,13 +38,50 @@ const LESSON_CONFIG = {
     }
   },
   'lesson2': {
-    name: 'Next Lesson Name', // Update this
+    name: 'Foundation to New Believer', // Update this
     storageKey: 'lesson2Progress', 
     pagePattern: /module-lesson2\.html$/,
     defaultData: {
       topics: [],
       reflections: {},
+      Worksheet: {},
       activities: {},
+      lastUpdated: new Date().toISOString()
+    }
+  },
+  'lesson3': {
+    name: 'Lordship', // Update this
+    storageKey: 'lesson3Progress', 
+    pagePattern: /module-lesson3\.html$/,
+    defaultData: {
+      topics: [],
+      reflections: {},
+      activities: {},
+       Worksheet: {},
+      lastUpdated: new Date().toISOString()
+    }
+  },
+   'lesson4': {
+    name: 'Doctrine', // Update this
+    storageKey: 'lesson4Progress', 
+    pagePattern: /module-lesson4\.html$/,
+    defaultData: {
+      topics: [],
+      reflections: {},
+      activities: {},
+       Worksheet: {},
+      lastUpdated: new Date().toISOString()
+    }
+  },
+  'lesson5': {
+    name: 'Witnessing and Spiritual Warfare', // Update this
+    storageKey: 'lesson5Progress', 
+    pagePattern: /module-lesson5\.html$/,
+    defaultData: {
+      topics: [],
+      reflections: {},
+      activities: {},
+       Worksheet: {},
       lastUpdated: new Date().toISOString()
     }
   },
