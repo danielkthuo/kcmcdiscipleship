@@ -1748,6 +1748,16 @@
     <span class="nav-icon">🚪</span>
     <span>Logout</span>
 </a>
+<!-- Auto-save notification -->
+<div class="save-notification" id="saveNotification"></div>
+
+<!-- Manual sync button (optional) -->
+<button id="manualSync" style="display: none;">
+    <i class="bi bi-cloud-arrow-up"></i>
+</button>
+
+<!-- Sync status indicator -->
+<div class="sync-status" id="syncStatus">Ready</div>
 <script>
 // Consolidated progress management for lesson 2
 document.addEventListener('DOMContentLoaded', function() {
@@ -1769,9 +1779,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize all lesson functionality
     initializeLessonTwo();
-    
-    // Initialize cloud sync for this lesson
-    initializeCloudSync();
 });
 
 function showNotification(message, type) {
@@ -1784,6 +1791,9 @@ function initializeLessonTwo() {
     
     // Initialize progress tracking
     initializeProgressTracking();
+    
+    // Initialize cloud sync for this lesson
+    initializeCloudSync();
     
     // Load saved progress
     loadSavedProgress();
@@ -1798,14 +1808,9 @@ function initializeCloudSync() {
     // Use the universal lesson progress system
     if (window.initializeLessonProgress) {
         window.initializeLessonProgress('lesson2Progress');
+    } else {
+        console.log('⚠️ Universal progress system not available, using local only');
     }
-    
-    // Wait for auth to be ready
-    setTimeout(() => {
-        if (window.firebaseAuth && window.firebaseAuth.currentUser) {
-            console.log('👤 User authenticated, cloud sync ready');
-        }
-    }, 2000);
 }
 
 function initializeUI() {
@@ -1820,6 +1825,9 @@ function initializeUI() {
             } else {
                 content.style.maxHeight = content.scrollHeight + "px";
             }
+            
+            // Save UI state
+            saveLocalProgress();
         });
     }
 }
@@ -1836,7 +1844,7 @@ function initializeProgressTracking() {
     });
     
     // Form field auto-save
-    const formFields = document.querySelectorAll('textarea, input[type="text"]');
+    const formFields = document.querySelectorAll('textarea[data-save-key], input[type="text"][data-save-key]');
     formFields.forEach(field => {
         field.addEventListener('input', function() {
             updateAllProgress();
@@ -1878,7 +1886,7 @@ function updateEnhancedProgress() {
     
     if (!enhancedProgressBar || !progressText) return;
     
-    const formFields = document.querySelectorAll('textarea, input[type="text"]');
+    const formFields = document.querySelectorAll('textarea[data-save-key], input[type="text"][data-save-key]');
     let completedFields = 0;
     
     formFields.forEach(field => {
@@ -1887,8 +1895,13 @@ function updateEnhancedProgress() {
         }
     });
     
-    const totalFields = formFields.length;
-    const progressPercentage = totalFields > 0 ? Math.round((completedFields / totalFields) * 100) : 0;
+    // Also count completed topics
+    const completedTopics = document.querySelectorAll('.topic-completed').length;
+    const totalTopics = document.querySelectorAll('.topic-completion').length;
+    
+    const totalFields = formFields.length + totalTopics;
+    const completedTotal = completedFields + completedTopics;
+    const progressPercentage = totalFields > 0 ? Math.round((completedTotal / totalFields) * 100) : 0;
     
     enhancedProgressBar.style.width = `${progressPercentage}%`;
     enhancedProgressBar.textContent = `${progressPercentage}%`;
@@ -1913,33 +1926,7 @@ function updateBasicProgress() {
 }
 
 function saveLocalProgress() {
-    // Save form data
-    const formFields = document.querySelectorAll('textarea, input[type="text"]');
-    const formData = {};
-    
-    formFields.forEach(field => {
-        const saveKey = field.getAttribute('data-save-key') || field.getAttribute('data-reflection-id') || field.name;
-        if (saveKey) {
-            formData[saveKey] = field.value;
-        }
-    });
-    
-    // Save topic completion
-    const topics = [];
-    document.querySelectorAll('.topic-completion').forEach((element, index) => {
-        topics.push({
-            id: index,
-            completed: element.classList.contains('topic-completed')
-        });
-    });
-    
-    // Save all progress data
-    const progressData = {
-        formData: formData,
-        topics: topics,
-        lastUpdated: new Date().toISOString()
-    };
-    
+    const progressData = getCurrentLessonProgressData();
     localStorage.setItem('lesson2Progress', JSON.stringify(progressData));
     
     // Update sync status
@@ -1952,6 +1939,18 @@ function saveLocalProgress() {
             updateSyncStatus();
         }, 2000);
     }
+    
+    // Cloud sync if available
+    if (window.saveProgressToCloud && window.firebaseAuth && window.firebaseAuth.currentUser) {
+        const saveData = { lesson2Progress: progressData };
+        window.saveProgressToCloud(saveData)
+            .then(() => {
+                console.log('✅ Lesson 2 progress synced to cloud');
+            })
+            .catch(err => {
+                console.log('⚠️ Lesson 2 cloud sync failed, saved locally only');
+            });
+    }
 }
 
 function loadSavedProgress() {
@@ -1959,6 +1958,9 @@ function loadSavedProgress() {
     if (savedProgress) {
         const progressData = JSON.parse(savedProgress);
         applySavedProgress(progressData);
+        console.log('✅ Loaded saved progress for lesson 2');
+    } else {
+        console.log('📝 No saved progress found for lesson 2');
     }
 }
 
@@ -1967,9 +1969,9 @@ function applySavedProgress(progressData) {
     
     // Load form data
     if (progressData.formData) {
-        const formFields = document.querySelectorAll('textarea, input[type="text"]');
+        const formFields = document.querySelectorAll('textarea[data-save-key], input[type="text"][data-save-key]');
         formFields.forEach(field => {
-            const saveKey = field.getAttribute('data-save-key') || field.getAttribute('data-reflection-id') || field.name;
+            const saveKey = field.getAttribute('data-save-key');
             if (saveKey && progressData.formData[saveKey]) {
                 field.value = progressData.formData[saveKey];
             }
@@ -1982,6 +1984,20 @@ function applySavedProgress(progressData) {
             const element = document.querySelectorAll('.topic-completion')[topic.id];
             if (element && topic.completed) {
                 element.classList.add('topic-completed');
+            }
+        });
+    }
+    
+    // Load collapsible states
+    if (progressData.collapsibleStates) {
+        Object.keys(progressData.collapsibleStates).forEach(collapsibleId => {
+            const collapsible = document.querySelector(`[data-collapsible-id="${collapsibleId}"]`);
+            if (collapsible && progressData.collapsibleStates[collapsibleId]) {
+                collapsible.classList.add('active');
+                const content = collapsible.nextElementSibling;
+                if (content && content.classList.contains('content')) {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
             }
         });
     }
@@ -2070,8 +2086,8 @@ function showSyncNotification(message) {
 function getCurrentLessonProgressData() {
     const progressData = {
         topics: [],
-        reflections: {},
         formData: {},
+        collapsibleStates: {},
         lastUpdated: new Date().toISOString()
     };
     
@@ -2083,23 +2099,28 @@ function getCurrentLessonProgressData() {
         });
     });
     
-    // Get reflection responses
-    document.querySelectorAll('.reflection textarea').forEach(textarea => {
-        const reflectionId = textarea.getAttribute('data-reflection-id');
-        progressData.reflections[reflectionId] = textarea.value;
-    });
-    
-    // Get all form data
-    const formFields = document.querySelectorAll('textarea, input[type="text"]');
+    // Get all form data with data-save-key
+    const formFields = document.querySelectorAll('textarea[data-save-key], input[type="text"][data-save-key]');
     formFields.forEach(field => {
-        const saveKey = field.getAttribute('data-save-key') || field.getAttribute('data-reflection-id') || field.name;
+        const saveKey = field.getAttribute('data-save-key');
         if (saveKey) {
             progressData.formData[saveKey] = field.value;
         }
     });
     
+    // Get collapsible states
+    document.querySelectorAll('.collapsible').forEach((collapsible, index) => {
+        progressData.collapsibleStates[`collapsible-${index}`] = collapsible.classList.contains('active');
+    });
+    
     return progressData;
 }
+
+// Universal progress loading function for cloud data
+window.manualLoadProgress = function(progressData) {
+    console.log('🔄 Loading cloud progress for lesson 2:', progressData);
+    applySavedProgress(progressData);
+};
 
 // Make functions available globally for cloud sync
 window.getCurrentLessonProgressData = getCurrentLessonProgressData;
