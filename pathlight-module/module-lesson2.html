@@ -1580,15 +1580,15 @@
                 <div class="reflection">
                     <h4>Reflection Questions</h4>
                     <p>Do you have friendships that appear to be more of a fellowship? What makes them different?</p>
-                    <textarea placeholder="Share your thoughts..."></textarea>
+                    <textarea placeholder="Share your thoughts..." data-save-key="fellowship_reflection"></textarea>
                     <p>Why do you think God wants us to grow in fellowship instead of just friendships?</p>
-                    <textarea placeholder="Share your thoughts..."></textarea>
+                    <textarea placeholder="Share your thoughts..." data-save-key="fellowship2_reflection"></textarea>
                 </div>
                 
                 <div class="activity">
                     <h4>Activity: Encouragement Message</h4>
                     <p>Write a letter, text, or card encouraging someone in your fellowship group:</p>
-                    <textarea placeholder="Write your encouraging message here..." style="width: 100%; min-height: 100px;"></textarea>
+                    <textarea placeholder="Write your encouraging message here..." data-save-key="encourage_activity" style="width: 100%; min-height: 100px;"></textarea>
                     <button class="btn btn-fellowship" style="margin-top: 10px;">Save Message</button>
                 </div>
             </div>
@@ -1663,7 +1663,7 @@
                 <div class="activity">
                     <h4>Activity: Spiritual Gift Match</h4>
                     <p>List your skills or what you enjoy doing. Discuss how each one can be used to serve others.</p>
-                    <textarea placeholder="My skills and interests..."></textarea><br>
+                    <textarea placeholder="My skills and interests..." data-save-key="gift_activity"></textarea><br>
                     <button class="btn btn-fellowship" style="margin-top: 10px;">Save My Gifts</button>
                 </div>
             </div>
@@ -1714,9 +1714,9 @@
                     <div class="reflection">
                         <h5>Reflection Questions:</h5>
                         <p>Who encourages me? Who am I encouraging?</p>
-                        <textarea placeholder="Share your thoughts..."></textarea>
+                        <textarea placeholder="Share your thoughts..." data-save-key="fellowshipmap_reflection"></textarea>
                         <p>Are there any missing areas in my fellowship map?</p>
-                        <textarea placeholder="Share your thoughts..."></textarea>
+                        <textarea placeholder="Share your thoughts..." data-save-key="fellowshipmap2_reflection"></textarea>
                     </div>
                 </div>
             </div>
@@ -2087,6 +2087,7 @@ function getCurrentLessonProgressData() {
     const progressData = {
         topics: [],
         formData: {},
+        reflectionData: {},
         collapsibleStates: {},
         lastUpdated: new Date().toISOString()
     };
