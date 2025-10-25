@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget & Expenses - KCMC Partners</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2ecc71"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="KCMC Partners">
+    <meta name="description" content="KCMC Partners Budget & Expenses">
+    
+    <!-- PWA Links -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+</head>
+<body>
+    <!-- Login Required Modal -->
+    <div id="loginRequiredModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login Required</h2>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; padding: 2rem;">
+                    <i class="fas fa-lock" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
+                    <h3>Partner Access Required</h3>
+                    <p>Budget and expense details are available exclusively to our ministry partners.</p>
+                    <p>Please log in to view financial transparency information.</p>
+                    <div style="margin-top: 2rem;">
+                        <button id="goToLoginBtn" class="btn">Log In Now</button>
+                        <button id="goToHomeBtn" class="btn btn-secondary" style="margin-left: 10px;">Return Home</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🕊️</div>
+                    <h1>KCMC Partners</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="activities.html">Activities</a></li>
+                        <li><a href="budget.html" class="active">Budget & Expenses</a></li>
+                        <li><a href="updates.html">Partner Updates</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <button id="loginBtn" class="btn btn-secondary">
+                        <i class="fas fa-sign-in-alt"></i> Partner Login
+                    </button>
+                    <div id="userMenu" style="display: none;">
+                        <span id="userGreeting" style="margin-right: 15px;"></span>
+                        <button id="logoutBtn" class="btn" style="padding: 8px 15px;">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content (Only visible when logged in) -->
+    <main id="mainContent" style="display: none;">
+        <div class="container">
+            <section class="page-header">
+                <h2>Financial Transparency</h2>
+                <p>We believe in complete transparency with our partners. Here's how your contributions are used.</p>
+                <button id="updateBudgetBtn" class="btn" style="margin-top: 1rem; display: none;">
+                    <i class="fas fa-edit"></i> Update Budget
+                </button>
+            </section>
+
+            <!-- Budget Update Form (Hidden by default) -->
+            <div id="budgetForm" class="card" style="display: none;">
+                <h3><i class="fas fa-edit card-icon"></i> Update Budget Information</h3>
+                <form id="updateBudgetForm">
+                    <div class="form-group">
+                        <label for="totalFunds">Total Funds Raised ($)</label>
+                        <input type="number" id="totalFunds" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="programExpenses">Program Expenses ($)</label>
+                        <input type="number" id="programExpenses" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="childrenSupported">Children Supported</label>
+                        <input type="number" id="childrenSupported" class="form-control" required>
+                    </div>
+                    
+                    <h4 style="margin: 1.5rem 0 1rem;">Budget Allocation (%)</h4>
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label for="education">Education Programs</label>
+                            <input type="number" id="education" class="form-control" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="food">Food & Nutrition</label>
+                            <input type="number" id="food" class="form-control" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="healthcare">Healthcare</label>
+                            <input type="number" id="healthcare" class="form-control" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="community">Community Development</label>
+                            <input type="number" id="community" class="form-control" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin">Administrative Costs</label>
+                            <input type="number" id="admin" class="form-control" min="0" max="100" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn">Update Budget</button>
+                    <button type="button" id="cancelBudgetBtn" class="btn btn-secondary">Cancel</button>
+                </form>
+            </div>
+
+            <!-- Budget Overview -->
+            <section class="card">
+                <h3><i class="fas fa-chart-pie card-icon"></i> Budget Allocation <span id="budgetYear"></span></h3>
+                <div id="budgetContainer">
+                    <div style="text-align: center; padding: 2rem;">
+                        <p><i class="fas fa-spinner fa-spin"></i> Loading budget data...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Financial Summary -->
+            <section class="grid grid-3" id="financialSummary">
+                <!-- Will be populated by JavaScript -->
+            </section>
+
+            <!-- Expense Details -->
+            <section class="card">
+                <h3><i class="fas fa-receipt card-icon"></i> Detailed Expense Breakdown</h3>
+                <div id="expenseTable">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Transparency Statement -->
+            <section class="card" style="background: #e8f6f3; border-left: 4px solid var(--primary);">
+                <h3><i class="fas fa-shield-alt card-icon"></i> Our Commitment to Transparency</h3>
+                <p>We are committed to financial integrity and transparency. Our books are audited annually by an independent firm, and we make our financial reports available to all partners upon request.</p>
+                <p style="margin-top: 1rem;">If you have any questions about our finances, please don't hesitate to <a href="contact.html">contact us</a>.</p>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2023 KCMC Partners. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="activities.html">Activities</a>
+                    <a href="budget.html">Budget</a>
+                    <a href="updates.html">Updates</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDfNX8WUWfUAN-dIUtzq8gJXjh0CIZdS_0",
+            authDomain: "kcmcpartners.firebaseapp.com",
+            projectId: "kcmcpartners",
+            storageBucket: "kcmcpartners.firebasestorage.app",
+            messagingSenderId: "30984885444",
+            appId: "1:30984885444:web:0be4febff8cfef1b22a591",
+            measurementId: "G-Z6FMF6Z1V1"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // DOM Elements
+        const loginRequiredModal = document.getElementById('loginRequiredModal');
+        const mainContent = document.getElementById('mainContent');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userMenu = document.getElementById('userMenu');
+        const userGreeting = document.getElementById('userGreeting');
+        const goToLoginBtn = document.getElementById('goToLoginBtn');
+        const goToHomeBtn = document.getElementById('goToHomeBtn');
+        const updateBudgetBtn = document.getElementById('updateBudgetBtn');
+        const budgetForm = document.getElementById('budgetForm');
+        const updateBudgetForm = document.getElementById('updateBudgetForm');
+        const cancelBudgetBtn = document.getElementById('cancelBudgetBtn');
+        const budgetContainer = document.getElementById('budgetContainer');
+        const financialSummary = document.getElementById('financialSummary');
+        const expenseTable = document.getElementById('expenseTable');
+
+        // Check authentication and load content
+        function checkAuthAndLoadContent() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (user) {
+                // User is logged in - show content
+                mainContent.style.display = 'block';
+                loginRequiredModal.style.display = 'none';
+                showUserMenu(user);
+                loadBudgetData();
+                
+                // Show admin controls if user is admin
+                const isAdmin = user.role === 'admin';
+                if (isAdmin) {
+                    updateBudgetBtn.style.display = 'inline-block';
+                }
+            } else {
+                // User is not logged in - show login required modal
+                mainContent.style.display = 'none';
+                loginRequiredModal.style.display = 'block';
+                showLoginButton();
+            }
+        }
+
+        // Show login button
+        function showLoginButton() {
+            loginBtn.style.display = 'block';
+            userMenu.style.display = 'none';
+        }
+
+        // Show user menu when logged in
+        function showUserMenu(user) {
+            loginBtn.style.display = 'none';
+            userMenu.style.display = 'flex';
+            userGreeting.textContent = `Welcome, ${user.name}!`;
+        }
+
+        // Logout function
+        function logoutUser() {
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('isAdmin');
+            checkAuthAndLoadContent(); // This will show the login required modal
+            showNotification('You have been logged out successfully.', 'info');
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <span>${message}</span>
+                <button onclick="this.parentElement.remove()">&times;</button>
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Budget management functions
+        function loadCurrentBudgetData() {
+            db.collection('budget').doc('current').get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        document.getElementById('totalFunds').value = data.totalFunds || '';
+                        document.getElementById('programExpenses').value = data.programExpenses || '';
+                        document.getElementById('childrenSupported').value = data.childrenSupported || '';
+                        document.getElementById('education').value = data.allocation?.education || '';
+                        document.getElementById('food').value = data.allocation?.food || '';
+                        document.getElementById('healthcare').value = data.allocation?.healthcare || '';
+                        document.getElementById('community').value = data.allocation?.community || '';
+                        document.getElementById('admin').value = data.allocation?.admin || '';
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error loading budget data:', error);
+                });
+        }
+
+        // Update budget data
+        updateBudgetForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const budgetData = {
+                totalFunds: parseFloat(document.getElementById('totalFunds').value),
+                programExpenses: parseFloat(document.getElementById('programExpenses').value),
+                childrenSupported: parseInt(document.getElementById('childrenSupported').value),
+                allocation: {
+                    education: parseInt(document.getElementById('education').value),
+                    food: parseInt(document.getElementById('food').value),
+                    healthcare: parseInt(document.getElementById('healthcare').value),
+                    community: parseInt(document.getElementById('community').value),
+                    admin: parseInt(document.getElementById('admin').value)
+                },
+                lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            // Validate percentages add up to 100
+            const totalPercentage = Object.values(budgetData.allocation).reduce((sum, value) => sum + value, 0);
+            if (totalPercentage !== 100) {
+                alert('Budget allocation percentages must add up to 100%. Current total: ' + totalPercentage + '%');
+                return;
+            }
+
+            db.collection('budget').doc('current').set(budgetData)
+                .then(() => {
+                    alert('Budget updated successfully!');
+                    budgetForm.style.display = 'none';
+                    loadBudgetData(); // Reload budget display
+                })
+                .catch((error) => {
+                    alert('Error updating budget: ' + error.message);
+                });
+        });
+
+        // Load and display budget data
+        function loadBudgetData() {
+            db.collection('budget').doc('current').get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        displayBudgetData(data);
+                    } else {
+                        // Use default data if no budget data exists
+                        displayBudgetData(getDefaultBudgetData());
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error loading budget data:', error);
+                    // Fallback to default data
+                    displayBudgetData(getDefaultBudgetData());
+                });
+        }
+
+        function displayBudgetData(data) {
+            // Update financial summary
+            financialSummary.innerHTML = `
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: var(--primary);">Total Funds Raised</h3>
+                    <p style="font-size: 2rem; font-weight: bold; margin: 1rem 0;">$${data.totalFunds?.toLocaleString() || '0'}</p>
+                    <p style="color: var(--gray);">Year to Date</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: var(--secondary);">Program Expenses</h3>
+                    <p style="font-size: 2rem; font-weight: bold; margin: 1rem 0;">$${data.programExpenses?.toLocaleString() || '0'}</p>
+                    <p style="color: var(--gray);">${data.programExpenses ? Math.round((data.programExpenses / data.totalFunds) * 100) : 0}% of total</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: var(--accent);">Children Supported</h3>
+                    <p style="font-size: 2rem; font-weight: bold; margin: 1rem 0;">${data.childrenSupported || '0'}</p>
+                    <p style="color: var(--gray);">Across 12 communities</p>
+                </div>
+            `;
+
+            // Update budget allocation display
+            const allocation = data.allocation || {};
+            budgetContainer.innerHTML = `
+                <div class="grid grid-2">
+                    <div>
+                        <div style="height: 300px; background: var(--light); border-radius: var(--radius); margin-bottom: 1rem; 
+                            display: flex; align-items: center; justify-content: center; color: var(--gray);">
+                            <p>Budget Pie Chart Visualization</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; flex-direction: column; gap: 15px;">
+                            ${createAllocationItem('Education Programs', allocation.education, '#2ecc71')}
+                            ${createAllocationItem('Food & Nutrition', allocation.food, '#3498db')}
+                            ${createAllocationItem('Healthcare', allocation.healthcare, '#e74c3c')}
+                            ${createAllocationItem('Community Development', allocation.community, '#9b59b6')}
+                            ${createAllocationItem('Administrative Costs', allocation.admin, '#f39c12')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Update expense table
+            expenseTable.innerHTML = `
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: var(--light);">
+                                <th style="padding: 12px; text-align: left;">Category</th>
+                                <th style="padding: 12px; text-align: right;">Amount</th>
+                                <th style="padding: 12px; text-align: right;">Percentage</th>
+                                <th style="padding: 12px; text-align: left;">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${createExpenseRow('Education Programs', data.totalFunds, allocation.education, 'School fees, supplies, teacher salaries')}
+                            ${createExpenseRow('Food & Nutrition', data.totalFunds, allocation.food, 'Daily meals, nutritional supplements')}
+                            ${createExpenseRow('Healthcare', data.totalFunds, allocation.healthcare, 'Medical check-ups, treatments, medications')}
+                            ${createExpenseRow('Community Development', data.totalFunds, allocation.community, 'Infrastructure, training programs')}
+                            ${createExpenseRow('Administrative Costs', data.totalFunds, allocation.admin, 'Office expenses, staff, operations')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function createAllocationItem(label, percentage, color) {
+            return `
+                <div style="display: flex; justify-content: space-between; padding: 10px; background: ${color}20; border-radius: var(--radius);">
+                    <span>${label}</span>
+                    <span style="font-weight: bold; color: ${color};">${percentage || 0}%</span>
+                </div>
+            `;
+        }
+
+        function createExpenseRow(category, totalFunds, percentage, description) {
+            const amount = totalFunds ? (totalFunds * (percentage / 100)).toLocaleString('en-US', {style: 'currency', currency: 'USD'}) : '$0';
+            return `
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 12px;">${category}</td>
+                    <td style="padding: 12px; text-align: right;">${amount}</td>
+                    <td style="padding: 12px; text-align: right;">${percentage || 0}%</td>
+                    <td style="padding: 12px;">${description}</td>
+                </tr>
+            `;
+        }
+
+        function getDefaultBudgetData() {
+            return {
+                totalFunds: 245780,
+                programExpenses: 208913,
+                childrenSupported: 512,
+                allocation: {
+                    education: 42,
+                    food: 25,
+                    healthcare: 18,
+                    community: 10,
+                    admin: 5
+                }
+            };
+        }
+
+        // Event Listeners
+        loginBtn.addEventListener('click', () => {
+            window.location.href = 'index.html#login';
+        });
+
+        logoutBtn.addEventListener('click', logoutUser);
+
+        goToLoginBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        goToHomeBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        updateBudgetBtn.addEventListener('click', () => {
+            budgetForm.style.display = budgetForm.style.display === 'none' ? 'block' : 'none';
+            loadCurrentBudgetData();
+        });
+
+        cancelBudgetBtn.addEventListener('click', () => {
+            budgetForm.style.display = 'none';
+        });
+
+        // Check auth state on page load
+        document.addEventListener('DOMContentLoaded', checkAuthAndLoadContent);
+    </script>
+
+    <style>
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 0;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            border-radius: var(--radius) var(--radius) 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        /* User Actions */
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            color: white;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 300px;
+            box-shadow: var(--shadow);
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .notification-success {
+            background: var(--primary);
+        }
+
+        .notification-error {
+            background: var(--accent);
+        }
+
+        .notification-info {
+            background: var(--secondary);
+        }
+
+        .notification button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .user-actions {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            #userGreeting {
+                margin-right: 0;
+                margin-bottom: 5px;
+                text-align: center;
+            }
+        }
+    </style>
+</body>
+</html>

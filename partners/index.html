@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KCMC Partners - Home</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2ecc71"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="KCMC Partners">
+    <meta name="description" content="KCMC Partners Ministry App">
+    
+    <!-- PWA Links -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+</head>
+<body>
+    <!-- Login Modal -->
+   <!-- Login Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Partner Login</h2>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">
+                    <span id="loginButtonText">Sign In</span>
+                    <div id="loginSpinner" class="loading" style="display: none;"></div>
+                </button>
+            </form>
+            <div id="loginMessage" style="margin-top: 15px; text-align: center;"></div>
+            
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                <p style="text-align: center; color: var(--gray); margin-bottom: 10px;">Demo Accounts:</p>
+                <div style="background: var(--light); padding: 15px; border-radius: var(--radius); font-size: 0.9rem;">
+                    <p><strong>Admin:</strong> admin@kcmc.org / admin123</p>
+                    <p><strong>Partner:</strong> partner@example.com / partner123</p>
+                    <p><strong>Visitor:</strong> visitor@example.com / visitor123</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🕊️</div>
+                    <h1>KCMC Partners</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html" class="active">Home</a></li>
+                        <li><a href="activities.html">Activities</a></li>
+                        <li><a href="budget.html">Budget & Expenses</a></li>
+                        <li><a href="updates.html">Partner Updates</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <button id="loginBtn" class="btn btn-secondary">
+                        <i class="fas fa-sign-in-alt"></i> Partner Login
+                    </button>
+                    <div id="userMenu" style="display: none;">
+                        <span id="userGreeting" style="margin-right: 15px;"></span>
+                        <button id="logoutBtn" class="btn" style="padding: 8px 15px;">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
+                <button id="installButton" class="btn" style="display: none; padding: 8px 15px;">
+                    <i class="fas fa-download"></i> Install App
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="page-header">
+                <h2>Bringing Hope to Children in Need</h2>
+                <p>Transforming lives through education, nutrition, and spiritual guidance</p>
+                <div style="margin-top: 2rem;">
+                    <a href="contact.html" class="btn">Become a Partner</a>
+                    <button id="heroLoginBtn" class="btn btn-secondary" style="margin-left: 10px;">
+                        <i class="fas fa-lock"></i> Partner Portal
+                    </button>
+                </div>
+            </section>
+
+            <!-- Mission Section -->
+            <section class="card">
+                <h3><i class="fas fa-heart card-icon"></i> Our Mission</h3>
+                <p>KCMC Partners exists to provide holistic care for vulnerable children around the world. We believe every child deserves access to education, proper nutrition, healthcare, and the opportunity to hear the Gospel message.</p>
+                <p>Through our network of dedicated partners, we're creating sustainable change in communities across three continents.</p>
+            </section>
+
+            <!-- Slogan & Values -->
+            <section class="grid grid-3">
+                <div class="card">
+                    <h3><i class="fas fa-hands-helping card-icon"></i> Our Slogan</h3>
+                    <p>"Planting seeds of hope, nurturing futures of promise."</p>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-cross card-icon"></i> Our Faith</h3>
+                    <p>We serve all children regardless of background, motivated by Christ's love and the call to care for the vulnerable.</p>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-globe-americas card-icon"></i> Our Reach</h3>
+                    <p>Currently serving 500+ children across 12 communities in Kenya, Tanzania, and Uganda.</p>
+                </div>
+            </section>
+
+            <!-- Quick Stats -->
+            <section class="card">
+                <h3><i class="fas fa-chart-line card-icon"></i> Our Impact</h3>
+                <div class="grid grid-3">
+                    <div style="text-align: center;">
+                        <h4 style="font-size: 2rem; color: var(--primary);">500+</h4>
+                        <p>Children Supported</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h4 style="font-size: 2rem; color: var(--secondary);">12</h4>
+                        <p>Communities Served</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h4 style="font-size: 2rem; color: var(--accent);">15</h4>
+                        <p>Years of Service</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Partner Benefits -->
+            <section class="card" id="partnerBenefits" style="display: none;">
+                <h3><i class="fas fa-star card-icon"></i> Partner Benefits</h3>
+                <div class="grid grid-2">
+                    <div>
+                        <h4><i class="fas fa-user-circle" style="color: var(--primary);"></i> Your Dashboard</h4>
+                        <p>Access personalized information about the children you support and your contribution history.</p>
+                    </div>
+                    <div>
+                        <h4><i class="fas fa-images" style="color: var(--secondary);"></i> Exclusive Updates</h4>
+                        <p>Receive photos, stories, and progress reports from the children and communities you support.</p>
+                    </div>
+                    <div>
+                        <h4><i class="fas fa-chart-pie" style="color: var(--accent);"></i> Financial Transparency</h4>
+                        <p>See exactly how your contributions are being used to transform lives.</p>
+                    </div>
+                    <div>
+                        <h4><i class="fas fa-comments" style="color: var(--primary);"></i> Direct Communication</h4>
+                        <p>Send messages and receive updates directly from our field teams.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Call to Action -->
+            <section class="card" style="text-align: center; background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white;">
+                <h3>Join Our Mission Today</h3>
+                <p style="margin-bottom: 1.5rem;">Your partnership can change a child's life forever</p>
+                <a href="contact.html" class="btn" style="background: white; color: var(--dark);">Become a Partner</a>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2023 KCMC Partners. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="activities.html">Activities</a>
+                    <a href="budget.html">Budget</a>
+                    <a href="updates.html">Updates</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyDfNX8WUWfUAN-dIUtzq8gJXjh0CIZdS_0",
+    authDomain: "kcmcpartners.firebaseapp.com",
+    projectId: "kcmcpartners",
+    storageBucket: "kcmcpartners.firebasestorage.app",
+    messagingSenderId: "30984885444",
+    appId: "1:30984885444:web:0be4febff8cfef1b22a591",
+    measurementId: "G-Z6FMF6Z1V1"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// DOM Elements
+const loginModal = document.getElementById('loginModal');
+const loginBtn = document.getElementById('loginBtn');
+const heroLoginBtn = document.getElementById('heroLoginBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+const userMenu = document.getElementById('userMenu');
+const userGreeting = document.getElementById('userGreeting');
+const loginForm = document.getElementById('loginForm');
+const loginMessage = document.getElementById('loginMessage');
+const closeBtn = document.querySelector('.close');
+const partnerBenefits = document.getElementById('partnerBenefits');
+const loginButtonText = document.getElementById('loginButtonText');
+const loginSpinner = document.getElementById('loginSpinner');
+
+// Check authentication state on page load
+auth.onAuthStateChanged(async (user) => {
+    if (user) {
+        // User is signed in, get their role from Firestore
+        await getUserRole(user);
+    } else {
+        // No user signed in
+        showLoginButton();
+    }
+});
+
+// Get user role from Firestore
+async function getUserRole(firebaseUser) {
+    try {
+        const userDoc = await db.collection('users').doc(firebaseUser.uid).get();
+        
+        if (userDoc.exists) {
+            const userData = userDoc.data();
+            const user = {
+                uid: firebaseUser.uid,
+                email: firebaseUser.email,
+                name: userData.name || firebaseUser.email.split('@')[0],
+                role: userData.role || 'visitor',
+                ...userData
+            };
+            
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            showUserMenu(user);
+            showNotification(`Welcome back, ${user.name}!`, 'success');
+            
+            // Redirect admin users to admin panel
+            if (user.role === 'admin') {
+                setTimeout(() => {
+                    showNotification('Redirecting to Admin Panel...', 'info');
+                    setTimeout(() => {
+                        window.location.href = 'admin/admin.html';
+                    }, 1500);
+                }, 1000);
+            }
+        } else {
+            // User document doesn't exist, create one with visitor role
+            await createUserDocument(firebaseUser, 'visitor');
+        }
+    } catch (error) {
+        console.error('Error getting user role:', error);
+        // Fallback: create visitor user
+        await createUserDocument(firebaseUser, 'visitor');
+    }
+}
+
+// Create user document in Firestore
+async function createUserDocument(firebaseUser, role) {
+    try {
+        const userData = {
+            email: firebaseUser.email,
+            name: firebaseUser.displayName || firebaseUser.email.split('@')[0],
+            role: role,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+            status: 'active'
+        };
+
+        await db.collection('users').doc(firebaseUser.uid).set(userData);
+        
+        const user = {
+            uid: firebaseUser.uid,
+            ...userData
+        };
+        
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        showUserMenu(user);
+        showNotification(`Welcome, ${user.name}!`, 'success');
+    } catch (error) {
+        console.error('Error creating user document:', error);
+        // Ultimate fallback: use localStorage only
+        const user = {
+            uid: firebaseUser.uid,
+            email: firebaseUser.email,
+            name: firebaseUser.email.split('@')[0],
+            role: 'visitor'
+        };
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        showUserMenu(user);
+        showNotification(`Welcome, ${user.name}!`, 'success');
+    }
+}
+
+// Enhanced login function with Firebase Authentication
+async function loginUser(email, password) {
+    // Show loading state
+    loginButtonText.style.display = 'none';
+    loginSpinner.style.display = 'inline-block';
+    loginMessage.innerHTML = '';
+
+    try {
+        // Sign in with Firebase Authentication
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        
+        // getUserRole will be called automatically via onAuthStateChanged
+        loginModal.style.display = 'none';
+        loginForm.reset();
+        
+    } catch (error) {
+        console.error('Login error:', error);
+        
+        // Handle specific error cases
+        let errorMessage = 'Login failed. Please try again.';
+        
+        if (error.code === 'auth/user-not-found') {
+            errorMessage = 'No account found with this email.';
+        } else if (error.code === 'auth/wrong-password') {
+            errorMessage = 'Incorrect password. Please try again.';
+        } else if (error.code === 'auth/invalid-email') {
+            errorMessage = 'Invalid email address.';
+        } else if (error.code === 'auth/too-many-requests') {
+            errorMessage = 'Too many failed attempts. Please try again later.';
+        }
+        
+        loginMessage.innerHTML = `<div style="color: var(--accent);">${errorMessage}</div>`;
+    } finally {
+        // Reset loading state
+        loginButtonText.style.display = 'inline';
+        loginSpinner.style.display = 'none';
+    }
+}
+
+// Show login button
+function showLoginButton() {
+    loginBtn.style.display = 'block';
+    userMenu.style.display = 'none';
+    partnerBenefits.style.display = 'none';
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('isAdmin');
+}
+
+// Show user menu when logged in
+function showUserMenu(user) {
+    loginBtn.style.display = 'none';
+    userMenu.style.display = 'flex';
+    userGreeting.textContent = `Welcome, ${user.name}!`;
+    partnerBenefits.style.display = 'block';
+    
+    // Set admin flag and add admin link
+    if (user.role === 'admin') {
+        localStorage.setItem('isAdmin', 'true');
+        
+        // Add admin link to user menu if not already present
+        if (!document.getElementById('adminPanelLink')) {
+            const adminLink = document.createElement('a');
+            adminLink.id = 'adminPanelLink';
+            adminLink.href = 'admin/admin.html';
+            adminLink.className = 'btn btn-secondary';
+            adminLink.style.marginRight = '10px';
+            adminLink.innerHTML = '<i class="fas fa-cog"></i> Admin Panel';
+            userMenu.insertBefore(adminLink, logoutBtn);
+        }
+    } else {
+        localStorage.removeItem('isAdmin');
+        const adminLink = document.getElementById('adminPanelLink');
+        if (adminLink) {
+            adminLink.remove();
+        }
+    }
+}
+
+// Logout function
+async function logoutUser() {
+    try {
+        await auth.signOut();
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('isAdmin');
+        showLoginButton();
+        showNotification('You have been logged out successfully.', 'info');
+    } catch (error) {
+        console.error('Logout error:', error);
+        showNotification('Error during logout.', 'error');
+    }
+}
+
+// Show notification
+function showNotification(message, type) {
+    // Remove existing notifications
+    document.querySelectorAll('.notification').forEach(notification => {
+        notification.remove();
+    });
+
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <span>${message}</span>
+        <button onclick="this.parentElement.remove()">&times;</button>
+    `;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+// Test Firebase Connection
+function testFirebaseConnection() {
+    console.log('Testing Firebase connection...');
+    
+    // Test Firestore connection
+    db.collection('test').doc('connection').set({
+        test: true,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(() => {
+        console.log('✅ Firebase connection successful!');
+        return db.collection('test').doc('connection').delete();
+    })
+    .then(() => {
+        console.log('✅ Test document cleaned up');
+    })
+    .catch((error) => {
+        console.error('❌ Firebase connection failed:', error);
+    });
+}
+
+// Event Listeners
+loginBtn.addEventListener('click', () => {
+    loginModal.style.display = 'block';
+});
+
+heroLoginBtn.addEventListener('click', () => {
+    loginModal.style.display = 'block';
+});
+
+logoutBtn.addEventListener('click', logoutUser);
+
+closeBtn.addEventListener('click', () => {
+    loginModal.style.display = 'none';
+    loginMessage.innerHTML = '';
+    loginForm.reset();
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === loginModal) {
+        loginModal.style.display = 'none';
+        loginMessage.innerHTML = '';
+        loginForm.reset();
+    }
+});
+
+loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    if (!email || !password) {
+        loginMessage.innerHTML = '<div style="color: var(--accent);">Please fill in all fields.</div>';
+        return;
+    }
+
+    loginUser(email, password);
+});
+
+// Check auth state on page load
+document.addEventListener('DOMContentLoaded', () => {
+    testFirebaseConnection();
+});
+
+// PWA Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+                console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+                console.log('SW registration failed: ', registrationError);
+            });
+    });
+}
+
+// PWA Install Prompt
+let deferredPrompt;
+const installButton = document.getElementById('installButton');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installButton) {
+        installButton.style.display = 'block';
+    }
+});
+
+if (installButton) {
+    installButton.addEventListener('click', async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response: ${outcome}`);
+            deferredPrompt = null;
+            installButton.style.display = 'none';
+        }
+    });
+}
+
+window.addEventListener('appinstalled', () => {
+    console.log('PWA was installed');
+    deferredPrompt = null;
+});
+    </script>
+
+    <style>
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            border-radius: var(--radius) var(--radius) 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .close {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close:hover {
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        /* User Actions */
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            color: white;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 300px;
+            box-shadow: var(--shadow);
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .notification-success {
+            background: var(--primary);
+        }
+
+        .notification-error {
+            background: var(--accent);
+        }
+
+        .notification-info {
+            background: var(--secondary);
+        }
+
+        .notification button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .modal-content {
+                margin: 10% auto;
+                width: 95%;
+            }
+
+            .user-actions {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            #userGreeting {
+                margin-right: 0;
+                margin-bottom: 5px;
+                text-align: center;
+            }
+        }
+    </style>
+</body>
+</html>

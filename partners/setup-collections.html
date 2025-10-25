@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Collections - KCMC Partners</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 40px; 
+            max-width: 800px;
+        }
+        .btn { 
+            padding: 12px 24px; 
+            margin: 10px; 
+            background: #2ecc71; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px;
+        }
+        .btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+        .success { 
+            color: #2ecc71; 
+            background: #d5f4e6;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .error { 
+            color: #e74c3c; 
+            background: #fadbd8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .warning {
+            color: #f39c12;
+            background: #fef5e7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 4px solid #f39c12;
+        }
+        .step {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        code {
+            background: #2c3e50;
+            color: white;
+            padding: 10px;
+            display: block;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+        .login-form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔥 KCMC Partners - Firestore Setup</h1>
+    
+    <div class="warning">
+        <h3>⚠️ Important: Before You Start</h3>
+        <p><strong>Step 1:</strong> Make sure your Firestore security rules allow writes. Go to Firebase Console → Firestore Database → Rules and use:</p>
+        <code>
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+        </code>
+        <p><strong>Step 2:</strong> Use the login below or create an admin user first.</p>
+    </div>
+
+    <div class="step">
+        <h3>Step 1: Admin Login</h3>
+        <div class="login-form">
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" id="loginEmail" class="form-control" value="admin@kcmc.org">
+            </div>
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="password" id="loginPassword" class="form-control" value="admin123">
+            </div>
+            <button class="btn" onclick="login()">Login as Admin</button>
+            <button class="btn" onclick="createAdminUser()" style="background: #3498db;">Create Admin User First</button>
+            <div id="loginStatus"></div>
+        </div>
+    </div>
+
+    <div class="step">
+        <h3>Step 2: Test Connection</h3>
+        <button class="btn" onclick="testConnection()">Test Firebase Connection</button>
+        <div id="connectionResult"></div>
+    </div>
+
+    <div class="step">
+        <h3>Step 3: Create Collections</h3>
+        <button class="btn" onclick="createActivities()">Create Activities Collection</button>
+        <button class="btn" onclick="createBudget()">Create Budget Collection</button>
+        <button class="btn" onclick="createUpdates()">Create Updates Collection</button>
+        <button class="btn" onclick="createAllCollections()">Create All Collections</button>
+        <div id="result"></div>
+    </div>
+
+    <div class="step">
+        <h3>Step 4: Verify Data</h3>
+        <button class="btn" onclick="verifyCollections()">Verify All Collections</button>
+        <div id="verifyResult"></div>
+    </div>
+
+    <!-- Add Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDfNX8WUWfUAN-dIUtzq8gJXjh0CIZdS_0",
+            authDomain: "kcmcpartners.firebaseapp.com",
+            projectId: "kcmcpartners",
+            storageBucket: "kcmcpartners.firebasestorage.app",
+            messagingSenderId: "30984885444",
+            appId: "1:30984885444:web:0be4febff8cfef1b22a591",
+            measurementId: "G-Z6FMF6Z1V1"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        let currentUser = null;
+
+        // Check authentication state
+        auth.onAuthStateChanged((user) => {
+            currentUser = user;
+            if (user) {
+                document.getElementById('loginStatus').innerHTML = 
+                    `<div class="success">✅ Logged in as: ${user.email}</div>`;
+            } else {
+                document.getElementById('loginStatus').innerHTML = 
+                    `<div class="warning">⚠️ Not logged in. Please login above.</div>`;
+            }
+        });
+
+        // Login function
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const statusDiv = document.getElementById('loginStatus');
+
+            try {
+                statusDiv.innerHTML = '<p>Logging in...</p>';
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                statusDiv.innerHTML = `<div class="success">✅ Successfully logged in as ${userCredential.user.email}</div>`;
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="error">❌ Login failed: ${error.message}</div>`;
+            }
+        }
+
+        // Create admin user first
+        async function createAdminUser() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const statusDiv = document.getElementById('loginStatus');
+
+            try {
+                statusDiv.innerHTML = '<p>Creating admin user...</p>';
+                
+                // Create user in Firebase Auth
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+
+                // Create user document in Firestore
+                await db.collection('users').doc(user.uid).set({
+                    name: 'Administrator',
+                    email: email,
+                    role: 'admin',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    status: 'active'
+                });
+
+                statusDiv.innerHTML = `<div class="success">✅ Admin user created successfully! You are now logged in as ${email}</div>`;
+            } catch (error) {
+                if (error.code === 'auth/email-already-in-use') {
+                    statusDiv.innerHTML = `<div class="warning">⚠️ User already exists. Try logging in instead.</div>`;
+                } else {
+                    statusDiv.innerHTML = `<div class="error">❌ Error creating user: ${error.message}</div>`;
+                }
+            }
+        }
+
+        // Check if user is authenticated (not just in localStorage)
+        function isAuthenticated() {
+            return currentUser !== null;
+        }
+
+        async function testConnection() {
+            const resultDiv = document.getElementById('connectionResult');
+            resultDiv.innerHTML = '<p>Testing Firebase connection...</p>';
+
+            try {
+                // Simple test - try to write and read
+                const testDoc = await db.collection('test').add({
+                    message: 'Connection test',
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // Try to read it back
+                const doc = await testDoc.get();
+                
+                // Clean up
+                await testDoc.delete();
+
+                resultDiv.innerHTML = '<div class="success">✅ Firebase connection successful! Read/write permissions are working.</div>';
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Connection failed: ${error.message}</div>
+                                      <p><strong>Solution:</strong> Update your Firestore security rules to allow read/write access.</p>`;
+            }
+        }
+
+        async function createActivities() {
+            const resultDiv = document.getElementById('result');
+            
+            if (!isAuthenticated()) {
+                resultDiv.innerHTML = '<div class="error">❌ Please login first using the form above.</div>';
+                return;
+            }
+
+            resultDiv.innerHTML = '<p>Creating activities collection...</p>';
+
+            try {
+                const sampleActivities = [
+                    {
+                        title: "School Supply Distribution",
+                        location: "Kenya",
+                        date: new Date("2023-10-15"),
+                        description: "Distributed school supplies to 150 children in our Kenyan program. Each child received notebooks, pens, pencils, and a new backpack.",
+                        type: "event",
+                        imageUrl: "",
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    },
+                    {
+                        title: "Medical Check-up Camp",
+                        location: "Tanzania",
+                        date: new Date("2023-10-08"),
+                        description: "Our quarterly medical camp served 200 children with health check-ups, vaccinations, and nutritional supplements.",
+                        type: "report",
+                        imageUrl: "",
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    },
+                    {
+                        title: "New Classroom Construction",
+                        location: "Uganda",
+                        date: new Date("2023-09-28"),
+                        description: "Construction is underway for two new classrooms at our learning center in Uganda. When completed, these will serve an additional 60 students.",
+                        type: "photo",
+                        imageUrl: "",
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }
+                ];
+
+                for (let activity of sampleActivities) {
+                    await db.collection('activities').add(activity);
+                }
+
+                resultDiv.innerHTML = '<div class="success">✅ Activities collection created successfully with 3 sample activities!</div>';
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Error creating activities: ${error.message}</div>`;
+            }
+        }
+
+        async function createBudget() {
+            const resultDiv = document.getElementById('result');
+            
+            if (!isAuthenticated()) {
+                resultDiv.innerHTML = '<div class="error">❌ Please login first using the form above.</div>';
+                return;
+            }
+
+            resultDiv.innerHTML = '<p>Creating budget collection...</p>';
+
+            try {
+                const budgetData = {
+                    totalFunds: 245780,
+                    programExpenses: 208913,
+                    childrenSupported: 512,
+                    allocation: {
+                        education: 42,
+                        food: 25,
+                        healthcare: 18,
+                        community: 10,
+                        admin: 5
+                    },
+                    lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                await db.collection('budget').doc('current').set(budgetData);
+                resultDiv.innerHTML = '<div class="success">✅ Budget collection created successfully!</div>';
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Error creating budget: ${error.message}</div>`;
+            }
+        }
+
+        async function createUpdates() {
+            const resultDiv = document.getElementById('result');
+            
+            if (!isAuthenticated()) {
+                resultDiv.innerHTML = '<div class="error">❌ Please login first using the form above.</div>';
+                return;
+            }
+
+            resultDiv.innerHTML = '<p>Creating updates collection...</p>';
+
+            try {
+                const sampleUpdates = [
+                    {
+                        title: "Maria's Success Story",
+                        type: "child_highlight",
+                        content: "Maria joined our program three years ago when her family was struggling. Despite challenges, she has excelled in her studies and is now at the top of her class.",
+                        location: "Kenya",
+                        date: new Date("2023-10-20"),
+                        featured: true,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    },
+                    {
+                        title: "New Partnership Announcement",
+                        type: "announcement",
+                        content: "We're excited to announce a new partnership with local health clinics to provide free medical services to all children in our program.",
+                        location: "All Locations",
+                        date: new Date("2023-10-18"),
+                        featured: false,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }
+                ];
+
+                for (let update of sampleUpdates) {
+                    await db.collection('updates').add(update);
+                }
+
+                resultDiv.innerHTML = '<div class="success">✅ Updates collection created successfully with sample data!</div>';
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Error creating updates: ${error.message}</div>`;
+            }
+        }
+
+        async function createAllCollections() {
+            if (!isAuthenticated()) {
+                document.getElementById('result').innerHTML = '<div class="error">❌ Please login first using the form above.</div>';
+                return;
+            }
+            
+            await createActivities();
+            await createBudget();
+            await createUpdates();
+        }
+
+        async function verifyCollections() {
+            const resultDiv = document.getElementById('verifyResult');
+            resultDiv.innerHTML = '<p>Verifying collections...</p>';
+
+            try {
+                const collections = ['activities', 'budget', 'updates'];
+                let html = '<h4>Collection Verification Results:</h4>';
+                
+                for (const collection of collections) {
+                    try {
+                        const snapshot = await db.collection(collection).limit(1).get();
+                        if (!snapshot.empty) {
+                            const countSnapshot = await db.collection(collection).get();
+                            html += `<div class="success">✅ ${collection}: Found ${countSnapshot.size} documents</div>`;
+                        } else {
+                            html += `<div class="error">❌ ${collection}: No documents found</div>`;
+                        }
+                    } catch (error) {
+                        html += `<div class="error">❌ ${collection}: Error - ${error.message}</div>`;
+                    }
+                }
+
+                resultDiv.innerHTML = html;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Verification failed: ${error.message}</div>`;
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            testConnection();
+        });
+        /*rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}*/
+    </script>
+
+</body>
+</html>

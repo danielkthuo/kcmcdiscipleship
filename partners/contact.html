@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Hope Springs Ministry</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🕊️</div>
+                    <h1>Hope Springs Ministry</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="activities.html">Activities</a></li>
+                        <li><a href="budget.html">Budget & Expenses</a></li>
+                        <li><a href="updates.html">Partner Updates</a></li>
+                        <li><a href="contact.html" class="active">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <section class="page-header">
+                <h2>Get in Touch</h2>
+                <p>We'd love to hear from you. Send us a message or pledge your support.</p>
+            </section>
+
+            <div class="grid grid-2">
+                <!-- Contact Form -->
+                <section class="card">
+                    <h3><i class="fas fa-envelope card-icon"></i> Send Us a Message</h3>
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject" class="form-control" required>
+                                <option value="">Select a subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="partnership">Become a Partner</option>
+                                <option value="donation">One-time Donation</option>
+                                <option value="sponsor">Child Sponsorship</option>
+                                <option value="volunteer">Volunteer Opportunity</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" class="form-control" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </section>
+
+                <!-- Partnership Information -->
+                <section>
+                    <div class="card">
+                        <h3><i class="fas fa-handshake card-icon"></i> Partnership Opportunities</h3>
+                        <p>There are several ways you can partner with us to bring hope to children in need:</p>
+                        
+                        <div style="margin: 1.5rem 0;">
+                            <h4>Child Sponsorship</h4>
+                            <p>Sponsor a child for $50/month to provide education, meals, healthcare, and spiritual guidance.</p>
+                            
+                            <h4 style="margin-top: 1.5rem;">Monthly Partner</h4>
+                            <p>Become a monthly partner with any amount that fits your budget to support our general programs.</p>
+                            
+                            <h4 style="margin-top: 1.5rem;">One-time Donation</h4>
+                            <p>Make a one-time donation to support specific projects or emergency needs.</p>
+                        </div>
+                        
+                        <a href="#" class="btn btn-secondary" style="width: 100%;">Become a Partner Today</a>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="card" style="margin-top: 2rem;">
+                        <h3><i class="fas fa-address-card card-icon"></i> Contact Information</h3>
+                        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <i class="fas fa-map-marker-alt" style="color: var(--primary);"></i>
+                                <span>123 Hope Street, Springfield, ST 12345</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <i class="fas fa-phone" style="color: var(--primary);"></i>
+                                <span>(555) 123-4567</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <i class="fas fa-envelope" style="color: var(--primary);"></i>
+                                <span>info@hopesprings.org</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <i class="fas fa-clock" style="color: var(--primary);"></i>
+                                <span>Mon-Fri: 9am-5pm</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- FAQ Section -->
+            <section class="card">
+                <h3><i class="fas fa-question-circle card-icon"></i> Frequently Asked Questions</h3>
+                <div style="margin-top: 1.5rem;">
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4>How much of my donation goes directly to programs?</h4>
+                        <p>85% of all donations go directly to our programs supporting children. Only 15% is used for administrative and fundraising costs, which is well below the industry average.</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4>Can I choose which country my donation supports?</h4>
+                        <p>Yes! When you become a partner, you can specify if you'd like your donation to support programs in a particular country or allow us to allocate it where it's most needed.</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4>How will I receive updates about my sponsored child?</h4>
+                        <p>You'll receive quarterly updates including photos, letters, and progress reports. You can also communicate directly with your sponsored child through our secure portal.</p>
+                    </div>
+                    
+                    <div>
+                        <h4>Is my donation tax-deductible?</h4>
+                        <p>Yes, Hope Springs Ministry is a registered 501(c)(3) nonprofit organization, and all donations are tax-deductible to the extent allowed by law.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2023 Hope Springs Ministry. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="activities.html">Activities</a>
+                    <a href="budget.html">Budget</a>
+                    <a href="updates.html">Updates</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple form submission handler
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            this.reset();
+        });
+    </script>
+    <script>
+        // Contact form submission
+document.getElementById('contact-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        status: 'new'
+    };
+
+    // Save to Firebase
+    db.collection('messages').add(formData)
+        .then(() => {
+            alert('Thank you for your message! We will get back to you soon.');
+            document.getElementById('contact-form').reset();
+        })
+        .catch((error) => {
+            alert('Error sending message: ' + error.message);
+        });
+});
+    </script>
+</body>
+</html>
