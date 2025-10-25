@@ -91,6 +91,18 @@
         .stat-partner { color: #3498db; }
         .stat-visitor { color: #95a5a6; }
         .stat-total { color: var(--primary); }
+        .access-denied {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        .access-denied i {
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -107,131 +119,150 @@
                         <li><a href="#" class="active">Admin Panel</a></li>
                     </ul>
                 </nav>
+                <div class="user-actions">
+                    <span id="adminGreeting" style="margin-right: 15px;"></span>
+                    <button id="adminLogoutBtn" class="btn" style="padding: 8px 15px;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
             </div>
         </div>
     </header>
 
     <main>
         <div class="admin-container">
-            <!-- Admin Header -->
-            <div class="admin-header">
-                <h1>Administration Dashboard</h1>
-                <p>Manage users, content, and system settings</p>
+            <!-- Access Denied Message -->
+            <div id="accessDenied" class="access-denied" style="display: none;">
+                <i class="fas fa-lock"></i>
+                <h2>Access Denied</h2>
+                <p>You must be an administrator to access this panel.</p>
+                <p style="color: var(--gray); margin-bottom: 2rem;">Please contact the system administrator if you believe this is an error.</p>
+                <a href="../index.html" class="btn">Return to Home</a>
             </div>
 
-            <!-- Quick Stats -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number stat-total" id="totalUsers">0</div>
-                    <div>Total Users</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number stat-admin" id="adminUsers">0</div>
-                    <div>Administrators</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number stat-partner" id="partnerUsers">0</div>
-                    <div>Partners</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number stat-visitor" id="visitorUsers">0</div>
-                    <div>Visitors</div>
-                </div>
-            </div>
-
-            <!-- Admin Grid -->
-            <div class="admin-grid">
-                <!-- User Management -->
-                <div class="admin-card">
-                    <h3><i class="fas fa-users card-icon"></i> User Management</h3>
-                    <p>Register new users and manage existing accounts</p>
-                    <button onclick="showUserRegistration()" class="btn" style="width: 100%; margin-top: 1rem;">
-                        <i class="fas fa-user-plus"></i> Register New User
-                    </button>
+            <!-- Admin Content (only shown to admins) -->
+            <div id="adminContent" style="display: none;">
+                <!-- Admin Header -->
+                <div class="admin-header">
+                    <h1>Administration Dashboard</h1>
+                    <p>Manage users, content, and system settings</p>
                 </div>
 
-                <!-- Content Management -->
-                <div class="admin-card">
-                    <h3><i class="fas fa-calendar card-icon"></i> Activities</h3>
-                    <p>Manage ministry activities and events</p>
-                    <a href="../activities.html" class="btn" style="width: 100%; margin-top: 1rem;">Manage Activities</a>
+                <!-- Quick Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number stat-total" id="totalUsers">0</div>
+                        <div>Total Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number stat-admin" id="adminUsers">0</div>
+                        <div>Administrators</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number stat-partner" id="partnerUsers">0</div>
+                        <div>Partners</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number stat-visitor" id="visitorUsers">0</div>
+                        <div>Visitors</div>
+                    </div>
                 </div>
 
-                <div class="admin-card">
-                    <h3><i class="fas fa-chart-pie card-icon"></i> Budget</h3>
-                    <p>Update financial information</p>
-                    <a href="../budget.html" class="btn" style="width: 100%; margin-top: 1rem;">Manage Budget</a>
+                <!-- Admin Grid -->
+                <div class="admin-grid">
+                    <!-- User Management -->
+                    <div class="admin-card">
+                        <h3><i class="fas fa-users card-icon"></i> User Management</h3>
+                        <p>Register new users and manage existing accounts</p>
+                        <button onclick="showUserRegistration()" class="btn" style="width: 100%; margin-top: 1rem;">
+                            <i class="fas fa-user-plus"></i> Register New User
+                        </button>
+                    </div>
+
+                    <!-- Content Management -->
+                    <div class="admin-card">
+                        <h3><i class="fas fa-calendar card-icon"></i> Activities</h3>
+                        <p>Manage ministry activities and events</p>
+                        <a href="../activities.html" class="btn" style="width: 100%; margin-top: 1rem;">Manage Activities</a>
+                    </div>
+
+                    <div class="admin-card">
+                        <h3><i class="fas fa-chart-pie card-icon"></i> Budget</h3>
+                        <p>Update financial information</p>
+                        <a href="../budget.html" class="btn" style="width: 100%; margin-top: 1rem;">Manage Budget</a>
+                    </div>
+
+                    <div class="admin-card">
+                        <h3><i class="fas fa-envelope card-icon"></i> Messages</h3>
+                        <p>View contact form submissions</p>
+                        <button onclick="loadMessages()" class="btn" style="width: 100%; margin-top: 1rem;">View Messages</button>
+                    </div>
                 </div>
 
-                <div class="admin-card">
-                    <h3><i class="fas fa-envelope card-icon"></i> Messages</h3>
-                    <p>View contact form submissions</p>
-                    <button onclick="loadMessages()" class="btn" style="width: 100%; margin-top: 1rem;">View Messages</button>
-                </div>
-            </div>
-
-            <!-- User Registration Form -->
-            <div id="userRegistrationForm" class="card" style="display: none; margin-bottom: 2rem;">
-                <h3><i class="fas fa-user-plus card-icon"></i> Register New User</h3>
-                <form id="registerUserForm">
-                    <div class="grid grid-2">
-                        <div class="form-group">
-                            <label for="userName">Full Name</label>
-                            <input type="text" id="userName" class="form-control" required>
+                <!-- User Registration Form -->
+                <div id="userRegistrationForm" class="card" style="display: none; margin-bottom: 2rem;">
+                    <h3><i class="fas fa-user-plus card-icon"></i> Register New User</h3>
+                    <form id="registerUserForm">
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label for="userName">Full Name</label>
+                                <input type="text" id="userName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="userEmail">Email Address</label>
+                                <input type="email" id="userEmail" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label for="userPassword">Password</label>
+                                <input type="password" id="userPassword" class="form-control" required minlength="6">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" id="confirmPassword" class="form-control" required>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="userEmail">Email Address</label>
-                            <input type="email" id="userEmail" class="form-control" required>
+                            <label for="userRole">User Role</label>
+                            <select id="userRole" class="form-control" required>
+                                <option value="">Select Role</option>
+                                <option value="admin">Administrator</option>
+                                <option value="partner">Ministry Partner</option>
+                                <option value="visitor">Visitor</option>
+                            </select>
                         </div>
-                    </div>
-                    <div class="grid grid-2">
                         <div class="form-group">
-                            <label for="userPassword">Password</label>
-                            <input type="password" id="userPassword" class="form-control" required minlength="6">
+                            <label for="userNotes">Notes (Optional)</label>
+                            <textarea id="userNotes" class="form-control" rows="3" placeholder="Any additional information about this user..."></textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="confirmPassword">Confirm Password</label>
-                            <input type="password" id="confirmPassword" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="userRole">User Role</label>
-                        <select id="userRole" class="form-control" required>
-                            <option value="">Select Role</option>
-                            <option value="admin">Administrator</option>
-                            <option value="partner">Ministry Partner</option>
-                            <option value="visitor">Visitor</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="userNotes">Notes (Optional)</label>
-                        <textarea id="userNotes" class="form-control" rows="3" placeholder="Any additional information about this user..."></textarea>
-                    </div>
-                    <button type="submit" class="btn">Register User</button>
-                    <button type="button" onclick="hideUserRegistration()" class="btn btn-secondary">Cancel</button>
-                </form>
-            </div>
+                        <button type="submit" class="btn">Register User</button>
+                        <button type="button" onclick="hideUserRegistration()" class="btn btn-secondary">Cancel</button>
+                    </form>
+                </div>
 
-            <!-- Users List -->
-            <div class="card">
-                <h3><i class="fas fa-list card-icon"></i> Registered Users</h3>
-                <div class="user-list" id="usersList">
-                    <div style="text-align: center; padding: 2rem;">
-                        <p><i class="fas fa-spinner fa-spin"></i> Loading users...</p>
+                <!-- Users List -->
+                <div class="card">
+                    <h3><i class="fas fa-list card-icon"></i> Registered Users</h3>
+                    <div class="user-list" id="usersList">
+                        <div style="text-align: center; padding: 2rem;">
+                            <p><i class="fas fa-spinner fa-spin"></i> Loading users...</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Messages Section -->
-            <div id="messagesSection" class="card" style="display: none; margin-top: 2rem;">
-                <h3><i class="fas fa-envelope card-icon"></i> Contact Messages</h3>
-                <div id="messagesList"></div>
+                <!-- Messages Section -->
+                <div id="messagesSection" class="card" style="display: none; margin-top: 2rem;">
+                    <h3><i class="fas fa-envelope card-icon"></i> Contact Messages</h3>
+                    <div id="messagesList"></div>
+                </div>
             </div>
         </div>
     </main>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     
     <script>
@@ -248,12 +279,14 @@
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Set admin flag
-        localStorage.setItem('isAdmin', 'true');
-
         // DOM Elements
+        const accessDenied = document.getElementById('accessDenied');
+        const adminContent = document.getElementById('adminContent');
+        const adminGreeting = document.getElementById('adminGreeting');
+        const adminLogoutBtn = document.getElementById('adminLogoutBtn');
         const userRegistrationForm = document.getElementById('userRegistrationForm');
         const registerUserForm = document.getElementById('registerUserForm');
         const usersList = document.getElementById('usersList');
@@ -261,6 +294,77 @@
         const adminUsersEl = document.getElementById('adminUsers');
         const partnerUsersEl = document.getElementById('partnerUsers');
         const visitorUsersEl = document.getElementById('visitorUsers');
+
+        // Check if user is authenticated and is admin
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                // User is signed in, check if they are admin
+                const userData = await getUserRole(user.uid);
+                
+                if (userData.role === 'admin') {
+                    // User is admin, show admin content
+                    showAdminContent(user, userData);
+                } else {
+                    // User is not admin, show access denied
+                    showAccessDenied();
+                }
+            } else {
+                // No user signed in, redirect to login
+                window.location.href = '../index.html';
+            }
+        });
+
+        // Get user role from Firestore
+        async function getUserRole(uid) {
+            try {
+                const userDoc = await db.collection('users').doc(uid).get();
+                if (userDoc.exists) {
+                    return userDoc.data();
+                }
+                return { role: 'partner', name: 'User' };
+            } catch (error) {
+                console.error('Error getting user role:', error);
+                return { role: 'partner', name: 'User' };
+            }
+        }
+
+        // Show admin content
+        function showAdminContent(user, userData) {
+            accessDenied.style.display = 'none';
+            adminContent.style.display = 'block';
+            adminGreeting.textContent = `Welcome, ${userData.name || user.email.split('@')[0]}!`;
+            
+            // Set admin flag
+            localStorage.setItem('isAdmin', 'true');
+            localStorage.setItem('currentUser', JSON.stringify({
+                uid: user.uid,
+                email: user.email,
+                name: userData.name || user.email.split('@')[0],
+                role: 'admin'
+            }));
+            
+            // Load admin data
+            loadUsers();
+        }
+
+        // Show access denied
+        function showAccessDenied() {
+            accessDenied.style.display = 'block';
+            adminContent.style.display = 'none';
+            localStorage.removeItem('isAdmin');
+        }
+
+        // Admin logout
+        adminLogoutBtn.addEventListener('click', async () => {
+            try {
+                await auth.signOut();
+                localStorage.removeItem('isAdmin');
+                localStorage.removeItem('currentUser');
+                window.location.href = '../index.html';
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        });
 
         // Show user registration form
         function showUserRegistration() {
@@ -274,7 +378,7 @@
             userRegistrationForm.style.display = 'none';
         }
 
-        // Register new user
+        // Register new user with Firebase Authentication
         registerUserForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -298,11 +402,14 @@
             }
 
             try {
-                // Create user data
+                // Create user in Firebase Authentication
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const newUser = userCredential.user;
+
+                // Create user data for Firestore
                 const userData = {
                     name: name,
                     email: email,
-                    password: password, // In production, this should be hashed
                     role: role,
                     notes: notes,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -311,7 +418,7 @@
                 };
 
                 // Save to Firestore
-                await db.collection('users').add(userData);
+                await db.collection('users').doc(newUser.uid).set(userData);
                 
                 alert('User registered successfully!');
                 registerUserForm.reset();
@@ -319,8 +426,20 @@
                 loadUsers(); // Reload users list
                 
             } catch (error) {
-                alert('Error registering user: ' + error.message);
                 console.error('Registration error:', error);
+                
+                let errorMessage = 'Error registering user: ';
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage += 'This email is already registered.';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage += 'Password is too weak.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage += 'Invalid email address.';
+                } else {
+                    errorMessage += error.message;
+                }
+                
+                alert(errorMessage);
             }
         });
 
@@ -358,6 +477,7 @@
                                 <h4>${user.name}</h4>
                                 <p>${user.email} • Registered: ${date}</p>
                                 ${user.notes ? `<p style="color: var(--gray); font-style: italic;">${user.notes}</p>` : ''}
+                                ${user.createdBy ? `<p style="color: var(--gray); font-size: 0.8rem;">Created by: ${user.createdBy}</p>` : ''}
                             </div>
                             <div style="display: flex; align-items: center; gap: 15px;">
                                 <span class="user-role role-${user.role}">${user.role.toUpperCase()}</span>
@@ -412,7 +532,7 @@
             }
         }
 
-        // Load messages (existing function)
+        // Load messages
         async function loadMessages() {
             try {
                 const snapshot = await db.collection('messages')
@@ -491,11 +611,6 @@
                 }
             }
         }
-
-        // Initialize admin panel
-        document.addEventListener('DOMContentLoaded', () => {
-            loadUsers();
-        });
     </script>
 </body>
 </html>

@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-
+// Import the compat versions for consistency
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js";
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDfNX8WUWfUAN-dIUtzq8gJXjh0CIZdS_0",
@@ -24,19 +24,29 @@ export { auth, db };
 
 // Enhanced user management functions
 export const userService = {
-    // Get current user with role
-    async getCurrentUser() {
-        return new Promise((resolve) => {
-            const unsubscribe = auth.onAuthStateChanged(async (user) => {
-                unsubscribe();
-                if (user) {
-                    const userData = await this.getUserRole(user.uid);
-                    resolve({ ...user, ...userData });
-                } else {
-                    resolve(null);
-                }
-            });
-        });
+    // Create new user with email and password
+    async createUser(email, password, userData = {}) {
+        try {
+            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+            const user = userCredential.user;
+            
+            // Create user document in Firestore
+            const userDoc = {
+                email: user.email,
+                name: userData.name || user.email.split('@')[0],
+                role: userData.role || 'partner',
+                createdAt: new Date(),
+                lastLogin: new Date(),
+                status: 'active',
+                ...userData
+            };
+
+            await db.collection('users').doc(user.uid).set(userDoc);
+            return { user, userData: userDoc };
+        } catch (error) {
+            console.error('Error creating user:', error);
+            throw error;
+        }
     },
 
     // Get user role from Firestore
@@ -46,15 +56,15 @@ export const userService = {
             if (userDoc.exists) {
                 return userDoc.data();
             }
-            return { role: 'visitor', name: 'Guest' };
+            return { role: 'partner', name: 'Partner' };
         } catch (error) {
             console.error('Error getting user role:', error);
-            return { role: 'visitor', name: 'Guest' };
+            return { role: 'partner', name: 'Partner' };
         }
     },
 
     // Create user document in Firestore
-    async createUserDocument(user, role = 'visitor') {
+    async createUserDocument(user, role = 'partner') {
         try {
             const userData = {
                 email: user.email,

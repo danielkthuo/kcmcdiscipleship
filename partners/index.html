@@ -253,26 +253,6 @@
                 }
             },
 
-            // Create user document in Firestore
-            async createUserDocument(user, role = 'visitor') {
-                try {
-                    const userData = {
-                        email: user.email,
-                        name: user.displayName || user.email.split('@')[0],
-                        role: role,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-                        status: 'active'
-                    };
-
-                    await db.collection('users').doc(user.uid).set(userData);
-                    return userData;
-                } catch (error) {
-                    console.error('Error creating user document:', error);
-                    throw error;
-                }
-            },
-
             // Update user last login
             async updateLastLogin(uid) {
                 try {
@@ -301,11 +281,11 @@
             try {
                 const userData = await userService.getUserRole(firebaseUser.uid);
                 
-                // If user document doesn't exist, create one
+                // If user document doesn't exist, they can't login
                 if (!userData.role) {
-                    await userService.createUserDocument(firebaseUser, 'visitor');
-                    const newUserData = await userService.getUserRole(firebaseUser.uid);
-                    Object.assign(userData, newUserData);
+                    await logoutUser();
+                    showNotification('Account not found. Please contact an administrator.', 'error');
+                    return;
                 }
 
                 // Update last login
@@ -334,16 +314,7 @@
                 }
             } catch (error) {
                 console.error('Error handling user login:', error);
-                // Fallback: create basic user object
-                const user = {
-                    uid: firebaseUser.uid,
-                    email: firebaseUser.email,
-                    name: firebaseUser.email.split('@')[0],
-                    role: 'visitor'
-                };
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                showUserMenu(user);
-                showNotification(`Welcome, ${user.name}!`, 'success');
+                showNotification('Login error. Please try again.', 'error');
             }
         }
 
@@ -370,7 +341,7 @@
                 let errorMessage = 'Login failed. Please try again.';
                 
                 if (error.code === 'auth/user-not-found') {
-                    errorMessage = 'No account found with this email.';
+                    errorMessage = 'No account found with this email. Please contact an administrator.';
                 } else if (error.code === 'auth/wrong-password') {
                     errorMessage = 'Incorrect password. Please try again.';
                 } else if (error.code === 'auth/invalid-email') {
