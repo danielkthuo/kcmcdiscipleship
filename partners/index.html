@@ -317,48 +317,49 @@
                 showNotification('Login error. Please try again.', 'error');
             }
         }
+// Enhanced login function with Firebase Authentication
+async function loginUser(email, password) {
+    // Show loading state
+    loginButtonText.style.display = 'none';
+    loginSpinner.style.display = 'inline-block';
+    loginMessage.innerHTML = '';
 
-        // Enhanced login function with Firebase Authentication
-        async function loginUser(email, password) {
-            // Show loading state
-            loginButtonText.style.display = 'none';
-            loginSpinner.style.display = 'inline-block';
-            loginMessage.innerHTML = '';
-
-            try {
-                // Sign in with Firebase Authentication
-                const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-                
-                // handleUserLogin will be called automatically via onAuthStateChanged
-                loginModal.style.display = 'none';
-                loginForm.reset();
-                
-            } catch (error) {
-                console.error('Login error:', error);
-                
-                // Handle specific error cases
-                let errorMessage = 'Login failed. Please try again.';
-                
-                if (error.code === 'auth/user-not-found') {
-                    errorMessage = 'No account found with this email. Please contact an administrator.';
-                } else if (error.code === 'auth/wrong-password') {
-                    errorMessage = 'Incorrect password. Please try again.';
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'Invalid email address.';
-                } else if (error.code === 'auth/too-many-requests') {
-                    errorMessage = 'Too many failed attempts. Please try again later.';
-                } else if (error.code === 'auth/network-request-failed') {
-                    errorMessage = 'Network error. Please check your connection.';
-                }
-                
-                loginMessage.innerHTML = `<div style="color: var(--accent); padding: 10px; background: #ffeaea; border-radius: var(--radius);">${errorMessage}</div>`;
-            } finally {
-                // Reset loading state
-                loginButtonText.style.display = 'inline';
-                loginSpinner.style.display = 'none';
-            }
+    try {
+        // Sign in with Firebase Authentication
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        
+        // handleUserLogin will be called automatically via onAuthStateChanged
+        loginModal.style.display = 'none';
+        loginForm.reset();
+        
+    } catch (error) {
+        console.error('Login error:', error);
+        
+        // Handle specific error cases
+        let errorMessage = 'Login failed. Please try again.';
+        
+        if (error.code === 'auth/invalid-login-credentials') {
+            errorMessage = 'Invalid email or password. Please use the demo accounts or contact an administrator.';
+        } else if (error.code === 'auth/user-not-found') {
+            errorMessage = 'No account found with this email. Please contact an administrator to create an account.';
+        } else if (error.code === 'auth/wrong-password') {
+            errorMessage = 'Incorrect password. Please try again.';
+        } else if (error.code === 'auth/invalid-email') {
+            errorMessage = 'Invalid email address.';
+        } else if (error.code === 'auth/too-many-requests') {
+            errorMessage = 'Too many failed attempts. Please try again later.';
+        } else if (error.code === 'auth/network-request-failed') {
+            errorMessage = 'Network error. Please check your connection.';
         }
+        
+        loginMessage.innerHTML = `<div style="color: var(--accent); padding: 10px; background: #ffeaea; border-radius: var(--radius);">${errorMessage}</div>`;
+    } finally {
+        // Reset loading state
+        loginButtonText.style.display = 'inline';
+        loginSpinner.style.display = 'none';
+    }
+}
 
         // Show login button
         function showLoginButton() {
