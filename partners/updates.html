@@ -3,9 +3,418 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partner Updates - Hope Springs Ministry</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Partner Updates - KCMC Partners</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2ecc71"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="KCMC Partners">
+    <meta name="description" content="KCMC Partners Ministry Updates">
+    
+    <!-- PWA Links -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+    
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --radius: 12px;
+            --shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 70px; /* Space for bottom nav */
+        }
+
+        .container {
+            width: 100%;
+            padding: 0 15px;
+            max-width: 100%;
+        }
+
+        /* Header Styles */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 12px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+        }
+
+        .logo h1 {
+            font-size: 1.2rem;
+            color: var(--dark);
+        }
+
+        /* Mobile Navigation */
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
+            z-index: 99;
+            padding: 8px 0;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+        }
+
+        nav ul li a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--gray);
+            font-size: 0.75rem;
+            padding: 5px;
+            border-radius: var(--radius);
+            transition: all 0.3s;
+        }
+
+        nav ul li a i {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+
+        nav ul li a.active {
+            color: var(--primary);
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        /* Main Content */
+        main {
+            padding: 15px 0;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 20px 15px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+        }
+
+        .page-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-size: 1.2rem;
+        }
+
+        .card-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .grid-2 {
+            grid-template-columns: 1fr;
+        }
+
+        .grid-3 {
+            grid-template-columns: 1fr;
+        }
+
+        /* Child Highlight Styles */
+        .child-highlight {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .child-image {
+            height: 200px;
+            background: var(--light);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+        }
+
+        .child-image i {
+            font-size: 4rem;
+        }
+
+        .child-info h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .child-tags {
+            display: flex;
+            gap: 8px;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: var(--secondary);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .tag-primary {
+            background: var(--primary);
+        }
+
+        /* Story Cards */
+        .story-card {
+            background: #e8f6f3;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .story-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .story-card-blue {
+            background: #e3f2fd;
+        }
+
+        /* Testimony Cards */
+        .testimony-card {
+            text-align: center;
+            padding: 20px 15px;
+        }
+
+        .testimony-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--light);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+        }
+
+        .testimony-avatar i {
+            font-size: 1.8rem;
+        }
+
+        .testimony-text {
+            font-style: italic;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .testimony-text::before {
+            content: """;
+            font-size: 2rem;
+            color: var(--primary);
+            opacity: 0.3;
+            position: absolute;
+            top: -10px;
+            left: -5px;
+        }
+
+        .testimony-name {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .testimony-details {
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .grid-3 {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+            
+            .child-highlight {
+                flex-direction: row;
+            }
+            
+            .child-image {
+                flex: 0 0 250px;
+                height: 250px;
+            }
+            
+            nav {
+                position: static;
+                background: none;
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            nav ul {
+                justify-content: flex-start;
+                gap: 20px;
+            }
+            
+            nav ul li a {
+                flex-direction: row;
+                font-size: 1rem;
+                padding: 8px 15px;
+            }
+            
+            nav ul li a i {
+                margin-bottom: 0;
+                margin-right: 8px;
+            }
+            
+            body {
+                padding-bottom: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header {
+                padding: 15px 10px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .child-image {
+                height: 180px;
+            }
+            
+            .child-image i {
+                font-size: 3rem;
+            }
+            
+            .testimony-avatar {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .testimony-avatar i {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Animation for cards */
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Section spacing */
+        section {
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -14,17 +423,8 @@
             <div class="header-content">
                 <div class="logo">
                     <div class="logo-icon">🕊️</div>
-                    <h1>Hope Springs Ministry</h1>
+                    <h1>KCMC Partners</h1>
                 </div>
-                <nav>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="activities.html">Activities</a></li>
-                        <li><a href="budget.html">Budget & Expenses</a></li>
-                        <li><a href="updates.html" class="active">Partner Updates</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </nav>
             </div>
         </div>
     </header>
@@ -40,17 +440,15 @@
             <!-- Child Highlights -->
             <section class="card">
                 <h3><i class="fas fa-star card-icon"></i> Child of the Month</h3>
-                <div class="grid grid-2">
-                    <div>
-                        <div style="height: 250px; background: var(--light); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; color: var(--gray);">
-                            <i class="fas fa-user" style="font-size: 4rem;"></i>
-                        </div>
+                <div class="child-highlight">
+                    <div class="child-image">
+                        <i class="fas fa-user"></i>
                     </div>
-                    <div>
+                    <div class="child-info">
                         <h4>Maria Santos, Age 8</h4>
-                        <div style="display: flex; gap: 10px; margin: 1rem 0;">
-                            <span style="background: var(--secondary); color: white; padding: 3px 8px; border-radius: 20px; font-size: 0.8rem;">Brazil</span>
-                            <span style="background: var(--primary); color: white; padding: 3px 8px; border-radius: 20px; font-size: 0.8rem;">Sponsored since 2020</span>
+                        <div class="child-tags">
+                            <span class="tag">Brazil</span>
+                            <span class="tag tag-primary">Sponsored since 2020</span>
                         </div>
                         <p>Maria joined our program three years ago when her family was struggling to make ends meet. Despite facing challenges, Maria has excelled in her studies and is now at the top of her class.</p>
                         <p>Her teacher says, "Maria is a bright, determined student with a heart of gold. She often helps her classmates who are struggling with their lessons."</p>
@@ -64,22 +462,22 @@
                 <h3><i class="fas fa-book-open card-icon"></i> Stories of Transformation</h3>
                 <div class="grid grid-2">
                     <!-- Story 1 -->
-                    <div class="card" style="background: #e8f6f3;">
+                    <div class="story-card">
                         <h4>From Struggles to Success</h4>
-                        <div style="display: flex; gap: 10px; margin: 1rem 0;">
-                            <span style="background: var(--primary); color: white; padding: 3px 8px; border-radius: 20px; font-size: 0.8rem;">Kenya</span>
+                        <div class="child-tags">
+                            <span class="tag tag-primary">Kenya</span>
                         </div>
                         <p>David joined our program five years ago when he lost both parents. Through the support of partners like you, he not only completed his education but is now enrolled in a vocational training program for automotive repair.</p>
-                        <p>"Without Hope Springs Ministry, I don't know where I would be today. They gave me hope and a future," David shares.</p>
+                        <p>"Without KCMC Partners, I don't know where I would be today. They gave me hope and a future," David shares.</p>
                     </div>
 
                     <!-- Story 2 -->
-                    <div class="card" style="background: #e3f2fd;">
+                    <div class="story-card story-card-blue">
                         <h4>A New Beginning</h4>
-                        <div style="display: flex; gap: 10px; margin: 1rem 0;">
-                            <span style="background: var(--secondary); color: white; padding: 3px 8px; border-radius: 20px; font-size: 0.8rem;">Philippines</span>
+                        <div class="child-tags">
+                            <span class="tag">Philippines</span>
                         </div>
-                        <p>When Ana's family home was destroyed in a typhoon, Hope Springs Ministry provided emergency shelter and helped rebuild their lives. Today, Ana's family has a safe home, and she is thriving in school.</p>
+                        <p>When Ana's family home was destroyed in a typhoon, KCMC Partners provided emergency shelter and helped rebuild their lives. Today, Ana's family has a safe home, and she is thriving in school.</p>
                         <p>"We lost everything, but we found hope through this ministry. They stood with us in our darkest hour," says Ana's mother.</p>
                     </div>
                 </div>
@@ -89,42 +487,59 @@
             <section class="card">
                 <h3><i class="fas fa-quote-left card-icon"></i> Partner Testimonies</h3>
                 <div class="grid grid-3">
-                    <div class="card" style="text-align: center;">
-                        <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--light); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: var(--gray);">
-                            <i class="fas fa-user" style="font-size: 2rem;"></i>
+                    <div class="testimony-card">
+                        <div class="testimony-avatar">
+                            <i class="fas fa-user"></i>
                         </div>
-                        <p>"Seeing the direct impact of my contributions through regular updates keeps me motivated to continue supporting this ministry."</p>
-                        <p style="margin-top: 1rem; font-weight: bold;">Sarah Johnson</p>
-                        <p style="color: var(--gray); font-size: 0.9rem;">Partner since 2018</p>
+                        <div class="testimony-text">
+                            "Seeing the direct impact of my contributions through regular updates keeps me motivated to continue supporting this ministry."
+                        </div>
+                        <div class="testimony-name">Sarah Johnson</div>
+                        <div class="testimony-details">Partner since 2018</div>
                     </div>
 
-                    <div class="card" style="text-align: center;">
-                        <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--light); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: var(--gray);">
-                            <i class="fas fa-user" style="font-size: 2rem;"></i>
+                    <div class="testimony-card">
+                        <div class="testimony-avatar">
+                            <i class="fas fa-user"></i>
                         </div>
-                        <p>"The transparency and regular communication make me confident that my donations are being used effectively to change lives."</p>
-                        <p style="margin-top: 1rem; font-weight: bold;">Michael Thompson</p>
-                        <p style="color: var(--gray); font-size: 0.9rem;">Partner since 2020</p>
+                        <div class="testimony-text">
+                            "The transparency and regular communication make me confident that my donations are being used effectively to change lives."
+                        </div>
+                        <div class="testimony-name">Michael Thompson</div>
+                        <div class="testimony-details">Partner since 2020</div>
                     </div>
 
-                    <div class="card" style="text-align: center;">
-                        <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--light); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: var(--gray);">
-                            <i class="fas fa-user" style="font-size: 2rem;"></i>
+                    <div class="testimony-card">
+                        <div class="testimony-avatar">
+                            <i class="fas fa-user"></i>
                         </div>
-                        <p>"I love receiving updates about the child I sponsor. It feels like I'm part of her journey and watching her grow and succeed."</p>
-                        <p style="margin-top: 1rem; font-weight: bold;">Emily Rodriguez</p>
-                        <p style="color: var(--gray); font-size: 0.9rem;">Partner since 2019</p>
+                        <div class="testimony-text">
+                            "I love receiving updates about the child I sponsor. It feels like I'm part of her journey and watching her grow and succeed."
+                        </div>
+                        <div class="testimony-name">Emily Rodriguez</div>
+                        <div class="testimony-details">Partner since 2019</div>
                     </div>
                 </div>
             </section>
         </div>
     </main>
 
+    <!-- Bottom Navigation -->
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="activities.html"><i class="fas fa-tasks"></i> Activities</a></li>
+            <li><a href="budget.html"><i class="fas fa-chart-pie"></i> Budget</a></li>
+            <li><a href="updates.html" class="active"><i class="fas fa-newspaper"></i> Updates</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </nav>
+
     <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
-                <p>&copy; 2023 Hope Springs Ministry. All rights reserved.</p>
+                <p>&copy; 2023 KCMC Partners. All rights reserved.</p>
                 <div class="footer-links">
                     <a href="index.html">Home</a>
                     <a href="activities.html">Activities</a>
@@ -135,5 +550,34 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Add subtle animations when elements come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create intersection observer for fade-in animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all cards for animation
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
 </body>
 </html>
