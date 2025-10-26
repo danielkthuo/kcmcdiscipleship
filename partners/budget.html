@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Budget & Expenses - KCMC Partners</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- PWA Meta Tags -->
@@ -17,6 +16,569 @@
     <!-- PWA Links -->
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+    
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --radius: 12px;
+            --shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 70px; /* Space for bottom nav */
+        }
+
+        .container {
+            width: 100%;
+            padding: 0 15px;
+            max-width: 100%;
+        }
+
+        /* Header Styles */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 12px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+        }
+
+        .logo h1 {
+            font-size: 1.2rem;
+            color: var(--dark);
+        }
+
+        /* Mobile Navigation */
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
+            z-index: 99;
+            padding: 8px 0;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+        }
+
+        nav ul li a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--gray);
+            font-size: 0.75rem;
+            padding: 5px;
+            border-radius: var(--radius);
+            transition: all 0.3s;
+        }
+
+        nav ul li a i {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+
+        nav ul li a.active {
+            color: var(--primary);
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Main Content */
+        main {
+            padding: 15px 0;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 20px 15px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+        }
+
+        .page-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-size: 1.2rem;
+        }
+
+        .card-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .grid-2 {
+            grid-template-columns: 1fr;
+        }
+
+        .grid-3 {
+            grid-template-columns: 1fr;
+        }
+
+        /* Financial Cards */
+        .financial-card {
+            text-align: center;
+            padding: 20px 15px;
+        }
+
+        .financial-card h3 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .financial-card .amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .financial-card .subtitle {
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
+        /* Budget Allocation */
+        .allocation-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: rgba(46, 204, 113, 0.05);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .allocation-item .percentage {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+
+        /* Expense Table */
+        .expense-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .expense-table th {
+            text-align: left;
+            padding: 12px 10px;
+            background: var(--light);
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 1px solid #ddd;
+        }
+
+        .expense-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .expense-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .amount-cell {
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .percentage-cell {
+            text-align: right;
+            color: var(--gray);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            border-radius: var(--radius) var(--radius) 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .close {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        /* Loading and Empty States */
+        .loading {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            color: white;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 300px;
+            box-shadow: var(--shadow);
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .notification-success {
+            background: var(--primary);
+        }
+
+        .notification-error {
+            background: var(--accent);
+        }
+
+        .notification-info {
+            background: var(--secondary);
+        }
+
+        .notification button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Budget Visualization */
+        .budget-visual {
+            height: 200px;
+            background: var(--light);
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .budget-visual i {
+            font-size: 3rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .grid-3 {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+            
+            nav {
+                position: static;
+                background: none;
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            nav ul {
+                justify-content: flex-start;
+                gap: 20px;
+            }
+            
+            nav ul li a {
+                flex-direction: row;
+                font-size: 1rem;
+                padding: 8px 15px;
+            }
+            
+            nav ul li a i {
+                margin-bottom: 0;
+                margin-right: 8px;
+            }
+            
+            body {
+                padding-bottom: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header {
+                padding: 15px 10px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .financial-card .amount {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+            
+            .expense-table {
+                font-size: 0.85rem;
+            }
+            
+            .expense-table th, 
+            .expense-table td {
+                padding: 8px 5px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Login Required Modal -->
@@ -24,16 +586,53 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Login Required</h2>
+                <span class="close">&times;</span>
             </div>
             <div class="modal-body">
-                <div style="text-align: center; padding: 2rem;">
+                <div style="text-align: center; padding: 1rem;">
                     <i class="fas fa-lock" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
                     <h3>Partner Access Required</h3>
                     <p>Budget and expense details are available exclusively to our ministry partners.</p>
                     <p>Please log in to view financial transparency information.</p>
-                    <div style="margin-top: 2rem;">
+                    <div style="margin-top: 2rem; display: flex; gap: 10px; flex-direction: column;">
                         <button id="goToLoginBtn" class="btn">Log In Now</button>
-                        <button id="goToHomeBtn" class="btn btn-secondary" style="margin-left: 10px;">Return Home</button>
+                        <button id="goToHomeBtn" class="btn btn-secondary">Return Home</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Partner Login</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">
+                        <span id="loginButtonText">Sign In</span>
+                        <div id="loginSpinner" class="spinner" style="display: none;"></div>
+                    </button>
+                </form>
+                <div id="loginMessage" style="margin-top: 15px; text-align: center;"></div>
+                
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                    <p style="text-align: center; color: var(--gray); margin-bottom: 10px;">Demo Accounts:</p>
+                    <div style="background: var(--light); padding: 15px; border-radius: var(--radius); font-size: 0.9rem;">
+                        <p><strong>Admin:</strong> admin@kcmc.org / admin123</p>
+                        <p><strong>Partner:</strong> partner@example.com / partner123</p>
+                        <p><strong>Visitor:</strong> visitor@example.com / visitor123</p>
                     </div>
                 </div>
             </div>
@@ -48,23 +647,14 @@
                     <div class="logo-icon">🕊️</div>
                     <h1>KCMC Partners</h1>
                 </div>
-                <nav>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="activities.html">Activities</a></li>
-                        <li><a href="budget.html" class="active">Budget & Expenses</a></li>
-                        <li><a href="updates.html">Partner Updates</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </nav>
                 <div class="user-actions">
-                    <button id="loginBtn" class="btn btn-secondary">
-                        <i class="fas fa-sign-in-alt"></i> Partner Login
+                    <button id="loginBtn" class="btn btn-secondary btn-small">
+                        <i class="fas fa-sign-in-alt"></i>
                     </button>
                     <div id="userMenu" style="display: none;">
-                        <span id="userGreeting" style="margin-right: 15px;"></span>
-                        <button id="logoutBtn" class="btn" style="padding: 8px 15px;">
-                            <i class="fas fa-sign-out-alt"></i> Logout
+                        <span id="userGreeting" style="margin-right: 10px; font-size: 0.9rem;"></span>
+                        <button id="logoutBtn" class="btn btn-small">
+                            <i class="fas fa-sign-out-alt"></i>
                         </button>
                     </div>
                 </div>
@@ -124,8 +714,10 @@
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn">Update Budget</button>
-                    <button type="button" id="cancelBudgetBtn" class="btn btn-secondary">Cancel</button>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button type="submit" class="btn">Update Budget</button>
+                        <button type="button" id="cancelBudgetBtn" class="btn btn-secondary">Cancel</button>
+                    </div>
                 </form>
             </div>
 
@@ -133,8 +725,9 @@
             <section class="card">
                 <h3><i class="fas fa-chart-pie card-icon"></i> Budget Allocation <span id="budgetYear"></span></h3>
                 <div id="budgetContainer">
-                    <div style="text-align: center; padding: 2rem;">
-                        <p><i class="fas fa-spinner fa-spin"></i> Loading budget data...</p>
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading budget data...</p>
                     </div>
                 </div>
             </section>
@@ -147,8 +740,10 @@
             <!-- Expense Details -->
             <section class="card">
                 <h3><i class="fas fa-receipt card-icon"></i> Detailed Expense Breakdown</h3>
-                <div id="expenseTable">
-                    <!-- Will be populated by JavaScript -->
+                <div style="overflow-x: auto;">
+                    <div id="expenseTable">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
                 </div>
             </section>
 
@@ -160,6 +755,17 @@
             </section>
         </div>
     </main>
+
+    <!-- Bottom Navigation -->
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="activities.html"><i class="fas fa-tasks"></i> Activities</a></li>
+            <li><a href="budget.html" class="active"><i class="fas fa-chart-pie"></i> Budget</a></li>
+            <li><a href="updates.html"><i class="fas fa-newspaper"></i> Updates</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </nav>
 
     <!-- Footer -->
     <footer>
@@ -179,6 +785,7 @@
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
     <script>
@@ -195,10 +802,12 @@
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
         const db = firebase.firestore();
 
         // DOM Elements
         const loginRequiredModal = document.getElementById('loginRequiredModal');
+        const loginModal = document.getElementById('loginModal');
         const mainContent = document.getElementById('mainContent');
         const loginBtn = document.getElementById('loginBtn');
         const logoutBtn = document.getElementById('logoutBtn');
@@ -213,6 +822,48 @@
         const budgetContainer = document.getElementById('budgetContainer');
         const financialSummary = document.getElementById('financialSummary');
         const expenseTable = document.getElementById('expenseTable');
+        const closeBtns = document.querySelectorAll('.close');
+        const loginForm = document.getElementById('loginForm');
+        const loginMessage = document.getElementById('loginMessage');
+        const loginButtonText = document.getElementById('loginButtonText');
+        const loginSpinner = document.getElementById('loginSpinner');
+
+        // Authentication state management
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                // User is signed in
+                await handleUserLogin(user);
+                checkAuthAndLoadContent();
+            } else {
+                // No user signed in
+                showLoginButton();
+                checkAuthAndLoadContent();
+            }
+        });
+
+        // Handle user login
+        async function handleUserLogin(firebaseUser) {
+            try {
+                const userDoc = await db.collection('users').doc(firebaseUser.uid).get();
+                let userData = { role: 'visitor', name: 'Guest' };
+                
+                if (userDoc.exists) {
+                    userData = userDoc.data();
+                }
+
+                const user = {
+                    uid: firebaseUser.uid,
+                    email: firebaseUser.email,
+                    name: userData.name || firebaseUser.email.split('@')[0],
+                    role: userData.role || 'visitor'
+                };
+                
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                showUserMenu(user);
+            } catch (error) {
+                console.error('Error handling user login:', error);
+            }
+        }
 
         // Check authentication and load content
         function checkAuthAndLoadContent() {
@@ -248,19 +899,30 @@
         function showUserMenu(user) {
             loginBtn.style.display = 'none';
             userMenu.style.display = 'flex';
-            userGreeting.textContent = `Welcome, ${user.name}!`;
+            userGreeting.textContent = `Hi, ${user.name.split(' ')[0]}`;
         }
 
         // Logout function
         function logoutUser() {
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('isAdmin');
-            checkAuthAndLoadContent(); // This will show the login required modal
-            showNotification('You have been logged out successfully.', 'info');
+            auth.signOut()
+                .then(() => {
+                    localStorage.removeItem('currentUser');
+                    localStorage.removeItem('isAdmin');
+                    checkAuthAndLoadContent(); // This will show the login required modal
+                    showNotification('You have been logged out successfully.', 'info');
+                })
+                .catch((error) => {
+                    console.error('Logout error:', error);
+                });
         }
 
         // Show notification
         function showNotification(message, type) {
+            // Remove existing notifications
+            document.querySelectorAll('.notification').forEach(notification => {
+                notification.remove();
+            });
+
             const notification = document.createElement('div');
             notification.className = `notification notification-${type}`;
             notification.innerHTML = `
@@ -318,18 +980,18 @@
             // Validate percentages add up to 100
             const totalPercentage = Object.values(budgetData.allocation).reduce((sum, value) => sum + value, 0);
             if (totalPercentage !== 100) {
-                alert('Budget allocation percentages must add up to 100%. Current total: ' + totalPercentage + '%');
+                showNotification('Budget allocation percentages must add up to 100%. Current total: ' + totalPercentage + '%', 'error');
                 return;
             }
 
             db.collection('budget').doc('current').set(budgetData)
                 .then(() => {
-                    alert('Budget updated successfully!');
+                    showNotification('Budget updated successfully!', 'success');
                     budgetForm.style.display = 'none';
                     loadBudgetData(); // Reload budget display
                 })
                 .catch((error) => {
-                    alert('Error updating budget: ' + error.message);
+                    showNotification('Error updating budget: ' + error.message, 'error');
                 });
         });
 
@@ -355,86 +1017,76 @@
         function displayBudgetData(data) {
             // Update financial summary
             financialSummary.innerHTML = `
-                <div class="card" style="text-align: center;">
+                <div class="card financial-card">
                     <h3 style="color: var(--primary);">Total Funds Raised</h3>
-                    <p style="font-size: 2rem; font-weight: bold; margin: 1rem 0;">$${data.totalFunds?.toLocaleString() || '0'}</p>
-                    <p style="color: var(--gray);">Year to Date</p>
+                    <div class="amount">$${data.totalFunds?.toLocaleString() || '0'}</div>
+                    <div class="subtitle">Year to Date</div>
                 </div>
-                <div class="card" style="text-align: center;">
+                <div class="card financial-card">
                     <h3 style="color: var(--secondary);">Program Expenses</h3>
-                    <p style="font-size: 2rem; font-weight: bold; margin: 1rem 0;">$${data.programExpenses?.toLocaleString() || '0'}</p>
-                    <p style="color: var(--gray);">${data.programExpenses ? Math.round((data.programExpenses / data.totalFunds) * 100) : 0}% of total</p>
+                    <div class="amount">$${data.programExpenses?.toLocaleString() || '0'}</div>
+                    <div class="subtitle">${data.programExpenses ? Math.round((data.programExpenses / data.totalFunds) * 100) : 0}% of total</div>
                 </div>
-                <div class="card" style="text-align: center;">
+                <div class="card financial-card">
                     <h3 style="color: var(--accent);">Children Supported</h3>
-                    <p style="font-size: 2rem; font-weight: bold; margin: 1rem 0;">${data.childrenSupported || '0'}</p>
-                    <p style="color: var(--gray);">Across 12 communities</p>
+                    <div class="amount">${data.childrenSupported || '0'}</div>
+                    <div class="subtitle">Across 12 communities</div>
                 </div>
             `;
 
             // Update budget allocation display
             const allocation = data.allocation || {};
             budgetContainer.innerHTML = `
-                <div class="grid grid-2">
-                    <div>
-                        <div style="height: 300px; background: var(--light); border-radius: var(--radius); margin-bottom: 1rem; 
-                            display: flex; align-items: center; justify-content: center; color: var(--gray);">
-                            <p>Budget Pie Chart Visualization</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div style="display: flex; flex-direction: column; gap: 15px;">
-                            ${createAllocationItem('Education Programs', allocation.education, '#2ecc71')}
-                            ${createAllocationItem('Food & Nutrition', allocation.food, '#3498db')}
-                            ${createAllocationItem('Healthcare', allocation.healthcare, '#e74c3c')}
-                            ${createAllocationItem('Community Development', allocation.community, '#9b59b6')}
-                            ${createAllocationItem('Administrative Costs', allocation.admin, '#f39c12')}
-                        </div>
-                    </div>
+                <div class="budget-visual">
+                    <i class="fas fa-chart-pie"></i>
+                    <p>Budget Visualization</p>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    ${createAllocationItem('Education Programs', allocation.education)}
+                    ${createAllocationItem('Food & Nutrition', allocation.food)}
+                    ${createAllocationItem('Healthcare', allocation.healthcare)}
+                    ${createAllocationItem('Community Development', allocation.community)}
+                    ${createAllocationItem('Administrative Costs', allocation.admin)}
                 </div>
             `;
 
             // Update expense table
             expenseTable.innerHTML = `
-                <div style="overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr style="background: var(--light);">
-                                <th style="padding: 12px; text-align: left;">Category</th>
-                                <th style="padding: 12px; text-align: right;">Amount</th>
-                                <th style="padding: 12px; text-align: right;">Percentage</th>
-                                <th style="padding: 12px; text-align: left;">Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${createExpenseRow('Education Programs', data.totalFunds, allocation.education, 'School fees, supplies, teacher salaries')}
-                            ${createExpenseRow('Food & Nutrition', data.totalFunds, allocation.food, 'Daily meals, nutritional supplements')}
-                            ${createExpenseRow('Healthcare', data.totalFunds, allocation.healthcare, 'Medical check-ups, treatments, medications')}
-                            ${createExpenseRow('Community Development', data.totalFunds, allocation.community, 'Infrastructure, training programs')}
-                            ${createExpenseRow('Administrative Costs', data.totalFunds, allocation.admin, 'Office expenses, staff, operations')}
-                        </tbody>
-                    </table>
-                </div>
+                <table class="expense-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th style="text-align: right;">Amount</th>
+                            <th style="text-align: right;">%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${createExpenseRow('Education Programs', data.totalFunds, allocation.education)}
+                        ${createExpenseRow('Food & Nutrition', data.totalFunds, allocation.food)}
+                        ${createExpenseRow('Healthcare', data.totalFunds, allocation.healthcare)}
+                        ${createExpenseRow('Community Development', data.totalFunds, allocation.community)}
+                        ${createExpenseRow('Administrative Costs', data.totalFunds, allocation.admin)}
+                    </tbody>
+                </table>
             `;
         }
 
-        function createAllocationItem(label, percentage, color) {
+        function createAllocationItem(label, percentage) {
             return `
-                <div style="display: flex; justify-content: space-between; padding: 10px; background: ${color}20; border-radius: var(--radius);">
+                <div class="allocation-item">
                     <span>${label}</span>
-                    <span style="font-weight: bold; color: ${color};">${percentage || 0}%</span>
+                    <span class="percentage">${percentage || 0}%</span>
                 </div>
             `;
         }
 
-        function createExpenseRow(category, totalFunds, percentage, description) {
+        function createExpenseRow(category, totalFunds, percentage) {
             const amount = totalFunds ? (totalFunds * (percentage / 100)).toLocaleString('en-US', {style: 'currency', currency: 'USD'}) : '$0';
             return `
-                <tr style="border-bottom: 1px solid #eee;">
-                    <td style="padding: 12px;">${category}</td>
-                    <td style="padding: 12px; text-align: right;">${amount}</td>
-                    <td style="padding: 12px; text-align: right;">${percentage || 0}%</td>
-                    <td style="padding: 12px;">${description}</td>
+                <tr>
+                    <td>${category}</td>
+                    <td class="amount-cell">${amount}</td>
+                    <td class="percentage-cell">${percentage || 0}%</td>
                 </tr>
             `;
         }
@@ -454,15 +1106,60 @@
             };
         }
 
+        // Enhanced login function with Firebase Authentication
+        async function loginUser(email, password) {
+            // Show loading state
+            loginButtonText.style.display = 'none';
+            loginSpinner.style.display = 'inline-block';
+            loginMessage.innerHTML = '';
+
+            try {
+                // Sign in with Firebase Authentication
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // handleUserLogin will be called automatically via onAuthStateChanged
+                loginModal.style.display = 'none';
+                loginForm.reset();
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                
+                // Handle specific error cases
+                let errorMessage = 'Login failed. Please try again.';
+                
+                if (error.code === 'auth/invalid-login-credentials') {
+                    errorMessage = 'Invalid email or password. Please use the demo accounts or contact an administrator.';
+                } else if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'No account found with this email. Please contact an administrator to create an account.';
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'Incorrect password. Please try again.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Invalid email address.';
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = 'Too many failed attempts. Please try again later.';
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMessage = 'Network error. Please check your connection.';
+                }
+                
+                loginMessage.innerHTML = `<div style="color: var(--accent); padding: 10px; background: #ffeaea; border-radius: var(--radius);">${errorMessage}</div>`;
+            } finally {
+                // Reset loading state
+                loginButtonText.style.display = 'inline';
+                loginSpinner.style.display = 'none';
+            }
+        }
+
         // Event Listeners
         loginBtn.addEventListener('click', () => {
-            window.location.href = 'index.html#login';
+            loginModal.style.display = 'block';
         });
 
         logoutBtn.addEventListener('click', logoutUser);
 
         goToLoginBtn.addEventListener('click', () => {
-            window.location.href = 'index.html';
+            loginRequiredModal.style.display = 'none';
+            loginModal.style.display = 'block';
         });
 
         goToHomeBtn.addEventListener('click', () => {
@@ -478,133 +1175,47 @@
             budgetForm.style.display = 'none';
         });
 
+        // Close modal when clicking X or outside
+        closeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                loginRequiredModal.style.display = 'none';
+                loginModal.style.display = 'none';
+                loginMessage.innerHTML = '';
+                loginForm.reset();
+            });
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === loginRequiredModal || e.target === loginModal) {
+                loginRequiredModal.style.display = 'none';
+                loginModal.style.display = 'none';
+                loginMessage.innerHTML = '';
+                loginForm.reset();
+            }
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                loginMessage.innerHTML = '<div style="color: var(--accent); padding: 10px; background: #ffeaea; border-radius: var(--radius);">Please fill in all fields.</div>';
+                return;
+            }
+
+            loginUser(email, password);
+        });
+
         // Check auth state on page load
-        document.addEventListener('DOMContentLoaded', checkAuthAndLoadContent);
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if user is already authenticated
+            const currentUser = auth.currentUser;
+            if (currentUser) {
+                loadBudgetData();
+            }
+        });
     </script>
-
-    <style>
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 10% auto;
-            padding: 0;
-            border-radius: var(--radius);
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            animation: modalSlideIn 0.3s ease-out;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1.5rem;
-            border-radius: var(--radius) var(--radius) 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h2 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-
-        .modal-body {
-            padding: 2rem;
-        }
-
-        /* User Actions */
-        .user-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* Notification Styles */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: var(--radius);
-            color: white;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-width: 300px;
-            box-shadow: var(--shadow);
-            animation: slideInRight 0.3s ease-out;
-        }
-
-        .notification-success {
-            background: var(--primary);
-        }
-
-        .notification-error {
-            background: var(--accent);
-        }
-
-        .notification-info {
-            background: var(--secondary);
-        }
-
-        .notification button {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            margin-left: 15px;
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .user-actions {
-                flex-direction: column;
-                gap: 5px;
-            }
-
-            #userGreeting {
-                margin-right: 0;
-                margin-bottom: 5px;
-                text-align: center;
-            }
-        }
-    </style>
 </body>
 </html>
