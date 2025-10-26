@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activities - KCMC Partners</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- PWA Meta Tags -->
@@ -17,8 +16,588 @@
     <!-- PWA Links -->
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+    
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --radius: 12px;
+            --shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 70px; /* Space for bottom nav */
+        }
+
+        .container {
+            width: 100%;
+            padding: 0 15px;
+            max-width: 100%;
+        }
+
+        /* Header Styles */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 12px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+        }
+
+        .logo h1 {
+            font-size: 1.2rem;
+            color: var(--dark);
+        }
+
+        /* Mobile Navigation */
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
+            z-index: 99;
+            padding: 8px 0;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+        }
+
+        nav ul li a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--gray);
+            font-size: 0.75rem;
+            padding: 5px;
+            border-radius: var(--radius);
+            transition: all 0.3s;
+        }
+
+        nav ul li a i {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+
+        nav ul li a.active {
+            color: var(--primary);
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Main Content */
+        main {
+            padding: 15px 0;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 20px 15px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+        }
+
+        .page-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-size: 1.2rem;
+        }
+
+        .card-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .grid-2 {
+            grid-template-columns: 1fr;
+        }
+
+        /* Activity Card Styles */
+        .activity-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activity-image {
+            height: 180px;
+            background: var(--light);
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .activity-meta {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .location-tag {
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .activity-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .delete-btn {
+            margin-left: auto;
+            padding: 4px 8px;
+            font-size: 0.8rem;
+            background: var(--accent);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            border-radius: var(--radius) var(--radius) 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .close {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        /* Loading and Empty States */
+        .loading {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            color: white;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 300px;
+            box-shadow: var(--shadow);
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .notification-success {
+            background: var(--primary);
+        }
+
+        .notification-error {
+            background: var(--accent);
+        }
+
+        .notification-info {
+            background: var(--secondary);
+        }
+
+        .notification button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            nav {
+                position: static;
+                background: none;
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            nav ul {
+                justify-content: flex-start;
+                gap: 20px;
+            }
+            
+            nav ul li a {
+                flex-direction: row;
+                font-size: 1rem;
+                padding: 8px 15px;
+            }
+            
+            nav ul li a i {
+                margin-bottom: 0;
+                margin-right: 8px;
+            }
+            
+            body {
+                padding-bottom: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header {
+                padding: 15px 10px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .activity-image {
+                height: 150px;
+            }
+            
+            .btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Partner Login</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">
+                        <span id="loginButtonText">Sign In</span>
+                        <div id="loginSpinner" class="spinner" style="display: none;"></div>
+                    </button>
+                </form>
+                <div id="loginMessage" style="margin-top: 15px; text-align: center;"></div>
+                
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                    <p style="text-align: center; color: var(--gray); margin-bottom: 10px;">Demo Accounts:</p>
+                    <div style="background: var(--light); padding: 15px; border-radius: var(--radius); font-size: 0.9rem;">
+                        <p><strong>Admin:</strong> admin@kcmc.org / admin123</p>
+                        <p><strong>Partner:</strong> partner@example.com / partner123</p>
+                        <p><strong>Visitor:</strong> visitor@example.com / visitor123</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header>
         <div class="container">
@@ -27,34 +606,22 @@
                     <div class="logo-icon">🕊️</div>
                     <h1>KCMC Partners</h1>
                 </div>
-                <nav>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="activities.html" class="active">Activities</a></li>
-                        <li><a href="budget.html">Budget & Expenses</a></li>
-                        <li><a href="updates.html">Partner Updates</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </nav>
                 <div class="user-actions">
-                    <button id="loginBtn" class="btn btn-secondary">
-                        <i class="fas fa-sign-in-alt"></i> Partner Login
+                    <button id="loginBtn" class="btn btn-secondary btn-small">
+                        <i class="fas fa-sign-in-alt"></i>
                     </button>
                     <div id="userMenu" style="display: none;">
-                        <span id="userGreeting" style="margin-right: 15px;"></span>
-                        <div id="adminPanelLink" style="display: none; margin-right: 10px;">
-                            <a href="admin/admin.html" class="btn btn-secondary">
-                                <i class="fas fa-cog"></i> Admin Panel
+                        <span id="userGreeting" style="margin-right: 10px; font-size: 0.9rem;"></span>
+                        <div id="adminPanelLink" style="display: none; margin-right: 5px;">
+                            <a href="admin/admin.html" class="btn btn-secondary btn-small">
+                                <i class="fas fa-cog"></i>
                             </a>
                         </div>
-                        <button id="logoutBtn" class="btn" style="padding: 8px 15px;">
-                            <i class="fas fa-sign-out-alt"></i> Logout
+                        <button id="logoutBtn" class="btn btn-small">
+                            <i class="fas fa-sign-out-alt"></i>
                         </button>
                     </div>
                 </div>
-                <button id="installButton" class="btn" style="display: none; padding: 8px 15px;">
-                    <i class="fas fa-download"></i> Install App
-                </button>
             </div>
         </div>
     </header>
@@ -69,6 +636,14 @@
                     <i class="fas fa-plus"></i> Add New Activity
                 </button>
             </section>
+
+            <!-- Activity Filters -->
+            <div class="filter-bar">
+                <button class="filter-btn active" data-filter="all">All Activities</button>
+                <button class="filter-btn" data-filter="Kenya">Kenya</button>
+                <button class="filter-btn" data-filter="Tanzania">Tanzania</button>
+                <button class="filter-btn" data-filter="Uganda">Uganda</button>
+            </div>
 
             <!-- Add Activity Form -->
             <div id="activityForm" class="card" style="display: none;">
@@ -109,8 +684,10 @@
                         <label for="activityImage">Image URL (optional)</label>
                         <input type="url" id="activityImage" class="form-control" placeholder="https://example.com/image.jpg">
                     </div>
-                    <button type="submit" class="btn">Save Activity</button>
-                    <button type="button" id="cancelActivityBtn" class="btn btn-secondary">Cancel</button>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" class="btn">Save Activity</button>
+                        <button type="button" id="cancelActivityBtn" class="btn btn-secondary">Cancel</button>
+                    </div>
                 </form>
             </div>
 
@@ -120,18 +697,38 @@
             </div>
 
             <!-- Loading State -->
-            <div id="loadingActivities" class="card" style="text-align: center;">
-                <p><i class="fas fa-spinner fa-spin"></i> Loading activities...</p>
+            <div id="loadingActivities" class="card loading" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading activities...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyActivities" class="card empty-state" style="display: none;">
+                <i class="fas fa-images"></i>
+                <h3>No Activities Yet</h3>
+                <p>Check back later for updates on our ministry activities.</p>
             </div>
 
             <!-- Login Required Message -->
-            <div id="loginRequired" class="card" style="text-align: center; display: none;">
-                <h3><i class="fas fa-lock card-icon"></i> Authentication Required</h3>
+            <div id="loginRequired" class="card empty-state" style="display: none;">
+                <i class="fas fa-lock"></i>
+                <h3>Authentication Required</h3>
                 <p>Please log in to view ministry activities and updates.</p>
-                <button id="loginRequiredBtn" class="btn">Partner Login</button>
+                <button id="loginRequiredBtn" class="btn" style="margin-top: 15px;">Partner Login</button>
             </div>
         </div>
     </main>
+
+    <!-- Bottom Navigation -->
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="activities.html" class="active"><i class="fas fa-tasks"></i> Activities</a></li>
+            <li><a href="budget.html"><i class="fas fa-chart-pie"></i> Budget</a></li>
+            <li><a href="updates.html"><i class="fas fa-newspaper"></i> Updates</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </nav>
 
     <!-- Footer -->
     <footer>
@@ -174,6 +771,7 @@
         // DOM Elements
         const activitiesContainer = document.getElementById('activitiesContainer');
         const loadingElement = document.getElementById('loadingActivities');
+        const emptyElement = document.getElementById('emptyActivities');
         const loginRequired = document.getElementById('loginRequired');
         const activityForm = document.getElementById('activityForm');
         const addActivityBtn = document.getElementById('addActivityBtn');
@@ -185,6 +783,16 @@
         const userGreeting = document.getElementById('userGreeting');
         const adminPanelLink = document.getElementById('adminPanelLink');
         const loginRequiredBtn = document.getElementById('loginRequiredBtn');
+        const loginModal = document.getElementById('loginModal');
+        const closeBtn = document.querySelector('.close');
+        const loginForm = document.getElementById('loginForm');
+        const loginMessage = document.getElementById('loginMessage');
+        const loginButtonText = document.getElementById('loginButtonText');
+        const loginSpinner = document.getElementById('loginSpinner');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        // Current filter state
+        let currentFilter = 'all';
 
         // Authentication state management
         auth.onAuthStateChanged(async (user) => {
@@ -245,7 +853,7 @@
         function showUserMenu(user) {
             loginBtn.style.display = 'none';
             userMenu.style.display = 'flex';
-            userGreeting.textContent = `Welcome, ${user.name}!`;
+            userGreeting.textContent = `Hi, ${user.name.split(' ')[0]}`;
         }
 
         // Show login required message
@@ -253,6 +861,7 @@
             loginRequired.style.display = 'block';
             activitiesContainer.style.display = 'none';
             loadingElement.style.display = 'none';
+            emptyElement.style.display = 'none';
         }
 
         // Hide login required message
@@ -294,6 +903,7 @@
             }
 
             loadingElement.style.display = 'block';
+            emptyElement.style.display = 'none';
             activitiesContainer.innerHTML = '';
 
             db.collection('activities')
@@ -303,40 +913,54 @@
                     loadingElement.style.display = 'none';
                     
                     if (querySnapshot.empty) {
-                        activitiesContainer.innerHTML = `
-                            <div class="card" style="grid-column: 1 / -1; text-align: center;">
-                                <p>No activities found. Check back later for updates!</p>
-                            </div>
-                        `;
+                        emptyElement.style.display = 'block';
                         return;
                     }
 
+                    let hasActivities = false;
+                    
                     querySnapshot.forEach((doc) => {
                         const activity = doc.data();
+                        
+                        // Apply filter
+                        if (currentFilter !== 'all' && activity.location !== currentFilter) {
+                            return;
+                        }
+                        
+                        hasActivities = true;
                         const activityId = doc.id;
                         const date = activity.date ? new Date(activity.date.seconds * 1000).toLocaleDateString() : 'Date not set';
                         
                         const activityCard = document.createElement('div');
-                        activityCard.className = 'card';
+                        activityCard.className = 'card activity-card';
                         activityCard.innerHTML = `
-                            <div style="height: 200px; background: var(--light); border-radius: var(--radius); margin-bottom: 1rem; 
-                                display: flex; align-items: center; justify-content: center; color: var(--gray);
-                                ${activity.imageUrl ? `background-image: url('${activity.imageUrl}'); background-size: cover; background-position: center;` : ''}">
+                            <div class="activity-image" style="${activity.imageUrl ? `background-image: url('${activity.imageUrl}')` : ''}">
                                 ${!activity.imageUrl ? `<i class="fas fa-${getActivityIcon(activity.type)}" style="font-size: 3rem;"></i>` : ''}
                             </div>
                             <h3>${activity.title || 'Untitled Activity'}</h3>
-                            <div style="display: flex; gap: 10px; margin-bottom: 1rem; flex-wrap: wrap;">
-                                <span style="background: ${getLocationColor(activity.location)}; color: white; padding: 3px 8px; border-radius: 20px; font-size: 0.8rem;">
+                            <div class="activity-meta">
+                                <span class="location-tag" style="background: ${getLocationColor(activity.location)};">
                                     ${activity.location || 'Unknown Location'}
                                 </span>
-                                <span style="color: var(--gray); font-size: 0.9rem;">${date}</span>
-                                ${isAdminUser() ? `<button onclick="deleteActivity('${activityId}')" class="btn" style="padding: 2px 8px; font-size: 0.8rem; background: var(--accent); margin-left: auto;">Delete</button>` : ''}
+                                <span class="activity-date">${date}</span>
+                                ${isAdminUser() ? `<button onclick="deleteActivity('${activityId}')" class="btn delete-btn btn-small"><i class="fas fa-trash"></i></button>` : ''}
                             </div>
                             <p>${activity.description || 'No description available.'}</p>
                         `;
                         
                         activitiesContainer.appendChild(activityCard);
                     });
+                    
+                    // Show empty state if no activities match filter
+                    if (!hasActivities) {
+                        emptyElement.style.display = 'block';
+                        emptyElement.innerHTML = `
+                            <i class="fas fa-filter"></i>
+                            <h3>No Activities Found</h3>
+                            <p>No activities match your current filter.</p>
+                            <button class="btn" onclick="resetFilter()" style="margin-top: 15px;">Show All Activities</button>
+                        `;
+                    }
                 })
                 .catch((error) => {
                     loadingElement.style.display = 'none';
@@ -373,7 +997,7 @@
             e.preventDefault();
             
             if (!isAdminUser()) {
-                alert('Only administrators can add activities.');
+                showNotification('Only administrators can add activities.', 'error');
                 return;
             }
 
@@ -390,19 +1014,19 @@
 
             // Validate date
             if (isNaN(activityData.date.getTime())) {
-                alert('Please select a valid date');
+                showNotification('Please select a valid date', 'error');
                 return;
             }
 
             db.collection('activities').add(activityData)
                 .then(() => {
-                    alert('Activity added successfully!');
+                    showNotification('Activity added successfully!', 'success');
                     newActivityForm.reset();
                     activityForm.style.display = 'none';
                     loadActivities(); // Reload activities
                 })
                 .catch((error) => {
-                    alert('Error adding activity: ' + error.message);
+                    showNotification('Error adding activity: ' + error.message, 'error');
                     console.error('Error adding activity:', error);
                 });
         });
@@ -410,21 +1034,42 @@
         // Delete activity (admin only)
         function deleteActivity(activityId) {
             if (!isAdminUser()) {
-                alert('Only administrators can delete activities.');
+                showNotification('Only administrators can delete activities.', 'error');
                 return;
             }
 
             if (confirm('Are you sure you want to delete this activity?')) {
                 db.collection('activities').doc(activityId).delete()
                     .then(() => {
-                        alert('Activity deleted successfully!');
+                        showNotification('Activity deleted successfully!', 'success');
                         loadActivities(); // Reload activities
                     })
                     .catch((error) => {
-                        alert('Error deleting activity: ' + error.message);
+                        showNotification('Error deleting activity: ' + error.message, 'error');
                         console.error('Error deleting activity:', error);
                     });
             }
+        }
+
+        // Filter activities by location
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active state
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Set filter and reload activities
+                currentFilter = button.getAttribute('data-filter');
+                loadActivities();
+            });
+        });
+
+        // Reset filter to show all activities
+        function resetFilter() {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            filterButtons[0].classList.add('active');
+            currentFilter = 'all';
+            loadActivities();
         }
 
         // Helper functions
@@ -448,17 +1093,110 @@
             return colors[location] || '#7f8c8d';
         }
 
+        // Show notification
+        function showNotification(message, type) {
+            // Remove existing notifications
+            document.querySelectorAll('.notification').forEach(notification => {
+                notification.remove();
+            });
+
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <span>${message}</span>
+                <button onclick="this.parentElement.remove()">&times;</button>
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Enhanced login function with Firebase Authentication
+        async function loginUser(email, password) {
+            // Show loading state
+            loginButtonText.style.display = 'none';
+            loginSpinner.style.display = 'inline-block';
+            loginMessage.innerHTML = '';
+
+            try {
+                // Sign in with Firebase Authentication
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // handleUserLogin will be called automatically via onAuthStateChanged
+                loginModal.style.display = 'none';
+                loginForm.reset();
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                
+                // Handle specific error cases
+                let errorMessage = 'Login failed. Please try again.';
+                
+                if (error.code === 'auth/invalid-login-credentials') {
+                    errorMessage = 'Invalid email or password. Please use the demo accounts or contact an administrator.';
+                } else if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'No account found with this email. Please contact an administrator to create an account.';
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'Incorrect password. Please try again.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Invalid email address.';
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = 'Too many failed attempts. Please try again later.';
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMessage = 'Network error. Please check your connection.';
+                }
+                
+                loginMessage.innerHTML = `<div style="color: var(--accent); padding: 10px; background: #ffeaea; border-radius: var(--radius);">${errorMessage}</div>`;
+            } finally {
+                // Reset loading state
+                loginButtonText.style.display = 'inline';
+                loginSpinner.style.display = 'none';
+            }
+        }
+
         // Event Listeners
         loginBtn.addEventListener('click', () => {
-            // Redirect to index.html for login
-            window.location.href = 'index.html';
+            loginModal.style.display = 'block';
         });
 
         loginRequiredBtn.addEventListener('click', () => {
-            window.location.href = 'index.html';
+            loginModal.style.display = 'block';
         });
 
         logoutBtn.addEventListener('click', logoutUser);
+
+        closeBtn.addEventListener('click', () => {
+            loginModal.style.display = 'none';
+            loginMessage.innerHTML = '';
+            loginForm.reset();
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+                loginMessage.innerHTML = '';
+                loginForm.reset();
+            }
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                loginMessage.innerHTML = '<div style="color: var(--accent); padding: 10px; background: #ffeaea; border-radius: var(--radius);">Please fill in all fields.</div>';
+                return;
+            }
+
+            loginUser(email, password);
+        });
 
         // Initialize page
         document.addEventListener('DOMContentLoaded', () => {
@@ -483,35 +1221,6 @@
                     });
             });
         }
-
-        // PWA Install Prompt
-        let deferredPrompt;
-        const installButton = document.getElementById('installButton');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            if (installButton) {
-                installButton.style.display = 'block';
-            }
-        });
-
-        if (installButton) {
-            installButton.addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    console.log(`User response: ${outcome}`);
-                    deferredPrompt = null;
-                    installButton.style.display = 'none';
-                }
-            });
-        }
-
-        window.addEventListener('appinstalled', () => {
-            console.log('PWA was installed');
-            deferredPrompt = null;
-        });
     </script>
 </body>
 </html>
