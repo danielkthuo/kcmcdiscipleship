@@ -199,6 +199,8 @@
             align-items: center;
             justify-content: center;
             color: var(--gray);
+            position: relative;
+            overflow: hidden;
         }
 
         .child-image i {
@@ -237,6 +239,7 @@
             border-radius: var(--radius);
             padding: 20px;
             margin-bottom: 15px;
+            position: relative;
         }
 
         .story-card h4 {
@@ -326,6 +329,74 @@
             font-size: 0.9rem;
         }
 
+        /* New Features */
+        .update-date {
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .share-btn {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: var(--radius);
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .share-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 1s ease-in-out;
+        }
+
+        .impact-stats {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .impact-stat {
+            flex: 1;
+        }
+
+        .impact-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .impact-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
         /* Responsive Adjustments */
         @media (min-width: 768px) {
             .grid-2 {
@@ -398,6 +469,11 @@
             .testimony-avatar i {
                 font-size: 1.5rem;
             }
+            
+            .impact-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
         }
 
         /* Animation for cards */
@@ -413,6 +489,21 @@
         /* Section spacing */
         section {
             margin-bottom: 30px;
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -435,11 +526,28 @@
             <section class="page-header">
                 <h2>Partner Updates</h2>
                 <p>Stories of transformation, testimonies, and highlights of the children you support</p>
+                <div class="impact-stats">
+                    <div class="impact-stat">
+                        <div class="impact-number">512</div>
+                        <div class="impact-label">Children Supported</div>
+                    </div>
+                    <div class="impact-stat">
+                        <div class="impact-number">12</div>
+                        <div class="impact-label">Communities</div>
+                    </div>
+                    <div class="impact-stat">
+                        <div class="impact-number">15</div>
+                        <div class="impact-label">Years of Service</div>
+                    </div>
+                </div>
             </section>
 
             <!-- Child Highlights -->
             <section class="card">
                 <h3><i class="fas fa-star card-icon"></i> Child of the Month</h3>
+                <div class="update-date">
+                    <i class="far fa-calendar"></i> Updated: December 2023
+                </div>
                 <div class="child-highlight">
                     <div class="child-image">
                         <i class="fas fa-user"></i>
@@ -453,6 +561,15 @@
                         <p>Maria joined our program three years ago when her family was struggling to make ends meet. Despite facing challenges, Maria has excelled in her studies and is now at the top of her class.</p>
                         <p>Her teacher says, "Maria is a bright, determined student with a heart of gold. She often helps her classmates who are struggling with their lessons."</p>
                         <p>Maria dreams of becoming a doctor one day so she can help others in her community.</p>
+                        
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--gray);">75% of Maria's education fund raised</div>
+                        
+                        <button class="share-btn" onclick="shareStory('Maria')">
+                            <i class="fas fa-share-alt"></i> Share Maria's Story
+                        </button>
                     </div>
                 </div>
             </section>
@@ -460,6 +577,9 @@
             <!-- Success Stories -->
             <section class="card">
                 <h3><i class="fas fa-book-open card-icon"></i> Stories of Transformation</h3>
+                <div class="update-date">
+                    <i class="far fa-calendar"></i> Recent Updates
+                </div>
                 <div class="grid grid-2">
                     <!-- Story 1 -->
                     <div class="story-card">
@@ -469,6 +589,9 @@
                         </div>
                         <p>David joined our program five years ago when he lost both parents. Through the support of partners like you, he not only completed his education but is now enrolled in a vocational training program for automotive repair.</p>
                         <p>"Without KCMC Partners, I don't know where I would be today. They gave me hope and a future," David shares.</p>
+                        <button class="share-btn" onclick="shareStory('David')">
+                            <i class="fas fa-share-alt"></i> Share This Story
+                        </button>
                     </div>
 
                     <!-- Story 2 -->
@@ -479,6 +602,9 @@
                         </div>
                         <p>When Ana's family home was destroyed in a typhoon, KCMC Partners provided emergency shelter and helped rebuild their lives. Today, Ana's family has a safe home, and she is thriving in school.</p>
                         <p>"We lost everything, but we found hope through this ministry. They stood with us in our darkest hour," says Ana's mother.</p>
+                        <button class="share-btn" onclick="shareStory('Ana')">
+                            <i class="fas fa-share-alt"></i> Share This Story
+                        </button>
                     </div>
                 </div>
             </section>
@@ -486,6 +612,9 @@
             <!-- Testimonies -->
             <section class="card">
                 <h3><i class="fas fa-quote-left card-icon"></i> Partner Testimonies</h3>
+                <div class="update-date">
+                    <i class="far fa-calendar"></i> Recent Testimonials
+                </div>
                 <div class="grid grid-3">
                     <div class="testimony-card">
                         <div class="testimony-avatar">
@@ -519,6 +648,18 @@
                         <div class="testimony-name">Emily Rodriguez</div>
                         <div class="testimony-details">Partner since 2019</div>
                     </div>
+                </div>
+            </section>
+
+            <!-- Newsletter Signup -->
+            <section class="card" style="text-align: center; background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white;">
+                <h3>Stay Connected</h3>
+                <p style="margin-bottom: 1.5rem;">Get monthly updates delivered directly to your inbox</p>
+                <div style="display: flex; gap: 10px; flex-direction: column;">
+                    <input type="email" placeholder="Your email address" style="padding: 12px; border-radius: var(--radius); border: none; font-size: 1rem;">
+                    <button class="btn" style="background: white; color: var(--dark); border: none; padding: 12px 20px; border-radius: var(--radius); font-weight: 600; cursor: pointer;">
+                        Subscribe to Updates
+                    </button>
                 </div>
             </section>
         </div>
@@ -565,6 +706,16 @@
                     if (entry.isIntersecting) {
                         entry.target.style.opacity = '1';
                         entry.target.style.transform = 'translateY(0)';
+                        
+                        // Animate progress bars
+                        const progressBars = entry.target.querySelectorAll('.progress-fill');
+                        progressBars.forEach(bar => {
+                            const width = bar.style.width;
+                            bar.style.width = '0%';
+                            setTimeout(() => {
+                                bar.style.width = width;
+                            }, 300);
+                        });
                     }
                 });
             }, observerOptions);
@@ -577,6 +728,63 @@
                 card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
                 observer.observe(card);
             });
+
+            // Animate impact numbers
+            const impactNumbers = document.querySelectorAll('.impact-number');
+            impactNumbers.forEach(number => {
+                const target = parseInt(number.textContent);
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        number.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        number.textContent = Math.floor(current);
+                    }
+                }, 30);
+            });
+        });
+
+        // Share story function
+        function shareStory(childName) {
+            if (navigator.share) {
+                navigator.share({
+                    title: `${childName}'s Story - KCMC Partners`,
+                    text: `Read about ${childName}'s inspiring journey with KCMC Partners`,
+                    url: window.location.href,
+                })
+                .then(() => console.log('Successful share'))
+                .catch((error) => console.log('Error sharing:', error));
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                alert(`Share ${childName}'s story with your friends and family!`);
+            }
+        }
+
+        // Newsletter subscription
+        document.addEventListener('DOMContentLoaded', function() {
+            const subscribeBtn = document.querySelector('.btn');
+            const emailInput = document.querySelector('input[type="email"]');
+            
+            if (subscribeBtn && emailInput) {
+                subscribeBtn.addEventListener('click', function() {
+                    const email = emailInput.value;
+                    if (email && validateEmail(email)) {
+                        // In a real app, you would send this to your server
+                        alert('Thank you for subscribing to our updates!');
+                        emailInput.value = '';
+                    } else {
+                        alert('Please enter a valid email address.');
+                    }
+                });
+            }
+            
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
         });
     </script>
 </body>
