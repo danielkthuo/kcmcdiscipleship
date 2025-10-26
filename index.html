@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kingdom Covenant Ministries Church - Discipleship Programs</title>
     
     <!-- PWA Meta Tags -->
@@ -21,12 +21,6 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
 
-    <!-- Preload important resources -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax.googleapis.com">
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -48,7 +42,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
         
         body {
@@ -56,106 +50,230 @@
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
+            padding-bottom: 70px; /* Space for bottom nav */
         }
         
-        .navbar {
-            background-color: rgba(43, 103, 119, 0.95);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        .container {
+            width: 100%;
+            padding: 0 15px;
+            max-width: 100%;
         }
-        
-        .navbar-brand, .nav-link {
-            color: white !important;
-            font-weight: 600;
+
+        /* Header Styles */
+        header {
+            background: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 12px 0;
         }
-        
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+            color: var(--gold-color);
+        }
+
+        .logo h1 {
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .mobile-menu-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Mobile Navigation */
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
+            z-index: 99;
+            padding: 8px 0;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+        }
+
+        nav ul li a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-size: 0.75rem;
+            padding: 5px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        nav ul li a i {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+
+        nav ul li a.active {
+            color: var(--secondary-color);
+            background: rgba(142, 68, 173, 0.1);
+        }
+
+        /* Main Content */
+        main {
+            padding: 15px 0;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 20px 15px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+        }
+
+        .page-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .card-icon {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .grid-2 {
+            grid-template-columns: 1fr;
+        }
+
+        .grid-3 {
+            grid-template-columns: 1fr;
+        }
+
+        /* Hero Section */
         .hero-section {
             background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(142, 68, 173, 0.8)), 
                         url('https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
             color: white;
-            padding: 100px 0;
+            padding: 60px 20px;
             text-align: center;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
         }
-        
+
         .hero-section h1 {
-            font-size: 3.5rem;
+            font-size: 2rem;
             font-weight: 700;
             margin-bottom: 1rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
-        
+
         .hero-section p {
-            font-size: 1.3rem;
-            max-width: 700px;
+            font-size: 1.1rem;
             margin: 0 auto 2rem;
+            max-width: 600px;
         }
-        
+
         .btn-hero {
             background: linear-gradient(135deg, var(--gold-color), #e67e22);
             color: var(--primary-color);
             border: none;
             border-radius: 50px;
-            padding: 12px 35px;
+            padding: 12px 30px;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            display: inline-block;
         }
-        
+
         .btn-hero:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
-        
-        .section {
-            padding: 80px 0;
-        }
-        
-        .section-light {
-            background-color: white;
-        }
-        
-        .section-dark {
-            background-color: #f8f9fa;
-        }
-        
-        .section-title {
-            color: var(--primary-color);
-            font-weight: 700;
-            margin-bottom: 3rem;
-            text-align: center;
-            position: relative;
-        }
-        
-        .section-title:after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: var(--secondary-color);
-            margin: 15px auto;
-            border-radius: 2px;
-        }
-        
+
+        /* Feature Cards */
         .feature-card {
             background: white;
             border-radius: 10px;
-            padding: 30px;
+            padding: 25px;
             text-align: center;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
             height: 100%;
+            margin-bottom: 15px;
         }
-        
+
         .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
-        
+
         .feature-icon {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
             border-radius: 50%;
             display: flex;
@@ -163,182 +281,132 @@
             justify-content: center;
             margin: 0 auto 20px;
             color: white;
-            font-size: 2rem;
+            font-size: 1.8rem;
         }
-        
+
         .feature-card h3 {
             color: var(--primary-color);
             margin-bottom: 15px;
+            font-size: 1.2rem;
         }
-        
+
+        /* Program Cards */
+        .program-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 100%;
+            margin-bottom: 20px;
+        }
+
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .program-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .program-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .program-card p {
+            margin-bottom: 20px;
+        }
+
+        /* Scripture Box */
         .scripture-box {
             background: white;
             border-left: 5px solid var(--gold-color);
-            padding: 25px;
+            padding: 20px;
             border-radius: 5px;
-            margin: 30px 0;
+            margin: 20px 0;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
         }
-        
+
         .scripture-text {
             font-style: italic;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--primary-color);
             margin-bottom: 10px;
         }
-        
+
         .scripture-ref {
             text-align: right;
             color: var(--secondary-color);
             font-weight: 600;
         }
-        
+
+        /* Program Steps */
         .program-steps {
             counter-reset: step-counter;
             list-style-type: none;
             padding-left: 0;
         }
-        
+
         .program-steps li {
             position: relative;
-            padding: 20px 0 20px 80px;
+            padding: 20px 0 20px 70px;
             margin-bottom: 20px;
             border-bottom: 1px solid #eee;
         }
-        
+
         .program-steps li:before {
             counter-increment: step-counter;
             content: counter(step-counter);
             position: absolute;
             left: 0;
             top: 15px;
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
         }
-        
-        .cta-section {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 80px 0;
-            text-align: center;
-        }
-        
-        .cta-section h2 {
-            margin-bottom: 2rem;
-        }
-        
-        .footer {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 40px 0;
-            text-align: center;
-        }
-        
-        .footer-links a {
-            color: var(--light-color);
-            margin: 0 15px;
-            text-decoration: none;
-        }
-        
-        .footer-links a:hover {
-            color: var(--gold-color);
-        }
-        
-        .logo {
-            width: 60px;
-            height: 60px;
-            background: var(--gold-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-        
-        /* Program Cards */
-        .program-card {
-            background: white;
-            border-radius: var(--radius);
-            padding: 30px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            height: 100%;
-            margin-bottom: 30px;
-        }
-        
-        .program-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-        
-        .program-icon {
-            font-size: 3rem;
-            color: var(--secondary-color);
-            margin-bottom: 20px;
-        }
-        
-        .program-card h3 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-        
-        .program-card p {
-            margin-bottom: 20px;
-        }
-        
+
         /* Testimonial Section */
-        .testimonial-section {
-            margin-top: 40px;
-        }
-        
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-        
         .testimonial-card {
             background: white;
             border-radius: var(--radius);
-            padding: 25px;
+            padding: 20px;
             border: 1px solid rgba(0, 0, 0, 0.1);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 15px;
         }
-        
+
         .testimonial-text {
             font-style: italic;
             margin-bottom: 15px;
             line-height: 1.5;
         }
-        
+
         .testimonial-author {
             font-weight: 600;
             text-align: right;
             color: var(--secondary-color);
         }
-        
+
         /* FAQ Section */
-        .faq-section {
-            margin-top: 40px;
-        }
-        
         .faq-item {
             margin-bottom: 15px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             padding-bottom: 15px;
         }
-        
+
         .faq-question {
             font-weight: 600;
             margin-bottom: 8px;
@@ -347,155 +415,286 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .faq-answer {
             display: none;
             padding-top: 10px;
         }
-        
+
         .faq-item.active .faq-answer {
             display: block;
         }
-        
-        /* Animations */
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: var(--radius);
+            margin: 30px 0;
         }
-        
-        .fade-in {
-            animation: fadeIn 0.8s ease-in;
+
+        .cta-section h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
         }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 30px;
         }
-        
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-logo {
+            width: 50px;
+            height: 50px;
+            background: var(--gold-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.3rem;
+            color: var(--primary-color);
+        }
+
         /* Install Button */
         #installButton {
             display: none;
-            margin-top: 20px;
+            margin-top: 15px;
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
-        
-        @media (max-width: 768px) {
+
+        /* Core Values */
+        .core-values {
+            display: grid;
+            gap: 15px;
+        }
+
+        .value-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .value-item i {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            margin-top: 3px;
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .grid-3 {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+            
+            .hero-section {
+                padding: 80px 20px;
+            }
+            
             .hero-section h1 {
                 font-size: 2.5rem;
             }
             
+            .core-values {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            nav {
+                position: static;
+                background: none;
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            nav ul {
+                justify-content: flex-start;
+                gap: 20px;
+            }
+            
+            nav ul li a {
+                flex-direction: row;
+                font-size: 1rem;
+                padding: 8px 15px;
+            }
+            
+            nav ul li a i {
+                margin-bottom: 0;
+                margin-right: 8px;
+            }
+            
+            body {
+                padding-bottom: 0;
+            }
+            
+            .mobile-menu-toggle {
+                display: none;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            .hero-section h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section {
+                padding: 40px 15px;
+            }
+            
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+            
             .hero-section p {
-                font-size: 1.1rem;
+                font-size: 1rem;
+            }
+            
+            .card {
+                padding: 15px;
             }
             
             .program-steps li {
-                padding-left: 70px;
+                padding-left: 60px;
             }
             
-            .testimonial-grid {
-                grid-template-columns: 1fr;
+            .program-steps li:before {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
             }
+        }
+
+        /* Animation for cards */
+        .card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <!-- Header -->
+    <header>
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="icons/logo.png" alt="Church Logo" style="height: 45px;">
-                <h5>Kingdom Covenant Ministries Church</h5>
-            </a>
-  
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#programs">Programs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#features">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#steps">How It Works</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#testimonials">Testimonials</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-hero ms-2" href="partners/index.html">Partners</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="logo">
-                <i class="fas fa-church"></i>
-            </div>
-            <h1>Kingdom Covenant Ministries Church</h1>
-            <p>Guiding believers to walk in the light of God's truth and grow in their relationship with Jesus Christ</p>
-            <a href="login.html" class="btn btn-hero">Access Member Portal</a>
-            <button id="installButton" class="btn btn-success" style="display: none;">
-                <i class="fas fa-download me-2"></i>Install App
-            </button>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="section section-light">
-        <div class="container">
-            <h2 class="section-title">About Our Discipleship Programs</h2>
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <p class="lead text-center">
-                        At Kingdom Covenant Ministries, we believe in nurturing spiritual growth at every stage of life. Our discipleship programs are designed to help believers grow in their relationship with Jesus Christ by walking in the light of His truth.
-                    </p>
-                    
-                    <div class="scripture-box">
-                        <p class="scripture-text">"Your word is a lamp to my feet and a light to my path."</p>
-                        <p class="scripture-ref">Psalm 119:105</p>
-                    </div>
-                    
-                    <p>
-                        Our programs guide you step by step to understand who Jesus is, what it means to follow Him, and how to live a life that honors God. Through our discipleship journeys, you will learn important truths from the Bible, enrich your prayer life, discover your identity in Christ, grow in God's character, and serve others with your gifts.
-                    </p>
-                    
-                    <p>
-                        Whether you're beginning your faith journey or seeking to deepen your walk with God, our programs provide the structure, community, and biblical foundation needed for spiritual growth and transformation.
-                    </p>
-                    
-                    <p class="text-center mt-4">
-                        <strong>LIT TO LEAD. ROOTED TO GROW.</strong>
-                    </p>
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🕊️</div>
+                    <h1>KCMC</h1>
                 </div>
+                <button class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
-    </section>
+    </header>
 
-    <!-- Programs Section -->
-    <section id="programs" class="section section-dark">
+    <!-- Main Content -->
+    <main>
         <div class="container">
-            <h2 class="section-title">Our Discipleship Programs</h2>
-            <div class="row">
-                <div class="col-md-6">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="footer-logo">
+                    <i class="fas fa-church"></i>
+                </div>
+                <h1>Kingdom Covenant Ministries Church</h1>
+                <p>Guiding believers to walk in the light of God's truth and grow in their relationship with Jesus Christ</p>
+                <a href="login.html" class="btn-hero">Access Member Portal</a>
+                <button id="installButton" class="btn-hero">
+                    <i class="fas fa-download"></i> Install App
+                </button>
+            </section>
+
+            <!-- About Section -->
+            <section class="card">
+                <h2 class="section-title">About Our Discipleship Programs</h2>
+                <p class="lead text-center">
+                    At Kingdom Covenant Ministries, we believe in nurturing spiritual growth at every stage of life. Our discipleship programs are designed to help believers grow in their relationship with Jesus Christ by walking in the light of His truth.
+                </p>
+                
+                <div class="scripture-box">
+                    <p class="scripture-text">"Your word is a lamp to my feet and a light to my path."</p>
+                    <p class="scripture-ref">Psalm 119:105</p>
+                </div>
+                
+                <p>
+                    Our programs guide you step by step to understand who Jesus is, what it means to follow Him, and how to live a life that honors God. Through our discipleship journeys, you will learn important truths from the Bible, enrich your prayer life, discover your identity in Christ, grow in God's character, and serve others with your gifts.
+                </p>
+                
+                <p>
+                    Whether you're beginning your faith journey or seeking to deepen your walk with God, our programs provide the structure, community, and biblical foundation needed for spiritual growth and transformation.
+                </p>
+                
+                <p class="text-center" style="margin-top: 1.5rem;">
+                    <strong>LIT TO LEAD. ROOTED TO GROW.</strong>
+                </p>
+            </section>
+
+            <!-- Programs Section -->
+            <section class="card">
+                <h2 class="section-title">Our Discipleship Programs</h2>
+                <div class="grid grid-2">
                     <div class="program-card">
                         <div class="program-icon">
                             <i class="fas fa-users"></i>
@@ -506,10 +705,9 @@
                             <p><strong>Ages:</strong> 13-18</p>
                             <p><strong>Duration:</strong> 12 months</p>
                         </div>
-                        <a href="#pathlight" class="btn btn-hero">Learn More</a>
+                        <a href="#pathlight" class="btn-hero">Learn More</a>
                     </div>
-                </div>
-                <div class="col-md-6">
+                    
                     <div class="program-card">
                         <div class="program-icon">
                             <i class="fas fa-baby"></i>
@@ -520,80 +718,68 @@
                             <p><strong>Ages:</strong> Prenatal to 2 years</p>
                             <p><strong>Duration:</strong> 24 months</p>
                         </div>
-                        <a href="#womb-to-worship" class="btn btn-hero">Learn More</a>
+                        <a href="#womb-to-worship" class="btn-hero">Learn More</a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- PathLight Program Details -->
-    <section id="pathlight" class="section section-light">
-        <div class="container">
-            <h2 class="section-title">PathLight Discipleship Program</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <h3>Our Mission</h3>
-                    <p>To see children & youths come to know Christ and be Biblically discipled; to consistently grow in Christ and become fulfilled Christian adults.</p>
-                    <p><em>"Train up a child in the way he should go and when he is old, he will not depart from it." - Proverbs 22:6</em></p>
+            <!-- PathLight Program Details -->
+            <section id="pathlight" class="card">
+                <h2 class="section-title">PathLight Discipleship Program</h2>
+                <div class="grid grid-2">
+                    <div>
+                        <h3>Our Mission</h3>
+                        <p>To see children & youths come to know Christ and be Biblically discipled; to consistently grow in Christ and become fulfilled Christian adults.</p>
+                        <p><em>"Train up a child in the way he should go and when he is old, he will not depart from it." - Proverbs 22:6</em></p>
+                    </div>
+                    <div>
+                        <h3>Our Vision</h3>
+                        <p>To reach into the lives of children & youth in our church and community with the Good News, portray the love of Christ, and teach them the Word of God.</p>
+                        <p>We count it a privilege and responsibility to reach and teach these little ones for Him.</p>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <h3>Our Vision</h3>
-                    <p>To reach into the lives of children & youth in our church and community with the Good News, portray the love of Christ, and teach them the Word of God.</p>
-                    <p>We count it a privilege and responsibility to reach and teach these little ones for Him.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Womb to Worship Program Details -->
-    <section id="womb-to-worship" class="section section-dark">
-        <div class="container">
-            <h2 class="section-title">Womb to Worship Program</h2>
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h3 class="text-center mb-4">Nurturing Your Child's Spiritual Journey From the Very Beginning</h3>
-                    <p class="text-center mb-4">
-                        Transform your pregnancy and early parenting journey into a sacred experience.
-                        Our biblically-based curriculum helps you create a God-centered environment 
-                        that shapes your child's spiritual foundation even before birth.
+            <!-- Womb to Worship Program Details -->
+            <section id="womb-to-worship" class="card">
+                <h2 class="section-title">Womb to Worship Program</h2>
+                <h3 class="text-center" style="margin-bottom: 1.5rem;">Nurturing Your Child's Spiritual Journey From the Very Beginning</h3>
+                <p class="text-center" style="margin-bottom: 1.5rem;">
+                    Transform your pregnancy and early parenting journey into a sacred experience.
+                    Our biblically-based curriculum helps you create a God-centered environment 
+                    that shapes your child's spiritual foundation even before birth.
+                </p>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <h4>VISION</h4>
+                    <p>
+                        To help parents spiritually nurture their child from pregnancy/birth to age 2 by establishing 
+                        faith habits, developing godly character, and building deep spiritual relationships during 
+                        early childhood — our critical formative period for life.
                     </p>
-                    
-                    <div class="vision-purpose-section">
-                        <h4 class="section-subtitle">VISION</h4>
-                        <p>
-                            To help parents spiritually nurture their child from pregnancy/birth to age 2 by establishing 
-                            faith habits, developing godly character, and building deep spiritual relationships during 
-                            early childhood — our critical formative period for life.
-                        </p>
-                    </div>
-
-                    <div class="vision-purpose-section">
-                        <h4 class="section-subtitle">PROGRAM PURPOSE</h4>
-                        <p>
-                            We believe that parents, caregivers, and ministry leaders should understand that discipleship 
-                            is a journey starting before birth. Through monthly spiritual prompting, practical tools, and 
-                            age-appropriate faith activities, this two-year journey will prepare families to:
-                        </p>
-                        <ol class="purpose-list">
-                            <li>Speak God's Word and blessing over their unborn/newborn children.</li>
-                            <li>Introduce spiritual rhythms and Biblical values as habits from day one.</li>
-                            <li>Create a Christ-centered environment in the home.</li>
-                            <li>Refer to parenting as an intentional effort to model godly behavior and love through consistency.</li>
-                            <li>Recognize that young children can still experience the love, peace, and presence of God — even before they can talk.</li>
-                        </ol>
-                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Features Section -->
-    <section id="features" class="section section-light">
-        <div class="container">
-            <h2 class="section-title">Program Features</h2>
-            <div class="row">
-                <div class="col-md-4 mb-4">
+                <div>
+                    <h4>PROGRAM PURPOSE</h4>
+                    <p>
+                        We believe that parents, caregivers, and ministry leaders should understand that discipleship 
+                        is a journey starting before birth. Through monthly spiritual prompting, practical tools, and 
+                        age-appropriate faith activities, this two-year journey will prepare families to:
+                    </p>
+                    <ol style="padding-left: 1.5rem; margin-top: 1rem;">
+                        <li>Speak God's Word and blessing over their unborn/newborn children.</li>
+                        <li>Introduce spiritual rhythms and Biblical values as habits from day one.</li>
+                        <li>Create a Christ-centered environment in the home.</li>
+                        <li>Refer to parenting as an intentional effort to model godly behavior and love through consistency.</li>
+                        <li>Recognize that young children can still experience the love, peace, and presence of God — even before they can talk.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="card">
+                <h2 class="section-title">Program Features</h2>
+                <div class="grid grid-3">
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-bible"></i>
@@ -601,8 +787,6 @@
                         <h3>Biblical Foundation</h3>
                         <p>Deep dive into Scripture with guided studies that help you understand and apply God's Word to your daily life.</p>
                     </div>
-                </div>
-                <div class="col-md-4 mb-4">
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-hands-praying"></i>
@@ -610,8 +794,6 @@
                         <h3>Prayer Development</h3>
                         <p>Learn to cultivate a rich prayer life that transforms your relationship with God and impacts those around you.</p>
                     </div>
-                </div>
-                <div class="col-md-4 mb-4">
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-people-group"></i>
@@ -619,8 +801,6 @@
                         <h3>Community Focus</h3>
                         <p>Join a supportive community of believers who encourage one another in spiritual growth and accountability.</p>
                     </div>
-                </div>
-                <div class="col-md-4 mb-4">
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-person-praying"></i>
@@ -628,8 +808,6 @@
                         <h3>Identity in Christ</h3>
                         <p>Discover who you are in Jesus and how to live out your God-given purpose with confidence and clarity.</p>
                     </div>
-                </div>
-                <div class="col-md-4 mb-4">
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-seedling"></i>
@@ -637,8 +815,6 @@
                         <h3>Character Growth</h3>
                         <p>Develop Christ-like character through practical application of biblical principles in everyday situations.</p>
                     </div>
-                </div>
-                <div class="col-md-4 mb-4">
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-hands-holding"></i>
@@ -647,292 +823,230 @@
                         <p>Identify your spiritual gifts and learn how to serve effectively in the church and your community.</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- How It Works -->
-    <section id="steps" class="section section-dark">
-        <div class="container">
-            <h2 class="section-title">How Our Programs Work</h2>
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <ol class="program-steps">
-                        <li>
-                            <h4>Register for the Program</h4>
-                            <p>Create your account through our secure member portal to begin your discipleship journey.</p>
-                        </li>
-                        <li>
-                            <h4>Complete Weekly Modules</h4>
-                            <p>Engage with biblically-rich content designed to build your faith step by step.</p>
-                        </li>
-                        <li>
-                            <h4>Join Small Group Sessions</h4>
-                            <p>Participate in weekly gatherings for discussion, prayer, and mutual encouragement.</p>
-                        </li>
-                        <li>
-                            <h4>Apply What You Learn</h4>
-                            <p>Put your faith into action through practical assignments and service opportunities.</p>
-                        </li>
-                        <li>
-                            <h4>Grow in Leadership</h4>
-                            <p>As you mature in faith, opportunities to mentor others will become available.</p>
-                        </li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </section>
+            <!-- How It Works -->
+            <section class="card">
+                <h2 class="section-title">How Our Programs Work</h2>
+                <ol class="program-steps">
+                    <li>
+                        <h4>Register for the Program</h4>
+                        <p>Create your account through our secure member portal to begin your discipleship journey.</p>
+                    </li>
+                    <li>
+                        <h4>Complete Weekly Modules</h4>
+                        <p>Engage with biblically-rich content designed to build your faith step by step.</p>
+                    </li>
+                    <li>
+                        <h4>Join Small Group Sessions</h4>
+                        <p>Participate in weekly gatherings for discussion, prayer, and mutual encouragement.</p>
+                    </li>
+                    <li>
+                        <h4>Apply What You Learn</h4>
+                        <p>Put your faith into action through practical assignments and service opportunities.</p>
+                    </li>
+                    <li>
+                        <h4>Grow in Leadership</h4>
+                        <p>As you mature in faith, opportunities to mentor others will become available.</p>
+                    </li>
+                </ol>
+            </section>
 
-    <!-- Core Values -->
-    <section class="section section-light">
-        <div class="container">
-            <h2 class="section-title">Children & Youth Ministry Core Values</h2>
-            <div class="row">
-                <div class="col-md-10 mx-auto">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <ul class="list-unstyled">
-                                <li class="mb-3"><strong><i class="fas fa-cross text-secondary me-2"></i>CHRIST-CENTERED:</strong> Promoting a Christ-centered focus in a "me-centered" culture.</li>
-                                <li class="mb-3"><strong><i class="fas fa-heart text-secondary me-2"></i>LOVE:</strong> Valuing each person and encouraging mutual respect and love.</li>
-                                <li class="mb-3"><strong><i class="fas fa-hand-holding-heart text-secondary me-2"></i>SERVING OTHERS:</strong> Encouraging service in families, schools, church, and community.</li>
-                                <li class="mb-3"><strong><i class="fas fa-book-bible text-secondary me-2"></i>SCRIPTURE:</strong> Providing a solid Biblical foundation and teaching deep engagement with God's Word.</li>
-                            </ul>
+            <!-- Core Values -->
+            <section class="card">
+                <h2 class="section-title">Children & Youth Ministry Core Values</h2>
+                <div class="core-values">
+                    <div class="value-item">
+                        <i class="fas fa-cross"></i>
+                        <div>
+                            <strong>CHRIST-CENTERED:</strong> Promoting a Christ-centered focus in a "me-centered" culture.
                         </div>
-                        <div class="col-md-6">
-                            <ul class="list-unstyled">
-                                <li class="mb-3"><strong><i class="fas fa-pray text-secondary me-2"></i>PRAYER:</strong> Teaching and modeling prayer to help people know, trust, and serve Jesus.</li>
-                                <li class="mb-3"><strong><i class="fas fa-award text-secondary me-2"></i>EXCELLENCE:</strong> Striving for excellence in all things for the glory of God.</li>
-                                <li class="mb-3"><strong><i class="fas fa-globe text-secondary me-2"></i>THE MISSION:</strong> Inspiring people to make disciples by praying for and sharing Jesus with others.</li>
-                            </ul>
+                    </div>
+                    <div class="value-item">
+                        <i class="fas fa-heart"></i>
+                        <div>
+                            <strong>LOVE:</strong> Valuing each person and encouraging mutual respect and love.
+                        </div>
+                    </div>
+                    <div class="value-item">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        <div>
+                            <strong>SERVING OTHERS:</strong> Encouraging service in families, schools, church, and community.
+                        </div>
+                    </div>
+                    <div class="value-item">
+                        <i class="fas fa-book-bible"></i>
+                        <div>
+                            <strong>SCRIPTURE:</strong> Providing a solid Biblical foundation and teaching deep engagement with God's Word.
+                        </div>
+                    </div>
+                    <div class="value-item">
+                        <i class="fas fa-pray"></i>
+                        <div>
+                            <strong>PRAYER:</strong> Teaching and modeling prayer to help people know, trust, and serve Jesus.
+                        </div>
+                    </div>
+                    <div class="value-item">
+                        <i class="fas fa-award"></i>
+                        <div>
+                            <strong>EXCELLENCE:</strong> Striving for excellence in all things for the glory of God.
+                        </div>
+                    </div>
+                    <div class="value-item">
+                        <i class="fas fa-globe"></i>
+                        <div>
+                            <strong>THE MISSION:</strong> Inspiring people to make disciples by praying for and sharing Jesus with others.
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="section section-dark">
-        <div class="container">
-            <h2 class="section-title">Voices from KCMC Leadership</h2>
-            <div class="testimonial-grid">
-                <!-- Men's Ministry -->
-                <div class="testimonial-card">
-                    <p class="testimonial-text">
-                        "As men, we've embraced the call to lead our families in faith from the very beginning. 
-                        Our discipleship programs remind us that fatherhood is a ministry — to speak blessing, pray boldly, 
-                        and model godly leadership from conception onward."
-                    </p>
-                    <p class="testimonial-author">– KCMC Men's Fellowship Leader</p>
+            <!-- Testimonials Section -->
+            <section class="card">
+                <h2 class="section-title">Voices from KCMC Leadership</h2>
+                <div class="grid grid-3">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">
+                            "As men, we've embraced the call to lead our families in faith from the very beginning. 
+                            Our discipleship programs remind us that fatherhood is a ministry — to speak blessing, pray boldly, 
+                            and model godly leadership from conception onward."
+                        </p>
+                        <p class="testimonial-author">– KCMC Men's Fellowship Leader</p>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">
+                            "These programs have empowered our women to see pregnancy and motherhood as sacred assignments. 
+                            It's not just parenting — it's discipleship. We are raising a generation that knows God's love 
+                            before they even take their first breath."
+                        </p>
+                        <p class="testimonial-author">– KCMC Women's Ministry Chair</p>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">
+                            "Our youth have caught the vision — that discipleship begins early and legacy starts in the womb. 
+                            As future parents and mentors, they're learning to value spiritual foundations and intentional parenting 
+                            as part of their kingdom calling."
+                        </p>
+                        <p class="testimonial-author">– KCMC Youth Ministry Coordinator</p>
+                    </div>
                 </div>
+            </section>
 
-                <!-- Women's Ministry -->
-                <div class="testimonial-card">
-                    <p class="testimonial-text">
-                        "These programs have empowered our women to see pregnancy and motherhood as sacred assignments. 
-                        It's not just parenting — it's discipleship. We are raising a generation that knows God's love 
-                        before they even take their first breath."
-                    </p>
-                    <p class="testimonial-author">– KCMC Women's Ministry Chair</p>
-                </div>
-
-                <!-- Youth Ministry -->
-                <div class="testimonial-card">
-                    <p class="testimonial-text">
-                        "Our youth have caught the vision — that discipleship begins early and legacy starts in the womb. 
-                        As future parents and mentors, they're learning to value spiritual foundations and intentional parenting 
-                        as part of their kingdom calling."
-                    </p>
-                    <p class="testimonial-author">– KCMC Youth Ministry Coordinator</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="section section-light">
-        <div class="container">
-            <h2 class="section-title">Frequently Asked Questions</h2>
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <div class="faq-section">
-                        <div class="faq-item">
-                            <div class="faq-question">
-                                <span>When should I start the Womb to Worship curriculum?</span>
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                            <div class="faq-answer">
-                                <p>You can begin at any stage of pregnancy or after your child is born. The curriculum is designed to be flexible and adapt to your family's journey.</p>
-                            </div>
+            <!-- FAQ Section -->
+            <section class="card">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <div class="faq-section">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>When should I start the Womb to Worship curriculum?</span>
+                            <i class="fas fa-chevron-down"></i>
                         </div>
-                        
-                        <div class="faq-item">
-                            <div class="faq-question">
-                                <span>How much time does the program require each day?</span>
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                            <div class="faq-answer">
-                                <p>The activities are designed to fit into your daily routine, requiring just 10-15 minutes of focused time each day, with spiritual practices integrated throughout your day.</p>
-                            </div>
+                        <div class="faq-answer">
+                            <p>You can begin at any stage of pregnancy or after your child is born. The curriculum is designed to be flexible and adapt to your family's journey.</p>
                         </div>
-                        
-                        <div class="faq-item">
-                            <div class="faq-question">
-                                <span>Is this program only for first-time parents?</span>
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                            <div class="faq-answer">
-                                <p>Not at all! The curriculum is valuable for parents at any stage, whether you're expecting your first child or adding to your growing family.</p>
-                            </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>How much time does the program require each day?</span>
+                            <i class="fas fa-chevron-down"></i>
                         </div>
-                        
-                        <div class="faq-item">
-                            <div class="faq-question">
-                                <span>What age group is the PathLight program for?</span>
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                            <div class="faq-answer">
-                                <p>The PathLight program is designed for teens and youth aged 13-18, focusing on building a strong biblical foundation during these formative years.</p>
-                            </div>
+                        <div class="faq-answer">
+                            <p>The activities are designed to fit into your daily routine, requiring just 10-15 minutes of focused time each day, with spiritual practices integrated throughout your day.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Is this program only for first-time parents?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Not at all! The curriculum is valuable for parents at any stage, whether you're expecting your first child or adding to your growing family.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>What age group is the PathLight program for?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>The PathLight program is designed for teens and youth aged 13-18, focusing on building a strong biblical foundation during these formative years.</p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="container">
-            <h2>Ready to Begin Your Discipleship Journey?</h2>
-            <p class="lead mb-4">Join our discipleship programs today and start growing in your relationship with Christ.</p>
-            <a href="login.html" class="btn btn-hero">Login as Learner</a>
+            <!-- CTA Section -->
+            <section class="cta-section">
+                <h2>Ready to Begin Your Discipleship Journey?</h2>
+                <p style="margin-bottom: 1.5rem;">Join our discipleship programs today and start growing in your relationship with Christ.</p>
+                <a href="login.html" class="btn-hero">Login as Learner</a>
+            </section>
         </div>
-    </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="activities.html"><i class="fas fa-tasks"></i> Activities</a></li>
+            <li><a href="budget.html"><i class="fas fa-chart-pie"></i> Budget</a></li>
+            <li><a href="updates.html"><i class="fas fa-newspaper"></i> Updates</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </nav>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer>
         <div class="container">
-            <div class="logo">
-                <i class="fas fa-church"></i>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-church"></i>
+                </div>
+                <h3>Kingdom Covenant Ministries</h3>
+                <p style="margin-bottom: 1.5rem;">Lit to Lead. Rooted to Grow.</p>
+                
+                <div class="footer-links">
+                    <a href="#about">About</a>
+                    <a href="#programs">Programs</a>
+                    <a href="#features">Features</a>
+                    <a href="#steps">How It Works</a>
+                    <a href="#testimonials">Testimonials</a>
+                    <a href="login.html">Login</a>
+                </div>
+                
+                <p>&copy; 2025 Kingdom Covenant Ministries. All rights reserved.</p>
             </div>
-            <h3>Kingdom Covenant Ministries</h3>
-            <p class="mb-4">Lit to Lead. Rooted to Grow.</p>
-            
-            <div class="footer-links mb-4">
-                <a href="#about">About</a>
-                <a href="#programs">Programs</a>
-                <a href="#features">Features</a>
-                <a href="#steps">How It Works</a>
-                <a href="#testimonials">Testimonials</a>
-                <a href="login.html">Login</a>
-            </div>
-            
-            <p>&copy; 2025 Kingdom Covenant Ministries. All rights reserved.</p>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
- 
     <script>
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js')
-                .then(function(registration) {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    
-                    // Check for updates
-                    registration.addEventListener('updatefound', () => {
-                        const newWorker = registration.installing;
-                        console.log('New service worker found...');
-                        
-                        newWorker.addEventListener('statechange', () => {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                console.log('New content available; please refresh.');
-                                // You can show an update notification here
-                                showUpdateNotification();
-                            }
-                        });
-                    });
-                })
-                .catch(function(error) {
-                    console.log('ServiceWorker registration failed: ', error);
-                });
-            });
-        }
-
-        // Install Prompt Handling
-        let deferredPrompt;
-        const installButton = document.getElementById('installButton');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            
-            // Show install promotion (you can customize this)
-            if (installButton) {
-                installButton.style.display = 'block';
-                installButton.addEventListener('click', installApp);
-            } else {
-                // Auto-show install prompt after 30 seconds
-                setTimeout(showInstallPrompt, 30000);
-            }
-        });
-
-        function installApp() {
-            if (!deferredPrompt) return;
-            
-            deferredPrompt.prompt();
-            
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('User accepted the install prompt');
-                    if (installButton) installButton.style.display = 'none';
-                } else {
-                    console.log('User dismissed the install prompt');
-                }
-                deferredPrompt = null;
-            });
-        }
-
-        function showInstallPrompt() {
-            if (deferredPrompt && !isAppInstalled()) {
-                installApp();
-            }
-        }
-
-        function isAppInstalled() {
-            return window.matchMedia('(display-mode: standalone)').matches || 
-                    window.navigator.standalone ||
-                    document.referrer.includes('android-app://');
-        }
-
-        function showUpdateNotification() {
-            // You can show a custom update notification
-            const updateNotification = document.createElement('div');
-            updateNotification.innerHTML = `
-                <div style="position: fixed; top: 0; left: 0; right: 0; background: #3498db; color: white; padding: 10px; text-align: center; z-index: 10000;">
-                New version available! <button onclick="window.location.reload()" style="margin-left: 10px; padding: 5px 10px; background: white; border: none; border-radius: 3px;">Update</button>
-                </div>
-            `;
-            document.body.appendChild(updateNotification);
-        }
-
-        // Online/Offline detection
-        window.addEventListener('online', function() {
-            console.log('App is online');
-            // You can show a notification that connection is restored
-        });
-
-        window.addEventListener('offline', function() {
-            console.log('App is offline');
-            // You can show a notification that connection is lost
-        });
-
-        // FAQ functionality
+        // Initialize animations when page loads
         document.addEventListener('DOMContentLoaded', function() {
+            // Animate cards on scroll
+            const cards = document.querySelectorAll('.card');
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            cards.forEach(card => {
+                observer.observe(card);
+            });
+
+            // FAQ functionality
             const faqItems = document.querySelectorAll('.faq-item');
             
             faqItems.forEach(item => {
@@ -950,6 +1064,50 @@
                     item.classList.toggle('active');
                 });
             });
+
+            // Install Prompt Handling
+            let deferredPrompt;
+            const installButton = document.getElementById('installButton');
+
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                
+                // Show install promotion
+                if (installButton) {
+                    installButton.style.display = 'inline-block';
+                    installButton.addEventListener('click', installApp);
+                }
+            });
+
+            function installApp() {
+                if (!deferredPrompt) return;
+                
+                deferredPrompt.prompt();
+                
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                        if (installButton) installButton.style.display = 'none';
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+
+            // Service Worker Registration
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(function(error) {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+                });
+            }
         });
     </script>
 </body>
