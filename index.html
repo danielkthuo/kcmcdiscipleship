@@ -581,34 +581,35 @@
         <div class="container">
             <div class="logo">
                 <i class="fas fa-church"></i>
-                <a class="btn-hero-pulse" href="partners/index.html">Join Partners</a>
+                <a class="btn-hero-pulse" href="partners/index.html">Join Our Partners</a>
 <style>
-                .btn-hero-pulse {
+.btn-hero-pulse {
   display: inline-block;
-  background: #ee349a;
+  background: #3107e9;
   color: #fff;
-  padding: 12px 30px;
-  border-radius: 40px;
+  padding: 0.6em 1.4em; /* Uses relative units instead of fixed px */
+  border-radius: 2em;   /* Keeps pill shape */
   text-decoration: none;
   font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;  /* Keeps text on one line */
   animation: pulse 1.8s infinite;
-  box-shadow: 0 0 0 rgba(11,110,253, 0.7);
-  transition: transform 0.2s;
+  box-shadow: 0 0 0 rgba(224, 17, 17, 0.7);
+  transition: transform 0.2s, box-shadow 0.3s;
 }
+
 .btn-hero-pulse:hover {
   transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(49, 7, 233, 0.5);
 }
+
+/* Pulse animation */
 @keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(11,110,253, 0.6);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(11,110,253, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(11,110,253, 0);
-  }
+  0% { box-shadow: 0 0 0 0 rgba(49, 7, 233, 0.6); }
+  70% { box-shadow: 0 0 0 15px rgba(49, 7, 233, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(49, 7, 233, 0); }
 }
+
 </style>
             </div>
             <h3>KINGDOM COVENANT MINISTRIES CHURCH</h3>
@@ -848,7 +849,7 @@
     <!-- Core Values -->
     <section class="section section-light">
         <div class="container">
-            <h2 class="section-title">Children & Youth Ministry Core Values</h2>
+            <h2 class="section-title">KCMC Core Values</h2>
             <div class="row">
                 <div class="col-md-10 mx-auto">
                     <div class="row">
