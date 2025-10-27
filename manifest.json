@@ -1,13 +1,16 @@
 {
-  "name": "Discipleship",
-  "short_name": "KCMC ",
-  "description": "Discipleship Tool for Kingdom Covenant Ministries",
-  "start_url": "./index.html", 
+   "name": "KCMC Digital",
+  "short_name": "KCMC",
+  "description": "A Christ-centered discipleship and mentorship app by Kingdom Covenant Ministries — empowering children, parents, and mentors through faith, learning, and life skills.",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#8e44ad",
+  "theme_color": "#0b6efd",
   "orientation": "portrait",
-  "categories": ["religious", "spiritual"],
+  "categories": ["education", "religious", "spiritual", "nonprofit"],
+  "lang": "en",
+  "dir": "ltr",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
