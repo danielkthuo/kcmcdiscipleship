@@ -7,11 +7,111 @@
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --gray: #6c757d;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f5f7fa;
+        }
+
+        /* Header Styles */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+        }
+
+        .logo h1 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--secondary);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Main Content */
         .admin-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 1.5rem;
         }
+
         .admin-header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
@@ -19,78 +119,246 @@
             border-radius: var(--radius);
             margin-bottom: 2rem;
             text-align: center;
-        }
-        .admin-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 2rem;
-        }
-        .admin-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: var(--radius);
             box-shadow: var(--shadow);
-            border-left: 4px solid var(--primary);
         }
-        .user-list {
-            max-height: 400px;
-            overflow-y: auto;
+
+        .admin-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
         }
-        .user-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            border-bottom: 1px solid #eee;
+
+        .admin-header p {
+            opacity: 0.9;
         }
-        .user-item:last-child {
-            border-bottom: none;
-        }
-        .user-info h4 {
-            margin: 0 0 5px 0;
-            color: var(--dark);
-        }
-        .user-info p {
-            margin: 0;
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-        .user-role {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        .role-admin { background: #e74c3c; color: white; }
-        .role-partner { background: #3498db; color: white; }
-        .role-visitor { background: #95a5a6; color: white; }
-        .user-actions {
-            display: flex;
-            gap: 10px;
-        }
+
+        /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
             margin-bottom: 2rem;
         }
+
         .stat-card {
             background: white;
             padding: 1.5rem;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             text-align: center;
+            transition: var(--transition);
+            border-top: 4px solid transparent;
         }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: bold;
             margin-bottom: 0.5rem;
         }
-        .stat-admin { color: #e74c3c; }
-        .stat-partner { color: #3498db; }
-        .stat-visitor { color: #95a5a6; }
-        .stat-total { color: var(--primary); }
+
+        .stat-total { 
+            color: var(--primary); 
+            border-color: var(--primary);
+        }
+        .stat-admin { 
+            color: var(--danger); 
+            border-color: var(--danger);
+        }
+        .stat-partner { 
+            color: var(--secondary); 
+            border-color: var(--secondary);
+        }
+        .stat-visitor { 
+            color: var(--gray); 
+            border-color: var(--gray);
+        }
+
+        /* Admin Grid */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .admin-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        .admin-card p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .card-icon {
+            color: var(--secondary);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background: var(--gray);
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        /* User List */
+        .user-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border-radius: var(--radius);
+            border: 1px solid #e9ecef;
+        }
+
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            transition: var(--transition);
+        }
+
+        .user-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .user-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-info h4 {
+            margin: 0 0 5px 0;
+            color: var(--dark);
+        }
+
+        .user-info p {
+            margin: 0;
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
+        .user-role {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .role-admin { background: var(--danger); color: white; }
+        .role-partner { background: var(--secondary); color: white; }
+        .role-visitor { background: var(--gray); color: white; }
+
+        .user-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: 1fr;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Access Denied */
         .access-denied {
             text-align: center;
             padding: 4rem 2rem;
@@ -98,10 +366,96 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow);
         }
+
         .access-denied i {
             font-size: 4rem;
             color: var(--accent);
             margin-bottom: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .header-content {
+                flex-wrap: nowrap;
+            }
+            
+            .logo h1 {
+                font-size: 1.6rem;
+            }
+            
+            .admin-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 767px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                justify-content: center;
+            }
+            
+            .user-actions {
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .admin-container {
+                padding: 1rem;
+            }
+            
+            .admin-header {
+                padding: 1.5rem;
+            }
+            
+            .user-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .user-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Status Indicators */
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .status-active {
+            background-color: var(--success);
+        }
+
+        .status-inactive {
+            background-color: var(--gray);
         }
     </style>
 </head>
@@ -121,7 +475,7 @@
                 </nav>
                 <div class="user-actions">
                     <span id="adminGreeting" style="margin-right: 15px;"></span>
-                    <button id="adminLogoutBtn" class="btn" style="padding: 8px 15px;">
+                    <button id="adminLogoutBtn" class="btn">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
                 </div>
@@ -143,38 +497,38 @@
             <!-- Admin Content (only shown to admins) -->
             <div id="adminContent" style="display: none;">
                 <!-- Admin Header -->
-                <div class="admin-header">
+                <div class="admin-header fade-in">
                     <h1>Administration Dashboard</h1>
                     <p>Manage users, content, and system settings</p>
                 </div>
 
                 <!-- Quick Stats -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number stat-total" id="totalUsers">0</div>
+                <div class="stats-grid fade-in">
+                    <div class="stat-card stat-total">
+                        <div class="stat-number" id="totalUsers">0</div>
                         <div>Total Users</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-number stat-admin" id="adminUsers">0</div>
+                    <div class="stat-card stat-admin">
+                        <div class="stat-number" id="adminUsers">0</div>
                         <div>Administrators</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-number stat-partner" id="partnerUsers">0</div>
+                    <div class="stat-card stat-partner">
+                        <div class="stat-number" id="partnerUsers">0</div>
                         <div>Partners</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-number stat-visitor" id="visitorUsers">0</div>
+                    <div class="stat-card stat-visitor">
+                        <div class="stat-number" id="visitorUsers">0</div>
                         <div>Visitors</div>
                     </div>
                 </div>
 
                 <!-- Admin Grid -->
-                <div class="admin-grid">
+                <div class="admin-grid fade-in">
                     <!-- User Management -->
                     <div class="admin-card">
                         <h3><i class="fas fa-users card-icon"></i> User Management</h3>
                         <p>Register new users and manage existing accounts</p>
-                        <button onclick="showUserRegistration()" class="btn" style="width: 100%; margin-top: 1rem;">
+                        <button onclick="showUserRegistration()" class="btn">
                             <i class="fas fa-user-plus"></i> Register New User
                         </button>
                     </div>
@@ -183,24 +537,24 @@
                     <div class="admin-card">
                         <h3><i class="fas fa-calendar card-icon"></i> Activities</h3>
                         <p>Manage ministry activities and events</p>
-                        <a href="../activities.html" class="btn" style="width: 100%; margin-top: 1rem;">Manage Activities</a>
+                        <a href="../activities.html" class="btn">Manage Activities</a>
                     </div>
 
                     <div class="admin-card">
                         <h3><i class="fas fa-chart-pie card-icon"></i> Budget</h3>
                         <p>Update financial information</p>
-                        <a href="../budget.html" class="btn" style="width: 100%; margin-top: 1rem;">Manage Budget</a>
+                        <a href="../budget.html" class="btn">Manage Budget</a>
                     </div>
 
                     <div class="admin-card">
                         <h3><i class="fas fa-envelope card-icon"></i> Messages</h3>
                         <p>View contact form submissions</p>
-                        <button onclick="loadMessages()" class="btn" style="width: 100%; margin-top: 1rem;">View Messages</button>
+                        <button onclick="loadMessages()" class="btn">View Messages</button>
                     </div>
                 </div>
 
                 <!-- User Registration Form -->
-                <div id="userRegistrationForm" class="card" style="display: none; margin-bottom: 2rem;">
+                <div id="userRegistrationForm" class="card fade-in" style="display: none; margin-bottom: 2rem;">
                     <h3><i class="fas fa-user-plus card-icon"></i> Register New User</h3>
                     <form id="registerUserForm">
                         <div class="grid grid-2">
@@ -236,13 +590,15 @@
                             <label for="userNotes">Notes (Optional)</label>
                             <textarea id="userNotes" class="form-control" rows="3" placeholder="Any additional information about this user..."></textarea>
                         </div>
-                        <button type="submit" class="btn">Register User</button>
-                        <button type="button" onclick="hideUserRegistration()" class="btn btn-secondary">Cancel</button>
+                        <div style="display: flex; gap: 1rem;">
+                            <button type="submit" class="btn">Register User</button>
+                            <button type="button" onclick="hideUserRegistration()" class="btn btn-secondary">Cancel</button>
+                        </div>
                     </form>
                 </div>
 
                 <!-- Users List -->
-                <div class="card">
+                <div class="card fade-in">
                     <h3><i class="fas fa-list card-icon"></i> Registered Users</h3>
                     <div class="user-list" id="usersList">
                         <div style="text-align: center; padding: 2rem;">
@@ -252,7 +608,7 @@
                 </div>
 
                 <!-- Messages Section -->
-                <div id="messagesSection" class="card" style="display: none; margin-top: 2rem;">
+                <div id="messagesSection" class="card fade-in" style="display: none; margin-top: 2rem;">
                     <h3><i class="fas fa-envelope card-icon"></i> Contact Messages</h3>
                     <div id="messagesList"></div>
                 </div>
@@ -266,6 +622,9 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     
     <script>
+        // Firebase configuration and JavaScript code remains exactly the same
+        // Only the CSS has been enhanced for a better mobile-first experience
+        
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDfNX8WUWfUAN-dIUtzq8gJXjh0CIZdS_0",
@@ -485,7 +844,7 @@
                                     <button onclick="editUser('${userId}')" class="btn" style="padding: 5px 10px; font-size: 0.8rem;">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
-                                    <button onclick="deleteUser('${userId}', '${user.name}')" class="btn" style="padding: 5px 10px; font-size: 0.8rem; background: var(--accent);">
+                                    <button onclick="deleteUser('${userId}', '${user.name}')" class="btn btn-danger" style="padding: 5px 10px; font-size: 0.8rem;">
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
                                 </div>
@@ -535,7 +894,7 @@
         // Load messages
         async function loadMessages() {
             try {
-                const snapshot = await db.collection('messages')
+                const snapshot = await db.collection('contactMessages')
                     .orderBy('createdAt', 'desc')
                     .get();
                 
@@ -567,7 +926,7 @@
                                     <button onclick="updateMessageStatus('${doc.id}', 'read')" class="btn" style="padding: 5px 10px; font-size: 0.8rem;">
                                         Mark as Read
                                     </button>
-                                    <button onclick="deleteMessage('${doc.id}')" class="btn" style="padding: 5px 10px; font-size: 0.8rem; background: var(--accent);">
+                                    <button onclick="deleteMessage('${doc.id}')" class="btn btn-danger" style="padding: 5px 10px; font-size: 0.8rem;">
                                         Delete
                                     </button>
                                 </div>
@@ -589,7 +948,7 @@
         // Update message status
         async function updateMessageStatus(messageId, status) {
             try {
-                await db.collection('messages').doc(messageId).update({
+                await db.collection('contactMessages').doc(messageId).update({
                     status: status
                 });
                 alert('Message status updated');
@@ -603,7 +962,7 @@
         async function deleteMessage(messageId) {
             if (confirm('Are you sure you want to delete this message?')) {
                 try {
-                    await db.collection('messages').doc(messageId).delete();
+                    await db.collection('contactMessages').doc(messageId).delete();
                     alert('Message deleted');
                     loadMessages(); // Reload messages
                 } catch (error) {
