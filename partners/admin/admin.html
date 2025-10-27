@@ -548,8 +548,8 @@
   ">
     <!-- Logo + Title -->
     <div style="display: flex; align-items: center; gap: 8px;">
-      <img src="icons/logo.png" alt="KCMC Logo" style="height: 32px; width: 32px; border-radius: 8px;">
-      <h1 style="font-size: 1rem; color: #222; margin: 0; font-weight: 600;">KCMC Admin</h1>
+      <img src="../icons/icon-192x192.png" alt="" style="height: 32px; width: 32px; border-radius: 8px;">
+      <h1 style="font-size: 1rem; color: #222; margin: 0; font-weight: 600;"> <a href="../index.html" style="text-decoration: none; color: #0b6efd; font-weight: 500;">Home</a></h1>
     </div>
 
     <!-- User Actions -->
@@ -780,7 +780,7 @@
         function showAdminContent(user, userData) {
             accessDenied.style.display = 'none';
             adminContent.style.display = 'block';
-            adminGreeting.textContent = `Welcome, ${userData.name || user.email.split('@')[0]}!`;
+            adminGreeting.textContent = `Hi, ${userData.name || user.email.split('@')[0]}!`;
             
             // Set admin flag
             localStorage.setItem('isAdmin', 'true');
