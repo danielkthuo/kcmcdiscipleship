@@ -54,6 +54,7 @@
         html {
             font-size: 16px;
             scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Account for fixed header */
         }
         
         body {
@@ -95,6 +96,10 @@
             background-color: rgba(43, 103, 119, 0.95);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 0.75rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
         }
         
         .navbar-brand {
@@ -112,6 +117,7 @@
             font-size: 1rem;
             margin: 0;
             color: white;
+            font-weight: 600;
         }
         
         /* Bottom Navigation */
@@ -121,11 +127,13 @@
             left: 0;
             right: 0;
             background: white;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.1);
             z-index: 1000;
             display: flex;
             justify-content: space-around;
             padding: 0.5rem 0;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
         }
         
         .bottom-nav-item {
@@ -139,10 +147,13 @@
             padding: 0.5rem;
             flex: 1;
             transition: var(--transition);
+            border-radius: 8px;
+            margin: 0 2px;
         }
         
         .bottom-nav-item.active {
             color: var(--secondary-color);
+            background: rgba(142, 68, 173, 0.1);
         }
         
         .bottom-nav-icon {
@@ -161,16 +172,34 @@
         
         /* Hero Section */
         .hero-section {
-            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(142, 68, 173, 0.8)), 
+            background: linear-gradient(rgba(44, 62, 80, 0.85), rgba(142, 68, 173, 0.85)), 
                         url('https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             color: white;
             padding: 4rem 0;
             text-align: center;
-            min-height: 80vh;
+            min-height: 85vh;
             display: flex;
             align-items: center;
+            position: relative;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.3) 100%);
+            pointer-events: none;
+        }
+        
+        .hero-section .container {
+            position: relative;
+            z-index: 1;
         }
         
         .hero-section h1 {
@@ -185,6 +214,7 @@
             max-width: 100%;
             margin: 0 auto 2rem;
             padding: 0 1rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
         
         .btn-hero {
@@ -200,6 +230,19 @@
             display: inline-block;
             text-decoration: none;
             width: auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
         }
         
         .btn-hero:hover {
@@ -207,9 +250,14 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
         
+        .btn-hero:hover::before {
+            left: 100%;
+        }
+        
         /* Sections */
         .section {
             padding: 3.5rem 0;
+            position: relative;
         }
         
         .section-light {
@@ -242,13 +290,32 @@
         /* Cards */
         .feature-card, .program-card {
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 1.5rem;
             text-align: center;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
             height: 100%;
             margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before, .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover::before, .program-card:hover::before {
+            transform: scaleX(1);
         }
         
         .feature-card:hover, .program-card:hover {
@@ -267,6 +334,7 @@
             margin: 0 auto 1.25rem;
             color: white;
             font-size: 1.75rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         
         .feature-card h3, .program-card h3 {
@@ -286,9 +354,22 @@
             background: white;
             border-left: 5px solid var(--gold-color);
             padding: 1.5rem;
-            border-radius: 5px;
+            border-radius: 8px;
             margin: 1.5rem 0;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .scripture-box::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 4rem;
+            color: rgba(241, 196, 15, 0.2);
+            font-family: Georgia, serif;
+            line-height: 1;
         }
         
         .scripture-text {
@@ -296,12 +377,16 @@
             font-size: 1.125rem;
             color: var(--primary-color);
             margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
         }
         
         .scripture-ref {
             text-align: right;
             color: var(--secondary-color);
             font-weight: 600;
+            position: relative;
+            z-index: 1;
         }
         
         /* Program Steps */
@@ -316,6 +401,13 @@
             padding: 1.25rem 0 1.25rem 4.5rem;
             margin-bottom: 1.25rem;
             border-bottom: 1px solid #eee;
+            transition: var(--transition);
+        }
+        
+        .program-steps li:hover {
+            background: rgba(142, 68, 173, 0.05);
+            border-radius: 8px;
+            padding-left: 5rem;
         }
         
         .program-steps li:before {
@@ -323,7 +415,7 @@
             content: counter(step-counter);
             position: absolute;
             left: 0;
-            top: 1rem;
+            top: 15px;
             width: 40px;
             height: 40px;
             background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
@@ -334,6 +426,7 @@
             justify-content: center;
             font-size: 1.25rem;
             font-weight: 700;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
         /* CTA Section */
@@ -342,6 +435,25 @@
             color: white;
             padding: 3.5rem 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+            pointer-events: none;
+        }
+        
+        .cta-section .container {
+            position: relative;
+            z-index: 1;
         }
         
         .cta-section h2 {
@@ -354,6 +466,17 @@
             color: white;
             padding: 2.5rem 0;
             text-align: center;
+            position: relative;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
         }
         
         .footer-links {
@@ -368,10 +491,14 @@
             color: var(--light-color);
             text-decoration: none;
             font-size: 0.9rem;
+            transition: var(--transition);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
         }
         
         .footer-links a:hover {
             color: var(--gold-color);
+            background: rgba(255, 255, 255, 0.1);
         }
         
         .logo {
@@ -385,6 +512,7 @@
             margin: 0 auto 1rem;
             font-size: 1.5rem;
             color: var(--primary-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         
         /* Testimonial Section */
@@ -400,12 +528,32 @@
             padding: 1.5rem;
             border: 1px solid rgba(0, 0, 0, 0.1);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 3rem;
+            color: rgba(142, 68, 173, 0.2);
+            font-family: Georgia, serif;
+            line-height: 1;
         }
         
         .testimonial-text {
             font-style: italic;
             margin-bottom: 1rem;
             line-height: 1.5;
+            position: relative;
+            z-index: 1;
         }
         
         .testimonial-author {
@@ -419,6 +567,11 @@
             margin-bottom: 1rem;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             padding-bottom: 1rem;
+            transition: var(--transition);
+        }
+        
+        .faq-item:hover {
+            border-color: var(--secondary-color);
         }
         
         .faq-question {
@@ -429,6 +582,11 @@
             justify-content: space-between;
             align-items: center;
             padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+        
+        .faq-question:hover {
+            color: var(--secondary-color);
         }
         
         .faq-answer {
@@ -438,6 +596,11 @@
         
         .faq-item.active .faq-answer {
             display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
         }
         
         /* Install Button */
@@ -580,137 +743,134 @@
     <section class="hero-section">
         <div class="container">
             <div class="logo">
-                
                 <i class="fas fa-church"></i>
+            </div>
+            <div>
+                <p>WELCOME</p>
+                <a class="btn-hero-pulse" href="partners/index.html">Join Our Partners</a>
+                <style>
+                .btn-hero-pulse {
+                  display: inline-block;
+                  background: #3107e9;
+                  color: #fff;
+                  padding: 0.6em 1.4em; /* Uses relative units instead of fixed px */
+                  border-radius: 2em;   /* Keeps pill shape */
+                  text-decoration: none;
+                  font-weight: 600;
+                  font-size: 1rem;
+                  white-space: nowrap;  /* Keeps text on one line */
+                  animation: pulse 1.8s infinite;
+                  box-shadow: 0 0 0 rgba(224, 17, 17, 0.7);
+                  transition: transform 0.2s, box-shadow 0.3s;
+                }
 
-                </div>
-<div>
-    <p>WELCOME</p>
-<a class="btn-hero-pulse" href="partners/index.html">Join Our Partners</a>
-<style>
-.btn-hero-pulse {
-  display: inline-block;
-  background: #3107e9;
-  color: #fff;
-  padding: 0.6em 1.4em; /* Uses relative units instead of fixed px */
-  border-radius: 2em;   /* Keeps pill shape */
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1rem;
-  white-space: nowrap;  /* Keeps text on one line */
-  animation: pulse 1.8s infinite;
-  box-shadow: 0 0 0 rgba(224, 17, 17, 0.7);
-  transition: transform 0.2s, box-shadow 0.3s;
-}
+                .btn-hero-pulse:hover {
+                  transform: scale(1.05);
+                  box-shadow: 0 0 20px rgba(226, 3, 96, 0.5);
+                }
 
-.btn-hero-pulse:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(226, 3, 96, 0.5);
-}
-
-/* Pulse animation */
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(45, 235, 55, 0.6); }
-  70% { box-shadow: 0 0 0 15px rgba(20, 226, 182, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(247, 7, 27, 0); }
-}
-
-</style>
+                /* Pulse animation */
+                @keyframes pulse {
+                  0% { box-shadow: 0 0 0 0 rgba(45, 235, 55, 0.6); }
+                  70% { box-shadow: 0 0 0 15px rgba(20, 226, 182, 0); }
+                  100% { box-shadow: 0 0 0 0 rgba(247, 7, 27, 0); }
+                }
+                </style>
             </div>
             <h3>KINGDOM COVENANT MINISTRIES CHURCH</h3>
-            <p>Vision:Building a global faith-driven community through discipleship and tranformative programs for Glory of God</p>
-            <a href="login.html" class="btn btn-hero">Access Dicipleship Portal</a>
-           <!-- ====== INSTALL PROMPT CODE FOR KCMC APP ====== -->
-<script>
-  const installPromo = document.createElement('div');
-  installPromo.id = 'installPromo';
-  installPromo.style.cssText = `
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #ffffff;
-    color: #2c3e50;
-    padding: 18px 20px;
-    border-radius: 14px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    border-left: 5px solid #0b6efd;
-    z-index: 2000;
-    max-width: 320px;
-    animation: slideUp 0.5s ease-out;
-    font-family: 'Segoe UI', Roboto, sans-serif;
-  `;
+            <p>Vision: Building a global faith-driven community through discipleship and transformative programs for Glory of God</p>
+            <a href="login.html" class="btn btn-hero">Access Discipleship Portal</a>
+            
+            <!-- ====== INSTALL PROMPT CODE FOR KCMC APP ====== -->
+            <script>
+              const installPromo = document.createElement('div');
+              installPromo.id = 'installPromo';
+              installPromo.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: #ffffff;
+                color: #2c3e50;
+                padding: 18px 20px;
+                border-radius: 14px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                border-left: 5px solid #0b6efd;
+                z-index: 2000;
+                max-width: 320px;
+                animation: slideUp 0.5s ease-out;
+                font-family: 'Segoe UI', Roboto, sans-serif;
+              `;
 
-  installPromo.innerHTML = `
-    <div style="display: flex; align-items: flex-start; gap: 10px;">
-      <i class="fas fa-download" style="color: #0b6efd; font-size: 1.4rem; margin-top: 2px;"></i>
-      <div>
-        <p style="margin: 0 0 10px 0; font-size: 0.95rem; line-height: 1.4;">
-          <strong>Install KCMC App</strong><br>
-          Access mentorship, life skills, and discipleship tools anytime.
-        </p>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <button id="installButton" onclick="installApp()" style="background: #0b6efd; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; cursor: pointer;">
-            Install Now
-          </button>
-          <button onclick="this.closest('#installPromo').remove()" style="background: transparent; border: none; color: #555; font-size: 0.85rem; cursor: pointer;">
-            Not now
-          </button>
-        </div>
-      </div>
-    </div>
-  `;
+              installPromo.innerHTML = `
+                <div style="display: flex; align-items: flex-start; gap: 10px;">
+                  <i class="fas fa-download" style="color: #0b6efd; font-size: 1.4rem; margin-top: 2px;"></i>
+                  <div>
+                    <p style="margin: 0 0 10px 0; font-size: 0.95rem; line-height: 1.4;">
+                      <strong>Install KCMC App</strong><br>
+                      Access Partners and discipleship tools anytime.
+                    </p>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                      <button id="installButton" onclick="installApp()" style="background: #0b6efd; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; cursor: pointer;">
+                        Install Now
+                      </button>
+                      <button onclick="this.closest('#installPromo').remove()" style="background: transparent; border: none; color: #555; font-size: 0.85rem; cursor: pointer;">
+                        Not now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              `;
 
-  document.body.appendChild(installPromo);
+              document.body.appendChild(installPromo);
 
+              async function installApp() {
+                if (deferredPrompt) {
+                  deferredPrompt.prompt();
+                  const { outcome } = await deferredPrompt.userChoice;
+                  console.log(`User response: ${outcome}`);
+                  if (outcome === 'accepted') {
+                    document.getElementById('installPromo')?.remove();
+                  }
+                  deferredPrompt = null;
+                }
+              }
 
-async function installApp() {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log(`User response: ${outcome}`);
-    if (outcome === 'accepted') {
-      document.getElementById('installPromo')?.remove();
-    }
-    deferredPrompt = null;
-  }
-}
+              window.addEventListener('appinstalled', () => {
+                console.log('✅ KCMC App installed successfully!');
+                document.getElementById('installPromo')?.remove();
+              });
 
-window.addEventListener('appinstalled', () => {
-  console.log('✅ KCMC App installed successfully!');
-  document.getElementById('installPromo')?.remove();
-});
+              // Add animation styles dynamically
+              const style = document.createElement('style');
+              style.innerHTML = `
+              @keyframes slideUp {
+                from { transform: translateY(50px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+              }
 
-// Add animation styles dynamically
-const style = document.createElement('style');
-style.innerHTML = `
-@keyframes slideUp {
-  from { transform: translateY(50px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
+              @keyframes pulseGlow {
+                0% { box-shadow: 0 0 0 0 rgba(11, 110, 253, 0.6); }
+                70% { box-shadow: 0 0 0 10px rgba(11, 110, 253, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(11, 110, 253, 0); }
+              }
 
-@keyframes pulseGlow {
-  0% { box-shadow: 0 0 0 0 rgba(11, 110, 253, 0.6); }
-  70% { box-shadow: 0 0 0 10px rgba(11, 110, 253, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(11, 110, 253, 0); }
-}
+              #installButton {
+                animation: pulseGlow 2s infinite;
+                transition: transform 0.2s ease;
+              }
 
-#installButton {
-  animation: pulseGlow 2s infinite;
-  transition: transform 0.2s ease;
-}
-
-#installButton:hover {
-  transform: scale(1.05);
-  background: #0847c1;
-}
-`;
-document.head.appendChild(style);
-</script>
-<!-- ====== END INSTALL PROMPT CODE ====== -->
-
+              #installButton:hover {
+                transform: scale(1.05);
+                background: #0847c1;
+              }
+              `;
+              document.head.appendChild(style);
+            </script>
+            <!-- ====== END INSTALL PROMPT CODE ====== -->
         </div>
     </section>
 
+    <!-- Rest of the content remains exactly the same -->
     <!-- About Section -->
     <section id="about" class="section section-light">
         <div class="container">
@@ -972,7 +1132,7 @@ document.head.appendChild(style);
       </li>
       <li class="mb-3">
         <strong><i class="fas fa-globe text-secondary me-2"></i>Mission:</strong>
-        We are committed to sharing the gospel, reaching the lost, and impacting the world with the message of Christ’s love and salvation.
+        We are committed to sharing the gospel, reaching the lost, and impacting the world with the message of Christ's love and salvation.
       </li>
       <li class="mb-3">
         <strong><i class="fas fa-heartbeat text-secondary me-2"></i>Transformation:</strong>
