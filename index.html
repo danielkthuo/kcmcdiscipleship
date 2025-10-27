@@ -620,41 +620,93 @@
             <h3>KINGDOM COVENANT MINISTRIES CHURCH</h3>
             <p>Vision:Building a global faith-driven community through discipleship and tranformative programs for Glory of God</p>
             <a href="login.html" class="btn btn-hero">Access Dicipleship Portal</a>
-           <button id="installButton" class="btn-install-pulse">
-  <i class="fas fa-download"></i>
-  <span>Install App</span>
-</button>
+           <!-- ====== INSTALL PROMPT CODE FOR KCMC APP ====== -->
+<script>
+  const installPromo = document.createElement('div');
+  installPromo.id = 'installPromo';
+  installPromo.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ffffff;
+    color: #2c3e50;
+    padding: 18px 20px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border-left: 5px solid #0b6efd;
+    z-index: 2000;
+    max-width: 320px;
+    animation: slideUp 0.5s ease-out;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+  `;
 
-<style>
-.btn-install-pulse {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 12px 30px;
-  background: #2ecc71;
-  color: #fff;
-  border: none;
-  border-radius: 40px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 0 0 rgba(46, 204, 113, 0.5);
-  animation: pulse 1.8s infinite;
-  transition: transform 0.2s ease, background 0.3s ease;
+  installPromo.innerHTML = `
+    <div style="display: flex; align-items: flex-start; gap: 10px;">
+      <i class="fas fa-download" style="color: #0b6efd; font-size: 1.4rem; margin-top: 2px;"></i>
+      <div>
+        <p style="margin: 0 0 10px 0; font-size: 0.95rem; line-height: 1.4;">
+          <strong>Install KCMC App</strong><br>
+          Access mentorship, life skills, and discipleship tools anytime.
+        </p>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button id="installButton" onclick="installApp()" style="background: #0b6efd; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; cursor: pointer;">
+            Install Now
+          </button>
+          <button onclick="this.closest('#installPromo').remove()" style="background: transparent; border: none; color: #555; font-size: 0.85rem; cursor: pointer;">
+            Not now
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(installPromo);
+
+
+async function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response: ${outcome}`);
+    if (outcome === 'accepted') {
+      document.getElementById('installPromo')?.remove();
+    }
+    deferredPrompt = null;
+  }
 }
 
-.btn-install-pulse:hover {
+window.addEventListener('appinstalled', () => {
+  console.log('✅ KCMC App installed successfully!');
+  document.getElementById('installPromo')?.remove();
+});
+
+// Add animation styles dynamically
+const style = document.createElement('style');
+style.innerHTML = `
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(11, 110, 253, 0.6); }
+  70% { box-shadow: 0 0 0 10px rgba(11, 110, 253, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(11, 110, 253, 0); }
+}
+
+#installButton {
+  animation: pulseGlow 2s infinite;
+  transition: transform 0.2s ease;
+}
+
+#installButton:hover {
   transform: scale(1.05);
-  background: #27ae60;
+  background: #0847c1;
 }
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.5); }
-  70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
-}
-</style>
+`;
+document.head.appendChild(style);
+</script>
+<!-- ====== END INSTALL PROMPT CODE ====== -->
 
         </div>
     </section>
