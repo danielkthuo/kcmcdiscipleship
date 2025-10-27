@@ -161,6 +161,28 @@
             background: var(--secondary);
         }
 
+        /* Admin Button Styles */
+        .admin-btn {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(247, 147, 30, 0.3);
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(247, 147, 30, 0.4);
+        }
+
         /* Main Content */
         main {
             padding: 15px 0;
@@ -521,8 +543,8 @@
                     <div id="userMenu" style="display: none;">
                         <span id="userGreeting" style="margin-right: 10px;"></span>
                         <div id="adminPanelLink" style="display: none; margin-right: 10px;">
-                            <a href="admin/admin.html" class="btn btn-secondary">
-                                <i class="fas fa-cog"></i> <span class="desktop-text">Admin</span>
+                            <a href="admin/admin.html" class="admin-btn">
+                                <i class="fas fa-cog"></i> <span class="desktop-text">Admin Panel</span>
                             </a>
                         </div>
                         <button id="logoutBtn" class="btn" style="padding: 8px 12px;">
@@ -615,6 +637,20 @@
                 </div>
             </section>
 
+            <!-- Admin Welcome Section (Visible only to admins) -->
+            <section class="card" id="adminWelcome" style="display: none; border-left: 4px solid #ff6b35;">
+                <h3><i class="fas fa-user-shield card-icon" style="color: #ff6b35;"></i> Administrator Access</h3>
+                <p>Welcome to the administrator dashboard. You have full access to manage partners, children data, and ministry operations.</p>
+                <div style="margin-top: 15px;">
+                    <a href="admin/admin.html" class="admin-btn">
+                        <i class="fas fa-cog"></i> Go to Admin Panel
+                    </a>
+                    <p style="margin-top: 10px; font-size: 0.9rem; color: var(--gray);">
+                        <i class="fas fa-info-circle"></i> You can access the admin panel anytime using the button above or the Admin Panel link in the header.
+                    </p>
+                </div>
+            </section>
+
             <!-- Call to Action -->
             <section class="card" style="text-align: center; background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white;">
                 <h3>Join Our Mission Today</h3>
@@ -687,6 +723,7 @@
         const loginButtonText = document.getElementById('loginButtonText');
         const loginSpinner = document.getElementById('loginSpinner');
         const adminPanelLink = document.getElementById('adminPanelLink');
+        const adminWelcome = document.getElementById('adminWelcome');
 
         // Enhanced user management functions
         const userService = {
@@ -754,15 +791,9 @@
                 showUserMenu(user);
                 showNotification(`Welcome back, ${user.name}!`, 'success');
                 
-                // Redirect admin users to admin panel
-                if (user.role === 'admin') {
-                    setTimeout(() => {
-                        showNotification('Redirecting to Admin Panel...', 'info');
-                        setTimeout(() => {
-                            window.location.href = 'admin/admin.html';
-                        }, 1500);
-                    }, 1000);
-                }
+                // REMOVED: Automatic redirect for admin users
+                // Admin users now stay on the page and can choose when to access admin panel
+                
             } catch (error) {
                 console.error('Error handling user login:', error);
                 showNotification('Login error. Please try again.', 'error');
@@ -819,6 +850,7 @@
             userMenu.style.display = 'none';
             partnerBenefits.style.display = 'none';
             adminPanelLink.style.display = 'none';
+            adminWelcome.style.display = 'none';
             localStorage.removeItem('currentUser');
             localStorage.removeItem('isAdmin');
         }
@@ -830,12 +862,15 @@
             userGreeting.textContent = `Hi, ${user.name.split(' ')[0]}`;
             partnerBenefits.style.display = 'block';
             
-            // Show admin panel link for admin users
+            // Show admin panel link and welcome section for admin users
             if (user.role === 'admin') {
                 adminPanelLink.style.display = 'block';
+                adminWelcome.style.display = 'block';
                 localStorage.setItem('isAdmin', 'true');
+                showNotification('Administrator access granted. You can access the admin panel using the Admin Panel button.', 'info');
             } else {
                 adminPanelLink.style.display = 'none';
+                adminWelcome.style.display = 'none';
                 localStorage.removeItem('isAdmin');
             }
         }
@@ -944,6 +979,7 @@
             const currentUser = JSON.parse(localStorage.getItem('currentUser'));
             if (currentUser && currentUser.role === 'admin') {
                 adminPanelLink.style.display = 'block';
+                adminWelcome.style.display = 'block';
             }
         });
 
