@@ -4,7 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - KCMC Partners</title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../../styles.css">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="KCM Church">
+    <meta name="description" content="Discipleship Tool for Kingdom Covenant Ministries">
+    <meta name="keywords" content="church, discipleship, christian, ministry">
+    <meta name="author" content="Kingdom Covenant Ministries">
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="../../icons/icon-152x152.png">
+    <link rel="apple-touch-startup-image" href="../../icons/icon-512x512.png">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../manifest.json">
+
+    <!-- Preload important resources -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax.googleapis.com">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -267,68 +291,6 @@
             background: #c82333;
         }
 
-        /* User List */
-        .user-list {
-            max-height: 400px;
-            overflow-y: auto;
-            border-radius: var(--radius);
-            border: 1px solid #e9ecef;
-        }
-
-        .user-item {
-            display: flex;
-            flex-direction: column;
-            padding: 0.9rem;
-            border-bottom: 1px solid #eee;
-            transition: var(--transition);
-            gap: 0.75rem;
-        }
-
-        .user-item:hover {
-            background-color: #f8f9fa;
-        }
-
-        .user-item:last-child {
-            border-bottom: none;
-        }
-
-        .user-info h4 {
-            margin: 0 0 5px 0;
-            color: var(--dark);
-            font-size: 1rem;
-        }
-
-        .user-info p {
-            margin: 0;
-            color: var(--gray);
-            font-size: 0.8rem;
-        }
-
-        .user-role {
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .role-admin { background: var(--danger); color: white; }
-        .role-partner { background: var(--secondary); color: white; }
-        .role-visitor { background: var(--gray); color: white; }
-
-        .user-actions {
-            display: flex;
-            gap: 0.5rem;
-            width: 100%;
-            justify-content: flex-end;
-        }
-
-        .user-actions .btn {
-            width: auto;
-            padding: 0.4rem 0.8rem;
-            font-size: 0.75rem;
-        }
-
         /* Forms */
         .form-group {
             margin-bottom: 1rem;
@@ -390,41 +352,143 @@
             margin-bottom: 1rem;
         }
 
-        /* Message Styles */
-        .message-item {
+        /* Table Styles */
+        .table-container {
             background: white;
             border-radius: var(--radius);
-            padding: 1.25rem;
-            margin-bottom: 1rem;
             box-shadow: var(--shadow);
-            border-left: 4px solid var(--secondary);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
         }
 
-        .message-item.new {
-            border-left-color: var(--success);
-            background: #f8fff8;
-        }
-
-        .message-header {
+        .table-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-            flex-direction: column;
-            gap: 1rem;
+            align-items: center;
         }
 
-        .message-content {
-            background: var(--light);
-            padding: 1rem;
-            border-radius: var(--radius);
-            margin-top: 1rem;
+        .table-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
         }
 
-        .message-actions {
+        .table-controls {
             display: flex;
             gap: 0.5rem;
-            flex-wrap: wrap;
+        }
+
+        .table-controls .btn {
+            width: auto;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background-color: #f8f9fa;
+            padding: 0.8rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 1px solid #dee2e6;
+            font-size: 0.85rem;
+        }
+
+        .data-table td {
+            padding: 0.8rem;
+            border-bottom: 1px solid #dee2e6;
+            font-size: 0.85rem;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .badge-new {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .badge-read {
+            background-color: var(--gray);
+            color: white;
+        }
+
+        .role-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .role-admin { background: var(--danger); color: white; }
+        .role-partner { background: var(--secondary); color: white; }
+        .role-visitor { background: var(--gray); color: white; }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .action-buttons .btn {
+            width: auto;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.75rem;
+        }
+
+        /* Notification Styles */
+        .notification-badge {
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        .notification-container {
+            position: relative;
+        }
+
+        /* Loading Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
         }
 
         /* Responsive Design */
@@ -472,24 +536,8 @@
                 padding: 1.5rem;
             }
             
-            .user-item {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                gap: 0;
-            }
-            
-            .user-actions {
-                width: auto;
-            }
-            
             .btn {
                 width: auto;
-            }
-
-            .message-header {
-                flex-direction: row;
-                align-items: center;
             }
         }
 
@@ -501,33 +549,6 @@
             .stats-grid {
                 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             }
-        }
-
-        /* Loading Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        /* Status Indicators */
-        .status-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-right: 5px;
-        }
-
-        .status-active {
-            background-color: var(--success);
-        }
-
-        .status-inactive {
-            background-color: var(--gray);
         }
     </style>
 </head>
@@ -555,6 +576,12 @@
     <!-- User Actions -->
     <div style="display: flex; align-items: center; gap: 8px;">
       <span id="adminGreeting" style="font-size: 0.8rem; color: #444;">Hi, Admin</span>
+      <div class="notification-container">
+        <button id="messagesBtn" class="btn" style="width: auto; padding: 6px 10px; background: var(--secondary);">
+          <i class="fas fa-envelope"></i> Messages
+          <span id="messageNotification" class="notification-badge" style="display: none;">0</span>
+        </button>
+      </div>
       <button id="adminLogoutBtn" 
         style="
           background: #e74c3c;
@@ -573,7 +600,6 @@
     </div>
   </div>
 </header>
-
 
     <main>
         <div class="admin-container">
@@ -688,22 +714,75 @@
                         </div>
                     </form>
                 </div>
- <!-- Messages Section -->
-                <div id="messagesSection" class="card fade-in" style="display: none; margin-top: 2rem;">
-                    <h3><i class="fas fa-envelope card-icon"></i> Contact Messages</h3>
-                    <div id="messagesList"></div>
-                </div>
-                <!-- Users List -->
-                <div class="card fade-in">
-                    <h3><i class="fas fa-list card-icon"></i> Registered Users</h3>
-                    <div class="user-list" id="usersList">
-                        <div style="text-align: center; padding: 2rem;">
-                            <p><i class="fas fa-spinner fa-spin"></i> Loading users...</p>
+
+                <!-- Users Table -->
+                <div class="table-container fade-in">
+                    <div class="table-header">
+                        <h3><i class="fas fa-users"></i> Registered Users</h3>
+                        <div class="table-controls">
+                            <button onclick="loadUsers()" class="btn">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
                         </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table" id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Registration Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <tr>
+                                    <td colspan="6" style="text-align: center; padding: 2rem;">
+                                        <p><i class="fas fa-spinner fa-spin"></i> Loading users...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
-               
+                <!-- Messages Table -->
+                <div id="messagesSection" class="table-container fade-in" style="display: none; margin-top: 2rem;">
+                    <div class="table-header">
+                        <h3><i class="fas fa-envelope"></i> Contact Messages</h3>
+                        <div class="table-controls">
+                            <button onclick="loadMessages()" class="btn">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                            <button onclick="markAllAsRead()" class="btn">
+                                <i class="fas fa-check-double"></i> Mark All Read
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table" id="messagesTable">
+                            <thead>
+                                <tr>
+                                    <th>From</th>
+                                    <th>Email</th>
+                                    <th>Subject</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="messagesTableBody">
+                                <tr>
+                                    <td colspan="6" style="text-align: center; padding: 2rem;">
+                                        <p><i class="fas fa-spinner fa-spin"></i> Loading messages...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -737,11 +816,18 @@
         const adminLogoutBtn = document.getElementById('adminLogoutBtn');
         const userRegistrationForm = document.getElementById('userRegistrationForm');
         const registerUserForm = document.getElementById('registerUserForm');
-        const usersList = document.getElementById('usersList');
+        const usersTableBody = document.getElementById('usersTableBody');
+        const messagesTableBody = document.getElementById('messagesTableBody');
+        const messagesSection = document.getElementById('messagesSection');
+        const messagesBtn = document.getElementById('messagesBtn');
+        const messageNotification = document.getElementById('messageNotification');
         const totalUsersEl = document.getElementById('totalUsers');
         const adminUsersEl = document.getElementById('adminUsers');
         const partnerUsersEl = document.getElementById('partnerUsers');
         const visitorUsersEl = document.getElementById('visitorUsers');
+
+        // Collection name configuration
+        const MESSAGES_COLLECTION = 'contactMessages';
 
         // Check if user is authenticated and is admin
         auth.onAuthStateChanged(async (user) => {
@@ -752,6 +838,8 @@
                 if (userData.role === 'admin') {
                     // User is admin, show admin content
                     showAdminContent(user, userData);
+                    // Load unread message count
+                    loadUnreadMessageCount();
                 } else {
                     // User is not admin, show access denied
                     showAccessDenied();
@@ -891,7 +979,7 @@
             }
         });
 
-        // Load all users
+        // Load all users in table format
         async function loadUsers() {
             try {
                 const snapshot = await db.collection('users')
@@ -899,7 +987,15 @@
                     .get();
                 
                 if (snapshot.empty) {
-                    usersList.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray);">No users registered yet.</div>';
+                    usersTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 2rem; color: var(--gray);">
+                                <i class="fas fa-users" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                                <h4>No Users Found</h4>
+                                <p>No users have been registered yet.</p>
+                            </td>
+                        </tr>
+                    `;
                     updateStats(0, 0, 0, 0);
                     return;
                 }
@@ -920,35 +1016,42 @@
                     else if (user.role === 'visitor') visitorCount++;
 
                     usersHTML += `
-                        <div class="user-item">
-                            <div class="user-info">
-                                <h4>${user.name}</h4>
-                                <p>${user.email} • Registered: ${date}</p>
-                                ${user.notes ? `<p style="color: var(--gray); font-style: italic;">${user.notes}</p>` : ''}
-                                ${user.createdBy ? `<p style="color: var(--gray); font-size: 0.8rem;">Created by: ${user.createdBy}</p>` : ''}
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <span class="user-role role-${user.role}">${user.role.toUpperCase()}</span>
-                                <div class="user-actions">
+                        <tr>
+                            <td>
+                                <strong>${user.name}</strong>
+                                ${user.notes ? `<br><small style="color: var(--gray);">${user.notes}</small>` : ''}
+                            </td>
+                            <td>${user.email}</td>
+                            <td><span class="role-badge role-${user.role}">${user.role.toUpperCase()}</span></td>
+                            <td>${date}</td>
+                            <td><span class="status-badge badge-read">Active</span></td>
+                            <td>
+                                <div class="action-buttons">
                                     <button onclick="editUser('${userId}')" class="btn">
-                                        <i class="fas fa-edit"></i> Edit
+                                        <i class="fas fa-edit"></i>
                                     </button>
                                     <button onclick="deleteUser('${userId}', '${user.name}')" class="btn btn-danger">
-                                        <i class="fas fa-trash"></i> Delete
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
-                            </div>
-                        </div>
+                            </td>
+                        </tr>
                     `;
                 });
 
-                usersList.innerHTML = usersHTML;
+                usersTableBody.innerHTML = usersHTML;
                 updateStats(snapshot.size, adminCount, partnerCount, visitorCount);
                 
             } catch (error) {
-                usersList.innerHTML = `<div style="text-align: center; padding: 2rem; color: var(--accent);">
-                    Error loading users: ${error.message}
-                </div>`;
+                usersTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 2rem; color: var(--accent);">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h4>Error Loading Users</h4>
+                            <p>${error.message}</p>
+                        </td>
+                    </tr>
+                `;
                 console.error('Error loading users:', error);
             }
         }
@@ -980,115 +1083,124 @@
             }
         }
 
-        // ========== MESSAGES MANAGEMENT - ROBUST SOLUTION ==========
+        // ========== MESSAGES MANAGEMENT - ENHANCED WITH TABLES ==========
 
-        // Collection name configuration
-        const MESSAGES_COLLECTION = 'contactMessages'; // Change this if needed
-
-        // Load messages with comprehensive error handling
+        // Load messages in table format
         async function loadMessages() {
             try {
-                const messagesSection = document.getElementById('messagesSection');
-                const messagesList = document.getElementById('messagesList');
-                
                 messagesSection.style.display = 'block';
-                messagesList.innerHTML = '<div style="text-align: center; padding: 2rem;"><p><i class="fas fa-spinner fa-spin"></i> Loading messages...</p></div>';
+                messagesTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem;"><p><i class="fas fa-spinner fa-spin"></i> Loading messages...</p></td></tr>';
                 
                 const snapshot = await db.collection(MESSAGES_COLLECTION)
                     .orderBy('createdAt', 'desc')
                     .get();
                 
                 if (snapshot.empty) {
-                    messagesList.innerHTML = `
-                        <div style="text-align: center; padding: 3rem; color: var(--gray);">
-                            <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                            <h4>No Messages Yet</h4>
-                            <p>No contact form submissions have been received.</p>
-                        </div>
+                    messagesTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 3rem; color: var(--gray);">
+                                <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                                <h4>No Messages Yet</h4>
+                                <p>No contact form submissions have been received.</p>
+                            </td>
+                        </tr>
                     `;
                     return;
                 }
 
                 let messagesHTML = '';
                 let hasMessages = false;
+                let unreadCount = 0;
 
                 snapshot.forEach((doc) => {
                     hasMessages = true;
                     const message = doc.data();
+                    const messageId = doc.id;
                     const date = message.createdAt ? new Date(message.createdAt.seconds * 1000).toLocaleDateString() : 'Unknown date';
                     const time = message.createdAt ? new Date(message.createdAt.seconds * 1000).toLocaleTimeString() : '';
                     const isNew = message.status === 'new';
                     
+                    if (isNew) unreadCount++;
+                    
                     messagesHTML += `
-                        <div class="message-item ${isNew ? 'new' : ''}">
-                            <div class="message-header">
-                                <div>
-                                    <h4 style="margin: 0 0 0.5rem 0;">${message.subject || 'No Subject'}</h4>
-                                    <p style="margin: 0; color: var(--gray); font-size: 0.9rem;">
-                                        <strong>From:</strong> ${message.name || 'Unknown'} 
-                                        <span style="margin: 0 0.5rem;">•</span>
-                                        ${message.email || 'No email'}
-                                    </p>
-                                    <p style="margin: 0; color: var(--gray); font-size: 0.8rem;">
-                                        <strong>Date:</strong> ${date} at ${time}
-                                        <span style="margin: 0 0.5rem;">•</span>
-                                        <strong>Status:</strong> 
-                                        <span class="user-role ${isNew ? 'role-partner' : 'role-visitor'}">
-                                            ${message.status || 'new'}
-                                        </span>
-                                    </p>
-                                </div>
-                                <div class="message-actions">
+                        <tr>
+                            <td>
+                                <strong>${message.name || 'Unknown'}</strong>
+                            </td>
+                            <td>${message.email || 'No email'}</td>
+                            <td>${message.subject || 'No Subject'}</td>
+                            <td>${date}<br><small>${time}</small></td>
+                            <td>
+                                <span class="status-badge ${isNew ? 'badge-new' : 'badge-read'}">
+                                    ${isNew ? 'NEW' : 'READ'}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button onclick="viewMessage('${messageId}')" class="btn">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
                                     ${isNew ? `
-                                        <button onclick="updateMessageStatus('${doc.id}', 'read')" class="btn" style="width: auto;">
-                                            <i class="fas fa-check"></i> Mark Read
+                                        <button onclick="updateMessageStatus('${messageId}', 'read')" class="btn">
+                                            <i class="fas fa-check"></i>
                                         </button>
                                     ` : ''}
-                                    <button onclick="deleteMessage('${doc.id}')" class="btn btn-danger" style="width: auto;">
-                                        <i class="fas fa-trash"></i> Delete
+                                    <button onclick="deleteMessage('${messageId}')" class="btn btn-danger">
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
-                            </div>
-                            <div class="message-content">
-                                <p style="margin: 0; white-space: pre-wrap;">${message.message || 'No message content'}</p>
-                            </div>
-                        </div>
+                            </td>
+                        </tr>
                     `;
                 });
 
                 if (hasMessages) {
-                    messagesList.innerHTML = messagesHTML;
+                    messagesTableBody.innerHTML = messagesHTML;
                 }
+                
+                // Update notification badge
+                updateMessageNotification(unreadCount);
                 
             } catch (error) {
                 console.error('Error loading messages:', error);
-                const messagesList = document.getElementById('messagesList');
                 
                 let errorMessage = 'Unable to load messages. ';
-                let debugInfo = '';
                 
                 if (error.code === 'permission-denied') {
                     errorMessage += 'Permission denied. Check Firestore security rules.';
-                    debugInfo = 'Make sure your Firestore rules allow read access to the messages collection.';
                 } else if (error.code === 'not-found') {
                     errorMessage += 'Collection not found.';
-                    debugInfo = `The collection "${MESSAGES_COLLECTION}" doesn't exist or contains no messages.`;
                 } else {
                     errorMessage += error.message;
-                    debugInfo = 'Check your internet connection and Firestore configuration.';
                 }
                 
-                messagesList.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; color: var(--danger);">
-                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-                        <h4>Error Loading Messages</h4>
-                        <p>${errorMessage}</p>
-                        ${debugInfo ? `<p style="font-size: 0.9rem; color: var(--gray); margin-top: 1rem;">${debugInfo}</p>` : ''}
-                        <button onclick="testMessagesCollection()" class="btn btn-secondary" style="margin-top: 1rem; width: auto;">
-                            <i class="fas fa-bug"></i> Debug Collection
-                        </button>
-                    </div>
+                messagesTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 2rem; color: var(--danger);">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h4>Error Loading Messages</h4>
+                            <p>${errorMessage}</p>
+                        </td>
+                    </tr>
                 `;
+            }
+        }
+
+        // View message details
+        async function viewMessage(messageId) {
+            try {
+                const doc = await db.collection(MESSAGES_COLLECTION).doc(messageId).get();
+                if (doc.exists) {
+                    const message = doc.data();
+                    const date = message.createdAt ? new Date(message.createdAt.seconds * 1000).toLocaleDateString() : 'Unknown date';
+                    const time = message.createdAt ? new Date(message.createdAt.seconds * 1000).toLocaleTimeString() : '';
+                    
+                    // Show message in a modal or alert
+                    alert(`Message Details:\n\nFrom: ${message.name || 'Unknown'}\nEmail: ${message.email || 'No email'}\nSubject: ${message.subject || 'No Subject'}\nDate: ${date} at ${time}\n\nMessage:\n${message.message || 'No message content'}`);
+                }
+            } catch (error) {
+                console.error('Error viewing message:', error);
+                alert('Error loading message details: ' + error.message);
             }
         }
 
@@ -1100,19 +1212,42 @@
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 
-                // Show success feedback
-                const btn = event.target;
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check"></i> Done!';
-                btn.style.background = 'var(--success)';
-                
-                setTimeout(() => {
-                    loadMessages(); // Reload messages
-                }, 1000);
+                // Reload messages to reflect the change
+                loadMessages();
                 
             } catch (error) {
                 console.error('Error updating message:', error);
                 alert('Error updating message: ' + error.message);
+            }
+        }
+
+        // Mark all messages as read
+        async function markAllAsRead() {
+            try {
+                const snapshot = await db.collection(MESSAGES_COLLECTION)
+                    .where('status', '==', 'new')
+                    .get();
+                
+                if (snapshot.empty) {
+                    alert('No unread messages found.');
+                    return;
+                }
+                
+                const batch = db.batch();
+                snapshot.forEach(doc => {
+                    batch.update(doc.ref, {
+                        status: 'read',
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                });
+                
+                await batch.commit();
+                alert(`Marked ${snapshot.size} messages as read.`);
+                loadMessages();
+                
+            } catch (error) {
+                console.error('Error marking all as read:', error);
+                alert('Error marking messages as read: ' + error.message);
             }
         }
 
@@ -1121,10 +1256,8 @@
             if (confirm('Are you sure you want to delete this message? This action cannot be undone.')) {
                 try {
                     await db.collection(MESSAGES_COLLECTION).doc(messageId).delete();
-                    
-                    // Show success feedback
                     alert('Message deleted successfully');
-                    loadMessages(); // Reload messages
+                    loadMessages();
                     
                 } catch (error) {
                     console.error('Error deleting message:', error);
@@ -1133,21 +1266,36 @@
             }
         }
 
-        // Debug function to test collection access
-        async function testMessagesCollection() {
+        // Load unread message count for notification
+        async function loadUnreadMessageCount() {
             try {
-                const testDoc = await db.collection(MESSAGES_COLLECTION).limit(1).get();
-                alert(`Collection "${MESSAGES_COLLECTION}" exists and contains ${testDoc.size} documents.`);
-                console.log('Collection test:', {
-                    collection: MESSAGES_COLLECTION,
-                    exists: !testDoc.empty,
-                    count: testDoc.size
-                });
+                const snapshot = await db.collection(MESSAGES_COLLECTION)
+                    .where('status', '==', 'new')
+                    .get();
+                
+                updateMessageNotification(snapshot.size);
+                
             } catch (error) {
-                alert(`Error accessing "${MESSAGES_COLLECTION}": ${error.message}`);
-                console.error('Collection test error:', error);
+                console.error('Error loading unread message count:', error);
             }
         }
+
+        // Update message notification badge
+        function updateMessageNotification(count) {
+            if (count > 0) {
+                messageNotification.textContent = count;
+                messageNotification.style.display = 'flex';
+            } else {
+                messageNotification.style.display = 'none';
+            }
+        }
+
+        // Messages button click handler
+        messagesBtn.addEventListener('click', () => {
+            loadMessages();
+            messagesSection.style.display = 'block';
+            window.scrollTo({ top: messagesSection.offsetTop - 20, behavior: 'smooth' });
+        });
 
     </script>
 </body>
