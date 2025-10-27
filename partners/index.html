@@ -493,14 +493,7 @@
                 </form>
                 <div id="loginMessage" style="margin-top: 15px; text-align: center;"></div>
                 
-                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
-                    <p style="text-align: center; color: var(--gray); margin-bottom: 10px;">Demo Accounts:</p>
-                    <div style="background: var(--light); padding: 15px; border-radius: var(--radius); font-size: 0.9rem;">
-                        <p><strong>Admin:</strong> admin@kcmc.org / admin123</p>
-                        <p><strong>Partner:</strong> partner@example.com / partner123</p>
-                        <p><strong>Visitor:</strong> visitor@example.com / visitor123</p>
-                    </div>
-                </div>
+               
             </div>
         </div>
     </div>
@@ -510,7 +503,15 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <div class="logo-icon">🕊️</div>
+                    <div class="logo-icon"><img src="icons/logo.png" alt="KCMC Logo" class="logo-icon"></div>
+                    <style>
+                        .logo-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;  /* Keeps aspect ratio */
+  border-radius: 50%;   /* Optional */
+}
+</style>
                     <h1>KCMC Partners</h1>
                 </div>
                 <div class="user-actions">
@@ -538,8 +539,8 @@
         <div class="container">
             <!-- Hero Section -->
             <section class="page-header">
-                <h2>Bringing Hope to Children in Need</h2>
-                <p>Transforming lives through education, nutrition, and spiritual guidance</p>
+                <h2>Transforming Lives, One Child at a Time</h2>
+                <p>Empowering children through mentorship, life skills, and Christ-centered discipleship.</p>
                 <div style="margin-top: 1.5rem;">
                     <a href="contact.html" class="btn">Become a Partner</a>
                     <button id="heroLoginBtn" class="btn btn-secondary" style="margin-left: 10px;">
@@ -550,10 +551,10 @@
 
             <!-- Mission Section -->
             <section class="card">
-                <h3><i class="fas fa-heart card-icon"></i> Our Mission</h3>
-                <p>KCMC Partners exists to provide holistic care for vulnerable children around the world. We believe every child deserves access to education, proper nutrition, healthcare, and the opportunity to hear the Gospel message.</p>
-                <p>Through our network of dedicated partners, we're creating sustainable change in communities across three continents.</p>
-            </section>
+                <h3><i class="fas fa-heart card-icon"></i>Ministry-Focus</h3>
+               <p>KCMC Partners exists to guide and inspire children to grow in faith, character, and purpose through mentorship, life skills, and discipleship. We believe every child is a gift from God, capable of making a positive impact when nurtured in a loving, Christ-centered environment.</p>
+              <p>By working together with families, schools, and churches, KCMC helps children discover their God-given potential — equipping them to live with integrity, serve others, and shine the light of Christ in their communities.</p>
+   </section>
 
             <!-- Slogan & Values -->
             <section class="grid grid-3">
@@ -567,7 +568,8 @@
                 </div>
                 <div class="card">
                     <h3><i class="fas fa-globe-americas card-icon"></i> Our Reach</h3>
-                    <p>Currently serving 500+ children across 12 communities in Kenya, Tanzania, and Uganda.</p>
+                  <p>Currently mentoring and discipling over 200 children across Kenya.</p>
+
                 </div>
             </section>
 
