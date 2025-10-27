@@ -4,7 +4,7 @@
   "description": "Discipleship Tool for Kingdom Covenant Ministries",
   "start_url": "./index.html", 
   "display": "standalone",
-  "background_color": "#fff",
+  "background_color": "#ffffff",
   "theme_color": "#8e44ad",
   "orientation": "portrait",
   "categories": ["religious", "spiritual"],
