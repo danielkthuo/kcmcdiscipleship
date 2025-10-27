@@ -746,7 +746,7 @@
 
                     // Save to Firebase
                     const { collection, addDoc, serverTimestamp } = window.firebaseModules;
-                    await addDoc(collection(window.firestore, 'messages'), {
+                    await addDoc(collection(window.firestore, 'contactMessages'), {
                         ...formData,
                         createdAt: serverTimestamp()
                     });
