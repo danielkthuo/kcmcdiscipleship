@@ -62,7 +62,10 @@
         }
 
         .logo-icon {
-            font-size: 1.8rem;
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            border-radius: 50%;
         }
 
         .logo h1 {
@@ -80,12 +83,19 @@
             box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
             z-index: 99;
             padding: 10px 0;
+            overflow-x: auto;
+            white-space: nowrap;
         }
 
         nav ul {
             display: flex;
             justify-content: space-around;
             list-style: none;
+            min-width: 100%;
+        }
+
+        nav ul li {
+            display: inline-block;
         }
 
         nav ul li a {
@@ -98,6 +108,7 @@
             padding: 5px;
             border-radius: var(--radius);
             transition: all 0.3s;
+            min-width: 60px;
         }
 
         nav ul li a i {
@@ -278,6 +289,45 @@
             color: var(--gray);
         }
 
+        /* Table Styles */
+        .contributions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .contributions-table th {
+            background-color: var(--dark);
+            color: white;
+            text-align: left;
+            padding: 12px 15px;
+            font-weight: 600;
+        }
+
+        .contributions-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .contributions-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .contributions-table tr:hover {
+            background-color: rgba(46, 204, 113, 0.05);
+        }
+
+        .amount-cell {
+            font-weight: bold;
+            color: var(--primary);
+            text-align: right;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
         /* Responsive */
         @media (min-width: 768px) {
             .grid-2 {
@@ -289,6 +339,8 @@
                 background: none;
                 box-shadow: none;
                 padding: 0;
+                overflow-x: visible;
+                white-space: normal;
             }
             
             nav ul {
@@ -325,14 +377,6 @@
             <div class="header-content">
                 <div class="logo">
                     <div class="logo-icon"><img src="../icons/logo.png" alt="KCMC Logo" class="logo-icon"></div>
-                    <style>
-                        .logo-icon {
-                            width: 28px;
-                            height: 28px;
-                            object-fit: contain;
-                            border-radius: 50%;
-                        }
-                    </style>
                     <h1>KCMC Partners - Contributions</h1>
                 </div>
                 <div class="user-actions">
@@ -538,6 +582,11 @@
         // Current user data
         let currentUser = null;
 
+        // Format number with thousand separators
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
         // Initialize year dropdown
         function initializeYearDropdown() {
             const yearSelect = document.getElementById('contributionYear');
@@ -681,7 +730,19 @@
                     return;
                 }
 
-                let contributionsHTML = '';
+                let contributionsHTML = `
+                    <div class="table-responsive">
+                        <table class="contributions-table">
+                            <thead>
+                                <tr>
+                                    <th>Partner</th>
+                                    <th>Month</th>
+                                    <th>Amount</th>
+                                    <th>Recorded By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
                 
                 snapshot.forEach(doc => {
                     const contribution = doc.data();
@@ -689,22 +750,20 @@
                     const monthYear = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
                     
                     contributionsHTML += `
-                        <div class="contribution-item">
-                            <div class="contribution-header">
-                                <div>
-                                    <h4 style="margin: 0 0 0.5rem 0;">${contribution.partnerName || contribution.partnerEmail}</h4>
-                                    <p class="contribution-meta">
-                                        <strong>Month:</strong> ${monthYear}
-                                        <span style="margin: 0 0.5rem;">•</span>
-                                        <strong>Recorded by:</strong> ${contribution.recordedBy || 'Admin'}
-                                    </p>
-                                    ${contribution.notes ? `<p style="margin: 0.5rem 0 0 0; color: var(--gray); font-style: italic;">${contribution.notes}</p>` : ''}
-                                </div>
-                                <div class="contribution-amount">${parseFloat(contribution.amount).toFixed(2)}</div>
-                            </div>
-                        </div>
+                        <tr>
+                            <td>${contribution.partnerName || contribution.partnerEmail}</td>
+                            <td>${monthYear}</td>
+                            <td class="amount-cell">Ksh ${formatNumber(parseFloat(contribution.amount).toFixed(2))}</td>
+                            <td>${contribution.recordedBy || 'Admin'}</td>
+                        </tr>
                     `;
                 });
+
+                contributionsHTML += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
 
                 allContributionsList.innerHTML = contributionsHTML;
                 
@@ -740,7 +799,19 @@
                     return;
                 }
 
-                let contributionsHTML = '';
+                let contributionsHTML = `
+                    <div class="table-responsive">
+                        <table class="contributions-table">
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Amount</th>
+                                    <th>Date Recorded</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
                 let contributions = [];
                 
                 snapshot.forEach(doc => {
@@ -748,22 +819,22 @@
                     contributions.push(contribution);
                     const date = contribution.date ? new Date(contribution.date.seconds * 1000) : new Date();
                     const monthYear = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+                    const recordedDate = date.toLocaleDateString();
                     
                     contributionsHTML += `
-                        <div class="contribution-item">
-                            <div class="contribution-header">
-                                <div>
-                                    <h4 style="margin: 0 0 0.5rem 0;">${monthYear} Contribution</h4>
-                                    <p class="contribution-meta">
-                                        <strong>Recorded on:</strong> ${date.toLocaleDateString()}
-                                        ${contribution.notes ? `<br><strong>Notes:</strong> ${contribution.notes}` : ''}
-                                    </p>
-                                </div>
-                                <div class="contribution-amount">${parseFloat(contribution.amount).toFixed(2)}</div>
-                            </div>
-                        </div>
+                        <tr>
+                            <td>${monthYear}</td>
+                            <td class="amount-cell">Ksh ${formatNumber(parseFloat(contribution.amount).toFixed(2))}</td>
+                            <td>${recordedDate}</td>
+                        </tr>
                     `;
                 });
+
+                contributionsHTML += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
 
                 userContributionsList.innerHTML = contributionsHTML;
                 updateUserStats(contributions);
@@ -783,10 +854,10 @@
         // Update user statistics
         function updateUserStats(contributions) {
             if (contributions.length === 0) {
-                totalContributedEl.textContent = '0';
+                totalContributedEl.textContent = 'Ksh 0';
                 monthsContributedEl.textContent = '0';
                 lastContributionEl.textContent = '-';
-                averageContributionEl.textContent = '0';
+                averageContributionEl.textContent = 'Ksh 0';
                 return;
             }
 
@@ -805,10 +876,10 @@
                 new Date(latestContribution.date.seconds * 1000).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 
                 'Unknown';
 
-            totalContributedEl.textContent = `${total.toFixed(2)}`;
+            totalContributedEl.textContent = `Ksh ${formatNumber(total.toFixed(2))}`;
             monthsContributedEl.textContent = months;
             lastContributionEl.textContent = latestDate;
-            averageContributionEl.textContent = `${average.toFixed(2)}`;
+            averageContributionEl.textContent = `Ksh ${formatNumber(average.toFixed(2))}`;
         }
 
         // Add new contribution (admin only)
