@@ -30,8 +30,10 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-   
-   <style>
+    <!-- html2canvas for image generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
         :root {
             --primary: #D4AF37; /* Gold */
             --secondary: #002366; /* Royal Blue */
@@ -182,6 +184,12 @@
         .btn-small {
             padding: 5px 8px;
             font-size: 0.75rem;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         /* Main Content */
@@ -460,6 +468,81 @@
             color: var(--gray);
         }
 
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .toast {
+            background: white;
+            border-radius: var(--radius);
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 300px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .toast.success {
+            border-left: 4px solid #28a745;
+        }
+
+        .toast.error {
+            border-left: 4px solid #dc3545;
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--primary);
+        }
+
+        .toast i {
+            font-size: 1.2rem;
+        }
+
+        .toast.success i {
+            color: #28a745;
+        }
+
+        .toast.error i {
+            color: #dc3545;
+        }
+
+        .toast.info i {
+            color: var(--primary);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* Responsive Adjustments */
         @media (min-width: 768px) {
             .grid-2 {
@@ -556,6 +639,9 @@
             </div>
         </div>
     </header>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
 
     <!-- Main Content -->
     <main>
@@ -696,8 +782,6 @@
     <nav>
         <ul>
             <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-            
-           
         </ul>
     </nav>
 
@@ -720,6 +804,29 @@
         const posterMessage = document.getElementById('posterMessage');
         const poster = document.getElementById('poster');
 
+        // Toast notification function
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+            
+            toast.innerHTML = `
+                <i class="fas fa-${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Remove toast after 3 seconds
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
         // Event Listeners
         uploadArea.addEventListener('click', () => {
             photoUpload.click();
@@ -728,42 +835,83 @@
         photoUpload.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
+                // Check file size (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('File is too large. Please select an image under 5MB.', 'error');
+                    return;
+                }
+                
+                // Check file type
+                if (!file.type.match('image.*')) {
+                    showToast('Please select a valid image file.', 'error');
+                    return;
+                }
+                
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     imagePreview.src = e.target.result;
                     imagePreview.style.display = 'block';
                     posterPhoto.src = e.target.result;
+                    showToast('Photo uploaded successfully!', 'success');
+                }
+                reader.onerror = function() {
+                    showToast('Error reading the file. Please try again.', 'error');
                 }
                 reader.readAsDataURL(file);
             }
         });
 
         generatePosterBtn.addEventListener('click', function() {
-            // Update poster with user information
-            if (partnerName.value) {
-                posterName.textContent = partnerName.value;
+            // Validate required fields
+            if (!partnerName.value.trim()) {
+                showToast('Please enter your name.', 'error');
+                return;
             }
             
-            if (partnerRole.value) {
-                posterRoleElement.textContent = partnerRole.value;
+            if (!posterPhoto.src || posterPhoto.src === window.location.href) {
+                showToast('Please upload a photo first.', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const originalText = generatePosterBtn.innerHTML;
+            generatePosterBtn.innerHTML = '<span class="spinner"></span> Generating...';
+            generatePosterBtn.disabled = true;
+            
+            // Update poster with user information
+            posterName.textContent = partnerName.value.trim();
+            
+            if (partnerRole.value.trim()) {
+                posterRoleElement.textContent = partnerRole.value.trim();
             } else {
                 posterRoleElement.textContent = "Ministry Partner";
             }
             
-            if (customMessage.value) {
-                posterMessage.textContent = customMessage.value;
+            if (customMessage.value.trim()) {
+                posterMessage.textContent = customMessage.value.trim();
             } else {
                 posterMessage.textContent = "I'm proud to support KCMC Children and Youth Ministry. Join me in making a difference in young lives!";
             }
             
-            // Enable download and share buttons
-            downloadPosterBtn.disabled = false;
-            sharePosterBtn.disabled = false;
-            
-            alert("Your poster has been generated! You can now download or share it.");
+            // Enable download and share buttons after a short delay
+            setTimeout(() => {
+                downloadPosterBtn.disabled = false;
+                sharePosterBtn.disabled = false;
+                
+                // Restore button state
+                generatePosterBtn.innerHTML = originalText;
+                generatePosterBtn.disabled = false;
+                
+                showToast('Your poster has been generated!', 'success');
+            }, 1000);
         });
 
         downloadPosterBtn.addEventListener('click', function() {
+            // Show loading state
+            const originalText = downloadPosterBtn.innerHTML;
+            downloadPosterBtn.innerHTML = '<span class="spinner"></span> Downloading...';
+            downloadPosterBtn.disabled = true;
+            
             // Use html2canvas to capture the poster as an image
             html2canvas(poster, {
                 scale: 2, // Higher quality
@@ -775,11 +923,31 @@
                 const link = document.createElement('a');
                 link.download = 'KCMC-Poster-' + Date.now() + '.png';
                 link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
                 link.click();
+                document.body.removeChild(link);
+                
+                // Restore button state
+                downloadPosterBtn.innerHTML = originalText;
+                downloadPosterBtn.disabled = false;
+                
+                showToast('Poster downloaded successfully!', 'success');
+            }).catch(error => {
+                console.error('Error generating poster:', error);
+                showToast('Error generating poster. Please try again.', 'error');
+                
+                // Restore button state
+                downloadPosterBtn.innerHTML = originalText;
+                downloadPosterBtn.disabled = false;
             });
         });
 
         sharePosterBtn.addEventListener('click', function() {
+            // Show loading state
+            const originalText = sharePosterBtn.innerHTML;
+            sharePosterBtn.innerHTML = '<span class="spinner"></span> Preparing...';
+            sharePosterBtn.disabled = true;
+            
             // Check if Web Share API is supported
             if (navigator.share) {
                 html2canvas(poster, {
@@ -794,19 +962,41 @@
                             title: 'Join KCMC Children and Youth Ministry',
                             text: 'I support KCMC Children and Youth Ministry. Join me in making a difference!',
                             files: [file]
+                        }).then(() => {
+                            showToast('Poster shared successfully!', 'success');
                         }).catch(error => {
                             console.log('Error sharing:', error);
                             fallbackShare();
+                        }).finally(() => {
+                            // Restore button state
+                            sharePosterBtn.innerHTML = originalText;
+                            sharePosterBtn.disabled = false;
                         });
                     });
+                }).catch(error => {
+                    console.error('Error generating poster for sharing:', error);
+                    showToast('Error preparing poster for sharing. Please try again.', 'error');
+                    
+                    // Restore button state
+                    sharePosterBtn.innerHTML = originalText;
+                    sharePosterBtn.disabled = false;
                 });
             } else {
                 fallbackShare();
+                // Restore button state
+                sharePosterBtn.innerHTML = originalText;
+                sharePosterBtn.disabled = false;
             }
         });
 
         function fallbackShare() {
-            alert("Your poster has been downloaded. You can now share it manually on your social media platforms.");
+            // For devices that don't support Web Share API
+            showToast('Your poster has been downloaded. You can now share it manually on your social media platforms.', 'info');
+            
+            // Trigger download as fallback
+            if (!downloadPosterBtn.disabled) {
+                downloadPosterBtn.click();
+            }
         }
 
         // Simple authentication check (for demo purposes)
