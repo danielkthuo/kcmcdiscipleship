@@ -39,8 +39,9 @@
         body {
             background-color: #f5f7fa;
             color: #333;
-            line-height: 1.6;
+            line-height: 1.5;
             padding-bottom: 70px; /* Space for bottom nav */
+            font-size: 14px;
         }
 
         .container {
@@ -56,7 +57,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            padding: 12px 0;
+            padding: 10px 0;
         }
 
         .header-content {
@@ -68,15 +69,15 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .logo-icon {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
         }
 
         .logo h1 {
-            font-size: 1.2rem;
+            font-size: 1.0rem;
             color: var(--dark);
         }
 
@@ -90,12 +91,19 @@
             box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
             z-index: 99;
             padding: 8px 0;
+            overflow-x: auto;
+            white-space: nowrap;
         }
 
         nav ul {
             display: flex;
             justify-content: space-around;
             list-style: none;
+            min-width: 100%;
+        }
+
+        nav ul li {
+            display: inline-block;
         }
 
         nav ul li a {
@@ -104,15 +112,16 @@
             align-items: center;
             text-decoration: none;
             color: var(--gray);
-            font-size: 0.75rem;
-            padding: 5px;
+            font-size: 0.7rem;
+            padding: 4px;
             border-radius: var(--radius);
             transition: all 0.3s;
+            min-width: 55px;
         }
 
         nav ul li a i {
-            font-size: 1.2rem;
-            margin-bottom: 3px;
+            font-size: 1rem;
+            margin-bottom: 2px;
         }
 
         nav ul li a.active {
@@ -123,21 +132,21 @@
         .user-actions {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .btn {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 6px 10px;
             border-radius: var(--radius);
             font-weight: 600;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
+            gap: 5px;
+            font-size: 0.8rem;
             transition: all 0.3s;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
@@ -152,64 +161,64 @@
         }
 
         .btn-small {
-            padding: 6px 12px;
-            font-size: 0.8rem;
+            padding: 5px 8px;
+            font-size: 0.75rem;
         }
 
         /* Main Content */
         main {
-            padding: 15px 0;
+            padding: 12px 0;
         }
 
         .page-header {
             text-align: center;
-            padding: 20px 15px;
+            padding: 16px 15px;
             background: linear-gradient(135deg, var(--secondary), var(--primary));
             color: white;
             border-radius: var(--radius);
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .page-header h2 {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
+            font-size: 1.2rem;
+            margin-bottom: 6px;
         }
 
         .page-header p {
-            font-size: 0.95rem;
-            margin-bottom: 15px;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
         }
 
         .card {
             background: white;
             border-radius: var(--radius);
-            padding: 20px;
-            margin-bottom: 15px;
+            padding: 16px;
+            margin-bottom: 12px;
             box-shadow: var(--shadow);
         }
 
         .card h3 {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 12px;
             color: var(--dark);
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
 
         .card-icon {
             color: var(--primary);
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
 
         .card p {
-            margin-bottom: 10px;
-            font-size: 0.95rem;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
         }
 
         .grid {
             display: grid;
-            gap: 15px;
+            gap: 12px;
         }
 
         .grid-2 {
@@ -217,29 +226,32 @@
         }
 
         .grid-3 {
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
         }
 
         /* Financial Cards */
         .financial-card {
             text-align: center;
-            padding: 20px 15px;
+            padding: 12px 8px;
+            min-height: auto;
         }
 
         .financial-card h3 {
-            font-size: 1rem;
-            margin-bottom: 10px;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            justify-content: center;
         }
 
         .financial-card .amount {
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             font-weight: bold;
-            margin: 10px 0;
+            margin: 6px 0;
         }
 
         .financial-card .subtitle {
             color: var(--gray);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
         }
 
         /* Budget Allocation */
@@ -247,16 +259,16 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 15px;
+            padding: 10px 12px;
             background: rgba(46, 204, 113, 0.05);
             border-radius: var(--radius);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             border-left: 4px solid var(--primary);
         }
 
         .allocation-item .percentage {
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             color: var(--dark);
         }
 
@@ -264,19 +276,21 @@
         .expense-table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 0.85rem;
         }
 
         .expense-table th {
             text-align: left;
-            padding: 12px 10px;
+            padding: 10px 8px;
             background: var(--light);
             font-weight: 600;
             color: var(--dark);
             border-bottom: 1px solid #ddd;
+            font-size: 0.8rem;
         }
 
         .expense-table td {
-            padding: 12px 10px;
+            padding: 10px 8px;
             border-bottom: 1px solid #eee;
         }
 
@@ -296,22 +310,23 @@
 
         /* Form Styles */
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             font-weight: 600;
             color: var(--dark);
+            font-size: 0.85rem;
         }
 
         .form-control {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: var(--radius);
-            font-size: 1rem;
+            font-size: 0.9rem;
             transition: border 0.3s;
         }
 
@@ -324,28 +339,29 @@
         footer {
             background: var(--dark);
             color: white;
-            padding: 20px 0;
+            padding: 16px 0;
             text-align: center;
-            margin-top: 30px;
+            margin-top: 24px;
+            font-size: 0.85rem;
         }
 
         .footer-content {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 12px;
         }
 
         .footer-links a {
             color: white;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         /* Modal Styles */
@@ -359,7 +375,7 @@
             height: 100%;
             background-color: rgba(0,0,0,0.5);
             overflow-y: auto;
-            padding: 20px 0;
+            padding: 16px 0;
         }
 
         .modal-content {
@@ -387,7 +403,7 @@
         .modal-header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 1.5rem;
+            padding: 1.2rem;
             border-radius: var(--radius) var(--radius) 0 0;
             display: flex;
             justify-content: space-between;
@@ -396,55 +412,56 @@
 
         .modal-header h2 {
             margin: 0;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
         }
 
         .close {
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
             cursor: pointer;
             background: none;
             border: none;
             padding: 0;
-            width: 30px;
-            height: 30px;
+            width: 26px;
+            height: 26px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .modal-body {
-            padding: 1.5rem;
+            padding: 1.2rem;
         }
 
         /* Loading and Empty States */
         .loading {
             text-align: center;
-            padding: 30px;
+            padding: 24px;
         }
 
         .loading i {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: var(--primary);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         /* Notification Styles */
         .notification {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
+            top: 16px;
+            right: 16px;
+            padding: 12px 16px;
             border-radius: var(--radius);
             color: white;
             z-index: 1001;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            min-width: 300px;
+            min-width: 260px;
             box-shadow: var(--shadow);
             animation: slideInRight 0.3s ease-out;
+            font-size: 0.85rem;
         }
 
         .notification-success {
@@ -463,9 +480,9 @@
             background: none;
             border: none;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1rem;
             cursor: pointer;
-            margin-left: 15px;
+            margin-left: 12px;
         }
 
         @keyframes slideInRight {
@@ -482,8 +499,8 @@
         /* Loading Spinner */
         .spinner {
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border: 3px solid rgba(255,255,255,.3);
             border-radius: 50%;
             border-top-color: #fff;
@@ -496,7 +513,7 @@
 
         /* Budget Visualization */
         .budget-visual {
-            height: 200px;
+            height: 160px;
             background: var(--light);
             border-radius: var(--radius);
             margin-bottom: 1rem;
@@ -505,12 +522,57 @@
             justify-content: center;
             color: var(--gray);
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
         }
 
         .budget-visual i {
-            font-size: 3rem;
+            font-size: 2.5rem;
             opacity: 0.7;
+        }
+
+        .budget-visual p {
+            font-size: 0.85rem;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pie-chart {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #3498db 0% 42%,
+                #2ecc71 42% 67%,
+                #e74c3c 67% 85%,
+                #f39c12 85% 95%,
+                #9b59b6 95% 100%
+            );
+            position: relative;
+        }
+
+        .chart-center {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: var(--dark);
         }
 
         /* Responsive Adjustments */
@@ -521,6 +583,7 @@
             
             .grid-3 {
                 grid-template-columns: 1fr 1fr 1fr;
+                gap: 12px;
             }
             
             nav {
@@ -528,22 +591,24 @@
                 background: none;
                 box-shadow: none;
                 padding: 0;
+                overflow-x: visible;
+                white-space: normal;
             }
             
             nav ul {
                 justify-content: flex-start;
-                gap: 20px;
+                gap: 16px;
             }
             
             nav ul li a {
                 flex-direction: row;
-                font-size: 1rem;
-                padding: 8px 15px;
+                font-size: 0.9rem;
+                padding: 6px 12px;
             }
             
             nav ul li a i {
                 margin-bottom: 0;
-                margin-right: 8px;
+                margin-right: 6px;
             }
             
             body {
@@ -553,29 +618,45 @@
 
         @media (max-width: 480px) {
             .page-header {
-                padding: 15px 10px;
+                padding: 12px 8px;
             }
             
             .card {
-                padding: 15px;
+                padding: 12px;
             }
             
             .financial-card .amount {
-                font-size: 1.5rem;
+                font-size: 1.1rem;
             }
             
             .btn {
-                padding: 8px 12px;
-                font-size: 0.85rem;
+                padding: 6px 10px;
+                font-size: 0.8rem;
             }
             
             .expense-table {
-                font-size: 0.85rem;
+                font-size: 0.8rem;
             }
             
             .expense-table th, 
             .expense-table td {
                 padding: 8px 5px;
+            }
+            
+            .grid-3 {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 6px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .financial-card {
+                padding: 10px 6px;
             }
         }
     </style>
@@ -590,11 +671,11 @@
             </div>
             <div class="modal-body">
                 <div style="text-align: center; padding: 1rem;">
-                    <i class="fas fa-lock" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
-                    <h3>Partner Access Required</h3>
-                    <p>Budget and expense details are available exclusively to our ministry partners.</p>
-                    <p>Please log in to view financial transparency information.</p>
-                    <div style="margin-top: 2rem; display: flex; gap: 10px; flex-direction: column;">
+                    <i class="fas fa-lock" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 0.8rem;"></i>
+                    <h3 style="font-size: 1.1rem;">Partner Access Required</h3>
+                    <p style="font-size: 0.85rem;">Budget and expense details are available exclusively to our ministry partners.</p>
+                    <p style="font-size: 0.85rem;">Please log in to view financial transparency information.</p>
+                    <div style="margin-top: 1.5rem; display: flex; gap: 8px; flex-direction: column;">
                         <button id="goToLoginBtn" class="btn">Log In Now</button>
                         <button id="goToHomeBtn" class="btn btn-secondary">Return Home</button>
                     </div>
@@ -625,11 +706,11 @@
                         <div id="loginSpinner" class="spinner" style="display: none;"></div>
                     </button>
                 </form>
-                <div id="loginMessage" style="margin-top: 15px; text-align: center;"></div>
+                <div id="loginMessage" style="margin-top: 12px; text-align: center;"></div>
                 
-                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
-                    <p style="text-align: center; color: var(--gray); margin-bottom: 10px;">Demo Accounts:</p>
-                    <div style="background: var(--light); padding: 15px; border-radius: var(--radius); font-size: 0.9rem;">
+                <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #eee;">
+                    <p style="text-align: center; color: var(--gray); margin-bottom: 8px; font-size: 0.85rem;">Demo Accounts:</p>
+                    <div style="background: var(--light); padding: 12px; border-radius: var(--radius); font-size: 0.8rem;">
                         <p><strong>Admin:</strong> admin@kcmc.org / admin123</p>
                         <p><strong>Partner:</strong> partner@example.com / partner123</p>
                         <p><strong>Visitor:</strong> visitor@example.com / visitor123</p>
@@ -641,37 +722,37 @@
 
     <!-- Header -->
     <header>
-  <div class="container">
-    <div class="header-content">
-      <div class="logo">
-        <div class="logo-icon">🕊️</div>
-        <h1>KCMC Partners</h1>
-      </div>
-      <div class="user-actions">
-        <button id="loginBtn" class="btn btn-secondary btn-small">
-          <i class="fas fa-sign-in-alt"></i>
-        </button>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🕊️</div>
+                    <h1>KCMC Partners</h1>
+                </div>
+                <div class="user-actions">
+                    <button id="loginBtn" class="btn btn-secondary btn-small">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </button>
 
-        <!-- New My Givings Button -->
-        <button id="myGivingsBtn" class="btn btn-small" style="background: var(--secondary); color: #fff;">
-          <i class="fas fa-hand-holding-heart"></i>
-          <span class="desktop-text">My Givings</span>
-        </button>
-<script>
-  document.getElementById('myGivingsBtn').addEventListener('click', () => {
-    window.location.href = 'contribution.html';
-  });
-</script>
-        <div id="userMenu" style="display: none;">
-          <span id="userGreeting" style="margin-right: 10px; font-size: 0.9rem;"></span>
-          <button id="logoutBtn" class="btn btn-small">
-            <i class="fas fa-sign-out-alt"></i>
-          </button>
+                    <!-- New My Givings Button -->
+                    <button id="myGivingsBtn" class="btn btn-small" style="background: var(--secondary); color: #fff;">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        <span class="desktop-text">My Givings</span>
+                    </button>
+                    <script>
+                        document.getElementById('myGivingsBtn').addEventListener('click', () => {
+                            window.location.href = 'contribution.html';
+                        });
+                    </script>
+                    <div id="userMenu" style="display: none;">
+                        <span id="userGreeting" style="margin-right: 8px; font-size: 0.8rem;"></span>
+                        <button id="logoutBtn" class="btn btn-small">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-</header>
+    </header>
 
     <!-- Main Content (Only visible when logged in) -->
     <main id="mainContent" style="display: none;">
@@ -679,7 +760,7 @@
             <section class="page-header">
                 <h2>Financial Transparency</h2>
                 <p>We believe in complete transparency with our partners. Here's how your contributions are used.</p>
-                <button id="updateBudgetBtn" class="btn" style="margin-top: 1rem; display: none;">
+                <button id="updateBudgetBtn" class="btn" style="margin-top: 0.8rem; display: none;">
                     <i class="fas fa-edit"></i> Update Budget
                 </button>
             </section>
@@ -701,7 +782,7 @@
                         <input type="number" id="childrenSupported" class="form-control" required>
                     </div>
                     
-                    <h4 style="margin: 1.5rem 0 1rem;">Budget Allocation (%)</h4>
+                    <h4 style="margin: 1.2rem 0 0.8rem; font-size: 0.95rem;">Budget Allocation (%)</h4>
                     <div class="grid grid-2">
                         <div class="form-group">
                             <label for="education">Education Programs</label>
@@ -725,7 +806,7 @@
                         </div>
                     </div>
                     
-                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <div style="display: flex; gap: 8px; margin-top: 16px;">
                         <button type="submit" class="btn">Update Budget</button>
                         <button type="button" id="cancelBudgetBtn" class="btn btn-secondary">Cancel</button>
                     </div>
@@ -761,11 +842,11 @@
             <!-- Transparency Statement -->
             <section class="card" style="background: #e8f6f3; border-left: 4px solid var(--primary);">
                 <h3><i class="fas fa-shield-alt card-icon"></i> Our Commitment to Transparency</h3>
-                <p>
-We are committed to the highest standards of financial integrity and transparency. Our books are audited annually, and financial reports are made available to all partners upon request. 
-All our procurement processes are managed by an oversight committee, and every payment is authorized by multiple parties to ensure accountability, honesty, and faithful stewardship of every contribution.
-</p>
-                <p style="margin-top: 1rem;">If you have any questions about our finances, please don't hesitate to <a href="contact.html">contact us</a>.</p>
+                <p style="font-size: 0.85rem;">
+                    We are committed to the highest standards of financial integrity and transparency. Our books are audited annually, and financial reports are made available to all partners upon request. 
+                    All our procurement processes are managed by an oversight committee, and every payment is authorized by multiple parties to ensure accountability, honesty, and faithful stewardship of every contribution.
+                </p>
+                <p style="margin-top: 0.8rem; font-size: 0.85rem;">If you have any questions about our finances, please don't hesitate to <a href="contact.html">contact us</a>.</p>
             </section>
         </div>
     </main>
@@ -1033,13 +1114,13 @@ All our procurement processes are managed by an oversight committee, and every p
             financialSummary.innerHTML = `
                 <div class="card financial-card">
                     <h3 style="color: var(--primary);">Total Funds Raised</h3>
-                    <div class="amount">${data.totalFunds?.toLocaleString() || '0'}</div>
+                    <div class="amount">Ksh ${(data.totalFunds || 0).toLocaleString()}</div>
                     <div class="subtitle">Year to Date</div>
                 </div>
                 <div class="card financial-card">
                     <h3 style="color: var(--secondary);">Program Expenses</h3>
-                    <div class="amount">${data.programExpenses?.toLocaleString() || '0'}</div>
-                    <div class="subtitle">${data.programExpenses ? Math.round((data.programExpenses / data.totalFunds) * 100) : 0}% of total</div>
+                    <div class="amount">Ksh ${(data.programExpenses || 0).toLocaleString()}</div>
+                    <div class="subtitle">${data.programExpenses && data.totalFunds ? Math.round((data.programExpenses / data.totalFunds) * 100) : 0}% of total</div>
                 </div>
                 <div class="card financial-card">
                     <h3 style="color: var(--accent);">Children Supported</h3>
@@ -1048,14 +1129,17 @@ All our procurement processes are managed by an oversight committee, and every p
                 </div>
             `;
 
-            // Update budget allocation display
+            // Update budget allocation display with visualization
             const allocation = data.allocation || {};
             budgetContainer.innerHTML = `
                 <div class="budget-visual">
-                    <i class="fas fa-chart-pie"></i>
-                    <p>Budget Visualization</p>
+                    <div class="chart-container">
+                        <div class="pie-chart">
+                            <div class="chart-center">Budget</div>
+                        </div>
+                    </div>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; flex-direction: column; gap: 8px;">
                     ${createAllocationItem('Education Programs', allocation.education)}
                     ${createAllocationItem('Food & Nutrition', allocation.food)}
                     ${createAllocationItem('Healthcare', allocation.healthcare)}
@@ -1156,7 +1240,7 @@ All our procurement processes are managed by an oversight committee, and every p
                     errorMessage = 'Network error. Please check your connection.';
                 }
                 
-                loginMessage.innerHTML = `<div style="color: var(--accent); padding: 10px; background: #ffeaea; border-radius: var(--radius);">${errorMessage}</div>`;
+                loginMessage.innerHTML = `<div style="color: var(--accent); padding: 8px; background: #ffeaea; border-radius: var(--radius); font-size: 0.85rem;">${errorMessage}</div>`;
             } finally {
                 // Reset loading state
                 loginButtonText.style.display = 'inline';
@@ -1215,7 +1299,7 @@ All our procurement processes are managed by an oversight committee, and every p
             const password = document.getElementById('loginPassword').value;
 
             if (!email || !password) {
-                loginMessage.innerHTML = '<div style="color: var(--accent); padding: 10px; background: #ffeaea; border-radius: var(--radius);">Please fill in all fields.</div>';
+                loginMessage.innerHTML = '<div style="color: var(--accent); padding: 8px; background: #ffeaea; border-radius: var(--radius); font-size: 0.85rem;">Please fill in all fields.</div>';
                 return;
             }
 
