@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Poster - KCMC Partners</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary: #D4AF37; /* Gold */
+            --secondary: #002366; /* Royal Blue */
+            --accent: #B8860B; /* Dark Gold */
+            --dark: #001A33; /* Dark Blue */
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --radius: 8px;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.5;
+            padding-bottom: 60px;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 100%;
+            padding: 0 12px;
+            max-width: 100%;
+        }
+
+        /* Header Styles */
+        header {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 8px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .logo h1 {
+            font-size: 1.0rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 99;
+            padding: 6px 0;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+            min-width: 100%;
+        }
+
+        nav ul li {
+            display: inline-block;
+        }
+
+        nav ul li a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--gray);
+            font-size: 0.7rem;
+            padding: 4px;
+            border-radius: var(--radius);
+            transition: all 0.3s;
+            min-width: 55px;
+        }
+
+        nav ul li a i {
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        nav ul li a.active {
+            color: var(--primary);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: var(--secondary);
+            border: none;
+            padding: 6px 10px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-small {
+            padding: 5px 8px;
+            font-size: 0.75rem;
+        }
+
+        /* Main Content */
+        main {
+            padding: 12px 0;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 16px 12px;
+            background: linear-gradient(135deg, var(--secondary), var(--dark));
+            color: white;
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+        }
+
+        .page-header h2 {
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+        }
+
+        .page-header p {
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .card h3 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+
+        .card-icon {
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .grid-2 {
+            grid-template-columns: 1fr;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.85rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .upload-area:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .upload-area i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .upload-area p {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .upload-area small {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        #imagePreview {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: var(--radius);
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* Poster Preview */
+        .poster-preview-container {
+            display: flex;
+            justify-content: center;
+            margin: 16px 0;
+        }
+
+        .poster {
+            width: 100%;
+            max-width: 350px;
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        .poster-header {
+            background: linear-gradient(135deg, var(--secondary), var(--dark));
+            color: white;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .poster-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 12px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 2px solid var(--primary);
+        }
+
+        .poster-logo img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .poster-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .poster-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .poster-body {
+            padding: 16px;
+            text-align: center;
+        }
+
+        .poster-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            overflow: hidden;
+            border: 3px solid var(--primary);
+        }
+
+        .poster-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .poster-message {
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            color: var(--dark);
+            line-height: 1.4;
+        }
+
+        .poster-name {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .poster-role {
+            color: var(--gray);
+            font-style: italic;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+        }
+
+        .poster-footer {
+            background: var(--dark);
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .poster-cta {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .poster-website {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .payment-info {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        /* Instructions Grid */
+        .instructions-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .instruction-item {
+            padding: 12px;
+            background: rgba(212, 175, 55, 0.05);
+            border-radius: var(--radius);
+            border-left: 3px solid var(--primary);
+        }
+
+        .instruction-item h4 {
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            color: var(--dark);
+        }
+
+        .instruction-item p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .instructions-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            nav {
+                position: static;
+                background: none;
+                box-shadow: none;
+                padding: 0;
+                overflow-x: visible;
+                white-space: normal;
+            }
+            
+            nav ul {
+                justify-content: flex-start;
+                gap: 16px;
+            }
+            
+            nav ul li a {
+                flex-direction: row;
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+            
+            nav ul li a i {
+                margin-bottom: 0;
+                margin-right: 6px;
+            }
+            
+            body {
+                padding-bottom: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header {
+                padding: 12px 8px;
+            }
+            
+            .card {
+                padding: 12px;
+            }
+            
+            .btn {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+            
+            .upload-area {
+                padding: 16px;
+            }
+            
+            .poster {
+                max-width: 100%;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-buttons .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon"><img src="icons/logo.png" alt="KCMC Logo" class="logo-icon"></div>
+                    <h1>Create Poster</h1>
+                </div>
+                <div class="user-actions">
+                    <button id="loginBtn" class="btn btn-secondary btn-small">
+                        <i class="fas fa-sign-in-alt"></i> <span class="desktop-text">Login</span>
+                    </button>
+                    <div id="userMenu" style="display: none;">
+                        <span id="userGreeting" style="margin-right: 8px; font-size: 0.8rem;"></span>
+                        <button id="logoutBtn" class="btn btn-small">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <section class="page-header">
+                <h2>Create Your Social Media Poster</h2>
+                <p>Upload your photo and create a custom poster to share on social media</p>
+                <p>Help spread the word about KCMC Children and Youth Ministry</p>
+            </section>
+
+            <div class="grid grid-2">
+                <!-- Upload Section -->
+                <section class="card">
+                    <h3><i class="fas fa-upload card-icon"></i> Upload Your Photo</h3>
+                    <div class="form-group">
+                        <label for="partnerName">Your Name</label>
+                        <input type="text" id="partnerName" class="form-control" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="partnerRole">Your Role (Optional)</label>
+                        <input type="text" id="partnerRole" class="form-control" placeholder="e.g., Ministry Partner, Volunteer">
+                    </div>
+                    <div class="form-group">
+                        <label>Upload Your Photo</label>
+                        <div class="upload-area" id="uploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click to upload your photo</p>
+                            <small>Recommended: Square photo, at least 400x400 pixels</small>
+                            <img id="imagePreview" alt="Preview">
+                        </div>
+                        <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="form-group">
+                        <label for="customMessage">Custom Message (Optional)</label>
+                        <textarea id="customMessage" class="form-control" rows="3" placeholder="Add a personal message about why you support KCMC Children and Youth Ministry"></textarea>
+                    </div>
+                    <button id="generatePosterBtn" class="btn" style="width: 100%;">
+                        <i class="fas fa-magic"></i> Generate Poster
+                    </button>
+                </section>
+
+                <!-- Poster Preview -->
+                <section class="card">
+                    <h3><i class="fas fa-eye card-icon"></i> Poster Preview</h3>
+                    <p>Your custom poster will appear here after uploading your photo</p>
+                    
+                    <div class="poster-preview-container">
+                        <div class="poster" id="poster">
+                            <div class="poster-header">
+                                <div class="poster-logo">
+                                    <!-- Fallback logo if image doesn't load -->
+                                    <span style="color: var(--secondary); font-weight: bold;">KCMC</span>
+                                </div>
+                                <div class="poster-title">KCMC Children & Youth Ministry</div>
+                                <div class="poster-subtitle">Transforming Lives Through Faith</div>
+                            </div>
+                            <div class="poster-body">
+                                <div class="poster-photo">
+                                    <img id="posterPhoto" src="" alt="Partner Photo">
+                                </div>
+                                <div class="poster-message" id="posterMessage">
+                                    I'm proud to support KCMC Children and Youth Ministry. Join me in making a difference in young lives!
+                                </div>
+                                <div class="poster-name" id="posterName">Your Name Here</div>
+                                <div class="poster-role" id="posterRole">Ministry Partner</div>
+                            </div>
+                            <div class="poster-footer">
+                                <div class="poster-cta">Join Us Today!</div>
+                                <!--div class="poster-website">www.kcmcpartners.org</div-->
+                                <div class="payment-info">
+                                    Partnership:<br>Paybill 247247 • Acc: 732071<br>
+                                    Call: 0720-923-913
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="downloadPosterBtn" class="btn btn-secondary" disabled>
+                            <i class="fas fa-download"></i> Download Poster
+                        </button>
+                        <button id="sharePosterBtn" class="btn" disabled>
+                            <i class="fas fa-share-alt"></i> Share
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Instructions -->
+            <section class="card">
+                <h3><i class="fas fa-info-circle card-icon"></i> How It Works</h3>
+                <div class="instructions-grid">
+                    <div class="instruction-item">
+                        <h4>Step 1: Upload Your Photo</h4>
+                        <p>Choose a clear, high-quality photo of yourself. A headshot or portrait works best.</p>
+                    </div>
+                    <div class="instruction-item">
+                        <h4>Step 2: Customize Your Poster</h4>
+                        <p>Add your name and a personal message about why you support our ministry.</p>
+                    </div>
+                    <div class="instruction-item">
+                        <h4>Step 3: Generate & Download</h4>
+                        <p>Create your poster and download it to share on social media platforms.</p>
+                    </div>
+                    <div class="instruction-item">
+                        <h4>Step 4: Share & Invite</h4>
+                        <p>Post your custom poster and encourage others to join our mission.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sharing Tips -->
+            <section class="card">
+                <h3><i class="fas fa-share-alt card-icon"></i> Sharing Tips</h3>
+                <div class="instructions-grid">
+                    <div class="instruction-item">
+                        <h4>Facebook & Instagram</h4>
+                        <p>Post your poster with a personal story about your experience with KCMC.</p>
+                    </div>
+                    <div class="instruction-item">
+                        <h4>Twitter & LinkedIn</h4>
+                        <p>Share your poster with a brief message about the impact of our ministry.</p>
+                    </div>
+                    <div class="instruction-item">
+                        <h4>WhatsApp & Messenger</h4>
+                        <p>Send your poster directly to friends and family who might be interested.</p>
+                    </div>
+                    <div class="instruction-item">
+                        <h4>Email</h4>
+                        <p>Include your poster in your email signature or send it as a personal invitation.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            
+           
+        </ul>
+    </nav>
+
+    <script>
+        // DOM Elements
+        const uploadArea = document.getElementById('uploadArea');
+        const photoUpload = document.getElementById('photoUpload');
+        const imagePreview = document.getElementById('imagePreview');
+        const partnerName = document.getElementById('partnerName');
+        const partnerRole = document.getElementById('partnerRole');
+        const customMessage = document.getElementById('customMessage');
+        const generatePosterBtn = document.getElementById('generatePosterBtn');
+        const downloadPosterBtn = document.getElementById('downloadPosterBtn');
+        const sharePosterBtn = document.getElementById('sharePosterBtn');
+        
+        // Poster elements
+        const posterPhoto = document.getElementById('posterPhoto');
+        const posterName = document.getElementById('posterName');
+        const posterRoleElement = document.getElementById('posterRole');
+        const posterMessage = document.getElementById('posterMessage');
+        const poster = document.getElementById('poster');
+
+        // Event Listeners
+        uploadArea.addEventListener('click', () => {
+            photoUpload.click();
+        });
+
+        photoUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    posterPhoto.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        generatePosterBtn.addEventListener('click', function() {
+            // Update poster with user information
+            if (partnerName.value) {
+                posterName.textContent = partnerName.value;
+            }
+            
+            if (partnerRole.value) {
+                posterRoleElement.textContent = partnerRole.value;
+            } else {
+                posterRoleElement.textContent = "Ministry Partner";
+            }
+            
+            if (customMessage.value) {
+                posterMessage.textContent = customMessage.value;
+            } else {
+                posterMessage.textContent = "I'm proud to support KCMC Children and Youth Ministry. Join me in making a difference in young lives!";
+            }
+            
+            // Enable download and share buttons
+            downloadPosterBtn.disabled = false;
+            sharePosterBtn.disabled = false;
+            
+            alert("Your poster has been generated! You can now download or share it.");
+        });
+
+        downloadPosterBtn.addEventListener('click', function() {
+            // Use html2canvas to capture the poster as an image
+            html2canvas(poster, {
+                scale: 2, // Higher quality
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff'
+            }).then(canvas => {
+                // Convert canvas to image and trigger download
+                const link = document.createElement('a');
+                link.download = 'KCMC-Poster-' + Date.now() + '.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        });
+
+        sharePosterBtn.addEventListener('click', function() {
+            // Check if Web Share API is supported
+            if (navigator.share) {
+                html2canvas(poster, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                }).then(canvas => {
+                    canvas.toBlob(blob => {
+                        const file = new File([blob], 'KCMC-Poster.png', { type: 'image/png' });
+                        navigator.share({
+                            title: 'Join KCMC Children and Youth Ministry',
+                            text: 'I support KCMC Children and Youth Ministry. Join me in making a difference!',
+                            files: [file]
+                        }).catch(error => {
+                            console.log('Error sharing:', error);
+                            fallbackShare();
+                        });
+                    });
+                });
+            } else {
+                fallbackShare();
+            }
+        });
+
+        function fallbackShare() {
+            alert("Your poster has been downloaded. You can now share it manually on your social media platforms.");
+        }
+
+        // Simple authentication check (for demo purposes)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in (in a real app, this would check Firebase auth)
+            const isLoggedIn = localStorage.getItem('currentUser') !== null;
+            
+            if (isLoggedIn) {
+                const user = JSON.parse(localStorage.getItem('currentUser'));
+                document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('userMenu').style.display = 'flex';
+                document.getElementById('userGreeting').textContent = `Hi, ${user.name.split(' ')[0]}`;
+                
+                // Pre-fill name if available
+                if (user.name && user.name !== 'User') {
+                    partnerName.value = user.name;
+                }
+            }
+            
+            // Try to load the logo
+            const logoImg = document.createElement('img');
+            logoImg.src = 'icons/logo.png';
+            logoImg.onload = function() {
+                const posterLogo = document.querySelector('.poster-logo');
+                posterLogo.innerHTML = '';
+                posterLogo.appendChild(logoImg);
+            };
+            logoImg.onerror = function() {
+                // If logo fails to load, keep the text fallback
+                console.log('Logo image not found, using text fallback');
+            };
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('currentUser');
+            window.location.reload();
+        });
+
+        // Login button functionality
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
