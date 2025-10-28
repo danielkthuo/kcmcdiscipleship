@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contributions - KCMC Partners</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --radius: 8px;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            width: 100%;
+            padding: 0 15px;
+            max-width: 100%;
+        }
+
+        /* Header Styles */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 10px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+        }
+
+        .logo h1 {
+            font-size: 1.2rem;
+            color: var(--dark);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 99;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+        }
+
+        nav ul li a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--gray);
+            font-size: 0.75rem;
+            padding: 5px;
+            border-radius: var(--radius);
+            transition: all 0.3s;
+        }
+
+        nav ul li a i {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+
+        nav ul li a.active {
+            color: var(--primary);
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-admin {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+        }
+
+        /* Main Content */
+        main {
+            padding: 15px 0;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 20px 0;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+        }
+
+        .page-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-size: 1.2rem;
+        }
+
+        .card-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        /* Admin Section */
+        .admin-section {
+            border-left: 4px solid #ff6b35;
+            margin-bottom: 2rem;
+        }
+
+        /* Contribution Form */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+        }
+
+        select.form-control {
+            height: 42px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .grid-2 {
+            grid-template-columns: 1fr;
+        }
+
+        /* Contribution List */
+        .contribution-item {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+        }
+
+        .contribution-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contribution-amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .contribution-meta {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+
+        .stat-item h4 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-item p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            nav {
+                position: static;
+                background: none;
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            nav ul {
+                justify-content: flex-start;
+                gap: 20px;
+            }
+            
+            nav ul li a {
+                flex-direction: row;
+                font-size: 1rem;
+                padding: 8px 15px;
+            }
+            
+            nav ul li a i {
+                margin-bottom: 0;
+                margin-right: 8px;
+            }
+            
+            body {
+                padding-bottom: 0;
+            }
+
+            .contribution-header {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon"><img src="../icons/logo.png" alt="KCMC Logo" class="logo-icon"></div>
+                    <style>
+                        .logo-icon {
+                            width: 28px;
+                            height: 28px;
+                            object-fit: contain;
+                            border-radius: 50%;
+                        }
+                    </style>
+                    <h1>KCMC Partners - Contributions</h1>
+                </div>
+                <div class="user-actions">
+                    <button id="loginBtn" class="btn btn-secondary" style="display: none;">
+                        <i class="fas fa-sign-in-alt"></i> <span class="desktop-text">Partner Login</span>
+                    </button>
+                    <div id="userMenu" style="display: none;">
+                        <span id="userGreeting" style="margin-right: 10px;"></span>
+                        <div id="adminPanelLink" style="display: none; margin-right: 10px;">
+                            <a href="admin/admin.html" class="btn btn-admin">
+                                <i class="fas fa-cog"></i> <span class="desktop-text">Admin</span>
+                            </a>
+                        </div>
+                        <button id="logoutBtn" class="btn" style="padding: 8px 12px;">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Page Header -->
+            <section class="page-header">
+                <h2>Partner Contributions</h2>
+                <p>Track your monthly contributions and support our mission</p>
+            </section>
+
+            <!-- User Stats -->
+            <section class="card" id="userStats" style="display: none;">
+                <h3><i class="fas fa-chart-line card-icon"></i> Your Contribution Summary</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h4 style="color: var(--primary);" id="totalContributed">Ksh 0</h4>
+                        <p>Total Contributed</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4 style="color: var(--secondary);" id="monthsContributed">0</h4>
+                        <p>Months Contributed</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4 style="color: var(--accent);" id="lastContribution">-</h4>
+                        <p>Last Contribution</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4 style="color: #9b59b6;" id="averageContribution">Ksh 0</h4>
+                        <p>Average Monthly</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Contribution Form -->
+            <section class="card admin-section" id="adminContributionForm" style="display: none;">
+                <h3><i class="fas fa-plus-circle card-icon"></i> Add New Contribution</h3>
+                <form id="contributionForm">
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label for="partnerEmail">Partner Email</label>
+                            <input type="email" id="partnerEmail" class="form-control" placeholder="Enter partner email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contributionAmount">Amount (Ksh)</label>
+                            <input type="number" id="contributionAmount" class="form-control" placeholder="Enter amount" min="1" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label for="contributionMonth">Month</label>
+                            <select id="contributionMonth" class="form-control" required>
+                                <option value="">Select Month</option>
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="contributionYear">Year</label>
+                            <select id="contributionYear" class="form-control" required>
+                                <option value="">Select Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contributionNotes">Notes (Optional)</label>
+                        <textarea id="contributionNotes" class="form-control" rows="3" placeholder="Any additional notes about this contribution..."></textarea>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; flex-direction: column;">
+                        <button type="submit" class="btn">
+                            <i class="fas fa-save"></i> Record Contribution
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Contributions List -->
+            <section class="card">
+                <h3><i class="fas fa-history card-icon"></i> 
+                    <span id="contributionsTitle">Contributions</span>
+                    <span id="userSpecificTitle" style="display: none;">Your Contributions</span>
+                </h3>
+                
+                <!-- Admin View - All Contributions -->
+                <div id="allContributions" style="display: none;">
+                    <div class="form-group">
+                        <label for="filterPartner">Filter by Partner</label>
+                        <select id="filterPartner" class="form-control">
+                            <option value="">All Partners</option>
+                        </select>
+                    </div>
+                    <div id="allContributionsList"></div>
+                </div>
+
+                <!-- User View - Personal Contributions -->
+                <div id="userContributions" style="display: none;">
+                    <div id="userContributionsList"></div>
+                </div>
+
+                <!-- Not Logged In Message -->
+                <div id="loginPrompt">
+                    <div class="empty-state">
+                        <i class="fas fa-lock"></i>
+                        <h4>Login Required</h4>
+                        <p>Please log in to view contribution records</p>
+                        <button id="heroLoginBtn" class="btn" style="margin-top: 1rem;">
+                            <i class="fas fa-sign-in-alt"></i> Partner Login
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="activities.html"><i class="fas fa-tasks"></i> Activities</a></li>
+            <li><a href="budget.html"><i class="fas fa-chart-pie"></i> Budget</a></li>
+            <li><a href="contributions.html" class="active"><i class="fas fa-donate"></i> Contributions</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDfNX8WUWfUAN-dIUtzq8gJXjh0CIZdS_0",
+            authDomain: "kcmcpartners.firebaseapp.com",
+            projectId: "kcmcpartners",
+            storageBucket: "kcmcpartners.firebasestorage.app",
+            messagingSenderId: "30984885444",
+            appId: "1:30984885444:web:0be4febff8cfef1b22a591",
+            measurementId: "G-Z6FMF6Z1V1"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // DOM Elements
+        const loginBtn = document.getElementById('loginBtn');
+        const heroLoginBtn = document.getElementById('heroLoginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userMenu = document.getElementById('userMenu');
+        const userGreeting = document.getElementById('userGreeting');
+        const adminPanelLink = document.getElementById('adminPanelLink');
+        const adminContributionForm = document.getElementById('adminContributionForm');
+        const contributionForm = document.getElementById('contributionForm');
+        const userStats = document.getElementById('userStats');
+        const allContributions = document.getElementById('allContributions');
+        const userContributions = document.getElementById('userContributions');
+        const loginPrompt = document.getElementById('loginPrompt');
+        const contributionsTitle = document.getElementById('contributionsTitle');
+        const userSpecificTitle = document.getElementById('userSpecificTitle');
+        const filterPartner = document.getElementById('filterPartner');
+        const allContributionsList = document.getElementById('allContributionsList');
+        const userContributionsList = document.getElementById('userContributionsList');
+
+        // Stats elements
+        const totalContributedEl = document.getElementById('totalContributed');
+        const monthsContributedEl = document.getElementById('monthsContributed');
+        const lastContributionEl = document.getElementById('lastContribution');
+        const averageContributionEl = document.getElementById('averageContribution');
+
+        // Current user data
+        let currentUser = null;
+
+        // Initialize year dropdown
+        function initializeYearDropdown() {
+            const yearSelect = document.getElementById('contributionYear');
+            const currentYear = new Date().getFullYear();
+            
+            for (let year = currentYear; year >= currentYear - 5; year--) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            }
+        }
+
+        // Check authentication state
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const userData = await getUserRole(user.uid);
+                currentUser = {
+                    uid: user.uid,
+                    email: user.email,
+                    name: userData.name || user.email.split('@')[0],
+                    role: userData.role || 'partner'
+                };
+                
+                showUserMenu(currentUser);
+                
+                if (currentUser.role === 'admin') {
+                    showAdminInterface();
+                    loadAllContributions();
+                    loadPartnerFilter();
+                } else {
+                    showUserInterface();
+                    loadUserContributions(currentUser.email);
+                }
+            } else {
+                showLoginButton();
+            }
+        });
+
+        // Get user role from Firestore
+        async function getUserRole(uid) {
+            try {
+                const userDoc = await db.collection('users').doc(uid).get();
+                if (userDoc.exists) {
+                    return userDoc.data();
+                }
+                return { role: 'partner', name: 'User' };
+            } catch (error) {
+                console.error('Error getting user role:', error);
+                return { role: 'partner', name: 'User' };
+            }
+        }
+
+        // Show login button
+        function showLoginButton() {
+            loginBtn.style.display = 'block';
+            userMenu.style.display = 'none';
+            loginPrompt.style.display = 'block';
+            allContributions.style.display = 'none';
+            userContributions.style.display = 'none';
+            userStats.style.display = 'none';
+            adminContributionForm.style.display = 'none';
+        }
+
+        // Show user menu
+        function showUserMenu(user) {
+            loginBtn.style.display = 'none';
+            userMenu.style.display = 'flex';
+            userGreeting.textContent = `Hi, ${user.name.split(' ')[0]}`;
+            loginPrompt.style.display = 'none';
+            
+            if (user.role === 'admin') {
+                adminPanelLink.style.display = 'block';
+            } else {
+                adminPanelLink.style.display = 'none';
+            }
+        }
+
+        // Show admin interface
+        function showAdminInterface() {
+            adminContributionForm.style.display = 'block';
+            allContributions.style.display = 'block';
+            userContributions.style.display = 'none';
+            userStats.style.display = 'none';
+            contributionsTitle.style.display = 'none';
+            userSpecificTitle.style.display = 'inline';
+            userSpecificTitle.textContent = 'All Contributions';
+        }
+
+        // Show user interface
+        function showUserInterface() {
+            adminContributionForm.style.display = 'none';
+            allContributions.style.display = 'none';
+            userContributions.style.display = 'block';
+            userStats.style.display = 'block';
+            contributionsTitle.style.display = 'none';
+            userSpecificTitle.style.display = 'inline';
+            userSpecificTitle.textContent = 'Your Contributions';
+        }
+
+        // Load partner filter for admin
+        async function loadPartnerFilter() {
+            try {
+                const snapshot = await db.collection('users')
+                    .where('role', '==', 'partner')
+                    .get();
+                
+                filterPartner.innerHTML = '<option value="">All Partners</option>';
+                
+                snapshot.forEach(doc => {
+                    const user = doc.data();
+                    const option = document.createElement('option');
+                    option.value = user.email;
+                    option.textContent = `${user.name} (${user.email})`;
+                    filterPartner.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading partners:', error);
+            }
+        }
+
+        // Load all contributions (admin view)
+        async function loadAllContributions(filterEmail = '') {
+            try {
+                let query = db.collection('contributions').orderBy('date', 'desc');
+                
+                if (filterEmail) {
+                    query = query.where('partnerEmail', '==', filterEmail);
+                }
+                
+                const snapshot = await query.get();
+                
+                if (snapshot.empty) {
+                    allContributionsList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <h4>No Contributions Found</h4>
+                            <p>No contribution records have been added yet.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let contributionsHTML = '';
+                
+                snapshot.forEach(doc => {
+                    const contribution = doc.data();
+                    const date = contribution.date ? new Date(contribution.date.seconds * 1000) : new Date();
+                    const monthYear = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+                    
+                    contributionsHTML += `
+                        <div class="contribution-item">
+                            <div class="contribution-header">
+                                <div>
+                                    <h4 style="margin: 0 0 0.5rem 0;">${contribution.partnerName || contribution.partnerEmail}</h4>
+                                    <p class="contribution-meta">
+                                        <strong>Month:</strong> ${monthYear}
+                                        <span style="margin: 0 0.5rem;">•</span>
+                                        <strong>Recorded by:</strong> ${contribution.recordedBy || 'Admin'}
+                                    </p>
+                                    ${contribution.notes ? `<p style="margin: 0.5rem 0 0 0; color: var(--gray); font-style: italic;">${contribution.notes}</p>` : ''}
+                                </div>
+                                <div class="contribution-amount">${parseFloat(contribution.amount).toFixed(2)}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                allContributionsList.innerHTML = contributionsHTML;
+                
+            } catch (error) {
+                console.error('Error loading contributions:', error);
+                allContributionsList.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--accent);">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h4>Error Loading Contributions</h4>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load user contributions
+        async function loadUserContributions(userEmail) {
+            try {
+                const snapshot = await db.collection('contributions')
+                    .where('partnerEmail', '==', userEmail)
+                    .orderBy('date', 'desc')
+                    .get();
+                
+                if (snapshot.empty) {
+                    userContributionsList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <h4>No Contributions Yet</h4>
+                            <p>You haven't made any contributions yet. Thank you for considering supporting our mission!</p>
+                        </div>
+                    `;
+                    updateUserStats([]);
+                    return;
+                }
+
+                let contributionsHTML = '';
+                let contributions = [];
+                
+                snapshot.forEach(doc => {
+                    const contribution = doc.data();
+                    contributions.push(contribution);
+                    const date = contribution.date ? new Date(contribution.date.seconds * 1000) : new Date();
+                    const monthYear = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+                    
+                    contributionsHTML += `
+                        <div class="contribution-item">
+                            <div class="contribution-header">
+                                <div>
+                                    <h4 style="margin: 0 0 0.5rem 0;">${monthYear} Contribution</h4>
+                                    <p class="contribution-meta">
+                                        <strong>Recorded on:</strong> ${date.toLocaleDateString()}
+                                        ${contribution.notes ? `<br><strong>Notes:</strong> ${contribution.notes}` : ''}
+                                    </p>
+                                </div>
+                                <div class="contribution-amount">${parseFloat(contribution.amount).toFixed(2)}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                userContributionsList.innerHTML = contributionsHTML;
+                updateUserStats(contributions);
+                
+            } catch (error) {
+                console.error('Error loading user contributions:', error);
+                userContributionsList.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--accent);">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h4>Error Loading Contributions</h4>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Update user statistics
+        function updateUserStats(contributions) {
+            if (contributions.length === 0) {
+                totalContributedEl.textContent = '0';
+                monthsContributedEl.textContent = '0';
+                lastContributionEl.textContent = '-';
+                averageContributionEl.textContent = '0';
+                return;
+            }
+
+            const total = contributions.reduce((sum, contribution) => sum + parseFloat(contribution.amount), 0);
+            const months = contributions.length;
+            const average = total / months;
+            
+            // Find latest contribution
+            const latestContribution = contributions.reduce((latest, current) => {
+                const currentDate = current.date ? new Date(current.date.seconds * 1000) : new Date(0);
+                const latestDate = latest.date ? new Date(latest.date.seconds * 1000) : new Date(0);
+                return currentDate > latestDate ? current : latest;
+            });
+
+            const latestDate = latestContribution.date ? 
+                new Date(latestContribution.date.seconds * 1000).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 
+                'Unknown';
+
+            totalContributedEl.textContent = `${total.toFixed(2)}`;
+            monthsContributedEl.textContent = months;
+            lastContributionEl.textContent = latestDate;
+            averageContributionEl.textContent = `${average.toFixed(2)}`;
+        }
+
+        // Add new contribution (admin only)
+        contributionForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const partnerEmail = document.getElementById('partnerEmail').value;
+            const amount = parseFloat(document.getElementById('contributionAmount').value);
+            const month = document.getElementById('contributionMonth').value;
+            const year = document.getElementById('contributionYear').value;
+            const notes = document.getElementById('contributionNotes').value;
+
+            if (!partnerEmail || !amount || !month || !year) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            try {
+                // Get partner details
+                const partnerSnapshot = await db.collection('users')
+                    .where('email', '==', partnerEmail)
+                    .get();
+                
+                if (partnerSnapshot.empty) {
+                    alert('Partner not found. Please check the email address.');
+                    return;
+                }
+
+                const partnerData = partnerSnapshot.docs[0].data();
+                const partnerName = partnerData.name;
+
+                // Create contribution date (first day of the month)
+                const contributionDate = new Date(year, month - 1, 1);
+
+                // Save contribution to Firestore
+                await db.collection('contributions').add({
+                    partnerEmail: partnerEmail,
+                    partnerName: partnerName,
+                    amount: amount,
+                    month: month,
+                    year: year,
+                    date: firebase.firestore.Timestamp.fromDate(contributionDate),
+                    recordedBy: currentUser.name,
+                    notes: notes,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                alert('Contribution recorded successfully!');
+                contributionForm.reset();
+                
+                // Reload contributions
+                if (currentUser.role === 'admin') {
+                    loadAllContributions();
+                }
+                
+            } catch (error) {
+                console.error('Error recording contribution:', error);
+                alert('Error recording contribution: ' + error.message);
+            }
+        });
+
+        // Filter contributions by partner
+        filterPartner.addEventListener('change', (e) => {
+            loadAllContributions(e.target.value);
+        });
+
+        // Logout function
+        async function logoutUser() {
+            try {
+                await auth.signOut();
+                localStorage.removeItem('currentUser');
+                showLoginButton();
+            } catch (error) {
+                console.error('Logout error:', error);
+                alert('Error during logout.');
+            }
+        }
+
+        // Event Listeners
+        loginBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        heroLoginBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        logoutBtn.addEventListener('click', logoutUser);
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeYearDropdown();
+        });
+    </script>
+</body>
+</html>

@@ -641,26 +641,33 @@
 
     <!-- Header -->
     <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-icon">🕊️</div>
-                    <h1>KCMC Partners</h1>
-                </div>
-                <div class="user-actions">
-                    <button id="loginBtn" class="btn btn-secondary btn-small">
-                        <i class="fas fa-sign-in-alt"></i>
-                    </button>
-                    <div id="userMenu" style="display: none;">
-                        <span id="userGreeting" style="margin-right: 10px; font-size: 0.9rem;"></span>
-                        <button id="logoutBtn" class="btn btn-small">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <div class="header-content">
+      <div class="logo">
+        <div class="logo-icon">🕊️</div>
+        <h1>KCMC Partners</h1>
+      </div>
+      <div class="user-actions">
+        <button id="loginBtn" class="btn btn-secondary btn-small">
+          <i class="fas fa-sign-in-alt"></i>
+        </button>
+
+        <!-- New My Givings Button -->
+        <button id="myGivingsBtn" class="btn btn-small" style="background: var(--secondary); color: #fff;">
+          <i class="fas fa-hand-holding-heart"></i>
+          <span class="desktop-text">My Givings</span>
+        </button>
+
+        <div id="userMenu" style="display: none;">
+          <span id="userGreeting" style="margin-right: 10px; font-size: 0.9rem;"></span>
+          <button id="logoutBtn" class="btn btn-small">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
         </div>
-    </header>
+      </div>
+    </div>
+  </div>
+</header>
 
     <!-- Main Content (Only visible when logged in) -->
     <main id="mainContent" style="display: none;">
