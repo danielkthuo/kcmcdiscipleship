@@ -49,7 +49,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
@@ -313,7 +313,7 @@
             display: none;
         }
 
-        /* Poster Preview */
+        /* Poster Preview - Enhanced to match flyer style */
         .poster-preview-container {
             display: flex;
             justify-content: center;
@@ -322,25 +322,34 @@
 
         .poster {
             width: 100%;
-            max-width: 350px;
+            max-width: 400px;
             background: white;
-            border-radius: var(--radius);
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
             position: relative;
+            border: 1px solid #e0e0e0;
         }
 
         .poster-header {
             background: linear-gradient(135deg, var(--secondary), var(--dark));
             color: white;
             padding: 16px;
-            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .poster-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .poster-logo {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 12px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: white;
             display: flex;
@@ -351,34 +360,58 @@
         }
 
         .poster-logo img {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             object-fit: contain;
+        }
+
+        .poster-title-container {
+            text-align: right;
+            flex: 1;
         }
 
         .poster-title {
             font-size: 1.2rem;
             font-weight: bold;
             margin-bottom: 4px;
+            letter-spacing: 0.5px;
         }
 
         .poster-subtitle {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.9;
         }
 
-        .poster-body {
-            padding: 16px;
+        .poster-badge {
+            background: var(--primary);
+            color: var(--secondary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
             text-align: center;
+            min-width: 80px;
+        }
+
+        .poster-body {
+            padding: 20px 16px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .poster-message-container {
+            flex: 1;
         }
 
         .poster-photo {
-            width: 120px;
-            height: 120px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
-            margin: 0 auto 12px;
             overflow: hidden;
-            border: 3px solid var(--primary);
+            border: 4px solid var(--primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
 
         .poster-photo img {
@@ -389,16 +422,18 @@
 
         .poster-message {
             font-size: 0.95rem;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             color: var(--dark);
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .poster-name {
             font-weight: bold;
-            color: var(--primary);
+            color: var(--secondary);
             margin-bottom: 8px;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .poster-role {
@@ -411,14 +446,23 @@
         .poster-footer {
             background: var(--dark);
             color: white;
-            padding: 12px;
+            padding: 16px;
             text-align: center;
         }
 
-        .poster-cta {
-            font-size: 1rem;
-            font-weight: bold;
+        .poster-cta-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 8px;
+        }
+
+        .poster-cta {
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            flex: 1;
+            text-align: left;
         }
 
         .poster-website {
@@ -428,11 +472,30 @@
         }
 
         .payment-info {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             opacity: 0.9;
-            margin-top: 8px;
-            padding-top: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
             border-top: 1px solid rgba(255,255,255,0.2);
+            line-height: 1.4;
+        }
+
+        .poster-social {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
         }
 
         /* Action Buttons */
@@ -581,6 +644,10 @@
             body {
                 padding-bottom: 0;
             }
+            
+            .poster {
+                max-width: 450px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -605,6 +672,19 @@
                 max-width: 100%;
             }
             
+            .poster-body {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .poster-message-container {
+                order: 2;
+            }
+            
+            .poster-photo {
+                order: 1;
+            }
+            
             .action-buttons {
                 flex-direction: column;
             }
@@ -612,6 +692,15 @@
             .action-buttons .btn {
                 width: 100%;
                 justify-content: center;
+            }
+            
+            .poster-cta-container {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .poster-cta {
+                text-align: center;
             }
         }
     </style>
@@ -691,29 +780,54 @@
                     <div class="poster-preview-container">
                         <div class="poster" id="poster">
                             <div class="poster-header">
-                                <div class="poster-logo">
-                                    <!-- Fallback logo if image doesn't load -->
-                                    <span style="color: var(--secondary); font-weight: bold;">KCMC</span>
+                                <div class="poster-logo-container">
+                                    <div class="poster-logo">
+                                        <!-- Fallback logo if image doesn't load -->
+                                        <span style="color: var(--secondary); font-weight: bold;">KCMC</span>
+                                    </div>
                                 </div>
-                                <div class="poster-title">KCMC Children & Youth Ministry</div>
-                                <div class="poster-subtitle">Transforming Lives Through Faith</div>
+                                <div class="poster-title-container">
+                                    <div class="poster-title">KCMC CHILDREN & YOUTH MINISTRY</div>
+                                    <div class="poster-subtitle">Transforming Lives Through Faith</div>
+                                </div>
+                               
                             </div>
                             <div class="poster-body">
+                                <div class="poster-message-container">
+                                    <div class="poster-message" id="posterMessage">
+                                        I'm proud to support KCMC Children and Youth Ministry. Join me in making a difference in young lives!
+                                    </div>
+                                    <div class="poster-name" id="posterName">Your Name Here</div>
+                                    <div class="poster-role" id="posterRole">Ministry Partner</div>
+                                </div>
                                 <div class="poster-photo">
                                     <img id="posterPhoto" src="" alt="Partner Photo">
                                 </div>
-                                <div class="poster-message" id="posterMessage">
-                                    I'm proud to support KCMC Children and Youth Ministry. Join me in making a difference in young lives!
-                                </div>
-                                <div class="poster-name" id="posterName">Your Name Here</div>
-                                <div class="poster-role" id="posterRole">Ministry Partner</div>
                             </div>
                             <div class="poster-footer">
-                                <div class="poster-cta">Join Us Today!</div>
+                                <div class="poster-cta-container">
+                                    <div class="poster-cta">Join Us Today!</div>
+                                    <div class="poster-badge" id="posterBadge"></div>
+                                </div>
+
                                 <!--div class="poster-website">www.kcmcpartners.org</div-->
                                 <div class="payment-info">
                                     Partnership:<br>Paybill 247247 • Acc: 732071<br>
                                     Call: 0720-923-913
+                                </div>
+                                <div class="poster-social">
+                                    <div class="social-icon">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </div>
+                                    <div class="social-icon">
+                                        <i class="fab fa-instagram"></i>
+                                    </div>
+                                    <div class="social-icon">
+                                        <i class="fab fa-twitter"></i>
+                                    </div>
+                                    <div class="social-icon">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -782,6 +896,7 @@
     <nav>
         <ul>
             <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+             <li><a href="poster1.html"><i class="fas fa-image"></i>Large Poster</a></li>
         </ul>
     </nav>
 
@@ -1028,6 +1143,12 @@
                 // If logo fails to load, keep the text fallback
                 console.log('Logo image not found, using text fallback');
             };
+            
+            // Set the badge content
+            const date = new Date();
+            const month = date.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+            const year = date.getFullYear();
+            document.getElementById('posterBadge').textContent = `${month}-${year}`;
         });
 
         // Logout functionality

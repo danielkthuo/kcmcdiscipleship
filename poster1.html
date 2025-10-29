@@ -450,11 +450,19 @@
             text-align: center;
         }
 
+        .poster-cta-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
         .poster-cta {
             font-size: 1.1rem;
             font-weight: bold;
-            margin-bottom: 8px;
             letter-spacing: 0.5px;
+            flex: 1;
+            text-align: left;
         }
 
         .poster-website {
@@ -685,6 +693,15 @@
                 width: 100%;
                 justify-content: center;
             }
+            
+            .poster-cta-container {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .poster-cta {
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -788,18 +805,10 @@
                                 </div>
                             </div>
                             <div class="poster-footer">
-                                <div class="poster-cta">Join Us Today!</div>
-                                <div class="poster-badge" id="posterBadge"></div>
-
-<script>
-  // Get current month and year
-  const date = new Date();
-  const month = date.toLocaleString('en-US', { month: 'short' }).toUpperCase(); // e.g. OCT
-  const year = date.getFullYear();
-
-  // Insert into the badge
-  document.getElementById('posterBadge').textContent = `${month}-${year}`;
-</script>
+                                <div class="poster-cta-container">
+                                    <div class="poster-cta">Join Us Today!</div>
+                                    <div class="poster-badge" id="posterBadge"></div>
+                                </div>
 
                                 <!--div class="poster-website">www.kcmcpartners.org</div-->
                                 <div class="payment-info">
@@ -1133,6 +1142,12 @@
                 // If logo fails to load, keep the text fallback
                 console.log('Logo image not found, using text fallback');
             };
+            
+            // Set the badge content
+            const date = new Date();
+            const month = date.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+            const year = date.getFullYear();
+            document.getElementById('posterBadge').textContent = `${month}-${year}`;
         });
 
         // Logout functionality
