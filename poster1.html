@@ -322,7 +322,7 @@
 
         .poster {
             width: 100%;
-            max-width: 350px;
+            max-width: 400px;
             background: white;
             border-radius: 12px;
             overflow: hidden;
@@ -335,26 +335,21 @@
             background: linear-gradient(135deg, var(--secondary), var(--dark));
             color: white;
             padding: 16px;
-            text-align: center;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .poster-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--primary);
-            color: var(--secondary);
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: bold;
+        .poster-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .poster-logo {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 12px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: white;
             display: flex;
@@ -365,38 +360,58 @@
         }
 
         .poster-logo img {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             object-fit: contain;
         }
 
+        .poster-title-container {
+            text-align: right;
+            flex: 1;
+        }
+
         .poster-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: bold;
             margin-bottom: 4px;
             letter-spacing: 0.5px;
         }
 
         .poster-subtitle {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.9;
-            margin-bottom: 8px;
+        }
+
+        .poster-badge {
+            background: var(--primary);
+            color: var(--secondary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-align: center;
+            min-width: 80px;
         }
 
         .poster-body {
             padding: 20px 16px;
-            text-align: center;
-            position: relative;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .poster-message-container {
+            flex: 1;
         }
 
         .poster-photo {
             width: 130px;
             height: 130px;
             border-radius: 50%;
-            margin: 0 auto 16px;
             overflow: hidden;
             border: 4px solid var(--primary);
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
 
         .poster-photo img {
@@ -410,7 +425,6 @@
             margin-bottom: 16px;
             color: var(--dark);
             line-height: 1.5;
-            padding: 0 10px;
         }
 
         .poster-name {
@@ -624,7 +638,7 @@
             }
             
             .poster {
-                max-width: 400px;
+                max-width: 450px;
             }
         }
 
@@ -648,6 +662,19 @@
             
             .poster {
                 max-width: 100%;
+            }
+            
+            .poster-body {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .poster-message-container {
+                order: 2;
+            }
+            
+            .poster-photo {
+                order: 1;
             }
             
             .action-buttons {
@@ -736,7 +763,33 @@
                     <div class="poster-preview-container">
                         <div class="poster" id="poster">
                             <div class="poster-header">
-                               <div class="poster-badge" id="posterBadge"></div>
+                                <div class="poster-logo-container">
+                                    <div class="poster-logo">
+                                        <!-- Fallback logo if image doesn't load -->
+                                        <span style="color: var(--secondary); font-weight: bold;">KCMC</span>
+                                    </div>
+                                </div>
+                                <div class="poster-title-container">
+                                    <div class="poster-title">KCMC CHILDREN & YOUTH MINISTRY</div>
+                                    <div class="poster-subtitle">Transforming Lives Through Faith</div>
+                                </div>
+                               
+                            </div>
+                            <div class="poster-body">
+                                <div class="poster-message-container">
+                                    <div class="poster-message" id="posterMessage">
+                                        I'm proud to support KCMC Children and Youth Ministry. Join me in making a difference in young lives!
+                                    </div>
+                                    <div class="poster-name" id="posterName">Your Name Here</div>
+                                    <div class="poster-role" id="posterRole">Ministry Partner</div>
+                                </div>
+                                <div class="poster-photo">
+                                    <img id="posterPhoto" src="" alt="Partner Photo">
+                                </div>
+                            </div>
+                            <div class="poster-footer">
+                                <div class="poster-cta">Join Us Today!</div>
+                                <div class="poster-badge" id="posterBadge"></div>
 
 <script>
   // Get current month and year
@@ -748,25 +801,6 @@
   document.getElementById('posterBadge').textContent = `${month}-${year}`;
 </script>
 
-                                <div class="poster-logo">
-                                    <!-- Fallback logo if image doesn't load -->
-                                    <span style="color: var(--secondary); font-weight: bold;">KCMC</span>
-                                </div>
-                                <div class="poster-title">KCMC Children & Youth Ministry</div>
-                                <div class="poster-subtitle">Transforming Lives Through Faith</div>
-                            </div>
-                            <div class="poster-body">
-                                <div class="poster-photo">
-                                    <img id="posterPhoto" src="" alt="Partner Photo">
-                                </div>
-                                <div class="poster-message" id="posterMessage">
-                                    I'm proud to support KCMC Children and Youth Ministry. Join me in making a difference in young lives!
-                                </div>
-                                <div class="poster-name" id="posterName">Your Name Here</div>
-                                <div class="poster-role" id="posterRole">Ministry Partner</div>
-                            </div>
-                            <div class="poster-footer">
-                                <div class="poster-cta">Join Us Today!</div>
                                 <!--div class="poster-website">www.kcmcpartners.org</div-->
                                 <div class="payment-info">
                                     Partnership:<br>Paybill 247247 • Acc: 732071<br>
