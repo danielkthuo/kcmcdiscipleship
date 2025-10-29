@@ -30,8 +30,14 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Cropper.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    
     <!-- html2canvas for image generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <!-- Cropper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     
   <style>
 :root {
@@ -339,6 +345,114 @@ main {
     border-radius: var(--radius);
     margin-top: 16px;
     display: none;
+}
+
+/* Cropper Modal Styles */
+.cropper-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.cropper-container {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    max-width: 90%;
+    max-height: 90%;
+    width: 800px;
+    position: relative;
+}
+
+.cropper-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.cropper-header h3 {
+    color: var(--dark);
+    margin: 0;
+}
+
+.close-cropper {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--gray);
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-cropper:hover {
+    color: var(--dark);
+}
+
+.cropper-preview-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 16px;
+}
+
+.cropper-wrapper {
+    flex: 2;
+    max-height: 400px;
+    overflow: hidden;
+}
+
+#cropperImage {
+    max-width: 100%;
+    max-height: 400px;
+    display: block;
+}
+
+.preview-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.preview-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.preview-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--primary);
+    margin: 0 auto;
+}
+
+.cropper-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.cropper-actions .btn {
+    flex: 1;
 }
 
 /* Poster Preview - Enhanced to match flyer style */
@@ -726,6 +840,16 @@ main {
     .instructions-grid {
         grid-template-columns: 1fr 1fr;
     }
+    
+    /* Cropper adjustments for mobile */
+    .cropper-preview-container {
+        flex-direction: column;
+    }
+    
+    .preview-wrapper {
+        flex-direction: row;
+        justify-content: center;
+    }
 }
 
 @media (min-width: 768px) {
@@ -801,6 +925,37 @@ main {
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- Cropper Modal -->
+    <div class="cropper-modal" id="cropperModal">
+        <div class="cropper-container">
+            <div class="cropper-header">
+                <h3><i class="fas fa-crop-alt"></i> Crop Your Photo</h3>
+                <button class="close-cropper" id="closeCropper">&times;</button>
+            </div>
+            <div class="cropper-preview-container">
+                <div class="cropper-wrapper">
+                    <img id="cropperImage" src="" alt="Image to crop">
+                </div>
+                <div class="preview-wrapper">
+                    <div>
+                        <div class="preview-title">Preview</div>
+                        <div class="preview-circle">
+                            <img id="previewImage" src="" alt="Cropped preview" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cropper-actions">
+                <button id="cancelCrop" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button id="applyCrop" class="btn">
+                    <i class="fas fa-check"></i> Apply Crop
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Content -->
     <main>
         <div class="container">
@@ -834,6 +989,11 @@ main {
                             <img id="imagePreview" alt="Preview">
                         </div>
                         <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="form-group">
+                        <button id="cropImageBtn" class="btn btn-secondary" style="width: 100%; display: none;">
+                            <i class="fas fa-crop-alt"></i> Crop Image
+                        </button>
                     </div>
                     <div class="form-group">
                         <label for="customMessage">Custom Message (Optional)</label>
@@ -925,8 +1085,8 @@ main {
                         <p>Choose a clear, high-quality photo of yourself. A headshot or portrait works best.</p>
                     </div>
                     <div class="instruction-item">
-                        <h4>Step 2: Customize Your Poster</h4>
-                        <p>Add your name and a personal message about why you support our ministry.</p>
+                        <h4>Step 2: Crop Your Photo (Optional)</h4>
+                        <p>Use the crop tool to adjust your photo for the best composition.</p>
                     </div>
                     <div class="instruction-item">
                         <h4>Step 3: Generate & Download</h4>
@@ -978,6 +1138,7 @@ main {
         const uploadButton = document.getElementById('uploadButton');
         const photoUpload = document.getElementById('photoUpload');
         const imagePreview = document.getElementById('imagePreview');
+        const cropImageBtn = document.getElementById('cropImageBtn');
         const partnerName = document.getElementById('partnerName');
         const partnerRole = document.getElementById('partnerRole');
         const customMessage = document.getElementById('customMessage');
@@ -991,6 +1152,18 @@ main {
         const posterRoleElement = document.getElementById('posterRole');
         const posterMessage = document.getElementById('posterMessage');
         const poster = document.getElementById('poster');
+        
+        // Cropper elements
+        const cropperModal = document.getElementById('cropperModal');
+        const cropperImage = document.getElementById('cropperImage');
+        const previewImage = document.getElementById('previewImage');
+        const closeCropper = document.getElementById('closeCropper');
+        const cancelCrop = document.getElementById('cancelCrop');
+        const applyCrop = document.getElementById('applyCrop');
+        
+        // Variables
+        let cropper;
+        let currentImageUrl = '';
 
         // Toast notification function
         function showToast(message, type = 'info') {
@@ -1013,6 +1186,61 @@ main {
             setTimeout(() => {
                 toast.remove();
             }, 3000);
+        }
+
+        // Initialize Cropper
+        function initCropper(imageUrl) {
+            currentImageUrl = imageUrl;
+            cropperImage.src = imageUrl;
+            previewImage.src = imageUrl;
+            
+            // Show modal
+            cropperModal.style.display = 'flex';
+            
+            // Initialize cropper with circular aspect ratio
+            if (cropper) {
+                cropper.destroy();
+            }
+            
+            cropper = new Cropper(cropperImage, {
+                aspectRatio: 1,
+                viewMode: 1,
+                preview: '#previewImage',
+                guides: true,
+                background: false,
+                responsive: true,
+                restore: true,
+                checkCrossOrigin: false,
+                crop: function(event) {
+                    // Update preview in real-time
+                    const canvas = cropper.getCroppedCanvas({
+                        width: 200,
+                        height: 200
+                    });
+                    previewImage.src = canvas.toDataURL();
+                }
+            });
+        }
+
+        // Apply crop and update images
+        function applyCropToImages() {
+            if (cropper) {
+                const canvas = cropper.getCroppedCanvas({
+                    width: 400,
+                    height: 400
+                });
+                
+                const croppedImageUrl = canvas.toDataURL('image/png');
+                
+                // Update all image previews
+                imagePreview.src = croppedImageUrl;
+                posterPhoto.src = croppedImageUrl;
+                
+                // Close modal
+                cropperModal.style.display = 'none';
+                
+                showToast('Image cropped successfully!', 'success');
+            }
         }
 
         // Event Listeners
@@ -1042,15 +1270,56 @@ main {
                 
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    imagePreview.src = e.target.result;
+                    const imageUrl = e.target.result;
+                    imagePreview.src = imageUrl;
                     imagePreview.style.display = 'block';
-                    posterPhoto.src = e.target.result;
-                    showToast('Photo uploaded successfully!', 'success');
+                    posterPhoto.src = imageUrl;
+                    
+                    // Show crop button
+                    cropImageBtn.style.display = 'block';
+                    
+                    showToast('Photo uploaded successfully! You can now crop it if needed.', 'success');
                 }
                 reader.onerror = function() {
                     showToast('Error reading the file. Please try again.', 'error');
                 }
                 reader.readAsDataURL(file);
+            }
+        });
+
+        // Crop image button
+        cropImageBtn.addEventListener('click', function() {
+            if (imagePreview.src && imagePreview.src !== window.location.href) {
+                initCropper(imagePreview.src);
+            } else {
+                showToast('Please upload an image first.', 'error');
+            }
+        });
+
+        // Cropper modal controls
+        closeCropper.addEventListener('click', function() {
+            cropperModal.style.display = 'none';
+            if (cropper) {
+                cropper.destroy();
+            }
+        });
+
+        cancelCrop.addEventListener('click', function() {
+            cropperModal.style.display = 'none';
+            if (cropper) {
+                cropper.destroy();
+            }
+        });
+
+        applyCrop.addEventListener('click', applyCropToImages);
+
+        // Close modal when clicking outside
+        cropperModal.addEventListener('click', function(e) {
+            if (e.target === cropperModal) {
+                cropperModal.style.display = 'none';
+                if (cropper) {
+                    cropper.destroy();
+                }
             }
         });
 
