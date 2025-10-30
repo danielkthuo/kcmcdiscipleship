@@ -11,6 +11,7 @@ const urlsToCache = [
   '/progress.html',
   '/offline.html',
   '/sw.js',
+  '/partnership.html',
   '/pathlight-module/gifts.html',
   '/pathlight-module/progress.html',
   '/pathlight-module/header.html',
