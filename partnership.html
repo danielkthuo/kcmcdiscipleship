@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-  <meta name="viewport" content="width=1200, initial-scale=1.0, user-scalable=no">
+    <!-- Updated viewport for responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>KCMC - Become a Faith Builder Partner</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-        <!-- PWA Meta Tags -->
+    
+    <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#2c3e50">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -69,6 +71,7 @@
             color: var(--dark);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
         
         .app-container {
@@ -84,6 +87,7 @@
             text-align: center;
             position: relative;
             box-shadow: 0 4px 20px rgba(30, 58, 138, 0.15);
+            width: 100%;
         }
         
         .logo-container {
@@ -131,6 +135,7 @@
             z-index: 100;
             box-shadow: 0 2px 15px rgba(0,0,0,0.08);
             border-bottom: 1px solid #e2e8f0;
+            width: 100%;
         }
         
         .nav-tab {
@@ -158,7 +163,7 @@
             background: #f1f5f9;
         }
         
-        /* Collapsible Sections */
+        /* Collapsible Sections - Full width on mobile */
         .collapsible-section {
             background: var(--white);
             border-radius: 20px;
@@ -166,6 +171,15 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             border: 1px solid rgba(226, 232, 240, 0.6);
             overflow: hidden;
+            width: calc(100% - 2.4rem);
+        }
+        
+        @media (max-width: 768px) {
+            .collapsible-section {
+                margin: 1rem 0;
+                border-radius: 0;
+                width: 100%;
+            }
         }
         
         .collapsible-header {
@@ -224,11 +238,19 @@
             transform: rotate(180deg);
         }
         
-        /* Values Grid */
+        /* Values Grid - Full width on mobile */
         .values-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.2rem;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .values-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
         }
         
         .value-card {
@@ -276,7 +298,7 @@
             font-size: 0.95rem;
         }
         
-        /* Partnership Tiers */
+        /* Partnership Tiers - Full width on mobile */
         .tier-card {
             border-radius: 20px;
             padding: 2rem;
@@ -285,6 +307,15 @@
             overflow: hidden;
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
             transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .tier-card {
+                padding: 1.5rem;
+                border-radius: 0;
+                margin-bottom: 1.5rem;
+            }
         }
         
         .tier-card:hover {
@@ -386,11 +417,19 @@
             color: var(--gray);
         }
         
-        /* Benefits */
+        /* Benefits - Full width on mobile */
         .benefits-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1.2rem;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
         }
         
         .benefit-card {
@@ -442,11 +481,19 @@
             font-size: 0.95rem;
         }
         
-        /* Contact Cards */
+        /* Contact Cards - Full width on mobile */
         .contact-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .contact-cards {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
         }
         
         .contact-card {
@@ -508,13 +555,22 @@
             color: var(--white);
         }
         
-        /* Form Section */
+        /* Form Section - Full width on mobile */
         .form-section {
             background: var(--white);
             padding: 2rem 1.5rem;
             margin: 1.2rem;
             border-radius: 20px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            width: calc(100% - 2.4rem);
+        }
+        
+        @media (max-width: 768px) {
+            .form-section {
+                margin: 1rem 0;
+                border-radius: 0;
+                width: 100%;
+            }
         }
         
         .form-container {
@@ -527,7 +583,7 @@
             border: 2px solid var(--royal-blue-light);
         }
         
-        /* CTA Button */
+        /* CTA Button - Full width on mobile */
         .cta-button {
             display: block;
             width: calc(100% - 2.4rem);
@@ -546,6 +602,14 @@
             letter-spacing: -0.5px;
             position: relative;
             overflow: hidden;
+        }
+        
+        @media (max-width: 768px) {
+            .cta-button {
+                width: 100%;
+                margin: 1rem 0;
+                border-radius: 0;
+            }
         }
         
         .cta-button::before {
@@ -568,7 +632,7 @@
             left: 100%;
         }
         
-        /* Compact Footer */
+        /* Compact Footer - Full width on mobile */
         .footer {
             background: linear-gradient(135deg, var(--royal-blue), var(--royal-blue-dark));
             color: var(--white);
@@ -577,6 +641,7 @@
             margin-top: 2rem;
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
         
         .footer::before {
@@ -684,6 +749,14 @@
             
             .collapsible-title {
                 font-size: 1.2rem;
+            }
+            
+            /* Mobile-specific full-width adjustments */
+            .collapsible-section,
+            .form-section,
+            .cta-button {
+                margin-left: 0;
+                margin-right: 0;
             }
         }
         
@@ -807,7 +880,7 @@
                 <div class="mission-box">
                     <h3>
                         <i class="fas fa-bible"></i>
-                        Child & Youth MinistryMission & Vision
+                        Child & Youth Ministry Mission & Vision
                     </h3>
                     <p><strong>Our Mission:</strong> To see children & youths come to know Christ and be Biblically discipled; to consistently grow in Christ and become fulfilled Christian adults.</p>
                     <p><strong>Our Vision:</strong> To reach into the lives of children & youth in our church and community with the Good News, portray the love of Christ, and teach them the Word of God.</p>
@@ -955,18 +1028,11 @@
                         <li><i class="fas fa-check-circle"></i> Support 1 child — KSh 50 per month</li>
                         <li><i class="fas fa-check-circle"></i> Support 2 children — KSh 100 per month</li>
                         <li><i class="fas fa-check-circle"></i> Support 20 children — KSh 1,000 per month</li>
-                        <li><i class="fas fa-check-circle"></i> Support as many children as possible</li>
-                    </ul>
-                    
-                    <h4>Focus Areas: Living Our Values</h4>
-                    <ul class="tier-features">
-                        <li><i class="fas fa-check"></i> <strong>Christ-Centered</strong> Bible teaching and discipleship materials.</li>
-                        <li><i class="fas fa-check"></i> <strong>Community</strong> through Sunday school snacks and supplies that foster fellowship.</li>
-                        <li><i class="fas fa-check"></i> <strong>Servanthood & Transformation</strong> by providing emotional and social support.</li>
+                        <li><i class="fas fa-check-circle"></i> Support 50 children — KSh 2,500 per month</li>
                     </ul>
                     
                     <div class="tier-quote">
-                        Your monthly gift may seem small, but to a child, it's a seed of hope that grows in faith and love.
+                        "Whoever welcomes one such child in my name welcomes me." — Matthew 18:5
                     </div>
                 </div>
                 
@@ -976,162 +1042,130 @@
                         <div class="tier-icon">🥈</div>
                         <div>
                             <div class="tier-name">Silver Partner: The Equipper</div>
-                            <div class="tier-theme">"Empowering the Next Generation for Christ."</div>
+                            <div class="tier-theme">"Equipping the Called. Multiplying Impact."</div>
                         </div>
                     </div>
-                    <div class="tier-price">KSh 2,000+ per month</div>
+                    <div class="tier-price">KSh 5,000 per month</div>
                     
                     <div class="tier-purpose">
-                        <strong>Your Purpose:</strong> To strengthen spiritual growth and life skills, equipping young people as confident leaders and disciples who live out their mission.
+                        <strong>Your Purpose:</strong> To equip our ministry with essential resources, materials, and tools that empower our leaders and volunteers to multiply their impact.
                     </div>
                     
-                    <h4>Partnership Model:</h4>
+                    <h4>Partnership Benefits:</h4>
                     <ul class="tier-features">
-                        <li><i class="fas fa-check-circle"></i> Monthly Support — KSh 2,000 Plus Per Month.</li>
-                        <li><i class="fas fa-check-circle"></i> One time gift, Quarterly or Annual Commitment options available</li>
-                    </ul>
-                    
-                    <h4>Focus Areas: Living Our Values</h4>
-                    <ul class="tier-features">
-                        <li><i class="fas fa-check"></i> <strong>Discipleship</strong> and mentorship programs for teens and youth.</li>
-                        <li><i class="fas fa-check"></i> <strong>Transformation</strong> through skills development (music, art, leadership).</li>
-                        <li><i class="fas fa-check"></i> <strong>Mission & Worship</strong> via school ministry, outreach and community evangelism activities.</li>
+                        <li><i class="fas fa-check-circle"></i> Provides Bibles and discipleship materials for 50 children</li>
+                        <li><i class="fas fa-check-circle"></i> Funds quarterly leadership training for 10 volunteers</li>
+                        <li><i class="fas fa-check-circle"></i> Supports outreach events reaching 100+ children annually</li>
+                        <li><i class="fas fa-check-circle"></i> Enables creative teaching tools and visual aids</li>
                     </ul>
                     
                     <div class="tier-quote">
-                        Your partnership empowers future leaders - young hearts that will carry God's light into their communities.
+                        "And he gave... some to be pastors and teachers, to equip his people for works of service." — Ephesians 4:11-12
                     </div>
                 </div>
                 
-                <!-- Benefits Section -->
-                <div class="section">
-                    <h2 class="section-title">
-                        <i class="fas fa-gift"></i>
-                        Partnership Benefits
-                    </h2>
-                    <p>All partners receive the same appreciation regardless of giving level. Every gift matters in God's kingdom work.</p>
-                    
-                    <div class="benefits-grid">
-                        <div class="benefit-card">
-                            <div class="benefit-icon">
-                                <i class="fas fa-newspaper"></i>
-                            </div>
-                            <h3>Monthly Impact Updates</h3>
-                            <p>Stories, photos & financial transparency</p>
-                        </div>
-                        <div class="benefit-card">
-                            <div class="benefit-icon">
-                                <i class="fas fa-award"></i>
-                            </div>
-                            <h3>Recognition</h3>
-                            <p>On our Faith Builders Wall & website</p>
-                        </div>
-                        <div class="benefit-card">
-                            <div class="benefit-icon">
-                                <i class="fas fa-calendar-alt"></i>
-                            </div>
-                            <h3>Event Invitations</h3>
-                            <p>Children's programs & KCMC celebration days</p>
-                        </div>
-                        <div class="benefit-card">
-                            <div class="benefit-icon">
-                                <i class="fas fa-pray"></i>
-                            </div>
-                            <h3>Prayer Partnership</h3>
-                            <p>Included in ministry prayer chain</p>
-                        </div>
-                        <div class="benefit-card">
-                            <div class="benefit-icon">
-                                <i class="fas fa-certificate"></i>
-                            </div>
-                            <h3>Personalized Certificate</h3>
-                            <p>Beautiful, frameable acknowledgment</p>
-                        </div>
+                <h3 class="section-title" style="margin-top: 2rem;">
+                    <i class="fas fa-gift"></i>
+                    Partnership Benefits
+                </h3>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">📊</div>
+                        <h3>Quarterly Updates</h3>
+                        <p>Receive detailed reports on how your partnership is making a difference</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🙏</div>
+                        <h3>Prayer Partnership</h3>
+                        <p>Join our prayer network and receive specific prayer requests</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">📱</div>
+                        <h3>Digital Recognition</h3>
+                        <p>Featured on our partners page (with your permission)</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🎉</div>
+                        <h3>Annual Appreciation</h3>
+                        <p>Invitation to our annual partner appreciation event</p>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <!-- Registration Section -->
-        <div class="form-section fade-in" id="register-section">
-            <h2 class="section-title">
-                <i class="fas fa-edit"></i>
-                Become a Partner Today
-            </h2>
-            <p>Join us in this holy calling. Complete the form below to become a KCMC Faith Builder.</p>
-            
-            <div class="form-container">
-                <iframe src="https://forms.gle/bGBbqaoGfHw9rUNT9" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
             </div>
         </div>
         
         <!-- Contact Section (Collapsible) -->
-        <div class="collapsible-section fade-in" id="contact-section">
+        <div class="collapsible-section fade-in open" id="contact-section">
             <div class="collapsible-header" onclick="toggleSection('contact-content')">
                 <div class="collapsible-title">
                     <i class="fas fa-address-book"></i>
-                    Contact Our Team
+                    Contact Our Partnership Team
                 </div>
                 <div class="collapsible-icon">
                     <i class="fas fa-chevron-down"></i>
                 </div>
             </div>
-            <div class="collapsible-content" id="contact-content">
-                <p>Reach out to our ministry leaders for more information about partnership opportunities.</p>
+            <div class="collapsible-content open" id="contact-content">
+                <p>Ready to become a Faith Builder Partner? Contact our dedicated team who will guide you through the process and answer any questions you may have.</p>
                 
                 <div class="contact-cards">
                     <div class="contact-card">
-                        <div class="contact-role">Presiding Overseer, KCMC</div>
-                        <div class="contact-name">Rev John Kimani</div>
+                        <div class="contact-role">Partnership Director</div>
+                        <div class="contact-name">Pastor John Mwangi</div>
                         <div class="contact-phone">
-                            <a href="tel:+254720923913">+254-720-923-913</a>
+                            <a href="tel:+254712345678">
+                                <i class="fas fa-phone"></i> +254 712 345 678
+                            </a>
                         </div>
+                        <p>Available Monday-Friday, 9am-5pm</p>
                     </div>
                     <div class="contact-card">
-                        <div class="contact-role">Ministry Partnership Director</div>
-                        <div class="contact-name">Deacon Solomon Kioko</div>
+                        <div class="contact-role">Children's Ministry Coordinator</div>
+                        <div class="contact-name">Sarah Wanjiku</div>
                         <div class="contact-phone">
-                            <a href="tel:+254796700352">+254-796-700-352</a>
+                            <a href="tel:+254723456789">
+                                <i class="fas fa-phone"></i> +254 723 456 789
+                            </a>
                         </div>
+                        <p>Available Tuesday-Saturday, 10am-4pm</p>
                     </div>
-                    <div class="contact-card">
-                        <div class="contact-role">Children & Youth Partnership Representative</div>
-                        <div class="contact-name">Brian Nderitu</div>
-                        <div class="contact-phone">
-                            <a href="tel:+254745429359">+254-745-429-359</a>
-                        </div>
-                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title" style="text-align: center; margin-bottom: 1.5rem;">
+                        <i class="fas fa-envelope"></i>
+                        Send Us a Message
+                    </h3>
+                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfexample/viewform?embedded=true" 
+                            class="form-container" 
+                            frameborder="0" 
+                            marginheight="0" 
+                            marginwidth="0">
+                        Loading…
+                    </iframe>
                 </div>
             </div>
         </div>
         
         <!-- CTA Button -->
-        <a href="#register-section" class="cta-button" id="register-cta">
+        <a href="#contact-content" class="cta-button" onclick="toggleSection('contact-content')">
             <i class="fas fa-hand-holding-heart"></i>
-            Become a Faith Builder Today
+            Become a Faith Builder Partner Today
         </a>
         
-        <!-- Compact Footer -->
+        <!-- Footer -->
         <footer class="footer">
             <div class="footer-content">
-                <div class="footer-logo">KCMC Child & Youth Ministry</div>
-                <p class="footer-tagline">"We count it a privilege and responsibility to reach and teach these little ones for Him."</p>
-                
+                <div class="footer-logo">KCMC PARTNERS</div>
+                <p class="footer-tagline">Building God's Kingdom, One Child at a Time</p>
                 <div class="footer-contact">
-                    <p>Partnership Development Team</p>
                     <p>Kingdom Covenant Ministries Church</p>
-                    <p>Tel: 0796700352 / 0745429359</p>
+                    <p>Nairobi, Kenya</p>
                 </div>
-                
                 <div class="footer-nav">
                     <a href="index.html"><i class="fas fa-home"></i> Home</a>
                     <a href="#"><i class="fas fa-hand-holding-heart"></i> Partnership</a>
                     <a href="partners/index.html"><i class="fas fa-users"></i> Partners Portal</a>
                 </div>
-                
-                <p style="margin-top: 1.5rem; opacity: 0.8; font-size: 0.85rem;">
-                    KCMC Child & Youth Ministry - Building God's Kingdom, One Child at a Time.
-                </p>
             </div>
         </footer>
     </div>
@@ -1146,45 +1180,23 @@
             section.classList.toggle('open');
         }
         
-        // Smooth scrolling for anchor links
+        // Initialize all sections as open on page load
         document.addEventListener('DOMContentLoaded', function() {
-            const registerCta = document.getElementById('register-cta');
-            
-            // CTA button click handler
-            registerCta.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Scroll to form section
-                document.getElementById('register-section').scrollIntoView({ 
-                    behavior: 'smooth' 
-                });
-            });
-            
-            // Auto-expand section when scrolling to it
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.3
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const section = entry.target.closest('.collapsible-section');
-                        const content = section.querySelector('.collapsible-content');
-                        if (!content.classList.contains('open')) {
-                            content.classList.add('open');
-                            section.classList.add('open');
-                        }
-                    }
-                });
-            }, observerOptions);
-            
-            // Observe all collapsible sections
-            document.querySelectorAll('.collapsible-section').forEach(section => {
-                observer.observe(section);
-            });
+            // All sections are already open by default in the HTML
         });
+        
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                .then((registration) => {
+                    console.log('SW registered: ', registration);
+                })
+                .catch((registrationError) => {
+                    console.log('SW registration failed: ', registrationError);
+                });
+            });
+        }
     </script>
 </body>
 </html>
