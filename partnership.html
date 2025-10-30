@@ -645,34 +645,6 @@
             color: var(--royal-blue);
         }
         
-        /* Collapsible Sections */
-        .collapsible {
-            cursor: pointer;
-            position: relative;
-            padding-right: 40px;
-        }
-        
-        .collapsible::after {
-            content: '\f078';
-            font-family: 'Font Awesome 5 Free';
-            font-weight: 900;
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            transition: transform 0.3s ease;
-        }
-        
-        .collapsible.active::after {
-            transform: translateY(-50%) rotate(180deg);
-        }
-        
-        .collapsible-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-        
         /* Mobile-specific adjustments */
         @media (max-width: 768px) {
             .section {
@@ -894,75 +866,69 @@
             
             <!-- Bronze Tier -->
             <div class="tier-card bronze">
-                <div class="collapsible tier-header">
+                <div class="tier-header">
                     <div class="tier-icon">🥉</div>
                     <div>
                         <div class="tier-name">Bronze Partner: The Nurturer</div>
                         <div class="tier-theme">"One Child. One Journey. Faithfully."</div>
                     </div>
                 </div>
+                <div class="tier-price">KSh 50 per child per month</div>
                 
-                <div class="collapsible-content">
-                    <div class="tier-price">KSh 50 per child per month</div>
-                    
-                    <div class="tier-purpose">
-                        <strong>Your Purpose:</strong> To sustain the day-to-day discipleship and care of individual children, faithfully nurturing their faith through consistent love and guidance.
-                    </div>
-                    
-                    <h4>Partnership Options:</h4>
-                    <ul class="tier-features">
-                        <li><i class="fas fa-check-circle"></i> Support 1 child — KSh 50 per month</li>
-                        <li><i class="fas fa-check-circle"></i> Support 2 children — KSh 100 per month</li>
-                        <li><i class="fas fa-check-circle"></i> Support 20 children — KSh 1,000 per month</li>
-                        <li><i class="fas fa-check-circle"></i> Support as many children as possible</li>
-                    </ul>
-                    
-                    <h4>Focus Areas: Living Our Values</h4>
-                    <ul class="tier-features">
-                        <li><i class="fas fa-check"></i> <strong>Christ-Centered</strong> Bible teaching and discipleship materials.</li>
-                        <li><i class="fas fa-check"></i> <strong>Community</strong> through Sunday school snacks and supplies that foster fellowship.</li>
-                        <li><i class="fas fa-check"></i> <strong>Servanthood & Transformation</strong> by providing emotional and social support.</li>
-                    </ul>
-                    
-                    <div class="tier-quote">
-                        Your monthly gift may seem small, but to a child, it's a seed of hope that grows in faith and love.
-                    </div>
+                <div class="tier-purpose">
+                    <strong>Your Purpose:</strong> To sustain the day-to-day discipleship and care of individual children, faithfully nurturing their faith through consistent love and guidance.
+                </div>
+                
+                <h4>Partnership Options:</h4>
+                <ul class="tier-features">
+                    <li><i class="fas fa-check-circle"></i> Support 1 child — KSh 50 per month</li>
+                    <li><i class="fas fa-check-circle"></i> Support 2 children — KSh 100 per month</li>
+                    <li><i class="fas fa-check-circle"></i> Support 20 children — KSh 1,000 per month</li>
+                    <li><i class="fas fa-check-circle"></i> Support as many children as possible</li>
+                </ul>
+                
+                <h4>Focus Areas: Living Our Values</h4>
+                <ul class="tier-features">
+                    <li><i class="fas fa-check"></i> <strong>Christ-Centered</strong> Bible teaching and discipleship materials.</li>
+                    <li><i class="fas fa-check"></i> <strong>Community</strong> through Sunday school snacks and supplies that foster fellowship.</li>
+                    <li><i class="fas fa-check"></i> <strong>Servanthood & Transformation</strong> by providing emotional and social support.</li>
+                </ul>
+                
+                <div class="tier-quote">
+                    Your monthly gift may seem small, but to a child, it's a seed of hope that grows in faith and love.
                 </div>
             </div>
             
             <!-- Silver Tier -->
             <div class="tier-card silver">
-                <div class="collapsible tier-header">
+                <div class="tier-header">
                     <div class="tier-icon">🥈</div>
                     <div>
                         <div class="tier-name">Silver Partner: The Equipper</div>
                         <div class="tier-theme">"Empowering the Next Generation for Christ."</div>
                     </div>
                 </div>
+                <div class="tier-price">KSh 2,000+ per month</div>
                 
-                <div class="collapsible-content">
-                    <div class="tier-price">KSh 2,000+ per month</div>
-                    
-                    <div class="tier-purpose">
-                        <strong>Your Purpose:</strong> To strengthen spiritual growth and life skills, equipping young people as confident leaders and disciples who live out their mission.
-                    </div>
-                    
-                    <h4>Partnership Model:</h4>
-                    <ul class="tier-features">
-                        <li><i class="fas fa-check-circle"></i> Monthly Support — KSh 2,000 Plus Per Month.</li>
-                        <li><i class="fas fa-check-circle"></i> One time gift, Quarterly or Annual Commitment options available</li>
-                    </ul>
-                    
-                    <h4>Focus Areas: Living Our Values</h4>
-                    <ul class="tier-features">
-                        <li><i class="fas fa-check"></i> <strong>Discipleship</strong> and mentorship programs for teens and youth.</li>
-                        <li><i class="fas fa-check"></i> <strong>Transformation</strong> through skills development (music, art, leadership).</li>
-                        <li><i class="fas fa-check"></i> <strong>Mission & Worship</strong> via school ministry, outreach and community evangelism activities.</li>
-                    </ul>
-                    
-                    <div class="tier-quote">
-                        Your partnership empowers future leaders - young hearts that will carry God's light into their communities.
-                    </div>
+                <div class="tier-purpose">
+                    <strong>Your Purpose:</strong> To strengthen spiritual growth and life skills, equipping young people as confident leaders and disciples who live out their mission.
+                </div>
+                
+                <h4>Partnership Model:</h4>
+                <ul class="tier-features">
+                    <li><i class="fas fa-check-circle"></i> Monthly Support — KSh 2,000 Plus Per Month.</li>
+                    <li><i class="fas fa-check-circle"></i> One time gift, Quarterly or Annual Commitment options available</li>
+                </ul>
+                
+                <h4>Focus Areas: Living Our Values</h4>
+                <ul class="tier-features">
+                    <li><i class="fas fa-check"></i> <strong>Discipleship</strong> and mentorship programs for teens and youth.</li>
+                    <li><i class="fas fa-check"></i> <strong>Transformation</strong> through skills development (music, art, leadership).</li>
+                    <li><i class="fas fa-check"></i> <strong>Mission & Worship</strong> via school ministry, outreach and community evangelism activities.</li>
+                </ul>
+                
+                <div class="tier-quote">
+                    Your partnership empowers future leaders - young hearts that will carry God's light into their communities.
                 </div>
             </div>
             
@@ -1034,87 +1000,115 @@
         <!-- Contact Section -->
         <div class="section fade-in" id="contact-section">
             <h2 class="section-title">
-                <i class="fas fa-phone-alt"></i>
-                Contact Us
+                <i class="fas fa-address-book"></i>
+                Contact Our Team
             </h2>
-            <p>Have questions about partnership? Reach out to our team:</p>
+            <p>Reach out to our ministry leaders for more information about partnership opportunities.</p>
             
             <div class="contact-cards">
                 <div class="contact-card">
-                    <div class="contact-role">Partnership Coordinator</div>
-                    <div class="contact-name">Pst. Joseph Mwangi</div>
+                    <div class="contact-role">Presiding Overseer, KCMC</div>
+                    <div class="contact-name">Rev John Kimani</div>
                     <div class="contact-phone">
-                        <a href="tel:+254700000000">+254 700 000 000</a>
+                        <a href="tel:+254720923913">+254-720-923-913</a>
                     </div>
-                    <div class="contact-email">partnership@kcmc.org</div>
                 </div>
                 <div class="contact-card">
-                    <div class="contact-role">Child & Youth Ministry Director</div>
-                    <div class="contact-name">Pst. Faith Wanjiru</div>
+                    <div class="contact-role">Ministry Partnership Director</div>
+                    <div class="contact-name">Deacon Solomon Kioko</div>
                     <div class="contact-phone">
-                        <a href="tel:+254711111111">+254 711 111 111</a>
+                        <a href="tel:+254796700352">+254-796-700-352</a>
                     </div>
-                    <div class="contact-email">children@kcmc.org</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-role">Children & Youth Partnership Representative</div>
+                    <div class="contact-name">Brian Nderitu</div>
+                    <div class="contact-phone">
+                        <a href="tel:+254745429359">+254-745-429-359</a>
+                    </div>
                 </div>
             </div>
         </div>
         
+        <!-- CTA Button -->
+        <a href="#register-section" class="cta-button">
+            <i class="fas fa-hand-holding-heart"></i>
+            Become a Faith Builder Today
+        </a>
+        
         <!-- Footer -->
         <footer class="footer">
             <div class="footer-content">
-                <div class="footer-logo">KCMC CHILD & YOUTH MINISTRY PARTNERS</div>
-                <p class="footer-tagline">Building God's Kingdom, One Child at a Time</p>
-                <p class="footer-contact">Kingdom Covenant Ministries Church | Nairobi, Kenya</p>
-                <div class="footer-nav">
-                    <a href="#"><i class="fas fa-home"></i> Home</a>
-                    <a href="#"><i class="fas fa-hand-holding-heart"></i> Partnership</a>
-                    <a href="#"><i class="fas fa-users"></i> Partners Portal</a>
-                    <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+                <div class="footer-logo">KCMC Child & Youth Ministry</div>
+                <p class="footer-tagline">"We count it a privilege and responsibility to reach and teach these little ones for Him."</p>
+                
+                <div class="footer-contact">
+                    <p>Partnership Development Team</p>
+                    <p>Kingdom Covenant Ministries Church</p>
+                    <p>Tel: 0796700352 / 0745429359</p>
                 </div>
-                <p style="margin-top: 1.2rem; font-size: 0.8rem; opacity: 0.8;">&copy; 2023 KCMC. All Rights Reserved.</p>
+                
+                <div class="footer-nav">
+                    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                    <a href="#"><i class="fas fa-hand-holding-heart"></i> Partnership</a>
+                    <a href="partners/index.html"><i class="fas fa-users"></i> Partners Portal</a>
+                </div>
+                
+                <p style="margin-top: 1.2rem; opacity: 0.8; font-size: 0.8rem;">
+                    KCMC Child & Youth Ministry - Building God's Kingdom, One Child at a Time.
+                </p>
             </div>
         </footer>
     </div>
 
     <script>
-        // Collapsible functionality
+        // Smooth scrolling for anchor links
         document.addEventListener('DOMContentLoaded', function() {
-            const collapsibles = document.querySelectorAll('.collapsible');
+            const ctaButton = document.querySelector('.cta-button');
             
-            collapsibles.forEach(collapsible => {
-                collapsible.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    const content = this.nextElementSibling;
-                    
-                    if (content.style.maxHeight) {
-                        content.style.maxHeight = null;
-                    } else {
-                        content.style.maxHeight = content.scrollHeight + "px";
-                    }
-                });
+            // CTA button click handler
+            ctaButton.addEventListener('click', function(e) {
+                e.preventDefault();
                 
-                // Open the first collapsible by default
-                if (collapsible.parentElement.classList.contains('bronze')) {
-                    collapsible.classList.add('active');
-                    const content = collapsible.nextElementSibling;
-                    content.style.maxHeight = content.scrollHeight + "px";
-                }
+                // Scroll to form section
+                document.getElementById('register-section').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
             });
             
-            // Smooth scrolling for navigation
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        window.scrollTo({
-                            top: target.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
+            // Add fade-in animation to elements when they come into view
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
                     }
                 });
+            }, observerOptions);
+            
+            // Observe all sections for animation
+            document.querySelectorAll('.section').forEach(section => {
+                observer.observe(section);
             });
         });
+        
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                .then((registration) => {
+                    console.log('SW registered: ', registration);
+                })
+                .catch((registrationError) => {
+                    console.log('SW registration failed: ', registrationError);
+                });
+            });
+        }
     </script>
 </body>
 </html>
