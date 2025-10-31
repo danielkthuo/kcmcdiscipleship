@@ -139,8 +139,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            cursor: pointer;
-            user-select: none;
         }
         
         .section-title i {
@@ -154,25 +152,6 @@
             align-items: center;
             justify-content: center;
             font-size: 0.9rem;
-        }
-        
-        .section-title .toggle-icon {
-            margin-left: auto;
-            transition: transform 0.3s ease;
-        }
-        
-        .collapsed .toggle-icon {
-            transform: rotate(-90deg);
-        }
-        
-        .section-content {
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-        
-        .collapsed .section-content {
-            max-height: 0;
-            opacity: 0;
         }
         
         /* Enhanced Table */
@@ -229,64 +208,6 @@
         
         .value-desc-cell {
             color: var(--gray);
-        }
-        
-        /* Compact Core Values */
-        .values-compact {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 0.8rem;
-            margin: 1.2rem 0;
-        }
-        
-        .value-compact-card {
-            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-            border-radius: 10px;
-            padding: 0.8rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(30, 58, 138, 0.1);
-            position: relative;
-            overflow: hidden;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .value-compact-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-        }
-        
-        .value-compact-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--royal-blue);
-        }
-        
-        .value-compact-icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--royal-blue);
-        }
-        
-        .value-compact-card h3 {
-            font-size: 0.9rem;
-            margin-bottom: 0.4rem;
-            color: var(--royal-blue);
-            font-weight: 600;
-            line-height: 1.3;
-        }
-        
-        .value-compact-card p {
-            color: var(--gray);
-            font-size: 0.75rem;
-            line-height: 1.4;
         }
         
         /* Values Grid */
@@ -711,9 +632,6 @@
             justify-content: center;
             gap: 20px;
             margin-top: 0.8rem;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            padding-bottom: 5px;
         }
         
         .footer-nav a {
@@ -726,7 +644,6 @@
             gap: 5px;
             font-size: 0.8rem;
             white-space: nowrap;
-            flex-shrink: 0;
         }
         
         .footer-nav a:hover {
@@ -816,11 +733,6 @@
                 gap: 0.8rem;
             }
             
-            .values-compact {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.6rem;
-            }
-            
             .benefits-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 0.6rem;
@@ -848,9 +760,8 @@
             }
             
             .footer-nav {
-                gap: 15px;
-                padding: 0 10px;
-                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 12px;
             }
             
             .nav-tab {
@@ -873,18 +784,14 @@
                 grid-template-columns: 1fr;
             }
             
-            .values-compact {
-                grid-template-columns: 1fr;
-            }
-            
             .values-table {
                 display: block;
                 overflow-x: auto;
             }
             
             .footer-nav {
-                gap: 10px;
-                padding: 0 5px;
+                flex-direction: column;
+                gap: 8px;
             }
         }
         
@@ -928,414 +835,374 @@
         
         <!-- About Section -->
         <div class="section fade-in" id="about-section">
-            <h2 class="section-title collapsible" data-target="about-content">
+            <h2 class="section-title">
                 <i class="fas fa-info-circle"></i>
                 About Kingdom Covenant Ministries Church
-                <i class="fas fa-chevron-down toggle-icon"></i>
             </h2>
-            <div class="section-content" id="about-content">
-                <p>Kingdom Covenant Ministries Church (KCMC) has a central focus, Christ-centered, and Bible-oriented ministry intentional about spiritual transformation and community impact alongside leadership advancement.</p>
-                
-                <div class="mission-box">
-                    <h3>
-                        <i class="fas fa-bible"></i>
-                        Child & Youth Ministry Mission & Vision
-                    </h3>
-                    <p><strong>Our Mission:</strong> To see children & youths come to know Christ and be Biblically discipled; to consistently grow in Christ and become fulfilled Christian adults.</p>
-                    <p><strong>Our Vision:</strong> To reach into the lives of children & youth in our church and community with the Good News, portray the love of Christ, and teach them the Word of God.</p>
-                    <p class="scripture">
-                        "Train up a child in the way he should go and when he is old, he will not depart from it." - Proverbs 22:6
-                    </p>
-                </div>
-                
-                <h3 class="section-title collapsible" data-target="core-values-content">
-                    <i class="fas fa-star"></i>
-                    Our Core Values
-                    <i class="fas fa-chevron-down toggle-icon"></i>
+            <p>Kingdom Covenant Ministries Church (KCMC) has a central focus, Christ-centered, and Bible-oriented ministry intentional about spiritual transformation and community impact alongside leadership advancement.</p>
+            
+            <div class="mission-box">
+                <h3>
+                    <i class="fas fa-bible"></i>
+                    Child & Youth Ministry Mission & Vision
                 </h3>
-                <div class="section-content" id="core-values-content">
-                    <!-- Compact Core Values Grid -->
-                    <div class="values-compact">
-                        <div class="value-compact-card">
-                            <div class="value-compact-icon">🎯</div>
-                            <h3>Christ-Centered</h3>
-                            <p>Keeping Jesus at the heart of everything we do.</p>
-                        </div>
-                        <div class="value-compact-card">
-                            <div class="value-compact-icon">🤝</div>
-                            <h3>Community</h3>
-                            <p>Supporting and uplifting one another in faith and love.</p>
-                        </div>
-                        <div class="value-compact-card">
-                            <div class="value-compact-icon">📖</div>
-                            <h3>Discipleship</h3>
-                            <p>Equipping believers to grow and live out God's Word daily.</p>
-                        </div>
-                        <div class="value-compact-card">
-                            <div class="value-compact-icon">🤲</div>
-                            <h3>Servanthood</h3>
-                            <p>Meeting needs through humility, compassion, and service.</p>
-                        </div>
-                        <div class="value-compact-card">
-                            <div class="value-compact-icon">🙌</div>
-                            <h3>Worship</h3>
-                            <p>Expressing our love and gratitude to God through praise and prayer.</p>
-                        </div>
-                        <div class="value-compact-card">
-                            <div class="value-compact-icon">🌍</div>
-                            <h3>Mission</h3>
-                            <p>Sharing the gospel and transforming communities with God's love.</p>
-                        </div>
-                        <div class="value-compact-card">
-                            <div class="value-compact-icon">✨</div>
-                            <h3>Transformation</h3>
-                            <p>Believing in Christ's power to renew and restore lives.</p>
-                        </div>
+                <p><strong>Our Mission:</strong> To see children & youths come to know Christ and be Biblically discipled; to consistently grow in Christ and become fulfilled Christian adults.</p>
+                <p><strong>Our Vision:</strong> To reach into the lives of children & youth in our church and community with the Good News, portray the love of Christ, and teach them the Word of God.</p>
+                <p class="scripture">
+                    "Train up a child in the way he should go and when he is old, he will not depart from it." - Proverbs 22:6
+                </p>
+            </div>
+            
+            <h3 class="section-title">
+                <i class="fas fa-star"></i>
+                Our Core Values
+            </h3>
+            
+            <table class="values-table">
+                <thead>
+                    <tr>
+                        <th colspan="3">Core Values: Living Out Our Faith</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="value-icon-cell">🎯</td>
+                        <td class="value-name-cell"><strong>Christ-Centered</strong></td>
+                        <td class="value-desc-cell">Keeping Jesus at the heart of everything we do.</td>
+                    </tr>
+                    <tr>
+                        <td class="value-icon-cell">🤝</td>
+                        <td class="value-name-cell"><strong>Community</strong></td>
+                        <td class="value-desc-cell">Supporting and uplifting one another in faith and love.</td>
+                    </tr>
+                    <tr>
+                        <td class="value-icon-cell">📖</td>
+                        <td class="value-name-cell"><strong>Discipleship</strong></td>
+                        <td class="value-desc-cell">Equipping believers to grow and live out God's Word daily.</td>
+                    </tr>
+                    <tr>
+                        <td class="value-icon-cell">🤲</td>
+                        <td class="value-name-cell"><strong>Servanthood</strong></td>
+                        <td class="value-desc-cell">Meeting needs through humility, compassion, and service.</td>
+                    </tr>
+                    <tr>
+                        <td class="value-icon-cell">🙌</td>
+                        <td class="value-name-cell"><strong>Worship</strong></td>
+                        <td class="value-desc-cell">Expressing our love and gratitude to God through praise and prayer.</td>
+                    </tr>
+                    <tr>
+                        <td class="value-icon-cell">🌍</td>
+                        <td class="value-name-cell"><strong>Mission</strong></td>
+                        <td class="value-desc-cell">Sharing the gospel and transforming communities with God's love.</td>
+                    </tr>
+                    <tr>
+                        <td class="value-icon-cell">✨</td>
+                        <td class="value-name-cell"><strong>Transformation</strong></td>
+                        <td class="value-desc-cell">Believing in Christ's power to renew and restore lives.</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3 class="section-title" style="margin-top: 1.5rem;">
+                <i class="fas fa-list-check"></i>
+                Our Programs
+            </h3>
+            <ul class="programs-list">
+                <li>
+                    <i class="fas fa-check"></i>
+                    <div>
+                        <strong>Children and Youth Discipleship</strong> - creating spiritual growth and leadership in early life
                     </div>
-                    
-                    <!-- Original Table (Hidden by default) -->
-                    <details style="margin-top: 1rem;">
-                        <summary style="cursor: pointer; font-weight: 600; color: var(--royal-blue); padding: 0.5rem 0;">
-                            View Detailed Core Values Table
-                        </summary>
-                        <table class="values-table">
-                            <thead>
-                                <tr>
-                                    <th colspan="3">Core Values: Living Out Our Faith</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="value-icon-cell">🎯</td>
-                                    <td class="value-name-cell"><strong>Christ-Centered</strong></td>
-                                    <td class="value-desc-cell">Keeping Jesus at the heart of everything we do.</td>
-                                </tr>
-                                <tr>
-                                    <td class="value-icon-cell">🤝</td>
-                                    <td class="value-name-cell"><strong>Community</strong></td>
-                                    <td class="value-desc-cell">Supporting and uplifting one another in faith and love.</td>
-                                </tr>
-                                <tr>
-                                    <td class="value-icon-cell">📖</td>
-                                    <td class="value-name-cell"><strong>Discipleship</strong></td>
-                                    <td class="value-desc-cell">Equipping believers to grow and live out God's Word daily.</td>
-                                </tr>
-                                <tr>
-                                    <td class="value-icon-cell">🤲</td>
-                                    <td class="value-name-cell"><strong>Servanthood</strong></td>
-                                    <td class="value-desc-cell">Meeting needs through humility, compassion, and service.</td>
-                                </tr>
-                                <tr>
-                                    <td class="value-icon-cell">🙌</td>
-                                    <td class="value-name-cell"><strong>Worship</strong></td>
-                                    <td class="value-desc-cell">Expressing our love and gratitude to God through praise and prayer.</td>
-                                </tr>
-                                <tr>
-                                    <td class="value-icon-cell">🌍</td>
-                                    <td class="value-name-cell"><strong>Mission</strong></td>
-                                    <td class="value-desc-cell">Sharing the gospel and transforming communities with God's love.</td>
-                                </tr>
-                                <tr>
-                                    <td class="value-icon-cell">✨</td>
-                                    <td class="value-name-cell"><strong>Transformation</strong></td>
-                                    <td class="value-desc-cell">Believing in Christ's power to renew and restore lives.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </details>
-                </div>
-                
-                <h3 class="section-title collapsible" data-target="programs-content">
-                    <i class="fas fa-list-check"></i>
-                    Our Programs
-                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </li>
+                <li>
+                    <i class="fas fa-check"></i>
+                    <div>
+                        <strong>Evangelism and Missions</strong> - assisting the lost and recreating them with the Gospel in local and regional ways
+                    </div>
+                </li>
+                <li>
+                    <i class="fas fa-check"></i>
+                    <div>
+                        <strong>Educational and biblical teaching</strong> - providing believers with the equipment they need to mature and minister
+                    </div>
+                </li>
+                <li>
+                    <i class="fas fa-check"></i>
+                    <div>
+                        <strong>Leadership Development</strong> - putting people in position with development in mind for ethical, moral, and purpose-driven leaders
+                    </div>
+                </li>
+                <li>
+                    <i class="fas fa-check"></i>
+                    <div>
+                        <strong>Community Empowerment</strong> - solving practical social, educational, and economic community challenges
+                    </div>
+                </li>
+            </ul>
+            
+            <div class="mission-box">
+                <h3>
+                    <i class="fas fa-handshake"></i>
+                    Our Commitment to Stewardship
                 </h3>
-                <div class="section-content" id="programs-content">
-                    <ul class="programs-list">
-                        <li>
-                            <i class="fas fa-check"></i>
-                            <div>
-                                <strong>Children and Youth Discipleship</strong> - creating spiritual growth and leadership in early life
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i>
-                            <div>
-                                <strong>Evangelism and Missions</strong> - assisting the lost and recreating them with the Gospel in local and regional ways
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i>
-                            <div>
-                                <strong>Educational and biblical teaching</strong> - providing believers with the equipment they need to mature and minister
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i>
-                            <div>
-                                <strong>Leadership Development</strong> - putting people in position with development in mind for ethical, moral, and purpose-driven leaders
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i>
-                            <div>
-                                <strong>Community Empowerment</strong> - solving practical social, educational, and economic community challenges
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="mission-box">
-                    <h3>
-                        <i class="fas fa-handshake"></i>
-                        Our Commitment to Stewardship
-                    </h3>
-                    <p>At KCMC, we take stewardship seriously and will be intentional, transparent, and accountable, as we seek to steward every opportunity and resource in integrity and excellence. We take seriously our strategic partners. We consider them the means to grow our influence and impact.</p>
-                </div>
+                <p>At KCMC, we take stewardship seriously and will be intentional, transparent, and accountable, as we seek to steward every opportunity and resource in integrity and excellence. We take seriously our strategic partners. We consider them the means to grow our influence and capacity.</p>
+                <p><strong>Joining as a partner with KCMC means supporting a more prolonged transformation that is spiritual, practical, social, and generational.</strong></p>
+                <p>We look forward to working with people, churches, and organizations who want a partner that has the same vision of advancing the Kingdom of God and serving the community and making a practical difference.</p>
             </div>
         </div>
         
         <!-- Partnership Section -->
         <div class="section fade-in" id="partnership-section">
-            <h2 class="section-title collapsible" data-target="partnership-content">
+            <h2 class="section-title">
                 <i class="fas fa-handshake"></i>
                 Become a Faith Builder Partner
-                <i class="fas fa-chevron-down toggle-icon"></i>
             </h2>
-            <div class="section-content" id="partnership-content">
-                <p>We invite you to partner with us in our mission to build God's Kingdom through the lives of children and youth. Your partnership will help us reach more young souls and disciple them in the ways of the Lord.</p>
-                
-                <h3 class="section-title collapsible" data-target="benefits-content">
-                    <i class="fas fa-gift"></i>
-                    Partnership Benefits
-                    <i class="fas fa-chevron-down toggle-icon"></i>
-                </h3>
-                <div class="section-content" id="benefits-content">
-                    <div class="benefits-grid">
-                        <div class="benefit-card">
-                            <div class="benefit-icon"><i class="fas fa-heart"></i></div>
-                            <h3>Spiritual Impact</h3>
-                            <p>Directly impact children's spiritual growth and salvation</p>
-                        </div>
-                        <div class="benefit-card">
-                            <div class="benefit-icon"><i class="fas fa-pray"></i></div>
-                            <h3>Prayer Support</h3>
-                            <p>Receive dedicated prayer support from our ministry team</p>
-                        </div>
-                        <div class="benefit-card">
-                            <div class="benefit-icon"><i class="fas fa-newspaper"></i></div>
-                            <h3>Updates & Reports</h3>
-                            <p>Regular updates on ministry impact and testimonies</p>
-                        </div>
-                        <div class="benefit-card">
-                            <div class="benefit-icon"><i class="fas fa-certificate"></i></div>
-                            <h3>Recognition</h3>
-                            <p>Special recognition in our partner communications</p>
-                        </div>
-                        <div class="benefit-card">
-                            <div class="benefit-icon"><i class="fas fa-hands-helping"></i></div>
-                            <h3>Volunteer Opportunities</h3>
-                            <p>Opportunities to serve directly in our programs</p>
-                        </div>
-                        <div class="benefit-card">
-                            <div class="benefit-icon"><i class="fas fa-seedling"></i></div>
-                            <h3>Eternal Investment</h3>
-                            <p>Invest in eternal treasures by sowing into God's Kingdom</p>
-                        </div>
+            <p>Your support allows us to live out our core values and turn our mission into a reality. Choose your partnership level below.</p>
+            
+            <!-- Bronze Tier -->
+            <div class="tier-card bronze">
+                <div class="tier-header">
+                    <div class="tier-icon">🥉</div>
+                    <div>
+                        <div class="tier-name">Bronze Partner: The Nurturer</div>
+                        <div class="tier-theme">"One Child. One Journey. Faithfully."</div>
                     </div>
                 </div>
+                <div class="tier-price">KSh 50 per child per month</div>
                 
-                <h3 class="section-title collapsible" data-target="tiers-content">
-                    <i class="fas fa-crown"></i>
-                    Partnership Tiers
-                    <i class="fas fa-chevron-down toggle-icon"></i>
-                </h3>
-                <div class="section-content" id="tiers-content">
-                    <!-- Bronze Tier -->
-                    <div class="tier-card bronze">
-                        <div class="tier-header">
-                            <div class="tier-icon">🥉</div>
-                            <div>
-                                <div class="tier-name">BRONZE PARTNER</div>
-                                <div class="tier-theme">Foundation Builder</div>
-                            </div>
-                        </div>
-                        <div class="tier-price">$50 / month</div>
-                        <p class="tier-purpose"><strong>Purpose:</strong> To help provide foundational resources for our children's ministry programs, including Bible curriculum, craft supplies, and snacks for our weekly programs.</p>
-                        <ul class="tier-features">
-                            <li><i class="fas fa-check"></i> Monthly ministry update email</li>
-                            <li><i class="fas fa-check"></i> Annual impact report</li>
-                            <li><i class="fas fa-check"></i> Recognition in our partner newsletter</li>
-                            <li><i class="fas fa-check"></i> Special prayer request line</li>
-                        </ul>
-                        <p class="tier-quote">"Whoever sows sparingly will also reap sparingly, and whoever sows generously will also reap generously." - 2 Corinthians 9:6</p>
-                    </div>
-                    
-                    <!-- Silver Tier -->
-                    <div class="tier-card silver">
-                        <div class="tier-header">
-                            <div class="tier-icon">🥈</div>
-                            <div>
-                                <div class="tier-name">SILVER PARTNER</div>
-                                <div class="tier-theme">Growth Enabler</div>
-                            </div>
-                        </div>
-                        <div class="tier-price">$100 / month</div>
-                        <p class="tier-purpose"><strong>Purpose:</strong> To enable the expansion of our outreach programs, including community events, outreach materials, and transportation for children who need rides to our programs.</p>
-                        <ul class="tier-features">
-                            <li><i class="fas fa-check"></i> All Bronze benefits</li>
-                            <li><i class="fas fa-check"></i> Quarterly video updates from ministry leaders</li>
-                            <li><i class="fas fa-check"></i> Invitation to annual partner appreciation event</li>
-                            <li><i class="fas fa-check"></i> Personalized prayer support from our pastoral team</li>
-                            <li><i class="fas fa-check"></i> Opportunity to sponsor a child's participation in special events</li>
-                        </ul>
-                        <p class="tier-quote">"Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver." - 2 Corinthians 9:7</p>
-                    </div>
-                    
-                    <!-- Gold Tier -->
-                    <div class="tier-card" style="background: linear-gradient(135deg, #fefce8, #fef9c3); border: 2px solid var(--gold);">
-                        <div class="tier-header">
-                            <div class="tier-icon">🥇</div>
-                            <div>
-                                <div class="tier-name">GOLD PARTNER</div>
-                                <div class="tier-theme">Kingdom Advancer</div>
-                            </div>
-                        </div>
-                        <div class="tier-price">$250 / month</div>
-                        <p class="tier-purpose"><strong>Purpose:</strong> To advance strategic initiatives including leadership training for youth, mission trips, and technology upgrades for our digital discipleship programs.</p>
-                        <ul class="tier-features">
-                            <li><i class="fas fa-check"></i> All Silver benefits</li>
-                            <li><i class="fas fa-check"></i> Bi-monthly personal updates from our ministry director</li>
-                            <li><i class="fas fa-check"></i> Priority invitation to ministry events and behind-the-scenes tours</li>
-                            <li><i class="fas fa-check"></i> Special recognition in our annual report and on our partner wall</li>
-                            <li><i class="fas fa-check"></i> Opportunity to help shape ministry initiatives through advisory input</li>
-                            <li><i class="fas fa-check"></i> Personalized certificate of partnership</li>
-                        </ul>
-                        <p class="tier-quote">"Give, and it will be given to you. A good measure, pressed down, shaken together and running over, will be poured into your lap. For with the measure you use, it will be measured to you." - Luke 6:38</p>
-                    </div>
+                <div class="tier-purpose">
+                    <strong>Your Purpose:</strong> To sustain the day-to-day discipleship and care of individual children, faithfully nurturing their faith through consistent love and guidance.
                 </div>
                 
-                <h3 class="section-title collapsible" data-target="contact-content">
-                    <i class="fas fa-address-book"></i>
-                    Contact Our Partnership Team
-                    <i class="fas fa-chevron-down toggle-icon"></i>
-                </h3>
-                <div class="section-content" id="contact-content">
-                    <div class="contact-cards">
-                        <div class="contact-card">
-                            <div class="contact-role">Partnership Director</div>
-                            <div class="contact-name">Sarah Johnson</div>
-                            <div class="contact-phone"><a href="tel:+15551234567">(555) 123-4567</a></div>
-                            <p>Sarah oversees all partnership relationships and can answer any questions about our programs and impact.</p>
-                        </div>
-                        <div class="contact-card">
-                            <div class="contact-role">Children's Ministry Pastor</div>
-                            <div class="contact-name">Michael Rodriguez</div>
-                            <div class="contact-phone"><a href="tel:+15559876543">(555) 987-6543</a></div>
-                            <p>Michael leads our children's ministry programs and can share specific details about how your partnership impacts children.</p>
-                        </div>
-                        <div class="contact-card">
-                            <div class="contact-role">Youth Ministry Director</div>
-                            <div class="contact-name">Jessica Williams</div>
-                            <div class="contact-phone"><a href="tel:+15555678901">(555) 567-8901</a></div>
-                            <p>Jessica directs our youth programs and can explain how partnerships help us reach teenagers in our community.</p>
-                        </div>
+                <h4>Partnership Options:</h4>
+                <ul class="tier-features">
+                    <li><i class="fas fa-check-circle"></i> Support 1 child — KSh 50 per month</li>
+                    <li><i class="fas fa-check-circle"></i> Support 2 children — KSh 100 per month</li>
+                    <li><i class="fas fa-check-circle"></i> Support 20 children — KSh 1,000 per month</li>
+                    <li><i class="fas fa-check-circle"></i> Support as many children as possible</li>
+                </ul>
+                
+                <h4>Focus Areas: <span style="color: var(--dark);">Living Our Values</span></h4>
+                <ul class="tier-features">
+                    <li><i class="fas fa-check-circle"></i> Empowering children through Bible-based teaching, discipleship, and spiritual growth resources.</li>
+                    <li><i class="fas fa-check-circle"></i> Building fellowship through Sunday school programs, snacks, and shared learning experiences.</li>
+                    <li><i class="fas fa-check-circle"></i> Supporting holistic growth through emotional care, social empowerment, and acts of service.</li>
+                </ul>
+                
+                <div class="tier-quote">
+                    Your monthly gift may seem small, but to a child, it's a seed of hope that grows in faith and love.
+                </div>
+            </div>
+            
+            <!-- Silver Tier -->
+            <div class="tier-card silver">
+                <div class="tier-header">
+                    <div class="tier-icon">🥈</div>
+                    <div>
+                        <div class="tier-name">Silver Partner: The Equipper</div>
+                        <div class="tier-theme">"Empowering the Next Generation for Christ."</div>
                     </div>
                 </div>
+                <div class="tier-price">KSh 2,000+ per month</div>
                 
-                <a href="#form-section" class="cta-button">
-                    <i class="fas fa-hand-holding-heart"></i>
-                    Become a Faith Builder Partner Today
-                </a>
+                <div class="tier-purpose">
+                    <strong>Your Purpose:</strong> To strengthen spiritual growth and life skills, equipping young people as confident leaders and disciples who live out their mission.
+                </div>
+                
+                <h4>Partnership Model:</h4>
+                <ul class="tier-features">
+                    <li><i class="fas fa-check-circle"></i> Monthly Support — KSh 2,000 Plus Per Month.</li>
+                    <li><i class="fas fa-check-circle"></i> One time gift, Quarterly or Annual Commitment options available</li>
+                </ul>
+                
+                <h4>Focus Areas: <span style="color: var(--dark);">Living Our Values</span></h4>
+                <ul class="tier-features">
+                    <li><i class="fas fa-check-circle"></i> Mentorship programs that nurture faith, character, and purpose among teens and youth.</li>
+                    <li><i class="fas fa-check-circle"></i> Empowering young people through creative skills development — including music, art, and leadership.</li>
+                    <li><i class="fas fa-check-circle"></i> Reaching schools and communities through outreach, evangelism, and dynamic worship experiences.</li>
+                </ul>
+                
+                <div class="tier-quote">
+                    Your partnership empowers future leaders - young hearts that will carry God's light into their communities.
+                </div>
+            </div>
+            
+            <!-- Benefits Section -->
+            <h3 class="section-title" style="margin-top: 1.5rem;">
+                <i class="fas fa-gift"></i>
+                Partnership Benefits
+            </h3>
+            <p>All partners receive the same appreciation regardless of giving level. Every gift matters in God's kingdom work.</p>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <h3>Monthly Impact Updates</h3>
+                    <p>Stories, photos & financial transparency</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>Recognition</h3>
+                    <p>On our Faith Builders Wall & website</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Event Invitations</h3>
+                    <p>Children's programs & KCMC celebration days</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-pray"></i>
+                    </div>
+                    <h3>Prayer Partnership</h3>
+                    <p>Included in ministry prayer chain</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Personalized Certificate</h3>
+                    <p>Beautiful, frameable acknowledgment</p>
+                </div>
             </div>
         </div>
         
-        <!-- Form Section -->
-        <div class="form-section fade-in" id="form-section">
+        <!-- Registration Section -->
+        <div class="section fade-in" id="register-section">
             <h2 class="section-title">
-                <i class="fas fa-file-signature"></i>
-                Partnership Application Form
+                <i class="fas fa-edit"></i>
+                Become a Partner Today
             </h2>
-            <p>Complete the form below to begin your partnership journey with KCMC. Our team will contact you within 2 business days to welcome you and discuss next steps.</p>
+            <p>Join us in this holy calling. Complete the form below to become a KCMC Faith Builder.</p>
             
             <div class="google-form-wrapper">
                 <div class="form-loading">
                     <i class="fas fa-spinner fa-spin"></i>
-                    <div>Loading Partnership Form...</div>
+                    <p>Loading Partnership Form...</p>
                 </div>
-                <!-- Google Form would be embedded here -->
-                <!-- <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf..."></iframe> -->
+                <iframe src="https://forms.gle/bGBbqaoGfHw9rUNT9" 
+                        onload="document.querySelector('.form-loading').style.display='none'">
+                </iframe>
             </div>
         </div>
+        
+        <!-- Contact Section -->
+        <div class="section fade-in" id="contact-section">
+            <h2 class="section-title">
+                <i class="fas fa-address-book"></i>
+                Contact Our Team
+            </h2>
+            <p>Reach out to our ministry leaders for more information about partnership opportunities.</p>
+            
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <div class="contact-role">Presiding Overseer, KCMC</div>
+                    <div class="contact-name">Rev John Kimani</div>
+                    <div class="contact-phone">
+                        <a href="tel:+254720923913">+254-720-923-913</a>
+                    </div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-role">Ministry Partnership Director</div>
+                    <div class="contact-name">Deacon Solomon Kioko</div>
+                    <div class="contact-phone">
+                        <a href="tel:+254796700352">+254-796-700-352</a>
+                    </div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-role">Children & Youth Partnership Representative</div>
+                    <div class="contact-name">Brian Nderitu</div>
+                    <div class="contact-phone">
+                        <a href="tel:+254745429359">+254-745-429-359</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CTA Button -->
+        <a href="#register-section" class="cta-button">
+            <i class="fas fa-hand-holding-heart"></i>
+            Become a Faith Builder Today
+        </a>
         
         <!-- Footer -->
         <footer class="footer">
             <div class="footer-content">
-                <div class="footer-logo">KCMC CHILD & YOUTH MINISTRY PARTNERS</div>
-                <p class="footer-tagline">Building God's Kingdom, One Child at a Time</p>
-                <div class="footer-contact">123 Faith Avenue, Hope City, HC 12345 | (555) 123-4567</div>
+                <div class="footer-logo">KCMC Child & Youth Ministry</div>
+                <p class="footer-tagline">"We count it a privilege and responsibility to reach and teach these little ones for Him."</p>
                 
-                <!-- Single line footer navigation -->
+                <div class="footer-contact">
+                    <p>Partnership Development Team | Kingdom Covenant Ministries Church</p>
+                    <p>Tel: 0796700352 / 0745429359</p>
+                </div>
+                
                 <div class="footer-nav">
                     <a href="index.html"><i class="fas fa-home"></i> Home</a>
                     <a href="#"><i class="fas fa-hand-holding-heart"></i> Partnership</a>
                     <a href="partners/index.html"><i class="fas fa-users"></i> Partners Portal</a>
-                    <a href="#"><i class="fas fa-info-circle"></i> About</a>
-                    <a href="#"><i class="fas fa-envelope"></i> Contact</a>
-                    <a href="#"><i class="fas fa-lock"></i> Privacy</a>
                 </div>
                 
-                <div class="footer-copyright">
-                    &copy; 2023 Kingdom Covenant Ministries Church. All Rights Reserved.
-                </div>
+                <p class="footer-copyright">
+                    KCMC Child & Youth Ministry - Building God's Kingdom, One Child at a Time.
+                </p>
             </div>
         </footer>
     </div>
 
     <script>
-        // Collapsible sections functionality
+        // Smooth scrolling for anchor links
         document.addEventListener('DOMContentLoaded', function() {
-            const collapsibleTitles = document.querySelectorAll('.collapsible');
+            const ctaButton = document.querySelector('.cta-button');
             
-            collapsibleTitles.forEach(title => {
-                title.addEventListener('click', function() {
-                    const targetId = this.getAttribute('data-target');
-                    const targetContent = document.getElementById(targetId);
-                    const parentSection = this.closest('.section');
-                    
-                    // Toggle the collapsed class on the parent section
-                    parentSection.classList.toggle('collapsed');
-                    
-                    // Toggle the content visibility
-                    if (parentSection.classList.contains('collapsed')) {
-                        targetContent.style.maxHeight = '0';
-                        targetContent.style.opacity = '0';
-                    } else {
-                        targetContent.style.maxHeight = targetContent.scrollHeight + 'px';
-                        targetContent.style.opacity = '1';
-                    }
+            // CTA button click handler
+            ctaButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Scroll to form section
+                document.getElementById('register-section').scrollIntoView({ 
+                    behavior: 'smooth' 
                 });
             });
             
-            // Initialize all sections as collapsed
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
-                const content = section.querySelector('.section-content');
-                if (content) {
-                    section.classList.add('collapsed');
-                    content.style.maxHeight = '0';
-                    content.style.opacity = '0';
-                }
-            });
+            // Add fade-in animation to elements when they come into view
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
             
-            // Simulate form loading
-            setTimeout(function() {
-                const formLoading = document.querySelector('.form-loading');
-                if (formLoading) {
-                    formLoading.style.display = 'none';
-                }
-            }, 2000);
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all sections for animation
+            document.querySelectorAll('.section').forEach(section => {
+                observer.observe(section);
+            });
         });
+        
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                .then((registration) => {
+                    console.log('SW registered: ', registration);
+                })
+                .catch((registrationError) => {
+                    console.log('SW registration failed: ', registrationError);
+                });
+            });
+        }
     </script>
 </body>
 </html>
