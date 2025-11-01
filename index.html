@@ -799,63 +799,101 @@
 
             
             <!-- ====== INSTALL PROMPT CODE FOR KCMC APP ====== -->
-            <script>
-              const installPromo = document.createElement('div');
-              installPromo.id = 'installPromo';
-              installPromo.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                background: #ffffff;
-                color: #2c3e50;
-                padding: 18px 20px;
-                border-radius: 14px;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-                border-left: 5px solid #0b6efd;
-                z-index: 2000;
-                max-width: 320px;
-                animation: slideUp 0.5s ease-out;
-                font-family: 'Segoe UI', Roboto, sans-serif;
-              `;
+<script>
+  // Check if the app is already installed
+  if (!window.matchMedia('(display-mode: standalone)').matches) {
+    const installPromo = document.createElement('div');
+    installPromo.id = 'installPromo';
+    installPromo.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ffffff;
+      color: #2c3e50;
+      padding: 18px 20px;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      border-left: 5px solid #0b6efd;
+      z-index: 2000;
+      max-width: 320px;
+      animation: slideUp 0.5s ease-out;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+    `;
 
-              installPromo.innerHTML = `
-                <div style="display: flex; align-items: flex-start; gap: 10px;">
-                  <i class="fas fa-download" style="color: #0b6efd; font-size: 1.4rem; margin-top: 2px;"></i>
-                  <div>
-                    <p style="margin: 0 0 10px 0; font-size: 0.95rem; line-height: 1.4;">
-                      <strong>Install KCMC App</strong><br>
-                      Access Partners and discipleship tools anytime.
-                    </p>
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                      <button id="installButton" onclick="installApp()" style="background: #0b6efd; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; cursor: pointer;">
-                        Install Now
-                      </button>
-                      <button onclick="this.closest('#installPromo').remove()" style="background: transparent; border: none; color: #555; font-size: 0.85rem; cursor: pointer;">
-                        Not now
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              `;
+    installPromo.innerHTML = `
+      <div style="display: flex; align-items: flex-start; gap: 10px;">
+        <i class="fas fa-download" style="color: #0b6efd; font-size: 1.4rem; margin-top: 2px;"></i>
+        <div>
+          <p style="margin: 0 0 10px 0; font-size: 0.95rem; line-height: 1.4;">
+            <strong>Install KCMC App</strong><br>
+            Access Partners and discipleship tools anytime.
+          </p>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button id="installButton" onclick="installApp()" style="background: #0b6efd; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; cursor: pointer;">
+              Install Now
+            </button>
+            <button onclick="this.closest('#installPromo').remove()" style="background: transparent; border: none; color: #555; font-size: 0.85rem; cursor: pointer;">
+              Not now
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
 
-              document.body.appendChild(installPromo);
+    document.body.appendChild(installPromo);
 
-              async function installApp() {
-                if (deferredPrompt) {
-                  deferredPrompt.prompt();
-                  const { outcome } = await deferredPrompt.userChoice;
-                  console.log(`User response: ${outcome}`);
-                  if (outcome === 'accepted') {
-                    document.getElementById('installPromo')?.remove();
-                  }
-                  deferredPrompt = null;
-                }
-              }
+    // Add animation styles dynamically
+    const style = document.createElement('style');
+    style.innerHTML = `
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
 
-              window.addEventListener('appinstalled', () => {
-                console.log('✅ KCMC App installed successfully!');
-                document.getElementById('installPromo')?.remove();
-              });
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 0 rgba(11, 110, 253, 0.6); }
+      70% { box-shadow: 0 0 0 10px rgba(11, 110, 253, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(11, 110, 253, 0); }
+    }
+
+    #installButton {
+      animation: pulseGlow 2s infinite;
+      transition: transform 0.2s ease;
+    }
+
+    #installButton:hover {
+      transform: scale(1.05);
+      background: #0847c1;
+    }
+    `;
+    document.head.appendChild(style);
+  }
+
+  let deferredPrompt;
+
+  async function installApp() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`User response: ${outcome}`);
+      if (outcome === 'accepted') {
+        document.getElementById('installPromo')?.remove();
+      }
+      deferredPrompt = null;
+    }
+  }
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+  });
+
+  window.addEventListener('appinstalled', () => {
+    console.log('✅ KCMC App installed successfully!');
+    document.getElementById('installPromo')?.remove();
+  });
+
+<!-- ====== END INSTALL PROMPT CODE ====== -->
 
               // Add animation styles dynamically
               const style = document.createElement('style');
@@ -1308,7 +1346,7 @@
     
     <script>
         // PWA Installation
-        let deferredPrompt;
+        //let deferredPrompt;
         const installButton = document.getElementById('installButton');
         
         window.addEventListener('beforeinstallprompt', (e) => {
