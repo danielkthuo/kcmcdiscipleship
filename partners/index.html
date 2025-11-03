@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KCMC Partners - Home</title>
     <link rel="stylesheet" href="styles.css">
-
+   
    <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#2c3e50">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -500,85 +500,6 @@
                 padding-bottom: 0;
             }
         }
-
-        /* Notification Badge */
-.notification-badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: var(--accent);
-    color: white;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    font-size: 0.7rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-
-/* Notification Items */
-.notification-item {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.notification-item:hover {
-    background: #f8f9fa;
-}
-
-.notification-item.unread {
-    background: rgba(52, 152, 219, 0.05);
-    border-left: 3px solid var(--secondary);
-}
-
-.notification-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 5px;
-}
-
-.notification-title {
-    font-weight: 600;
-    color: var(--dark);
-    flex: 1;
-}
-
-.notification-time {
-    font-size: 0.8rem;
-    color: var(--gray);
-    white-space: nowrap;
-    margin-left: 10px;
-}
-
-.notification-body {
-    font-size: 0.9rem;
-    color: var(--gray);
-    line-height: 1.4;
-}
-
-.notification-actions {
-    margin-top: 8px;
-    display: flex;
-    gap: 10px;
-}
-
-.notification-actions button {
-    background: none;
-    border: none;
-    color: var(--secondary);
-    font-size: 0.8rem;
-    cursor: pointer;
-    padding: 2px 5px;
-}
-
-.notification-actions button:hover {
-    text-decoration: underline;
-}
     </style>
 </head>
 <body>
@@ -826,78 +747,10 @@
         </div>
     </footer>
 
-<!-- Notification Permission Prompt -->
-<div id="notificationPrompt" class="modal" style="display: none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Enable Notifications</h2>
-            <span class="close" onclick="hideNotificationPrompt()">&times;</span>
-        </div>
-        <div class="modal-body">
-            <p>Stay updated with important messages from KCMC Partners. Receive notifications about:</p>
-            <ul style="margin: 15px 0; padding-left: 20px;">
-                <li>Important ministry updates</li>
-                <li>Child progress reports</li>
-                <li>Event reminders</li>
-                <li>Administrative announcements</li>
-            </ul>
-            <div style="display: flex; gap: 10px; flex-direction: column;">
-                <button onclick="enableNotifications()" class="btn" style="width: 100%;">
-                    <i class="fas fa-bell"></i> Enable Notifications
-                </button>
-                <button onclick="hideNotificationPrompt()" class="btn btn-secondary" style="width: 100%;">
-                    Maybe Later
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Notifications Panel -->
-<div id="notificationsPanel" class="modal" style="display: none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Your Notifications</h2>
-            <span class="close" onclick="hideNotificationsPanel()">&times;</span>
-        </div>
-        <div class="modal-body">
-            <div id="notificationsList" style="max-height: 400px; overflow-y: auto;">
-                <!-- Notifications will be loaded here -->
-                <div style="text-align: center; padding: 20px; color: var(--gray);">
-                    <i class="fas fa-bell-slash" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                    <p>No notifications yet</p>
-                </div>
-            </div>
-            <div style="margin-top: 15px; display: flex; justify-content: space-between;">
-                <button onclick="markAllAsRead()" class="btn btn-secondary" style="width: auto;">
-                    <i class="fas fa-check-double"></i> Mark All Read
-                </button>
-                <button onclick="clearAllNotifications()" class="btn" style="width: auto; background: var(--accent);">
-                    <i class="fas fa-trash"></i> Clear All
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Add notification bell to header (update the user-actions section) -->
-<div class="user-actions" style="display: flex; align-items: center; gap: 10px;">
-    <!-- Notifications Bell -->
-    <div id="notificationsContainer" style="display: none; position: relative;">
-        <button id="notificationsBell" class="btn" style="background: transparent; color: var(--dark); padding: 6px;">
-            <i class="fas fa-bell"></i>
-            <span id="notificationCount" class="notification-badge" style="display: none;">0</span>
-        </button>
-    </div>
-    
-    <!-- Rest of your existing user actions... -->
-</div>
-
-<!-- Update Firebase SDK imports in index.html -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
     <script>
         // Firebase configuration
@@ -1232,6 +1085,5 @@
             deferredPrompt = null;
         });
     </script>
-    
 </body>
 </html>
