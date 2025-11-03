@@ -1083,668 +1083,894 @@ input:checked + .slider:before {
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+  // Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyDfNX8WUWfUAN-dIUtzq8gJXjh0CIZdS_0",
+    authDomain: "kcmcpartners.firebaseapp.com",
+    projectId: "kcmcpartners",
+    storageBucket: "kcmcpartners.firebasestorage.app",
+    messagingSenderId: "30984885444",
+    appId: "1:30984885444:web:0be4febff8cfef1b22a591",
+    measurementId: "G-Z6FMF6Z1V1"
+};
 
-    <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDfNX8WUWfUAN-dIUtzq8gJXjh0CIZdS_0",
-            authDomain: "kcmcpartners.firebaseapp.com",
-            projectId: "kcmcpartners",
-            storageBucket: "kcmcpartners.firebasestorage.app",
-            messagingSenderId: "30984885444",
-            appId: "1:30984885444:web:0be4febff8cfef1b22a591",
-            measurementId: "G-Z6FMF6Z1V1"
-        };
+// Initialize Firebase
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
-        // Initialize Firebase
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Enhanced Notification Management System
+class NotificationManager {
+    constructor() {
+        this.db = db;
+        this.auth = auth;
+        this.userId = null;
+        this.notifications = [];
+        this.init();
+    }
+
+    async init() {
+        return new Promise((resolve) => {
+            this.auth.onAuthStateChanged(async (user) => {
+                if (user) {
+                    this.userId = user.uid;
+                    console.log('User authenticated:', this.userId);
+                    await this.loadNotifications();
+                    this.setupRealTimeListener();
+                    this.setupUI();
+                    this.checkNotificationPermission();
+                    this.hideLoginSection();
+                    this.addLogoutButton();
+                    resolve(true);
+                } else {
+                    console.log('No user signed in');
+                    this.showLoginSection();
+                    resolve(false);
+                }
+            });
+        });
+    }
+
+    showLoginSection() {
+        // Create login section if it doesn't exist
+        if (!document.getElementById('loginSection')) {
+            const loginSection = document.createElement('section');
+            loginSection.id = 'loginSection';
+            loginSection.className = 'card';
+            loginSection.innerHTML = `
+                <h3><i class="fas fa-sign-in-alt card-icon"></i> Sign In Required</h3>
+                <p>Please sign in to view notifications and updates.</p>
+                <div style="display: flex; flex-direction: column; gap: 10px; max-width: 300px; margin: 0 auto;">
+                    <input type="email" id="loginEmail" placeholder="Email" style="padding: 12px; border-radius: var(--radius); border: 1px solid #ddd;">
+                    <input type="password" id="loginPassword" placeholder="Password" style="padding: 12px; border-radius: var(--radius); border: 1px solid #ddd;">
+                    <button id="loginBtn" class="btn" style="background: var(--primary);">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                    <button id="signupBtn" class="btn" style="background: var(--secondary);">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </div>
+            `;
+            
+            // Insert after header
+            const main = document.querySelector('main');
+            if (main) {
+                main.insertBefore(loginSection, main.firstChild);
+            }
+        }
+        document.getElementById('loginSection').style.display = 'block';
+        this.setupAuthUI();
+    }
+
+    hideLoginSection() {
+        const loginSection = document.getElementById('loginSection');
+        if (loginSection) {
+            loginSection.style.display = 'none';
+        }
+    }
+
+    setupAuthUI() {
+        // Login button
+        const loginBtn = document.getElementById('loginBtn');
+        if (loginBtn) {
+            loginBtn.onclick = () => this.signIn();
         }
 
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+        // Signup button
+        const signupBtn = document.getElementById('signupBtn');
+        if (signupBtn) {
+            signupBtn.onclick = () => this.signUp();
+        }
 
-        // Notification Management System
-        class NotificationManager {
-            constructor() {
-                this.db = db;
-                this.auth = auth;
-                this.userId = null;
+        // Enter key support
+        const emailInput = document.getElementById('loginEmail');
+        const passwordInput = document.getElementById('loginPassword');
+        
+        if (emailInput && passwordInput) {
+            const handleEnter = (e) => {
+                if (e.key === 'Enter') {
+                    this.signIn();
+                }
+            };
+            emailInput.addEventListener('keypress', handleEnter);
+            passwordInput.addEventListener('keypress', handleEnter);
+        }
+    }
+
+    async signIn() {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+
+        if (!email || !password) {
+            alert('Please enter both email and password');
+            return;
+        }
+
+        try {
+            const userCredential = await this.auth.signInWithEmailAndPassword(email, password);
+            console.log('User signed in:', userCredential.user.uid);
+            this.userId = userCredential.user.uid;
+            await this.loadNotifications();
+            this.hideLoginSection();
+            this.addLogoutButton();
+        } catch (error) {
+            console.error('Sign in error:', error);
+            alert('Sign in failed: ' + error.message);
+        }
+    }
+
+    async signUp() {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+
+        if (!email || !password) {
+            alert('Please enter both email and password');
+            return;
+        }
+
+        if (password.length < 6) {
+            alert('Password should be at least 6 characters');
+            return;
+        }
+
+        try {
+            const userCredential = await this.auth.createUserWithEmailAndPassword(email, password);
+            console.log('User created:', userCredential.user.uid);
+            
+            // Create user profile in Firestore
+            await this.db.collection('users').doc(userCredential.user.uid).set({
+                email: email,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                notificationEnabled: true
+            });
+            
+            this.userId = userCredential.user.uid;
+            await this.loadNotifications();
+            this.hideLoginSection();
+            this.addLogoutButton();
+            alert('Account created successfully!');
+        } catch (error) {
+            console.error('Sign up error:', error);
+            alert('Sign up failed: ' + error.message);
+        }
+    }
+
+    addLogoutButton() {
+        const headerActions = document.querySelector('.header-actions');
+        if (headerActions && !document.getElementById('logoutBtn')) {
+            const logoutBtn = document.createElement('button');
+            logoutBtn.id = 'logoutBtn';
+            logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i>';
+            logoutBtn.className = 'notification-bell';
+            logoutBtn.style.marginRight = '10px';
+            logoutBtn.title = 'Sign Out';
+            logoutBtn.addEventListener('click', () => {
+                auth.signOut().then(() => {
+                    console.log('User signed out');
+                    window.location.reload();
+                });
+            });
+            headerActions.insertBefore(logoutBtn, headerActions.firstChild);
+        }
+    }
+
+    // Check notification permission
+    checkNotificationPermission() {
+        if (!('Notification' in window)) {
+            console.log('This browser does not support notifications');
+            return;
+        }
+
+        if (Notification.permission === 'granted') {
+            document.getElementById('notificationToggle').checked = true;
+            this.subscribeToPushNotifications();
+        } else if (Notification.permission === 'default') {
+            document.getElementById('notificationToggle').checked = false;
+        } else {
+            document.getElementById('notificationToggle').checked = false;
+        }
+    }
+
+    // Subscribe to push notifications
+    async subscribeToPushNotifications() {
+        if ('serviceWorker' in navigator) {
+            try {
+                const registration = await navigator.serviceWorker.ready;
+                console.log('Service Worker ready for push notifications');
+                
+                if (this.userId) {
+                    await this.db.collection('userPushSubscriptions').doc(this.userId).set({
+                        userId: this.userId,
+                        subscribed: true,
+                        subscribedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }, { merge: true });
+                }
+            } catch (error) {
+                console.error('Error subscribing to push notifications:', error);
+            }
+        }
+    }
+
+    // Enhanced notification loading with better error handling
+    async loadNotifications() {
+        if (!this.userId) {
+            console.log('No user ID available - user not authenticated');
+            this.showEmptyNotifications('Please sign in to view notifications');
+            return;
+        }
+
+        try {
+            console.log('Loading notifications for user:', this.userId);
+            
+            const snapshot = await this.db.collection('userMessages')
+                .where('recipientId', '==', this.userId)
+                .orderBy('timestamp', 'desc')
+                .limit(50)
+                .get();
+
+            if (snapshot.empty) {
+                console.log('No notifications found for user');
                 this.notifications = [];
-                this.init();
+                this.showEmptyNotifications('No notifications yet');
+            } else {
+                this.notifications = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                console.log('Successfully loaded notifications:', this.notifications.length);
+                
+                // Log first notification for debugging
+                if (this.notifications.length > 0) {
+                    console.log('Sample notification:', this.notifications[0]);
+                }
             }
 
-         // Replace the current init method with this:
-async init() {
-    return new Promise((resolve) => {
-        this.auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                this.userId = user.uid;
-                console.log('User authenticated:', this.userId);
-                await this.loadNotifications();
-                this.setupRealTimeListener();
-                this.setupUI();
-                this.checkNotificationPermission();
-                resolve(true);
-            } else {
-                console.log('No user signed in');
-                // Redirect to login or show sign-in
-                this.showLoginPrompt();
-                resolve(false);
-            }
+            this.renderNotifications();
+            this.updateNotificationBadge();
+            
+        } catch (error) {
+            console.error('Error loading notifications:', error);
+            console.error('Error details:', {
+                code: error.code,
+                message: error.message,
+                userId: this.userId
+            });
+            
+            this.showError('Failed to load notifications: ' + error.message);
+            this.showEmptyNotifications('Error loading notifications');
+        }
+    }
+
+    showEmptyNotifications(message = 'No notifications available') {
+        const panelList = document.getElementById('notificationList');
+        const fullList = document.getElementById('notificationListFull');
+        
+        const emptyMessage = `
+            <div class="empty-notifications">
+                <i class="far fa-bell"></i>
+                <p>${message}</p>
+            </div>
+        `;
+        
+        if (panelList) panelList.innerHTML = emptyMessage;
+        if (fullList) fullList.innerHTML = emptyMessage;
+    }
+
+    showError(message) {
+        console.error('Notification Error:', message);
+    }
+
+    // Enhanced real-time listener
+    setupRealTimeListener() {
+        if (!this.userId) {
+            console.log('Cannot setup real-time listener: No user ID');
+            return;
+        }
+
+        console.log('Setting up real-time listener for user:', this.userId);
+        
+        try {
+            this.unsubscribeRealTime = this.db.collection('userMessages')
+                .where('recipientId', '==', this.userId)
+                .orderBy('timestamp', 'desc')
+                .limit(10)
+                .onSnapshot((snapshot) => {
+                    console.log('Real-time update received');
+                    
+                    snapshot.docChanges().forEach((change) => {
+                        if (change.type === 'added') {
+                            console.log('New notification added:', change.doc.data());
+                            const newNotification = {
+                                id: change.doc.id,
+                                ...change.doc.data()
+                            };
+                            
+                            if (Notification.permission === 'granted') {
+                                this.showPushNotification(newNotification);
+                            }
+                        }
+                    });
+                    
+                    this.loadNotifications();
+                    
+                }, (error) => {
+                    console.error('Error in real-time listener:', error);
+                });
+        } catch (error) {
+            console.error('Failed to setup real-time listener:', error);
+        }
+    }
+
+    // Show push notification
+    showPushNotification(notification) {
+        if (Notification.permission === 'granted' && 'serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(registration => {
+                registration.showNotification(notification.title || 'KCMC Partners', {
+                    body: notification.body,
+                    icon: '/icons/icon-192x192.png',
+                    badge: '/icons/badge-72x72.png',
+                    tag: 'kcmc-notification',
+                    data: {
+                        url: window.location.href,
+                        notificationId: notification.id
+                    }
+                });
+            });
+        }
+    }
+
+    // Setup UI event listeners
+    setupUI() {
+        // Notification bell click
+        const notificationBell = document.getElementById('notificationBell');
+        if (notificationBell) {
+            notificationBell.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleNotificationPanel();
+            });
+        }
+
+        // Mark all as read
+        const markAllRead = document.getElementById('markAllRead');
+        if (markAllRead) {
+            markAllRead.addEventListener('click', () => {
+                this.markAllAsRead();
+            });
+        }
+
+        // View all notifications
+        const viewAllNotifications = document.getElementById('viewAllNotifications');
+        if (viewAllNotifications) {
+            viewAllNotifications.addEventListener('click', () => {
+                this.showFullNotificationList();
+            });
+        }
+
+        // Test notification button
+        const testNotification = document.getElementById('testNotification');
+        if (testNotification) {
+            testNotification.addEventListener('click', () => {
+                this.sendTestNotification();
+            });
+        }
+
+        // Notification toggle
+        const notificationToggle = document.getElementById('notificationToggle');
+        if (notificationToggle) {
+            notificationToggle.addEventListener('change', (e) => {
+                this.toggleNotifications(e.target.checked);
+            });
+        }
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                this.filterNotifications(e.target.dataset.filter);
+            });
         });
+
+        // Close notification panel when clicking outside
+        document.addEventListener('click', () => {
+            this.hideNotificationPanel();
+        });
+    }
+
+    // Toggle notification panel
+    toggleNotificationPanel() {
+        const panel = document.getElementById('notificationPanel');
+        if (panel) {
+            panel.classList.toggle('show');
+        }
+    }
+
+    // Hide notification panel
+    hideNotificationPanel() {
+        const panel = document.getElementById('notificationPanel');
+        if (panel) {
+            panel.classList.remove('show');
+        }
+    }
+
+    // Render notifications in panel
+    renderNotifications() {
+        const panelList = document.getElementById('notificationList');
+        const fullList = document.getElementById('notificationListFull');
+        
+        if (!panelList || !fullList) return;
+
+        const unreadNotifications = this.notifications.filter(n => !n.read).slice(0, 5);
+        
+        // Render panel (recent unread)
+        if (unreadNotifications.length === 0) {
+            panelList.innerHTML = `
+                <div class="empty-notifications">
+                    <i class="far fa-bell"></i>
+                    <p>No new notifications</p>
+                </div>
+            `;
+        } else {
+            panelList.innerHTML = unreadNotifications.map(notification => 
+                this.renderNotificationItem(notification, true)
+            ).join('');
+        }
+
+        // Render full list
+        if (this.notifications.length === 0) {
+            fullList.innerHTML = `
+                <div class="empty-notifications">
+                    <i class="far fa-bell"></i>
+                    <p>No notifications yet</p>
+                </div>
+            `;
+        } else {
+            fullList.innerHTML = this.notifications.map(notification => 
+                this.renderNotificationItem(notification, false)
+            ).join('');
+        }
+
+        // Add event listeners to notification items
+        this.addNotificationItemListeners();
+    }
+
+    // Render single notification item
+    renderNotificationItem(notification, isPanel) {
+        const timeAgo = this.getTimeAgo(notification.timestamp);
+        const unreadClass = !notification.read ? 'unread' : '';
+        const icon = notification.type === 'urgent' ? 'exclamation-circle' : 
+                    notification.type === 'admin_message' ? 'user-shield' : 'info-circle';
+        
+        return `
+            <div class="notification-item ${unreadClass}" data-id="${notification.id}">
+                <div class="notification-icon">
+                    <i class="fas fa-${icon}"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">${notification.title || 'Notification'}</div>
+                    <div class="notification-body">${notification.body || 'No content'}</div>
+                    <div class="notification-time">${timeAgo}</div>
+                </div>
+                ${!isPanel ? `
+                    <div class="notification-actions">
+                        ${!notification.read ? `
+                            <button class="notification-action mark-read" title="Mark as read">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        ` : ''}
+                        <button class="notification-action delete" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                ` : ''}
+            </div>
+        `;
+    }
+
+    // Add event listeners to notification items
+    addNotificationItemListeners() {
+        // Mark as read
+        document.querySelectorAll('.mark-read').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const notificationId = e.target.closest('.notification-item').dataset.id;
+                this.markAsRead(notificationId);
+            });
+        });
+
+        // Delete notification
+        document.querySelectorAll('.notification-action.delete').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const notificationId = e.target.closest('.notification-item').dataset.id;
+                this.deleteNotification(notificationId);
+            });
+        });
+
+        // Click notification
+        document.querySelectorAll('.notification-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const notificationId = item.dataset.id;
+                this.markAsRead(notificationId);
+            });
+        });
+    }
+
+    // Update notification badge
+    updateNotificationBadge() {
+        const unreadCount = this.notifications.filter(n => !n.read).length;
+        const badge = document.getElementById('notificationCount');
+        
+        if (badge) {
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+    }
+
+    // Mark notification as read
+    async markAsRead(notificationId) {
+        try {
+            await this.db.collection('userMessages').doc(notificationId).update({
+                read: true,
+                readAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            
+            // Update local state
+            const notification = this.notifications.find(n => n.id === notificationId);
+            if (notification) {
+                notification.read = true;
+            }
+            
+            this.renderNotifications();
+            this.updateNotificationBadge();
+        } catch (error) {
+            console.error('Error marking notification as read:', error);
+        }
+    }
+
+    // Mark all as read
+    async markAllAsRead() {
+        try {
+            const unreadNotifications = this.notifications.filter(n => !n.read);
+            const batch = this.db.batch();
+            
+            unreadNotifications.forEach(notification => {
+                const ref = this.db.collection('userMessages').doc(notification.id);
+                batch.update(ref, {
+                    read: true,
+                    readAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            });
+            
+            await batch.commit();
+            
+            // Update local state
+            this.notifications.forEach(notification => {
+                notification.read = true;
+            });
+            
+            this.renderNotifications();
+            this.updateNotificationBadge();
+            this.hideNotificationPanel();
+            
+            alert('All notifications marked as read');
+        } catch (error) {
+            console.error('Error marking all as read:', error);
+            alert('Error marking notifications as read');
+        }
+    }
+
+    // Delete notification
+    async deleteNotification(notificationId) {
+        if (!confirm('Are you sure you want to delete this notification?')) {
+            return;
+        }
+        
+        try {
+            await this.db.collection('userMessages').doc(notificationId).delete();
+            
+            // Remove from local state
+            this.notifications = this.notifications.filter(n => n.id !== notificationId);
+            
+            this.renderNotifications();
+            this.updateNotificationBadge();
+        } catch (error) {
+            console.error('Error deleting notification:', error);
+            alert('Error deleting notification');
+        }
+    }
+
+    // Filter notifications
+    filterNotifications(filter) {
+        // Update active filter button
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+        
+        // For now, we'll just reload all notifications
+        this.loadNotifications();
+    }
+
+    // Show full notification list
+    showFullNotificationList() {
+        // Scroll to notification management section
+        const notificationSection = document.querySelector('.notification-management');
+        if (notificationSection) {
+            notificationSection.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+        this.hideNotificationPanel();
+    }
+
+    // Toggle notifications
+    async toggleNotifications(enabled) {
+        if (enabled) {
+            const permission = await Notification.requestPermission();
+            if (permission === 'granted') {
+                this.subscribeToPushNotifications();
+                alert('Push notifications enabled!');
+            } else {
+                document.getElementById('notificationToggle').checked = false;
+                alert('Please allow notifications in your browser settings.');
+            }
+        } else {
+            // Disable notifications
+            console.log('Notifications disabled');
+            if (this.userId) {
+                await this.db.collection('userPushSubscriptions').doc(this.userId).update({
+                    subscribed: false
+                });
+            }
+        }
+    }
+
+    // Send test notification
+    async sendTestNotification() {
+        if (!this.userId) {
+            alert('Please sign in to test notifications');
+            return;
+        }
+
+        try {
+            // Create a test notification
+            await this.db.collection('userMessages').add({
+                recipientId: this.userId,
+                senderId: 'system',
+                senderName: 'KCMC System',
+                title: 'Test Notification',
+                body: 'This is a test notification to verify your notification system is working properly.',
+                type: 'system',
+                read: false,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            
+            alert('Test notification sent! Check your notification bell.');
+        } catch (error) {
+            console.error('Error sending test notification:', error);
+            alert('Error sending test notification: ' + error.message);
+        }
+    }
+
+    // Helper function to format time ago
+    getTimeAgo(timestamp) {
+        if (!timestamp) return 'Unknown time';
+        
+        let date;
+        if (timestamp.seconds) {
+            date = new Date(timestamp.seconds * 1000);
+        } else if (timestamp.toDate) {
+            date = timestamp.toDate();
+        } else {
+            date = new Date(timestamp);
+        }
+        
+        const now = new Date();
+        const diffInSeconds = Math.floor((now - date) / 1000);
+        
+        if (diffInSeconds < 60) {
+            return 'Just now';
+        } else if (diffInSeconds < 3600) {
+            const minutes = Math.floor(diffInSeconds / 60);
+            return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+        } else if (diffInSeconds < 86400) {
+            const hours = Math.floor(diffInSeconds / 3600);
+            return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+        } else if (diffInSeconds < 604800) {
+            const days = Math.floor(diffInSeconds / 86400);
+            return `${days} day${days > 1 ? 's' : ''} ago`;
+        } else {
+            return date.toLocaleDateString();
+        }
+    }
+
+    // Debug method
+    async debugNotifications() {
+        console.group('🔍 Notification Debug Info');
+        console.log('User ID:', this.userId);
+        console.log('Firebase App:', firebase.app().name);
+        console.log('Is authenticated:', !!this.userId);
+        console.log('Total notifications in memory:', this.notifications.length);
+        
+        if (this.userId) {
+            try {
+                // Test query to see if collection exists
+                const testQuery = await this.db.collection('userMessages')
+                    .where('recipientId', '==', this.userId)
+                    .limit(1)
+                    .get();
+                console.log('Test query result count:', testQuery.size);
+                
+                if (testQuery.size > 0) {
+                    console.log('Sample document:', testQuery.docs[0].data());
+                } else {
+                    console.log('No documents found for this user');
+                }
+            } catch (error) {
+                console.error('Test query failed:', error);
+            }
+        }
+        console.groupEnd();
+    }
+}
+
+// Initialize notification manager when DOM is loaded
+document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        // Initialize notification manager
+        window.notificationManager = new NotificationManager();
+        const initialized = await window.notificationManager.init();
+        
+        // Register service worker for push notifications
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                })
+                .catch(function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        }
+
+        // Add debug function to window
+        window.debugNotifications = () => {
+            if (window.notificationManager) {
+                window.notificationManager.debugNotifications();
+            }
+        };
+
+        // Add test user creation function
+        window.createTestUser = async () => {
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword('test@kcmc.com', 'password123');
+                console.log('Test user created:', userCredential.user.uid);
+                alert('Test user created! You can now sign in with: test@kcmc.com / password123');
+            } catch (error) {
+                console.error('Error creating test user:', error);
+                alert('Error: ' + error.message);
+            }
+        };
+
+    } catch (error) {
+        console.error('Failed to initialize notification system:', error);
+    }
+});
+
+// Animation and UI functions
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            
+            // Animate progress bars
+            const progressBars = entry.target.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 300);
+            });
+        }
+    });
+}, observerOptions);
+
+// Observe all cards for animation
+const cards = document.querySelectorAll('.card');
+cards.forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(card);
+});
+
+// Animate impact numbers
+const impactNumbers = document.querySelectorAll('.impact-number');
+impactNumbers.forEach(number => {
+    const target = parseInt(number.textContent);
+    let current = 0;
+    const increment = target / 50;
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            number.textContent = target;
+            clearInterval(timer);
+        } else {
+            number.textContent = Math.floor(current);
+        }
+    }, 30);
+});
+
+// Share story function
+function shareStory(childName) {
+    if (navigator.share) {
+        navigator.share({
+            title: `${childName}'s Story - KCMC Partners`,
+            text: `Read about ${childName}'s inspiring journey with KCMC Partners`,
+            url: window.location.href,
+        })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing:', error));
+    } else {
+        // Fallback for browsers that don't support Web Share API
+        alert(`Share ${childName}'s story with your friends and family!`);
+    }
+}
+
+// Newsletter subscription
+const subscribeBtn = document.querySelector('.btn');
+const emailInput = document.querySelector('input[type="email"]');
+
+if (subscribeBtn && emailInput) {
+    subscribeBtn.addEventListener('click', function() {
+        const email = emailInput.value;
+        if (email && validateEmail(email)) {
+            // In a real app, you would send this to your server
+            alert('Thank you for subscribing to our updates!');
+            emailInput.value = '';
+        } else {
+            alert('Please enter a valid email address.');
+        }
     });
 }
 
-showLoginPrompt() {
-    // You can redirect to login page or show a modal
-    console.log('Please sign in to view notifications');
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
 }
-
-            // Check notification permission
-            checkNotificationPermission() {
-                if (!('Notification' in window)) {
-                    console.log('This browser does not support notifications');
-                    return;
-                }
-
-                if (Notification.permission === 'granted') {
-                    document.getElementById('notificationToggle').checked = true;
-                    this.subscribeToPushNotifications();
-                } else if (Notification.permission === 'default') {
-                    // Permission not yet requested
-                    document.getElementById('notificationToggle').checked = false;
-                } else {
-                    document.getElementById('notificationToggle').checked = false;
-                }
-            }
-
-            // Subscribe to push notifications
-            async subscribeToPushNotifications() {
-                if ('serviceWorker' in navigator) {
-                    try {
-                        const registration = await navigator.serviceWorker.ready;
-                        console.log('Service Worker ready for push notifications');
-                        
-                        // Store subscription in Firestore
-                        if (this.userId) {
-                            await this.db.collection('userPushSubscriptions').doc(this.userId).set({
-                                userId: this.userId,
-                                subscribed: true,
-                                subscribedAt: firebase.firestore.FieldValue.serverTimestamp()
-                            }, { merge: true });
-                        }
-                    } catch (error) {
-                        console.error('Error subscribing to push notifications:', error);
-                    }
-                }
-            }
-
-            // Load notifications from Firestore
-            async loadNotifications() {
-                if (!this.userId) {
-                    console.log('No user ID available');
-                    return;
-                }
-
-                try {
-                    console.log('Loading notifications for user:', this.userId);
-                    const snapshot = await this.db.collection('userMessages')
-                        .where('recipientId', '==', this.userId)
-                        .orderBy('timestamp', 'desc')
-                        .limit(50)
-                        .get();
-
-                    this.notifications = snapshot.docs.map(doc => ({
-                        id: doc.id,
-                        ...doc.data()
-                    }));
-
-                    console.log('Loaded notifications:', this.notifications.length);
-                    this.renderNotifications();
-                    this.updateNotificationBadge();
-                } catch (error) {
-                    console.error('Error loading notifications:', error);
-                }
-            }
-
-            // Setup real-time listener for new notifications
-            setupRealTimeListener() {
-                if (!this.userId) return;
-
-                console.log('Setting up real-time listener for user:', this.userId);
-                
-                this.db.collection('userMessages')
-                    .where('recipientId', '==', this.userId)
-                    .orderBy('timestamp', 'desc')
-                    .limit(1)
-                    .onSnapshot((snapshot) => {
-                        snapshot.docChanges().forEach((change) => {
-                            if (change.type === 'added') {
-                                console.log('New notification received:', change.doc.data());
-                                const newNotification = {
-                                    id: change.doc.id,
-                                    ...change.doc.data()
-                                };
-                                
-                                // Show push notification if enabled
-                                if (Notification.permission === 'granted') {
-                                    this.showPushNotification(newNotification);
-                                }
-                                
-                                // Reload notifications to update UI
-                                this.loadNotifications();
-                            }
-                        });
-                    }, (error) => {
-                        console.error('Error in real-time listener:', error);
-                    });
-            }
-
-            // Show push notification
-            showPushNotification(notification) {
-                if (Notification.permission === 'granted' && 'serviceWorker' in navigator) {
-                    navigator.serviceWorker.ready.then(registration => {
-                        registration.showNotification(notification.title || 'KCMC Partners', {
-                            body: notification.body,
-                            icon: '/icons/icon-192x192.png',
-                            badge: '/icons/badge-72x72.png',
-                            tag: 'kcmc-notification',
-                            data: {
-                                url: window.location.href,
-                                notificationId: notification.id
-                            },
-                            actions: [
-                                {
-                                    action: 'view',
-                                    title: 'View'
-                                },
-                                {
-                                    action: 'dismiss',
-                                    title: 'Dismiss'
-                                }
-                            ]
-                        });
-                    });
-                }
-            }
-
-            // Setup UI event listeners
-            setupUI() {
-                // Notification bell click
-                const notificationBell = document.getElementById('notificationBell');
-                if (notificationBell) {
-                    notificationBell.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        this.toggleNotificationPanel();
-                    });
-                }
-
-                // Mark all as read
-                const markAllRead = document.getElementById('markAllRead');
-                if (markAllRead) {
-                    markAllRead.addEventListener('click', () => {
-                        this.markAllAsRead();
-                    });
-                }
-
-                // View all notifications
-                const viewAllNotifications = document.getElementById('viewAllNotifications');
-                if (viewAllNotifications) {
-                    viewAllNotifications.addEventListener('click', () => {
-                        this.showFullNotificationList();
-                    });
-                }
-
-                // Test notification button
-                const testNotification = document.getElementById('testNotification');
-                if (testNotification) {
-                    testNotification.addEventListener('click', () => {
-                        this.sendTestNotification();
-                    });
-                }
-
-                // Notification toggle
-                const notificationToggle = document.getElementById('notificationToggle');
-                if (notificationToggle) {
-                    notificationToggle.addEventListener('change', (e) => {
-                        this.toggleNotifications(e.target.checked);
-                    });
-                }
-
-                // Filter buttons
-                document.querySelectorAll('.filter-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        this.filterNotifications(e.target.dataset.filter);
-                    });
-                });
-
-                // Close notification panel when clicking outside
-                document.addEventListener('click', () => {
-                    this.hideNotificationPanel();
-                });
-            }
-
-            // Toggle notification panel
-            toggleNotificationPanel() {
-                const panel = document.getElementById('notificationPanel');
-                if (panel) {
-                    panel.classList.toggle('show');
-                }
-            }
-
-            // Hide notification panel
-            hideNotificationPanel() {
-                const panel = document.getElementById('notificationPanel');
-                if (panel) {
-                    panel.classList.remove('show');
-                }
-            }
-
-            // Render notifications in panel
-            renderNotifications() {
-                const panelList = document.getElementById('notificationList');
-                const fullList = document.getElementById('notificationListFull');
-                
-                if (!panelList || !fullList) return;
-
-                const unreadNotifications = this.notifications.filter(n => !n.read).slice(0, 5);
-                
-                // Render panel (recent unread)
-                if (unreadNotifications.length === 0) {
-                    panelList.innerHTML = `
-                        <div class="empty-notifications">
-                            <i class="far fa-bell"></i>
-                            <p>No new notifications</p>
-                        </div>
-                    `;
-                } else {
-                    panelList.innerHTML = unreadNotifications.map(notification => 
-                        this.renderNotificationItem(notification, true)
-                    ).join('');
-                }
-
-                // Render full list
-                if (this.notifications.length === 0) {
-                    fullList.innerHTML = `
-                        <div class="empty-notifications">
-                            <i class="far fa-bell"></i>
-                            <p>No notifications yet</p>
-                        </div>
-                    `;
-                } else {
-                    fullList.innerHTML = this.notifications.map(notification => 
-                        this.renderNotificationItem(notification, false)
-                    ).join('');
-                }
-
-                // Add event listeners to notification items
-                this.addNotificationItemListeners();
-            }
-
-            // Render single notification item
-            renderNotificationItem(notification, isPanel) {
-                const timeAgo = this.getTimeAgo(notification.timestamp);
-                const unreadClass = !notification.read ? 'unread' : '';
-                const icon = notification.type === 'urgent' ? 'exclamation-circle' : 
-                            notification.type === 'admin_message' ? 'user-shield' : 'info-circle';
-                
-                return `
-                    <div class="notification-item ${unreadClass}" data-id="${notification.id}">
-                        <div class="notification-icon">
-                            <i class="fas fa-${icon}"></i>
-                        </div>
-                        <div class="notification-content">
-                            <div class="notification-title">${notification.title || 'Notification'}</div>
-                            <div class="notification-body">${notification.body || 'No content'}</div>
-                            <div class="notification-time">${timeAgo}</div>
-                        </div>
-                        ${!isPanel ? `
-                            <div class="notification-actions">
-                                ${!notification.read ? `
-                                    <button class="notification-action mark-read" title="Mark as read">
-                                        <i class="fas fa-check"></i>
-                                    </button>
-                                ` : ''}
-                                <button class="notification-action delete" title="Delete">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-            }
-
-            // Add event listeners to notification items
-            addNotificationItemListeners() {
-                // Mark as read
-                document.querySelectorAll('.mark-read').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const notificationId = e.target.closest('.notification-item').dataset.id;
-                        this.markAsRead(notificationId);
-                    });
-                });
-
-                // Delete notification
-                document.querySelectorAll('.notification-action.delete').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const notificationId = e.target.closest('.notification-item').dataset.id;
-                        this.deleteNotification(notificationId);
-                    });
-                });
-
-                // Click notification
-                document.querySelectorAll('.notification-item').forEach(item => {
-                    item.addEventListener('click', () => {
-                        const notificationId = item.dataset.id;
-                        this.markAsRead(notificationId);
-                    });
-                });
-            }
-
-            // Update notification badge
-            updateNotificationBadge() {
-                const unreadCount = this.notifications.filter(n => !n.read).length;
-                const badge = document.getElementById('notificationCount');
-                
-                if (badge) {
-                    if (unreadCount > 0) {
-                        badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
-                        badge.style.display = 'flex';
-                    } else {
-                        badge.style.display = 'none';
-                    }
-                }
-            }
-
-            // Mark notification as read
-            async markAsRead(notificationId) {
-                try {
-                    await this.db.collection('userMessages').doc(notificationId).update({
-                        read: true,
-                        readAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                    
-                    // Update local state
-                    const notification = this.notifications.find(n => n.id === notificationId);
-                    if (notification) {
-                        notification.read = true;
-                    }
-                    
-                    this.renderNotifications();
-                    this.updateNotificationBadge();
-                } catch (error) {
-                    console.error('Error marking notification as read:', error);
-                }
-            }
-
-            // Mark all as read
-            async markAllAsRead() {
-                try {
-                    const unreadNotifications = this.notifications.filter(n => !n.read);
-                    const batch = this.db.batch();
-                    
-                    unreadNotifications.forEach(notification => {
-                        const ref = this.db.collection('userMessages').doc(notification.id);
-                        batch.update(ref, {
-                            read: true,
-                            readAt: firebase.firestore.FieldValue.serverTimestamp()
-                        });
-                    });
-                    
-                    await batch.commit();
-                    
-                    // Update local state
-                    this.notifications.forEach(notification => {
-                        notification.read = true;
-                    });
-                    
-                    this.renderNotifications();
-                    this.updateNotificationBadge();
-                    this.hideNotificationPanel();
-                    
-                    alert('All notifications marked as read');
-                } catch (error) {
-                    console.error('Error marking all as read:', error);
-                    alert('Error marking notifications as read');
-                }
-            }
-
-            // Delete notification
-            async deleteNotification(notificationId) {
-                if (!confirm('Are you sure you want to delete this notification?')) {
-                    return;
-                }
-                
-                try {
-                    await this.db.collection('userMessages').doc(notificationId).delete();
-                    
-                    // Remove from local state
-                    this.notifications = this.notifications.filter(n => n.id !== notificationId);
-                    
-                    this.renderNotifications();
-                    this.updateNotificationBadge();
-                } catch (error) {
-                    console.error('Error deleting notification:', error);
-                    alert('Error deleting notification');
-                }
-            }
-
-            // Filter notifications
-            filterNotifications(filter) {
-                // Update active filter button
-                document.querySelectorAll('.filter-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
-                
-                // For now, we'll just reload all notifications
-                // In a full implementation, you would filter the existing notifications array
-                this.loadNotifications();
-            }
-
-            // Show full notification list
-            showFullNotificationList() {
-                // Scroll to notification management section
-                const notificationSection = document.querySelector('.notification-management');
-                if (notificationSection) {
-                    notificationSection.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-                this.hideNotificationPanel();
-            }
-
-            // Toggle notifications
-            async toggleNotifications(enabled) {
-                if (enabled) {
-                    const permission = await Notification.requestPermission();
-                    if (permission === 'granted') {
-                        this.subscribeToPushNotifications();
-                        alert('Push notifications enabled!');
-                    } else {
-                        document.getElementById('notificationToggle').checked = false;
-                        alert('Please allow notifications in your browser settings.');
-                    }
-                } else {
-                    // Disable notifications
-                    console.log('Notifications disabled');
-                    if (this.userId) {
-                        await this.db.collection('userPushSubscriptions').doc(this.userId).update({
-                            subscribed: false
-                        });
-                    }
-                }
-            }
-
-            // Send test notification
-            async sendTestNotification() {
-                if (!this.userId) {
-                    alert('Please sign in to test notifications');
-                    return;
-                }
-
-                try {
-                    // Create a test notification
-                    await this.db.collection('userMessages').add({
-                        recipientId: this.userId,
-                        senderId: 'system',
-                        senderName: 'KCMC System',
-                        title: 'Test Notification',
-                        body: 'This is a test notification to verify your notification system is working properly.',
-                        type: 'system',
-                        read: false,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                    
-                    alert('Test notification sent! Check your notification bell.');
-                } catch (error) {
-                    console.error('Error sending test notification:', error);
-                    alert('Error sending test notification: ' + error.message);
-                }
-            }
-
-            // Helper function to format time ago
-            getTimeAgo(timestamp) {
-                if (!timestamp) return 'Unknown time';
-                
-                let date;
-                if (timestamp.seconds) {
-                    date = new Date(timestamp.seconds * 1000);
-                } else if (timestamp.toDate) {
-                    date = timestamp.toDate();
-                } else {
-                    date = new Date(timestamp);
-                }
-                
-                const now = new Date();
-                const diffInSeconds = Math.floor((now - date) / 1000);
-                
-                if (diffInSeconds < 60) {
-                    return 'Just now';
-                } else if (diffInSeconds < 3600) {
-                    const minutes = Math.floor(diffInSeconds / 60);
-                    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-                } else if (diffInSeconds < 86400) {
-                    const hours = Math.floor(diffInSeconds / 3600);
-                    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-                } else if (diffInSeconds < 604800) {
-                    const days = Math.floor(diffInSeconds / 86400);
-                    return `${days} day${days > 1 ? 's' : ''} ago`;
-                } else {
-                    return date.toLocaleDateString();
-                }
-            }
-        }
-
-        // Initialize notification manager when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize notification manager
-            window.notificationManager = new NotificationManager();
-            
-            // Register service worker for push notifications
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    })
-                    .catch(function(err) {
-                        console.log('ServiceWorker registration failed: ', err);
-                    });
-            }
-        });
-
-        // Keep your existing animations and share functionality
-        // Add subtle animations when elements come into view
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                    
-                    // Animate progress bars
-                    const progressBars = entry.target.querySelectorAll('.progress-fill');
-                    progressBars.forEach(bar => {
-                        const width = bar.style.width;
-                        bar.style.width = '0%';
-                        setTimeout(() => {
-                            bar.style.width = width;
-                        }, 300);
-                    });
-                }
-            });
-        }, observerOptions);
-
-        // Observe all cards for animation
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-            observer.observe(card);
-        });
-
-        // Animate impact numbers
-        const impactNumbers = document.querySelectorAll('.impact-number');
-        impactNumbers.forEach(number => {
-            const target = parseInt(number.textContent);
-            let current = 0;
-            const increment = target / 50;
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    number.textContent = target;
-                    clearInterval(timer);
-                } else {
-                    number.textContent = Math.floor(current);
-                }
-            }, 30);
-        });
-
-        // Share story function
-        function shareStory(childName) {
-            if (navigator.share) {
-                navigator.share({
-                    title: `${childName}'s Story - KCMC Partners`,
-                    text: `Read about ${childName}'s inspiring journey with KCMC Partners`,
-                    url: window.location.href,
-                })
-                .then(() => console.log('Successful share'))
-                .catch((error) => console.log('Error sharing:', error));
-            } else {
-                // Fallback for browsers that don't support Web Share API
-                alert(`Share ${childName}'s story with your friends and family!`);
-            }
-        }
-
-        // Newsletter subscription
-        const subscribeBtn = document.querySelector('.btn');
-        const emailInput = document.querySelector('input[type="email"]');
-        
-        if (subscribeBtn && emailInput) {
-            subscribeBtn.addEventListener('click', function() {
-                const email = emailInput.value;
-                if (email && validateEmail(email)) {
-                    // In a real app, you would send this to your server
-                    alert('Thank you for subscribing to our updates!');
-                    emailInput.value = '';
-                } else {
-                    alert('Please enter a valid email address.');
-                }
-            });
-        }
-        
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-    </script>
+</script>
 </body>
 </html>
