@@ -1039,16 +1039,7 @@ input:checked + .slider:before {
     </div>
 </section>
             <!-- Newsletter Signup -->
-            <section class="card" style="text-align: center; background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white;">
-                <h3>Stay Connected</h3>
-                <p style="margin-bottom: 1.5rem;">Get monthly updates delivered directly to your inbox</p>
-                <div style="display: flex; gap: 10px; flex-direction: column;">
-                    <input type="email" placeholder="Your email address" style="padding: 12px; border-radius: var(--radius); border: none; font-size: 1rem;">
-                    <button class="btn" style="background: white; color: var(--dark); border: none; padding: 12px 20px; border-radius: var(--radius); font-weight: 600; cursor: pointer;">
-                        Subscribe to Updates
-                    </button>
-                </div>
-            </section>
+           
         </div>
     </main>
 
@@ -1084,7 +1075,7 @@ input:checked + .slider:before {
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 <script>
-  // Firebase configuration
+    // Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDfNX8WUWfUAN-dIUtzq8gJXjh0CIZdS_0",
     authDomain: "kcmcpartners.firebaseapp.com",
@@ -1950,27 +1941,51 @@ function shareStory(childName) {
     }
 }
 
-// Newsletter subscription
-const subscribeBtn = document.querySelector('.btn');
-const emailInput = document.querySelector('input[type="email"]');
-
-if (subscribeBtn && emailInput) {
-    subscribeBtn.addEventListener('click', function() {
-        const email = emailInput.value;
-        if (email && validateEmail(email)) {
-            // In a real app, you would send this to your server
-            alert('Thank you for subscribing to our updates!');
-            emailInput.value = '';
-        } else {
-            alert('Please enter a valid email address.');
-        }
-    });
-}
-
+// Email validation helper (if needed elsewhere)
 function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
 }
+
+// Service Worker for Push Notifications (sw.js content for reference)
+/*
+// sw.js - Service Worker for Push Notifications
+self.addEventListener('push', function(event) {
+    if (!event.data) return;
+    
+    const data = event.data.json();
+    const options = {
+        body: data.body,
+        icon: '/icons/icon-192x192.png',
+        badge: '/icons/badge-72x72.png',
+        tag: 'kcmc-notification',
+        data: {
+            url: data.url || self.location.origin
+        }
+    };
+    
+    event.waitUntil(
+        self.registration.showNotification(data.title, options)
+    );
+});
+
+self.addEventListener('notificationclick', function(event) {
+    event.notification.close();
+    
+    event.waitUntil(
+        clients.matchAll({ type: 'window' }).then(function(clientList) {
+            for (let client of clientList) {
+                if (client.url === event.notification.data.url && 'focus' in client) {
+                    return client.focus();
+                }
+            }
+            if (clients.openWindow) {
+                return clients.openWindow(event.notification.data.url);
+            }
+        })
+    );
+});
+*/
 </script>
 </body>
 </html>
