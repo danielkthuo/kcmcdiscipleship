@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kcmc-pathlight-v1.1';
+const CACHE_NAME = 'kcmc-pathlight-v1.0';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -64,55 +64,4 @@ self.addEventListener('fetch', (event) => {
         return fetch(event.request);
       })
   );
-});
-
-// Push notification event
-self.addEventListener('push', (event) => {
-  console.log('Push notification received');
-  
-  if (!event.data) return;
-  
-  const data = event.data.json();
-  const options = {
-    body: data.body || 'New update from KCMC Partners',
-    icon: '/icons/icon-192x192.png',
-    badge: '/icons/badge-72x72.png',
-    tag: data.tag || 'kcmc-update',
-    data: data.url || '/updates.html',
-    actions: [
-      {
-        action: 'open',
-        title: 'View Details'
-      },
-      {
-        action: 'dismiss',
-        title: 'Dismiss'
-      }
-    ]
-  };
-  
-  event.waitUntil(
-    self.registration.showNotification(data.title || 'KCMC Partners', options)
-  );
-});
-
-// Notification click event
-self.addEventListener('notificationclick', (event) => {
-  console.log('Notification clicked');
-  event.notification.close();
-  
-  if (event.action === 'open') {
-    event.waitUntil(
-      clients.matchAll({type: 'window'}).then((clientList) => {
-        for (const client of clientList) {
-          if (client.url.includes(event.notification.data) && 'focus' in client) {
-            return client.focus();
-          }
-        }
-        if (clients.openWindow) {
-          return clients.openWindow(event.notification.data);
-        }
-      })
-    );
-  }
 });
