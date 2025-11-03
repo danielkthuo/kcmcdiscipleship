@@ -1114,21 +1114,32 @@ input:checked + .slider:before {
                 this.init();
             }
 
-            async init() {
-                // Wait for authentication
-                this.auth.onAuthStateChanged(async (user) => {
-                    if (user) {
-                        this.userId = user.uid;
-                        console.log('User authenticated:', this.userId);
-                        await this.loadNotifications();
-                        this.setupRealTimeListener();
-                        this.setupUI();
-                        this.checkNotificationPermission();
-                    } else {
-                        console.log('No user signed in');
-                    }
-                });
+         // Replace the current init method with this:
+async init() {
+    return new Promise((resolve) => {
+        this.auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                this.userId = user.uid;
+                console.log('User authenticated:', this.userId);
+                await this.loadNotifications();
+                this.setupRealTimeListener();
+                this.setupUI();
+                this.checkNotificationPermission();
+                resolve(true);
+            } else {
+                console.log('No user signed in');
+                // Redirect to login or show sign-in
+                this.showLoginPrompt();
+                resolve(false);
             }
+        });
+    });
+}
+
+showLoginPrompt() {
+    // You can redirect to login page or show a modal
+    console.log('Please sign in to view notifications');
+}
 
             // Check notification permission
             checkNotificationPermission() {
