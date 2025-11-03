@@ -291,6 +291,14 @@
             background: #c82333;
         }
 
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
         /* Forms */
         .form-group {
             margin-bottom: 1rem;
@@ -437,6 +445,11 @@
             color: white;
         }
 
+        .badge-unread {
+            background-color: var(--warning);
+            color: white;
+        }
+
         .role-badge {
             padding: 0.25rem 0.5rem;
             border-radius: 20px;
@@ -489,6 +502,140 @@
 
         .fade-in {
             animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Message Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-body {
+            padding: 1.25rem;
+        }
+
+        .modal-footer {
+            padding: 1.25rem;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        /* Message Styles */
+        .message-item {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .message-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .message-item.unread {
+            background-color: rgba(52, 152, 219, 0.05);
+            border-left: 3px solid var(--secondary);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .message-sender {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .message-date {
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
+        .message-subject {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .message-preview {
+            color: var(--gray);
+            font-size: 0.9rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Message Detail View */
+        .message-detail {
+            padding: 1.25rem;
+        }
+
+        .message-detail-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .message-detail-subject {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .message-detail-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .message-detail-body {
+            line-height: 1.6;
+            white-space: pre-wrap;
         }
 
         /* Responsive Design */
@@ -651,6 +798,15 @@
                         </button>
                     </div>
 
+                    <!-- Message Management -->
+                    <div class="admin-card">
+                        <h3><i class="fas fa-comments card-icon"></i> Send Messages</h3>
+                        <p>Send messages to users with push notifications</p>
+                        <button onclick="showMessageComposer()" class="btn">
+                            <i class="fas fa-paper-plane"></i> Compose Message
+                        </button>
+                    </div>
+
                     <!-- Content Management -->
                     <div class="admin-card">
                         <h3><i class="fas fa-calendar card-icon"></i> Activities</h3>
@@ -711,6 +867,40 @@
                         <div style="display: flex; gap: 0.75rem; flex-direction: column;">
                             <button type="submit" class="btn">Register User</button>
                             <button type="button" onclick="hideUserRegistration()" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Message Composer -->
+                <div id="messageComposer" class="card fade-in" style="display: none; margin-bottom: 2rem;">
+                    <h3><i class="fas fa-paper-plane card-icon"></i> Compose Message</h3>
+                    <form id="composeMessageForm">
+                        <div class="form-group">
+                            <label for="messageRecipients">Recipients</label>
+                            <select id="messageRecipients" class="form-control" multiple>
+                                <!-- Options will be populated by JavaScript -->
+                            </select>
+                            <small class="text-muted">Hold Ctrl/Cmd to select multiple users</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="messageSubject">Subject</label>
+                            <input type="text" id="messageSubject" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="messageBody">Message</label>
+                            <textarea id="messageBody" class="form-control" rows="6" required placeholder="Type your message here..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="sendNotification" checked>
+                                Send push notification to recipients
+                            </label>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem; flex-direction: column;">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
+                            <button type="button" onclick="hideMessageComposer()" class="btn btn-secondary">Cancel</button>
                         </div>
                     </form>
                 </div>
@@ -787,10 +977,38 @@
         </div>
     </main>
 
+    <!-- Message Detail Modal -->
+    <div id="messageDetailModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Message Details</h3>
+                <button class="modal-close" onclick="closeMessageDetail()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="message-detail">
+                    <div class="message-detail-header">
+                        <div class="message-detail-subject" id="detailSubject"></div>
+                        <div class="message-detail-meta">
+                            <div>
+                                From: <span id="detailSender"></span> (<span id="detailSenderEmail"></span>)
+                            </div>
+                            <div id="detailDate"></div>
+                        </div>
+                    </div>
+                    <div class="message-detail-body" id="detailBody"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeMessageDetail()">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
     
     <script>
         // Firebase configuration
@@ -808,6 +1026,7 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
+        const messaging = firebase.messaging();
 
         // DOM Elements
         const accessDenied = document.getElementById('accessDenied');
@@ -825,9 +1044,15 @@
         const adminUsersEl = document.getElementById('adminUsers');
         const partnerUsersEl = document.getElementById('partnerUsers');
         const visitorUsersEl = document.getElementById('visitorUsers');
+        const messageComposer = document.getElementById('messageComposer');
+        const composeMessageForm = document.getElementById('composeMessageForm');
+        const messageRecipients = document.getElementById('messageRecipients');
+        const messageDetailModal = document.getElementById('messageDetailModal');
 
         // Collection name configuration
         const MESSAGES_COLLECTION = 'contactMessages';
+        const USER_MESSAGES_COLLECTION = 'userMessages';
+        const PUSH_TOKENS_COLLECTION = 'pushTokens';
 
         // Check if user is authenticated and is admin
         auth.onAuthStateChanged(async (user) => {
@@ -868,53 +1093,315 @@
         function showAdminContent(user, userData) {
             accessDenied.style.display = 'none';
             adminContent.style.display = 'block';
-            adminGreeting.textContent = `Hi, ${userData.name || user.email.split('@')[0]}!`;
+            adminGreeting.textContent = `Hi, ${userData.name || user.email}`;
             
-            // Set admin flag
-            localStorage.setItem('isAdmin', 'true');
-            localStorage.setItem('currentUser', JSON.stringify({
-                uid: user.uid,
-                email: user.email,
-                name: userData.name || user.email.split('@')[0],
-                role: 'admin'
-            }));
-            
-            // Load admin data
+            // Load data
             loadUsers();
+            loadStats();
         }
 
         // Show access denied
         function showAccessDenied() {
             accessDenied.style.display = 'block';
             adminContent.style.display = 'none';
-            localStorage.removeItem('isAdmin');
         }
 
-        // Admin logout
-        adminLogoutBtn.addEventListener('click', async () => {
+        // Load user statistics
+        async function loadStats() {
             try {
-                await auth.signOut();
-                localStorage.removeItem('isAdmin');
-                localStorage.removeItem('currentUser');
-                window.location.href = '../index.html';
+                const usersSnapshot = await db.collection('users').get();
+                const totalUsers = usersSnapshot.size;
+                let adminUsers = 0;
+                let partnerUsers = 0;
+                let visitorUsers = 0;
+                
+                usersSnapshot.forEach(doc => {
+                    const userData = doc.data();
+                    if (userData.role === 'admin') adminUsers++;
+                    else if (userData.role === 'partner') partnerUsers++;
+                    else if (userData.role === 'visitor') visitorUsers++;
+                });
+                
+                totalUsersEl.textContent = totalUsers;
+                adminUsersEl.textContent = adminUsers;
+                partnerUsersEl.textContent = partnerUsers;
+                visitorUsersEl.textContent = visitorUsers;
             } catch (error) {
-                console.error('Logout error:', error);
+                console.error('Error loading stats:', error);
             }
-        });
+        }
+
+        // Load users table
+        async function loadUsers() {
+            try {
+                usersTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem;"><p><i class="fas fa-spinner fa-spin"></i> Loading users...</p></td></tr>';
+                
+                const usersSnapshot = await db.collection('users').get();
+                usersTableBody.innerHTML = '';
+                
+                if (usersSnapshot.empty) {
+                    usersTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem;"><p>No users found</p></td></tr>';
+                    return;
+                }
+                
+                usersSnapshot.forEach(doc => {
+                    const userData = doc.data();
+                    const userRow = document.createElement('tr');
+                    
+                    const registrationDate = userData.registrationDate 
+                        ? new Date(userData.registrationDate.seconds * 1000).toLocaleDateString()
+                        : 'Unknown';
+                    
+                    userRow.innerHTML = `
+                        <td>${userData.name || 'N/A'}</td>
+                        <td>${userData.email || 'N/A'}</td>
+                        <td><span class="role-badge role-${userData.role || 'partner'}">${userData.role || 'partner'}</span></td>
+                        <td>${registrationDate}</td>
+                        <td><span class="status-badge badge-read">Active</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn" onclick="editUser('${doc.id}')" style="width: auto; padding: 0.3rem 0.6rem;">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger" onclick="deleteUser('${doc.id}')" style="width: auto; padding: 0.3rem 0.6rem;">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    
+                    usersTableBody.appendChild(userRow);
+                });
+                
+                // Populate recipients dropdown in message composer
+                populateRecipientsDropdown(usersSnapshot);
+            } catch (error) {
+                console.error('Error loading users:', error);
+                usersTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem;"><p>Error loading users</p></td></tr>';
+            }
+        }
+
+        // Populate recipients dropdown in message composer
+        function populateRecipientsDropdown(usersSnapshot) {
+            messageRecipients.innerHTML = '';
+            
+            usersSnapshot.forEach(doc => {
+                const userData = doc.data();
+                const option = document.createElement('option');
+                option.value = doc.id;
+                option.textContent = `${userData.name || userData.email} (${userData.role || 'partner'})`;
+                messageRecipients.appendChild(option);
+            });
+        }
 
         // Show user registration form
         function showUserRegistration() {
             userRegistrationForm.style.display = 'block';
-            registerUserForm.reset();
-            window.scrollTo({ top: userRegistrationForm.offsetTop - 20, behavior: 'smooth' });
+            messageComposer.style.display = 'none';
+            messagesSection.style.display = 'none';
         }
 
         // Hide user registration form
         function hideUserRegistration() {
             userRegistrationForm.style.display = 'none';
+            registerUserForm.reset();
         }
 
-        // Register new user with Firebase Authentication
+        // Show message composer
+        function showMessageComposer() {
+            messageComposer.style.display = 'block';
+            userRegistrationForm.style.display = 'none';
+            messagesSection.style.display = 'none';
+        }
+
+        // Hide message composer
+        function hideMessageComposer() {
+            messageComposer.style.display = 'none';
+            composeMessageForm.reset();
+        }
+
+        // Load messages from contact form
+        async function loadMessages() {
+            try {
+                messagesTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem;"><p><i class="fas fa-spinner fa-spin"></i> Loading messages...</p></td></tr>';
+                messagesSection.style.display = 'block';
+                userRegistrationForm.style.display = 'none';
+                messageComposer.style.display = 'none';
+                
+                const messagesSnapshot = await db.collection(MESSAGES_COLLECTION).orderBy('timestamp', 'desc').get();
+                messagesTableBody.innerHTML = '';
+                
+                if (messagesSnapshot.empty) {
+                    messagesTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem;"><p>No messages found</p></td></tr>';
+                    return;
+                }
+                
+                messagesSnapshot.forEach(doc => {
+                    const messageData = doc.data();
+                    const messageDate = messageData.timestamp 
+                        ? new Date(messageData.timestamp.seconds * 1000).toLocaleDateString()
+                        : 'Unknown';
+                    
+                    const messageRow = document.createElement('tr');
+                    messageRow.className = messageData.read ? '' : 'unread';
+                    
+                    messageRow.innerHTML = `
+                        <td>${messageData.name || 'Anonymous'}</td>
+                        <td>${messageData.email || 'N/A'}</td>
+                        <td>${messageData.subject || 'No Subject'}</td>
+                        <td>${messageDate}</td>
+                        <td>
+                            <span class="status-badge ${messageData.read ? 'badge-read' : 'badge-unread'}">
+                                ${messageData.read ? 'Read' : 'Unread'}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn" onclick="viewMessage('${doc.id}')" style="width: auto; padding: 0.3rem 0.6rem;">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-danger" onclick="deleteMessage('${doc.id}')" style="width: auto; padding: 0.3rem 0.6rem;">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    
+                    messagesTableBody.appendChild(messageRow);
+                });
+                
+                // Update unread message count
+                loadUnreadMessageCount();
+            } catch (error) {
+                console.error('Error loading messages:', error);
+                messagesTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem;"><p>Error loading messages</p></td></tr>';
+            }
+        }
+
+        // Load unread message count
+        async function loadUnreadMessageCount() {
+            try {
+                const unreadQuery = await db.collection(MESSAGES_COLLECTION)
+                    .where('read', '==', false)
+                    .get();
+                
+                const unreadCount = unreadQuery.size;
+                
+                if (unreadCount > 0) {
+                    messageNotification.textContent = unreadCount;
+                    messageNotification.style.display = 'flex';
+                } else {
+                    messageNotification.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error loading unread message count:', error);
+            }
+        }
+
+        // View message details
+        async function viewMessage(messageId) {
+            try {
+                const messageDoc = await db.collection(MESSAGES_COLLECTION).doc(messageId).get();
+                
+                if (!messageDoc.exists) {
+                    alert('Message not found');
+                    return;
+                }
+                
+                const messageData = messageDoc.data();
+                
+                // Mark message as read
+                await db.collection(MESSAGES_COLLECTION).doc(messageId).update({
+                    read: true
+                });
+                
+                // Update UI
+                document.getElementById('detailSubject').textContent = messageData.subject || 'No Subject';
+                document.getElementById('detailSender').textContent = messageData.name || 'Anonymous';
+                document.getElementById('detailSenderEmail').textContent = messageData.email || 'N/A';
+                document.getElementById('detailDate').textContent = messageData.timestamp 
+                    ? new Date(messageData.timestamp.seconds * 1000).toLocaleString()
+                    : 'Unknown';
+                document.getElementById('detailBody').textContent = messageData.message || 'No message content';
+                
+                // Show modal
+                messageDetailModal.style.display = 'flex';
+                
+                // Reload messages to update read status
+                loadMessages();
+            } catch (error) {
+                console.error('Error viewing message:', error);
+                alert('Error loading message details');
+            }
+        }
+
+        // Close message detail modal
+        function closeMessageDetail() {
+            messageDetailModal.style.display = 'none';
+        }
+
+        // Mark all messages as read
+        async function markAllAsRead() {
+            try {
+                const unreadQuery = await db.collection(MESSAGES_COLLECTION)
+                    .where('read', '==', false)
+                    .get();
+                
+                const batch = db.batch();
+                
+                unreadQuery.forEach(doc => {
+                    batch.update(doc.ref, { read: true });
+                });
+                
+                await batch.commit();
+                
+                // Reload messages
+                loadMessages();
+                
+                alert('All messages marked as read');
+            } catch (error) {
+                console.error('Error marking messages as read:', error);
+                alert('Error marking messages as read');
+            }
+        }
+
+        // Delete message
+        async function deleteMessage(messageId) {
+            if (!confirm('Are you sure you want to delete this message?')) {
+                return;
+            }
+            
+            try {
+                await db.collection(MESSAGES_COLLECTION).doc(messageId).delete();
+                loadMessages();
+            } catch (error) {
+                console.error('Error deleting message:', error);
+                alert('Error deleting message');
+            }
+        }
+
+        // Edit user (placeholder)
+        function editUser(userId) {
+            alert(`Edit user with ID: ${userId} - This feature is not implemented yet`);
+        }
+
+        // Delete user
+        async function deleteUser(userId) {
+            if (!confirm('Are you sure you want to delete this user?')) {
+                return;
+            }
+            
+            try {
+                await db.collection('users').doc(userId).delete();
+                loadUsers();
+                loadStats();
+            } catch (error) {
+                console.error('Error deleting user:', error);
+                alert('Error deleting user');
+            }
+        }
+
+        // Register new user
         registerUserForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -924,379 +1411,122 @@
             const confirmPassword = document.getElementById('confirmPassword').value;
             const role = document.getElementById('userRole').value;
             const notes = document.getElementById('userNotes').value;
-
+            
             // Validate passwords match
             if (password !== confirmPassword) {
-                alert('Passwords do not match!');
+                alert('Passwords do not match');
                 return;
             }
-
-            // Validate password length
-            if (password.length < 6) {
-                alert('Password must be at least 6 characters long!');
-                return;
-            }
-
+            
             try {
-                // Create user in Firebase Authentication
+                // Create user in Firebase Auth
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const newUser = userCredential.user;
-
-                // Create user data for Firestore
-                const userData = {
+                const user = userCredential.user;
+                
+                // Add user data to Firestore
+                await db.collection('users').doc(user.uid).set({
                     name: name,
                     email: email,
                     role: role,
                     notes: notes,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    createdBy: JSON.parse(localStorage.getItem('currentUser'))?.email || 'admin',
-                    status: 'active'
-                };
-
-                // Save to Firestore
-                await db.collection('users').doc(newUser.uid).set(userData);
+                    registrationDate: firebase.firestore.FieldValue.serverTimestamp()
+                });
                 
-                alert('User registered successfully!');
-                registerUserForm.reset();
+                alert('User registered successfully');
                 hideUserRegistration();
-                loadUsers(); // Reload users list
-                
+                loadUsers();
+                loadStats();
             } catch (error) {
-                console.error('Registration error:', error);
-                
-                let errorMessage = 'Error registering user: ';
-                if (error.code === 'auth/email-already-in-use') {
-                    errorMessage += 'This email is already registered.';
-                } else if (error.code === 'auth/weak-password') {
-                    errorMessage += 'Password is too weak.';
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage += 'Invalid email address.';
-                } else {
-                    errorMessage += error.message;
-                }
-                
-                alert(errorMessage);
+                console.error('Error registering user:', error);
+                alert('Error registering user: ' + error.message);
             }
         });
 
-        // Load all users in table format
-        async function loadUsers() {
-            try {
-                const snapshot = await db.collection('users')
-                    .orderBy('createdAt', 'desc')
-                    .get();
-                
-                if (snapshot.empty) {
-                    usersTableBody.innerHTML = `
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 2rem; color: var(--gray);">
-                                <i class="fas fa-users" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                                <h4>No Users Found</h4>
-                                <p>No users have been registered yet.</p>
-                            </td>
-                        </tr>
-                    `;
-                    updateStats(0, 0, 0, 0);
-                    return;
-                }
-
-                let usersHTML = '';
-                let adminCount = 0;
-                let partnerCount = 0;
-                let visitorCount = 0;
-
-                snapshot.forEach((doc) => {
-                    const user = doc.data();
-                    const userId = doc.id;
-                    const date = user.createdAt ? new Date(user.createdAt.seconds * 1000).toLocaleDateString() : 'Unknown date';
-                    
-                    // Count by role
-                    if (user.role === 'admin') adminCount++;
-                    else if (user.role === 'partner') partnerCount++;
-                    else if (user.role === 'visitor') visitorCount++;
-
-                    usersHTML += `
-                        <tr>
-                            <td>
-                                <strong>${user.name}</strong>
-                                ${user.notes ? `<br><small style="color: var(--gray);">${user.notes}</small>` : ''}
-                            </td>
-                            <td>${user.email}</td>
-                            <td><span class="role-badge role-${user.role}">${user.role.toUpperCase()}</span></td>
-                            <td>${date}</td>
-                            <td><span class="status-badge badge-read">Active</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button onclick="editUser('${userId}')" class="btn">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button onclick="deleteUser('${userId}', '${user.name}')" class="btn btn-danger">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                });
-
-                usersTableBody.innerHTML = usersHTML;
-                updateStats(snapshot.size, adminCount, partnerCount, visitorCount);
-                
-            } catch (error) {
-                usersTableBody.innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 2rem; color: var(--accent);">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <h4>Error Loading Users</h4>
-                            <p>${error.message}</p>
-                        </td>
-                    </tr>
-                `;
-                console.error('Error loading users:', error);
+        // Send message to users
+        composeMessageForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const recipients = Array.from(messageRecipients.selectedOptions).map(option => option.value);
+            const subject = document.getElementById('messageSubject').value;
+            const body = document.getElementById('messageBody').value;
+            const sendNotification = document.getElementById('sendNotification').checked;
+            
+            if (recipients.length === 0) {
+                alert('Please select at least one recipient');
+                return;
             }
-        }
-
-        // Update statistics
-        function updateStats(total, admin, partner, visitor) {
-            totalUsersEl.textContent = total;
-            adminUsersEl.textContent = admin;
-            partnerUsersEl.textContent = partner;
-            visitorUsersEl.textContent = visitor;
-        }
-
-        // Edit user (placeholder function)
-        function editUser(userId) {
-            alert('Edit functionality coming soon! User ID: ' + userId);
-            // You can implement a modal for editing user details
-        }
-
-        // Delete user
-        async function deleteUser(userId, userName) {
-            if (confirm(`Are you sure you want to delete user "${userName}"? This action cannot be undone.`)) {
-                try {
-                    await db.collection('users').doc(userId).delete();
-                    alert('User deleted successfully!');
-                    loadUsers(); // Reload users list
-                } catch (error) {
-                    alert('Error deleting user: ' + error.message);
-                }
-            }
-        }
-
-        // ========== MESSAGES MANAGEMENT - ENHANCED WITH TABLES ==========
-
-        // Load messages in table format
-        async function loadMessages() {
+            
             try {
-                messagesSection.style.display = 'block';
-                messagesTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem;"><p><i class="fas fa-spinner fa-spin"></i> Loading messages...</p></td></tr>';
+                // Get current admin user
+                const currentUser = auth.currentUser;
+                const adminData = await getUserRole(currentUser.uid);
                 
-                const snapshot = await db.collection(MESSAGES_COLLECTION)
-                    .orderBy('createdAt', 'desc')
-                    .get();
-                
-                if (snapshot.empty) {
-                    messagesTableBody.innerHTML = `
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 3rem; color: var(--gray);">
-                                <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                                <h4>No Messages Yet</h4>
-                                <p>No contact form submissions have been received.</p>
-                            </td>
-                        </tr>
-                    `;
-                    return;
-                }
-
-                let messagesHTML = '';
-                let hasMessages = false;
-                let unreadCount = 0;
-
-                snapshot.forEach((doc) => {
-                    hasMessages = true;
-                    const message = doc.data();
-                    const messageId = doc.id;
-                    const date = message.createdAt ? new Date(message.createdAt.seconds * 1000).toLocaleDateString() : 'Unknown date';
-                    const time = message.createdAt ? new Date(message.createdAt.seconds * 1000).toLocaleTimeString() : '';
-                    const isNew = message.status === 'new';
-                    
-                    if (isNew) unreadCount++;
-                    
-                    messagesHTML += `
-                        <tr>
-                            <td>
-                                <strong>${message.name || 'Unknown'}</strong>
-                            </td>
-                            <td>${message.email || 'No email'}</td>
-                            <td>${message.subject || 'No Subject'}</td>
-                            <td>${date}<br><small>${time}</small></td>
-                            <td>
-                                <span class="status-badge ${isNew ? 'badge-new' : 'badge-read'}">
-                                    ${isNew ? 'NEW' : 'READ'}
-                                </span>
-                            </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button onclick="viewMessage('${messageId}')" class="btn">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    ${isNew ? `
-                                        <button onclick="updateMessageStatus('${messageId}', 'read')" class="btn">
-                                            <i class="fas fa-check"></i>
-                                        </button>
-                                    ` : ''}
-                                    <button onclick="deleteMessage('${messageId}')" class="btn btn-danger">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                });
-
-                if (hasMessages) {
-                    messagesTableBody.innerHTML = messagesHTML;
-                }
-                
-                // Update notification badge
-                updateMessageNotification(unreadCount);
-                
-            } catch (error) {
-                console.error('Error loading messages:', error);
-                
-                let errorMessage = 'Unable to load messages. ';
-                
-                if (error.code === 'permission-denied') {
-                    errorMessage += 'Permission denied. Check Firestore security rules.';
-                } else if (error.code === 'not-found') {
-                    errorMessage += 'Collection not found.';
-                } else {
-                    errorMessage += error.message;
-                }
-                
-                messagesTableBody.innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 2rem; color: var(--danger);">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <h4>Error Loading Messages</h4>
-                            <p>${errorMessage}</p>
-                        </td>
-                    </tr>
-                `;
-            }
-        }
-
-        // View message details
-        async function viewMessage(messageId) {
-            try {
-                const doc = await db.collection(MESSAGES_COLLECTION).doc(messageId).get();
-                if (doc.exists) {
-                    const message = doc.data();
-                    const date = message.createdAt ? new Date(message.createdAt.seconds * 1000).toLocaleDateString() : 'Unknown date';
-                    const time = message.createdAt ? new Date(message.createdAt.seconds * 1000).toLocaleTimeString() : '';
-                    
-                    // Show message in a modal or alert
-                    alert(`Message Details:\n\nFrom: ${message.name || 'Unknown'}\nEmail: ${message.email || 'No email'}\nSubject: ${message.subject || 'No Subject'}\nDate: ${date} at ${time}\n\nMessage:\n${message.message || 'No message content'}`);
-                }
-            } catch (error) {
-                console.error('Error viewing message:', error);
-                alert('Error loading message details: ' + error.message);
-            }
-        }
-
-        // Update message status
-        async function updateMessageStatus(messageId, status) {
-            try {
-                await db.collection(MESSAGES_COLLECTION).doc(messageId).update({
-                    status: status,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                
-                // Reload messages to reflect the change
-                loadMessages();
-                
-            } catch (error) {
-                console.error('Error updating message:', error);
-                alert('Error updating message: ' + error.message);
-            }
-        }
-
-        // Mark all messages as read
-        async function markAllAsRead() {
-            try {
-                const snapshot = await db.collection(MESSAGES_COLLECTION)
-                    .where('status', '==', 'new')
-                    .get();
-                
-                if (snapshot.empty) {
-                    alert('No unread messages found.');
-                    return;
-                }
-                
-                const batch = db.batch();
-                snapshot.forEach(doc => {
-                    batch.update(doc.ref, {
-                        status: 'read',
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                // Send message to each recipient
+                for (const recipientId of recipients) {
+                    // Store message in user's message collection
+                    await db.collection(USER_MESSAGES_COLLECTION).add({
+                        recipientId: recipientId,
+                        senderId: currentUser.uid,
+                        senderName: adminData.name || 'Admin',
+                        subject: subject,
+                        body: body,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                        read: false
                     });
-                });
-                
-                await batch.commit();
-                alert(`Marked ${snapshot.size} messages as read.`);
-                loadMessages();
-                
-            } catch (error) {
-                console.error('Error marking all as read:', error);
-                alert('Error marking messages as read: ' + error.message);
-            }
-        }
-
-        // Delete message
-        async function deleteMessage(messageId) {
-            if (confirm('Are you sure you want to delete this message? This action cannot be undone.')) {
-                try {
-                    await db.collection(MESSAGES_COLLECTION).doc(messageId).delete();
-                    alert('Message deleted successfully');
-                    loadMessages();
                     
-                } catch (error) {
-                    console.error('Error deleting message:', error);
-                    alert('Error deleting message: ' + error.message);
+                    // Send push notification if enabled
+                    if (sendNotification) {
+                        await sendPushNotification(recipientId, subject, body);
+                    }
                 }
+                
+                alert(`Message sent to ${recipients.length} user(s)`);
+                hideMessageComposer();
+            } catch (error) {
+                console.error('Error sending message:', error);
+                alert('Error sending message: ' + error.message);
             }
-        }
+        });
 
-        // Load unread message count for notification
-        async function loadUnreadMessageCount() {
+        // Send push notification to user
+        async function sendPushNotification(userId, title, body) {
             try {
-                const snapshot = await db.collection(MESSAGES_COLLECTION)
-                    .where('status', '==', 'new')
+                // Get user's push token
+                const tokenDoc = await db.collection(PUSH_TOKENS_COLLECTION)
+                    .where('userId', '==', userId)
                     .get();
                 
-                updateMessageNotification(snapshot.size);
+                if (tokenDoc.empty) {
+                    console.log('No push token found for user:', userId);
+                    return;
+                }
                 
+                // In a real implementation, you would send the notification
+                // to a server that handles FCM, or use Cloud Functions
+                console.log(`Would send push notification to ${userId}: ${title} - ${body}`);
+                
+                // For this demo, we'll just log the action
+                // In production, you would use the FCM API to send the notification
             } catch (error) {
-                console.error('Error loading unread message count:', error);
+                console.error('Error sending push notification:', error);
             }
         }
 
-        // Update message notification badge
-        function updateMessageNotification(count) {
-            if (count > 0) {
-                messageNotification.textContent = count;
-                messageNotification.style.display = 'flex';
-            } else {
-                messageNotification.style.display = 'none';
+        // Logout
+        adminLogoutBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to logout?')) {
+                auth.signOut().then(() => {
+                    window.location.href = '../index.html';
+                }).catch((error) => {
+                    console.error('Error signing out:', error);
+                });
             }
-        }
+        });
 
-        // Messages button click handler
+        // Messages button
         messagesBtn.addEventListener('click', () => {
             loadMessages();
-            messagesSection.style.display = 'block';
-            window.scrollTo({ top: messagesSection.offsetTop - 20, behavior: 'smooth' });
         });
-
     </script>
 </body>
 </html>
