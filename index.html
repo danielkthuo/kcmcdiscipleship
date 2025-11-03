@@ -120,6 +120,130 @@
             font-weight: 600;
         }
         
+        /* Notification Styles */
+        .notification-container {
+            position: relative;
+            margin-left: auto;
+        }
+        
+        .notification-icon {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            position: relative;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        
+        .notification-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .notification-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 320px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1001;
+            display: none;
+        }
+        
+        .notification-dropdown.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .notification-header {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .notification-header h5 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        .notification-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .notification-item {
+            padding: 1rem;
+            border-bottom: 1px solid #f5f5f5;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .notification-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .notification-item.unread {
+            background: rgba(52, 152, 219, 0.05);
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--primary-color);
+        }
+        
+        .notification-message {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        .notification-time {
+            font-size: 0.75rem;
+            color: #999;
+        }
+        
+        .notification-empty {
+            padding: 2rem 1rem;
+            text-align: center;
+            color: #999;
+        }
+        
+        .mark-all-read {
+            background: none;
+            border: none;
+            color: var(--accent-color);
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        
         /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
@@ -732,11 +856,31 @@
     <!-- Top Navigation (for branding) -->
     <nav class="top-navbar">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="icons/logo.png" alt="Church Logo">
-                <h5>Kingdom Covenant Ministries</h5>
-            </a>
-             
+            <div class="d-flex align-items-center justify-content-between">
+                <a class="navbar-brand" href="#">
+                    <img src="icons/logo.png" alt="Church Logo">
+                    <h5>Kingdom Covenant Ministries</h5>
+                </a>
+                
+                <!-- Notification Icon -->
+                <div class="notification-container">
+                    <button class="notification-icon" id="notificationButton">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                    </button>
+                    
+                    <!-- Notification Dropdown -->
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="notification-header">
+                            <h5>Notifications</h5>
+                            <button class="mark-all-read" id="markAllRead">Mark all as read</button>
+                        </div>
+                        <ul class="notification-list" id="notificationList">
+                            <li class="notification-empty">No notifications</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -1344,7 +1488,331 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
+    
     <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDfNX8WUWfUAN-dIUtzq8gJXjh0CIZdS_0",
+            authDomain: "kcmcpartners.firebaseapp.com",
+            projectId: "kcmcpartners",
+            storageBucket: "kcmcpartners.firebasestorage.app",
+            messagingSenderId: "30984885444",
+            appId: "1:30984885444:web:0be4febff8cfef1b22a591",
+            measurementId: "G-Z6FMF6Z1V1"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const messaging = firebase.messaging();
+
+        // Notification System
+        const notificationButton = document.getElementById('notificationButton');
+        const notificationBadge = document.getElementById('notificationBadge');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        const notificationList = document.getElementById('notificationList');
+        const markAllReadButton = document.getElementById('markAllRead');
+
+        // Collection names
+        const USER_MESSAGES_COLLECTION = 'userMessages';
+        const PUSH_TOKENS_COLLECTION = 'pushTokens';
+
+        // Current user
+        let currentUser = null;
+
+        // Initialize notification system
+        function initNotificationSystem() {
+            // Check if user is logged in
+            auth.onAuthStateChanged(async (user) => {
+                if (user) {
+                    currentUser = user;
+                    console.log('User logged in:', user.uid);
+                    
+                    // Load user notifications
+                    loadUserNotifications();
+                    
+                    // Set up real-time listener for new notifications
+                    setupNotificationListener();
+                    
+                    // Request notification permission
+                    requestNotificationPermission();
+                    
+                    // Get FCM token for push notifications
+                    getFCMToken();
+                } else {
+                    currentUser = null;
+                    console.log('User not logged in');
+                    // Clear notifications if user logs out
+                    clearNotificationsUI();
+                }
+            });
+
+            // Toggle notification dropdown
+            notificationButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                notificationDropdown.classList.toggle('show');
+                
+                // Mark notifications as read when dropdown is opened
+                if (notificationDropdown.classList.contains('show') && currentUser) {
+                    markNotificationsAsRead();
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', () => {
+                notificationDropdown.classList.remove('show');
+            });
+
+            // Mark all as read button
+            markAllReadButton.addEventListener('click', () => {
+                if (currentUser) {
+                    markAllNotificationsAsRead();
+                }
+            });
+        }
+
+        // Load user notifications from Firestore
+        async function loadUserNotifications() {
+            if (!currentUser) return;
+
+            try {
+                const snapshot = await db.collection(USER_MESSAGES_COLLECTION)
+                    .where('recipientId', '==', currentUser.uid)
+                    .orderBy('timestamp', 'desc')
+                    .limit(20)
+                    .get();
+
+                if (snapshot.empty) {
+                    showEmptyNotifications();
+                    return;
+                }
+
+                displayNotifications(snapshot);
+                updateNotificationBadge(snapshot);
+            } catch (error) {
+                console.error('Error loading notifications:', error);
+                showEmptyNotifications();
+            }
+        }
+
+        // Set up real-time listener for new notifications
+        function setupNotificationListener() {
+            if (!currentUser) return;
+
+            db.collection(USER_MESSAGES_COLLECTION)
+                .where('recipientId', '==', currentUser.uid)
+                .orderBy('timestamp', 'desc')
+                .limit(20)
+                .onSnapshot((snapshot) => {
+                    if (!snapshot.empty) {
+                        displayNotifications(snapshot);
+                        updateNotificationBadge(snapshot);
+                    } else {
+                        showEmptyNotifications();
+                    }
+                }, (error) => {
+                    console.error('Error in notification listener:', error);
+                });
+        }
+
+        // Display notifications in the dropdown
+        function displayNotifications(snapshot) {
+            notificationList.innerHTML = '';
+            let hasNotifications = false;
+
+            snapshot.forEach((doc) => {
+                hasNotifications = true;
+                const notification = doc.data();
+                const notificationId = doc.id;
+                
+                // Format date
+                let notificationDate = 'Unknown date';
+                if (notification.timestamp) {
+                    if (notification.timestamp.seconds) {
+                        notificationDate = new Date(notification.timestamp.seconds * 1000).toLocaleDateString();
+                    } else if (notification.timestamp.toDate) {
+                        notificationDate = notification.timestamp.toDate().toLocaleDateString();
+                    } else {
+                        notificationDate = new Date(notification.timestamp).toLocaleDateString();
+                    }
+                }
+
+                const notificationItem = document.createElement('li');
+                notificationItem.className = `notification-item ${notification.read ? '' : 'unread'}`;
+                notificationItem.innerHTML = `
+                    <div class="notification-title">${notification.subject || 'Notification'}</div>
+                    <div class="notification-message">${notification.body || 'No message content'}</div>
+                    <div class="notification-time">${notificationDate}</div>
+                `;
+
+                // Add click handler to mark as read
+                notificationItem.addEventListener('click', () => {
+                    markNotificationAsRead(notificationId);
+                });
+
+                notificationList.appendChild(notificationItem);
+            });
+
+            if (!hasNotifications) {
+                showEmptyNotifications();
+            }
+        }
+
+        // Show empty state
+        function showEmptyNotifications() {
+            notificationList.innerHTML = '<li class="notification-empty">No notifications</li>';
+            notificationBadge.style.display = 'none';
+        }
+
+        // Clear notifications UI
+        function clearNotificationsUI() {
+            showEmptyNotifications();
+        }
+
+        // Update notification badge count
+        function updateNotificationBadge(snapshot) {
+            let unreadCount = 0;
+            
+            snapshot.forEach((doc) => {
+                const notification = doc.data();
+                if (!notification.read) {
+                    unreadCount++;
+                }
+            });
+
+            if (unreadCount > 0) {
+                notificationBadge.textContent = unreadCount > 99 ? '99+' : unreadCount.toString();
+                notificationBadge.style.display = 'flex';
+            } else {
+                notificationBadge.style.display = 'none';
+            }
+        }
+
+        // Mark notification as read
+        async function markNotificationAsRead(notificationId) {
+            try {
+                await db.collection(USER_MESSAGES_COLLECTION).doc(notificationId).update({
+                    read: true,
+                    readAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            } catch (error) {
+                console.error('Error marking notification as read:', error);
+            }
+        }
+
+        // Mark all notifications as read
+        async function markAllNotificationsAsRead() {
+            try {
+                const snapshot = await db.collection(USER_MESSAGES_COLLECTION)
+                    .where('recipientId', '==', currentUser.uid)
+                    .where('read', '==', false)
+                    .get();
+
+                const batch = db.batch();
+                snapshot.forEach((doc) => {
+                    batch.update(doc.ref, {
+                        read: true,
+                        readAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                });
+
+                await batch.commit();
+            } catch (error) {
+                console.error('Error marking all notifications as read:', error);
+            }
+        }
+
+        // Mark notifications as read when dropdown is opened
+        async function markNotificationsAsRead() {
+            try {
+                const snapshot = await db.collection(USER_MESSAGES_COLLECTION)
+                    .where('recipientId', '==', currentUser.uid)
+                    .where('read', '==', false)
+                    .get();
+
+                const batch = db.batch();
+                snapshot.forEach((doc) => {
+                    batch.update(doc.ref, {
+                        read: true,
+                        readAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                });
+
+                if (snapshot.size > 0) {
+                    await batch.commit();
+                }
+            } catch (error) {
+                console.error('Error marking notifications as read:', error);
+            }
+        }
+
+        // Request notification permission
+        async function requestNotificationPermission() {
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    console.log('Notification permission granted');
+                } else {
+                    console.log('Notification permission denied');
+                }
+            } catch (error) {
+                console.error('Error requesting notification permission:', error);
+            }
+        }
+
+        // Get FCM token for push notifications
+        async function getFCMToken() {
+            try {
+                const token = await messaging.getToken();
+                if (token && currentUser) {
+                    // Save token to Firestore for this user
+                    await db.collection(PUSH_TOKENS_COLLECTION).doc(currentUser.uid).set({
+                        token: token,
+                        userId: currentUser.uid,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }, { merge: true });
+                    console.log('FCM token saved for user:', currentUser.uid);
+                }
+                return token;
+            } catch (error) {
+                console.error('Error getting FCM token:', error);
+                return null;
+            }
+        }
+
+        // Handle foreground messages
+        messaging.onMessage((payload) => {
+            console.log('Foreground message received:', payload);
+            
+            // Show notification to user
+            if (Notification.permission === 'granted') {
+                const notification = new Notification(payload.notification?.title || 'KCMC Notification', {
+                    body: payload.notification?.body || 'You have a new message',
+                    icon: 'icons/icon-152x152.png'
+                });
+
+                notification.onclick = () => {
+                    window.focus();
+                    notification.close();
+                };
+            }
+
+            // Reload notifications to show the new one
+            if (currentUser) {
+                loadUserNotifications();
+            }
+        });
+
+        // Initialize the notification system
+        initNotificationSystem();
+
+        // Rest of your existing JavaScript code remains the same
         // PWA Installation
         //let deferredPrompt;
         const installButton = document.getElementById('installButton');
@@ -1448,6 +1916,11 @@
                 navigator.serviceWorker.register('/sw.js')
                 .then((registration) => {
                     console.log('Service Worker registered: ', registration);
+                    
+                    // Set up background message handler
+                    messaging.onBackgroundMessage((payload) => {
+                        console.log('Background message received:', payload);
+                    });
                 })
                 .catch((registrationError) => {
                     console.log('Service Worker registration failed: ', registrationError);
