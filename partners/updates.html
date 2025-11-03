@@ -1042,7 +1042,24 @@ input:checked + .slider:before {
            
         </div>
     </main>
-
+<!-- Add this to your notification management section -->
+<div class="notification-controls">
+    <div class="notification-toggle">
+        <span>Enable Push Notifications</span>
+        <label class="switch">
+            <input type="checkbox" id="notificationToggle">
+            <span class="slider round"></span>
+        </label>
+    </div>
+    
+    <button class="btn" id="testNotification" style="margin-top: 10px;">
+        <i class="fas fa-bell"></i> Test Push Notification
+    </button>
+    
+    <button class="btn" onclick="testPushNotification()" style="margin-top: 10px; background: var(--accent);">
+        <i class="fas fa-rocket"></i> Test Push (Even When Closed)
+    </button>
+</div>
     <!-- Bottom Navigation -->
     <nav>
         <ul>
