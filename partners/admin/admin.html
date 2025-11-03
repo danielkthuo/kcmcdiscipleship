@@ -714,23 +714,7 @@
                         </div>
                     </form>
                 </div>
-    <!-- Add this section for admin notifications (protect with authentication) -->
-<div class="admin-section" style="display: none; background: #f8f9fa; padding: 2rem; margin: 1rem; border-radius: 10px;">
-    <h3><i class="fas fa-bell"></i> Send Notification</h3>
-    <form id="notification-form">
-        <div class="form-group">
-            <label for="notification-title">Title:</label>
-            <input type="text" id="notification-title" class="form-control" placeholder="Notification title" required>
-        </div>
-        <div class="form-group">
-            <label for="notification-body">Message:</label>
-            <textarea id="notification-body" class="form-control" placeholder="Notification message" required></textarea>
-        </div>
-        <button type="submit" class="cta-button">
-            <i class="fas fa-paper-plane"></i> Send Notification
-        </button>
-    </form>
-</div>
+
                 <!-- Users Table -->
                 <div class="table-container fade-in">
                     <div class="table-header">
@@ -1314,39 +1298,5 @@
         });
 
     </script>
-
-
-<script>
-// Admin notification functionality
-document.getElementById('notification-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const title = document.getElementById('notification-title').value;
-    const body = document.getElementById('notification-body').value;
-    
-    try {
-        const response = await fetch('/api/send-notification', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                title: title,
-                body: body
-            })
-        });
-        
-        if (response.ok) {
-            alert('Notification sent successfully!');
-            document.getElementById('notification-form').reset();
-        } else {
-            alert('Error sending notification');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Error sending notification');
-    }
-});
-</script>
 </body>
 </html>
