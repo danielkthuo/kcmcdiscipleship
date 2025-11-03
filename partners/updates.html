@@ -505,20 +505,274 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        /* Notification Styles */
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+.notification-container {
+    position: relative;
+}
+
+.notification-bell {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--dark);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.notification-bell:hover {
+    background: rgba(46, 204, 113, 0.1);
+    color: var(--primary);
+}
+
+.notification-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.notification-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 320px;
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    z-index: 1000;
+    display: none;
+    margin-top: 10px;
+}
+
+.notification-panel.show {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.notification-header {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-header h4 {
+    margin: 0;
+    color: var(--dark);
+    font-size: 1rem;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: var(--secondary);
+    cursor: pointer;
+    font-size: 0.85rem;
+    text-decoration: underline;
+}
+
+.btn-link:hover {
+    color: var(--primary);
+}
+
+.notification-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-item.unread {
+    background-color: rgba(46, 204, 113, 0.05);
+}
+
+.notification-item:hover {
+    background-color: #f8f9fa;
+}
+
+.notification-icon {
+    color: var(--primary);
+    font-size: 0.9rem;
+    margin-top: 2px;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    color: var(--dark);
+}
+
+.notification-body {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.notification-time {
+    font-size: 0.75rem;
+    color: #999;
+}
+
+.notification-footer {
+    padding: 12px 15px;
+    border-top: 1px solid #eee;
+    text-align: center;
+}
+
+.empty-notifications {
+    padding: 30px 20px;
+    text-align: center;
+    color: var(--gray);
+}
+
+.empty-notifications i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    opacity: 0.5;
+}
+
+/* Notification Management Page Styles */
+.notification-management {
+    margin-top: 20px;
+}
+
+.notification-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+}
+
+.filter-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.notification-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.notification-action {
+    background: none;
+    border: none;
+    color: var(--gray);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.notification-action:hover {
+    background: #f8f9fa;
+}
+
+.notification-action.delete:hover {
+    color: var(--accent);
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+    .notification-panel {
+        width: 280px;
+        right: -50px;
+    }
+}
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-icon">🕊️</div>
-                    <h1>KCMC Partners</h1>
+    <!-- Updated Header -->
+<header>
+    <div class="container">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">🕊️</div>
+                <h1>KCMC Partners</h1>
+            </div>
+            <div class="header-actions">
+                <!-- Notification Bell -->
+                <div class="notification-container">
+                    <button id="notificationBell" class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span id="notificationCount" class="notification-badge" style="display: none;">0</span>
+                    </button>
+                    <div id="notificationPanel" class="notification-panel">
+                        <div class="notification-header">
+                            <h4>Notifications</h4>
+                            <button id="markAllRead" class="btn-link">Mark all read</button>
+                        </div>
+                        <div id="notificationList" class="notification-list">
+                            <!-- Notifications will be populated here -->
+                        </div>
+                        <div class="notification-footer">
+                            <button id="viewAllNotifications" class="btn-link">View all notifications</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
     <!-- Main Content -->
     <main>
@@ -678,7 +932,34 @@
                     </div>
                 </div>
             </section>
-
+<!-- Notification Management -->
+<section class="card notification-management">
+    <h3><i class="fas fa-bell card-icon"></i> Notification Center</h3>
+    
+    <div class="notification-controls">
+        <div class="notification-toggle">
+            <span>Enable Push Notifications</span>
+            <label class="switch">
+                <input type="checkbox" id="notificationToggle">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        
+        <button class="btn" id="testNotification" style="margin-top: 10px;">
+            <i class="fas fa-bell"></i> Test Notification
+        </button>
+    </div>
+    
+    <div class="notification-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="unread">Unread</button>
+        <button class="filter-btn" data-filter="read">Read</button>
+    </div>
+    
+    <div id="notificationListFull" class="notification-list-full">
+        <!-- Full notification list will be populated here -->
+    </div>
+</section>
             <!-- Newsletter Signup -->
             <section class="card" style="text-align: center; background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white;">
                 <h3>Stay Connected</h3>

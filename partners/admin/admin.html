@@ -1496,50 +1496,52 @@
         });
 
         // Send message to users
-        composeMessageForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+       // In admin.html, update the composeMessageForm submit handler
+composeMessageForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const recipients = Array.from(messageRecipients.selectedOptions).map(option => option.value);
+    const subject = document.getElementById('messageSubject').value;
+    const body = document.getElementById('messageBody').value;
+    const sendNotification = document.getElementById('sendNotification').checked;
+    
+    if (recipients.length === 0) {
+        alert('Please select at least one recipient');
+        return;
+    }
+    
+    try {
+        // Get current admin user
+        const currentUser = auth.currentUser;
+        const adminData = await getUserRole(currentUser.uid);
+        
+        // Send message to each recipient
+        for (const recipientId of recipients) {
+            // Store message in user's message collection
+            await db.collection('userMessages').add({
+                recipientId: recipientId,
+                senderId: currentUser.uid,
+                senderName: adminData.name || 'Admin',
+                subject: subject,
+                body: body,
+                type: 'admin_message',
+                read: false,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
             
-            const recipients = Array.from(messageRecipients.selectedOptions).map(option => option.value);
-            const subject = document.getElementById('messageSubject').value;
-            const body = document.getElementById('messageBody').value;
-            const sendNotification = document.getElementById('sendNotification').checked;
-            
-            if (recipients.length === 0) {
-                alert('Please select at least one recipient');
-                return;
+            // Send push notification if enabled
+            if (sendNotification) {
+                await this.sendPushNotification(recipientId, subject, body);
             }
-            
-            try {
-                // Get current admin user
-                const currentUser = auth.currentUser;
-                const adminData = await getUserRole(currentUser.uid);
-                
-                // Send message to each recipient
-                for (const recipientId of recipients) {
-                    // Store message in user's message collection
-                    await db.collection(USER_MESSAGES_COLLECTION).add({
-                        recipientId: recipientId,
-                        senderId: currentUser.uid,
-                        senderName: adminData.name || 'Admin',
-                        subject: subject,
-                        body: body,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                        read: false
-                    });
-                    
-                    // Send push notification if enabled
-                    if (sendNotification) {
-                        await sendPushNotification(recipientId, subject, body);
-                    }
-                }
-                
-                alert(`Message sent to ${recipients.length} user(s)`);
-                hideMessageComposer();
-            } catch (error) {
-                console.error('Error sending message:', error);
-                alert('Error sending message: ' + error.message);
-            }
-        });
+        }
+        
+        alert(`Message sent to ${recipients.length} user(s)`);
+        hideMessageComposer();
+    } catch (error) {
+        console.error('Error sending message:', error);
+        alert('Error sending message: ' + error.message);
+    }
+});
 
         // Send push notification to user
         async function sendPushNotification(userId, title, body) {
