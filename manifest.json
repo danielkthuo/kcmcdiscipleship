@@ -1,5 +1,5 @@
 {
-   "name": "KCMC Digital",
+  "name": "KCMC Digital",
   "short_name": "KCMC",
   "description": "A Christ-centered discipleship and mentorship app by Kingdom Covenant Ministries — empowering children, parents, and mentors through faith, learning, and life skills.",
   "start_url": "./index.html",
@@ -11,6 +11,7 @@
   "categories": ["education", "religious", "spiritual", "nonprofit"],
   "lang": "en",
   "dir": "ltr",
+  "gcm_sender_id": "103953800507",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
