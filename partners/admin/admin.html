@@ -1008,7 +1008,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
     
     <script>
         // Firebase configuration
@@ -1026,7 +1025,6 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-        const messaging = firebase.messaging();
 
         // DOM Elements
         const accessDenied = document.getElementById('accessDenied');
@@ -1052,7 +1050,6 @@
         // Collection name configuration
         const MESSAGES_COLLECTION = 'contactMessages';
         const USER_MESSAGES_COLLECTION = 'userMessages';
-        const PUSH_TOKENS_COLLECTION = 'pushTokens';
 
         // Check if user is authenticated and is admin
         auth.onAuthStateChanged(async (user) => {
@@ -1148,9 +1145,25 @@
                     const userData = doc.data();
                     const userRow = document.createElement('tr');
                     
-                    const registrationDate = userData.registrationDate 
-                        ? new Date(userData.registrationDate.seconds * 1000).toLocaleDateString()
-                        : 'Unknown';
+                    // FIXED: Proper date handling
+                    let registrationDate = 'Unknown';
+                    if (userData.registrationDate) {
+                        if (userData.registrationDate.seconds) {
+                            registrationDate = new Date(userData.registrationDate.seconds * 1000).toLocaleDateString();
+                        } else if (userData.registrationDate.toDate) {
+                            registrationDate = userData.registrationDate.toDate().toLocaleDateString();
+                        } else {
+                            registrationDate = new Date(userData.registrationDate).toLocaleDateString();
+                        }
+                    } else if (userData.createdAt) {
+                        if (userData.createdAt.seconds) {
+                            registrationDate = new Date(userData.createdAt.seconds * 1000).toLocaleDateString();
+                        } else if (userData.createdAt.toDate) {
+                            registrationDate = userData.createdAt.toDate().toLocaleDateString();
+                        } else {
+                            registrationDate = new Date(userData.createdAt).toLocaleDateString();
+                        }
+                    }
                     
                     userRow.innerHTML = `
                         <td>${userData.name || 'N/A'}</td>
@@ -1238,9 +1251,26 @@
                 
                 messagesSnapshot.forEach(doc => {
                     const messageData = doc.data();
-                    const messageDate = messageData.timestamp 
-                        ? new Date(messageData.timestamp.seconds * 1000).toLocaleDateString()
-                        : 'Unknown';
+                    
+                    // FIXED: Proper date handling for messages
+                    let messageDate = 'Unknown';
+                    if (messageData.timestamp) {
+                        if (messageData.timestamp.seconds) {
+                            messageDate = new Date(messageData.timestamp.seconds * 1000).toLocaleDateString();
+                        } else if (messageData.timestamp.toDate) {
+                            messageDate = messageData.timestamp.toDate().toLocaleDateString();
+                        } else {
+                            messageDate = new Date(messageData.timestamp).toLocaleDateString();
+                        }
+                    } else if (messageData.createdAt) {
+                        if (messageData.createdAt.seconds) {
+                            messageDate = new Date(messageData.createdAt.seconds * 1000).toLocaleDateString();
+                        } else if (messageData.createdAt.toDate) {
+                            messageDate = messageData.createdAt.toDate().toLocaleDateString();
+                        } else {
+                            messageDate = new Date(messageData.createdAt).toLocaleDateString();
+                        }
+                    }
                     
                     const messageRow = document.createElement('tr');
                     messageRow.className = messageData.read ? '' : 'unread';
@@ -1278,15 +1308,20 @@
             }
         }
 
-        // Load unread message count
+        // Load unread message count - FIXED: Now properly counts unread messages
         async function loadUnreadMessageCount() {
             try {
-                const unreadQuery = await db.collection(MESSAGES_COLLECTION)
-                    .where('read', '==', false)
-                    .get();
+                const messagesSnapshot = await db.collection(MESSAGES_COLLECTION).get();
+                let unreadCount = 0;
                 
-                const unreadCount = unreadQuery.size;
+                messagesSnapshot.forEach(doc => {
+                    const messageData = doc.data();
+                    if (!messageData.read) {
+                        unreadCount++;
+                    }
+                });
                 
+                // Update notification badge
                 if (unreadCount > 0) {
                     messageNotification.textContent = unreadCount;
                     messageNotification.style.display = 'flex';
@@ -1315,19 +1350,37 @@
                     read: true
                 });
                 
+                // FIXED: Proper date handling for message detail view
+                let messageDate = 'Unknown';
+                if (messageData.timestamp) {
+                    if (messageData.timestamp.seconds) {
+                        messageDate = new Date(messageData.timestamp.seconds * 1000).toLocaleString();
+                    } else if (messageData.timestamp.toDate) {
+                        messageDate = messageData.timestamp.toDate().toLocaleString();
+                    } else {
+                        messageDate = new Date(messageData.timestamp).toLocaleString();
+                    }
+                } else if (messageData.createdAt) {
+                    if (messageData.createdAt.seconds) {
+                        messageDate = new Date(messageData.createdAt.seconds * 1000).toLocaleString();
+                    } else if (messageData.createdAt.toDate) {
+                        messageDate = messageData.createdAt.toDate().toLocaleString();
+                    } else {
+                        messageDate = new Date(messageData.createdAt).toLocaleString();
+                    }
+                }
+                
                 // Update UI
                 document.getElementById('detailSubject').textContent = messageData.subject || 'No Subject';
                 document.getElementById('detailSender').textContent = messageData.name || 'Anonymous';
                 document.getElementById('detailSenderEmail').textContent = messageData.email || 'N/A';
-                document.getElementById('detailDate').textContent = messageData.timestamp 
-                    ? new Date(messageData.timestamp.seconds * 1000).toLocaleString()
-                    : 'Unknown';
+                document.getElementById('detailDate').textContent = messageDate;
                 document.getElementById('detailBody').textContent = messageData.message || 'No message content';
                 
                 // Show modal
                 messageDetailModal.style.display = 'flex';
                 
-                // Reload messages to update read status
+                // Reload messages to update read status and notification count
                 loadMessages();
             } catch (error) {
                 console.error('Error viewing message:', error);
@@ -1343,19 +1396,19 @@
         // Mark all messages as read
         async function markAllAsRead() {
             try {
-                const unreadQuery = await db.collection(MESSAGES_COLLECTION)
-                    .where('read', '==', false)
-                    .get();
+                const messagesSnapshot = await db.collection(MESSAGES_COLLECTION).get();
                 
                 const batch = db.batch();
                 
-                unreadQuery.forEach(doc => {
-                    batch.update(doc.ref, { read: true });
+                messagesSnapshot.forEach(doc => {
+                    if (!doc.data().read) {
+                        batch.update(doc.ref, { read: true });
+                    }
                 });
                 
                 await batch.commit();
                 
-                // Reload messages
+                // Reload messages and update notification
                 loadMessages();
                 
                 alert('All messages marked as read');
@@ -1492,7 +1545,7 @@
         async function sendPushNotification(userId, title, body) {
             try {
                 // Get user's push token
-                const tokenDoc = await db.collection(PUSH_TOKENS_COLLECTION)
+                const tokenDoc = await db.collection('pushTokens')
                     .where('userId', '==', userId)
                     .get();
                 
