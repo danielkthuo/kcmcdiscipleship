@@ -49,5 +49,6 @@
       "type": "image/png"
     }
   ],
-  "categories": ["business", "education", "lifestyle"]
+  "categories": ["business", "education", "lifestyle"],
+  "gcm_sender_id": "103953800507"
 }

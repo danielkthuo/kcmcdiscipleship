@@ -505,6 +505,148 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* Notification Styles */
+.notification-controls {
+  margin-bottom: 20px;
+}
+
+.notification-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--primary);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Notification List */
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.3s;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item.unread {
+  background-color: rgba(46, 204, 113, 0.05);
+}
+
+.notification-icon {
+  margin-right: 12px;
+  color: var(--primary);
+  font-size: 1.2rem;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--dark);
+}
+
+.notification-body {
+  font-size: 0.9rem;
+  color: var(--gray);
+  margin-bottom: 8px;
+}
+
+.notification-time {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+.notification-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.notification-action {
+  background: none;
+  border: none;
+  color: var(--gray);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: color 0.3s;
+}
+
+.notification-action:hover {
+  color: var(--primary);
+}
+
+.notification-action.delete:hover {
+  color: var(--accent);
+}
+
+.empty-notifications {
+  text-align: center;
+  padding: 30px;
+  color: var(--gray);
+}
+
+.empty-notifications i {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  opacity: 0.5;
+}
     </style>
 </head>
 <body>
@@ -678,7 +820,30 @@
                     </div>
                 </div>
             </section>
+<!-- Notification Management -->
+<section class="card">
+  <h3><i class="fas fa-bell card-icon"></i> Notifications</h3>
+  
+  <div class="notification-controls">
+    <div class="notification-toggle">
+      <span>Enable Push Notifications</span>
+      <label class="switch">
+        <input type="checkbox" id="notificationToggle">
+        <span class="slider round"></span>
+      </label>
+    </div>
+    
+    <button class="btn" id="testNotification" style="margin-top: 10px;">
+      <i class="fas fa-bell"></i> Test Notification
+    </button>
+  </div>
+  
+  <div class="notification-list" id="notificationList">
+    <h4 style="margin: 20px 0 10px;">Recent Notifications</h4>
+    <!-- Notifications will be populated here -->
+  </div>
 
+</section>
             <!-- Newsletter Signup -->
             <section class="card" style="text-align: center; background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white;">
                 <h3>Stay Connected</h3>
@@ -814,6 +979,237 @@
                 return re.test(email);
             }
         });
+        // Notification Management
+        // Notification Management System
+document.addEventListener('DOMContentLoaded', function() {
+  const notificationToggle = document.getElementById('notificationToggle');
+  const testNotificationBtn = document.getElementById('testNotification');
+  const notificationList = document.getElementById('notificationList');
+  
+  // Check if notifications are supported
+  if (!('Notification' in window)) {
+    notificationToggle.disabled = true;
+    notificationToggle.parentElement.style.opacity = 0.5;
+    return;
+  }
+  
+  // Check current notification permission
+  if (Notification.permission === 'granted') {
+    notificationToggle.checked = true;
+  }
+  
+  // Load stored notifications
+  loadNotifications();
+  
+  // Toggle notification permission
+  notificationToggle.addEventListener('change', function() {
+    if (this.checked) {
+      requestNotificationPermission();
+    } else {
+      // Notifications are disabled by browser settings, not by our app
+      alert('To disable notifications, please change your browser settings for this site.');
+      this.checked = true;
+    }
+  });
+  
+  // Test notification button
+  testNotificationBtn.addEventListener('click', function() {
+    if (Notification.permission === 'granted') {
+      showTestNotification();
+    } else {
+      requestNotificationPermission();
+    }
+  });
+  
+  // Request notification permission
+  function requestNotificationPermission() {
+    Notification.requestPermission().then(function(permission) {
+      if (permission === 'granted') {
+        console.log('Notification permission granted');
+        notificationToggle.checked = true;
+        subscribeToPushNotifications();
+      } else {
+        console.log('Notification permission denied');
+        notificationToggle.checked = false;
+      }
+    });
+  }
+  
+  // Subscribe to push notifications (simulated for this example)
+  function subscribeToPushNotifications() {
+    // In a real implementation, you would register with a push service here
+    console.log('Subscribed to push notifications');
+    
+    // Store subscription in localStorage
+    localStorage.setItem('notificationsEnabled', 'true');
+    
+    // Add a welcome notification
+    addNotification({
+      id: Date.now(),
+      title: 'Notifications Enabled',
+      body: 'You will now receive updates from KCMC Partners',
+      timestamp: new Date(),
+      read: false
+    });
+  }
+  
+  // Show test notification
+  function showTestNotification() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then(function(registration) {
+        registration.showNotification('Test Notification', {
+          body: 'This is a test notification from KCMC Partners',
+          icon: '/icons/icon-192x192.png',
+          badge: '/icons/badge-72x72.png',
+          tag: 'test-notification'
+        });
+        
+        // Add to notification list
+        addNotification({
+          id: Date.now(),
+          title: 'Test Notification',
+          body: 'This is a test notification from KCMC Partners',
+          timestamp: new Date(),
+          read: false
+        });
+      });
+    }
+  }
+  
+  // Load notifications from localStorage
+  function loadNotifications() {
+    const notifications = JSON.parse(localStorage.getItem('kcmcNotifications') || '[]');
+    renderNotifications(notifications);
+  }
+  
+  // Save notifications to localStorage
+  function saveNotifications(notifications) {
+    localStorage.setItem('kcmcNotifications', JSON.stringify(notifications));
+  }
+  
+  // Add a new notification
+  function addNotification(notification) {
+    const notifications = JSON.parse(localStorage.getItem('kcmcNotifications') || '[]');
+    notifications.unshift(notification);
+    saveNotifications(notifications);
+    renderNotifications(notifications);
+  }
+  
+  // Render notifications list
+  function renderNotifications(notifications) {
+    if (notifications.length === 0) {
+      notificationList.innerHTML = `
+        <div class="empty-notifications">
+          <i class="far fa-bell-slash"></i>
+          <p>No notifications yet</p>
+        </div>
+      `;
+      return;
+    }
+    
+    let html = '';
+    notifications.forEach(notification => {
+      const timeAgo = getTimeAgo(notification.timestamp);
+      const readClass = notification.read ? '' : 'unread';
+      
+      html += `
+        <div class="notification-item ${readClass}" data-id="${notification.id}">
+          <div class="notification-icon">
+            <i class="fas fa-bell"></i>
+          </div>
+          <div class="notification-content">
+            <div class="notification-title">${notification.title}</div>
+            <div class="notification-body">${notification.body}</div>
+            <div class="notification-time">${timeAgo}</div>
+          </div>
+          <div class="notification-actions">
+            ${!notification.read ? `
+              <button class="notification-action mark-read" title="Mark as read">
+                <i class="fas fa-check"></i>
+              </button>
+            ` : ''}
+            <button class="notification-action delete" title="Delete">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `;
+    });
+    
+    notificationList.innerHTML = html;
+    
+    // Add event listeners to notification actions
+    document.querySelectorAll('.mark-read').forEach(button => {
+      button.addEventListener('click', function() {
+        const notificationId = this.closest('.notification-item').dataset.id;
+        markNotificationAsRead(notificationId);
+      });
+    });
+    
+    document.querySelectorAll('.delete').forEach(button => {
+      button.addEventListener('click', function() {
+        const notificationId = this.closest('.notification-item').dataset.id;
+        deleteNotification(notificationId);
+      });
+    });
+  }
+  
+  // Mark notification as read
+  function markNotificationAsRead(id) {
+    const notifications = JSON.parse(localStorage.getItem('kcmcNotifications') || '[]');
+    const notificationIndex = notifications.findIndex(n => n.id == id);
+    
+    if (notificationIndex !== -1) {
+      notifications[notificationIndex].read = true;
+      saveNotifications(notifications);
+      renderNotifications(notifications);
+    }
+  }
+  
+  // Delete notification
+  function deleteNotification(id) {
+    const notifications = JSON.parse(localStorage.getItem('kcmcNotifications') || '[]');
+    const filteredNotifications = notifications.filter(n => n.id != id);
+    saveNotifications(filteredNotifications);
+    renderNotifications(filteredNotifications);
+  }
+  
+  // Helper function to format time ago
+  function getTimeAgo(timestamp) {
+    const now = new Date();
+    const date = new Date(timestamp);
+    const diffInSeconds = Math.floor((now - date) / 1000);
+    
+    if (diffInSeconds < 60) {
+      return 'Just now';
+    } else if (diffInSeconds < 3600) {
+      const minutes = Math.floor(diffInSeconds / 60);
+      return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    } else if (diffInSeconds < 86400) {
+      const hours = Math.floor(diffInSeconds / 3600);
+      return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    } else if (diffInSeconds < 604800) {
+      const days = Math.floor(diffInSeconds / 86400);
+      return `${days} day${days > 1 ? 's' : ''} ago`;
+    } else {
+      return date.toLocaleDateString();
+    }
+  }
+  
+  // Simulate receiving notifications (for demo purposes)
+  // In a real app, these would come from your server via push notifications
+  setTimeout(() => {
+    if (Notification.permission === 'granted') {
+      addNotification({
+        id: Date.now(),
+        title: 'Welcome to KCMC Partners',
+        body: 'Thank you for joining our community. Stay tuned for updates!',
+        timestamp: new Date(),
+        read: false
+      });
+    }
+  }, 2000);
+});
     </script>
 </body>
 </html>
