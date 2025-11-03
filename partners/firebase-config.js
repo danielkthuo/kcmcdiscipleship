@@ -162,7 +162,7 @@ const notificationService = {
     async getToken() {
         try {
             // Use your VAPID key here (you need to generate this in Firebase Console)
-            const vapidKey = 'YOUR_VAPID_KEY_HERE'; // Replace with your actual VAPID key
+            const vapidKey = 'BIVj6MJ0dFdg8_dHqgEMXGVORCeLX5IOrzOjqLwuzw4mTHfmuH3cU9AKAu4yq4ThvOq2n0exfRrwSPNT9MnoVpE'; // Replace with your actual VAPID key
             
             this.token = await messaging.getToken({ 
                 vapidKey: vapidKey 
