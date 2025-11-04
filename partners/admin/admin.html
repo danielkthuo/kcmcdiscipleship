@@ -1455,45 +1455,67 @@
         }
 
         // Register new user
-        registerUserForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('userName').value;
-            const email = document.getElementById('userEmail').value;
-            const password = document.getElementById('userPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const role = document.getElementById('userRole').value;
-            const notes = document.getElementById('userNotes').value;
-            
-            // Validate passwords match
-            if (password !== confirmPassword) {
-                alert('Passwords do not match');
-                return;
-            }
-            
-            try {
-                // Create user in Firebase Auth
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-                
-                // Add user data to Firestore
-                await db.collection('users').doc(user.uid).set({
-                    name: name,
-                    email: email,
-                    role: role,
-                    notes: notes,
-                    registrationDate: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                
-                alert('User registered successfully');
-                hideUserRegistration();
-                loadUsers();
-                loadStats();
-            } catch (error) {
-                console.error('Error registering user:', error);
-                alert('Error registering user: ' + error.message);
-            }
+       // Register new user - FIXED: Admin remains logged in after user creation
+registerUserForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const name = document.getElementById('userName').value;
+    const email = document.getElementById('userEmail').value;
+    const password = document.getElementById('userPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const role = document.getElementById('userRole').value;
+    const notes = document.getElementById('userNotes').value;
+    
+    // Validate passwords match
+    if (password !== confirmPassword) {
+        alert('Passwords do not match');
+        return;
+    }
+    
+    try {
+        // Store current admin user
+        const currentAdmin = auth.currentUser;
+        
+        // Create user in Firebase Auth using the REST API to avoid auto-signin
+        const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${firebaseConfig.apiKey}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+                returnSecureToken: true
+            })
         });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.error.message || 'Failed to create user');
+        }
+        
+        const newUserId = data.localId;
+        
+        // Add user data to Firestore
+        await db.collection('users').doc(newUserId).set({
+            name: name,
+            email: email,
+            role: role,
+            notes: notes,
+            registrationDate: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        alert('User registered successfully');
+        hideUserRegistration();
+        loadUsers();
+        loadStats();
+        
+    } catch (error) {
+        console.error('Error registering user:', error);
+        alert('Error registering user: ' + error.message);
+    }
+});
 
         // Send message to users
        // In admin.html, update the composeMessageForm submit handler
