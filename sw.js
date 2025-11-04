@@ -1,9 +1,3 @@
-// Import badging functionality (conceptual - in SW, we include the code)
-// Add at the top of your sw.js
-importScripts('/sw-badging.js');
-
-// Your existing sw.js code continues unchanged...
-// The badging system will automatically integrate
 // sw.js - Service Worker for Kingdom Covenant Ministries App
 const CACHE_NAME = 'kcm-church-v1.2';
 const urlsToCache = [
