@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget & Expenses - KCMC Partners</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2ecc71"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="KCMC Partners">
+    <meta name="description" content="KCMC Partners Budget & Expenses">
+    
+    <!-- PWA Links -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+    
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --radius: 12px;
+            --shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.5;
+            padding-bottom: 70px; /* Space for bottom nav */
+            font-size: 14px;
+        }
+
+        .container {
+            width: 100%;
+            padding: 0 15px;
+            max-width: 100%;
+        }
+
+        /* Header Styles */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 10px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            font-size: 1.5rem;
+        }
+
+        .logo h1 {
+            font-size: 1.0rem;
+            color: var(--dark);
+        }
+
+        /* Mobile Navigation */
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
+            z-index: 99;
+            padding: 8px 0;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+            min-width: 100%;
+        }
+
+        nav ul li {
+            display: inline-block;
+        }
+
+        nav ul li a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--gray);
+            font-size: 0.7rem;
+            padding: 4px;
+            border-radius: var(--radius);
+            transition: all 0.3s;
+            min-width: 55px;
+        }
+
+        nav ul li a i {
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        nav ul li a.active {
+            color: var(--primary);
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-small {
+            padding: 5px 8px;
+            font-size: 0.75rem;
+        }
+
+        /* Main Content */
+        main {
+            padding: 12px 0;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 16px 15px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+        }
+
+        .page-header h2 {
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+        }
+
+        .page-header p {
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .card h3 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+
+        .card-icon {
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .card p {
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .grid-2 {
+            grid-template-columns: 1fr;
+        }
+
+        .grid-3 {
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        /* Financial Cards */
+        .financial-card {
+            text-align: center;
+            padding: 12px 8px;
+            min-height: auto;
+        }
+
+        .financial-card h3 {
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            justify-content: center;
+        }
+
+        .financial-card .amount {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 6px 0;
+        }
+
+        .financial-card .subtitle {
+            color: var(--gray);
+            font-size: 0.75rem;
+        }
+
+        /* Budget Allocation */
+        .allocation-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background: rgba(46, 204, 113, 0.05);
+            border-radius: var(--radius);
+            margin-bottom: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .allocation-item .percentage {
+            font-weight: bold;
+            font-size: 0.95rem;
+            color: var(--dark);
+        }
+
+        /* Expense Table */
+        .expense-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .expense-table th {
+            text-align: left;
+            padding: 10px 8px;
+            background: var(--light);
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 1px solid #ddd;
+            font-size: 0.8rem;
+        }
+
+        .expense-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .expense-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .amount-cell {
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .percentage-cell {
+            text-align: right;
+            color: var(--gray);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.85rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 16px 0;
+            text-align: center;
+            margin-top: 24px;
+            font-size: 0.85rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            overflow-y: auto;
+            padding: 16px 0;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.2rem;
+            border-radius: var(--radius) var(--radius) 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .close {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 1.2rem;
+        }
+
+        /* Loading and Empty States */
+        .loading {
+            text-align: center;
+            padding: 24px;
+        }
+
+        .loading i {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            color: white;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 260px;
+            box-shadow: var(--shadow);
+            animation: slideInRight 0.3s ease-out;
+            font-size: 0.85rem;
+        }
+
+        .notification-success {
+            background: var(--primary);
+        }
+
+        .notification-error {
+            background: var(--accent);
+        }
+
+        .notification-info {
+            background: var(--secondary);
+        }
+
+        .notification button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-left: 12px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Budget Visualization */
+        .budget-visual {
+            height: 160px;
+            background: var(--light);
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .budget-visual i {
+            font-size: 2.5rem;
+            opacity: 0.7;
+        }
+
+        .budget-visual p {
+            font-size: 0.85rem;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pie-chart {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #3498db 0% 42%,
+                #2ecc71 42% 67%,
+                #e74c3c 67% 85%,
+                #f39c12 85% 95%,
+                #9b59b6 95% 100%
+            );
+            position: relative;
+        }
+
+        .chart-center {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .grid-3 {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 12px;
+            }
+            
+            nav {
+                position: static;
+                background: none;
+                box-shadow: none;
+                padding: 0;
+                overflow-x: visible;
+                white-space: normal;
+            }
+            
+            nav ul {
+                justify-content: flex-start;
+                gap: 16px;
+            }
+            
+            nav ul li a {
+                flex-direction: row;
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+            
+            nav ul li a i {
+                margin-bottom: 0;
+                margin-right: 6px;
+            }
+            
+            body {
+                padding-bottom: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header {
+                padding: 12px 8px;
+            }
+            
+            .card {
+                padding: 12px;
+            }
+            
+            .financial-card .amount {
+                font-size: 1.1rem;
+            }
+            
+            .btn {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+            
+            .expense-table {
+                font-size: 0.8rem;
+            }
+            
+            .expense-table th, 
+            .expense-table td {
+                padding: 8px 5px;
+            }
+            
+            .grid-3 {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 6px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .financial-card {
+                padding: 10px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Required Modal -->
+    <div id="loginRequiredModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login Required</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; padding: 1rem;">
+                    <i class="fas fa-lock" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 0.8rem;"></i>
+                    <h3 style="font-size: 1.1rem;">Partner Access Required</h3>
+                    <p style="font-size: 0.85rem;">Budget and expense details are available exclusively to our ministry partners.</p>
+                    <p style="font-size: 0.85rem;">Please log in to view financial transparency information.</p>
+                    <div style="margin-top: 1.5rem; display: flex; gap: 8px; flex-direction: column;">
+                        <button id="goToLoginBtn" class="btn">Log In Now</button>
+                        <button id="goToHomeBtn" class="btn btn-secondary">Return Home</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Partner Login</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">
+                        <span id="loginButtonText">Sign In</span>
+                        <div id="loginSpinner" class="spinner" style="display: none;"></div>
+                    </button>
+                </form>
+                <div id="loginMessage" style="margin-top: 12px; text-align: center;"></div>
+                
+                <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #eee;">
+                    <p style="text-align: center; color: var(--gray); margin-bottom: 8px; font-size: 0.85rem;">Demo Accounts:</p>
+                    <div style="background: var(--light); padding: 12px; border-radius: var(--radius); font-size: 0.8rem;">
+                        <p><strong>Admin:</strong> admin@kcmc.org / admin123</p>
+                        <p><strong>Partner:</strong> partner@example.com / partner123</p>
+                        <p><strong>Visitor:</strong> visitor@example.com / visitor123</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🕊️</div>
+                    <h1>KCMC Partners</h1>
+                </div>
+                <div class="user-actions">
+                    <button id="loginBtn" class="btn btn-secondary btn-small">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </button>
+
+                    <!-- New My Givings Button -->
+                    <button id="myGivingsBtn" class="btn btn-small" style="background: var(--secondary); color: #fff;">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        <span class="desktop-text">My Givings</span>
+                    </button>
+                    <script>
+                        document.getElementById('myGivingsBtn').addEventListener('click', () => {
+                            window.location.href = 'contribution.html';
+                        });
+                    </script>
+                    <div id="userMenu" style="display: none;">
+                        <span id="userGreeting" style="margin-right: 8px; font-size: 0.8rem;"></span>
+                        <button id="logoutBtn" class="btn btn-small">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content (Only visible when logged in) -->
+    <main id="mainContent" style="display: none;">
+        <div class="container">
+            <section class="page-header">
+                <h2>Financial Transparency</h2>
+                <p>We believe in complete transparency with our partners. Here's how your contributions are used.</p>
+                <button id="updateBudgetBtn" class="btn" style="margin-top: 0.8rem; display: none;">
+                    <i class="fas fa-edit"></i> Update Budget
+                </button>
+            </section>
+
+            <!-- Budget Update Form (Hidden by default) -->
+            <div id="budgetForm" class="card" style="display: none;">
+                <h3><i class="fas fa-edit card-icon"></i> Update Budget Information</h3>
+                <form id="updateBudgetForm">
+                    <div class="form-group">
+                        <label for="totalFunds">Total Funds Raised (Ksh)</label>
+                        <input type="number" id="totalFunds" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="programExpenses">Program Expenses (Ksh)</label>
+                        <input type="number" id="programExpenses" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="childrenSupported">Children Supported</label>
+                        <input type="number" id="childrenSupported" class="form-control" required>
+                    </div>
+                    
+                    <h4 style="margin: 1.2rem 0 0.8rem; font-size: 0.95rem;">Budget Allocation (%)</h4>
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label for="education">Education Programs</label>
+                            <input type="number" id="education" class="form-control" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="food">Food & Nutrition</label>
+                            <input type="number" id="food" class="form-control" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="healthcare">Healthcare</label>
+                            <input type="number" id="healthcare" class="form-control" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="community">Community Development</label>
+                            <input type="number" id="community" class="form-control" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin">Administrative Costs</label>
+                            <input type="number" id="admin" class="form-control" min="0" max="100" required>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 8px; margin-top: 16px;">
+                        <button type="submit" class="btn">Update Budget</button>
+                        <button type="button" id="cancelBudgetBtn" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Budget Overview -->
+            <section class="card">
+                <h3><i class="fas fa-chart-pie card-icon"></i> Budget Allocation <span id="budgetYear"></span></h3>
+                <div id="budgetContainer">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading budget data...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Financial Summary -->
+            <section class="grid grid-3" id="financialSummary">
+                <!-- Will be populated by JavaScript -->
+            </section>
+
+            <!-- Expense Details -->
+            <section class="card">
+                <h3><i class="fas fa-receipt card-icon"></i> Detailed Expense Breakdown</h3>
+                <div style="overflow-x: auto;">
+                    <div id="expenseTable">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transparency Statement -->
+            <section class="card" style="background: #e8f6f3; border-left: 4px solid var(--primary);">
+                <h3><i class="fas fa-shield-alt card-icon"></i> Our Commitment to Transparency</h3>
+                <p style="font-size: 0.85rem;">
+                    We are committed to the highest standards of financial integrity and transparency. Our books are audited annually, and financial reports are made available to all partners upon request. 
+                    All our procurement processes are managed by an oversight committee, and every payment is authorized by multiple parties to ensure accountability, honesty, and faithful stewardship of every contribution.
+                </p>
+                <p style="margin-top: 0.8rem; font-size: 0.85rem;">If you have any questions about our finances, please don't hesitate to <a href="contact.html">contact us</a>.</p>
+            </section>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="activities.html"><i class="fas fa-tasks"></i> Activities</a></li>
+            <li><a href="contribution.html" class="active"><i class="fas fa-donate"></i> Contributions</a></li>
+            <li><a href="updates.html"><i class="fas fa-newspaper"></i> Updates</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2023 KCMC Partners. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="activities.html">Activities</a>
+                    <a href="budget.html">Budget</a>
+                    <a href="updates.html">Updates</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDfNX8WUWfUAN-dIUtzq8gJXjh0CIZdS_0",
+            authDomain: "kcmcpartners.firebaseapp.com",
+            projectId: "kcmcpartners",
+            storageBucket: "kcmcpartners.firebasestorage.app",
+            messagingSenderId: "30984885444",
+            appId: "1:30984885444:web:0be4febff8cfef1b22a591",
+            measurementId: "G-Z6FMF6Z1V1"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // DOM Elements
+        const loginRequiredModal = document.getElementById('loginRequiredModal');
+        const loginModal = document.getElementById('loginModal');
+        const mainContent = document.getElementById('mainContent');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userMenu = document.getElementById('userMenu');
+        const userGreeting = document.getElementById('userGreeting');
+        const goToLoginBtn = document.getElementById('goToLoginBtn');
+        const goToHomeBtn = document.getElementById('goToHomeBtn');
+        const updateBudgetBtn = document.getElementById('updateBudgetBtn');
+        const budgetForm = document.getElementById('budgetForm');
+        const updateBudgetForm = document.getElementById('updateBudgetForm');
+        const cancelBudgetBtn = document.getElementById('cancelBudgetBtn');
+        const budgetContainer = document.getElementById('budgetContainer');
+        const financialSummary = document.getElementById('financialSummary');
+        const expenseTable = document.getElementById('expenseTable');
+        const closeBtns = document.querySelectorAll('.close');
+        const loginForm = document.getElementById('loginForm');
+        const loginMessage = document.getElementById('loginMessage');
+        const loginButtonText = document.getElementById('loginButtonText');
+        const loginSpinner = document.getElementById('loginSpinner');
+
+        // Authentication state management
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                // User is signed in
+                await handleUserLogin(user);
+                checkAuthAndLoadContent();
+            } else {
+                // No user signed in
+                showLoginButton();
+                checkAuthAndLoadContent();
+            }
+        });
+
+        // Handle user login
+        async function handleUserLogin(firebaseUser) {
+            try {
+                const userDoc = await db.collection('users').doc(firebaseUser.uid).get();
+                let userData = { role: 'visitor', name: 'Guest' };
+                
+                if (userDoc.exists) {
+                    userData = userDoc.data();
+                }
+
+                const user = {
+                    uid: firebaseUser.uid,
+                    email: firebaseUser.email,
+                    name: userData.name || firebaseUser.email.split('@')[0],
+                    role: userData.role || 'visitor'
+                };
+                
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                showUserMenu(user);
+            } catch (error) {
+                console.error('Error handling user login:', error);
+            }
+        }
+
+        // Check authentication and load content
+        function checkAuthAndLoadContent() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (user) {
+                // User is logged in - show content
+                mainContent.style.display = 'block';
+                loginRequiredModal.style.display = 'none';
+                showUserMenu(user);
+                loadBudgetData();
+                
+                // Show admin controls if user is admin
+                const isAdmin = user.role === 'admin';
+                if (isAdmin) {
+                    updateBudgetBtn.style.display = 'inline-block';
+                }
+            } else {
+                // User is not logged in - show login required modal
+                mainContent.style.display = 'none';
+                loginRequiredModal.style.display = 'block';
+                showLoginButton();
+            }
+        }
+
+        // Show login button
+        function showLoginButton() {
+            loginBtn.style.display = 'block';
+            userMenu.style.display = 'none';
+        }
+
+        // Show user menu when logged in
+        function showUserMenu(user) {
+            loginBtn.style.display = 'none';
+            userMenu.style.display = 'flex';
+            userGreeting.textContent = `Hi, ${user.name.split(' ')[0]}`;
+        }
+
+        // Logout function
+        function logoutUser() {
+            auth.signOut()
+                .then(() => {
+                    localStorage.removeItem('currentUser');
+                    localStorage.removeItem('isAdmin');
+                    checkAuthAndLoadContent(); // This will show the login required modal
+                    showNotification('You have been logged out successfully.', 'info');
+                })
+                .catch((error) => {
+                    console.error('Logout error:', error);
+                });
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            // Remove existing notifications
+            document.querySelectorAll('.notification').forEach(notification => {
+                notification.remove();
+            });
+
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <span>${message}</span>
+                <button onclick="this.parentElement.remove()">&times;</button>
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Budget management functions
+        function loadCurrentBudgetData() {
+            db.collection('budget').doc('current').get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        document.getElementById('totalFunds').value = data.totalFunds || '';
+                        document.getElementById('programExpenses').value = data.programExpenses || '';
+                        document.getElementById('childrenSupported').value = data.childrenSupported || '';
+                        document.getElementById('education').value = data.allocation?.education || '';
+                        document.getElementById('food').value = data.allocation?.food || '';
+                        document.getElementById('healthcare').value = data.allocation?.healthcare || '';
+                        document.getElementById('community').value = data.allocation?.community || '';
+                        document.getElementById('admin').value = data.allocation?.admin || '';
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error loading budget data:', error);
+                });
+        }
+
+        // Update budget data
+        updateBudgetForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const budgetData = {
+                totalFunds: parseFloat(document.getElementById('totalFunds').value),
+                programExpenses: parseFloat(document.getElementById('programExpenses').value),
+                childrenSupported: parseInt(document.getElementById('childrenSupported').value),
+                allocation: {
+                    education: parseInt(document.getElementById('education').value),
+                    food: parseInt(document.getElementById('food').value),
+                    healthcare: parseInt(document.getElementById('healthcare').value),
+                    community: parseInt(document.getElementById('community').value),
+                    admin: parseInt(document.getElementById('admin').value)
+                },
+                lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            // Validate percentages add up to 100
+            const totalPercentage = Object.values(budgetData.allocation).reduce((sum, value) => sum + value, 0);
+            if (totalPercentage !== 100) {
+                showNotification('Budget allocation percentages must add up to 100%. Current total: ' + totalPercentage + '%', 'error');
+                return;
+            }
+
+            db.collection('budget').doc('current').set(budgetData)
+                .then(() => {
+                    showNotification('Budget updated successfully!', 'success');
+                    budgetForm.style.display = 'none';
+                    loadBudgetData(); // Reload budget display
+                })
+                .catch((error) => {
+                    showNotification('Error updating budget: ' + error.message, 'error');
+                });
+        });
+
+        // Load and display budget data
+        function loadBudgetData() {
+            db.collection('budget').doc('current').get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        displayBudgetData(data);
+                    } else {
+                        // Use default data if no budget data exists
+                        displayBudgetData(getDefaultBudgetData());
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error loading budget data:', error);
+                    // Fallback to default data
+                    displayBudgetData(getDefaultBudgetData());
+                });
+        }
+
+        function displayBudgetData(data) {
+            // Update financial summary
+            financialSummary.innerHTML = `
+                <div class="card financial-card">
+                    <h3 style="color: var(--primary);">Total Funds Raised</h3>
+                    <div class="amount">Ksh ${(data.totalFunds || 0).toLocaleString()}</div>
+                    <div class="subtitle">Year to Date</div>
+                </div>
+                <div class="card financial-card">
+                    <h3 style="color: var(--secondary);">Program Expenses</h3>
+                    <div class="amount">Ksh ${(data.programExpenses || 0).toLocaleString()}</div>
+                    <div class="subtitle">${data.programExpenses && data.totalFunds ? Math.round((data.programExpenses / data.totalFunds) * 100) : 0}% of total</div>
+                </div>
+                <div class="card financial-card">
+                    <h3 style="color: var(--accent);">Children Supported</h3>
+                    <div class="amount">${data.childrenSupported || '0'}</div>
+                    <div class="subtitle">Across 12 communities</div>
+                </div>
+            `;
+
+            // Update budget allocation display with visualization
+            const allocation = data.allocation || {};
+            budgetContainer.innerHTML = `
+                <div class="budget-visual">
+                    <div class="chart-container">
+                        <div class="pie-chart">
+                            <div class="chart-center">Budget</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    ${createAllocationItem('Education Programs', allocation.education)}
+                    ${createAllocationItem('Food & Nutrition', allocation.food)}
+                    ${createAllocationItem('Healthcare', allocation.healthcare)}
+                    ${createAllocationItem('Community Development', allocation.community)}
+                    ${createAllocationItem('Administrative Costs', allocation.admin)}
+                </div>
+            `;
+
+            // Update expense table
+            expenseTable.innerHTML = `
+                <table class="expense-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th style="text-align: right;">Amount</th>
+                            <th style="text-align: right;">%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${createExpenseRow('Education Programs', data.totalFunds, allocation.education)}
+                        ${createExpenseRow('Food & Nutrition', data.totalFunds, allocation.food)}
+                        ${createExpenseRow('Healthcare', data.totalFunds, allocation.healthcare)}
+                        ${createExpenseRow('Community Development', data.totalFunds, allocation.community)}
+                        ${createExpenseRow('Administrative Costs', data.totalFunds, allocation.admin)}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function createAllocationItem(label, percentage) {
+            return `
+                <div class="allocation-item">
+                    <span>${label}</span>
+                    <span class="percentage">${percentage || 0}%</span>
+                </div>
+            `;
+        }
+
+        function createExpenseRow(category, totalFunds, percentage) {
+            const amount = totalFunds ? (totalFunds * (percentage / 100)).toLocaleString('en-KE', {style: 'currency', currency: 'Ksh'}) : 'Ksh0';
+            return `
+                <tr>
+                    <td>${category}</td>
+                    <td class="amount-cell">${amount}</td>
+                    <td class="percentage-cell">${percentage || 0}%</td>
+                </tr>
+            `;
+        }
+
+        function getDefaultBudgetData() {
+            return {
+                totalFunds: 245780,
+                programExpenses: 208913,
+                childrenSupported: 512,
+                allocation: {
+                    education: 42,
+                    food: 25,
+                    healthcare: 18,
+                    community: 10,
+                    admin: 5
+                }
+            };
+        }
+
+        // Enhanced login function with Firebase Authentication
+        async function loginUser(email, password) {
+            // Show loading state
+            loginButtonText.style.display = 'none';
+            loginSpinner.style.display = 'inline-block';
+            loginMessage.innerHTML = '';
+
+            try {
+                // Sign in with Firebase Authentication
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // handleUserLogin will be called automatically via onAuthStateChanged
+                loginModal.style.display = 'none';
+                loginForm.reset();
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                
+                // Handle specific error cases
+                let errorMessage = 'Login failed. Please try again.';
+                
+                if (error.code === 'auth/invalid-login-credentials') {
+                    errorMessage = 'Invalid email or password. Please use the demo accounts or contact an administrator.';
+                } else if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'No account found with this email. Please contact an administrator to create an account.';
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'Incorrect password. Please try again.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Invalid email address.';
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = 'Too many failed attempts. Please try again later.';
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMessage = 'Network error. Please check your connection.';
+                }
+                
+                loginMessage.innerHTML = `<div style="color: var(--accent); padding: 8px; background: #ffeaea; border-radius: var(--radius); font-size: 0.85rem;">${errorMessage}</div>`;
+            } finally {
+                // Reset loading state
+                loginButtonText.style.display = 'inline';
+                loginSpinner.style.display = 'none';
+            }
+        }
+
+        // Event Listeners
+        loginBtn.addEventListener('click', () => {
+            loginModal.style.display = 'block';
+        });
+
+        logoutBtn.addEventListener('click', logoutUser);
+
+        goToLoginBtn.addEventListener('click', () => {
+            loginRequiredModal.style.display = 'none';
+            loginModal.style.display = 'block';
+        });
+
+        goToHomeBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        updateBudgetBtn.addEventListener('click', () => {
+            budgetForm.style.display = budgetForm.style.display === 'none' ? 'block' : 'none';
+            loadCurrentBudgetData();
+        });
+
+        cancelBudgetBtn.addEventListener('click', () => {
+            budgetForm.style.display = 'none';
+        });
+
+        // Close modal when clicking X or outside
+        closeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                loginRequiredModal.style.display = 'none';
+                loginModal.style.display = 'none';
+                loginMessage.innerHTML = '';
+                loginForm.reset();
+            });
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === loginRequiredModal || e.target === loginModal) {
+                loginRequiredModal.style.display = 'none';
+                loginModal.style.display = 'none';
+                loginMessage.innerHTML = '';
+                loginForm.reset();
+            }
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                loginMessage.innerHTML = '<div style="color: var(--accent); padding: 8px; background: #ffeaea; border-radius: var(--radius); font-size: 0.85rem;">Please fill in all fields.</div>';
+                return;
+            }
+
+            loginUser(email, password);
+        });
+
+        // Check auth state on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if user is already authenticated
+            const currentUser = auth.currentUser;
+            if (currentUser) {
+                loadBudgetData();
+            }
+        });
+    </script>
+</body>
+</html>

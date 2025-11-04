@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Budget & Expenses - KCMC Partners</title>
+    <title>Church Budget - KCMC Partners</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- PWA Meta Tags -->
@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="KCMC Partners">
-    <meta name="description" content="KCMC Partners Budget & Expenses">
+    <meta name="description" content="KCMC Partners Church Budget">
     
     <!-- PWA Links -->
     <link rel="manifest" href="manifest.json">
@@ -22,6 +22,8 @@
             --primary: #2ecc71;
             --secondary: #3498db;
             --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
             --dark: #2c3e50;
             --light: #f8f9fa;
             --gray: #6c757d;
@@ -211,11 +213,6 @@
             font-size: 1rem;
         }
 
-        .card p {
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-        }
-
         .grid {
             display: grid;
             gap: 12px;
@@ -227,6 +224,11 @@
 
         .grid-3 {
             grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .grid-4 {
+            grid-template-columns: 1fr 1fr;
             gap: 8px;
         }
 
@@ -308,19 +310,7 @@
             color: var(--gray);
         }
 
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 4px;
-            font-weight: 600;
-            color: var(--dark);
-            font-size: 0.85rem;
-        }
-
+        /* Form Controls */
         .form-control {
             width: 100%;
             padding: 10px;
@@ -335,33 +325,72 @@
             outline: none;
         }
 
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 16px 0;
+        /* Loading and Empty States */
+        .loading {
             text-align: center;
-            margin-top: 24px;
+            padding: 24px;
+        }
+
+        .loading i {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            color: white;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 260px;
+            box-shadow: var(--shadow);
+            animation: slideInRight 0.3s ease-out;
             font-size: 0.85rem;
         }
 
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .notification-success {
+            background: var(--success);
         }
 
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 12px;
+        .notification-error {
+            background: var(--accent);
         }
 
-        .footer-links a {
+        .notification-info {
+            background: var(--secondary);
+        }
+
+        .notification button {
+            background: none;
+            border: none;
             color: white;
-            text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-left: 12px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Chart Styles */
+        .chart-container {
+            height: 250px;
+            margin: 16px 0;
         }
 
         /* Modal Styles */
@@ -434,66 +463,17 @@
             padding: 1.2rem;
         }
 
-        /* Loading and Empty States */
-        .loading {
-            text-align: center;
-            padding: 24px;
-        }
-
-        .loading i {
-            font-size: 1.8rem;
-            color: var(--primary);
+        /* Form Styles */
+        .form-group {
             margin-bottom: 12px;
         }
 
-        /* Notification Styles */
-        .notification {
-            position: fixed;
-            top: 16px;
-            right: 16px;
-            padding: 12px 16px;
-            border-radius: var(--radius);
-            color: white;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-width: 260px;
-            box-shadow: var(--shadow);
-            animation: slideInRight 0.3s ease-out;
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 600;
+            color: var(--dark);
             font-size: 0.85rem;
-        }
-
-        .notification-success {
-            background: var(--primary);
-        }
-
-        .notification-error {
-            background: var(--accent);
-        }
-
-        .notification-info {
-            background: var(--secondary);
-        }
-
-        .notification button {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-left: 12px;
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
         }
 
         /* Loading Spinner */
@@ -511,70 +491,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Budget Visualization */
-        .budget-visual {
-            height: 160px;
-            background: var(--light);
-            border-radius: var(--radius);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gray);
-            flex-direction: column;
-            gap: 8px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .budget-visual i {
-            font-size: 2.5rem;
-            opacity: 0.7;
-        }
-
-        .budget-visual p {
-            font-size: 0.85rem;
-        }
-
-        .chart-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .pie-chart {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: conic-gradient(
-                #3498db 0% 42%,
-                #2ecc71 42% 67%,
-                #e74c3c 67% 85%,
-                #f39c12 85% 95%,
-                #9b59b6 95% 100%
-            );
-            position: relative;
-        }
-
-        .chart-center {
-            position: absolute;
-            width: 70px;
-            height: 70px;
-            background: white;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.9rem;
-            color: var(--dark);
-        }
-
         /* Responsive Adjustments */
         @media (min-width: 768px) {
             .grid-2 {
@@ -583,6 +499,11 @@
             
             .grid-3 {
                 grid-template-columns: 1fr 1fr 1fr;
+                gap: 12px;
+            }
+            
+            .grid-4 {
+                grid-template-columns: repeat(4, 1fr);
                 gap: 12px;
             }
             
@@ -642,21 +563,31 @@
             .expense-table td {
                 padding: 8px 5px;
             }
-            
-            .grid-3 {
-                grid-template-columns: 1fr 1fr 1fr;
-                gap: 6px;
-            }
         }
 
-        @media (max-width: 360px) {
-            .grid-3 {
-                grid-template-columns: 1fr;
-                gap: 8px;
+        /* Number formatting */
+        .number {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+        }
+
+        .positive {
+            color: var(--success);
+        }
+
+        .negative {
+            color: var(--accent);
+        }
+        /*monthly distribution */
+        /* Add to existing CSS */
+        @media (max-width: 768px) {
+            .monthly-table-container {
+                overflow-x: auto;
+                max-width: 100%;
             }
             
-            .financial-card {
-                padding: 10px 6px;
+            #budgetTable {
+                min-width: 800px;
             }
         }
     </style>
@@ -708,25 +639,18 @@
                 </form>
                 <div id="loginMessage" style="margin-top: 12px; text-align: center;"></div>
                 
-                <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #eee;">
-                    <p style="text-align: center; color: var(--gray); margin-bottom: 8px; font-size: 0.85rem;">Demo Accounts:</p>
-                    <div style="background: var(--light); padding: 12px; border-radius: var(--radius); font-size: 0.8rem;">
-                        <p><strong>Admin:</strong> admin@kcmc.org / admin123</p>
-                        <p><strong>Partner:</strong> partner@example.com / partner123</p>
-                        <p><strong>Visitor:</strong> visitor@example.com / visitor123</p>
-                    </div>
-                </div>
+             
             </div>
         </div>
     </div>
 
-    <!-- Header -->
+     <!-- Header -->
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
                     <div class="logo-icon">🕊️</div>
-                    <h1>KCMC Partners</h1>
+                    <h1>BUDGET</h1>
                 </div>
                 <div class="user-actions">
                     <button id="loginBtn" class="btn btn-secondary btn-small">
@@ -749,104 +673,132 @@
                             <i class="fas fa-sign-out-alt"></i>
                         </button>
                     </div>
+                    <div class="user-actions">
+                    <button id="refreshData" class="btn btn-small">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
                 </div>
             </div>
         </div>
     </header>
 
+
     <!-- Main Content (Only visible when logged in) -->
     <main id="mainContent" style="display: none;">
         <div class="container">
             <section class="page-header">
-                <h2>Financial Transparency</h2>
-                <p>We believe in complete transparency with our partners. Here's how your contributions are used.</p>
-                <button id="updateBudgetBtn" class="btn" style="margin-top: 0.8rem; display: none;">
-                    <i class="fas fa-edit"></i> Update Budget
-                </button>
+                <h2>Church Budget Analysis</h2>
+                <p>Multi-year budget tracking and visualization from Google Sheets</p>
             </section>
 
-            <!-- Budget Update Form (Hidden by default) -->
-            <div id="budgetForm" class="card" style="display: none;">
-                <h3><i class="fas fa-edit card-icon"></i> Update Budget Information</h3>
-                <form id="updateBudgetForm">
-                    <div class="form-group">
-                        <label for="totalFunds">Total Funds Raised (Ksh)</label>
-                        <input type="number" id="totalFunds" class="form-control" step="0.01" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="programExpenses">Program Expenses (Ksh)</label>
-                        <input type="number" id="programExpenses" class="form-control" step="0.01" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="childrenSupported">Children Supported</label>
-                        <input type="number" id="childrenSupported" class="form-control" required>
-                    </div>
-                    
-                    <h4 style="margin: 1.2rem 0 0.8rem; font-size: 0.95rem;">Budget Allocation (%)</h4>
-                    <div class="grid grid-2">
-                        <div class="form-group">
-                            <label for="education">Education Programs</label>
-                            <input type="number" id="education" class="form-control" min="0" max="100" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="food">Food & Nutrition</label>
-                            <input type="number" id="food" class="form-control" min="0" max="100" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="healthcare">Healthcare</label>
-                            <input type="number" id="healthcare" class="form-control" min="0" max="100" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="community">Community Development</label>
-                            <input type="number" id="community" class="form-control" min="0" max="100" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="admin">Administrative Costs</label>
-                            <input type="number" id="admin" class="form-control" min="0" max="100" required>
-                        </div>
-                    </div>
-                    
-                    <div style="display: flex; gap: 8px; margin-top: 16px;">
-                        <button type="submit" class="btn">Update Budget</button>
-                        <button type="button" id="cancelBudgetBtn" class="btn btn-secondary">Cancel</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Budget Overview -->
+            <!-- Controls -->
             <section class="card">
-                <h3><i class="fas fa-chart-pie card-icon"></i> Budget Allocation <span id="budgetYear"></span></h3>
-                <div id="budgetContainer">
-                    <div class="loading">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <p>Loading budget data...</p>
+                <div class="grid grid-2">
+                    <div>
+                        <label for="yearSelect" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.85rem;">Budget Year</label>
+                        <select id="yearSelect" class="form-control">
+                            <option value="">Select Year</option>
+                            <option value="2025">2025 Budget</option>
+                            <option value="2026">2026 Budget</option>
+                            <option value="2027">2027 Budget</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="viewSelect" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.85rem;">View Type</label>
+                        <select id="viewSelect" class="form-control">
+                            <option value="detailed">Detailed View</option>
+                            <option value="summary">Summary View</option>
+                        </select>
                     </div>
                 </div>
             </section>
 
-            <!-- Financial Summary -->
-            <section class="grid grid-3" id="financialSummary">
-                <!-- Will be populated by JavaScript -->
+            <!-- Summary Cards -->
+            <section class="grid grid-4" id="summarySection" style="display: none;">
+                <div class="card financial-card">
+                    <h3 style="color: var(--primary);">Total Budget</h3>
+                    <div class="amount" id="totalBudget">Ksh 0</div>
+                    <div class="subtitle">Annual Budget</div>
+                </div>
+                <div class="card financial-card">
+                    <h3 style="color: var(--secondary);">Actual Support</h3>
+                    <div class="amount" id="actualSupport">Ksh 0</div>
+                    <div class="subtitle">Support Received</div>
+                </div>
+                <div class="card financial-card">
+                    <h3 style="color: var(--accent);">Variance</h3>
+                    <div class="amount" id="varianceAmount">Ksh 0</div>
+                    <div class="subtitle" id="varianceSubtitle">Difference</div>
+                </div>
+                <div class="card financial-card">
+                    <h3 style="color: var(--warning);">Budget Period</h3>
+                    <div class="amount" id="budgetPeriod">-</div>
+                    <div class="subtitle">Fiscal Year</div>
+                </div>
             </section>
 
-            <!-- Expense Details -->
+            <!-- Quick Stats -->
             <section class="card">
-                <h3><i class="fas fa-receipt card-icon"></i> Detailed Expense Breakdown</h3>
+                <h3><i class="fas fa-chart-bar card-icon"></i> Top Categories</h3>
+                <div class="grid grid-2" id="categoryStats">
+                    <!-- Dynamic stats will be inserted here -->
+                </div>
+            </section>
+
+            <!-- Chart Section -->
+            <section class="card">
+                <h3><i class="fas fa-chart-pie card-icon"></i> Budget Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="budgetChart"></canvas>
+                </div>
+                <div style="text-align: center; margin-top: 10px;">
+                    <button id="toggleChart" class="btn btn-small">
+                        <i class="fas fa-chart-bar"></i> Switch to Bar Chart
+                    </button>
+                </div>
+            </section>
+
+            <!-- Budget Table -->
+            <section class="card">
+                <h3><i class="fas fa-table card-icon"></i> Budget Details</h3>
                 <div style="overflow-x: auto;">
-                    <div id="expenseTable">
-                        <!-- Will be populated by JavaScript -->
-                    </div>
+                    <table class="expense-table" id="budgetTable">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Category</th>
+                                <th style="text-align: right;">Budget</th>
+                            </tr>
+                        </thead>
+                        <tbody id="budgetTableBody">
+                            <tr>
+                                <td colspan="3" style="text-align: center; padding: 2rem;">
+                                    <p>Select a budget year to view data</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="text-align: center; margin-top: 10px;">
+                    <button id="toggleMonthly" class="btn btn-small">
+                        <i class="fas fa-calendar-alt"></i> Show Monthly Details
+                    </button>
+                    <button id="exportData" class="btn btn-small" style="background: var(--success);">
+                        <i class="fas fa-download"></i> Export Data
+                    </button>
                 </div>
             </section>
 
-            <!-- Transparency Statement -->
+            <!-- Last Updated -->
             <section class="card" style="background: #e8f6f3; border-left: 4px solid var(--primary);">
-                <h3><i class="fas fa-shield-alt card-icon"></i> Our Commitment to Transparency</h3>
-                <p style="font-size: 0.85rem;">
-                    We are committed to the highest standards of financial integrity and transparency. Our books are audited annually, and financial reports are made available to all partners upon request. 
-                    All our procurement processes are managed by an oversight committee, and every payment is authorized by multiple parties to ensure accountability, honesty, and faithful stewardship of every contribution.
+                <h3><i class="fas fa-info-circle card-icon"></i> Information</h3>
+                <p style="font-size: 0.85rem; margin-bottom: 8px;">
+                    Data is loaded directly from Google Sheets in real-time. The budget follows the church fiscal year from July to June.
                 </p>
-                <p style="margin-top: 0.8rem; font-size: 0.85rem;">If you have any questions about our finances, please don't hesitate to <a href="contact.html">contact us</a>.</p>
+                <p style="font-size: 0.8rem; color: var(--gray);" id="lastUpdated">
+                    Select a year to view budget
+                </p>
             </section>
         </div>
     </main>
@@ -856,28 +808,15 @@
         <ul>
             <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
             <li><a href="activities.html"><i class="fas fa-tasks"></i> Activities</a></li>
-            <li><a href="contribution.html" class="active"><i class="fas fa-donate"></i> Contributions</a></li>
+            <li><a href="budget.html" class="active"><i class="fas fa-chart-pie"></i> Budget</a></li>
+            <li><a href="contribution.html"><i class="fas fa-donate"></i> Contributions</a></li>
             <li><a href="updates.html"><i class="fas fa-newspaper"></i> Updates</a></li>
-            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
         </ul>
     </nav>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2023 KCMC Partners. All rights reserved.</p>
-                <div class="footer-links">
-                    <a href="index.html">Home</a>
-                    <a href="activities.html">Activities</a>
-                    <a href="budget.html">Budget</a>
-                    <a href="updates.html">Updates</a>
-                    <a href="contact.html">Contact</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
@@ -900,6 +839,25 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
+        // Google Sheets configuration
+        const SHEET_ID = '1uCdQXkF8sb_8PgU1C0NuuGg1sssRScHRP_mjRLznu9k';
+        const API_KEY = 'AIzaSyCmFtniBYGJqy3BgEzxWDOhL7LfOns5LJk';
+        
+        // Map sheet names to years
+        const sheetMap = {
+            '2025': '2025',
+            '2026': '2026', 
+            '2027': '2027'
+        };
+
+        // Global variables
+        let currentYear = null;
+        let currentChartType = 'pie';
+        let showMonthlyView = false;
+        let budgetChart = null;
+        let budgetData = {};
+        let summaryData = {};
+
         // DOM Elements
         const loginRequiredModal = document.getElementById('loginRequiredModal');
         const loginModal = document.getElementById('loginModal');
@@ -910,18 +868,30 @@
         const userGreeting = document.getElementById('userGreeting');
         const goToLoginBtn = document.getElementById('goToLoginBtn');
         const goToHomeBtn = document.getElementById('goToHomeBtn');
-        const updateBudgetBtn = document.getElementById('updateBudgetBtn');
-        const budgetForm = document.getElementById('budgetForm');
-        const updateBudgetForm = document.getElementById('updateBudgetForm');
-        const cancelBudgetBtn = document.getElementById('cancelBudgetBtn');
-        const budgetContainer = document.getElementById('budgetContainer');
-        const financialSummary = document.getElementById('financialSummary');
-        const expenseTable = document.getElementById('expenseTable');
         const closeBtns = document.querySelectorAll('.close');
         const loginForm = document.getElementById('loginForm');
         const loginMessage = document.getElementById('loginMessage');
         const loginButtonText = document.getElementById('loginButtonText');
         const loginSpinner = document.getElementById('loginSpinner');
+
+        const yearSelect = document.getElementById('yearSelect');
+        const viewSelect = document.getElementById('viewSelect');
+        const refreshDataBtn = document.getElementById('refreshData');
+        const exportDataBtn = document.getElementById('exportData');
+        const toggleChartBtn = document.getElementById('toggleChart');
+        const toggleMonthlyBtn = document.getElementById('toggleMonthly');
+        const budgetTableBody = document.getElementById('budgetTableBody');
+        const lastUpdatedEl = document.getElementById('lastUpdated');
+        const summarySection = document.getElementById('summarySection');
+        const categoryStats = document.getElementById('categoryStats');
+        const totalBudgetEl = document.getElementById('totalBudget');
+        const actualSupportEl = document.getElementById('actualSupport');
+        const varianceAmountEl = document.getElementById('varianceAmount');
+        const varianceSubtitle = document.getElementById('varianceSubtitle');
+        const budgetPeriodEl = document.getElementById('budgetPeriod');
+
+        // Month names
+        const monthNames = ['July', 'August', 'September', 'October', 'November', 'December', 'January', 'February', 'March', 'April', 'May', 'June'];
 
         // Authentication state management
         auth.onAuthStateChanged(async (user) => {
@@ -969,13 +939,10 @@
                 mainContent.style.display = 'block';
                 loginRequiredModal.style.display = 'none';
                 showUserMenu(user);
-                loadBudgetData();
                 
-                // Show admin controls if user is admin
-                const isAdmin = user.role === 'admin';
-                if (isAdmin) {
-                    updateBudgetBtn.style.display = 'inline-block';
-                }
+                // Initialize budget functionality
+                initializeBudgetApp();
+                
             } else {
                 // User is not logged in - show login required modal
                 mainContent.style.display = 'none';
@@ -1002,206 +969,12 @@
             auth.signOut()
                 .then(() => {
                     localStorage.removeItem('currentUser');
-                    localStorage.removeItem('isAdmin');
                     checkAuthAndLoadContent(); // This will show the login required modal
                     showNotification('You have been logged out successfully.', 'info');
                 })
                 .catch((error) => {
                     console.error('Logout error:', error);
                 });
-        }
-
-        // Show notification
-        function showNotification(message, type) {
-            // Remove existing notifications
-            document.querySelectorAll('.notification').forEach(notification => {
-                notification.remove();
-            });
-
-            const notification = document.createElement('div');
-            notification.className = `notification notification-${type}`;
-            notification.innerHTML = `
-                <span>${message}</span>
-                <button onclick="this.parentElement.remove()">&times;</button>
-            `;
-            document.body.appendChild(notification);
-
-            setTimeout(() => {
-                if (notification.parentElement) {
-                    notification.remove();
-                }
-            }, 5000);
-        }
-
-        // Budget management functions
-        function loadCurrentBudgetData() {
-            db.collection('budget').doc('current').get()
-                .then((doc) => {
-                    if (doc.exists) {
-                        const data = doc.data();
-                        document.getElementById('totalFunds').value = data.totalFunds || '';
-                        document.getElementById('programExpenses').value = data.programExpenses || '';
-                        document.getElementById('childrenSupported').value = data.childrenSupported || '';
-                        document.getElementById('education').value = data.allocation?.education || '';
-                        document.getElementById('food').value = data.allocation?.food || '';
-                        document.getElementById('healthcare').value = data.allocation?.healthcare || '';
-                        document.getElementById('community').value = data.allocation?.community || '';
-                        document.getElementById('admin').value = data.allocation?.admin || '';
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error loading budget data:', error);
-                });
-        }
-
-        // Update budget data
-        updateBudgetForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const budgetData = {
-                totalFunds: parseFloat(document.getElementById('totalFunds').value),
-                programExpenses: parseFloat(document.getElementById('programExpenses').value),
-                childrenSupported: parseInt(document.getElementById('childrenSupported').value),
-                allocation: {
-                    education: parseInt(document.getElementById('education').value),
-                    food: parseInt(document.getElementById('food').value),
-                    healthcare: parseInt(document.getElementById('healthcare').value),
-                    community: parseInt(document.getElementById('community').value),
-                    admin: parseInt(document.getElementById('admin').value)
-                },
-                lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            // Validate percentages add up to 100
-            const totalPercentage = Object.values(budgetData.allocation).reduce((sum, value) => sum + value, 0);
-            if (totalPercentage !== 100) {
-                showNotification('Budget allocation percentages must add up to 100%. Current total: ' + totalPercentage + '%', 'error');
-                return;
-            }
-
-            db.collection('budget').doc('current').set(budgetData)
-                .then(() => {
-                    showNotification('Budget updated successfully!', 'success');
-                    budgetForm.style.display = 'none';
-                    loadBudgetData(); // Reload budget display
-                })
-                .catch((error) => {
-                    showNotification('Error updating budget: ' + error.message, 'error');
-                });
-        });
-
-        // Load and display budget data
-        function loadBudgetData() {
-            db.collection('budget').doc('current').get()
-                .then((doc) => {
-                    if (doc.exists) {
-                        const data = doc.data();
-                        displayBudgetData(data);
-                    } else {
-                        // Use default data if no budget data exists
-                        displayBudgetData(getDefaultBudgetData());
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error loading budget data:', error);
-                    // Fallback to default data
-                    displayBudgetData(getDefaultBudgetData());
-                });
-        }
-
-        function displayBudgetData(data) {
-            // Update financial summary
-            financialSummary.innerHTML = `
-                <div class="card financial-card">
-                    <h3 style="color: var(--primary);">Total Funds Raised</h3>
-                    <div class="amount">Ksh ${(data.totalFunds || 0).toLocaleString()}</div>
-                    <div class="subtitle">Year to Date</div>
-                </div>
-                <div class="card financial-card">
-                    <h3 style="color: var(--secondary);">Program Expenses</h3>
-                    <div class="amount">Ksh ${(data.programExpenses || 0).toLocaleString()}</div>
-                    <div class="subtitle">${data.programExpenses && data.totalFunds ? Math.round((data.programExpenses / data.totalFunds) * 100) : 0}% of total</div>
-                </div>
-                <div class="card financial-card">
-                    <h3 style="color: var(--accent);">Children Supported</h3>
-                    <div class="amount">${data.childrenSupported || '0'}</div>
-                    <div class="subtitle">Across 12 communities</div>
-                </div>
-            `;
-
-            // Update budget allocation display with visualization
-            const allocation = data.allocation || {};
-            budgetContainer.innerHTML = `
-                <div class="budget-visual">
-                    <div class="chart-container">
-                        <div class="pie-chart">
-                            <div class="chart-center">Budget</div>
-                        </div>
-                    </div>
-                </div>
-                <div style="display: flex; flex-direction: column; gap: 8px;">
-                    ${createAllocationItem('Education Programs', allocation.education)}
-                    ${createAllocationItem('Food & Nutrition', allocation.food)}
-                    ${createAllocationItem('Healthcare', allocation.healthcare)}
-                    ${createAllocationItem('Community Development', allocation.community)}
-                    ${createAllocationItem('Administrative Costs', allocation.admin)}
-                </div>
-            `;
-
-            // Update expense table
-            expenseTable.innerHTML = `
-                <table class="expense-table">
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th style="text-align: right;">Amount</th>
-                            <th style="text-align: right;">%</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${createExpenseRow('Education Programs', data.totalFunds, allocation.education)}
-                        ${createExpenseRow('Food & Nutrition', data.totalFunds, allocation.food)}
-                        ${createExpenseRow('Healthcare', data.totalFunds, allocation.healthcare)}
-                        ${createExpenseRow('Community Development', data.totalFunds, allocation.community)}
-                        ${createExpenseRow('Administrative Costs', data.totalFunds, allocation.admin)}
-                    </tbody>
-                </table>
-            `;
-        }
-
-        function createAllocationItem(label, percentage) {
-            return `
-                <div class="allocation-item">
-                    <span>${label}</span>
-                    <span class="percentage">${percentage || 0}%</span>
-                </div>
-            `;
-        }
-
-        function createExpenseRow(category, totalFunds, percentage) {
-            const amount = totalFunds ? (totalFunds * (percentage / 100)).toLocaleString('en-KE', {style: 'currency', currency: 'Ksh'}) : 'Ksh0';
-            return `
-                <tr>
-                    <td>${category}</td>
-                    <td class="amount-cell">${amount}</td>
-                    <td class="percentage-cell">${percentage || 0}%</td>
-                </tr>
-            `;
-        }
-
-        function getDefaultBudgetData() {
-            return {
-                totalFunds: 245780,
-                programExpenses: 208913,
-                childrenSupported: 512,
-                allocation: {
-                    education: 42,
-                    food: 25,
-                    healthcare: 18,
-                    community: 10,
-                    admin: 5
-                }
-            };
         }
 
         // Enhanced login function with Firebase Authentication
@@ -1248,6 +1021,505 @@
             }
         }
 
+        // Initialize the budget application
+        function initializeBudgetApp() {
+            // Event listeners for budget functionality
+            yearSelect.addEventListener('change', loadYearData);
+            viewSelect.addEventListener('change', changeView);
+            refreshDataBtn.addEventListener('click', refreshAllData);
+            exportDataBtn.addEventListener('click', exportBudgetData);
+            toggleChartBtn.addEventListener('click', toggleChartType);
+            toggleMonthlyBtn.addEventListener('click', toggleMonthlyView);
+        }
+
+        // Load data for selected year
+        async function loadYearData() {
+            const selectedYear = yearSelect.value;
+            if (!selectedYear) return;
+
+            currentYear = selectedYear;
+            
+            showNotification(`Loading ${selectedYear} budget data...`, 'info');
+            
+            // Show loading state
+            budgetTableBody.innerHTML = 
+                '<tr><td colspan="3" style="text-align: center; padding: 2rem;"><p><i class="fas fa-spinner fa-spin"></i> Loading budget data...</p></td></tr>';
+            
+            try {
+                await fetchBudgetData(selectedYear);
+                displayBudgetData();
+                updateSummary();
+                updateCategoryStats();
+                updateBudgetChart();
+                
+                showNotification(`Successfully loaded ${selectedYear} budget data`, 'success');
+                lastUpdatedEl.textContent = `Last updated: ${new Date().toLocaleTimeString()} (${selectedYear} Budget)`;
+                
+            } catch (error) {
+                console.error('Error loading budget data:', error);
+                showNotification(`Error loading budget data: ${error.message}`, 'error');
+                budgetTableBody.innerHTML = 
+                    '<tr><td colspan="3" style="text-align: center; padding: 2rem;"><p>Error loading budget data</p></td></tr>';
+            }
+        }
+
+        // Fetch budget data from Google Sheets
+        async function fetchBudgetData(year) {
+            const sheetName = sheetMap[year];
+            if (!sheetName) {
+                throw new Error(`No sheet mapping found for year ${year}`);
+            }
+
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${sheetName}?key=${API_KEY}`;
+            
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+            }
+            
+            const data = await response.json();
+            
+            if (!data.values || data.values.length === 0) {
+                throw new Error('No data found in sheet');
+            }
+            
+            processSheetData(year, data.values);
+        }
+
+        // Process raw sheet data into structured format
+        function processSheetData(year, sheetData) {
+            budgetData[year] = [];
+            summaryData[year] = {
+                totalBudget: 0,
+                actualSupport: 0,
+                variance: 0,
+                period: `${year} Budget Year`
+            };
+
+            let calculatedTotal = 0;
+            let foundTotalRow = false;
+            
+            for (let i = 0; i < sheetData.length; i++) {
+                const row = sheetData[i];
+                
+                if (!row || row.length === 0) continue;
+                
+                const firstCell = row[0] ? row[0].toString().trim() : '';
+                
+                // Look for total budget row
+                if (firstCell.toUpperCase().includes('TOTAL') && 
+                    (firstCell.toUpperCase().includes('BUDGET') || firstCell.toUpperCase().includes('EXPENSE'))) {
+                    if (row.length > 2 && row[2]) {
+                        const totalValue = parseFloat(row[2].toString().replace(/,/g, ''));
+                        if (!isNaN(totalValue)) {
+                            summaryData[year].totalBudget = totalValue;
+                            foundTotalRow = true;
+                        }
+                    }
+                    continue;
+                }
+                
+                // Look for actual support row
+                if (firstCell.toUpperCase().includes('ACTUAL') && firstCell.toUpperCase().includes('SUPPORT')) {
+                    if (row.length > 2 && row[2]) {
+                        const actualValue = parseFloat(row[2].toString().replace(/,/g, ''));
+                        if (!isNaN(actualValue)) {
+                            summaryData[year].actualSupport = actualValue;
+                        }
+                    }
+                    continue;
+                }
+                
+                // Look for variance row
+                if (firstCell.toUpperCase().includes('VARIANCE')) {
+                    if (row.length > 2 && row[2]) {
+                        const varianceValue = parseFloat(row[2].toString().replace(/,/g, ''));
+                        if (!isNaN(varianceValue)) {
+                            summaryData[year].variance = varianceValue;
+                        }
+                    }
+                    continue;
+                }
+                
+                // Process budget category rows (starting with E)
+                if (firstCell.startsWith('E') && row.length >= 15) {
+                    const code = firstCell;
+                    const name = row[1] ? row[1].toString().trim() : '';
+                    const total = parseFloat(row[2].toString().replace(/,/g, '')) || 0;
+                    
+                    calculatedTotal += total;
+                    
+                    const months = [];
+                    for (let j = 3; j < 15; j++) {
+                        let value = row[j];
+                        if (value === undefined || value === null) {
+                            months.push(0);
+                            continue;
+                        }
+                        
+                        value = value.toString().trim();
+                        if (value === '-' || value === '' || value === '0') {
+                            months.push(0);
+                        } else {
+                            const numValue = parseFloat(value.replace(/,/g, ''));
+                            months.push(isNaN(numValue) ? 0 : numValue);
+                        }
+                    }
+
+                    budgetData[year].push({
+                        code,
+                        name,
+                        total,
+                        months
+                    });
+                }
+            }
+
+            if (!foundTotalRow || summaryData[year].totalBudget === 0) {
+                summaryData[year].totalBudget = calculatedTotal;
+            }
+            
+            if (summaryData[year].variance === 0) {
+                summaryData[year].variance = summaryData[year].actualSupport - summaryData[year].totalBudget;
+            }
+        }
+
+        // Display budget data in the table
+        function displayBudgetData() {
+            const tableBody = document.getElementById('budgetTableBody');
+            tableBody.innerHTML = '';
+            
+            const yearData = budgetData[currentYear];
+            if (!yearData || yearData.length === 0) {
+                tableBody.innerHTML = 
+                    '<tr><td colspan="3" style="text-align: center; padding: 2rem;"><p>No budget data available for this year</p></td></tr>';
+                return;
+            }
+            
+            yearData.forEach(category => {
+                const tableRow = document.createElement('tr');
+                
+                const formattedTotal = formatNumber(category.total);
+                
+                tableRow.innerHTML = `
+                    <td><strong>${category.code}</strong></td>
+                    <td>${category.name}</td>
+                    <td class="amount-cell">Ksh ${formattedTotal}</td>
+                `;
+                
+                tableBody.appendChild(tableRow);
+            });
+            
+            summarySection.style.display = 'grid';
+        }
+
+        // Update summary information
+        function updateSummary() {
+            const summary = summaryData[currentYear];
+            if (!summary) return;
+            
+            totalBudgetEl.textContent = `Ksh ${formatNumber(summary.totalBudget)}`;
+            actualSupportEl.textContent = `Ksh ${formatNumber(summary.actualSupport)}`;
+            
+            const variance = summary.variance;
+            varianceAmountEl.textContent = `Ksh ${formatNumber(Math.abs(variance))}`;
+            
+            if (variance >= 0) {
+                varianceAmountEl.className = 'amount positive';
+                varianceSubtitle.textContent = 'Surplus';
+            } else {
+                varianceAmountEl.className = 'amount negative';
+                varianceSubtitle.textContent = 'Deficit';
+            }
+            
+            budgetPeriodEl.textContent = summary.period;
+        }
+
+        // Update category statistics
+        function updateCategoryStats() {
+            const yearData = budgetData[currentYear];
+            if (!yearData) return;
+            
+            const sortedCategories = [...yearData]
+                .filter(cat => cat.total > 0)
+                .sort((a, b) => b.total - a.total)
+                .slice(0, 4);
+            
+            categoryStats.innerHTML = '';
+            
+            sortedCategories.forEach((category, index) => {
+                // Define colors array directly in JavaScript
+                const colors = ['#2ecc71', '#3498db', '#e74c3c', '#f39c12']; // primary, secondary, accent, warning
+                const statCard = document.createElement('div');
+                statCard.className = 'financial-card';
+                statCard.style.borderLeft = `4px solid ${colors[index]}`;
+                
+                statCard.innerHTML = `
+                    <h3 style="color: ${colors[index]};">${category.name}</h3>
+                    <div class="amount">Ksh ${formatNumber(category.total)}</div>
+                    <div class="subtitle">${category.code}</div>
+                `;
+                
+                categoryStats.appendChild(statCard);
+            });
+        }
+
+        // Update budget chart
+        function updateBudgetChart() {
+            const ctx = document.getElementById('budgetChart').getContext('2d');
+            const yearData = budgetData[currentYear];
+            
+            if (!yearData) return;
+            
+            const chartData = yearData.filter(cat => cat.total > 0);
+            
+            const labels = chartData.map(cat => cat.name);
+            const data = chartData.map(cat => cat.total);
+            const backgroundColors = generateColors(chartData.length);
+            
+            if (budgetChart) {
+                budgetChart.destroy();
+            }
+            
+            budgetChart = new Chart(ctx, {
+                type: currentChartType,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: `Budget Distribution - ${currentYear}`,
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Toggle chart type
+        function toggleChartType() {
+            currentChartType = currentChartType === 'pie' ? 'bar' : 'pie';
+            updateBudgetChart();
+            toggleChartBtn.innerHTML = currentChartType === 'pie' ? 
+                '<i class="fas fa-chart-bar"></i> Switch to Bar Chart' : 
+                '<i class="fas fa-chart-pie"></i> Switch to Pie Chart';
+        }
+
+        // Toggle monthly view
+        function toggleMonthlyView() {
+            showMonthlyView = !showMonthlyView;
+            
+            if (showMonthlyView) {
+                displayMonthlyData();
+                toggleMonthlyBtn.innerHTML = '<i class="fas fa-table"></i> Hide Monthly Details';
+            } else {
+                displayBudgetData();
+                toggleMonthlyBtn.innerHTML = '<i class="fas fa-calendar-alt"></i> Show Monthly Details';
+            }
+        }
+
+        // Display monthly data
+        function displayMonthlyData() {
+            const tableBody = document.getElementById('budgetTableBody');
+            tableBody.innerHTML = '';
+            
+            const yearData = budgetData[currentYear];
+            if (!yearData || yearData.length === 0) {
+                tableBody.innerHTML = 
+                    '<tr><td colspan="15" style="text-align: center; padding: 2rem;"><p>No budget data available for this year</p></td></tr>';
+                return;
+            }
+            
+            // Update table headers for monthly view
+            const tableHead = document.querySelector('#budgetTable thead tr');
+            tableHead.innerHTML = `
+                <th>Code</th>
+                <th>Category</th>
+                ${monthNames.map(month => `<th style="text-align: right;">${month}</th>`).join('')}
+                <th style="text-align: right;">Total</th>
+            `;
+            
+            // Add monthly data rows
+            yearData.forEach(category => {
+                const tableRow = document.createElement('tr');
+                
+                const monthlyCells = category.months.map(amount => 
+                    `<td class="amount-cell">${amount > 0 ? '' + formatNumber(amount) : '-'}</td>`
+                ).join('');
+                
+                tableRow.innerHTML = `
+                    <td><strong>${category.code}</strong></td>
+                    <td>${category.name}</td>
+                    ${monthlyCells}
+                    <td class="amount-cell">Ksh ${formatNumber(category.total)}</td>
+                `;
+                
+                tableBody.appendChild(tableRow);
+            });
+            
+            // Add monthly totals row
+            const monthlyTotals = calculateMonthlyTotals(yearData);
+            const totalsRow = document.createElement('tr');
+            totalsRow.style.fontWeight = 'bold';
+            totalsRow.style.backgroundColor = '#f8f9fa';
+            
+            const monthlyTotalCells = monthlyTotals.map(total => 
+                `<td class="amount-cell">Ksh ${formatNumber(total)}</td>`
+            ).join('');
+            
+            totalsRow.innerHTML = `
+                <td colspan="2"><strong>Monthly Totals</strong></td>
+                ${monthlyTotalCells}
+                <td class="amount-cell">Ksh ${formatNumber(yearData.reduce((sum, cat) => sum + cat.total, 0))}</td>
+            `;
+            
+            tableBody.appendChild(totalsRow);
+        }
+
+        // Calculate monthly totals
+        function calculateMonthlyTotals(yearData) {
+            const monthlyTotals = Array(12).fill(0);
+            
+            yearData.forEach(category => {
+                category.months.forEach((amount, index) => {
+                    monthlyTotals[index] += amount;
+                });
+            });
+            
+            return monthlyTotals;
+        }
+
+        // Change view type
+        function changeView() {
+            if (currentYear) {
+                loadYearData();
+            }
+        }
+
+        // Refresh all data
+        function refreshAllData() {
+            if (currentYear) {
+                delete budgetData[currentYear];
+                delete summaryData[currentYear];
+                loadYearData();
+            } else {
+                showNotification('Please select a budget year first', 'error');
+            }
+        }
+
+        // Export budget data
+        function exportBudgetData() {
+            if (!currentYear) {
+                showNotification('Please select a budget year first', 'error');
+                return;
+            }
+            
+            try {
+                const yearData = budgetData[currentYear];
+                const summary = summaryData[currentYear];
+                
+                if (!yearData) {
+                    throw new Error('No data available to export');
+                }
+                
+                const headers = ['Code', 'Category', 'Total Budget'];
+                const rows = yearData.map(cat => [
+                    cat.code,
+                    `"${cat.name}"`,
+                    cat.total
+                ]);
+                
+                rows.push(['', 'TOTAL ANNUAL BUDGET', summary.totalBudget]);
+                rows.push(['', 'ACTUAL SUPPORT RECEIVED', summary.actualSupport]);
+                rows.push(['', 'VARIANCE', summary.variance]);
+                
+                const csvContent = [
+                    headers.join(','),
+                    ...rows.map(row => row.join(','))
+                ].join('\n');
+                
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                
+                link.setAttribute('href', url);
+                link.setAttribute('download', `kcmc-budget-${currentYear}-${new Date().toISOString().split('T')[0]}.csv`);
+                link.style.visibility = 'hidden';
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                showNotification(`Budget data for ${currentYear} exported successfully`, 'success');
+                
+            } catch (error) {
+                console.error('Error exporting budget data:', error);
+                showNotification(`Error exporting budget data: ${error.message}`, 'error');
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            document.querySelectorAll('.notification').forEach(notification => {
+                notification.remove();
+            });
+
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <span>${message}</span>
+                <button onclick="this.parentElement.remove()">&times;</button>
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Helper function to format numbers with commas
+        function formatNumber(num) {
+            return new Intl.NumberFormat().format(num);
+        }
+
+        // Helper function to generate colors for charts
+        function generateColors(count) {
+            const colors = [
+                '#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6',
+                '#1abc9c', '#34495e', '#d35400', '#c0392b', '#16a085'
+            ];
+            
+            const result = [];
+            for (let i = 0; i < count; i++) {
+                result.push(colors[i % colors.length]);
+            }
+            
+            return result;
+        }
+
         // Event Listeners
         loginBtn.addEventListener('click', () => {
             loginModal.style.display = 'block';
@@ -1262,15 +1534,6 @@
 
         goToHomeBtn.addEventListener('click', () => {
             window.location.href = 'index.html';
-        });
-
-        updateBudgetBtn.addEventListener('click', () => {
-            budgetForm.style.display = budgetForm.style.display === 'none' ? 'block' : 'none';
-            loadCurrentBudgetData();
-        });
-
-        cancelBudgetBtn.addEventListener('click', () => {
-            budgetForm.style.display = 'none';
         });
 
         // Close modal when clicking X or outside
@@ -1311,7 +1574,7 @@
             // Check if user is already authenticated
             const currentUser = auth.currentUser;
             if (currentUser) {
-                loadBudgetData();
+                checkAuthAndLoadContent();
             }
         });
     </script>
