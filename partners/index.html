@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KCMC Partners - Home</title>
     <link rel="stylesheet" href="styles.css">
-   <!-- Add these in the head section -->
-<script src="js/badging.js"></script>
-<script src="js/notification-manager.js"></script>
+   
    <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#2c3e50">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -32,9 +30,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-   
-   
-   <style>
+    <style>
         :root {
             --primary: #2ecc71;
             --secondary: #3498db;
@@ -1089,133 +1085,6 @@
             console.log('PWA was installed');
             deferredPrompt = null;
         });
-// Add this to your existing DOMContentLoaded event listener
-document.addEventListener('DOMContentLoaded', () => {
-    // ... your existing code ...
-    
-    // Initialize notification system
-    initializeNotificationSystem();
-});
-
-// Initialize notification and badging system
-function initializeNotificationSystem() {
-    // Create notification manager
-    const notificationManager = new NotificationManager();
-    
-    // Add notification badge to navigation if needed
-    addNotificationBadges();
-    
-    // Listen for visibility changes to update badge
-    document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) {
-            // Page is visible, check for badge updates
-            updateBadgeFromServiceWorker();
-        }
-    });
-}
-
-// Add notification badges to navigation
-function addNotificationBadges() {
-    // Add badge to updates link in navigation
-    const updatesLinks = document.querySelectorAll('a[href="updates.html"]');
-    updatesLinks.forEach(link => {
-        if (!link.querySelector('.notification-badge')) {
-            const badge = document.createElement('span');
-            badge.className = 'notification-badge';
-            badge.style.cssText = `
-                position: absolute;
-                top: -5px;
-                right: -5px;
-                background: #e74c3c;
-                color: white;
-                border-radius: 50%;
-                width: 18px;
-                height: 18px;
-                font-size: 10px;
-                display: none;
-                align-items: center;
-                justify-content: center;
-            `;
-            link.style.position = 'relative';
-            link.appendChild(badge);
-        }
-    });
-}
-
-// Update badge from service worker
-async function updateBadgeFromServiceWorker() {
-    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({
-            type: 'GET_BADGE_COUNT'
-        });
-    }
-}
-
-// Add this CSS for notification badges
-const style = document.createElement('style');
-style.textContent = `
-    .notification-badge {
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        background: #e74c3c;
-        color: white;
-        border-radius: 50%;
-        min-width: 18px;
-        height: 18px;
-        font-size: 10px;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 0 4px;
-        font-weight: bold;
-    }
-    
-    .notification-toast {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: white;
-        border-left: 4px solid #2ecc71;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        z-index: 10000;
-        max-width: 300px;
-        animation: slideInRight 0.3s ease-out;
-        cursor: pointer;
-    }
-    
-    .toast-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 8px;
-    }
-    
-    .toast-close {
-        background: none;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-        padding: 0;
-        width: 20px;
-        height: 20px;
-    }
-    
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-`;
-document.head.appendChild(style);
-        
     </script>
 </body>
 </html>

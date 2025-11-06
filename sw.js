@@ -250,6 +250,7 @@ self.addEventListener('push', event => {
 });
 
 // Handle messages from the main thread
+// Handle messages from the main thread
 self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
@@ -258,6 +259,52 @@ self.addEventListener('message', event => {
   // Handle notification-related messages from the main thread
   if (event.data && event.data.type === 'NOTIFICATION_PERMISSION') {
     console.log('Notification permission message received:', event.data);
+  }
+  
+  // ===== ADD BADGE HANDLING HERE =====
+  // Handle messages from clients for badge updates
+  if (event.data && event.data.type === 'UPDATE_BADGE') {
+    // You can also update badge from service worker if supported
+    console.log('Badge update requested:', event.data.count);
+    
+    // Update badge using Badging API if available
+    if ('setAppBadge' in self.registration && event.data.count !== undefined) {
+      if (event.data.count > 0) {
+        self.registration.setAppBadge(event.data.count)
+          .then(() => console.log(`Service Worker: Badge set to ${event.data.count}`))
+          .catch(err => console.error('Service Worker: Failed to set badge:', err));
+      } else {
+        self.registration.clearAppBadge()
+          .then(() => console.log('Service Worker: Badge cleared'))
+          .catch(err => console.error('Service Worker: Failed to clear badge:', err));
+      }
+    }
+  }
+  
+  if (event.data && event.data.type === 'GET_BADGE_STATUS') {
+    const response = {
+      supported: 'setAppBadge' in navigator,
+      currentCount: 0 // You'd track this if you maintain state
+    };
+    
+    // Send response back if ports are available
+    if (event.ports && event.ports[0]) {
+      event.ports[0].postMessage(response);
+    }
+  }
+  
+  if (event.data && event.data.type === 'INCREMENT_BADGE') {
+    console.log('Increment badge requested');
+    // You could implement increment logic here
+  }
+  
+  if (event.data && event.data.type === 'CLEAR_BADGE') {
+    console.log('Clear badge requested');
+    if ('clearAppBadge' in self.registration) {
+      self.registration.clearAppBadge()
+        .then(() => console.log('Service Worker: Badge cleared via CLEAR_BADGE'))
+        .catch(err => console.error('Service Worker: Failed to clear badge:', err));
+    }
   }
 });
 
@@ -323,3 +370,24 @@ async function updateCachedContent() {
 }
 
 console.log('Service Worker loaded with push notification support');
+// In your push event in sw.js, add this:
+self.addEventListener('push', event => {
+    // ... your existing push code ...
+    
+    // Update app badge when push notification is received
+    event.waitUntil(
+        self.registration.getNotifications().then(notifications => {
+            // Send message to all clients to update badge
+            const unreadCount = notifications.length + 1; // +1 for the new one
+            clients.matchAll().then(clients => {
+                clients.forEach(client => {
+                    client.postMessage({
+                        type: 'UPDATE_BADGE',
+                        count: unreadCount
+                    });
+                });
+            });
+        })
+    );
+});
+// In your badging.js, add this to listen for messages from the service worker:

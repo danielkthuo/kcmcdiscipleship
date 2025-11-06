@@ -1469,7 +1469,7 @@
         </a>
         <a href="https://script.google.com/macros/s/AKfycbxlRWkbRYLReYDEXV2A3AsYPO8vumWsv11IFIUX1b-V/exec" class="bottom-nav-item">
             <i class="fas fa-graduation-cap bottom-nav-icon"></i>
-            <span class="bottom-nav-label">Attendance</span>
+            <span class="bottom-nav-label">Attendance Register</span>
         </a>
         <a href="#features" class="bottom-nav-item">
             <i class="fas fa-star bottom-nav-icon"></i>
@@ -1477,11 +1477,11 @@
         </a>
      <a href="login.html" class="bottom-nav-item">
             <i class="fas fa-user bottom-nav-icon"></i>
-            <span class="bottom-nav-label">Learner Login</span>
+            <span class="bottom-nav-label">Learners Login</span>
         </a>
         <a href="partners/index.html" class="bottom-nav-item">
             <i class="fas fa-user bottom-nav-icon"></i>
-            <span class="bottom-nav-label">Partner Login</span>
+            <span class="bottom-nav-label">Partners Login</span>
         </a>
     </nav>
 
@@ -1929,10 +1929,22 @@
                 });
             });
         }
+        // Add this to your existing JavaScript in index.html
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('message', event => {
+        if (event.data && event.data.type === 'UPDATE_BADGE') {
+            // Update the badge when message received from service worker
+            if (window.badgingManager) {
+                window.badgingManager.setBadge(event.data.count);
+            }
+        }
+    });
+}
     </script>
     <!-- Load in this order -->
 <script src="/badging.js"></script>
 <!-- Your existing notification manager script -->
 <script src="/notification-badging-integration.js"></script>
+
 </body>
 </html>
