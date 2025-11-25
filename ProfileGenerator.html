@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kingdom Covenant Ministry - Status Creator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --white: #ffffff;
+            --royal-blue: #4169e1;
+            --dark-blue: #2a4a9e;
+            --light-blue: #e6f0ff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+            color: var(--dark-blue);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 25px;
+            background: var(--royal-blue);
+            color: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid var(--gold);
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.2) 0%, transparent 70%);
+            z-index: 0;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            color: var(--white);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            color: var(--white);
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .editor-panel {
+            flex: 1;
+            min-width: 320px;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--gold);
+        }
+        
+        .preview-panel {
+            flex: 1;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .section-title {
+            color: var(--royal-blue);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gold);
+            font-size: 1.4rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--royal-blue);
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--royal-blue);
+            box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.2);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .photo-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding: 30px;
+            border: 2px dashed var(--royal-blue);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: var(--light-blue);
+        }
+        
+        .photo-upload:hover {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.1);
+        }
+        
+        .photo-upload i {
+            font-size: 3rem;
+            color: var(--royal-blue);
+        }
+        
+        .status-preview {
+            width: 100%;
+            max-width: 500px;
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            position: relative;
+            aspect-ratio: 9/16;
+            border: 2px solid var(--gold);
+        }
+        
+        .status-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+        
+        .status-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 25px;
+            color: var(--white);
+            background: linear-gradient(to top, rgba(65, 105, 225, 0.9), transparent);
+        }
+        
+        .overlay-text {
+            margin-bottom: 10px;
+        }
+        
+        .verse-text {
+            font-style: italic;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        
+        .ministry-logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 70px;
+            height: 70px;
+            background-color: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--royal-blue);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border: 2px solid var(--white);
+        }
+        
+        .btn {
+            background-color: var(--royal-blue);
+            color: var(--white);
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--gold);
+        }
+        
+        .btn:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .btn-download {
+            background-color: var(--gold);
+            color: var(--royal-blue);
+        }
+        
+        .btn-download:hover {
+            background-color: #e6c44d;
+        }
+        
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .option-btn {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .option-btn:hover {
+            background: var(--light-blue);
+        }
+        
+        .option-btn.active {
+            background: var(--royal-blue);
+            color: var(--white);
+            border-color: var(--royal-blue);
+        }
+        
+        .color-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .color-option.active {
+            border-color: var(--royal-blue);
+            transform: scale(1.2);
+        }
+        
+        .saved-designs {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-top: 30px;
+            border: 2px solid var(--gold);
+        }
+        
+        .designs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .saved-design {
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 9/16;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            border: 1px solid var(--royal-blue);
+        }
+        
+        .saved-design img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+        
+        .design-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(65, 105, 225, 0.8);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px;
+        }
+        
+        .design-action {
+            color: var(--white);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .design-action:hover {
+            color: var(--gold);
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .editor-panel, .preview-panel {
+                width: 100%;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .templates-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .tab-container {
+            margin-top: 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--royal-blue);
+            color: var(--royal-blue);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(65, 105, 225, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: var(--white);
+            font-size: 1.2rem;
+        }
+        
+        .loading.spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .image-tips {
+            background: var(--light-blue);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid var(--gold);
+        }
+        
+        .image-tips h4 {
+            color: var(--royal-blue);
+            margin-bottom: 8px;
+        }
+        
+        .image-tips ul {
+            padding-left: 20px;
+        }
+        
+        .image-tips li {
+            margin-bottom: 5px;
+        }
+        
+        #downloadCanvas {
+            display: none;
+        }
+        
+        /* Enhanced Features CSS */
+        .upload-progress {
+            background: var(--light-blue);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--royal-blue);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .templates-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .template-card {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .template-card:hover {
+            border-color: var(--royal-blue);
+            transform: translateY(-2px);
+        }
+        
+        .template-card img {
+            width: 100%;
+            aspect-ratio: 9/16;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        .auto-save-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--royal-blue);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .toggle-switch {
+            display: inline-block;
+            position: relative;
+        }
+        
+        .toggle-label {
+            display: block;
+            width: 50px;
+            height: 24px;
+            background: #ddd;
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s;
+        }
+        
+        .toggle-label:after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+        
+        .toggle-switch input:checked + .toggle-label {
+            background: var(--royal-blue);
+        }
+        
+        .toggle-switch input:checked + .toggle-label:after {
+            transform: translateX(26px);
+        }
+        
+        input[type="range"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #ddd;
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--royal-blue);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .batch-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .sharing-options {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            z-index: 1001;
+        }
+        
+        .sharing-options.active {
+            display: block;
+        }
+        
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+        
+        .preview-container {
+            position: relative;
+        }
+        
+        .zoom-controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255,255,255,0.9);
+            padding: 8px;
+            border-radius: 6px;
+            display: flex;
+            gap: 5px;
+            z-index: 10;
+        }
+        
+        .zoom-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .loading-pulse {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        .success-check {
+            color: #28a745;
+            animation: bounce 0.6s ease-in-out;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 60%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            80% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Generating your status image...</p>
+    </div>
+    
+    <!-- Enhanced Features Elements -->
+    <div class="upload-progress hidden" id="uploadProgress">
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <span>Processing image...</span>
+    </div>
+    
+    <div class="auto-save-notification hidden" id="autoSaveNotification">
+        <i class="fas fa-check-circle"></i>
+        Design auto-saved
+    </div>
+    
+    <div class="overlay hidden" id="overlay"></div>
+    <div class="sharing-options hidden" id="sharingOptions">
+        <h3>Share Your Design</h3>
+        <div class="actions">
+            <button class="btn" id="shareWhatsApp">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </button>
+            <button class="btn" id="shareFacebook">
+                <i class="fab fa-facebook"></i> Facebook
+            </button>
+            <button class="btn" id="closeSharing">
+                <i class="fas fa-times"></i> Close
+            </button>
+        </div>
+    </div>
+    
+    <!-- Hidden canvas for download -->
+    <canvas id="downloadCanvas" width="1080" height="1440"></canvas>
+    
+    <div class="container">
+        <header>
+            <h1>Kingdom Covenant Ministry</h1>
+            <p class="subtitle">WhatsApp Status Creator</p>
+        </header>
+        
+        <div class="content">
+            <section class="editor-panel">
+                <h2 class="section-title">Create Your Status</h2>
+                
+                <div class="tabs">
+                    <div class="tab active" data-tab="design">Design</div>
+                    <div class="tab" data-tab="content">Content</div>
+                    <div class="tab" data-tab="style">Style</div>
+                </div>
+                
+                <div class="tab-content active" id="design-tab">
+                    <div class="form-group">
+                        <label>Upload Photo</label>
+                        <div class="photo-upload" id="photoUpload">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click to upload a photo for your status</p>
+                            <p class="small">Recommended: Portrait orientation (9:16)</p>
+                            <input type="file" id="photoInput" accept="image/*" class="hidden">
+                        </div>
+                        
+                        <div class="image-tips">
+                            <h4>Tips for Best Results:</h4>
+                            <ul>
+                                <li>Use portrait-oriented photos (taller than wide)</li>
+                                <li>Ensure faces are in the top half of the image</li>
+                                <li>Avoid extreme close-ups of faces</li>
+                                <li>Use high-quality images for best results</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Photo Filters</label>
+                        <div class="options-grid">
+                            <div class="option-btn active" data-filter="none">
+                                <i class="fas fa-image"></i>
+                                <span>Original</span>
+                            </div>
+                            <div class="option-btn" data-filter="brighten">
+                                <i class="fas fa-sun"></i>
+                                <span>Brighten</span>
+                            </div>
+                            <div class="option-btn" data-filter="warm">
+                                <i class="fas fa-fire"></i>
+                                <span>Warm</span>
+                            </div>
+                            <div class="option-btn" data-filter="vintage">
+                                <i class="fas fa-camera-retro"></i>
+                                <span>Vintage</span>
+                            </div>
+                            <div class="option-btn" data-filter="bw">
+                                <i class="fas fa-moon"></i>
+                                <span>B&W</span>
+                            </div>
+                            <div class="option-btn" data-filter="sepia">
+                                <i class="fas fa-seedling"></i>
+                                <span>Sepia</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Templates Section -->
+                    <div class="templates-section">
+                        <h4>Quick Templates</h4>
+                        <div class="templates-grid">
+                            <div class="template-card" data-template="worship">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='267' viewBox='0 0 150 267'%3E%3Crect width='150' height='267' fill='%234169e1'/%3E%3Ctext x='75' y='130' font-family='Arial' font-size='14' text-anchor='middle' fill='white'%3EWorship%3C/text%3E%3C/svg%3E" alt="Worship Template">
+                                <span>Worship</span>
+                            </div>
+                            <div class="template-card" data-template="scripture">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='267' viewBox='0 0 150 267'%3E%3Crect width='150' height='267' fill='%232a4a9e'/%3E%3Ctext x='75' y='130' font-family='Arial' font-size='14' text-anchor='middle' fill='white'%3EScripture%3C/text%3E%3C/svg%3E" alt="Scripture Template">
+                                <span>Scripture</span>
+                            </div>
+                            <div class="template-card" data-template="testimony">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='267' viewBox='0 0 150 267'%3E%3Crect width='150' height='267' fill='%23d4af37'/%3E%3Ctext x='75' y='130' font-family='Arial' font-size='14' text-anchor='middle' fill='white'%3ETestimony%3C/text%3E%3C/svg%3E" alt="Testimony Template">
+                                <span>Testimony</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="content-tab">
+                    <div class="form-group">
+                        <label for="statusTitle">Status Title</label>
+                        <input type="text" id="statusTitle" placeholder="Enter a title for your status" value="Growing in Faith">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="statusText">Status Message</label>
+                        <textarea id="statusText" placeholder="Enter your message">Serving with love, growing in faith, sharing God's grace</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bibleVerse">Bible Verse</label>
+                        <textarea id="bibleVerse" placeholder="Enter a Bible verse">I can do all things through Christ who strengthens me</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="verseReference">Verse Reference</label>
+                        <input type="text" id="verseReference" placeholder="Book Chapter:Verse" value="Philippians 4:13">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Verse of the Day</label>
+                        <button class="btn btn-small" id="randomVerse">
+                            <i class="fas fa-bible"></i> Get Random Verse
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="style-tab">
+                    <div class="form-group">
+                        <label>Overlay Style</label>
+                        <div class="options-grid">
+                            <div class="option-btn active" data-overlay="gradient">
+                                <i class="fas fa-sliders-h"></i>
+                                <span>Gradient</span>
+                            </div>
+                            <div class="option-btn" data-overlay="solid">
+                                <i class="fas fa-square"></i>
+                                <span>Solid</span>
+                            </div>
+                            <div class="option-btn" data-overlay="minimal">
+                                <i class="fas fa-minus"></i>
+                                <span>Minimal</span>
+                            </div>
+                            <div class="option-btn" data-overlay="bordered">
+                                <i class="fas fa-border-all"></i>
+                                <span>Bordered</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Text Color</label>
+                        <div class="color-options">
+                            <div class="color-option active" style="background: white;" data-color="white"></div>
+                            <div class="color-option" style="background: #d4af37;" data-color="#d4af37"></div>
+                            <div class="color-option" style="background: #f8f9fa;" data-color="#f8f9fa"></div>
+                            <div class="color-option" style="background: #4169e1;" data-color="#4169e1"></div>
+                            <div class="color-option" style="background: #2a4a9e;" data-color="#2a4a9e"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Font Style</label>
+                        <select id="fontStyle">
+                            <option value="Arial, sans-serif">Arial</option>
+                            <option value="'Times New Roman', serif">Times New Roman</option>
+                            <option value="'Georgia', serif">Georgia</option>
+                            <option value="'Palatino Linotype', serif">Palatino</option>
+                            <option value="'Gill Sans', sans-serif">Gill Sans</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Enhanced Style Options -->
+                    <div class="form-group">
+                        <label>Text Shadow</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="textShadow" class="hidden">
+                            <label for="textShadow" class="toggle-label">
+                                <span class="toggle-handle"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Background Blur: <span id="blurValue">0px</span></label>
+                        <input type="range" id="backgroundBlur" min="0" max="10" value="0">
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button class="btn" id="generateBtn">
+                        <i class="fas fa-sync-alt"></i> Update Preview
+                    </button>
+                    <button class="btn" id="saveDesignBtn">
+                        <i class="fas fa-save"></i> Save Design
+                    </button>
+                </div>
+                
+                <!-- Batch Actions -->
+                <div class="batch-actions">
+                    <button class="btn btn-small" id="downloadAllBtn">
+                        <i class="fas fa-download"></i> Download All Saved
+                    </button>
+                    <button class="btn btn-small" id="clearAllBtn">
+                        <i class="fas fa-trash"></i> Clear All Saved
+                    </button>
+                </div>
+            </section>
+            
+            <section class="preview-panel">
+                <h2 class="section-title">Status Preview</h2>
+                
+                <div class="preview-container">
+                    <div class="status-preview" id="statusPreview">
+                        <img id="previewImage" class="status-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='889' viewBox='0 0 500 889'%3E%3Crect width='500' height='889' fill='%234169e1'/%3E%3Ccircle cx='250' cy='200' r='80' fill='%23d4af37'/%3E%3Crect x='150' y='320' width='200' height='20' fill='%23d4af37'/%3E%3Crect x='180' y='370' width='140' height='15' fill='white'/%3E%3Crect x='160' y='410' width='180' height='15' fill='white'/%3E%3Ctext x='250' y='500' font-family='Arial' font-size='24' text-anchor='middle' fill='white'%3EKingdom Covenant Ministry%3C/text%3E%3C/svg%3E" alt="Status Preview">
+                        <div class="status-overlay" id="statusOverlay">
+                            <h3 class="overlay-text" id="previewTitle">Growing in Faith</h3>
+                            <p class="overlay-text" id="previewText">Serving with love, growing in faith, sharing God's grace</p>
+                            <p class="verse-text" id="previewVerse">"I can do all things through Christ who strengthens me" - Philippians 4:13</p>
+                        </div>
+                        <div class="ministry-logo">KCMC</div>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button class="btn btn-download" id="downloadBtn">
+                        <i class="fas fa-download"></i> Download Status
+                    </button>
+                    <button class="btn" id="shareBtn">
+                        <i class="fas fa-share-alt"></i> Share Options
+                    </button>
+                </div>
+                
+                <div class="image-tips">
+                    <h4>Download Information:</h4>
+                    <ul>
+                        <li>Downloaded image size: 1080x1440 pixels (3:4 ratio)</li>
+                        <li>Includes all text content: title, message, and Bible verse</li>
+                        <li>Optimized for WhatsApp status without distortion</li>
+                        <li>Faces are preserved by focusing on top portion of image</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+        
+        <section class="saved-designs">
+            <h2 class="section-title">Saved Designs</h2>
+            <p>Your previously saved designs will appear here</p>
+            <div class="designs-grid" id="savedDesignsGrid">
+                <!-- Saved designs will be added here dynamically -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const photoUpload = document.getElementById('photoUpload');
+            const photoInput = document.getElementById('photoInput');
+            const previewImage = document.getElementById('previewImage');
+            const generateBtn = document.getElementById('generateBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const shareBtn = document.getElementById('shareBtn');
+            const saveDesignBtn = document.getElementById('saveDesignBtn');
+            const statusOverlay = document.getElementById('statusOverlay');
+            const statusPreview = document.getElementById('statusPreview');
+            const loading = document.getElementById('loading');
+            const downloadCanvas = document.getElementById('downloadCanvas');
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            // Enhanced Features Elements
+            const uploadProgress = document.getElementById('uploadProgress');
+            const autoSaveNotification = document.getElementById('autoSaveNotification');
+            const randomVerseBtn = document.getElementById('randomVerse');
+            const textShadowToggle = document.getElementById('textShadow');
+            const backgroundBlur = document.getElementById('backgroundBlur');
+            const blurValue = document.getElementById('blurValue');
+            const downloadAllBtn = document.getElementById('downloadAllBtn');
+            const clearAllBtn = document.getElementById('clearAllBtn');
+            const sharingOptions = document.getElementById('sharingOptions');
+            const overlay = document.getElementById('overlay');
+            
+            // Content elements
+            const statusTitle = document.getElementById('statusTitle');
+            const statusText = document.getElementById('statusText');
+            const bibleVerse = document.getElementById('bibleVerse');
+            const verseReference = document.getElementById('verseReference');
+            const fontStyle = document.getElementById('fontStyle');
+            
+            // Preview elements
+            const previewTitle = document.getElementById('previewTitle');
+            const previewText = document.getElementById('previewText');
+            const previewVerse = document.getElementById('previewVerse');
+            
+            // Current settings
+            let currentFilter = 'none';
+            let currentOverlay = 'gradient';
+            let currentTextColor = 'white';
+            let savedDesigns = JSON.parse(localStorage.getItem('savedDesigns')) || [];
+            
+            // Initialize
+            renderSavedDesigns();
+            initEnhancedFeatures();
+            
+            // Enhanced Features Initialization
+            function initEnhancedFeatures() {
+                setupAutoSave();
+                setupTemplates();
+                
+                // Random verse button
+                randomVerseBtn.addEventListener('click', getRandomVerse);
+                
+                // Text shadow effect
+                textShadowToggle.addEventListener('change', function() {
+                    statusOverlay.style.textShadow = this.checked ? '2px 2px 4px rgba(0,0,0,0.5)' : 'none';
+                });
+                
+                // Background blur
+                backgroundBlur.addEventListener('input', function() {
+                    const blurAmount = `${this.value}px`;
+                    blurValue.textContent = blurAmount;
+                    previewImage.style.filter = `blur(${blurAmount}) ${previewImage.style.filter.replace(/blur\([^)]+\)/, '').trim()}`;
+                });
+                
+                // Batch download
+                downloadAllBtn.addEventListener('click', function() {
+                    if (savedDesigns.length === 0) {
+                        alert('No saved designs to download.');
+                        return;
+                    }
+                    
+                    if (confirm(`Download all ${savedDesigns.length} saved designs?`)) {
+                        savedDesigns.forEach((design, index) => {
+                            setTimeout(() => {
+                                const link = document.createElement('a');
+                                link.href = design.image;
+                                link.download = `kcm-status-${design.id}.png`;
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                            }, index * 500);
+                        });
+                    }
+                });
+                
+                // Clear all designs
+                clearAllBtn.addEventListener('click', function() {
+                    if (savedDesigns.length === 0) {
+                        alert('No saved designs to clear.');
+                        return;
+                    }
+                    
+                    if (confirm('Are you sure you want to delete all saved designs?')) {
+                        savedDesigns = [];
+                        localStorage.setItem('savedDesigns', JSON.stringify(savedDesigns));
+                        renderSavedDesigns();
+                        alert('All designs cleared successfully.');
+                    }
+                });
+                
+                // Enhanced sharing options
+                shareBtn.addEventListener('click', function() {
+                    sharingOptions.classList.add('active');
+                    overlay.classList.add('active');
+                });
+                
+                document.getElementById('closeSharing').addEventListener('click', function() {
+                    sharingOptions.classList.remove('active');
+                    overlay.classList.remove('active');
+                });
+                
+                overlay.addEventListener('click', function() {
+                    sharingOptions.classList.remove('active');
+                    overlay.classList.remove('active');
+                });
+            }
+            
+            // Auto-save functionality
+            let autoSaveTimeout;
+            function setupAutoSave() {
+                const inputs = document.querySelectorAll('input, textarea, select');
+                inputs.forEach(input => {
+                    input.addEventListener('input', () => {
+                        clearTimeout(autoSaveTimeout);
+                        autoSaveTimeout = setTimeout(() => {
+                            saveDesignBtn.click();
+                            showAutoSaveNotification();
+                        }, 2000);
+                    });
+                });
+            }
+            
+            function showAutoSaveNotification() {
+                autoSaveNotification.classList.remove('hidden');
+                setTimeout(() => {
+                    autoSaveNotification.classList.add('hidden');
+                }, 3000);
+            }
+            
+            // Quick templates
+            function setupTemplates() {
+                const templates = {
+                    worship: {
+                        title: "Praise the Lord",
+                        text: "Entering His courts with praise",
+                        verse: "Let everything that has breath praise the Lord",
+                        reference: "Psalm 150:6"
+                    },
+                    scripture: {
+                        title: "God's Word",
+                        text: "Meditating on His promises",
+                        verse: "Your word is a lamp to my feet and a light to my path",
+                        reference: "Psalm 119:105"
+                    },
+                    testimony: {
+                        title: "My Testimony",
+                        text: "Sharing what God has done",
+                        verse: "They triumphed by the blood of the Lamb and by the word of their testimony",
+                        reference: "Revelation 12:11"
+                    }
+                };
+
+                document.querySelectorAll('.template-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const template = this.getAttribute('data-template');
+                        const data = templates[template];
+                        
+                        statusTitle.value = data.title;
+                        statusText.value = data.text;
+                        bibleVerse.value = data.verse;
+                        verseReference.value = data.reference;
+                        
+                        generateBtn.click();
+                        
+                        // Show success feedback
+                        this.classList.add('success-check');
+                        setTimeout(() => this.classList.remove('success-check'), 2000);
+                    });
+                });
+            }
+            
+            // Random Bible verses
+            const bibleVerses = [
+                { verse: "For I know the plans I have for you, declares the Lord", reference: "Jeremiah 29:11" },
+                { verse: "I can do all things through Christ who strengthens me", reference: "Philippians 4:13" },
+                { verse: "The Lord is my shepherd, I lack nothing", reference: "Psalm 23:1" },
+                { verse: "Be still, and know that I am God", reference: "Psalm 46:10" },
+                { verse: "Trust in the Lord with all your heart", reference: "Proverbs 3:5" }
+            ];
+
+            function getRandomVerse() {
+                const randomIndex = Math.floor(Math.random() * bibleVerses.length);
+                const verse = bibleVerses[randomIndex];
+                bibleVerse.value = verse.verse;
+                verseReference.value = verse.reference;
+                generateBtn.click();
+            }
+            
+            // Tab functionality
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Show active tab content
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === `${tabId}-tab`) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // Enhanced Photo upload with progress
+            photoUpload.addEventListener('click', () => photoInput.click());
+            
+            photoInput.addEventListener('change', async function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    uploadProgress.classList.remove('hidden');
+                    
+                    try {
+                        const optimizedImage = await optimizeImage(e.target.files[0]);
+                        previewImage.src = optimizedImage;
+                        applyFilter(currentFilter);
+                    } catch (error) {
+                        console.error('Error optimizing image:', error);
+                        // Fallback to regular upload
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            previewImage.src = e.target.result;
+                            applyFilter(currentFilter);
+                        };
+                        reader.readAsDataURL(e.target.files[0]);
+                    } finally {
+                        uploadProgress.classList.add('hidden');
+                    }
+                }
+            });
+            
+            // Image optimization
+            function optimizeImage(file, maxSize = 2000) {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    img.onload = function() {
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        if (width > maxSize || height > maxSize) {
+                            if (width > height) {
+                                height = (height * maxSize) / width;
+                                width = maxSize;
+                            } else {
+                                width = (width * maxSize) / height;
+                                height = maxSize;
+                            }
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.8));
+                    };
+                    
+                    img.src = URL.createObjectURL(file);
+                });
+            }
+            
+            // Filter selection
+            document.querySelectorAll('.option-btn[data-filter]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.option-btn[data-filter]').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.getAttribute('data-filter');
+                    applyFilter(currentFilter);
+                });
+            });
+            
+            // Overlay selection
+            document.querySelectorAll('.option-btn[data-overlay]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.option-btn[data-overlay]').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentOverlay = this.getAttribute('data-overlay');
+                    applyOverlay(currentOverlay);
+                });
+            });
+            
+            // Color selection
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
+                    this.classList.add('active');
+                    currentTextColor = this.getAttribute('data-color');
+                    updateTextColor();
+                });
+            });
+            
+            // Apply filter to image
+            function applyFilter(filter) {
+                // Reset filter first
+                let currentBlur = backgroundBlur.value > 0 ? `blur(${backgroundBlur.value}px)` : '';
+                previewImage.style.filter = currentBlur;
+                
+                switch(filter) {
+                    case 'brighten':
+                        previewImage.style.filter += ' brightness(1.2) contrast(1.1) saturate(1.1)';
+                        break;
+                    case 'warm':
+                        previewImage.style.filter += ' sepia(0.3) brightness(1.1) hue-rotate(-10deg)';
+                        break;
+                    case 'vintage':
+                        previewImage.style.filter += ' sepia(0.5) contrast(1.2) saturate(0.8)';
+                        break;
+                    case 'bw':
+                        previewImage.style.filter += ' grayscale(1) contrast(1.2)';
+                        break;
+                    case 'sepia':
+                        previewImage.style.filter += ' sepia(1)';
+                        break;
+                    default:
+                        // No additional filter
+                        break;
+                }
+            }
+            
+            // Apply overlay style
+            function applyOverlay(overlay) {
+                statusOverlay.style.background = '';
+                statusOverlay.style.padding = '25px';
+                statusOverlay.style.border = 'none';
+                
+                switch(overlay) {
+                    case 'gradient':
+                        statusOverlay.style.background = 'linear-gradient(to top, rgba(65, 105, 225, 0.9), transparent)';
+                        break;
+                    case 'solid':
+                        statusOverlay.style.background = 'rgba(65, 105, 225, 0.85)';
+                        break;
+                    case 'minimal':
+                        statusOverlay.style.background = 'rgba(65, 105, 225, 0.7)';
+                        statusOverlay.style.padding = '15px';
+                        break;
+                    case 'bordered':
+                        statusOverlay.style.background = 'rgba(65, 105, 225, 0.8)';
+                        statusOverlay.style.borderTop = '4px solid var(--gold)';
+                        break;
+                }
+            }
+            
+            // Update text color
+            function updateTextColor() {
+                statusOverlay.style.color = currentTextColor;
+            }
+            
+            // Update font style
+            fontStyle.addEventListener('change', function() {
+                statusOverlay.style.fontFamily = this.value;
+            });
+            
+            // Generate preview
+            generateBtn.addEventListener('click', function() {
+                previewTitle.textContent = statusTitle.value;
+                previewText.textContent = statusText.value;
+                
+                // Format verse with reference
+                if (bibleVerse.value && verseReference.value) {
+                    previewVerse.textContent = `"${bibleVerse.value}" - ${verseReference.value}`;
+                } else if (bibleVerse.value) {
+                    previewVerse.textContent = `"${bibleVerse.value}"`;
+                } else {
+                    previewVerse.textContent = '';
+                }
+                
+                applyFilter(currentFilter);
+                applyOverlay(currentOverlay);
+                updateTextColor();
+            });
+            
+            // Save design
+            saveDesignBtn.addEventListener('click', function() {
+                const design = {
+                    id: Date.now(),
+                    title: statusTitle.value,
+                    text: statusText.value,
+                    verse: bibleVerse.value,
+                    reference: verseReference.value,
+                    filter: currentFilter,
+                    overlay: currentOverlay,
+                    color: currentTextColor,
+                    font: fontStyle.value,
+                    image: previewImage.src,
+                    timestamp: new Date().toLocaleString()
+                };
+                
+                savedDesigns.push(design);
+                localStorage.setItem('savedDesigns', JSON.stringify(savedDesigns));
+                renderSavedDesigns();
+                
+                // Show success message
+                alert('Design saved successfully!');
+            });
+            
+            // Render saved designs
+            function renderSavedDesigns() {
+                const grid = document.getElementById('savedDesignsGrid');
+                grid.innerHTML = '';
+                
+                if (savedDesigns.length === 0) {
+                    grid.innerHTML = '<p>No saved designs yet. Create and save your first design!</p>';
+                    return;
+                }
+                
+                savedDesigns.forEach(design => {
+                    const designEl = document.createElement('div');
+                    designEl.className = 'saved-design';
+                    
+                    designEl.innerHTML = `
+                        <img src="${design.image}" alt="Saved Design">
+                        <div class="design-actions">
+                            <span class="design-action load-design" data-id="${design.id}">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                            <span class="design-action download-design" data-id="${design.id}">
+                                <i class="fas fa-download"></i>
+                            </span>
+                            <span class="design-action delete-design" data-id="${design.id}">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                        </div>
+                    `;
+                    
+                    grid.appendChild(designEl);
+                });
+                
+                // Add event listeners to design actions
+                document.querySelectorAll('.load-design').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = parseInt(this.getAttribute('data-id'));
+                        loadDesign(id);
+                    });
+                });
+                
+                document.querySelectorAll('.download-design').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = parseInt(this.getAttribute('data-id'));
+                        downloadSavedDesign(id);
+                    });
+                });
+                
+                document.querySelectorAll('.delete-design').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = parseInt(this.getAttribute('data-id'));
+                        deleteDesign(id);
+                    });
+                });
+            }
+            
+            // Load a saved design
+            function loadDesign(id) {
+                const design = savedDesigns.find(d => d.id === id);
+                if (!design) return;
+                
+                statusTitle.value = design.title;
+                statusText.value = design.text;
+                bibleVerse.value = design.verse;
+                verseReference.value = design.reference;
+                fontStyle.value = design.font;
+                previewImage.src = design.image;
+                
+                // Update active filter
+                document.querySelectorAll('.option-btn[data-filter]').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-filter') === design.filter) {
+                        btn.classList.add('active');
+                    }
+                });
+                currentFilter = design.filter;
+                
+                // Update active overlay
+                document.querySelectorAll('.option-btn[data-overlay]').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-overlay') === design.overlay) {
+                        btn.classList.add('active');
+                    }
+                });
+                currentOverlay = design.overlay;
+                
+                // Update active color
+                document.querySelectorAll('.color-option').forEach(option => {
+                    option.classList.remove('active');
+                    if (option.getAttribute('data-color') === design.color) {
+                        option.classList.add('active');
+                    }
+                });
+                currentTextColor = design.color;
+                
+                // Update enhanced features
+                textShadowToggle.checked = statusOverlay.style.textShadow !== 'none';
+                backgroundBlur.value = 0;
+                blurValue.textContent = '0px';
+                
+                // Apply all settings
+                generateBtn.click();
+                
+                alert('Design loaded successfully!');
+            }
+            
+            // Download current design as image with all content
+            downloadBtn.addEventListener('click', function() {
+                // Show loading indicator
+                loading.style.display = 'flex';
+                
+                // Create a new image to ensure it's loaded
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                
+                img.onload = function() {
+                    try {
+                        const ctx = downloadCanvas.getContext('2d');
+                        
+                        // Clear canvas
+                        ctx.clearRect(0, 0, downloadCanvas.width, downloadCanvas.height);
+                        
+                        // Draw background image (focus on top portion to preserve faces)
+                        const sourceAspect = img.width / img.height;
+                        const canvasAspect = downloadCanvas.width / downloadCanvas.height;
+                        
+                        let drawWidth, drawHeight, offsetX = 0, offsetY = 0;
+                        
+                        if (sourceAspect > canvasAspect) {
+                            // Image is wider than canvas - crop sides
+                            drawHeight = img.height;
+                            drawWidth = img.height * canvasAspect;
+                            offsetX = (img.width - drawWidth) / 2;
+                        } else {
+                            // Image is taller than canvas - focus on top
+                            drawWidth = img.width;
+                            drawHeight = img.width / canvasAspect;
+                            offsetY = 0; // Focus on top to preserve faces
+                        }
+                        
+                        ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight, 0, 0, downloadCanvas.width, downloadCanvas.height);
+                        
+                        // Apply filter
+                        applyCanvasFilter(ctx, currentFilter);
+                        
+                        // Draw overlay
+                        drawCanvasOverlay(ctx, currentOverlay);
+                        
+                        // Draw text content
+                        drawCanvasText(ctx);
+                        
+                        // Draw ministry logo
+                        drawCanvasLogo(ctx);
+                        
+                        // Convert to image and download
+                        const imageData = downloadCanvas.toDataURL('image/png');
+                        const link = document.createElement('a');
+                        link.href = imageData;
+                        link.download = 'kcm-status.png';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        
+                        // Hide loading indicator
+                        loading.style.display = 'none';
+                    } catch (error) {
+                        console.error('Error generating image:', error);
+                        alert('Error generating image. Please try again.');
+                        loading.style.display = 'none';
+                    }
+                };
+                
+                img.onerror = function() {
+                    alert('Error loading image. Please try with a different image.');
+                    loading.style.display = 'none';
+                };
+                
+                img.src = previewImage.src;
+            });
+            
+            // Apply filter to canvas
+            function applyCanvasFilter(ctx, filter) {
+                const imageData = ctx.getImageData(0, 0, downloadCanvas.width, downloadCanvas.height);
+                const data = imageData.data;
+                
+                switch(filter) {
+                    case 'brighten':
+                        for (let i = 0; i < data.length; i += 4) {
+                            data[i] = Math.min(255, data[i] * 1.2);     // Red
+                            data[i + 1] = Math.min(255, data[i + 1] * 1.2); // Green
+                            data[i + 2] = Math.min(255, data[i + 2] * 1.2); // Blue
+                        }
+                        break;
+                    case 'warm':
+                        for (let i = 0; i < data.length; i += 4) {
+                            data[i] = Math.min(255, data[i] * 1.1);     // Red
+                            data[i + 2] = Math.min(255, data[i + 2] * 0.9); // Blue
+                        }
+                        break;
+                    case 'sepia':
+                        for (let i = 0; i < data.length; i += 4) {
+                            const r = data[i];
+                            const g = data[i + 1];
+                            const b = data[i + 2];
+                            data[i] = Math.min(255, (r * 0.393) + (g * 0.769) + (b * 0.189));
+                            data[i + 1] = Math.min(255, (r * 0.349) + (g * 0.686) + (b * 0.168));
+                            data[i + 2] = Math.min(255, (r * 0.272) + (g * 0.534) + (b * 0.131));
+                        }
+                        break;
+                    case 'bw':
+                        for (let i = 0; i < data.length; i += 4) {
+                            const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                            data[i] = avg;
+                            data[i + 1] = avg;
+                            data[i + 2] = avg;
+                        }
+                        break;
+                }
+                
+                if (filter !== 'none') {
+                    ctx.putImageData(imageData, 0, 0);
+                }
+            }
+            
+            // Draw overlay on canvas
+            function drawCanvasOverlay(ctx, overlay) {
+                switch(overlay) {
+                    case 'gradient':
+                        const gradient = ctx.createLinearGradient(0, downloadCanvas.height, 0, downloadCanvas.height * 0.4);
+                        gradient.addColorStop(0, 'rgba(65, 105, 225, 0.9)');
+                        gradient.addColorStop(1, 'transparent');
+                        ctx.fillStyle = gradient;
+                        ctx.fillRect(0, downloadCanvas.height * 0.4, downloadCanvas.width, downloadCanvas.height * 0.6);
+                        break;
+                    case 'solid':
+                        ctx.fillStyle = 'rgba(65, 105, 225, 0.85)';
+                        ctx.fillRect(0, downloadCanvas.height * 0.6, downloadCanvas.width, downloadCanvas.height * 0.4);
+                        break;
+                    case 'minimal':
+                        ctx.fillStyle = 'rgba(65, 105, 225, 0.7)';
+                        ctx.fillRect(0, downloadCanvas.height * 0.7, downloadCanvas.width, downloadCanvas.height * 0.3);
+                        break;
+                    case 'bordered':
+                        ctx.fillStyle = 'rgba(65, 105, 225, 0.8)';
+                        ctx.fillRect(0, downloadCanvas.height * 0.6, downloadCanvas.width, downloadCanvas.height * 0.4);
+                        ctx.fillStyle = '#d4af37';
+                        ctx.fillRect(0, downloadCanvas.height * 0.6, downloadCanvas.width, 8);
+                        break;
+                }
+            }
+            
+            // Draw text on canvas
+            function drawCanvasText(ctx) {
+                ctx.fillStyle = currentTextColor;
+                ctx.textAlign = 'left';
+                ctx.font = fontStyle.value;
+                
+                // Apply text shadow if enabled
+                if (textShadowToggle.checked) {
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+                    ctx.shadowBlur = 4;
+                    ctx.shadowOffsetX = 2;
+                    ctx.shadowOffsetY = 2;
+                } else {
+                    ctx.shadowColor = 'transparent';
+                    ctx.shadowBlur = 0;
+                    ctx.shadowOffsetX = 0;
+                    ctx.shadowOffsetY = 0;
+                }
+                
+                // Title
+                ctx.font = 'bold 48px ' + fontStyle.value;
+                ctx.fillText(previewTitle.textContent, 60, downloadCanvas.height - 320);
+                
+                // Message
+                ctx.font = '28px ' + fontStyle.value;
+                wrapCanvasText(ctx, previewText.textContent, 60, downloadCanvas.height - 260, downloadCanvas.width - 120, 32);
+                
+                // Verse
+                ctx.font = 'italic 24px ' + fontStyle.value;
+                wrapCanvasText(ctx, previewVerse.textContent, 60, downloadCanvas.height - 160, downloadCanvas.width - 120, 28);
+                
+                // Reset shadow
+                ctx.shadowColor = 'transparent';
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+            }
+            
+            // Wrap text for canvas
+            function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight) {
+                const words = text.split(' ');
+                let line = '';
+                let testLine = '';
+                
+                for(let n = 0; n < words.length; n++) {
+                    testLine = line + words[n] + ' ';
+                    const metrics = ctx.measureText(testLine);
+                    const testWidth = metrics.width;
+                    
+                    if (testWidth > maxWidth && n > 0) {
+                        ctx.fillText(line, x, y);
+                        line = words[n] + ' ';
+                        y += lineHeight;
+                    } else {
+                        line = testLine;
+                    }
+                }
+                ctx.fillText(line, x, y);
+            }
+            
+            // Draw logo on canvas
+            function drawCanvasLogo(ctx) {
+                ctx.fillStyle = '#d4af37';
+                ctx.beginPath();
+                ctx.arc(downloadCanvas.width - 100, 100, 50, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = '#4169e1';
+                ctx.font = 'bold 20px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('KCM', downloadCanvas.width - 100, 100);
+            }
+            
+            // Download a saved design
+            function downloadSavedDesign(id) {
+                const design = savedDesigns.find(d => d.id === id);
+                if (!design) return;
+                
+                // For saved designs, we'll use a simpler approach
+                const link = document.createElement('a');
+                link.href = design.image;
+                link.download = `kcm-status-${design.id}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            
+            // Delete a saved design
+            function deleteDesign(id) {
+                if (confirm('Are you sure you want to delete this design?')) {
+                    savedDesigns = savedDesigns.filter(d => d.id !== id);
+                    localStorage.setItem('savedDesigns', JSON.stringify(savedDesigns));
+                    renderSavedDesigns();
+                }
+            }
+            
+            // Initialize with default values
+            generateBtn.click();
+        });
+    </script>
+</body>
+</html>
