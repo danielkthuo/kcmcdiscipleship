@@ -1070,7 +1070,7 @@
                             setTimeout(() => {
                                 const link = document.createElement('a');
                                 link.href = design.image;
-                                link.download = `kcm-status-${design.id}.png`;
+                                link.download = `kcmc-status-${design.id}.png`;
                                 document.body.appendChild(link);
                                 link.click();
                                 document.body.removeChild(link);
@@ -1560,7 +1560,7 @@
                         const imageData = downloadCanvas.toDataURL('image/png');
                         const link = document.createElement('a');
                         link.href = imageData;
-                        link.download = 'kcm-status.png';
+                        link.download = 'kcmc-status.png';
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
@@ -1724,7 +1724,7 @@
                 ctx.font = 'bold 20px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillText('KCM', downloadCanvas.width - 100, 100);
+                ctx.fillText('KCMC', downloadCanvas.width - 100, 100);
             }
             
             // Download a saved design
@@ -1735,7 +1735,7 @@
                 // For saved designs, we'll use a simpler approach
                 const link = document.createElement('a');
                 link.href = design.image;
-                link.download = `kcm-status-${design.id}.png`;
+                link.download = `kcmc-status-${design.id}.png`;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
