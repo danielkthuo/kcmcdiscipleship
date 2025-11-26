@@ -548,21 +548,6 @@
             border-radius: 4px;
         }
         
-        .auto-save-notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--royal-blue);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
         .toggle-switch {
             display: inline-block;
             position: relative;
@@ -718,11 +703,6 @@
             <div class="progress-fill"></div>
         </div>
         <span>Processing image...</span>
-    </div>
-    
-    <div class="auto-save-notification hidden" id="autoSaveNotification">
-        <i class="fas fa-check-circle"></i>
-        Design auto-saved
     </div>
     
     <div class="overlay hidden" id="overlay"></div>
@@ -1006,7 +986,6 @@
             
             // Enhanced Features Elements
             const uploadProgress = document.getElementById('uploadProgress');
-            const autoSaveNotification = document.getElementById('autoSaveNotification');
             const randomVerseBtn = document.getElementById('randomVerse');
             const textShadowToggle = document.getElementById('textShadow');
             const backgroundBlur = document.getElementById('backgroundBlur');
@@ -1040,7 +1019,6 @@
             
             // Enhanced Features Initialization
             function initEnhancedFeatures() {
-                setupAutoSave();
                 setupTemplates();
                 
                 // Random verse button
@@ -1109,28 +1087,6 @@
                     sharingOptions.classList.remove('active');
                     overlay.classList.remove('active');
                 });
-            }
-            
-            // Auto-save functionality
-            let autoSaveTimeout;
-            function setupAutoSave() {
-                const inputs = document.querySelectorAll('input, textarea, select');
-                inputs.forEach(input => {
-                    input.addEventListener('input', () => {
-                        clearTimeout(autoSaveTimeout);
-                        autoSaveTimeout = setTimeout(() => {
-                            saveDesignBtn.click();
-                            showAutoSaveNotification();
-                        }, 2000);
-                    });
-                });
-            }
-            
-            function showAutoSaveNotification() {
-                autoSaveNotification.classList.remove('hidden');
-                setTimeout(() => {
-                    autoSaveNotification.classList.add('hidden');
-                }, 3000);
             }
             
             // Quick templates
