@@ -157,6 +157,25 @@
             background: linear-gradient(135deg, #ff6b35, #f7931e);
         }
 
+        .btn-edit {
+            background: #f39c12;
+        }
+
+        .btn-delete {
+            background: #e74c3c;
+        }
+
+        .btn-cancel {
+            background: #95a5a6;
+        }
+
+        .action-btn {
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            margin: 0 2px;
+        }
+
         /* Main Content */
         main {
             padding: 12px 0;
@@ -328,6 +347,7 @@
         .contributions-table td {
             padding: 10px 12px;
             border-bottom: 1px solid #eee;
+            vertical-align: middle;
         }
 
         .contributions-table tr:last-child td {
@@ -344,9 +364,66 @@
             text-align: right;
         }
 
+        .actions-cell {
+            text-align: center;
+            width: 100px;
+        }
+
         .table-responsive {
             overflow-x: auto;
             margin-top: 0.8rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--dark);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 1.5rem;
+            justify-content: flex-end;
         }
 
         /* Responsive */
@@ -454,12 +531,15 @@
 
             <!-- Admin Contribution Form -->
             <section class="card admin-section" id="adminContributionForm" style="display: none;">
-                <h3><i class="fas fa-plus-circle card-icon"></i> Add New Contribution</h3>
+                <h3><i class="fas fa-plus-circle card-icon"></i> <span id="formTitle">Add New Contribution</span></h3>
                 <form id="contributionForm">
+                    <input type="hidden" id="editContributionId" value="">
                     <div class="grid grid-2">
                         <div class="form-group">
                             <label for="partnerEmail">Partner Email</label>
-                            <input type="email" id="partnerEmail" class="form-control" placeholder="Enter partner email" required>
+                            <select id="partnerEmail" class="form-control" required>
+                                <option value="">Select Partner Email</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="contributionAmount">Amount (Ksh)</label>
@@ -497,8 +577,11 @@
                         <textarea id="contributionNotes" class="form-control" rows="2" placeholder="Any additional notes about this contribution..."></textarea>
                     </div>
                     <div style="display: flex; gap: 0.6rem; flex-direction: column;">
-                        <button type="submit" class="btn">
+                        <button type="submit" class="btn" id="submitBtn">
                             <i class="fas fa-save"></i> Record Contribution
+                        </button>
+                        <button type="button" class="btn btn-cancel" id="cancelEditBtn" style="display: none;">
+                            <i class="fas fa-times"></i> Cancel Edit
                         </button>
                     </div>
                 </form>
@@ -541,6 +624,21 @@
             </section>
         </div>
     </main>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle" style="color: #e74c3c;"></i> Confirm Delete</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <p>Are you sure you want to delete this contribution? This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button class="btn btn-cancel" id="cancelDeleteBtn">Cancel</button>
+                <button class="btn btn-delete" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Bottom Navigation -->
     <nav>
@@ -593,6 +691,15 @@
         const filterPartner = document.getElementById('filterPartner');
         const allContributionsList = document.getElementById('allContributionsList');
         const userContributionsList = document.getElementById('userContributionsList');
+        const formTitle = document.getElementById('formTitle');
+        const submitBtn = document.getElementById('submitBtn');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const partnerEmailSelect = document.getElementById('partnerEmail');
+        const editContributionId = document.getElementById('editContributionId');
+        const deleteModal = document.getElementById('deleteModal');
+        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        const modalCloseBtn = document.querySelector('.modal-close');
 
         // Stats elements
         const totalContributedEl = document.getElementById('totalContributed');
@@ -602,6 +709,8 @@
 
         // Current user data
         let currentUser = null;
+        let contributionsData = []; // Store contributions data for reference
+        let contributionToDelete = null;
 
         // Format number with thousand separators
         function formatNumber(num) {
@@ -613,11 +722,33 @@
             const yearSelect = document.getElementById('contributionYear');
             const currentYear = new Date().getFullYear();
             
+            yearSelect.innerHTML = '<option value="">Select Year</option>';
             for (let year = currentYear; year >= currentYear - 5; year--) {
                 const option = document.createElement('option');
                 option.value = year;
                 option.textContent = year;
                 yearSelect.appendChild(option);
+            }
+        }
+
+        // Load partner dropdown for admin form
+        async function loadPartnerDropdown() {
+            try {
+                const snapshot = await db.collection('users')
+                    .where('role', '==', 'partner')
+                    .get();
+                
+                partnerEmailSelect.innerHTML = '<option value="">Select Partner Email</option>';
+                
+                snapshot.forEach(doc => {
+                    const user = doc.data();
+                    const option = document.createElement('option');
+                    option.value = user.email;
+                    option.textContent = `${user.name} (${user.email})`;
+                    partnerEmailSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading partners dropdown:', error);
             }
         }
 
@@ -638,6 +769,7 @@
                     showAdminInterface();
                     loadAllContributions();
                     loadPartnerFilter();
+                    loadPartnerDropdown();
                 } else {
                     showUserInterface();
                     loadUserContributions(currentUser.email);
@@ -748,9 +880,11 @@
                             <p>No contribution records have been added yet.</p>
                         </div>
                     `;
+                    contributionsData = [];
                     return;
                 }
 
+                contributionsData = [];
                 let contributionsHTML = `
                     <div class="table-responsive">
                         <table class="contributions-table">
@@ -760,6 +894,7 @@
                                     <th>Month</th>
                                     <th>Amount</th>
                                     <th>Recorded By</th>
+                                    <th class="actions-cell">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -767,15 +902,26 @@
                 
                 snapshot.forEach(doc => {
                     const contribution = doc.data();
+                    const contributionId = doc.id;
+                    contributionsData.push({ id: contributionId, ...contribution });
+                    
                     const date = contribution.date ? new Date(contribution.date.seconds * 1000) : new Date();
                     const monthYear = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
                     
                     contributionsHTML += `
-                        <tr>
+                        <tr data-id="${contributionId}">
                             <td>${contribution.partnerName || contribution.partnerEmail}</td>
                             <td>${monthYear}</td>
                             <td class="amount-cell">Ksh ${formatNumber(parseFloat(contribution.amount).toFixed(2))}</td>
                             <td>${contribution.recordedBy || 'Admin'}</td>
+                            <td class="actions-cell">
+                                <button class="btn btn-edit action-btn edit-btn" data-id="${contributionId}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-delete action-btn delete-btn" data-id="${contributionId}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
                         </tr>
                     `;
                 });
@@ -787,6 +933,21 @@
                 `;
 
                 allContributionsList.innerHTML = contributionsHTML;
+                
+                // Add event listeners to edit and delete buttons
+                document.querySelectorAll('.edit-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = e.target.closest('.edit-btn').getAttribute('data-id');
+                        editContribution(id);
+                    });
+                });
+                
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = e.target.closest('.delete-btn').getAttribute('data-id');
+                        showDeleteModal(id);
+                    });
+                });
                 
             } catch (error) {
                 console.error('Error loading contributions:', error);
@@ -903,7 +1064,68 @@
             averageContributionEl.textContent = `Ksh ${formatNumber(average.toFixed(2))}`;
         }
 
-        // Add new contribution (admin only)
+        // Edit contribution
+        async function editContribution(id) {
+            try {
+                const contribution = contributionsData.find(c => c.id === id);
+                if (!contribution) return;
+
+                // Set form to edit mode
+                formTitle.textContent = 'Edit Contribution';
+                submitBtn.innerHTML = '<i class="fas fa-save"></i> Update Contribution';
+                cancelEditBtn.style.display = 'block';
+                editContributionId.value = id;
+
+                // Fill form with contribution data
+                document.getElementById('partnerEmail').value = contribution.partnerEmail;
+                document.getElementById('contributionAmount').value = contribution.amount;
+                document.getElementById('contributionMonth').value = contribution.month;
+                document.getElementById('contributionYear').value = contribution.year;
+                document.getElementById('contributionNotes').value = contribution.notes || '';
+
+                // Scroll to form
+                adminContributionForm.scrollIntoView({ behavior: 'smooth' });
+            } catch (error) {
+                console.error('Error loading contribution for edit:', error);
+                alert('Error loading contribution: ' + error.message);
+            }
+        }
+
+        // Cancel edit mode
+        function cancelEdit() {
+            formTitle.textContent = 'Add New Contribution';
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> Record Contribution';
+            cancelEditBtn.style.display = 'none';
+            editContributionId.value = '';
+            contributionForm.reset();
+        }
+
+        // Show delete confirmation modal
+        function showDeleteModal(id) {
+            contributionToDelete = id;
+            deleteModal.style.display = 'flex';
+        }
+
+        // Hide delete confirmation modal
+        function hideDeleteModal() {
+            deleteModal.style.display = 'none';
+            contributionToDelete = null;
+        }
+
+        // Delete contribution
+        async function deleteContribution(id) {
+            try {
+                await db.collection('contributions').doc(id).delete();
+                alert('Contribution deleted successfully!');
+                hideDeleteModal();
+                loadAllContributions(filterPartner.value);
+            } catch (error) {
+                console.error('Error deleting contribution:', error);
+                alert('Error deleting contribution: ' + error.message);
+            }
+        }
+
+        // Add or update contribution (admin only)
         contributionForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -912,6 +1134,7 @@
             const month = document.getElementById('contributionMonth').value;
             const year = document.getElementById('contributionYear').value;
             const notes = document.getElementById('contributionNotes').value;
+            const contributionId = editContributionId.value;
 
             if (!partnerEmail || !amount || !month || !year) {
                 alert('Please fill in all required fields.');
@@ -935,36 +1158,70 @@
                 // Create contribution date (first day of the month)
                 const contributionDate = new Date(year, month - 1, 1);
 
-                // Save contribution to Firestore
-                await db.collection('contributions').add({
-                    partnerEmail: partnerEmail,
-                    partnerName: partnerName,
-                    amount: amount,
-                    month: month,
-                    year: year,
-                    date: firebase.firestore.Timestamp.fromDate(contributionDate),
-                    recordedBy: currentUser.name,
-                    notes: notes,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-
-                alert('Contribution recorded successfully!');
-                contributionForm.reset();
-                
-                // Reload contributions
-                if (currentUser.role === 'admin') {
-                    loadAllContributions();
+                if (contributionId) {
+                    // Update existing contribution
+                    await db.collection('contributions').doc(contributionId).update({
+                        partnerEmail: partnerEmail,
+                        partnerName: partnerName,
+                        amount: amount,
+                        month: month,
+                        year: year,
+                        date: firebase.firestore.Timestamp.fromDate(contributionDate),
+                        notes: notes,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    alert('Contribution updated successfully!');
+                    cancelEdit();
+                } else {
+                    // Add new contribution
+                    await db.collection('contributions').add({
+                        partnerEmail: partnerEmail,
+                        partnerName: partnerName,
+                        amount: amount,
+                        month: month,
+                        year: year,
+                        date: firebase.firestore.Timestamp.fromDate(contributionDate),
+                        recordedBy: currentUser.name,
+                        notes: notes,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    alert('Contribution recorded successfully!');
+                    contributionForm.reset();
                 }
                 
+                // Reload contributions
+                loadAllContributions(filterPartner.value);
+                
             } catch (error) {
-                console.error('Error recording contribution:', error);
-                alert('Error recording contribution: ' + error.message);
+                console.error('Error saving contribution:', error);
+                alert('Error saving contribution: ' + error.message);
             }
         });
 
         // Filter contributions by partner
         filterPartner.addEventListener('change', (e) => {
             loadAllContributions(e.target.value);
+        });
+
+        // Cancel edit button
+        cancelEditBtn.addEventListener('click', cancelEdit);
+
+        // Delete modal event listeners
+        modalCloseBtn.addEventListener('click', hideDeleteModal);
+        cancelDeleteBtn.addEventListener('click', hideDeleteModal);
+        confirmDeleteBtn.addEventListener('click', () => {
+            if (contributionToDelete) {
+                deleteContribution(contributionToDelete);
+            }
+        });
+
+        // Close modal when clicking outside
+        deleteModal.addEventListener('click', (e) => {
+            if (e.target === deleteModal) {
+                hideDeleteModal();
+            }
         });
 
         // Logout function
