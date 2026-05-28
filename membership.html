@@ -679,8 +679,8 @@
     <div class="photo-row">
       <div>
         <label class="lbl" style="display:block;margin-bottom:.5rem;">Passport Photo</label>
-        <div class="photo-box" title="Tap to upload photo">
-          <input type="file" id="passportPhoto" accept="image/*" capture="user"
+        <div class="photo-box" title="Tap to take photo or choose from gallery">
+          <input type="file" id="passportPhoto" accept="image/*"
             onchange="
               const f=this.files[0];
               if(f){
@@ -694,7 +694,7 @@
                 r.readAsDataURL(f);
               }"/>
           <div class="ph-icon">📷</div>
-          <span>Tap to upload</span>
+          <span>Camera or Gallery</span>
           <img id="photoPreview" alt="preview"/>
         </div>
       </div>
