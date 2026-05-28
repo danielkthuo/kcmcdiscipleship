@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KCMC Member Registration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --p:    #3b1260;
+      --p2:   #5c1f96;
+      --p3:   #7b3abf;
+      --gold: #c8a84b;
+      --g2:   #e6ca7a;
+      --g3:   #f5e8c0;
+      --cream:#faf6ef;
+      --dark: #1a1128;
+      --mid:  #5a5270;
+      --bdr:  #ddd4ee;
+      --card: #ffffff;
+      --r:    10px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      font-family:'DM Sans',sans-serif;
+      background:var(--cream);
+      background-image:
+        radial-gradient(ellipse 70% 50% at 5% 0%,rgba(59,18,96,.07) 0%,transparent 60%),
+        radial-gradient(ellipse 60% 40% at 95% 100%,rgba(200,168,75,.10) 0%,transparent 60%);
+      min-height:100vh;
+      color:var(--dark);
+      padding:2.5rem 1rem 5rem;
+    }
+
+    /* ── Header ── */
+    .hdr{text-align:center;max-width:780px;margin:0 auto 2.8rem;}
+    .hdr-emblem{
+      width:72px;height:72px;border-radius:50%;
+      background:linear-gradient(145deg,var(--p),var(--p2));
+      display:flex;align-items:center;justify-content:center;
+      margin:0 auto 1.1rem;
+      box-shadow:0 8px 32px rgba(59,18,96,.28),0 2px 8px rgba(200,168,75,.18);
+      font-size:1.9rem;
+    }
+    .hdr h1{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(1.5rem,4.5vw,2.3rem);
+      color:var(--p);font-weight:700;letter-spacing:.01em;line-height:1.15;
+    }
+    .hdr p{color:var(--mid);font-size:.88rem;margin-top:.35rem;font-weight:400;}
+    .rule{
+      height:2px;width:90px;margin:.9rem auto 0;
+      background:linear-gradient(90deg,transparent,var(--gold),var(--g2),var(--gold),transparent);
+      border-radius:2px;
+    }
+    .pdf-pill{
+      display:inline-flex;align-items:center;gap:.4rem;
+      margin-top:.9rem;background:rgba(200,168,75,.13);
+      border:1px solid rgba(200,168,75,.5);border-radius:20px;
+      padding:.28rem .9rem;font-size:.78rem;color:#7a5500;font-weight:500;
+    }
+
+    /* ── Card ── */
+    .card{
+      max-width:780px;margin:0 auto;
+      background:var(--card);
+      border:1px solid var(--bdr);
+      border-radius:18px;
+      box-shadow:0 6px 40px rgba(59,18,96,.09),0 1px 4px rgba(59,18,96,.06);
+      overflow:hidden;
+    }
+
+    /* ── Section header ── */
+    .sh{
+      background:linear-gradient(95deg,var(--p) 0%,var(--p2) 60%,var(--p3) 100%);
+      color:#fff;padding:.65rem 1.5rem;
+      font-size:.71rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+      display:flex;align-items:center;gap:.5rem;
+    }
+    .sh::before{content:'';display:block;width:3px;height:14px;background:var(--gold);border-radius:2px;flex-shrink:0;}
+    .sb{padding:1.5rem 1.5rem;border-bottom:1px solid var(--bdr);}
+    .sb:last-child{border-bottom:none;}
+
+    /* ── Grid & Fields ── */
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
+    .g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1rem;}
+    .s2{grid-column:span 2;}
+    .s3{grid-column:span 3;}
+    .s4{grid-column:span 4;}
+    .f{display:flex;flex-direction:column;gap:.32rem;}
+    label.lbl{
+      font-size:.68rem;font-weight:600;color:var(--p2);
+      letter-spacing:.06em;text-transform:uppercase;
+    }
+    input[type=text],input[type=email],input[type=tel],
+    input[type=date],input[type=number],select,textarea{
+      border:1.5px solid var(--bdr);border-radius:var(--r);
+      padding:.55rem .75rem;font-family:inherit;font-size:.9rem;
+      color:var(--dark);background:#faf8ff;
+      transition:border-color .18s,box-shadow .18s,background .18s;
+      outline:none;width:100%;
+    }
+    input:focus,select:focus,textarea:focus{
+      border-color:var(--p2);background:#fff;
+      box-shadow:0 0 0 3.5px rgba(92,31,150,.11);
+    }
+    select{
+      appearance:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='.5.5l5 5 5-5' stroke='%235c1f96' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;background-position:right .75rem center;padding-right:2.2rem;
+    }
+    .radio-row{display:flex;gap:1.4rem;align-items:center;padding-top:.05rem;}
+    .radio-row label{
+      display:flex;align-items:center;gap:.35rem;
+      font-size:.9rem;color:var(--dark);
+      text-transform:none;letter-spacing:0;font-weight:400;cursor:pointer;
+    }
+    .radio-row input[type=radio]{width:auto;accent-color:var(--p2);}
+    .chk-grp{display:flex;flex-wrap:wrap;gap:.55rem .85rem;padding-top:.1rem;}
+    .chk-item{display:flex;align-items:center;gap:.32rem;cursor:pointer;font-size:.88rem;}
+    .chk-item input{width:auto;accent-color:var(--p2);}
+
+    /* ── Photo upload ── */
+    .photo-row{display:flex;gap:1.4rem;align-items:flex-start;}
+    .photo-box{
+      flex-shrink:0;width:112px;height:133px;
+      border:2px dashed var(--bdr);border-radius:var(--r);
+      display:flex;flex-direction:column;align-items:center;
+      justify-content:center;cursor:pointer;position:relative;overflow:hidden;
+      transition:border-color .2s,background .2s;
+    }
+    .photo-box:hover{border-color:var(--p2);background:#f8f4ff;}
+    .photo-box input{position:absolute;inset:0;opacity:0;cursor:pointer;}
+    .photo-box .ph-icon{font-size:1.7rem;color:#c8b8e0;margin-bottom:.35rem;}
+    .photo-box span{font-size:.68rem;color:var(--mid);text-align:center;padding:0 .4rem;line-height:1.4;}
+    #photoPreview{width:100%;height:100%;object-fit:cover;display:none;}
+    .photo-fields{flex:1;}
+
+    /* ── Purpose / intro ── */
+    .purpose-bx{
+      background:linear-gradient(135deg,rgba(59,18,96,.04),rgba(200,168,75,.06));
+      border:1px solid rgba(200,168,75,.35);border-radius:var(--r);
+      padding:1rem 1.2rem;font-size:.87rem;line-height:1.9;
+      margin-bottom:1rem;
+    }
+    .purpose-bx ul{padding-left:0;list-style:none;}
+    .purpose-bx li{padding:.18rem 0 .18rem 1.3rem;color:#504070;position:relative;}
+    .purpose-bx li::before{content:"✦";position:absolute;left:0;color:var(--gold);font-size:.75rem;}
+
+    /* ── Grace quote ── */
+    .grace-quote{
+      background:rgba(59,18,96,.035);
+      border-left:3.5px solid var(--p2);
+      border-radius:0 var(--r) var(--r) 0;
+      padding:.9rem 1.2rem;font-size:.86rem;line-height:1.85;
+      color:#4a3870;font-style:italic;margin-top:.8rem;
+    }
+
+    /* ── Commitment cards grid ── */
+    .commit-grid{
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:1rem;margin-top:1.2rem;
+    }
+    .commit-card{
+      border:1px solid var(--bdr);border-radius:var(--r);
+      overflow:hidden;
+    }
+    .commit-card-hdr{
+      background:linear-gradient(90deg,var(--p),var(--p2));
+      color:#fff;padding:.45rem .85rem;
+      font-size:.75rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+      display:flex;align-items:center;gap:.45rem;
+    }
+    .commit-card-hdr .icon{font-size:1rem;}
+    .commit-card-body{
+      padding:.8rem .9rem;background:#faf8ff;
+    }
+    .commit-item{
+      display:flex;gap:.5rem;padding:.22rem 0;
+      font-size:.83rem;line-height:1.6;color:#3d3260;
+    }
+    .commit-item .ci-key{
+      font-weight:700;color:var(--p2);flex-shrink:0;min-width:1.6rem;
+    }
+    .commit-item .ci-val{}
+    .commit-item .ci-val strong{color:var(--dark);font-weight:600;}
+    .youth-badge{
+      display:inline-block;font-size:.65rem;font-weight:700;
+      background:var(--gold);color:#fff;border-radius:4px;
+      padding:.05rem .35rem;margin-left:.3rem;vertical-align:middle;text-transform:uppercase;letter-spacing:.04em;
+    }
+
+    /* ── Family table ── */
+    .fam-tbl{width:100%;border-collapse:collapse;}
+    .fam-tbl th{
+      background:rgba(59,18,96,.06);font-size:.68rem;color:var(--p);
+      letter-spacing:.07em;text-transform:uppercase;padding:.5rem .5rem;
+      text-align:left;border-bottom:2px solid var(--bdr);
+    }
+    .fam-tbl td{padding:.3rem .3rem;border-bottom:1px solid #f0ecf7;}
+    .fam-tbl tr:last-child td{border-bottom:none;}
+    .fam-tbl input{
+      border:1.5px solid var(--bdr);border-radius:7px;
+      padding:.38rem .5rem;font-size:.82rem;background:#faf8ff;width:100%;
+    }
+    .fam-tbl input:focus{border-color:var(--p2);outline:none;background:#fff;}
+
+    /* ── Signature pad ── */
+    .sig-wrap{
+      border:1.5px solid var(--bdr);border-radius:var(--r);
+      background:#faf8ff;overflow:hidden;position:relative;
+    }
+    .sig-wrap canvas{display:block;cursor:crosshair;touch-action:none;}
+    .sig-actions{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:.35rem .65rem;border-top:1px solid var(--bdr);
+      background:#f4f0fc;
+    }
+    .sig-actions span{font-size:.72rem;color:var(--mid);}
+    .sig-clear{
+      font-size:.72rem;color:var(--p2);background:none;
+      border:1px solid var(--bdr);border-radius:6px;padding:.22rem .7rem;
+      cursor:pointer;font-family:inherit;font-weight:600;
+      transition:background .15s;
+    }
+    .sig-clear:hover{background:rgba(92,31,150,.07);}
+
+    /* ── Declaration ── */
+    .decl{
+      background:linear-gradient(135deg,rgba(59,18,96,.03),rgba(200,168,75,.06));
+      border-left:3.5px solid var(--gold);
+      border-radius:0 var(--r) var(--r) 0;
+      padding:1.1rem 1.3rem;font-size:.87rem;line-height:1.8;
+      color:#4a4060;margin-bottom:1.3rem;font-style:italic;
+    }
+
+    /* ── Submit ── */
+    #submitBtn{
+      display:block;width:100%;padding:.95rem 2rem;
+      background:linear-gradient(130deg,var(--p) 0%,var(--p2) 55%,var(--p3) 100%);
+      color:#fff;font-family:'Cormorant Garamond',serif;
+      font-size:1.15rem;font-weight:700;letter-spacing:.04em;
+      border:none;border-radius:var(--r);cursor:pointer;
+      box-shadow:0 5px 20px rgba(59,18,96,.32);
+      transition:opacity .2s,transform .15s,box-shadow .2s;
+    }
+    #submitBtn:hover:not(:disabled){opacity:.92;transform:translateY(-2px);box-shadow:0 8px 28px rgba(59,18,96,.38);}
+    #submitBtn:disabled{opacity:.5;cursor:not-allowed;}
+    #errMsg{
+      margin-top:.8rem;padding:.7rem 1rem;
+      background:#fef2f2;border:1px solid #fca5a5;
+      border-radius:var(--r);color:#b91c1c;font-size:.87rem;
+    }
+    .hidden{display:none!important;}
+
+    /* ── Success ── */
+    #successMsg{
+      max-width:520px;margin:4rem auto;text-align:center;
+      background:#fff;border-radius:18px;padding:3rem 2rem;
+      box-shadow:0 8px 40px rgba(59,18,96,.12);border:1px solid var(--bdr);
+    }
+    .success-icon{font-size:3.2rem;margin-bottom:1rem;}
+    #successMsg h2{font-family:'Cormorant Garamond',serif;color:var(--p);font-size:1.8rem;margin-bottom:.5rem;}
+    #successMsg p{color:var(--mid);font-size:.9rem;line-height:1.7;}
+    .re-btn{
+      display:inline-block;margin-top:1.4rem;padding:.7rem 1.8rem;
+      background:linear-gradient(130deg,var(--p),var(--p2));
+      color:#fff;border-radius:var(--r);font-family:inherit;font-size:.9rem;
+      text-decoration:none;cursor:pointer;border:none;
+    }
+
+    /* ── inline "other" input ── */
+    .other-inline{
+      display:none;align-items:center;gap:.4rem;margin-top:.3rem;
+    }
+    .other-inline.show{display:flex;}
+    .other-inline input{
+      border:1.5px solid var(--bdr);border-radius:7px;
+      padding:.28rem .55rem;font-size:.83rem;background:#faf8ff;
+      max-width:200px;
+    }
+
+    @media(max-width:620px){
+      .g2,.g3,.g4{grid-template-columns:1fr;}
+      .s2,.s3,.s4{grid-column:span 1;}
+      .photo-row{flex-direction:column;align-items:center;}
+      .photo-box{width:130px;height:150px;}
+      .commit-grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════ HEADER ═══════ -->
+<div class="hdr">
+  <div class="hdr-emblem">✝</div>
+  <h1>Kingdom Covenant Ministries Church</h1>
+  <p>Membership Commitment &amp; Registration Form</p>
+  <div class="rule"></div>
+  <div class="pdf-pill">📄 A filled PDF will automatically download on submission</div>
+</div>
+
+<!-- ═══════ SUCCESS ═══════ -->
+<div id="successMsg" class="hidden">
+  <div class="success-icon">🎉</div>
+  <h2>Registration Complete!</h2>
+  <p>Your details have been saved and your membership PDF has been downloaded automatically.<br/>
+  Please check your Downloads folder.</p>
+  <p style="margin-top:.8rem;font-size:.8rem;color:var(--mid);">
+    If the PDF did not download, check your browser pop-up / download settings.
+  </p>
+  <button class="re-btn" onclick="location.reload()">Register Another Member</button>
+</div>
+
+<!-- ═══════ FORM ═══════ -->
+<form id="regForm" class="card" novalidate>
+
+  <!-- ── Purpose of Church Membership ── -->
+  <div class="sh">Purpose of Church Membership</div>
+  <div class="sb">
+    <div class="purpose-bx">
+      <ul>
+        <li>It gives you ownership and a greater commitment to the work of the local church.</li>
+        <li>It gives you the opportunity to be part of the decision-making process as we work together for a positive ministry emphasis.</li>
+        <li>It gives you the opportunity to serve in leadership that benefits both yourself and the local body of believers.</li>
+      </ul>
+    </div>
+    <div class="grace-quote">
+      As we experience God's grace to us in Christ and better understand His glory, we become more like Him and are motivated to keep growing throughout our lives. The following spiritual practices are commitments we make as members that reflect our desire to be transformed by God's grace into fully devoted followers of Jesus Christ.
+    </div>
+  </div>
+
+  <!-- ── Membership Commitments ── -->
+  <div class="sh">Membership Commitments</div>
+  <div class="sb">
+    <div class="commit-grid">
+
+      <!-- LOVE GOD -->
+      <div class="commit-card">
+        <div class="commit-card-hdr"><span class="icon">❤️</span> Love God</div>
+        <div class="commit-card-body">
+          <div class="commit-item">
+            <span class="ci-key">a)</span>
+            <span class="ci-val"><strong>WORSHIP:</strong> I will strive to increasingly love God with all that I am. As one important means of loving God, I will give priority to <strong>corporate worship, whether in-person or online</strong>, engaging with my mind and heart.</span>
+          </div>
+          <div class="commit-item">
+            <span class="ci-key">b)</span>
+            <span class="ci-val"><strong>WORD &amp; PRAYER:</strong> I will strive to spend time regularly reading the Bible and in personal prayer, <strong>including through digital devotionals or prayer apps if helpful.</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- GROW IN CHRIST -->
+      <div class="commit-card">
+        <div class="commit-card-hdr"><span class="icon">🌱</span> Grow in Christ</div>
+        <div class="commit-card-body">
+          <div class="commit-item">
+            <span class="ci-key">a)</span>
+            <span class="ci-val"><strong>PARTICIPATE IN FELLOWSHIP:</strong> I will connect into a <strong>Home Fellowship Group (HF), Youth Group, or Discipleship Circle</strong> to help build others up and grow toward maturity in Christ.</span>
+          </div>
+          <div class="commit-item">
+            <span class="ci-key">b)</span>
+            <span class="ci-val"><strong>PURSUE HOLINESS:</strong> I will strive to live daily in a way that pleases God, relying on the Holy Spirit's power, <strong>especially in my relationships, studies/work, and digital life.</strong></span>
+          </div>
+          <div class="commit-item">
+            <span class="ci-key">c)</span>
+            <span class="ci-val"><strong>DISCOVER MY CALLING</strong> <span class="youth-badge">Youth</span> I am open to exploring my gifts and passions through serving, mentoring, and training opportunities in the church.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SERVE THE CHURCH -->
+      <div class="commit-card">
+        <div class="commit-card-hdr"><span class="icon">🤝</span> Serve the Church</div>
+        <div class="commit-card-body">
+          <div class="commit-item">
+            <span class="ci-key">a)</span>
+            <span class="ci-val"><strong>INVEST IN KCMC:</strong> I will use the time, talents, and skills God has given me to serve others in our church family and build up the body. I will give generously, cheerfully, and consistently to God through our church, <strong>whether through traditional or digital means.</strong></span>
+          </div>
+          <div class="commit-item">
+            <span class="ci-key">b)</span>
+            <span class="ci-val"><strong>PROTECT KCMC:</strong> I will strive to live in harmony and unity with others, being positive in speech and action, both offline and online, and seeking biblical reconciliation when conflicts arise.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- REACH THE WORLD -->
+      <div class="commit-card">
+        <div class="commit-card-hdr"><span class="icon">🌍</span> Reach the World</div>
+        <div class="commit-card-body">
+          <div class="commit-item">
+            <span class="ci-key">a)</span>
+            <span class="ci-val"><strong>WITNESS IN WORD:</strong> I will share the life-changing message of the Gospel with those in my <strong>home, school, workplace, community, and digital networks.</strong></span>
+          </div>
+          <div class="commit-item">
+            <span class="ci-key">b)</span>
+            <span class="ci-val"><strong>WITNESS INDEED:</strong> I will adorn the Gospel with loving acts of service and sacrifice, <strong>including through youth-led outreach and social justice initiatives.</strong></span>
+          </div>
+          <div class="commit-item">
+            <span class="ci-key">c)</span>
+            <span class="ci-val"><strong>DIGITAL DISCIPLESHIP</strong> <span class="youth-badge">Youth</span> I will seek to be a light on social media and online platforms, representing Christ with integrity, kindness, and truth.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Youth-Specific Section ── -->
+  <div class="sh">Youth-Specific Section</div>
+  <div class="sb">
+    <div class="g2" style="align-items:start;">
+      <div class="f">
+        <label class="lbl">Desire to be mentored / mentor others</label>
+        <div class="radio-row">
+          <label><input type="radio" name="mentoring" value="YES"/> Yes</label>
+          <label><input type="radio" name="mentoring" value="NO" checked/> No</label>
+        </div>
+      </div>
+      <div class="f">
+        <label class="lbl">Stay connected via</label>
+        <div class="chk-grp">
+          <label class="chk-item"><input type="checkbox" name="connected" value="WhatsApp"/> WhatsApp</label>
+          <label class="chk-item"><input type="checkbox" name="connected" value="SMS"/> SMS</label>
+          <label class="chk-item"><input type="checkbox" name="connected" value="In-person"/> In-person meetings</label>
+          <label class="chk-item"><input type="checkbox" name="connected" value="Other" id="connOtherChk" onchange="toggleOther('connOtherChk','connOtherBox')"/> Other</label>
+        </div>
+        <div class="other-inline" id="connOtherBox">
+          <label style="font-size:.75rem;color:var(--mid);white-space:nowrap;">Specify:</label>
+          <input type="text" id="connOtherText" placeholder="e.g. Email"/>
+        </div>
+      </div>
+    </div>
+    <div class="f" style="margin-top:1rem;">
+      <label class="lbl">Interested in serving in</label>
+      <div class="chk-grp">
+        <label class="chk-item"><input type="checkbox" name="serving" value="Praise & Worship"/> Praise &amp; Worship</label>
+        <label class="chk-item"><input type="checkbox" name="serving" value="Tech & Media"/> Tech &amp; Media</label>
+        <label class="chk-item"><input type="checkbox" name="serving" value="Children Ministry"/> Children Ministry</label>
+        <label class="chk-item"><input type="checkbox" name="serving" value="Mission & Evangelism"/> Mission &amp; Evangelism</label>
+        <label class="chk-item"><input type="checkbox" name="serving" value="Hospitality"/> Hospitality</label>
+        <label class="chk-item"><input type="checkbox" name="serving" value="Other" id="servOtherChk" onchange="toggleOther('servOtherChk','servOtherBox')"/> Other</label>
+      </div>
+      <div class="other-inline" id="servOtherBox">
+        <label style="font-size:.75rem;color:var(--mid);white-space:nowrap;">Specify:</label>
+        <input type="text" id="servOtherText" placeholder="e.g. Prayer Team"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Personal Information ── -->
+  <div class="sh">Personal Information</div>
+  <div class="sb">
+    <div class="photo-row">
+      <div>
+        <label class="lbl" style="display:block;margin-bottom:.4rem;">Passport Photo</label>
+        <div class="photo-box" title="Click to upload photo">
+          <input type="file" id="passportPhoto" accept="image/*"
+            onchange="
+              const f=this.files[0];
+              if(f){
+                const r=new FileReader();
+                r.onload=e=>{
+                  const p=document.getElementById('photoPreview');
+                  p.src=e.target.result;p.style.display='block';
+                  this.parentElement.querySelector('span').style.display='none';
+                  this.parentElement.querySelector('.ph-icon').style.display='none';
+                };
+                r.readAsDataURL(f);
+              }"/>
+          <div class="ph-icon">📷</div>
+          <span>Click to upload</span>
+          <img id="photoPreview" alt="preview"/>
+        </div>
+      </div>
+      <div class="photo-fields">
+        <div class="f" style="margin-bottom:1rem;">
+          <label class="lbl" for="fullNames">Full Names *</label>
+          <input type="text" id="fullNames" required placeholder="e.g. John Kamau Njoroge"/>
+        </div>
+        <div class="g2">
+          <div class="f"><label class="lbl" for="occupation">Occupation / Profession</label><input type="text" id="occupation" placeholder="e.g. Teacher"/></div>
+          <div class="f"><label class="lbl" for="employer">Employer (optional)</label><input type="text" id="employer"/></div>
+        </div>
+      </div>
+    </div>
+    <div class="g3" style="margin-top:1rem;">
+      <div class="f"><label class="lbl" for="birthplace">Birthplace / Village</label><input type="text" id="birthplace"/></div>
+      <div class="f"><label class="lbl" for="ward">Ward</label><input type="text" id="ward"/></div>
+      <div class="f"><label class="lbl" for="county">County</label><input type="text" id="county"/></div>
+    </div>
+    <div class="g3" style="margin-top:1rem;">
+      <div class="f"><label class="lbl" for="dateOfBirth">Date of Birth</label><input type="date" id="dateOfBirth"/></div>
+      <div class="f"><label class="lbl" for="mobile1">Mobile No. 1 *</label><input type="tel" id="mobile1" required placeholder="+254…"/></div>
+      <div class="f"><label class="lbl" for="mobile2">Mobile No. 2</label><input type="tel" id="mobile2"/></div>
+      <div class="f s2"><label class="lbl" for="email">Email Address</label><input type="email" id="email" placeholder="example@email.com"/></div>
+      <div class="f"><label class="lbl" for="mobile3">Mobile No. 3</label><input type="tel" id="mobile3"/></div>
+    </div>
+  </div>
+
+  <!-- ── Spiritual & Marital ── -->
+  <div class="sh">Spiritual &amp; Marital Background</div>
+  <div class="sb">
+    <div class="g3">
+      <div class="f">
+        <label class="lbl">Baptized?</label>
+        <div class="radio-row">
+          <label><input type="radio" name="baptized" value="YES"/> Yes</label>
+          <label><input type="radio" name="baptized" value="NO" checked/> No</label>
+        </div>
+      </div>
+      <div class="f"><label class="lbl" for="baptismDate">Baptism Date</label><input type="date" id="baptismDate"/></div>
+      <div class="f"><label class="lbl" for="churchBaptized">Church Baptized</label><input type="text" id="churchBaptized"/></div>
+      <div class="f">
+        <label class="lbl" for="maritalStatus">Marital Status</label>
+        <select id="maritalStatus">
+          <option value="">-- Select --</option>
+          <option>Single</option><option>Married</option>
+          <option>Widowed</option><option>Divorced</option>
+        </select>
+      </div>
+      <div class="f"><label class="lbl" for="spouseName">Spouse Full Name</label><input type="text" id="spouseName"/></div>
+      <div class="f"><label class="lbl" for="spouseContact">Spouse Contact</label><input type="tel" id="spouseContact"/></div>
+      <div class="f"><label class="lbl" for="marriageDate">Date of Marriage</label><input type="date" id="marriageDate"/></div>
+      <div class="f s2"><label class="lbl" for="weddingChurch">If Church Wedding — Where</label><input type="text" id="weddingChurch"/></div>
+    </div>
+  </div>
+
+  <!-- ── Community & Church Background ── -->
+  <div class="sh">Community &amp; Church Background</div>
+  <div class="sb">
+    <div class="g2">
+      <div class="f">
+        <label class="lbl">Member of another church?</label>
+        <div class="radio-row">
+          <label><input type="radio" name="anotherChurch" value="YES"/> Yes</label>
+          <label><input type="radio" name="anotherChurch" value="NO" checked/> No</label>
+        </div>
+      </div>
+      <div class="f"><label class="lbl" for="otherChurchLocation">If YES — Church / Location</label><input type="text" id="otherChurchLocation"/></div>
+      <div class="f s2"><label class="lbl" for="yearsInCommunity">How long have you lived in the community where you now make your home?</label><input type="text" id="yearsInCommunity" placeholder="e.g. 5 years"/></div>
+    </div>
+    <div class="g3" style="margin-top:1rem;">
+      <div class="f"><label class="lbl" for="pastOffice1">Past Church Office 1</label><input type="text" id="pastOffice1"/></div>
+      <div class="f"><label class="lbl" for="pastOffice2">Past Church Office 2</label><input type="text" id="pastOffice2"/></div>
+      <div class="f"><label class="lbl" for="pastOffice3">Past Church Office 3</label><input type="text" id="pastOffice3"/></div>
+    </div>
+  </div>
+
+  <!-- ── Family Information ── -->
+  <div class="sh">Family Information (Household Members)</div>
+  <div class="sb">
+    <table class="fam-tbl">
+      <thead>
+        <tr>
+          <th>Full Name</th>
+          <th style="width:85px;">Age (opt.)</th>
+          <th style="width:155px;">Relationship</th>
+          <th>Contact</th>
+        </tr>
+      </thead>
+      <tbody id="famBody"></tbody>
+    </table>
+    <script>
+      (function(){
+        const tb=document.getElementById('famBody');
+        for(let i=1;i<=12;i++){
+          const tr=document.createElement('tr');
+          tr.innerHTML=`
+            <td><input type="text" id="famName${i}" placeholder="Full name"/></td>
+            <td><input type="number" id="famAge${i}" min="0" max="120" placeholder="—"/></td>
+            <td><input type="text" id="famRel${i}" placeholder="e.g. Spouse"/></td>
+            <td><input type="tel" id="famContact${i}" placeholder="+254…"/></td>`;
+          tb.appendChild(tr);
+        }
+      })();
+    </script>
+  </div>
+
+  <!-- ── Commitment Declaration ── -->
+  <div class="sh">Commitment Declaration</div>
+  <div class="sb">
+    <div class="decl">
+      I commit myself to be faithful and loyal to Jesus Christ above all and to represent Him through a Godly lifestyle of obedience to His Word. I further commit myself to be faithful to my local church and my family.
+      <br/><br/>
+      If I find that I can no longer keep the commitments above for any reason, I will resign as a member of KCMC. I have read and agree with KCMC Statement of Core Values, Vision and Mission Statement and What We Believe Statement.
+    </div>
+    <div class="g3">
+      <div class="f s2">
+        <label class="lbl" for="idNumber">National ID / Passport No. *</label>
+        <input type="text" id="idNumber" required placeholder="ID or Passport number"/>
+      </div>
+      <div class="f">
+        <label class="lbl">Declaration Date</label>
+        <input type="date" id="declarationDate" readonly style="background:#f3f0fa;cursor:not-allowed;"/>
+        <script>document.getElementById('declarationDate').value=new Date().toISOString().split('T')[0];</script>
+      </div>
+    </div>
+    <!-- Signature pad -->
+    <div class="f" style="margin-top:1.2rem;">
+      <label class="lbl">Signature (draw below)</label>
+      <div class="sig-wrap">
+        <canvas id="sigCanvas" width="748" height="110"></canvas>
+        <div class="sig-actions">
+          <span>Sign above using mouse or touch</span>
+          <button type="button" class="sig-clear" onclick="clearSig()">Clear</button>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:1.5rem;">
+      <button type="submit" id="submitBtn">Submit &amp; Download PDF</button>
+      <div id="errMsg" class="hidden"></div>
+    </div>
+  </div>
+
+  <!-- For Church Office Use Only -->
+  <div class="sh">For Church Office Use Only</div>
+  <div class="sb" style="background:rgba(59,18,96,.015);">
+    <div style="display:flex;align-items:center;gap:.55rem;margin-bottom:1.1rem;padding:.6rem 1rem;background:rgba(200,168,75,.09);border:1px solid rgba(200,168,75,.32);border-radius:8px;">
+      <span style="font-size:.95rem;flex-shrink:0;">&#9888;&#65039;</span>
+      <span style="font-size:.8rem;color:#7a5500;font-style:italic;">This section is to be completed by church administration only.</span>
+    </div>
+    <div class="g2">
+      <div class="f"><label class="lbl" for="officePastorName">Pastor's Name</label><input type="text" id="officePastorName"/></div>
+      <div class="f"><label class="lbl" for="officePastorSig">Signature</label><input type="text" id="officePastorSig"/></div>
+      <div class="f"><label class="lbl" for="officeDate">Date</label><input type="date" id="officeDate"/></div>
+      <div class="f"><label class="lbl" for="officeHFName">H.F. Name (If New Member)</label><input type="text" id="officeHFName"/></div>
+      <div class="f"><label class="lbl" for="officeHFLeader">H.F. Leader's Name</label><input type="text" id="officeHFLeader"/></div>
+      <div class="f"><label class="lbl" for="officeMemberCardNo">Membership Card No.</label><input type="text" id="officeMemberCardNo"/></div>
+    </div>
+    <div class="grace-quote" style="margin-top:1.2rem;font-size:.83rem;">
+      "It is our desire that with one heart and voice we might glorify the God and Father of our Lord Jesus Christ."
+    </div>
+  </div>
+
+</form>
+
+<!-- ═══════ SIGNATURE PAD JS ═══════ -->
+<script>
+(function(){
+  const canvas = document.getElementById('sigCanvas');
+  const ctx = canvas.getContext('2d');
+  let drawing = false;
+
+  function resizeCanvas(){
+    const rect = canvas.parentElement.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = 110 * dpr;
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = '110px';
+    ctx.scale(dpr, dpr);
+    ctx.strokeStyle = '#1a1128';
+    ctx.lineWidth = 1.8;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  function getPos(e){
+    const rect = canvas.getBoundingClientRect();
+    if(e.touches) return {x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top};
+    return {x: e.clientX - rect.left, y: e.clientY - rect.top};
+  }
+  canvas.addEventListener('mousedown', e=>{drawing=true; ctx.beginPath(); const p=getPos(e); ctx.moveTo(p.x,p.y);});
+  canvas.addEventListener('mousemove', e=>{if(!drawing) return; const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke();});
+  canvas.addEventListener('mouseup', ()=>drawing=false);
+  canvas.addEventListener('mouseleave', ()=>drawing=false);
+  canvas.addEventListener('touchstart', e=>{e.preventDefault(); drawing=true; ctx.beginPath(); const p=getPos(e); ctx.moveTo(p.x,p.y);}, {passive:false});
+  canvas.addEventListener('touchmove', e=>{e.preventDefault(); if(!drawing) return; const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke();}, {passive:false});
+  canvas.addEventListener('touchend', ()=>drawing=false);
+
+  window.clearSig = function(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  };
+
+  window.getSigDataURL = function(){
+    const data = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+    const hasContent = data.some((v,i)=> i%4===3 && v>0);
+    return hasContent ? canvas.toDataURL('image/png') : null;
+  };
+})();
+</script>
+
+<!-- ═══════ "OTHER" TOGGLE ═══════ -->
+<script>
+function toggleOther(chkId, boxId){
+  const chk = document.getElementById(chkId);
+  const box = document.getElementById(boxId);
+  box.classList.toggle('show', chk.checked);
+}
+</script>
+
+<!-- ═══════ PDF GENERATION — 2-PAGE COMPACT ═══════ -->
+<script>
+(function(){
+  const val = id => (document.getElementById(id)?.value?.trim() ?? "");
+  const multiCheck = name => [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(e=>e.value);
+  const radioVal  = name => { const e=document.querySelector(`input[name="${name}"]:checked`); return e?e.value:""; };
+
+  async function getPhotoBase64(){
+    const file = document.getElementById('passportPhoto').files[0];
+    if(!file) return null;
+    return new Promise((res,rej)=>{
+      const r=new FileReader();
+      r.onload=e=>res(e.target.result);
+      r.onerror=rej;
+      r.readAsDataURL(file);
+    });
+  }
+
+  async function generatePDF(d){
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation:"portrait", unit:"mm", format:"a4" });
+    const W=210, ML=12, MR=198, CW=MR-ML;
+
+    // Colour palette
+    const PU=[59,18,96], PU2=[92,31,150], PU3=[123,58,191];
+    const GD=[200,168,75], WH=[255,255,255], LG=[247,243,255], DK=[26,17,40];
+
+    let y = 0;
+
+    // ── Helpers ──
+    const sf=(st,sz)=>{doc.setFont("helvetica",st);doc.setFontSize(sz);};
+    const sc=(rgb)=>doc.setTextColor(...rgb);
+    const fr=(x,yy,w,h,rgb)=>{doc.setFillColor(...rgb);doc.rect(x,yy,w,h,"F");};
+    const dr=(x,yy,w,h,rgb)=>{doc.setDrawColor(...rgb);doc.rect(x,yy,w,h,"S");};
+    const tx=(s,x,yy,opts={})=>doc.text(String(s||""),x,yy,opts);
+    const ln=(x1,y1,x2,y2,rgb=[210,200,230])=>{doc.setDrawColor(...rgb);doc.line(x1,y1,x2,y2);};
+
+    // Slim gradient header (8mm)
+    const gradHdr=(yy)=>{
+      fr(0,yy,W*0.5,8,PU); fr(W*0.4,yy,W*0.6,8,PU2); fr(W*0.75,yy,W*0.25,8,PU3);
+      doc.setFillColor(...GD); doc.rect(0,yy+8,W,.6,"F");
+    };
+
+    // Slim section header (5.5mm)
+    const sh=(title)=>{
+      y+=3;
+      fr(ML,y,CW,5.5,PU2);
+      doc.setFillColor(...GD); doc.rect(ML,y,2,5.5,"F");
+      sf("bold",6); sc(WH); tx(title.toUpperCase(),ML+5,y+4);
+      y+=8;
+    };
+
+    // Compact field box (height 7.5mm)
+    const FH=7.5;
+    const field=(lbl,v,x,yy,w)=>{
+      fr(x,yy,w,FH,LG); dr(x,yy,w,FH,[220,212,240]);
+      sf("bold",5); sc(PU2); tx(lbl,x+2,yy+2.8);
+      sf("normal",7); sc(DK);
+      const lines=doc.splitTextToSize(String(v||"—"),w-4);
+      tx(lines[0]||"",x+2,yy+6.3);
+    };
+
+    const twoF=(l1,v1,l2,v2)=>{ const hw=(CW-2)/2; field(l1,v1,ML,y,hw); field(l2,v2,ML+hw+2,y,hw); y+=FH+1.5; };
+    const threeF=(l1,v1,l2,v2,l3,v3)=>{ const tw=(CW-4)/3; field(l1,v1,ML,y,tw); field(l2,v2,ML+tw+2,y,tw); field(l3,v3,ML+tw*2+4,y,tw); y+=FH+1.5; };
+    const fourF=(l1,v1,l2,v2,l3,v3,l4,v4)=>{ const fw=(CW-6)/4; [0,1,2,3].forEach(i=>{ const labels=[l1,l2,l3,l4],vals=[v1,v2,v3,v4]; field(labels[i],vals[i],ML+i*(fw+2),y,fw); }); y+=FH+1.5; };
+
+    // Slim page footer (5mm)
+    const pgFooter=(pg,total)=>{
+      fr(0,291,W,6,PU); doc.setFillColor(...GD); doc.rect(0,291,W,.4,"F");
+      sf("italic",6); sc([210,195,230]);
+      tx('"...with one heart and voice we might glorify the God and Father of our Lord Jesus Christ."',W/2,295,{align:"center"});
+      sf("normal",5.5); sc(GD);
+      tx(`Page ${pg} of ${total}  |  KCMC Membership Form  |  ${new Date().toLocaleDateString("en-KE",{day:"2-digit",month:"short",year:"numeric"})}`,W/2,299,{align:"center"});
+    };
+
+    // ══════════════════════════════════════════
+    //  PAGE 1
+    // ══════════════════════════════════════════
+    gradHdr(0);
+    sf("bold",12); sc(WH); tx("KINGDOM COVENANT MINISTRIES CHURCH",W/2,6,{align:"center"});
+    y=12;
+
+    // ── PURPOSE (single-line italic, no box) ──
+    sf("italic",6.5); sc([80,60,110]);
+    const purposeLines=[
+      "• Gives you ownership & greater commitment to the work of the local church.",
+      "• Gives you the opportunity to be part of the decision-making process for positive ministry emphasis.",
+      "• Gives you the opportunity to serve in leadership that benefits yourself and the local body of believers."
+    ];
+    purposeLines.forEach(l=>{ tx(l,ML,y); y+=3.8; });
+    y+=1;
+    sf("italic",6.2); sc([100,75,140]);
+    const graceText="As we experience God's grace in Christ, we become more like Him and are motivated to keep growing. The following commitments reflect our desire to be transformed by grace into fully devoted followers of Jesus Christ.";
+    const graceLines=doc.splitTextToSize(graceText,CW);
+    doc.setFillColor(...[252,248,255]); doc.rect(ML,y,CW,graceLines.length*3.6+3,"F");
+    doc.setDrawColor(...PU2); doc.setLineWidth(.4); doc.line(ML,y,ML,y+graceLines.length*3.6+3);
+    graceLines.forEach((l,i)=>tx(l,ML+3,y+3+i*3.6));
+    y+=graceLines.length*3.6+5;
+
+    // ── MEMBERSHIP COMMITMENTS (2-col compact) ──
+    sh("Membership Commitments");
+    const pillar=(title,items,cx,cy,cw)=>{
+      sf("bold",6.5); sc(DK); tx(title.toUpperCase(),cx,cy+4);
+      doc.setDrawColor(...GD); doc.setLineWidth(.4); doc.line(cx,cy+5,cx+cw,cy+5);
+      let py=cy+9;
+      items.forEach(({key,bold,rest})=>{
+        const kw=doc.getTextWidth(key+" ")+0.5;
+        sf("bold",5.5); sc(PU2); tx(key,cx,py);
+        const fullText=bold+" "+rest;
+        const wrapped=doc.splitTextToSize(fullText,cw-kw-1);
+        wrapped.forEach((line,i)=>{
+          if(i===0){
+            const bl=line.substring(0,Math.min(bold.length+1,line.length));
+            const nl=line.substring(bl.length);
+            sf("bold",5.5); sc(DK); tx(bl,cx+kw,py);
+            if(nl){sf("normal",5.5);sc([65,50,95]);tx(nl,cx+kw+doc.getTextWidth(bl),py);}
+          } else {
+            sf("normal",5.5);sc([65,50,95]);tx(line,cx+kw,py+i*3);
+          }
+        });
+        py+=wrapped.length*3+1.8;
+      });
+      return py;
+    };
+    const colW=(CW-5)/2, c1=ML, c2=ML+colW+5;
+    const commitTop=y;
+    let ly=y, ry=y;
+    ly=pillar("❤ Love God",[
+      {key:"a)",bold:"WORSHIP:",rest:"I will give priority to corporate worship, whether in-person or online, engaging with my mind and heart."},
+      {key:"b)",bold:"WORD & PRAYER:",rest:"I will regularly read the Bible and pray, including through digital devotionals if helpful."},
+    ],c1,ly,colW);
+    ly+=2;
+    ly=pillar("🌱 Grow in Christ",[
+      {key:"a)",bold:"FELLOWSHIP:",rest:"I will connect into a Home Fellowship Group, Youth Group, or Discipleship Circle to grow toward maturity."},
+      {key:"b)",bold:"HOLINESS:",rest:"I will strive to live daily in a way that pleases God, relying on the Holy Spirit, especially in relationships, work, and digital life."},
+      {key:"c)",bold:"CALLING [Youth]:",rest:"I am open to exploring my gifts through serving, mentoring, and training opportunities."},
+    ],c1,ly,colW);
+    ry=pillar("🤝 Serve the Church",[
+      {key:"a)",bold:"INVEST:",rest:"I will use my time, talents, and skills to serve others and give generously, whether through traditional or digital means."},
+      {key:"b)",bold:"PROTECT:",rest:"I will live in harmony and unity, being positive in speech and action online and offline, seeking biblical reconciliation."},
+    ],c2,ry,colW);
+    ry+=2;
+    ry=pillar("🌍 Reach the World",[
+      {key:"a)",bold:"WITNESS WORD:",rest:"I will share the Gospel with those in my home, school, workplace, community, and digital networks."},
+      {key:"b)",bold:"WITNESS DEED:",rest:"I will adorn the Gospel with loving acts of service and sacrifice, including youth-led outreach."},
+      {key:"c)",bold:"DIGITAL [Youth]:",rest:"I will be a light on social media and online platforms, representing Christ with integrity and truth."},
+    ],c2,ry,colW);
+    // vertical divider
+    doc.setDrawColor(...[215,205,235]); doc.setLineWidth(.3);
+    doc.line(ML+colW+2.5,commitTop,ML+colW+2.5,Math.max(ly,ry));
+    y=Math.max(ly,ry)+3;
+
+    // ── PERSONAL INFORMATION ──
+    // Reserve space for photo on the right (28×34mm)
+    const pBX=MR-30, pBY=y+6, pW=28, pH=34;
+    sh("Personal Information");
+    // Full name wide
+    const fnW=CW-33;
+    fr(ML,y,fnW,FH+1,[240,235,255]); dr(ML,y,fnW,FH+1,[215,205,240]);
+    doc.setFillColor(...GD); doc.rect(ML,y,2,FH+1,"F");
+    sf("bold",5); sc(PU2); tx("FULL NAMES",ML+4,y+2.8);
+    sf("bold",9); sc(DK); tx(d.fullNames||"—",ML+4,y+7.3);
+    y+=FH+2.5;
+    twoF("OCCUPATION / PROFESSION",d.occupation,"EMPLOYER",d.employer);
+    threeF("BIRTHPLACE / VILLAGE",d.birthplace,"WARD",d.ward,"COUNTY",d.county);
+    fourF("DATE OF BIRTH",d.dateOfBirth,"MOBILE 1",d.mobile1,"MOBILE 2",d.mobile2,"MOBILE 3",d.mobile3);
+    twoF("EMAIL ADDRESS",d.email,"ID / PASSPORT NO.",d.idNumber);
+
+    // Draw photo box on top
+    fr(pBX,pBY,pW,pH,LG); dr(pBX,pBY,pW,pH,GD);
+    const cs=2.5; doc.setDrawColor(...GD); doc.setLineWidth(.7);
+    [[pBX,pBY],[pBX+pW-cs,pBY],[pBX,pBY+pH-cs],[pBX+pW-cs,pBY+pH-cs]].forEach(([cx,cy])=>{
+      doc.line(cx,cy,cx+cs,cy); doc.line(cx,cy,cx,cy+cs);
+    });
+    if(d._photoB64){
+      try{ const fmt=d._photoB64.startsWith('data:image/png')?'PNG':'JPEG'; doc.addImage(d._photoB64,fmt,pBX+.8,pBY+.8,pW-1.6,pH-1.6); }
+      catch(e){ sf("bold",6); sc(PU2); tx("PHOTO",pBX+pW/2,pBY+pH/2,{align:"center"}); }
+    } else {
+      sf("bold",5.5); sc(PU2); tx("PASSPORT",pBX+pW/2,pBY+12,{align:"center"}); tx("PHOTO",pBX+pW/2,pBY+16.5,{align:"center"});
+      sf("normal",5); sc([160,140,190]); tx("(affix original)",pBX+pW/2,pBY+21,{align:"center"});
+    }
+
+    // ── SPIRITUAL & MARITAL ──
+    sh("Spiritual & Marital Background");
+    threeF("BAPTIZED?",d.baptized,"BAPTISM DATE",d.baptismDate,"CHURCH BAPTIZED",d.churchBaptized);
+    fourF("MARITAL STATUS",d.maritalStatus,"SPOUSE FULL NAME",d.spouseName,"SPOUSE CONTACT",d.spouseContact,"MARRIAGE DATE",d.marriageDate);
+    twoF("IF CHURCH WEDDING — WHERE",d.weddingChurch,"ANOTHER CHURCH MEMBER?",d.anotherChurchMember);
+    twoF("OTHER CHURCH / LOCATION",d.otherChurchLocation,"YEARS IN COMMUNITY",d.yearsInCommunity);
+    threeF("PAST CHURCH OFFICE 1",d.pastOffice1,"PAST CHURCH OFFICE 2",d.pastOffice2,"PAST CHURCH OFFICE 3",d.pastOffice3);
+
+    // ── YOUTH-SPECIFIC ──
+    sh("Youth-Specific Section");
+    twoF("DESIRE TO MENTOR / BE MENTORED?",d.desireMentoring,"STAY CONNECTED VIA",d.stayConnectedVia?.join(", ")||"—");
+    // serving interests full-width
+    fr(ML,y,CW,FH,LG); dr(ML,y,CW,FH,[220,212,240]);
+    sf("bold",5); sc(PU2); tx("INTERESTED IN SERVING IN",ML+2,y+2.8);
+    sf("normal",7); sc(DK); tx(d.servingInterests?.join("  •  ")||"—",ML+2,y+6.3);
+    y+=FH+1.5;
+
+    pgFooter(1,2);
+
+    // ══════════════════════════════════════════
+    //  PAGE 2
+    // ══════════════════════════════════════════
+    doc.addPage();
+    gradHdr(0);
+    sf("bold",10); sc(WH); tx("KINGDOM COVENANT MINISTRIES CHURCH — MEMBERSHIP FORM (continued)",W/2,6,{align:"center"});
+    y=13;
+
+    // ── FAMILY INFORMATION ──
+    sh("Family Information (Household Members)");
+    // Table header
+    const fc=[58,18,42,58], fx=[ML];
+    fc.forEach((w,i)=>fx.push(fx[i]+fc[i]));
+    fr(ML,y,CW,6,PU); doc.setFillColor(...GD); doc.rect(ML,y,2,6,"F");
+    ["FULL NAME","AGE","RELATIONSHIP","CONTACT"].forEach((h,i)=>{sf("bold",6);sc(WH);tx(h,fx[i]+2,y+4.2);});
+    y+=6;
+    const rows=(d.familyMembers||[]);
+    // Ensure 12 rows total (empty if needed)
+    while(rows.length<12) rows.push({name:"",age:"",relationship:"",contact:""});
+    rows.slice(0,12).forEach((m,ri)=>{
+      const rh=5.5;
+      fr(ML,y,CW,rh,ri%2===0?LG:WH); dr(ML,y,CW,rh,[218,210,232]);
+      fx.slice(1).forEach(cx=>ln(cx,y,cx,y+rh,[210,202,225]));
+      sf("normal",7); sc(DK);
+      tx(m.name||"",fx[0]+1.5,y+4); tx(m.age||"",fx[1]+1.5,y+4);
+      tx(m.relationship||"",fx[2]+1.5,y+4); tx(m.contact||"",fx[3]+1.5,y+4);
+      y+=rh;
+    });
+    y+=3;
+
+    // ── COMMITMENT DECLARATION ──
+    sh("Commitment Declaration");
+    const declText="I commit myself to be faithful and loyal to Jesus Christ above all and to represent Him through a Godly lifestyle of obedience to His Word. I further commit myself to be faithful to my local church and my family. If I find that I can no longer keep these commitments for any reason, I will resign as a member of KCMC. I have read and agree with KCMC Statement of Core Values, Vision and Mission Statement and What We Believe Statement.";
+    const dLines=doc.splitTextToSize(declText,CW-6);
+    const dBoxH=dLines.length*3.6+5;
+    fr(ML,y,CW,dBoxH,[252,248,240]); dr(ML,y,CW,dBoxH,GD);
+    doc.setFillColor(...GD); doc.rect(ML,y,2,dBoxH,"F");
+    sf("italic",6.8); sc([70,50,100]);
+    dLines.forEach((l,i)=>tx(l,ML+5,y+4+i*3.6));
+    y+=dBoxH+2;
+
+    // ID / Date / Signature in one row
+    const tw3=(CW-4)/3;
+    field("ID / PASSPORT NUMBER",d.idNumber,ML,y,tw3);
+    field("DECLARATION DATE",d.declarationDate,ML+tw3+2,y,tw3);
+    // Signature box (taller: 14mm)
+    const sigH=14;
+    fr(ML+tw3*2+4,y,tw3,sigH,LG); dr(ML+tw3*2+4,y,tw3,sigH,[220,212,240]);
+    sf("bold",5); sc(PU2); tx("SIGNATURE",ML+tw3*2+6,y+2.8);
+    if(d._sigB64){
+      try{ doc.addImage(d._sigB64,'PNG',ML+tw3*2+5,y+3.5,tw3-4,sigH-5); }catch(e){}
+    } else {
+      doc.setDrawColor(...[190,175,220]); doc.setLineWidth(.4);
+      doc.line(ML+tw3*2+6,y+sigH-2,MR-3,y+sigH-2);
+    }
+    y+=sigH+3;
+
+    // ── FOR CHURCH OFFICE USE ONLY ──
+    sh("For Church Office Use Only");
+    // Amber notice
+    doc.setFillColor(252,248,225); doc.rect(ML,y,CW,6,"F");
+    doc.setDrawColor(...GD); doc.rect(ML,y,CW,6,"S");
+    sf("italic",6); sc([120,85,0]); tx("⚠ This section is to be completed by church administration only.",ML+4,y+4.2);
+    y+=8;
+    const offRowH=14;
+    const offFields=[
+      ["PASTOR'S NAME","SIGNATURE / STAMP"],
+      ["DATE","H.F. NAME (IF NEW MEMBER)"],
+      ["H.F. LEADER'S NAME","MEMBERSHIP CARD NO."],
+    ];
+    offFields.forEach(([l1,l2])=>{
+      const hw=(CW-2)/2;
+      fr(ML,y,hw,offRowH,[250,248,255]); dr(ML,y,hw,offRowH,[215,207,235]);
+      doc.setFillColor(...PU2); doc.rect(ML,y,2,offRowH,"F");
+      sf("bold",6); sc(PU2); tx(l1,ML+5,y+4.5);
+      doc.setDrawColor(...[185,170,215]); doc.setLineWidth(.4);
+      doc.line(ML+5,y+offRowH-2.5,ML+hw-3,y+offRowH-2.5);
+      fr(ML+hw+2,y,hw,offRowH,[250,248,255]); dr(ML+hw+2,y,hw,offRowH,[215,207,235]);
+      doc.setFillColor(...PU2); doc.rect(ML+hw+2,y,2,offRowH,"F");
+      sf("bold",6); sc(PU2); tx(l2,ML+hw+7,y+4.5);
+      doc.setDrawColor(...[185,170,215]); doc.setLineWidth(.4);
+      doc.line(ML+hw+7,y+offRowH-2.5,MR-3,y+offRowH-2.5);
+      y+=offRowH+2;
+    });
+
+    pgFooter(2,2);
+
+    const safe=(d.fullNames||"member").replace(/\s+/g,"_").replace(/[^a-z0-9_]/gi,"");
+    doc.save(`KCMC_${safe}_Registration.pdf`);
+  }
+
+  document.getElementById("regForm").addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const btn=document.getElementById("submitBtn");
+    btn.disabled=true; btn.textContent="Generating PDF…";
+    try{
+      const photoB64=await getPhotoBase64();
+      const sigB64=window.getSigDataURL ? window.getSigDataURL() : null;
+
+      let servingArr = multiCheck("serving").filter(v=>v!=="Other");
+      const servOther = val("servOtherText");
+      if(document.getElementById('servOtherChk')?.checked && servOther) servingArr.push(servOther);
+
+      let connArr = multiCheck("connected").filter(v=>v!=="Other");
+      const connOther = val("connOtherText");
+      if(document.getElementById('connOtherChk')?.checked && connOther) connArr.push(connOther);
+
+      const data={
+        fullNames:          val("fullNames"),
+        occupation:         val("occupation"),
+        employer:           val("employer"),
+        birthplace:         val("birthplace"),
+        ward:               val("ward"),
+        county:             val("county"),
+        dateOfBirth:        val("dateOfBirth"),
+        mobile1:            val("mobile1"),
+        mobile2:            val("mobile2"),
+        mobile3:            val("mobile3"),
+        email:              val("email"),
+        baptized:           radioVal("baptized"),
+        baptismDate:        val("baptismDate"),
+        churchBaptized:     val("churchBaptized"),
+        maritalStatus:      val("maritalStatus"),
+        spouseName:         val("spouseName"),
+        spouseContact:      val("spouseContact"),
+        marriageDate:       val("marriageDate"),
+        weddingChurch:      val("weddingChurch"),
+        anotherChurchMember:radioVal("anotherChurch"),
+        otherChurchLocation:val("otherChurchLocation"),
+        yearsInCommunity:   val("yearsInCommunity"),
+        pastOffice1:        val("pastOffice1"),
+        pastOffice2:        val("pastOffice2"),
+        pastOffice3:        val("pastOffice3"),
+        familyMembers:      [1,2,3,4,5,6,7,8,9,10,11,12].map(i=>({
+          name:         val(`famName${i}`),
+          age:          val(`famAge${i}`),
+          relationship: val(`famRel${i}`),
+          contact:      val(`famContact${i}`)
+        })).filter(m=>m.name),
+        desireMentoring:    radioVal("mentoring"),
+        servingInterests:   servingArr,
+        stayConnectedVia:   connArr,
+        idNumber:           val("idNumber"),
+        declarationDate:    val("declarationDate"),
+        _photoB64:          photoB64,
+        _sigB64:            sigB64
+      };
+
+      await new Promise(r=>setTimeout(r,60));
+      generatePDF(data);
+      document.getElementById("regForm").classList.add("hidden");
+      document.getElementById("successMsg").classList.remove("hidden");
+    }catch(err){
+      console.error(err);
+      const el=document.getElementById("errMsg");
+      el.textContent="Error generating PDF: "+err.message;
+      el.classList.remove("hidden");
+      btn.disabled=false; btn.textContent="Submit & Download PDF";
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
