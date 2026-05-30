@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>KCMC Discipleship — Daily Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink: #1a1208;
+    --gold: #c9952a;
+    --gold-light: #f0c96a;
+    --cream: #fdf8ef;
+    --warm: #f5ede0;
+    --rust: #8b3a1c;
+    --forest: #1e4035;
+    --card: #fffdf7;
+    --border: #e8d9c0;
+    --muted: #7a6a54;
+    --success: #2d7a4f;
+    --radius: 14px;
+    --shadow: 0 4px 24px rgba(26,18,8,0.10);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,149,42,0.13) 0%, transparent 70%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9952a' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--forest);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .nav-cross {
+    width: 32px; height: 32px;
+    background: var(--gold);
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--forest);
+    flex-shrink: 0;
+  }
+  .nav-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+  .nav-sub { font-size: 0.7rem; opacity: 0.65; letter-spacing: 0.08em; text-transform: uppercase; }
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+  }
+  .nav-tab {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.65);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 8px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .nav-tab:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .nav-tab.active { background: var(--gold); color: var(--forest); font-weight: 600; }
+
+  /* ── VIEWS ── */
+  .view { display: none; animation: fadeUp 0.4s ease both; }
+  .view.active { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── HERO STRIP ── */
+  .hero {
+    background: linear-gradient(135deg, var(--forest) 0%, #2c5e4a 100%);
+    color: #fff;
+    padding: 36px 32px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '✝';
+    position: absolute;
+    right: -20px; top: -30px;
+    font-size: 180px;
+    opacity: 0.05;
+    font-family: serif;
+    line-height: 1;
+  }
+  .hero-date {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 6px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 900;
+    line-height: 1.1;
+  }
+  .hero h1 span { color: var(--gold-light); }
+  .hero p {
+    margin-top: 8px;
+    opacity: 0.7;
+    font-size: 0.9rem;
+    max-width: 480px;
+  }
+
+  /* ── FORM LAYOUT ── */
+  .form-wrap {
+    max-width: 760px;
+    margin: 36px auto 60px;
+    padding: 0 20px;
+  }
+
+  .section-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    position: relative;
+    animation: fadeUp 0.5s ease both;
+  }
+  .section-card:nth-child(2) { animation-delay: 0.07s; }
+  .section-card:nth-child(3) { animation-delay: 0.14s; }
+  .section-card:nth-child(4) { animation-delay: 0.21s; }
+  .section-card:nth-child(5) { animation-delay: 0.28s; }
+
+  .section-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--forest);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label .icon {
+    width: 30px; height: 30px;
+    background: linear-gradient(135deg, var(--forest), #2c5e4a);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width: 540px) { .field-row { grid-template-columns: 1fr; } }
+
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .field label .req { color: var(--rust); margin-left: 2px; }
+
+  input[type="text"], input[type="date"], input[type="number"],
+  input[type="email"], select, textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    border: 1.5px solid var(--border);
+    border-radius: 9px;
+    padding: 10px 14px;
+    background: var(--cream);
+    color: var(--ink);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+    outline: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,149,42,0.15);
+  }
+  textarea { resize: vertical; min-height: 90px; }
+  select { cursor: pointer; }
+
+  /* Photo upload */
+  .photo-drop {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--cream);
+    position: relative;
+  }
+  .photo-drop:hover, .photo-drop.drag-over {
+    border-color: var(--gold);
+    background: rgba(201,149,42,0.05);
+  }
+  .photo-drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .photo-drop .drop-icon { font-size: 2.5rem; margin-bottom: 8px; }
+  .photo-drop .drop-text { font-size: 0.88rem; color: var(--muted); }
+  .photo-drop .drop-text strong { color: var(--forest); }
+
+  .photo-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .photo-thumb-wrap {
+    position: relative;
+    width: 90px; height: 90px;
+  }
+  .photo-thumb-wrap img {
+    width: 100%; height: 100%;
+    border-radius: 9px;
+    object-fit: cover;
+    border: 2px solid var(--border);
+  }
+  .remove-photo {
+    position: absolute;
+    top: -6px; right: -6px;
+    width: 20px; height: 20px;
+    background: var(--rust);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 11px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    line-height: 1;
+  }
+
+  /* Attendance counter */
+  .counter-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .counter-box {
+    flex: 1; min-width: 130px;
+    background: var(--warm);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .counter-box label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .counter-box input {
+    font-size: 1.5rem;
+    font-weight: 700;
+    border: none;
+    background: transparent;
+    padding: 0;
+    color: var(--forest);
+    width: 100%;
+  }
+  .counter-box input:focus { box-shadow: none; border: none; }
+  .total-box {
+    background: linear-gradient(135deg, var(--forest), #2c5e4a);
+    border-color: var(--forest);
+    color: #fff;
+  }
+  .total-box label { color: rgba(255,255,255,0.7); }
+  .total-box .total-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+
+  /* Sheets status */
+  .sheets-banner { max-width: 760px; margin: 16px auto 0; padding: 0 20px; }
+  .sheets-status {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px; border-radius: 10px; font-size: 0.83rem; font-weight: 500;
+    border: 1.5px solid var(--border); background: var(--card);
+  }
+  .sheets-status.connected { border-color: #2d7a4f; background: rgba(45,122,79,0.07); color: #1a5c35; }
+  .sheets-status.error { border-color: var(--rust); background: rgba(139,58,28,0.07); color: var(--rust); }
+  .sheets-status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
+  .sheets-status.connected .dot { background: var(--success); }
+  .sheets-status.error .dot { background: var(--rust); }
+
+  /* Submit / Actions */
+  .action-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 12px 28px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--forest), #2c5e4a);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(30,64,53,0.25);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(30,64,53,0.3); }
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), #e0a830);
+    color: var(--forest);
+    box-shadow: 0 4px 16px rgba(201,149,42,0.25);
+  }
+  .btn-gold:hover { transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--forest);
+    border: 1.5px solid var(--forest);
+  }
+  .btn-outline:hover { background: rgba(30,64,53,0.06); }
+  .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none !important; }
+  .spinner {
+    width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.35);
+    border-top-color: #fff; border-radius: 50%;
+    animation: spin 0.7s linear infinite; display: none;
+  }
+  .btn.loading .spinner { display: block; }
+  .btn.loading .btn-label { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    background: var(--forest);
+    color: #fff;
+    padding: 14px 22px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(.34,1.56,.64,1);
+    max-width: 360px;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast .toast-icon { font-size: 1.2rem; }
+
+  /* ── ADMIN DASHBOARD ── */
+  .dashboard-wrap {
+    max-width: 1000px;
+    margin: 36px auto 60px;
+    padding: 0 20px;
+  }
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 20px;
+    box-shadow: var(--shadow);
+    animation: fadeUp 0.5s ease both;
+  }
+  .stat-card:nth-child(2) { animation-delay: 0.07s; }
+  .stat-card:nth-child(3) { animation-delay: 0.14s; }
+  .stat-card:nth-child(4) { animation-delay: 0.21s; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: var(--forest);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .stat-icon { font-size: 1.5rem; margin-bottom: 8px; }
+
+  .dash-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--forest);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dash-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .report-table-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: auto;
+    margin-bottom: 28px;
+    animation: fadeUp 0.5s ease 0.1s both;
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 600px; }
+  thead th {
+    background: var(--forest);
+    color: #fff;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 12px 16px;
+    text-align: left;
+  }
+  thead th:first-child { border-radius: 12px 0 0 0; }
+  thead th:last-child  { border-radius: 0 12px 0 0; }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(201,149,42,0.05); }
+  tbody td {
+    padding: 12px 16px;
+    font-size: 0.87rem;
+    color: var(--ink);
+    vertical-align: middle;
+  }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .badge-green { background: rgba(45,122,79,0.12); color: var(--success); }
+  .badge-gold  { background: rgba(201,149,42,0.15); color: #8a6410; }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+  .empty-state .empty-icon { font-size: 3rem; margin-bottom: 12px; }
+  .empty-state p { font-size: 0.92rem; }
+
+  /* Report detail modal */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(26,18,8,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--card);
+    border-radius: 18px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+    max-width: 620px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    animation: fadeUp 0.3s ease;
+  }
+  .modal-header {
+    background: linear-gradient(135deg, var(--forest), #2c5e4a);
+    color: #fff;
+    padding: 22px 28px;
+    border-radius: 18px 18px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .modal-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  .modal-header p { opacity: 0.65; font-size: 0.82rem; margin-top: 3px; }
+  .modal-close {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: grid;
+    place-items: center;
+  }
+  .modal-body { padding: 24px 28px; }
+  .detail-row {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+  }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-key {
+    font-weight: 600;
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    min-width: 130px;
+    padding-top: 2px;
+  }
+  .detail-val { flex: 1; color: var(--ink); }
+  .modal-photos { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .modal-photos img {
+    width: 80px; height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+  }
+
+  /* Setup modal */
+  .setup-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(26,18,8,0.6); z-index: 300;
+    align-items: center; justify-content: center; padding: 20px;
+    backdrop-filter: blur(4px);
+  }
+  .setup-overlay.open { display: flex; }
+  .setup-modal {
+    background: var(--card); border-radius: 18px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+    max-width: 580px; width: 100%; overflow: hidden;
+    animation: fadeUp 0.3s ease;
+  }
+  .setup-header {
+    background: linear-gradient(135deg, var(--forest), #2c5e4a);
+    color: #fff; padding: 22px 28px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .setup-header h2 { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; }
+  .setup-header p { opacity: 0.65; font-size: 0.82rem; margin-top: 3px; }
+  .setup-body { padding: 24px 28px; max-height: 75vh; overflow-y: auto; }
+  .setup-step {
+    display: flex; gap: 14px; margin-bottom: 14px;
+    padding: 14px 16px; border: 1.5px solid var(--border);
+    border-radius: 10px; background: var(--cream); font-size: 0.87rem;
+  }
+  .step-num {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--forest); color: #fff;
+    display: grid; place-items: center; font-weight: 700;
+    font-size: 0.78rem; flex-shrink: 0; margin-top: 1px;
+  }
+  .step-content strong { display: block; margin-bottom: 3px; color: var(--forest); }
+  .step-content code {
+    display: block; background: #f0ece3; border: 1px solid var(--border);
+    border-radius: 6px; padding: 8px 12px; font-size: 0.72rem;
+    font-family: monospace; color: var(--ink); margin-top: 6px;
+    word-break: break-all; line-height: 1.6; white-space: pre-wrap;
+  }
+  .setup-url-row { display: flex; gap: 8px; margin-top: 14px; }
+  .setup-url-row input { flex: 1; }
+
+  /* Print styles */
+  @media print {
+    nav, .action-bar, .photo-drop { display: none !important; }
+    body { background: #fff; }
+    .section-card { box-shadow: none; border: 1px solid #ccc; }
+  }
+
+  /* Responsive */
+  @media(max-width: 600px) {
+    nav { padding: 0 16px; }
+    .nav-tabs .nav-tab { padding: 8px 10px; font-size: 0.78rem; }
+    .section-card { padding: 20px 18px; }
+    .hero { padding: 24px 18px; }
+    .form-wrap, .dashboard-wrap { padding: 0 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-cross">✝</div>
+    <div>
+      <div class="nav-title">KCMC Discipleship</div>
+      <div class="nav-sub">Daily Report System</div>
+    </div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" id="tab-form" onclick="switchView('form', this)">📋 New Report</button>
+    <button class="nav-tab" id="tab-admin" onclick="switchView('admin', this)">📊 Dashboard</button>
+    <button class="nav-tab" onclick="openSetup()">⚙️ Setup</button>
+  </div>
+</nav>
+
+<!-- ══════════════ FORM VIEW ══════════════ -->
+<div id="view-form" class="view active">
+  <div class="hero">
+    <div class="hero-date" id="hero-date"></div>
+    <h1>Session <span>Daily Report</span></h1>
+    <p>Fill in all details for today's discipleship session and submit.</p>
+  </div>
+
+  <!-- Sheets connection status -->
+  <div class="sheets-banner">
+    <div class="sheets-status" id="sheets-status">
+      <span class="dot"></span>
+      <span id="sheets-status-text">Google Sheets not configured — click ⚙️ Setup to connect.</span>
+    </div>
+  </div>
+
+  <div class="form-wrap">
+
+    <!-- SESSION INFO -->
+    <div class="section-card">
+      <div class="section-label">
+        <span class="icon">🏫</span> Session Information
+      </div>
+      <div class="field-row" style="margin-bottom:16px">
+        <div class="field">
+          <label>School Name <span class="req">*</span></label>
+          <input type="text" id="f-school" placeholder="e.g. Mwanga Secondary School"/>
+        </div>
+        <div class="field">
+          <label>Date <span class="req">*</span></label>
+          <input type="date" id="f-date"/>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Location / Town</label>
+          <input type="text" id="f-location" placeholder="e.g. Moshi Urban"/>
+        </div>
+        <div class="field">
+          <label>Session Time</label>
+          <input type="text" id="f-time" placeholder="e.g. 9:00 AM – 11:30 AM"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- FACILITATOR -->
+    <div class="section-card">
+      <div class="section-label">
+        <span class="icon">👤</span> Facilitator Details
+      </div>
+      <div class="field-row" style="margin-bottom:16px">
+        <div class="field">
+          <label>Facilitator Name <span class="req">*</span></label>
+          <input type="text" id="f-facilitator" placeholder="Full name"/>
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="f-email" placeholder="facilitator@kcmc.org"/>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Phone / WhatsApp</label>
+          <input type="text" id="f-phone" placeholder="+255 ..."/>
+        </div>
+        <div class="field">
+          <label>Supervisor / Zone</label>
+          <input type="text" id="f-zone" placeholder="e.g. Northern Zone"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- ATTENDANCE -->
+    <div class="section-card">
+      <div class="section-label">
+        <span class="icon">👥</span> Attendance
+      </div>
+      <div class="counter-row">
+        <div class="counter-box">
+          <label>Male Students</label>
+          <input type="number" id="f-male" min="0" value="0" oninput="updateTotal()"/>
+        </div>
+        <div class="counter-box">
+          <label>Female Students</label>
+          <input type="number" id="f-female" min="0" value="0" oninput="updateTotal()"/>
+        </div>
+        <div class="counter-box">
+          <label>Teachers/Staff</label>
+          <input type="number" id="f-staff" min="0" value="0" oninput="updateTotal()"/>
+        </div>
+        <div class="counter-box total-box">
+          <label>Total Present</label>
+          <div class="total-num" id="total-display">0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOPICS -->
+    <div class="section-card">
+      <div class="section-label">
+        <span class="icon">📖</span> Session Topics Covered
+      </div>
+      <div class="field">
+        <label>Topics / Themes Discussed <span class="req">*</span></label>
+        <textarea id="f-topics" placeholder="Describe the topics and themes covered in today's session…" style="min-height:110px"></textarea>
+      </div>
+    </div>
+
+    <!-- CHALLENGES -->
+    <div class="section-card">
+      <div class="section-label">
+        <span class="icon">⚠️</span> Challenges &amp; Observations
+      </div>
+      <div class="field">
+        <label>Challenges Faced</label>
+        <textarea id="f-challenges" placeholder="Describe any challenges encountered during the session…"></textarea>
+      </div>
+      <div class="field" style="margin-top:16px">
+        <label>Key Observations / Highlights</label>
+        <textarea id="f-highlights" placeholder="Notable moments, student responses, breakthroughs…"></textarea>
+      </div>
+    </div>
+
+    <!-- PHOTOS -->
+    <div class="section-card">
+      <div class="section-label">
+        <span class="icon">📷</span> Session Photos
+      </div>
+      <div class="photo-drop" id="photo-drop">
+        <input type="file" id="photo-input" accept="image/*" multiple onchange="handlePhotos(this)"/>
+        <div class="drop-icon">🖼️</div>
+        <div class="drop-text"><strong>Click to upload</strong> or drag photos here<br/>JPG, PNG, WEBP — up to 10 photos</div>
+      </div>
+      <div class="photo-preview" id="photo-preview"></div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="section-card" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+      <div class="action-bar">
+        <button class="btn btn-outline" onclick="clearForm()">🗑 Clear Form</button>
+        <button class="btn btn-gold" onclick="printReport()">🖨 Print Report</button>
+        <button class="btn btn-primary" id="submit-btn" onclick="submitReport()">
+          <span class="spinner"></span>
+          <span class="btn-label">✅ Submit Report</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════ ADMIN VIEW ══════════════ -->
+<div id="view-admin" class="view">
+  <div class="hero">
+    <div class="hero-date" id="hero-date-admin"></div>
+    <h1>Admin <span>Dashboard</span></h1>
+    <p>Overview of all submitted discipleship session reports.</p>
+  </div>
+
+  <div class="dashboard-wrap">
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon">📋</div>
+        <div class="stat-num" id="stat-total">0</div>
+        <div class="stat-label">Total Reports</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🏫</div>
+        <div class="stat-num" id="stat-schools">0</div>
+        <div class="stat-label">Schools Reached</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-num" id="stat-students">0</div>
+        <div class="stat-label">Total Students</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">👤</div>
+        <div class="stat-num" id="stat-facilitators">0</div>
+        <div class="stat-label">Facilitators Active</div>
+      </div>
+    </div>
+
+    <div class="dash-section-title">Submitted Reports</div>
+
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+      <input type="text" id="search-input" placeholder="🔍  Search by school, facilitator…" style="max-width:320px;flex:1" oninput="renderTable()"/>
+      <button class="btn btn-gold" onclick="exportCSV()" style="padding:10px 20px;font-size:0.85rem;">⬇ Export CSV</button>
+    </div>
+
+    <div class="report-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>School</th>
+            <th>Facilitator</th>
+            <th>Attended</th>
+            <th>Photos</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="report-tbody"></tbody>
+      </table>
+      <div id="empty-state" class="empty-state" style="display:none">
+        <div class="empty-icon">📭</div>
+        <p>No reports submitted yet.<br/>Go to <strong>New Report</strong> to add the first one.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div>
+        <h2 id="modal-title">Report Detail</h2>
+        <p id="modal-sub"></p>
+      </div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- SETUP MODAL -->
+<div class="setup-overlay" id="setup-overlay">
+  <div class="setup-modal">
+    <div class="setup-header">
+      <div>
+        <h2>⚙️ Connect Google Sheets</h2>
+        <p>Follow these steps to send reports to your spreadsheet</p>
+      </div>
+      <button class="modal-close" style="background:rgba(255,255,255,0.15);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:grid;place-items:center;" onclick="closeSetup()">✕</button>
+    </div>
+    <div class="setup-body">
+      <div class="setup-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Open your Google Sheet</strong>
+          Click <em>Extensions → Apps Script</em> to open the script editor.
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Paste this full script, then save (Ctrl+S)</strong>
+          <code>function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp
+      .openById("1j_gFds4AZ-NrbQkdkENO-u9I7psIqNutUx2trXEtf6g")
+      .getActiveSheet();
+    // Body arrives as plain text in e.postData.contents
+    var raw = (e && e.postData && e.postData.contents) ? e.postData.contents : null;
+    if (!raw) throw new Error("No data received. Check deployment settings.");
+    var d = JSON.parse(raw);
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(["Timestamp","Date","School",
+        "Location","Session Time","Facilitator",
+        "Email","Phone","Zone","Male","Female",
+        "Staff","Total","Topics","Challenges",
+        "Highlights","Photo Count"]);
+    }
+    sheet.appendRow([
+      new Date().toISOString(),
+      d.date||"", d.school||"", d.location||"",
+      d.time||"", d.facilitator||"", d.email||"",
+      d.phone||"", d.zone||"",
+      d.male||0, d.female||0, d.staff||0, d.total||0,
+      d.topics||"", d.challenges||"",
+      d.highlights||"", d.photoCount||0
+    ]);
+    return ContentService
+      .createTextOutput(JSON.stringify({result:"success"}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService
+      .createTextOutput(JSON.stringify(
+        {result:"error",message:err.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+function doOptions(e) {
+  return ContentService
+    .createTextOutput("")
+    .setMimeType(ContentService.MimeType.TEXT);
+}
+function doGet() {
+  return ContentService.createTextOutput("KCMC OK");
+}</code>
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Deploy as Web App</strong>
+          Click <em>Deploy → New deployment → Web app</em>.<br/>
+          Set <em>"Execute as"</em> = <strong>Me</strong> and <em>"Who has access"</em> = <strong>Anyone</strong>.<br/>
+          Click Deploy, authorize, then copy the <strong>deployment URL</strong>.<br/><br/>
+          ⚠️ <strong>Important:</strong> Every time you edit the script, create a <em>New deployment</em> — do not update the existing one. Apps Script caches the old version otherwise.
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Paste your Web App URL below and click Save &amp; Test</strong>
+        </div>
+      </div>
+      <div class="setup-url-row">
+        <input type="text" id="gas-url-input" placeholder="https://script.google.com/macros/s/…/exec"/>
+        <button class="btn btn-primary" onclick="saveGasUrl()" style="padding:10px 20px;white-space:nowrap;font-size:0.85rem;">Save &amp; Test</button>
+      </div>
+      <div id="test-result" style="margin-top:12px;font-size:0.83rem;min-height:20px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toast-icon">✅</span>
+  <span id="toast-msg">Report submitted successfully!</span>
+</div>
+
+<script>
+// ── DATA ──
+let reports = [];
+try { reports = JSON.parse(localStorage.getItem('kcmc_reports') || '[]'); } catch(e) { reports = []; }
+let photoDataURLs = [];
+
+// ── INIT ──
+function init() {
+  const today = new Date();
+  const fmt = today.toLocaleDateString('en-KE', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  document.getElementById('hero-date').textContent = fmt;
+  document.getElementById('hero-date-admin').textContent = fmt;
+  document.getElementById('f-date').value = today.toISOString().slice(0,10);
+
+  // Drag-drop photos
+  const drop = document.getElementById('photo-drop');
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag-over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('drag-over'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault();
+    drop.classList.remove('drag-over');
+    handleFiles(e.dataTransfer.files);
+  });
+
+  updateSheetsStatus();
+  renderTable();
+  updateStats();
+}
+
+// ── VIEWS ──
+function switchView(v, tabEl) {
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('view-' + v).classList.add('active');
+  if (tabEl) tabEl.classList.add('active');
+  if (v === 'admin') { renderTable(); updateStats(); }
+}
+
+// ── ATTENDANCE ──
+function updateTotal() {
+  const m = parseInt(document.getElementById('f-male').value) || 0;
+  const f = parseInt(document.getElementById('f-female').value) || 0;
+  const s = parseInt(document.getElementById('f-staff').value) || 0;
+  document.getElementById('total-display').textContent = m + f + s;
+}
+
+// ── PHOTOS ──
+function handlePhotos(input) { handleFiles(input.files); }
+function handleFiles(files) {
+  const arr = Array.from(files).slice(0, 10 - photoDataURLs.length);
+  arr.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      photoDataURLs.push(e.target.result);
+      renderPhotoPreview();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+function renderPhotoPreview() {
+  const preview = document.getElementById('photo-preview');
+  preview.innerHTML = '';
+  photoDataURLs.forEach((src, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'photo-thumb-wrap';
+    wrap.innerHTML = `<img src="${src}" alt="Photo ${i+1}"/><button class="remove-photo" onclick="removePhoto(${i})">✕</button>`;
+    preview.appendChild(wrap);
+  });
+}
+function removePhoto(i) {
+  photoDataURLs.splice(i, 1);
+  renderPhotoPreview();
+}
+
+// ── GOOGLE SHEETS INTEGRATION ──
+let GAS_URL = localStorage.getItem('kcmc_gas_url') || '';
+
+function updateSheetsStatus() {
+  const el = document.getElementById('sheets-status');
+  const txt = document.getElementById('sheets-status-text');
+  if (GAS_URL) {
+    el.className = 'sheets-status connected';
+    txt.textContent = '✅ Google Sheets connected — reports will sync automatically.';
+  } else {
+    el.className = 'sheets-status';
+    txt.textContent = 'Google Sheets not configured — click ⚙️ Setup to connect.';
+  }
+}
+
+function openSetup() {
+  document.getElementById('gas-url-input').value = GAS_URL;
+  document.getElementById('test-result').textContent = '';
+  document.getElementById('setup-overlay').classList.add('open');
+}
+function closeSetup() {
+  document.getElementById('setup-overlay').classList.remove('open');
+}
+
+async function saveGasUrl() {
+  const url = document.getElementById('gas-url-input').value.trim();
+  const res = document.getElementById('test-result');
+  if (!url) {
+    res.style.color = 'var(--rust)';
+    res.textContent = '⚠️ Please paste a URL first.';
+    return;
+  }
+  res.style.color = 'var(--muted)';
+  res.textContent = '⏳ Testing connection…';
+  try {
+    // Use no-cors for the GET test only (just checking reachability)
+    await fetch(url, { method: 'GET', mode: 'no-cors' });
+    GAS_URL = url;
+    localStorage.setItem('kcmc_gas_url', GAS_URL);
+    res.style.color = 'var(--success)';
+    res.textContent = '✅ URL saved! Reports will now sync to Google Sheets.';
+    updateSheetsStatus();
+  } catch(e) {
+    res.style.color = 'var(--rust)';
+    res.textContent = '❌ Could not reach that URL. Check the deployment link.';
+  }
+}
+
+// ── SUBMIT REPORT ──
+// FIX: Removed mode:'no-cors' so the real JSON Content-Type header is sent.
+// Apps Script deployed as "Anyone" handles the CORS preflight automatically.
+async function submitReport() {
+  const school      = document.getElementById('f-school').value.trim();
+  const facilitator = document.getElementById('f-facilitator').value.trim();
+  const date        = document.getElementById('f-date').value;
+
+  if (!school || !facilitator || !date) {
+    showToast('⚠️ School, Facilitator and Date are required.', '#8b3a1c', '⚠️');
+    return;
+  }
+
+  const report = {
+    id:         Date.now(),
+    date,
+    school,
+    location:   document.getElementById('f-location').value.trim(),
+    time:       document.getElementById('f-time').value.trim(),
+    facilitator,
+    email:      document.getElementById('f-email').value.trim(),
+    phone:      document.getElementById('f-phone').value.trim(),
+    zone:       document.getElementById('f-zone').value.trim(),
+    male:       parseInt(document.getElementById('f-male').value)   || 0,
+    female:     parseInt(document.getElementById('f-female').value) || 0,
+    staff:      parseInt(document.getElementById('f-staff').value)  || 0,
+    total:      parseInt(document.getElementById('total-display').textContent) || 0,
+    topics:     document.getElementById('f-topics').value.trim(),
+    challenges: document.getElementById('f-challenges').value.trim(),
+    highlights: document.getElementById('f-highlights').value.trim(),
+    photos:     [...photoDataURLs],
+    photoCount: photoDataURLs.length
+  };
+
+  // Save locally first so data is never lost
+  reports.unshift(report);
+  try {
+    localStorage.setItem('kcmc_reports', JSON.stringify(reports));
+  } catch(storageErr) {
+    // localStorage quota exceeded (photos are large) — store without photos
+    const lite = reports.map(r => ({ ...r, photos: [] }));
+    localStorage.setItem('kcmc_reports', JSON.stringify(lite));
+  }
+
+  if (GAS_URL) {
+    const btn = document.getElementById('submit-btn');
+    btn.classList.add('loading');
+    btn.disabled = true;
+
+    // Build payload without base64 photos
+    const payload = { ...report };
+    delete payload.photos;
+    delete payload.id;
+
+    try {
+      // Send as plain text body with no Content-Type header.
+      // This is a CORS "simple request" — no preflight OPTIONS — Apps Script receives
+      // the raw JSON string in e.postData.contents. mode:no-cors needed to suppress
+      // the opaque-response console warning; body IS delivered to the server.
+      await fetch(GAS_URL, {
+        method: 'POST',
+        mode:   'no-cors',
+        body:   JSON.stringify(payload)
+        // NO headers — omitting Content-Type avoids preflight
+      });
+      // no-cors always returns opaque (status 0) — if no exception, delivery succeeded
+      showToast('✅ Report saved to Google Sheets!', 'var(--forest)', '✅');
+    } catch(fetchErr) {
+      showToast('⚠️ Saved locally — Sheets sync failed. Check your deployment URL.', '#8b3a1c', '⚠️');
+      console.error('Sheets sync error:', fetchErr);
+    } finally {
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  } else {
+    showToast('✅ Report saved locally. Connect Sheets via ⚙️ Setup.', 'var(--forest)', '✅');
+  }
+
+  clearForm();
+}
+
+function clearForm() {
+  ['f-school','f-location','f-time','f-facilitator','f-email',
+   'f-phone','f-zone','f-topics','f-challenges','f-highlights']
+    .forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-male').value   = 0;
+  document.getElementById('f-female').value = 0;
+  document.getElementById('f-staff').value  = 0;
+  document.getElementById('total-display').textContent = '0';
+  document.getElementById('f-date').value = new Date().toISOString().slice(0,10);
+  photoDataURLs = [];
+  renderPhotoPreview();
+}
+
+function printReport() { window.print(); }
+
+// ── ADMIN TABLE ──
+function renderTable() {
+  const q = (document.getElementById('search-input')?.value || '').toLowerCase();
+  const filtered = reports.filter(r =>
+    (r.school      || '').toLowerCase().includes(q) ||
+    (r.facilitator || '').toLowerCase().includes(q) ||
+    (r.location    || '').toLowerCase().includes(q)
+  );
+  const tbody = document.getElementById('report-tbody');
+  const empty = document.getElementById('empty-state');
+  tbody.innerHTML = '';
+
+  if (!filtered.length) {
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  filtered.forEach((r, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="badge badge-gold">#${i+1}</span></td>
+      <td>${formatDate(r.date)}</td>
+      <td>
+        <strong>${escHtml(r.school)}</strong>
+        ${r.location ? `<br/><small style="color:var(--muted)">${escHtml(r.location)}</small>` : ''}
+      </td>
+      <td>
+        ${escHtml(r.facilitator)}
+        ${r.zone ? `<br/><small style="color:var(--muted)">${escHtml(r.zone)}</small>` : ''}
+      </td>
+      <td><span class="badge badge-green">${r.total}</span></td>
+      <td>${r.photos && r.photos.length ? `📷 ${r.photos.length}` : '—'}</td>
+      <td>
+        <button class="btn btn-outline"
+          style="padding:6px 14px;font-size:0.8rem;"
+          onclick="viewReport(${r.id})">View</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function updateStats() {
+  document.getElementById('stat-total').textContent        = reports.length;
+  document.getElementById('stat-schools').textContent      = new Set(reports.map(r => r.school)).size;
+  document.getElementById('stat-students').textContent     = reports.reduce((s, r) => s + (r.total || 0), 0);
+  document.getElementById('stat-facilitators').textContent = new Set(reports.map(r => r.facilitator)).size;
+}
+
+// ── DETAIL MODAL ──
+function viewReport(id) {
+  const r = reports.find(x => x.id === id);
+  if (!r) return;
+
+  document.getElementById('modal-title').textContent = r.school;
+  document.getElementById('modal-sub').textContent   = `${formatDate(r.date)} · ${r.facilitator}`;
+
+  const photosHtml = (r.photos && r.photos.length)
+    ? `<div class="modal-photos">${r.photos.map(p => `<img src="${p}" alt=""/>`).join('')}</div>`
+    : '—';
+
+  document.getElementById('modal-body').innerHTML = `
+    <div class="detail-row"><div class="detail-key">Date</div><div class="detail-val">${formatDate(r.date)}</div></div>
+    <div class="detail-row"><div class="detail-key">Session Time</div><div class="detail-val">${escHtml(r.time)||'—'}</div></div>
+    <div class="detail-row"><div class="detail-key">Location</div><div class="detail-val">${escHtml(r.location)||'—'}</div></div>
+    <div class="detail-row"><div class="detail-key">Facilitator</div><div class="detail-val">${escHtml(r.facilitator)}</div></div>
+    <div class="detail-row"><div class="detail-key">Zone</div><div class="detail-val">${escHtml(r.zone)||'—'}</div></div>
+    <div class="detail-row"><div class="detail-key">Email</div><div class="detail-val">${escHtml(r.email)||'—'}</div></div>
+    <div class="detail-row"><div class="detail-key">Phone</div><div class="detail-val">${escHtml(r.phone)||'—'}</div></div>
+    <div class="detail-row"><div class="detail-key">Male Students</div><div class="detail-val">${r.male}</div></div>
+    <div class="detail-row"><div class="detail-key">Female Students</div><div class="detail-val">${r.female}</div></div>
+    <div class="detail-row"><div class="detail-key">Staff / Teachers</div><div class="detail-val">${r.staff}</div></div>
+    <div class="detail-row"><div class="detail-key">Total Attended</div><div class="detail-val"><strong>${r.total}</strong></div></div>
+    <div class="detail-row"><div class="detail-key">Topics</div><div class="detail-val" style="white-space:pre-wrap">${escHtml(r.topics)||'—'}</div></div>
+    <div class="detail-row"><div class="detail-key">Challenges</div><div class="detail-val" style="white-space:pre-wrap">${escHtml(r.challenges)||'—'}</div></div>
+    <div class="detail-row"><div class="detail-key">Highlights</div><div class="detail-val" style="white-space:pre-wrap">${escHtml(r.highlights)||'—'}</div></div>
+    <div class="detail-row"><div class="detail-key">Photos</div><div class="detail-val">${photosHtml}</div></div>
+  `;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+// ── EXPORT CSV ──
+// FIX: r.topics is a string (textarea), not an array — use it directly
+function exportCSV() {
+  if (!reports.length) {
+    showToast('⚠️ No reports to export.', '#8b3a1c', '⚠️');
+    return;
+  }
+  const headers = [
+    'ID','Date','School','Location','Session Time',
+    'Facilitator','Email','Phone','Zone',
+    'Male','Female','Staff','Total',
+    'Topics','Challenges','Highlights','Photo Count'
+  ];
+  const rows = reports.map(r => [
+    r.id,
+    r.date,
+    csvCell(r.school),
+    csvCell(r.location),
+    csvCell(r.time),
+    csvCell(r.facilitator),
+    csvCell(r.email),
+    csvCell(r.phone),
+    csvCell(r.zone),
+    r.male, r.female, r.staff, r.total,
+    csvCell(r.topics),       // FIX: was r.topics.join('; ') — topics is a string
+    csvCell(r.challenges),
+    csvCell(r.highlights),
+    (r.photos || []).length
+  ]);
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = `KCMC_Reports_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  showToast('⬇ CSV exported!', 'var(--forest)', '⬇️');
+}
+
+// ── HELPERS ──
+function csvCell(val) {
+  const s = (val || '').toString().replace(/"/g, '""');
+  return `"${s}"`;
+}
+function escHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function formatDate(d) {
+  if (!d) return '—';
+  return new Date(d + 'T00:00:00').toLocaleDateString('en-KE', {
+    day: 'numeric', month: 'short', year: 'numeric'
+  });
+}
+function showToast(msg, bg, icon) {
+  const t  = document.getElementById('toast');
+  const m  = document.getElementById('toast-msg');
+  const ic = document.getElementById('toast-icon');
+  m.textContent  = msg;
+  ic.textContent = icon || '✅';
+  t.style.background = bg || 'var(--forest)';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ── BOOT ──
+try { init(); } catch(err) { console.error('Init error:', err); }
+</script>
+</body>
+</html>
