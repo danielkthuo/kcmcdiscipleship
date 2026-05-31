@@ -336,7 +336,7 @@
     </div>
     <div class="setup-body">
       <div class="info-banner">
-        ℹ️ This is the <strong>v5 script</strong> — sends report data first, then uploads each photo individually to avoid GAS's 6 MB limit. Re-deploy if you used an older version.
+        ℹ️ This is the <strong>v6 script</strong> — uses FormData POST so GAS reliably receives the body, then uploads each photo individually. <strong>You must re-deploy</strong> if you used an older version.
       </div>
       <div class="setup-step">
         <div class="step-num">1</div>
@@ -347,50 +347,52 @@
         <div class="step-content">
           <strong>Paste the script below and save (Ctrl+S)</strong>
           <code id="gas-script-code">// ══════════════════════════════════════════════
-//  KCMC Discipleship — Apps Script  v5
-//  Report data + per-photo POSTs · no 6MB limit
+//  KCMC Discipleship — Apps Script  v6
+//  FormData POST · per-photo uploads · Drive links in Sheet
 // ══════════════════════════════════════════════
 
-var SHEET_ID    = "YOUR_SHEET_ID_HERE"; // ← replace
+var SHEET_ID    = "YOUR_SHEET_ID_HERE"; // ← replace with your Sheet ID
 var FOLDER_NAME = "KCMC Session Photos";
 
 function getOrCreateFolder(name) {
   var it = DriveApp.getFoldersByName(name);
   return it.hasNext() ? it.next() : DriveApp.createFolder(name);
 }
+function getOrCreateSubFolder(parent, name) {
+  var it = parent.getFoldersByName(name);
+  return it.hasNext() ? it.next() : parent.createFolder(name);
+}
 
 function doGet(e) {
-  // Ping test
-  if (e.parameter && e.parameter.action === "ping") {
-    return ContentService.createTextOutput(
-      JSON.stringify({result:"pong"})
-    ).setMimeType(ContentService.MimeType.JSON);
-  }
-  return ContentService.createTextOutput("KCMC OK v5");
+  return ContentService.createTextOutput("KCMC OK v6");
 }
 
 function doPost(e) {
   try {
-    var raw = (e.postData && e.postData.contents) ? e.postData.contents : null;
+    // Browser sends multipart/form-data → GAS exposes it as e.parameter.data
+    // Fallback: text/plain body in e.postData.contents
+    var raw = (e.parameter && e.parameter.data)
+            ? e.parameter.data
+            : (e.postData && e.postData.contents ? e.postData.contents : null);
     if (!raw) throw new Error("No data received");
 
-    var d = JSON.parse(raw);
+    var d      = JSON.parse(raw);
     var action = d.action || "report";
 
-    // ── ACTION: upload a single photo ──────────────────
+    // ── PHOTO: upload one image to Drive ───────────────
     if (action === "photo") {
       var root   = getOrCreateFolder(FOLDER_NAME);
-      var folder = getOrCreateSubFolder(root, d.folderName || "Unknown");
+      var folder = getOrCreateSubFolder(root, d.folderName || "Session");
       var mime   = d.mime || "image/jpeg";
       var ext    = mime.split("/")[1] || "jpg";
       var bytes  = Utilities.base64Decode(d.data);
       var blob   = Utilities.newBlob(bytes, mime, "photo_" + d.index + "." + ext);
       var file   = folder.createFile(blob);
       file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-      return ok({url: file.getUrl(), folderId: folder.getId()});
+      return ok({ url: file.getUrl() });
     }
 
-    // ── ACTION: save report row ────────────────────────
+    // ── REPORT: write one row to Sheets ────────────────
     var sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
     if (sheet.getLastRow() === 0) {
       sheet.appendRow([
@@ -409,24 +411,20 @@ function doPost(e) {
       d.topics||"", d.challenges||"", d.highlights||"",
       d.photoCount||0, (d.photoLinks||[]).join("\n")
     ]);
-    return ok({result:"saved"});
+    return ok({ saved: true });
 
   } catch(err) {
     Logger.log("ERR: " + err);
     return ContentService
-      .createTextOutput(JSON.stringify({result:"error",message:err.toString()}))
+      .createTextOutput(JSON.stringify({result:"error", message: err.toString()}))
       .setMimeType(ContentService.MimeType.JSON);
   }
 }
 
-function getOrCreateSubFolder(parent, name) {
-  var it = parent.getFoldersByName(name);
-  return it.hasNext() ? it.next() : parent.createFolder(name);
-}
-
 function ok(obj) {
+  obj.result = "success";
   return ContentService
-    .createTextOutput(JSON.stringify(Object.assign({result:"success"}, obj)))
+    .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
 }</code>
           <button class="btn btn-outline copy-btn" onclick="copyScript()">📋 Copy Script</button>
@@ -549,21 +547,20 @@ function renderPhotoPreview() {
 }
 function removePhoto(i) { photoDataURLs.splice(i,1); renderPhotoPreview(); }
 
-// ─── GAS POST helper — uses FormData to avoid no-cors body stripping ──
-// GAS does NOT support CORS preflight, so we use an iframe trick for
-// non-opaque POSTs. Instead we use the proven form-submit-via-fetch
-// approach: send as text/plain with mode no-cors (GAS reads postData.contents).
-// The key fix vs v4: photos are sent ONE AT A TIME, so each POST stays
-// well under GAS's ~6 MB limit.
+// ─── GAS POST helper ──────────────────────────────────────
+// CRITICAL: fetch with mode:no-cors + JSON body is silently dropped by GAS.
+// The only simple-request POST that GAS reliably receives is multipart/form-data
+// (no Content-Type header set manually — browser sets it with boundary).
+// GAS reads the field via e.parameter.data.
+// Each photo is sent as its own POST so we stay well under GAS's ~6 MB limit.
 
 function gasPost(payload) {
-  // no-cors is required for GAS; the response is opaque (we can't read it)
-  // but GAS DOES receive the body correctly when Content-Type is text/plain.
+  var fd = new FormData();
+  fd.append('data', JSON.stringify(payload));
   return fetch(GAS_URL, {
-    method:  'POST',
-    mode:    'no-cors',
-    headers: { 'Content-Type': 'text/plain' },
-    body:    JSON.stringify(payload)
+    method: 'POST',
+    mode:   'no-cors',
+    body:   fd          // multipart/form-data — GAS receives e.parameter.data
   });
 }
 
