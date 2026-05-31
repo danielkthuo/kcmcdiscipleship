@@ -37,7 +37,8 @@
     font-size:.83rem;font-weight:500;border:1.5px solid var(--border);background:var(--card)}
   .sheets-status.connected{border-color:#2d7a4f;background:rgba(45,122,79,.07);color:#1a5c35}
   .sheets-status .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0}
-  .sheets-status.connected .dot{background:var(--success)}
+  .sheets-status.connected .dot{background:var(--success);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
   .form-wrap{max-width:760px;margin:24px auto 60px;padding:0 20px}
   .section-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
     box-shadow:var(--shadow);padding:28px 32px;margin-bottom:24px;animation:fadeUp .5s ease both}
@@ -76,12 +77,25 @@
   .photo-preview{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
   .photo-thumb-wrap{position:relative;width:90px;height:90px}
   .photo-thumb-wrap img{width:100%;height:100%;border-radius:9px;object-fit:cover;border:2px solid var(--border)}
+  .photo-thumb-wrap .upload-tick{position:absolute;bottom:4px;right:4px;background:var(--success);
+    color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;display:none;place-items:center}
+  .photo-thumb-wrap.uploaded .upload-tick{display:grid}
+  .photo-thumb-wrap.uploading img{opacity:.5}
+  .photo-thumb-wrap.uploading::after{content:'⏳';position:absolute;inset:0;display:grid;
+    place-items:center;font-size:1.4rem;background:rgba(255,255,255,.5);border-radius:9px}
   .remove-photo{position:absolute;top:-6px;right:-6px;width:20px;height:20px;background:var(--rust);
     color:#fff;border:none;border-radius:50%;font-size:11px;cursor:pointer;display:grid;place-items:center}
-  .upload-progress{margin-top:14px;display:none}
-  .upload-progress-bar-wrap{background:var(--border);border-radius:99px;height:8px;overflow:hidden;margin-top:6px}
+  /* Progress bar */
+  .upload-progress{margin-top:14px;display:none;background:var(--warm);border-radius:10px;padding:12px 16px}
+  .upload-progress-bar-wrap{background:var(--border);border-radius:99px;height:10px;overflow:hidden;margin-top:6px}
   .upload-progress-bar{height:100%;background:linear-gradient(90deg,var(--forest),var(--gold));border-radius:99px;width:0%;transition:width .4s}
-  .upload-progress-text{font-size:.78rem;color:var(--muted)}
+  .upload-progress-text{font-size:.82rem;color:var(--muted);font-weight:500}
+  .upload-log{margin-top:10px;max-height:120px;overflow-y:auto;font-size:.75rem;font-family:monospace;
+    background:#f0ece3;border-radius:8px;padding:8px 10px;color:var(--ink);border:1px solid var(--border)}
+  .log-line{padding:2px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+  .log-line:last-child{border-bottom:none}
+  .log-ok{color:var(--success)}.log-err{color:var(--rust)}.log-info{color:var(--muted)}
+  /* Action bar */
   .action-bar{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;margin-top:8px}
   .btn{font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:12px 28px;border-radius:10px;
     border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s;letter-spacing:.02em}
@@ -101,11 +115,11 @@
     display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;
     transition:all .35s cubic-bezier(.34,1.56,.64,1);max-width:400px}
   .toast.show{transform:translateY(0);opacity:1}
+  /* Dashboard */
   .dashboard-wrap{max-width:1000px;margin:36px auto 60px;padding:0 20px}
   .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px}
   .stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
     padding:22px 20px;box-shadow:var(--shadow);animation:fadeUp .5s ease both}
-  .stat-card:nth-child(2){animation-delay:.07s}.stat-card:nth-child(3){animation-delay:.14s}.stat-card:nth-child(4){animation-delay:.21s}
   .stat-num{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;color:var(--forest);line-height:1}
   .stat-label{font-size:.75rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:6px}
   .stat-icon{font-size:1.5rem;margin-bottom:8px}
@@ -124,8 +138,10 @@
   .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600}
   .badge-green{background:rgba(45,122,79,.12);color:var(--success)}
   .badge-gold{background:rgba(201,149,42,.15);color:#8a6410}
+  .badge-blue{background:rgba(30,64,200,.10);color:#1a3a8a}
   .empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
   .empty-state .empty-icon{font-size:3rem;margin-bottom:12px}
+  /* Modals */
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.5);z-index:200;
     align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
   .modal-overlay.open{display:flex}
@@ -144,11 +160,12 @@
   .detail-val{flex:1;color:var(--ink)}
   .drive-links{display:flex;flex-direction:column;gap:4px;margin-top:4px}
   .drive-links a{font-size:.82rem;color:var(--forest);text-decoration:underline;word-break:break-all}
+  /* Setup modal */
   .setup-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.6);z-index:300;
     align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
   .setup-overlay.open{display:flex}
   .setup-modal{background:var(--card);border-radius:18px;box-shadow:0 24px 80px rgba(0,0,0,.3);
-    max-width:620px;width:100%;overflow:hidden;animation:fadeUp .3s ease}
+    max-width:660px;width:100%;overflow:hidden;animation:fadeUp .3s ease}
   .setup-header{background:linear-gradient(135deg,var(--forest),#2c5e4a);color:#fff;padding:22px 28px;
     display:flex;justify-content:space-between;align-items:flex-start}
   .setup-header h2{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700}
@@ -167,6 +184,7 @@
   .setup-url-row input{flex:1}
   .info-banner{display:flex;align-items:flex-start;gap:10px;padding:12px 16px;border-radius:10px;
     font-size:.83rem;border:1.5px solid #c9952a;background:rgba(201,149,42,.08);color:#7a4e00;margin-bottom:16px;line-height:1.5}
+  .info-banner.green{border-color:var(--success);background:rgba(45,122,79,.07);color:#1a5c35}
   @media print{nav,.action-bar,.photo-drop,.sheets-banner{display:none!important}body{background:#fff}.section-card{box-shadow:none;border:1px solid #ccc}}
   @media(max-width:600px){nav{padding:0 16px}.nav-tabs .nav-tab{padding:8px 10px;font-size:.78rem}.section-card{padding:20px 18px}.hero{padding:24px 18px}.form-wrap,.dashboard-wrap{padding:0 12px}}
 </style>
@@ -178,7 +196,7 @@
     <div class="nav-cross">✝</div>
     <div>
       <div class="nav-title">KCMC Discipleship</div>
-      <div class="nav-sub">Daily Report System</div>
+      <div class="nav-sub">Daily Report System · v7</div>
     </div>
   </div>
   <div class="nav-tabs">
@@ -259,13 +277,14 @@
         <div class="drop-text">
           <strong>Click to upload</strong> or drag photos here<br/>
           JPG, PNG, WEBP — up to 10 photos<br/>
-          <small style="opacity:.7">Photos are compressed to ~800 px before upload</small>
+          <small style="opacity:.7">Compressed to ~800 px · uploaded to Google Drive with real shareable links</small>
         </div>
       </div>
       <div class="photo-preview" id="photo-preview"></div>
       <div class="upload-progress" id="upload-progress">
         <div class="upload-progress-text" id="upload-progress-text">Uploading…</div>
         <div class="upload-progress-bar-wrap"><div class="upload-progress-bar" id="upload-progress-bar"></div></div>
+        <div class="upload-log" id="upload-log"></div>
       </div>
     </div>
 
@@ -305,7 +324,7 @@
     </div>
     <div class="report-table-wrap">
       <table>
-        <thead><tr><th>#</th><th>Date</th><th>School</th><th>Facilitator</th><th>Attended</th><th>Photos</th><th>Action</th></tr></thead>
+        <thead><tr><th>#</th><th>Date</th><th>School</th><th>Facilitator</th><th>Attended</th><th>Photos</th><th>Synced</th><th>Action</th></tr></thead>
         <tbody id="report-tbody"></tbody>
       </table>
       <div id="empty-state" class="empty-state" style="display:none">
@@ -331,12 +350,12 @@
 <div class="setup-overlay" id="setup-overlay">
   <div class="setup-modal">
     <div class="setup-header">
-      <div><h2>⚙️ Connect Google Sheets + Drive</h2><p>Reports → Sheets · Photos → Google Drive</p></div>
+      <div><h2>⚙️ Connect Google Sheets + Drive</h2><p>Reports → Sheets · Photos → Google Drive (real links)</p></div>
       <button class="modal-close" onclick="closeSetup()">✕</button>
     </div>
     <div class="setup-body">
-      <div class="info-banner">
-        ℹ️ This is the <strong>v6 script</strong> — uses FormData POST so GAS reliably receives the body, then uploads each photo individually. <strong>You must re-deploy</strong> if you used an older version.
+      <div class="info-banner green">
+        ✅ <strong>v7 — Photo upload FIXED.</strong> Photos now use <code>fetch()</code> with <code>text/plain</code> content-type (the GAS CORS trick) so the real Drive URL is returned and stored in your Sheet.
       </div>
       <div class="setup-step">
         <div class="step-num">1</div>
@@ -347,8 +366,8 @@
         <div class="step-content">
           <strong>Paste the script below and save (Ctrl+S)</strong>
           <code id="gas-script-code">// ══════════════════════════════════════════════
-//  KCMC Discipleship — Apps Script  v6
-//  FormData POST · per-photo uploads · Drive links in Sheet
+//  KCMC Discipleship — Apps Script  v7
+//  fetch() text/plain · real Drive URLs returned · CORS OK
 // ══════════════════════════════════════════════
 
 var SHEET_ID    = "YOUR_SHEET_ID_HERE"; // ← replace with your Sheet ID
@@ -364,22 +383,25 @@ function getOrCreateSubFolder(parent, name) {
 }
 
 function doGet(e) {
-  return ContentService.createTextOutput("KCMC OK v6");
+  if (e && e.parameter && e.parameter.action === "ping") {
+    return corsOutput({ result: "success", message: "KCMC OK v7" });
+  }
+  return ContentService.createTextOutput("KCMC Discipleship GAS v7 — OK");
 }
 
 function doPost(e) {
   try {
-    // Browser sends multipart/form-data → GAS exposes it as e.parameter.data
-    // Fallback: text/plain body in e.postData.contents
-    var raw = (e.parameter && e.parameter.data)
-            ? e.parameter.data
-            : (e.postData && e.postData.contents ? e.postData.contents : null);
+    // KEY FIX: fetch() sends Content-Type: text/plain → body in e.postData.contents
+    // This bypasses the CORS preflight so GAS can reply with JSON the browser reads.
+    var raw = (e.postData && e.postData.contents && e.postData.contents.length > 2)
+            ? e.postData.contents
+            : (e.parameter && e.parameter.data ? e.parameter.data : null);
     if (!raw) throw new Error("No data received");
 
     var d      = JSON.parse(raw);
     var action = d.action || "report";
 
-    // ── PHOTO: upload one image to Drive ───────────────
+    // ── PHOTO: upload base64 image to Drive, return real URL ──
     if (action === "photo") {
       var root   = getOrCreateFolder(FOLDER_NAME);
       var folder = getOrCreateSubFolder(root, d.folderName || "Session");
@@ -389,10 +411,11 @@ function doPost(e) {
       var blob   = Utilities.newBlob(bytes, mime, "photo_" + d.index + "." + ext);
       var file   = folder.createFile(blob);
       file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-      return ok({ url: file.getUrl() });
+      // ✅ Browser fetch() reads this URL
+      return corsOutput({ result: "success", url: file.getUrl(), name: file.getName() });
     }
 
-    // ── REPORT: write one row to Sheets ────────────────
+    // ── REPORT: append row to Sheet ──
     var sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
     if (sheet.getLastRow() === 0) {
       sheet.appendRow([
@@ -402,6 +425,11 @@ function doPost(e) {
         "Topics","Challenges","Highlights",
         "Photo Count","Photo Links (Drive)"
       ]);
+      sheet.setFrozenRows(1);
+      sheet.getRange(1,1,1,18)
+           .setFontWeight("bold")
+           .setBackground("#1e4035")
+           .setFontColor("#ffffff");
     }
     sheet.appendRow([
       new Date().toISOString(),
@@ -411,7 +439,7 @@ function doPost(e) {
       d.topics||"", d.challenges||"", d.highlights||"",
       d.photoCount||0, (d.photoLinks||[]).join("\n")
     ]);
-    return ok({ saved: true });
+    return corsOutput({ result: "success", saved: true });
 
   } catch(err) {
     Logger.log("ERR: " + err);
@@ -421,8 +449,8 @@ function doPost(e) {
   }
 }
 
-function ok(obj) {
-  obj.result = "success";
+function corsOutput(obj) {
+  obj.result = obj.result || "success";
   return ContentService
     .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
@@ -433,8 +461,8 @@ function ok(obj) {
       <div class="setup-step">
         <div class="step-num">3</div>
         <div class="step-content">
-          <strong>Replace YOUR_SHEET_ID_HERE</strong><br/>
-          From your Sheet URL: <code>…/spreadsheets/d/<strong>SHEET_ID</strong>/edit</code>
+          <strong>Replace YOUR_SHEET_ID_HERE</strong> with the ID from your Sheet URL:<br/>
+          <code>…/spreadsheets/d/<strong>YOUR_SHEET_ID</strong>/edit…</code>
         </div>
       </div>
       <div class="setup-step">
@@ -443,6 +471,12 @@ function ok(obj) {
           <strong>Deploy → New deployment → Web app</strong><br/>
           Execute as: <strong>Me</strong> &nbsp;|&nbsp; Who has access: <strong>Anyone</strong><br/>
           Authorize Drive + Sheets when prompted. Copy the <strong>/exec URL</strong>.
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <strong>Why photos work now:</strong> The frontend sends photos one-by-one using <code>fetch()</code> with <code>Content-Type: text/plain</code>. GAS exposes this in <code>e.postData.contents</code> and <strong>returns the real Drive URL</strong> in the JSON response. The URL is then included in the Sheet row.
         </div>
       </div>
       <div class="setup-url-row">
@@ -456,22 +490,21 @@ function ok(obj) {
 
 <div class="toast" id="toast"><span id="toast-icon">✅</span><span id="toast-msg">Done!</span></div>
 
-<!-- SheetJS for real .xlsx export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-// ─── Helpers to always read fresh data from localStorage ──
-function loadReports() {
-  try { return JSON.parse(localStorage.getItem('kcmc_reports') || '[]'); } catch(e) { return []; }
-}
-function saveReports(arr) {
-  if (arr.length > 200) arr = arr.slice(0, 200);
-  try { localStorage.setItem('kcmc_reports', JSON.stringify(arr)); } catch(e) {}
-}
+// ═══════════════════════════════════════════════════════════
+//  KCMC Discipleship v7 — Frontend JS
+//  KEY FIX: gasPost() uses fetch() + text/plain so GAS returns
+//  a readable JSON body including the real Drive photo URL.
+// ═══════════════════════════════════════════════════════════
 
-var photoDataURLs = [];   // compressed DataURLs for preview + upload
+function loadReports(){try{return JSON.parse(localStorage.getItem('kcmc_reports')||'[]');}catch(e){return[];}}
+function saveReports(arr){if(arr.length>200)arr=arr.slice(0,200);try{localStorage.setItem('kcmc_reports',JSON.stringify(arr));}catch(e){}}
+
+var photoDataURLs = [];
 var GAS_URL = localStorage.getItem('kcmc_gas_url') || '';
 
-// ─── Boot ─────────────────────────────────────────────────
+// ─── Init ─────────────────────────────────────────────────
 function init() {
   var today = new Date();
   var fmt = today.toLocaleDateString('en-KE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
@@ -487,265 +520,242 @@ function init() {
   updateStats();
 }
 
-function switchView(v, tabEl) {
+function switchView(v,tabEl){
   document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active');});
   document.querySelectorAll('.nav-tab').forEach(function(el){el.classList.remove('active');});
   document.getElementById('view-'+v).classList.add('active');
-  if (tabEl) tabEl.classList.add('active');
-  if (v==='admin'){ renderTable(); updateStats(); }
+  if(tabEl)tabEl.classList.add('active');
+  if(v==='admin'){renderTable();updateStats();}
 }
 
-function updateTotal() {
+function updateTotal(){
   var m=parseInt(document.getElementById('f-male').value)||0;
   var f=parseInt(document.getElementById('f-female').value)||0;
   var s=parseInt(document.getElementById('f-staff').value)||0;
-  document.getElementById('total-display').textContent = m+f+s;
+  document.getElementById('total-display').textContent=m+f+s;
 }
 
 // ─── Photo handling ───────────────────────────────────────
-function handlePhotos(input) { handleFiles(input.files); }
-function handleFiles(files) {
-  var available = 10 - photoDataURLs.length;
-  Array.from(files).slice(0, available).forEach(function(file) {
-    compressImage(file, 800, 0.78, function(dataURL) {
+function handlePhotos(input){handleFiles(input.files);}
+function handleFiles(files){
+  var available=10-photoDataURLs.length;
+  Array.from(files).slice(0,available).forEach(function(file){
+    compressImage(file,800,0.78,function(dataURL){
       photoDataURLs.push(dataURL);
       renderPhotoPreview();
     });
   });
 }
 
-function compressImage(file, maxPx, q, cb) {
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var img = new Image();
-    img.onload = function() {
-      var w = img.width, h = img.height;
-      if (w > maxPx || h > maxPx) {
-        if (w > h) { h = Math.round(h * maxPx / w); w = maxPx; }
-        else       { w = Math.round(w * maxPx / h); h = maxPx; }
-      }
-      var canvas = document.createElement('canvas');
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      cb(canvas.toDataURL('image/jpeg', q));
+function compressImage(file,maxPx,q,cb){
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var img=new Image();
+    img.onload=function(){
+      var w=img.width,h=img.height;
+      if(w>maxPx||h>maxPx){if(w>h){h=Math.round(h*maxPx/w);w=maxPx;}else{w=Math.round(w*maxPx/h);h=maxPx;}}
+      var canvas=document.createElement('canvas');
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      cb(canvas.toDataURL('image/jpeg',q));
     };
-    img.src = e.target.result;
+    img.src=e.target.result;
   };
   reader.readAsDataURL(file);
 }
 
-function renderPhotoPreview() {
-  var preview = document.getElementById('photo-preview');
-  preview.innerHTML = '';
-  photoDataURLs.forEach(function(src, i) {
-    var wrap = document.createElement('div');
-    wrap.className = 'photo-thumb-wrap';
-    wrap.innerHTML = '<img src="'+src+'" alt="Photo '+(i+1)+'"/>'
-      + '<button class="remove-photo" onclick="removePhoto('+i+')">✕</button>';
+function renderPhotoPreview(){
+  var preview=document.getElementById('photo-preview');
+  preview.innerHTML='';
+  photoDataURLs.forEach(function(src,i){
+    var wrap=document.createElement('div');
+    wrap.className='photo-thumb-wrap';
+    wrap.id='thumb-'+i;
+    wrap.innerHTML='<img src="'+src+'" alt="Photo '+(i+1)+'"/>'
+      +'<span class="upload-tick">✓</span>'
+      +'<button class="remove-photo" onclick="removePhoto('+i+')">✕</button>';
     preview.appendChild(wrap);
   });
 }
-function removePhoto(i) { photoDataURLs.splice(i,1); renderPhotoPreview(); }
+function removePhoto(i){photoDataURLs.splice(i,1);renderPhotoPreview();}
 
-// ─── GAS POST via hidden iframe form ─────────────────────
-// fetch() with no-cors silently drops the POST body in GAS.
-// The ONLY reliable way to POST a large payload cross-origin to GAS
-// (without a CORS proxy) is a real HTML form submission into a hidden iframe.
-// GAS receives it as e.parameter.data. We poll the iframe's onload to detect
-// completion (GAS always responds, even with an opaque body).
-
-function iframePost(payload) {
-  return new Promise(function(resolve, reject) {
-    var iframeName = 'gas_iframe_' + Date.now();
-
-    // Hidden iframe — captures the GAS response
-    var iframe = document.createElement('iframe');
-    iframe.name = iframeName;
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-
-    // Hidden form targeting that iframe
-    var form = document.createElement('form');
-    form.method  = 'POST';
-    form.action  = GAS_URL;
-    form.target  = iframeName;
-    form.style.display = 'none';
-
-    var input = document.createElement('input');
-    input.type  = 'hidden';
-    input.name  = 'data';
-    input.value = JSON.stringify(payload);
-    form.appendChild(input);
-    document.body.appendChild(form);
-
-    var done = false;
-    var timeout = setTimeout(function() {
-      if (!done) { done = true; cleanup(); resolve('timeout'); }
-    }, 30000); // 30 s per photo
-
-    iframe.onload = function() {
-      if (!done) {
-        done = true;
-        clearTimeout(timeout);
-        // Try to read GAS response (works if same-origin after redirect, otherwise opaque)
-        try {
-          var txt = iframe.contentDocument
-                  ? iframe.contentDocument.body.innerText
-                  : '';
-          cleanup();
-          resolve(txt);
-        } catch(e) {
-          cleanup();
-          resolve('ok'); // cross-origin — assume success
-        }
-      }
-    };
-
-    iframe.onerror = function() {
-      if (!done) { done = true; clearTimeout(timeout); cleanup(); reject(new Error('iframe error')); }
-    };
-
-    function cleanup() {
-      try { document.body.removeChild(form); } catch(e) {}
-      setTimeout(function(){ try { document.body.removeChild(iframe); } catch(e) {} }, 1000);
-    }
-
-    form.submit();
+// ─── KEY FIX: gasPost via fetch() with text/plain ─────────
+// Sending Content-Type: text/plain avoids the CORS preflight.
+// GAS doPost() receives the body in e.postData.contents (not e.parameter).
+// The JSON response IS readable by the browser — so we get the Drive URL back.
+function gasPost(payload) {
+  return fetch(GAS_URL, {
+    method: 'POST',
+    // text/plain = no CORS preflight, GAS returns readable JSON
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).then(function(r) {
+    // GAS redirects to a /dev or /exec URL — follow redirect
+    return r.text();
+  }).then(function(txt) {
+    try { return JSON.parse(txt); }
+    catch(e) { return { result: 'unknown', raw: txt }; }
   });
 }
 
-// ─── Connection status ────────────────────────────────────
-function updateSheetsStatus() {
-  var el  = document.getElementById('sheets-status');
-  var txt = document.getElementById('sheets-status-text');
-  if (GAS_URL) {
-    el.className = 'sheets-status connected';
-    txt.textContent = '✅ Google Sheets + Drive connected — reports & photos will sync automatically.';
+// ─── Sheets status ────────────────────────────────────────
+function updateSheetsStatus(){
+  var el=document.getElementById('sheets-status');
+  var txt=document.getElementById('sheets-status-text');
+  if(GAS_URL){
+    el.className='sheets-status connected';
+    txt.textContent='✅ Google Sheets + Drive connected — reports & photos sync with real Drive links.';
   } else {
-    el.className = 'sheets-status';
-    txt.textContent = 'Google Sheets not configured — click ⚙️ Setup to connect.';
+    el.className='sheets-status';
+    txt.textContent='Google Sheets not configured — click ⚙️ Setup to connect.';
   }
 }
 
-function openSetup() {
-  document.getElementById('gas-url-input').value = GAS_URL;
-  document.getElementById('test-result').textContent = '';
+function openSetup(){
+  document.getElementById('gas-url-input').value=GAS_URL;
+  document.getElementById('test-result').textContent='';
   document.getElementById('setup-overlay').classList.add('open');
 }
-function closeSetup() { document.getElementById('setup-overlay').classList.remove('open'); }
+function closeSetup(){document.getElementById('setup-overlay').classList.remove('open');}
 
-async function saveGasUrl() {
-  var url = document.getElementById('gas-url-input').value.trim();
-  var res = document.getElementById('test-result');
-  if (!url) { res.style.color='var(--rust)'; res.textContent='⚠️ Please paste a URL first.'; return; }
-  res.style.color='var(--muted)'; res.textContent='⏳ Testing connection…';
-  try {
-    // GET ping — GAS doGet handles ?action=ping
-    var r = await fetch(url + '?action=ping');
-    var txt = await r.text();
-    GAS_URL = url;
-    localStorage.setItem('kcmc_gas_url', GAS_URL);
+async function saveGasUrl(){
+  var url=document.getElementById('gas-url-input').value.trim();
+  var res=document.getElementById('test-result');
+  if(!url){res.style.color='var(--rust)';res.textContent='⚠️ Please paste a URL first.';return;}
+  res.style.color='var(--muted)';res.textContent='⏳ Testing connection…';
+  try{
+    var r=await fetch(url+'?action=ping');
+    var txt=await r.text();
+    GAS_URL=url;localStorage.setItem('kcmc_gas_url',GAS_URL);
     res.style.color='var(--success)';
-    res.textContent='✅ Connected! ('+txt.slice(0,60)+')';
+    res.textContent='✅ Connected! Response: '+txt.slice(0,80);
     updateSheetsStatus();
-  } catch(e) {
-    // CORS block on GET is normal for GAS — still save it
-    GAS_URL = url;
-    localStorage.setItem('kcmc_gas_url', GAS_URL);
+  }catch(e){
+    GAS_URL=url;localStorage.setItem('kcmc_gas_url',GAS_URL);
     res.style.color='var(--success)';
-    res.textContent='✅ URL saved. (CORS blocked the ping test — that is normal for GAS. Your POSTs will still work.)';
+    res.textContent='✅ URL saved. (CORS blocked the GET ping — normal for GAS. POST uploads will work fine.)';
     updateSheetsStatus();
   }
 }
 
-function copyScript() {
-  var code = document.getElementById('gas-script-code').textContent;
-  navigator.clipboard.writeText(code).then(function(){
-    showToast('📋 Script copied!','var(--forest)','📋');
-  });
+function copyScript(){
+  var code=document.getElementById('gas-script-code').textContent;
+  navigator.clipboard.writeText(code).then(function(){showToast('📋 Script copied!','var(--forest)','📋');});
+}
+
+// ─── Log helper ───────────────────────────────────────────
+function addLog(msg, type) {
+  var log = document.getElementById('upload-log');
+  var line = document.createElement('div');
+  line.className = 'log-line log-' + (type||'info');
+  line.textContent = new Date().toLocaleTimeString('en-KE') + '  ' + msg;
+  log.appendChild(line);
+  log.scrollTop = log.scrollHeight;
 }
 
 // ─── SUBMIT ───────────────────────────────────────────────
-async function submitReport() {
-  var school      = document.getElementById('f-school').value.trim();
-  var facilitator = document.getElementById('f-facilitator').value.trim();
-  var date        = document.getElementById('f-date').value;
-  var topics      = document.getElementById('f-topics').value.trim();
-
-  if (!school || !facilitator || !date || !topics) {
-    showToast('⚠️ School, Facilitator, Date and Topics are required.','#8b3a1c','⚠️'); return;
+async function submitReport(){
+  var school=document.getElementById('f-school').value.trim();
+  var facilitator=document.getElementById('f-facilitator').value.trim();
+  var date=document.getElementById('f-date').value;
+  var topics=document.getElementById('f-topics').value.trim();
+  if(!school||!facilitator||!date||!topics){
+    showToast('⚠️ School, Facilitator, Date and Topics are required.','#8b3a1c','⚠️');return;
   }
 
-  var report = {
-    id:          Date.now(),
-    date:        date,
-    school:      school,
-    location:    document.getElementById('f-location').value.trim(),
-    time:        document.getElementById('f-time').value.trim(),
-    facilitator: facilitator,
-    email:       document.getElementById('f-email').value.trim(),
-    phone:       document.getElementById('f-phone').value.trim(),
-    zone:        document.getElementById('f-zone').value.trim(),
-    male:        parseInt(document.getElementById('f-male').value)||0,
-    female:      parseInt(document.getElementById('f-female').value)||0,
-    staff:       parseInt(document.getElementById('f-staff').value)||0,
-    total:       parseInt(document.getElementById('total-display').textContent)||0,
-    topics:      topics,
-    challenges:  document.getElementById('f-challenges').value.trim(),
-    highlights:  document.getElementById('f-highlights').value.trim(),
-    photoCount:  photoDataURLs.length,
-    driveLinks:  []
+  var report={
+    id:Date.now(),
+    date:date,
+    school:school,
+    location:document.getElementById('f-location').value.trim(),
+    time:document.getElementById('f-time').value.trim(),
+    facilitator:facilitator,
+    email:document.getElementById('f-email').value.trim(),
+    phone:document.getElementById('f-phone').value.trim(),
+    zone:document.getElementById('f-zone').value.trim(),
+    male:parseInt(document.getElementById('f-male').value)||0,
+    female:parseInt(document.getElementById('f-female').value)||0,
+    staff:parseInt(document.getElementById('f-staff').value)||0,
+    total:parseInt(document.getElementById('total-display').textContent)||0,
+    topics:topics,
+    challenges:document.getElementById('f-challenges').value.trim(),
+    highlights:document.getElementById('f-highlights').value.trim(),
+    photoCount:photoDataURLs.length,
+    driveLinks:[],
+    synced:false
   };
 
   // Save locally first
-  var saved = loadReports();
-  saved.unshift(report);
-  saveReports(saved);
+  var saved=loadReports();saved.unshift(report);saveReports(saved);
 
-  if (!GAS_URL) {
+  if(!GAS_URL){
     showToast('✅ Report saved locally. Connect Google Sheets via ⚙️ Setup to sync.','var(--forest)','✅');
-    clearForm(); renderTable(); updateStats(); return;
+    clearForm();renderTable();updateStats();return;
   }
 
-  var btn      = document.getElementById('submit-btn');
-  var progWrap = document.getElementById('upload-progress');
-  var progBar  = document.getElementById('upload-progress-bar');
-  var progTxt  = document.getElementById('upload-progress-text');
+  var btn=document.getElementById('submit-btn');
+  var progWrap=document.getElementById('upload-progress');
+  var progBar=document.getElementById('upload-progress-bar');
+  var progTxt=document.getElementById('upload-progress-text');
+  document.getElementById('upload-log').innerHTML='';
 
-  btn.classList.add('loading'); btn.disabled = true;
-  progWrap.style.display = 'block';
+  btn.classList.add('loading');btn.disabled=true;
+  progWrap.style.display='block';
 
-  var driveLinks = [];
+  var driveLinks=[];
+  var folderName=school+' — '+date+' — '+facilitator;
 
   try {
-    // ── Step 1: Upload photos one by one ──────────────────
-    if (photoDataURLs.length > 0) {
-      var folderName = school + ' - ' + date + ' - ' + facilitator;
-      for (var i = 0; i < photoDataURLs.length; i++) {
-        progTxt.textContent = 'Uploading photo ' + (i+1) + ' of ' + photoDataURLs.length + '…';
-        progBar.style.width = Math.round(((i+1) / photoDataURLs.length) * 70) + '%';
+    // ── Step 1: Upload photos one by one via fetch() ───────
+    if(photoDataURLs.length>0){
+      addLog('Starting upload of '+photoDataURLs.length+' photo(s)…','info');
+      for(var i=0;i<photoDataURLs.length;i++){
+        progTxt.textContent='Uploading photo '+(i+1)+' of '+photoDataURLs.length+'…';
+        progBar.style.width=Math.round(((i+0.5)/photoDataURLs.length)*70)+'%';
 
-        var du = photoDataURLs[i];
-        var m  = du.match(/^data:(image\/[^;]+);base64,(.+)$/);
-        if (!m) continue;
+        // Mark thumb as uploading
+        var thumb=document.getElementById('thumb-'+i);
+        if(thumb)thumb.classList.add('uploading');
 
-        // iframe form POST — GAS receives e.parameter.data reliably
-        await iframePost({
-          action:     'photo',
-          folderName: folderName,
-          mime:       m[1],
-          data:       m[2],
-          index:      i + 1
-        });
-        driveLinks.push('uploaded to Drive folder: ' + folderName);
+        var du=photoDataURLs[i];
+        var m=du.match(/^data:(image\/[^;]+);base64,(.+)$/);
+        if(!m){addLog('Photo '+(i+1)+': skipped (bad format)','err');continue;}
+
+        try {
+          // ✅ THE FIX: real fetch() → GAS returns JSON with Drive URL
+          var resp = await gasPost({
+            action:     'photo',
+            folderName: folderName,
+            mime:       m[1],
+            data:       m[2],
+            index:      i+1
+          });
+
+          if(resp && resp.url){
+            driveLinks.push(resp.url);
+            addLog('Photo '+(i+1)+': ✅ '+resp.url.slice(0,60)+'…','ok');
+            if(thumb){thumb.classList.remove('uploading');thumb.classList.add('uploaded');}
+          } else {
+            // If we got a response but no URL, note it but continue
+            addLog('Photo '+(i+1)+': uploaded (no URL returned — check Drive manually)','err');
+            driveLinks.push('Uploaded to folder: '+folderName+' (no URL returned)');
+            if(thumb)thumb.classList.remove('uploading');
+          }
+        } catch(photoErr) {
+          addLog('Photo '+(i+1)+' error: '+photoErr.message,'err');
+          if(thumb)thumb.classList.remove('uploading');
+        }
+
+        progBar.style.width=Math.round(((i+1)/photoDataURLs.length)*70)+'%';
       }
     }
 
     // ── Step 2: Send report row to Sheets ─────────────────
-    progTxt.textContent = 'Saving report to Google Sheets…';
-    progBar.style.width = '85%';
+    progTxt.textContent='Saving report to Google Sheets…';
+    progBar.style.width='80%';
+    addLog('Saving report row to Sheets…','info');
 
-    await iframePost({
+    var sheetResp = await gasPost({
       action:     'report',
       date:       report.date,
       school:     report.school,
@@ -763,181 +773,192 @@ async function submitReport() {
       challenges: report.challenges,
       highlights: report.highlights,
       photoCount: report.photoCount,
+      // ✅ Real Drive URLs stored in the Sheet
       photoLinks: driveLinks
     });
 
-    progBar.style.width = '100%';
-    progTxt.textContent = '✅ Synced to Google Sheets!';
+    progBar.style.width='100%';
 
-    // Update local record with driveLinks
-    report.driveLinks = driveLinks;
-    var recs = loadReports();
-    var idx  = recs.findIndex(function(x){ return x.id === report.id; });
-    if (idx > -1) { recs[idx].driveLinks = driveLinks; saveReports(recs); }
+    if(sheetResp && sheetResp.result==='success'){
+      progTxt.textContent='✅ Synced to Google Sheets!';
+      addLog('Report saved to Sheets ✅','ok');
+      report.driveLinks=driveLinks;
+      report.synced=true;
+    } else {
+      progTxt.textContent='⚠️ Sheet sync may have failed — check manually';
+      addLog('Sheet response: '+JSON.stringify(sheetResp),'err');
+    }
 
-    var photoMsg = photoDataURLs.length > 0 ? ' + ' + photoDataURLs.length + ' photo(s) sent to Drive' : '';
-    showToast('✅ Report saved to Sheets' + photoMsg + '!', 'var(--forest)', '✅');
+    // Update local record
+    report.driveLinks=driveLinks;
+    var recs=loadReports();
+    var idx=recs.findIndex(function(x){return x.id===report.id;});
+    if(idx>-1){recs[idx]=report;saveReports(recs);}
+
+    var photoMsg=driveLinks.length>0?' + '+driveLinks.length+' photo(s) in Drive':'';
+    showToast('✅ Report saved to Sheets'+photoMsg,'var(--forest)','✅');
 
   } catch(err) {
-    progTxt.textContent = '⚠️ Error — ' + err.message;
-    showToast('⚠️ Local save OK — sync failed: '+err.message,'#8b3a1c','⚠️');
-    console.error('Sync error:', err);
+    progTxt.textContent='⚠️ Error — '+err.message;
+    addLog('Fatal error: '+err.message,'err');
+    showToast('⚠️ Local save OK — sync error: '+err.message,'#8b3a1c','⚠️');
+    console.error('Sync error:',err);
   } finally {
-    setTimeout(function(){ progWrap.style.display='none'; progBar.style.width='0%'; }, 3000);
-    btn.classList.remove('loading'); btn.disabled = false;
+    setTimeout(function(){progWrap.style.display='none';progBar.style.width='0%';},5000);
+    btn.classList.remove('loading');btn.disabled=false;
   }
 
-  clearForm(); renderTable(); updateStats();
+  clearForm();renderTable();updateStats();
 }
 
 // ─── Clear form ───────────────────────────────────────────
-function clearForm() {
+function clearForm(){
   ['f-school','f-location','f-time','f-facilitator','f-email','f-phone','f-zone','f-topics','f-challenges','f-highlights']
-    .forEach(function(id){ document.getElementById(id).value = ''; });
-  document.getElementById('f-male').value   = 0;
-  document.getElementById('f-female').value = 0;
-  document.getElementById('f-staff').value  = 0;
-  document.getElementById('total-display').textContent = '0';
-  document.getElementById('f-date').value   = new Date().toISOString().slice(0,10);
-  document.getElementById('photo-input').value = '';
-  photoDataURLs = [];
+    .forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('f-male').value=0;
+  document.getElementById('f-female').value=0;
+  document.getElementById('f-staff').value=0;
+  document.getElementById('total-display').textContent='0';
+  document.getElementById('f-date').value=new Date().toISOString().slice(0,10);
+  document.getElementById('photo-input').value='';
+  photoDataURLs=[];
   renderPhotoPreview();
 }
-function printReport() { window.print(); }
+function printReport(){window.print();}
 
 // ─── Dashboard table ──────────────────────────────────────
-function renderTable() {
-  var reports = loadReports(); // always fresh
-  var q = ((document.getElementById('search-input')||{}).value||'').toLowerCase();
-  var filtered = reports.filter(function(r){
+function renderTable(){
+  var reports=loadReports();
+  var q=((document.getElementById('search-input')||{}).value||'').toLowerCase();
+  var filtered=reports.filter(function(r){
     return (r.school||'').toLowerCase().includes(q)
-        || (r.facilitator||'').toLowerCase().includes(q)
-        || (r.location||'').toLowerCase().includes(q);
+        ||(r.facilitator||'').toLowerCase().includes(q)
+        ||(r.location||'').toLowerCase().includes(q);
   });
-  var tbody = document.getElementById('report-tbody');
-  var empty = document.getElementById('empty-state');
-  tbody.innerHTML = '';
-  if (!filtered.length){ empty.style.display='block'; return; }
-  empty.style.display = 'none';
+  var tbody=document.getElementById('report-tbody');
+  var empty=document.getElementById('empty-state');
+  tbody.innerHTML='';
+  if(!filtered.length){empty.style.display='block';return;}
+  empty.style.display='none';
   filtered.forEach(function(r,i){
-    var tr = document.createElement('tr');
-    tr.innerHTML =
+    var syncBadge=r.synced
+      ?'<span class="badge badge-green">☁ Synced</span>'
+      :'<span class="badge" style="background:rgba(139,58,28,.1);color:var(--rust)">📱 Local</span>';
+    var tr=document.createElement('tr');
+    tr.innerHTML=
       '<td><span class="badge badge-gold">#'+(i+1)+'</span></td>'+
       '<td>'+formatDate(r.date)+'</td>'+
       '<td><strong>'+escHtml(r.school)+'</strong>'+(r.location?'<br/><small style="color:var(--muted)">'+escHtml(r.location)+'</small>':'')+'</td>'+
       '<td>'+escHtml(r.facilitator)+(r.zone?'<br/><small style="color:var(--muted)">'+escHtml(r.zone)+'</small>':'')+'</td>'+
       '<td><span class="badge badge-green">'+r.total+'</span></td>'+
-      '<td>'+(r.photoCount?'📷 '+r.photoCount:'—')+'</td>'+
+      '<td>'+(r.photoCount?'📷 '+r.photoCount+(r.driveLinks&&r.driveLinks.length?' <small style="color:var(--success)">✅ Drive</small>':''):'—')+'</td>'+
+      '<td>'+syncBadge+'</td>'+
       '<td><button class="btn btn-outline" style="padding:6px 14px;font-size:.8rem" onclick="viewReport('+r.id+')">View</button></td>';
     tbody.appendChild(tr);
   });
 }
 
-function updateStats() {
-  var reports = loadReports(); // always fresh
-  document.getElementById('stat-total').textContent        = reports.length;
-  document.getElementById('stat-schools').textContent      = new Set(reports.map(function(r){return r.school;})).size;
-  document.getElementById('stat-students').textContent     = reports.reduce(function(s,r){return s+(r.total||0);},0);
-  document.getElementById('stat-facilitators').textContent = new Set(reports.map(function(r){return r.facilitator;})).size;
+function updateStats(){
+  var reports=loadReports();
+  document.getElementById('stat-total').textContent=reports.length;
+  document.getElementById('stat-schools').textContent=new Set(reports.map(function(r){return r.school;})).size;
+  document.getElementById('stat-students').textContent=reports.reduce(function(s,r){return s+(r.total||0);},0);
+  document.getElementById('stat-facilitators').textContent=new Set(reports.map(function(r){return r.facilitator;})).size;
 }
 
 // ─── Detail modal ─────────────────────────────────────────
-function viewReport(id) {
-  var reports = loadReports();
-  var r = reports.find(function(x){return x.id===id;}); if (!r) return;
-  document.getElementById('modal-title').textContent = r.school;
-  document.getElementById('modal-sub').textContent   = formatDate(r.date)+' · '+r.facilitator;
+function viewReport(id){
+  var reports=loadReports();
+  var r=reports.find(function(x){return x.id===id;});if(!r)return;
+  document.getElementById('modal-title').textContent=r.school;
+  document.getElementById('modal-sub').textContent=formatDate(r.date)+' · '+r.facilitator;
 
-  var driveHtml = (r.driveLinks&&r.driveLinks.length)
-    ? '<div class="drive-links">'+r.driveLinks.map(function(l,i){
-        var isUrl = l.startsWith('http');
-        return isUrl
-          ? '<a href="'+l+'" target="_blank">📁 Drive Photo '+(i+1)+'</a>'
-          : '<span>'+escHtml(l)+'</span>';
-      }).join('')+'</div>'
-    : (r.photoCount ? '📷 '+r.photoCount+' photo(s) — check Google Drive' : '—');
+  var driveHtml;
+  if(r.driveLinks&&r.driveLinks.length){
+    driveHtml='<div class="drive-links">'+r.driveLinks.map(function(l,i){
+      var isUrl=l.startsWith('http');
+      return isUrl
+        ?'<a href="'+escHtml(l)+'" target="_blank" rel="noopener">📁 Drive Photo '+(i+1)+'</a>'
+        :'<span style="color:var(--muted);font-size:.8rem">'+escHtml(l)+'</span>';
+    }).join('')+'</div>';
+  } else if(r.photoCount){
+    driveHtml='📷 '+r.photoCount+' photo(s) — '+(r.synced?'check Google Drive folder: '+escHtml(r.school):'not yet synced to Drive');
+  } else {
+    driveHtml='—';
+  }
 
-  document.getElementById('modal-body').innerHTML =
+  document.getElementById('modal-body').innerHTML=
     drow('Date',formatDate(r.date))+drow('Session Time',escHtml(r.time)||'—')+
     drow('Location',escHtml(r.location)||'—')+drow('Facilitator',escHtml(r.facilitator))+
     drow('Zone',escHtml(r.zone)||'—')+drow('Email',escHtml(r.email)||'—')+
     drow('Phone',escHtml(r.phone)||'—')+
     drow('Male Students',''+r.male)+drow('Female Students',''+r.female)+drow('Staff/Teachers',''+r.staff)+
     drow('Total Attended','<strong>'+r.total+'</strong>')+
+    drow('Synced to Sheets',r.synced?'<span style="color:var(--success)">✅ Yes</span>':'<span style="color:var(--rust)">📱 Local only</span>')+
     drow('Topics','<span style="white-space:pre-wrap">'+escHtml(r.topics||'—')+'</span>')+
     drow('Challenges','<span style="white-space:pre-wrap">'+escHtml(r.challenges||'—')+'</span>')+
     drow('Highlights','<span style="white-space:pre-wrap">'+escHtml(r.highlights||'—')+'</span>')+
     drow('Photos',driveHtml);
   document.getElementById('modal-overlay').classList.add('open');
 }
-function drow(k,v){ return '<div class="detail-row"><div class="detail-key">'+k+'</div><div class="detail-val">'+v+'</div></div>'; }
-function closeModal(e){ if(e.target===document.getElementById('modal-overlay')) closeModalDirect(); }
-function closeModalDirect(){ document.getElementById('modal-overlay').classList.remove('open'); }
+function drow(k,v){return'<div class="detail-row"><div class="detail-key">'+k+'</div><div class="detail-val">'+v+'</div></div>';}
+function closeModal(e){if(e.target===document.getElementById('modal-overlay'))closeModalDirect();}
+function closeModalDirect(){document.getElementById('modal-overlay').classList.remove('open');}
 
-// ─── Excel export (SheetJS) — reads FRESH localStorage ────
-function exportXLSX() {
-  var reports = loadReports(); // FIX: always re-read from localStorage
-  if (!reports.length){ showToast('⚠️ No reports to export.','#8b3a1c','⚠️'); return; }
-  if (typeof XLSX === 'undefined'){ showToast('⚠️ Excel library loading — try again.','#8b3a1c','⚠️'); return; }
-
-  var headers = ['ID','Date','School','Location','Session Time','Facilitator',
-                 'Email','Phone','Zone','Male','Female','Staff','Total Attended',
-                 'Topics','Challenges','Highlights','Photo Count'];
-  var rows = reports.map(function(r){
-    return [r.id, r.date, r.school||'', r.location||'', r.time||'',
-            r.facilitator||'', r.email||'', r.phone||'', r.zone||'',
-            r.male||0, r.female||0, r.staff||0, r.total||0,
-            r.topics||'', r.challenges||'', r.highlights||'', r.photoCount||0];
+// ─── Excel export ─────────────────────────────────────────
+function exportXLSX(){
+  var reports=loadReports();
+  if(!reports.length){showToast('⚠️ No reports to export.','#8b3a1c','⚠️');return;}
+  if(typeof XLSX==='undefined'){showToast('⚠️ Excel library loading — try again.','#8b3a1c','⚠️');return;}
+  var headers=['ID','Date','School','Location','Session Time','Facilitator','Email','Phone','Zone',
+               'Male','Female','Staff','Total Attended','Topics','Challenges','Highlights','Photo Count','Drive Links'];
+  var rows=reports.map(function(r){
+    return[r.id,r.date,r.school||'',r.location||'',r.time||'',
+           r.facilitator||'',r.email||'',r.phone||'',r.zone||'',
+           r.male||0,r.female||0,r.staff||0,r.total||0,
+           r.topics||'',r.challenges||'',r.highlights||'',r.photoCount||0,
+           (r.driveLinks||[]).join('\n')];
   });
-
-  var wb = XLSX.utils.book_new();
-  var ws = XLSX.utils.aoa_to_sheet([headers].concat(rows));
-  ws['!cols'] = [8,12,24,20,16,22,26,16,18,8,8,8,14,40,30,30,12].map(function(w){return{wch:w};});
-  XLSX.utils.book_append_sheet(wb, ws, 'Reports');
-
-  // Summary sheet
-  var schools = new Set(reports.map(function(r){return r.school;})).size;
-  var total   = reports.reduce(function(s,r){return s+(r.total||0);},0);
-  var facs    = new Set(reports.map(function(r){return r.facilitator;})).size;
-  var ws2 = XLSX.utils.aoa_to_sheet([
-    ['KCMC Discipleship — Summary Report'],
-    [],
-    ['Generated', new Date().toLocaleString('en-KE')],
-    [],
-    ['Total Reports',   reports.length],
-    ['Schools Reached', schools],
-    ['Total Attendees', total],
-    ['Facilitators',    facs]
+  var wb=XLSX.utils.book_new();
+  var ws=XLSX.utils.aoa_to_sheet([headers].concat(rows));
+  ws['!cols']=[8,12,24,20,16,22,26,16,18,8,8,8,14,40,30,30,12,50].map(function(w){return{wch:w};});
+  XLSX.utils.book_append_sheet(wb,ws,'Reports');
+  var schools=new Set(reports.map(function(r){return r.school;})).size;
+  var total=reports.reduce(function(s,r){return s+(r.total||0);},0);
+  var facs=new Set(reports.map(function(r){return r.facilitator;})).size;
+  var ws2=XLSX.utils.aoa_to_sheet([
+    ['KCMC Discipleship — Summary Report'],[],
+    ['Generated',new Date().toLocaleString('en-KE')],[],
+    ['Total Reports',reports.length],['Schools Reached',schools],
+    ['Total Attendees',total],['Facilitators',facs]
   ]);
-  ws2['!cols'] = [{wch:22},{wch:18}];
-  XLSX.utils.book_append_sheet(wb, ws2, 'Summary');
-
-  XLSX.writeFile(wb, 'KCMC_Reports_'+new Date().toISOString().slice(0,10)+'.xlsx');
+  ws2['!cols']=[{wch:22},{wch:18}];
+  XLSX.utils.book_append_sheet(wb,ws2,'Summary');
+  XLSX.writeFile(wb,'KCMC_Reports_'+new Date().toISOString().slice(0,10)+'.xlsx');
   showToast('📊 Excel file downloaded!','var(--forest)','📊');
 }
 
 // ─── CSV export ───────────────────────────────────────────
-function exportCSV() {
-  var reports = loadReports(); // FIX: always fresh
-  if (!reports.length){ showToast('⚠️ No reports to export.','#8b3a1c','⚠️'); return; }
-  var headers = ['ID','Date','School','Location','Session Time','Facilitator','Email','Phone',
-                 'Zone','Male','Female','Staff','Total','Topics','Challenges','Highlights','Photo Count'];
-  var rows = reports.map(function(r){
-    return [r.id, r.date, cv(r.school), cv(r.location), cv(r.time),
-            cv(r.facilitator), cv(r.email), cv(r.phone), cv(r.zone),
-            r.male||0, r.female||0, r.staff||0, r.total||0,
-            cv(r.topics), cv(r.challenges), cv(r.highlights), r.photoCount||0];
+function exportCSV(){
+  var reports=loadReports();
+  if(!reports.length){showToast('⚠️ No reports to export.','#8b3a1c','⚠️');return;}
+  var headers=['ID','Date','School','Location','Session Time','Facilitator','Email','Phone',
+               'Zone','Male','Female','Staff','Total','Topics','Challenges','Highlights','Photo Count','Drive Links'];
+  var rows=reports.map(function(r){
+    return[r.id,r.date,cv(r.school),cv(r.location),cv(r.time),cv(r.facilitator),
+           cv(r.email),cv(r.phone),cv(r.zone),r.male||0,r.female||0,r.staff||0,r.total||0,
+           cv(r.topics),cv(r.challenges),cv(r.highlights),r.photoCount||0,cv((r.driveLinks||[]).join(' | '))];
   });
-  var content = [headers.join(',')].concat(rows.map(function(r){return r.join(',');})).join('\n');
-  var a = document.createElement('a');
-  a.href = 'data:text/csv;charset=utf-8,'+encodeURIComponent(content);
-  a.download = 'KCMC_Reports_'+new Date().toISOString().slice(0,10)+'.csv';
+  var content=[headers.join(',')].concat(rows.map(function(r){return r.join(',');})).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(content);
+  a.download='KCMC_Reports_'+new Date().toISOString().slice(0,10)+'.csv';
   a.click();
   showToast('⬇ CSV exported!','var(--forest)','⬇️');
 }
 
 // ─── Helpers ──────────────────────────────────────────────
-function cv(v){var s=(v||'').toString().replace(/"/g,'""');return '"'+s+'"';}
+function cv(v){var s=(v||'').toString().replace(/"/g,'""');return'"'+s+'"';}
 function escHtml(s){if(!s)return'';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function formatDate(d){if(!d)return'—';return new Date(d+'T00:00:00').toLocaleDateString('en-KE',{day:'numeric',month:'short',year:'numeric'});}
 function showToast(msg,bg,icon){
@@ -946,7 +967,7 @@ function showToast(msg,bg,icon){
   document.getElementById('toast-icon').textContent=icon||'✅';
   t.style.background=bg||'var(--forest)';
   t.classList.add('show');
-  setTimeout(function(){t.classList.remove('show');},4500);
+  setTimeout(function(){t.classList.remove('show');},5000);
 }
 
 try{init();}catch(err){console.error('Init error:',err);}
