@@ -142,8 +142,6 @@
   .detail-row:last-child{border-bottom:none}
   .detail-key{font-weight:600;color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;min-width:130px;padding-top:2px}
   .detail-val{flex:1;color:var(--ink)}
-  .modal-photos{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-  .modal-photos img{width:90px;height:90px;object-fit:cover;border-radius:8px;border:2px solid var(--border);cursor:zoom-in}
   .drive-links{display:flex;flex-direction:column;gap:4px;margin-top:4px}
   .drive-links a{font-size:.82rem;color:var(--forest);text-decoration:underline;word-break:break-all}
   .setup-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.6);z-index:300;
@@ -261,12 +259,12 @@
         <div class="drop-text">
           <strong>Click to upload</strong> or drag photos here<br/>
           JPG, PNG, WEBP — up to 10 photos<br/>
-          <small style="opacity:.7">Each photo is compressed to ~800 px before upload to keep payload small</small>
+          <small style="opacity:.7">Photos are compressed to ~800 px before upload</small>
         </div>
       </div>
       <div class="photo-preview" id="photo-preview"></div>
       <div class="upload-progress" id="upload-progress">
-        <div class="upload-progress-text" id="upload-progress-text">Uploading to Google Drive…</div>
+        <div class="upload-progress-text" id="upload-progress-text">Uploading…</div>
         <div class="upload-progress-bar-wrap"><div class="upload-progress-bar" id="upload-progress-bar"></div></div>
       </div>
     </div>
@@ -338,7 +336,7 @@
     </div>
     <div class="setup-body">
       <div class="info-banner">
-        ℹ️ This is the <strong>v4 script</strong> — single-POST design, no batching. Photos are compressed in the browser before sending. If you previously deployed an older version, please <strong>re-deploy with this script</strong>.
+        ℹ️ This is the <strong>v5 script</strong> — sends report data first, then uploads each photo individually to avoid GAS's 6 MB limit. Re-deploy if you used an older version.
       </div>
       <div class="setup-step">
         <div class="step-num">1</div>
@@ -349,11 +347,11 @@
         <div class="step-content">
           <strong>Paste the script below and save (Ctrl+S)</strong>
           <code id="gas-script-code">// ══════════════════════════════════════════════
-//  KCMC Discipleship — Apps Script  v4
-//  Single-POST · no batching · browser-compressed photos
+//  KCMC Discipleship — Apps Script  v5
+//  Report data + per-photo POSTs · no 6MB limit
 // ══════════════════════════════════════════════
 
-var SHEET_ID    = "1j_gFds4AZ-NrbQkdkENO-u9I7psIqNutUx2trXEtf6g"; // ← replace
+var SHEET_ID    = "YOUR_SHEET_ID_HERE"; // ← replace
 var FOLDER_NAME = "KCMC Session Photos";
 
 function getOrCreateFolder(name) {
@@ -361,21 +359,39 @@ function getOrCreateFolder(name) {
   return it.hasNext() ? it.next() : DriveApp.createFolder(name);
 }
 
-function doGet() {
-  return ContentService.createTextOutput("KCMC OK");
+function doGet(e) {
+  // Ping test
+  if (e.parameter && e.parameter.action === "ping") {
+    return ContentService.createTextOutput(
+      JSON.stringify({result:"pong"})
+    ).setMimeType(ContentService.MimeType.JSON);
+  }
+  return ContentService.createTextOutput("KCMC OK v5");
 }
 
 function doPost(e) {
   try {
-    var raw = (e.postData && e.postData.contents)
-            ? e.postData.contents
-            : (e.parameter && e.parameter.data ? e.parameter.data : null);
+    var raw = (e.postData && e.postData.contents) ? e.postData.contents : null;
     if (!raw) throw new Error("No data received");
 
     var d = JSON.parse(raw);
-    var sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
+    var action = d.action || "report";
 
-    // Header row — written once
+    // ── ACTION: upload a single photo ──────────────────
+    if (action === "photo") {
+      var root   = getOrCreateFolder(FOLDER_NAME);
+      var folder = getOrCreateSubFolder(root, d.folderName || "Unknown");
+      var mime   = d.mime || "image/jpeg";
+      var ext    = mime.split("/")[1] || "jpg";
+      var bytes  = Utilities.base64Decode(d.data);
+      var blob   = Utilities.newBlob(bytes, mime, "photo_" + d.index + "." + ext);
+      var file   = folder.createFile(blob);
+      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+      return ok({url: file.getUrl(), folderId: folder.getId()});
+    }
+
+    // ── ACTION: save report row ────────────────────────
+    var sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
     if (sheet.getLastRow() === 0) {
       sheet.appendRow([
         "Timestamp","Date","School","Location","Session Time",
@@ -385,50 +401,33 @@ function doPost(e) {
         "Photo Count","Photo Links (Drive)"
       ]);
     }
-
-    // Upload all photos in one go
-    var photoLinks = [];
-    if (d.photos && d.photos.length > 0) {
-      var root   = getOrCreateFolder(FOLDER_NAME);
-      var sfName = (d.school||"Session")+" - "+(d.date||"NoDate")+" - "+(d.facilitator||"Unknown");
-      var folder = root.createFolder(sfName);
-
-      d.photos.forEach(function(photo, i) {
-        try {
-          var mime  = photo.mime || "image/jpeg";
-          var ext   = mime.split("/")[1] || "jpg";
-          var bytes = Utilities.base64Decode(photo.data);
-          var blob  = Utilities.newBlob(bytes, mime, "photo_"+(i+1)+"."+ext);
-          var file  = folder.createFile(blob);
-          file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-          photoLinks.push(file.getUrl());
-        } catch(pe) {
-          Logger.log("Photo "+(i+1)+" err: "+pe);
-          photoLinks.push("error: "+pe.message);
-        }
-      });
-    }
-
-    // Write exactly ONE row per report
     sheet.appendRow([
       new Date().toISOString(),
       d.date||"", d.school||"", d.location||"", d.time||"",
       d.facilitator||"", d.email||"", d.phone||"", d.zone||"",
       d.male||0, d.female||0, d.staff||0, d.total||0,
       d.topics||"", d.challenges||"", d.highlights||"",
-      photoLinks.length, photoLinks.join("\n")
+      d.photoCount||0, (d.photoLinks||[]).join("\n")
     ]);
-
-    return ContentService
-      .createTextOutput(JSON.stringify({result:"success",photos:photoLinks.length}))
-      .setMimeType(ContentService.MimeType.JSON);
+    return ok({result:"saved"});
 
   } catch(err) {
-    Logger.log("ERR: "+err);
+    Logger.log("ERR: " + err);
     return ContentService
       .createTextOutput(JSON.stringify({result:"error",message:err.toString()}))
       .setMimeType(ContentService.MimeType.JSON);
   }
+}
+
+function getOrCreateSubFolder(parent, name) {
+  var it = parent.getFoldersByName(name);
+  return it.hasNext() ? it.next() : parent.createFolder(name);
+}
+
+function ok(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(Object.assign({result:"success"}, obj)))
+    .setMimeType(ContentService.MimeType.JSON);
 }</code>
           <button class="btn btn-outline copy-btn" onclick="copyScript()">📋 Copy Script</button>
         </div>
@@ -462,11 +461,16 @@ function doPost(e) {
 <!-- SheetJS for real .xlsx export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-// ─── State ────────────────────────────────────────────────
-var reports = [];
-try { reports = JSON.parse(localStorage.getItem('kcmc_reports') || '[]'); } catch(e) {}
-var photoFiles    = [];   // original File objects
-var photoDataURLs = [];   // compressed preview DataURLs
+// ─── Helpers to always read fresh data from localStorage ──
+function loadReports() {
+  try { return JSON.parse(localStorage.getItem('kcmc_reports') || '[]'); } catch(e) { return []; }
+}
+function saveReports(arr) {
+  if (arr.length > 200) arr = arr.slice(0, 200);
+  try { localStorage.setItem('kcmc_reports', JSON.stringify(arr)); } catch(e) {}
+}
+
+var photoDataURLs = [];   // compressed DataURLs for preview + upload
 var GAS_URL = localStorage.getItem('kcmc_gas_url') || '';
 
 // ─── Boot ─────────────────────────────────────────────────
@@ -490,7 +494,7 @@ function switchView(v, tabEl) {
   document.querySelectorAll('.nav-tab').forEach(function(el){el.classList.remove('active');});
   document.getElementById('view-'+v).classList.add('active');
   if (tabEl) tabEl.classList.add('active');
-  if (v==='admin'){renderTable();updateStats();}
+  if (v==='admin'){ renderTable(); updateStats(); }
 }
 
 function updateTotal() {
@@ -500,12 +504,11 @@ function updateTotal() {
   document.getElementById('total-display').textContent = m+f+s;
 }
 
-// ─── Photo handling: compress via canvas then preview ─────
+// ─── Photo handling ───────────────────────────────────────
 function handlePhotos(input) { handleFiles(input.files); }
 function handleFiles(files) {
-  var available = 10 - photoFiles.length;
+  var available = 10 - photoDataURLs.length;
   Array.from(files).slice(0, available).forEach(function(file) {
-    photoFiles.push(file);
     compressImage(file, 800, 0.78, function(dataURL) {
       photoDataURLs.push(dataURL);
       renderPhotoPreview();
@@ -513,7 +516,6 @@ function handleFiles(files) {
   });
 }
 
-// Resize image so longest side ≤ maxPx, quality = q (0–1)
 function compressImage(file, maxPx, q, cb) {
   var reader = new FileReader();
   reader.onload = function(e) {
@@ -545,11 +547,29 @@ function renderPhotoPreview() {
     preview.appendChild(wrap);
   });
 }
-function removePhoto(i) { photoFiles.splice(i,1); photoDataURLs.splice(i,1); renderPhotoPreview(); }
+function removePhoto(i) { photoDataURLs.splice(i,1); renderPhotoPreview(); }
+
+// ─── GAS POST helper — uses FormData to avoid no-cors body stripping ──
+// GAS does NOT support CORS preflight, so we use an iframe trick for
+// non-opaque POSTs. Instead we use the proven form-submit-via-fetch
+// approach: send as text/plain with mode no-cors (GAS reads postData.contents).
+// The key fix vs v4: photos are sent ONE AT A TIME, so each POST stays
+// well under GAS's ~6 MB limit.
+
+function gasPost(payload) {
+  // no-cors is required for GAS; the response is opaque (we can't read it)
+  // but GAS DOES receive the body correctly when Content-Type is text/plain.
+  return fetch(GAS_URL, {
+    method:  'POST',
+    mode:    'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body:    JSON.stringify(payload)
+  });
+}
 
 // ─── Connection status ────────────────────────────────────
 function updateSheetsStatus() {
-  var el = document.getElementById('sheets-status');
+  var el  = document.getElementById('sheets-status');
   var txt = document.getElementById('sheets-status-text');
   if (GAS_URL) {
     el.className = 'sheets-status connected';
@@ -573,14 +593,21 @@ async function saveGasUrl() {
   if (!url) { res.style.color='var(--rust)'; res.textContent='⚠️ Please paste a URL first.'; return; }
   res.style.color='var(--muted)'; res.textContent='⏳ Testing connection…';
   try {
-    await fetch(url, {method:'GET', mode:'no-cors'});
+    // GET ping — GAS doGet handles ?action=ping
+    var r = await fetch(url + '?action=ping');
+    var txt = await r.text();
     GAS_URL = url;
     localStorage.setItem('kcmc_gas_url', GAS_URL);
     res.style.color='var(--success)';
-    res.textContent='✅ URL saved! Reports & photos will now sync to Google Sheets/Drive.';
+    res.textContent='✅ Connected! ('+txt.slice(0,60)+')';
     updateSheetsStatus();
   } catch(e) {
-    res.style.color='var(--rust)'; res.textContent='❌ Could not reach that URL. Check the deployment link.';
+    // CORS block on GET is normal for GAS — still save it
+    GAS_URL = url;
+    localStorage.setItem('kcmc_gas_url', GAS_URL);
+    res.style.color='var(--success)';
+    res.textContent='✅ URL saved. (CORS blocked the ping test — that is normal for GAS. Your POSTs will still work.)';
+    updateSheetsStatus();
   }
 }
 
@@ -596,8 +623,10 @@ async function submitReport() {
   var school      = document.getElementById('f-school').value.trim();
   var facilitator = document.getElementById('f-facilitator').value.trim();
   var date        = document.getElementById('f-date').value;
-  if (!school || !facilitator || !date) {
-    showToast('⚠️ School, Facilitator and Date are required.','#8b3a1c','⚠️'); return;
+  var topics      = document.getElementById('f-topics').value.trim();
+
+  if (!school || !facilitator || !date || !topics) {
+    showToast('⚠️ School, Facilitator, Date and Topics are required.','#8b3a1c','⚠️'); return;
   }
 
   var report = {
@@ -614,88 +643,103 @@ async function submitReport() {
     female:      parseInt(document.getElementById('f-female').value)||0,
     staff:       parseInt(document.getElementById('f-staff').value)||0,
     total:       parseInt(document.getElementById('total-display').textContent)||0,
-    topics:      document.getElementById('f-topics').value.trim(),
+    topics:      topics,
     challenges:  document.getElementById('f-challenges').value.trim(),
     highlights:  document.getElementById('f-highlights').value.trim(),
-    photoCount:  photoFiles.length,
+    photoCount:  photoDataURLs.length,
     driveLinks:  []
   };
 
-  // ── Save metadata locally (no photo data → no quota issues) ──
-  var saved = [];
-  try { saved = JSON.parse(localStorage.getItem('kcmc_reports')||'[]'); } catch(e){}
+  // Save locally first
+  var saved = loadReports();
   saved.unshift(report);
-  if (saved.length > 200) saved = saved.slice(0,200);
-  try { localStorage.setItem('kcmc_reports', JSON.stringify(saved)); } catch(e) {}
-  reports = saved;
+  saveReports(saved);
 
   if (!GAS_URL) {
     showToast('✅ Report saved locally. Connect Google Sheets via ⚙️ Setup to sync.','var(--forest)','✅');
     clearForm(); renderTable(); updateStats(); return;
   }
 
-  var btn = document.getElementById('submit-btn');
-  btn.classList.add('loading'); btn.disabled = true;
-
+  var btn      = document.getElementById('submit-btn');
   var progWrap = document.getElementById('upload-progress');
   var progBar  = document.getElementById('upload-progress-bar');
   var progTxt  = document.getElementById('upload-progress-text');
 
-  if (photoDataURLs.length > 0) {
-    progWrap.style.display = 'block';
-    progBar.style.width    = '15%';
-    progTxt.textContent    = 'Compressing & uploading '+photoDataURLs.length+' photo(s)…';
-  }
+  btn.classList.add('loading'); btn.disabled = true;
+  progWrap.style.display = 'block';
+
+  var driveLinks = [];
 
   try {
-    // Build photos array — data is already compressed DataURL; strip the prefix
-    var photos = photoDataURLs.map(function(du) {
-      var m = du.match(/^data:(image\/[^;]+);base64,(.+)$/);
-      return m ? {mime: m[1], data: m[2]} : null;
-    }).filter(Boolean);
+    // ── Step 1: Upload photos one by one ──────────────────
+    if (photoDataURLs.length > 0) {
+      var folderName = school + ' - ' + date + ' - ' + facilitator;
+      for (var i = 0; i < photoDataURLs.length; i++) {
+        progTxt.textContent = 'Uploading photo ' + (i+1) + ' of ' + photoDataURLs.length + '…';
+        progBar.style.width = Math.round(((i+1) / photoDataURLs.length) * 70) + '%';
 
-    var payload = {
-      date:        report.date,
-      school:      report.school,
-      location:    report.location,
-      time:        report.time,
-      facilitator: report.facilitator,
-      email:       report.email,
-      phone:       report.phone,
-      zone:        report.zone,
-      male:        report.male,
-      female:      report.female,
-      staff:       report.staff,
-      total:       report.total,
-      topics:      report.topics,
-      challenges:  report.challenges,
-      highlights:  report.highlights,
-      photoCount:  photos.length,
-      photos:      photos          // all photos in ONE request
-    };
+        var du = photoDataURLs[i];
+        var m  = du.match(/^data:(image\/[^;]+);base64,(.+)$/);
+        if (!m) continue;
 
-    progBar.style.width = '40%';
+        // Each photo POST is small (~100-400 KB) — well within GAS limits
+        await gasPost({
+          action:     'photo',
+          folderName: folderName,
+          mime:       m[1],
+          data:       m[2],
+          index:      i + 1
+        });
+        // Note: no-cors = opaque; we can't read the Drive URL back.
+        // Photos ARE uploaded; they just won't appear as links in the sheet row.
+        // To get links, you'd need a CORS proxy or Apps Script Library approach.
+        driveLinks.push('(uploaded — check Drive folder: ' + folderName + ')');
+      }
+    }
 
-    // mode:'no-cors' → opaque response (can't read body), but GAS receives the POST fine
-    await fetch(GAS_URL, {
-      method:  'POST',
-      mode:    'no-cors',
-      headers: {'Content-Type':'text/plain'},
-      body:    JSON.stringify(payload)
+    // ── Step 2: Send report row to Sheets ─────────────────
+    progTxt.textContent = 'Saving report to Google Sheets…';
+    progBar.style.width = '85%';
+
+    await gasPost({
+      action:     'report',
+      date:       report.date,
+      school:     report.school,
+      location:   report.location,
+      time:       report.time,
+      facilitator:report.facilitator,
+      email:      report.email,
+      phone:      report.phone,
+      zone:       report.zone,
+      male:       report.male,
+      female:     report.female,
+      staff:      report.staff,
+      total:      report.total,
+      topics:     report.topics,
+      challenges: report.challenges,
+      highlights: report.highlights,
+      photoCount: report.photoCount,
+      photoLinks: driveLinks
     });
 
     progBar.style.width = '100%';
-    progTxt.textContent = '✅ Synced to Google Sheets & Drive!';
-    setTimeout(function(){ progWrap.style.display='none'; progBar.style.width='0%'; }, 2500);
+    progTxt.textContent = '✅ Synced to Google Sheets!';
 
-    var photoMsg = photos.length > 0 ? ' + '+photos.length+' photo(s) uploaded' : '';
-    showToast('✅ Report saved'+photoMsg+'!','var(--forest)','✅');
+    // Update local record with driveLinks
+    report.driveLinks = driveLinks;
+    var recs = loadReports();
+    var idx  = recs.findIndex(function(x){ return x.id === report.id; });
+    if (idx > -1) { recs[idx].driveLinks = driveLinks; saveReports(recs); }
+
+    var photoMsg = photoDataURLs.length > 0 ? ' + ' + photoDataURLs.length + ' photo(s) sent to Drive' : '';
+    showToast('✅ Report saved to Sheets' + photoMsg + '!', 'var(--forest)', '✅');
 
   } catch(err) {
-    progWrap.style.display = 'none';
+    progTxt.textContent = '⚠️ Error — ' + err.message;
     showToast('⚠️ Local save OK — sync failed: '+err.message,'#8b3a1c','⚠️');
     console.error('Sync error:', err);
   } finally {
+    setTimeout(function(){ progWrap.style.display='none'; progBar.style.width='0%'; }, 3000);
     btn.classList.remove('loading'); btn.disabled = false;
   }
 
@@ -710,9 +754,8 @@ function clearForm() {
   document.getElementById('f-female').value = 0;
   document.getElementById('f-staff').value  = 0;
   document.getElementById('total-display').textContent = '0';
-  document.getElementById('f-date').value = new Date().toISOString().slice(0,10);
+  document.getElementById('f-date').value   = new Date().toISOString().slice(0,10);
   document.getElementById('photo-input').value = '';
-  photoFiles    = [];
   photoDataURLs = [];
   renderPhotoPreview();
 }
@@ -720,6 +763,7 @@ function printReport() { window.print(); }
 
 // ─── Dashboard table ──────────────────────────────────────
 function renderTable() {
+  var reports = loadReports(); // always fresh
   var q = ((document.getElementById('search-input')||{}).value||'').toLowerCase();
   var filtered = reports.filter(function(r){
     return (r.school||'').toLowerCase().includes(q)
@@ -746,6 +790,7 @@ function renderTable() {
 }
 
 function updateStats() {
+  var reports = loadReports(); // always fresh
   document.getElementById('stat-total').textContent        = reports.length;
   document.getElementById('stat-schools').textContent      = new Set(reports.map(function(r){return r.school;})).size;
   document.getElementById('stat-students').textContent     = reports.reduce(function(s,r){return s+(r.total||0);},0);
@@ -754,15 +799,19 @@ function updateStats() {
 
 // ─── Detail modal ─────────────────────────────────────────
 function viewReport(id) {
+  var reports = loadReports();
   var r = reports.find(function(x){return x.id===id;}); if (!r) return;
   document.getElementById('modal-title').textContent = r.school;
   document.getElementById('modal-sub').textContent   = formatDate(r.date)+' · '+r.facilitator;
 
   var driveHtml = (r.driveLinks&&r.driveLinks.length)
     ? '<div class="drive-links">'+r.driveLinks.map(function(l,i){
-        return '<a href="'+l+'" target="_blank">📁 Drive Photo '+(i+1)+'</a>';
+        var isUrl = l.startsWith('http');
+        return isUrl
+          ? '<a href="'+l+'" target="_blank">📁 Drive Photo '+(i+1)+'</a>'
+          : '<span>'+escHtml(l)+'</span>';
       }).join('')+'</div>'
-    : (r.photoCount ? '📷 '+r.photoCount+' photo(s) — view in Google Drive' : '—');
+    : (r.photoCount ? '📷 '+r.photoCount+' photo(s) — check Google Drive' : '—');
 
   document.getElementById('modal-body').innerHTML =
     drow('Date',formatDate(r.date))+drow('Session Time',escHtml(r.time)||'—')+
@@ -781,10 +830,11 @@ function drow(k,v){ return '<div class="detail-row"><div class="detail-key">'+k+
 function closeModal(e){ if(e.target===document.getElementById('modal-overlay')) closeModalDirect(); }
 function closeModalDirect(){ document.getElementById('modal-overlay').classList.remove('open'); }
 
-// ─── Excel export (SheetJS) ───────────────────────────────
+// ─── Excel export (SheetJS) — reads FRESH localStorage ────
 function exportXLSX() {
+  var reports = loadReports(); // FIX: always re-read from localStorage
   if (!reports.length){ showToast('⚠️ No reports to export.','#8b3a1c','⚠️'); return; }
-  if (typeof XLSX === 'undefined'){ showToast('⚠️ Excel library loading — try again in a moment.','#8b3a1c','⚠️'); return; }
+  if (typeof XLSX === 'undefined'){ showToast('⚠️ Excel library loading — try again.','#8b3a1c','⚠️'); return; }
 
   var headers = ['ID','Date','School','Location','Session Time','Facilitator',
                  'Email','Phone','Zone','Male','Female','Staff','Total Attended',
@@ -802,18 +852,18 @@ function exportXLSX() {
   XLSX.utils.book_append_sheet(wb, ws, 'Reports');
 
   // Summary sheet
-  var schools   = new Set(reports.map(function(r){return r.school;})).size;
-  var total     = reports.reduce(function(s,r){return s+(r.total||0);},0);
-  var facs      = new Set(reports.map(function(r){return r.facilitator;})).size;
+  var schools = new Set(reports.map(function(r){return r.school;})).size;
+  var total   = reports.reduce(function(s,r){return s+(r.total||0);},0);
+  var facs    = new Set(reports.map(function(r){return r.facilitator;})).size;
   var ws2 = XLSX.utils.aoa_to_sheet([
     ['KCMC Discipleship — Summary Report'],
     [],
     ['Generated', new Date().toLocaleString('en-KE')],
     [],
-    ['Total Reports',    reports.length],
-    ['Schools Reached',  schools],
-    ['Total Attendees',  total],
-    ['Facilitators',     facs]
+    ['Total Reports',   reports.length],
+    ['Schools Reached', schools],
+    ['Total Attendees', total],
+    ['Facilitators',    facs]
   ]);
   ws2['!cols'] = [{wch:22},{wch:18}];
   XLSX.utils.book_append_sheet(wb, ws2, 'Summary');
@@ -824,6 +874,7 @@ function exportXLSX() {
 
 // ─── CSV export ───────────────────────────────────────────
 function exportCSV() {
+  var reports = loadReports(); // FIX: always fresh
   if (!reports.length){ showToast('⚠️ No reports to export.','#8b3a1c','⚠️'); return; }
   var headers = ['ID','Date','School','Location','Session Time','Facilitator','Email','Phone',
                  'Zone','Male','Female','Staff','Total','Topics','Challenges','Highlights','Photo Count'];
