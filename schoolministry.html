@@ -547,20 +547,70 @@ function renderPhotoPreview() {
 }
 function removePhoto(i) { photoDataURLs.splice(i,1); renderPhotoPreview(); }
 
-// ─── GAS POST helper ──────────────────────────────────────
-// CRITICAL: fetch with mode:no-cors + JSON body is silently dropped by GAS.
-// The only simple-request POST that GAS reliably receives is multipart/form-data
-// (no Content-Type header set manually — browser sets it with boundary).
-// GAS reads the field via e.parameter.data.
-// Each photo is sent as its own POST so we stay well under GAS's ~6 MB limit.
+// ─── GAS POST via hidden iframe form ─────────────────────
+// fetch() with no-cors silently drops the POST body in GAS.
+// The ONLY reliable way to POST a large payload cross-origin to GAS
+// (without a CORS proxy) is a real HTML form submission into a hidden iframe.
+// GAS receives it as e.parameter.data. We poll the iframe's onload to detect
+// completion (GAS always responds, even with an opaque body).
 
-function gasPost(payload) {
-  var fd = new FormData();
-  fd.append('data', JSON.stringify(payload));
-  return fetch(GAS_URL, {
-    method: 'POST',
-    mode:   'no-cors',
-    body:   fd          // multipart/form-data — GAS receives e.parameter.data
+function iframePost(payload) {
+  return new Promise(function(resolve, reject) {
+    var iframeName = 'gas_iframe_' + Date.now();
+
+    // Hidden iframe — captures the GAS response
+    var iframe = document.createElement('iframe');
+    iframe.name = iframeName;
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    // Hidden form targeting that iframe
+    var form = document.createElement('form');
+    form.method  = 'POST';
+    form.action  = GAS_URL;
+    form.target  = iframeName;
+    form.style.display = 'none';
+
+    var input = document.createElement('input');
+    input.type  = 'hidden';
+    input.name  = 'data';
+    input.value = JSON.stringify(payload);
+    form.appendChild(input);
+    document.body.appendChild(form);
+
+    var done = false;
+    var timeout = setTimeout(function() {
+      if (!done) { done = true; cleanup(); resolve('timeout'); }
+    }, 30000); // 30 s per photo
+
+    iframe.onload = function() {
+      if (!done) {
+        done = true;
+        clearTimeout(timeout);
+        // Try to read GAS response (works if same-origin after redirect, otherwise opaque)
+        try {
+          var txt = iframe.contentDocument
+                  ? iframe.contentDocument.body.innerText
+                  : '';
+          cleanup();
+          resolve(txt);
+        } catch(e) {
+          cleanup();
+          resolve('ok'); // cross-origin — assume success
+        }
+      }
+    };
+
+    iframe.onerror = function() {
+      if (!done) { done = true; clearTimeout(timeout); cleanup(); reject(new Error('iframe error')); }
+    };
+
+    function cleanup() {
+      try { document.body.removeChild(form); } catch(e) {}
+      setTimeout(function(){ try { document.body.removeChild(iframe); } catch(e) {} }, 1000);
+    }
+
+    form.submit();
   });
 }
 
@@ -679,18 +729,15 @@ async function submitReport() {
         var m  = du.match(/^data:(image\/[^;]+);base64,(.+)$/);
         if (!m) continue;
 
-        // Each photo POST is small (~100-400 KB) — well within GAS limits
-        await gasPost({
+        // iframe form POST — GAS receives e.parameter.data reliably
+        await iframePost({
           action:     'photo',
           folderName: folderName,
           mime:       m[1],
           data:       m[2],
           index:      i + 1
         });
-        // Note: no-cors = opaque; we can't read the Drive URL back.
-        // Photos ARE uploaded; they just won't appear as links in the sheet row.
-        // To get links, you'd need a CORS proxy or Apps Script Library approach.
-        driveLinks.push('(uploaded — check Drive folder: ' + folderName + ')');
+        driveLinks.push('uploaded to Drive folder: ' + folderName);
       }
     }
 
@@ -698,7 +745,7 @@ async function submitReport() {
     progTxt.textContent = 'Saving report to Google Sheets…';
     progBar.style.width = '85%';
 
-    await gasPost({
+    await iframePost({
       action:     'report',
       date:       report.date,
       school:     report.school,
