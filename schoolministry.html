@@ -83,19 +83,20 @@
   .photo-thumb-wrap.uploading img{opacity:.5}
   .photo-thumb-wrap.uploading::after{content:'⏳';position:absolute;inset:0;display:grid;
     place-items:center;font-size:1.4rem;background:rgba(255,255,255,.5);border-radius:9px}
+  .photo-thumb-wrap.failed img{border-color:var(--rust)}
+  .photo-thumb-wrap.failed::after{content:'✕';position:absolute;inset:0;display:grid;
+    place-items:center;font-size:1.4rem;background:rgba(139,58,28,.15);border-radius:9px;color:var(--rust)}
   .remove-photo{position:absolute;top:-6px;right:-6px;width:20px;height:20px;background:var(--rust);
     color:#fff;border:none;border-radius:50%;font-size:11px;cursor:pointer;display:grid;place-items:center}
-  /* Progress bar */
   .upload-progress{margin-top:14px;display:none;background:var(--warm);border-radius:10px;padding:12px 16px}
   .upload-progress-bar-wrap{background:var(--border);border-radius:99px;height:10px;overflow:hidden;margin-top:6px}
   .upload-progress-bar{height:100%;background:linear-gradient(90deg,var(--forest),var(--gold));border-radius:99px;width:0%;transition:width .4s}
   .upload-progress-text{font-size:.82rem;color:var(--muted);font-weight:500}
-  .upload-log{margin-top:10px;max-height:120px;overflow-y:auto;font-size:.75rem;font-family:monospace;
+  .upload-log{margin-top:10px;max-height:140px;overflow-y:auto;font-size:.75rem;font-family:monospace;
     background:#f0ece3;border-radius:8px;padding:8px 10px;color:var(--ink);border:1px solid var(--border)}
   .log-line{padding:2px 0;border-bottom:1px solid rgba(0,0,0,.05)}
   .log-line:last-child{border-bottom:none}
   .log-ok{color:var(--success)}.log-err{color:var(--rust)}.log-info{color:var(--muted)}
-  /* Action bar */
   .action-bar{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;margin-top:8px}
   .btn{font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:12px 28px;border-radius:10px;
     border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s;letter-spacing:.02em}
@@ -115,7 +116,6 @@
     display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;
     transition:all .35s cubic-bezier(.34,1.56,.64,1);max-width:400px}
   .toast.show{transform:translateY(0);opacity:1}
-  /* Dashboard */
   .dashboard-wrap{max-width:1000px;margin:36px auto 60px;padding:0 20px}
   .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px}
   .stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
@@ -138,10 +138,8 @@
   .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600}
   .badge-green{background:rgba(45,122,79,.12);color:var(--success)}
   .badge-gold{background:rgba(201,149,42,.15);color:#8a6410}
-  .badge-blue{background:rgba(30,64,200,.10);color:#1a3a8a}
   .empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
   .empty-state .empty-icon{font-size:3rem;margin-bottom:12px}
-  /* Modals */
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.5);z-index:200;
     align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
   .modal-overlay.open{display:flex}
@@ -160,12 +158,11 @@
   .detail-val{flex:1;color:var(--ink)}
   .drive-links{display:flex;flex-direction:column;gap:4px;margin-top:4px}
   .drive-links a{font-size:.82rem;color:var(--forest);text-decoration:underline;word-break:break-all}
-  /* Setup modal */
   .setup-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.6);z-index:300;
     align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
   .setup-overlay.open{display:flex}
   .setup-modal{background:var(--card);border-radius:18px;box-shadow:0 24px 80px rgba(0,0,0,.3);
-    max-width:660px;width:100%;overflow:hidden;animation:fadeUp .3s ease}
+    max-width:680px;width:100%;overflow:hidden;animation:fadeUp .3s ease}
   .setup-header{background:linear-gradient(135deg,var(--forest),#2c5e4a);color:#fff;padding:22px 28px;
     display:flex;justify-content:space-between;align-items:flex-start}
   .setup-header h2{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700}
@@ -178,7 +175,7 @@
   .step-content strong{display:block;margin-bottom:3px;color:var(--forest)}
   .step-content code{display:block;background:#f0ece3;border:1px solid var(--border);border-radius:6px;
     padding:10px 12px;font-size:.72rem;font-family:monospace;color:var(--ink);margin-top:6px;
-    word-break:break-all;line-height:1.7;white-space:pre-wrap;max-height:340px;overflow-y:auto}
+    word-break:break-all;line-height:1.7;white-space:pre-wrap;max-height:280px;overflow-y:auto}
   .copy-btn{margin-top:8px;font-size:.78rem;padding:5px 12px;border-radius:6px}
   .setup-url-row{display:flex;gap:8px;margin-top:14px}
   .setup-url-row input{flex:1}
@@ -196,7 +193,7 @@
     <div class="nav-cross">✝</div>
     <div>
       <div class="nav-title">KCMC Discipleship</div>
-      <div class="nav-sub">Daily Report System · v7</div>
+      <div class="nav-sub">Daily Report System · v8</div>
     </div>
   </div>
   <div class="nav-tabs">
@@ -277,7 +274,7 @@
         <div class="drop-text">
           <strong>Click to upload</strong> or drag photos here<br/>
           JPG, PNG, WEBP — up to 10 photos<br/>
-          <small style="opacity:.7">Compressed to ~800 px · uploaded to Google Drive with real shareable links</small>
+          <small style="opacity:.7">Compressed to ~640 px · uploaded to Google Drive · real shareable links stored in Sheet</small>
         </div>
       </div>
       <div class="photo-preview" id="photo-preview"></div>
@@ -350,25 +347,26 @@
 <div class="setup-overlay" id="setup-overlay">
   <div class="setup-modal">
     <div class="setup-header">
-      <div><h2>⚙️ Connect Google Sheets + Drive</h2><p>Reports → Sheets · Photos → Google Drive (real links)</p></div>
+      <div><h2>⚙️ Connect Google Sheets + Drive</h2><p>Reports → Sheets · Photos → Google Drive with real links</p></div>
       <button class="modal-close" onclick="closeSetup()">✕</button>
     </div>
     <div class="setup-body">
       <div class="info-banner green">
-        ✅ <strong>v7 — Photo upload FIXED.</strong> Photos now use <code>fetch()</code> with <code>text/plain</code> content-type (the GAS CORS trick) so the real Drive URL is returned and stored in your Sheet.
+        ✅ <strong>v8 — Photo upload fix.</strong> GAS now returns <code>MimeType.TEXT</code> (not JSON) so the browser can always read the Drive URL across the GAS redirect. Photos compress to 640px / quality 0.60 (~80 KB each).
       </div>
       <div class="setup-step">
         <div class="step-num">1</div>
-        <div class="step-content"><strong>Open your Google Sheet</strong> → Extensions → Apps Script → delete all existing code.</div>
+        <div class="step-content"><strong>Open your Google Sheet → Extensions → Apps Script → delete all code.</strong></div>
       </div>
       <div class="setup-step">
         <div class="step-num">2</div>
         <div class="step-content">
-          <strong>Paste the script below and save (Ctrl+S)</strong>
-          <code id="gas-script-code">// ══════════════════════════════════════════════
-//  KCMC Discipleship — Apps Script  v7
-//  fetch() text/plain · real Drive URLs returned · CORS OK
-// ══════════════════════════════════════════════
+          <strong>Paste the script and save (Ctrl+S)</strong>
+          <code id="gas-script-code">// ══════════════════════════════════════════════════════════════
+//  KCMC Discipleship — Google Apps Script  v8
+//  FIX: corsOutput uses MimeType.TEXT so Drive URLs are readable
+//       cross-origin after the GAS /exec redirect.
+// ══════════════════════════════════════════════════════════════
 
 var SHEET_ID    = "YOUR_SHEET_ID_HERE"; // ← replace with your Sheet ID
 var FOLDER_NAME = "KCMC Session Photos";
@@ -382,78 +380,74 @@ function getOrCreateSubFolder(parent, name) {
   return it.hasNext() ? it.next() : parent.createFolder(name);
 }
 
+// CRITICAL: MimeType.TEXT — NOT MimeType.JSON
+// JSON responses lose CORS headers on the GAS /exec redirect.
+// TEXT responses are always cross-origin readable without headers.
+function corsOutput(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.TEXT);
+}
+
 function doGet(e) {
   if (e && e.parameter && e.parameter.action === "ping") {
-    return corsOutput({ result: "success", message: "KCMC OK v7" });
+    return corsOutput({ result: "success", message: "KCMC OK v8" });
   }
-  return ContentService.createTextOutput("KCMC Discipleship GAS v7 — OK");
+  return ContentService.createTextOutput("KCMC Discipleship GAS v8 — OK");
 }
 
 function doPost(e) {
   try {
-    // KEY FIX: fetch() sends Content-Type: text/plain → body in e.postData.contents
-    // This bypasses the CORS preflight so GAS can reply with JSON the browser reads.
-    var raw = (e.postData && e.postData.contents && e.postData.contents.length > 2)
-            ? e.postData.contents
-            : (e.parameter && e.parameter.data ? e.parameter.data : null);
+    var raw = null;
+    if (e.postData && e.postData.contents && e.postData.contents.length > 2) {
+      raw = e.postData.contents;
+    }
+    if (!raw && e.parameter && e.parameter.data) {
+      raw = e.parameter.data;
+    }
     if (!raw) throw new Error("No data received");
 
     var d      = JSON.parse(raw);
     var action = d.action || "report";
 
-    // ── PHOTO: upload base64 image to Drive, return real URL ──
     if (action === "photo") {
-      var root   = getOrCreateFolder(FOLDER_NAME);
-      var folder = getOrCreateSubFolder(root, d.folderName || "Session");
-      var mime   = d.mime || "image/jpeg";
-      var ext    = mime.split("/")[1] || "jpg";
-      var bytes  = Utilities.base64Decode(d.data);
-      var blob   = Utilities.newBlob(bytes, mime, "photo_" + d.index + "." + ext);
-      var file   = folder.createFile(blob);
+      var root       = getOrCreateFolder(FOLDER_NAME);
+      var folderName = (d.folderName || "Session").replace(/[\/\\:*?"<>|]/g,"-").slice(0,100);
+      var folder     = getOrCreateSubFolder(root, folderName);
+      var mime       = d.mime || "image/jpeg";
+      var ext        = mime.split("/")[1] || "jpg";
+      var bytes      = Utilities.base64Decode(d.data);
+      var blob       = Utilities.newBlob(bytes, mime, "photo_" + (d.index||1) + "." + ext);
+      var file       = folder.createFile(blob);
       file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-      // ✅ Browser fetch() reads this URL
       return corsOutput({ result: "success", url: file.getUrl(), name: file.getName() });
     }
 
-    // ── REPORT: append row to Sheet ──
     var sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
     if (sheet.getLastRow() === 0) {
-      sheet.appendRow([
-        "Timestamp","Date","School","Location","Session Time",
-        "Facilitator","Email","Phone","Zone",
-        "Male","Female","Staff","Total",
-        "Topics","Challenges","Highlights",
-        "Photo Count","Photo Links (Drive)"
-      ]);
+      sheet.appendRow(["Timestamp","Date","School","Location","Session Time",
+        "Facilitator","Email","Phone","Zone","Male","Female","Staff","Total",
+        "Topics","Challenges","Highlights","Photo Count","Photo Links (Drive)"]);
       sheet.setFrozenRows(1);
-      sheet.getRange(1,1,1,18)
-           .setFontWeight("bold")
-           .setBackground("#1e4035")
-           .setFontColor("#ffffff");
+      sheet.getRange(1,1,1,18).setFontWeight("bold")
+           .setBackground("#1e4035").setFontColor("#ffffff");
     }
     sheet.appendRow([
       new Date().toISOString(),
       d.date||"", d.school||"", d.location||"", d.time||"",
       d.facilitator||"", d.email||"", d.phone||"", d.zone||"",
-      d.male||0, d.female||0, d.staff||0, d.total||0,
+      Number(d.male)||0, Number(d.female)||0, Number(d.staff)||0, Number(d.total)||0,
       d.topics||"", d.challenges||"", d.highlights||"",
-      d.photoCount||0, (d.photoLinks||[]).join("\n")
+      Number(d.photoCount)||0, (d.photoLinks||[]).join("\n")
     ]);
     return corsOutput({ result: "success", saved: true });
 
   } catch(err) {
-    Logger.log("ERR: " + err);
+    Logger.log("KCMC ERR: " + err.message);
     return ContentService
-      .createTextOutput(JSON.stringify({result:"error", message: err.toString()}))
-      .setMimeType(ContentService.MimeType.JSON);
+      .createTextOutput(JSON.stringify({ result:"error", message: err.toString() }))
+      .setMimeType(ContentService.MimeType.TEXT);
   }
-}
-
-function corsOutput(obj) {
-  obj.result = obj.result || "success";
-  return ContentService
-    .createTextOutput(JSON.stringify(obj))
-    .setMimeType(ContentService.MimeType.JSON);
 }</code>
           <button class="btn btn-outline copy-btn" onclick="copyScript()">📋 Copy Script</button>
         </div>
@@ -470,13 +464,14 @@ function corsOutput(obj) {
         <div class="step-content">
           <strong>Deploy → New deployment → Web app</strong><br/>
           Execute as: <strong>Me</strong> &nbsp;|&nbsp; Who has access: <strong>Anyone</strong><br/>
-          Authorize Drive + Sheets when prompted. Copy the <strong>/exec URL</strong>.
+          Authorize Drive + Sheets. Copy the <strong>/exec URL</strong>.<br/>
+          ⚠️ If you updated existing code: <strong>Deploy → Manage deployments → Edit → New version → Deploy</strong>
         </div>
       </div>
       <div class="setup-step">
         <div class="step-num">5</div>
         <div class="step-content">
-          <strong>Why photos work now:</strong> The frontend sends photos one-by-one using <code>fetch()</code> with <code>Content-Type: text/plain</code>. GAS exposes this in <code>e.postData.contents</code> and <strong>returns the real Drive URL</strong> in the JSON response. The URL is then included in the Sheet row.
+          <strong>Why photos work in v8:</strong> The GAS <code>corsOutput()</code> now uses <code>MimeType.TEXT</code> instead of <code>MimeType.JSON</code>. When GAS <code>/exec</code> redirects, the browser loses CORS headers on JSON-typed responses and can't read the body — so <code>resp.url</code> was always <code>undefined</code>. Plain TEXT responses are always cross-origin readable. The frontend still parses them with <code>JSON.parse()</code>.
         </div>
       </div>
       <div class="setup-url-row">
@@ -492,19 +487,25 @@ function corsOutput(obj) {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-// ═══════════════════════════════════════════════════════════
-//  KCMC Discipleship v7 — Frontend JS
-//  KEY FIX: gasPost() uses fetch() + text/plain so GAS returns
-//  a readable JSON body including the real Drive photo URL.
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+//  KCMC Discipleship v8 — Frontend JS
+//
+//  KEY FIXES vs v7:
+//  1. compressImage uses 640px / quality 0.60 → ~80 KB per photo
+//  2. gasPost() parses response as text then JSON.parse() —
+//     works whether GAS returns TEXT or JSON mime type
+//  3. Photo upload has per-photo retry (1 retry on failure)
+//  4. Detailed log shows exact error if upload fails
+//  5. Failed photos marked with red ✕ overlay on thumbnail
+// ═══════════════════════════════════════════════════════════════
 
 function loadReports(){try{return JSON.parse(localStorage.getItem('kcmc_reports')||'[]');}catch(e){return[];}}
-function saveReports(arr){if(arr.length>200)arr=arr.slice(0,200);try{localStorage.setItem('kcmc_reports',JSON.stringify(arr));}catch(e){}}
+function saveReports(arr){if(arr.length>200)arr=arr.slice(0,200);try{localStorage.setItem('kcmc_reports',JSON.stringify(arr));}catch(e){showToast('⚠️ Storage full — old reports trimmed.','#8b3a1c','⚠️');}}
 
 var photoDataURLs = [];
 var GAS_URL = localStorage.getItem('kcmc_gas_url') || '';
 
-// ─── Init ─────────────────────────────────────────────────
+// ─── Init ──────────────────────────────────────────────────────
 function init() {
   var today = new Date();
   var fmt = today.toLocaleDateString('en-KE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
@@ -535,12 +536,14 @@ function updateTotal(){
   document.getElementById('total-display').textContent=m+f+s;
 }
 
-// ─── Photo handling ───────────────────────────────────────
+// ─── Photo handling ────────────────────────────────────────────
 function handlePhotos(input){handleFiles(input.files);}
 function handleFiles(files){
   var available=10-photoDataURLs.length;
+  if(available<=0){showToast('⚠️ Maximum 10 photos per report.','#8b3a1c','⚠️');return;}
   Array.from(files).slice(0,available).forEach(function(file){
-    compressImage(file,800,0.78,function(dataURL){
+    // FIX: 640px / 0.60 quality → ~80 KB each (vs ~350 KB at 800px/0.78)
+    compressImage(file,640,0.60,function(dataURL){
       photoDataURLs.push(dataURL);
       renderPhotoPreview();
     });
@@ -579,32 +582,53 @@ function renderPhotoPreview(){
 }
 function removePhoto(i){photoDataURLs.splice(i,1);renderPhotoPreview();}
 
-// ─── KEY FIX: gasPost via fetch() with text/plain ─────────
-// Sending Content-Type: text/plain avoids the CORS preflight.
-// GAS doPost() receives the body in e.postData.contents (not e.parameter).
-// The JSON response IS readable by the browser — so we get the Drive URL back.
+// ─── gasPost: fetch() with text/plain ─────────────────────────
+// FIX: response parsed as .text() then JSON.parse() — works for
+// both MimeType.TEXT and MimeType.JSON from GAS.
 function gasPost(payload) {
   return fetch(GAS_URL, {
     method: 'POST',
-    // text/plain = no CORS preflight, GAS returns readable JSON
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify(payload)
-  }).then(function(r) {
-    // GAS redirects to a /dev or /exec URL — follow redirect
-    return r.text();
-  }).then(function(txt) {
+  })
+  .then(function(r) { return r.text(); })
+  .then(function(txt) {
+    if (!txt || txt.trim() === '') throw new Error('Empty response from GAS');
     try { return JSON.parse(txt); }
-    catch(e) { return { result: 'unknown', raw: txt }; }
+    catch(e) { return { result: 'unknown', raw: txt.slice(0,200) }; }
   });
 }
 
-// ─── Sheets status ────────────────────────────────────────
+// ─── uploadPhotoWithRetry: 1 automatic retry on failure ───────
+async function uploadPhotoWithRetry(payload, index, retries) {
+  retries = retries || 1;
+  try {
+    var resp = await gasPost(payload);
+    if (resp && resp.url) return resp;
+    // Got a response but no URL — retry once
+    if (retries > 0) {
+      addLog('Photo '+(index)+': no URL in response, retrying…', 'info');
+      await new Promise(function(r){setTimeout(r,1500);});
+      return uploadPhotoWithRetry(payload, index, retries - 1);
+    }
+    return resp;
+  } catch(err) {
+    if (retries > 0) {
+      addLog('Photo '+(index)+': error ('+err.message+'), retrying…', 'info');
+      await new Promise(function(r){setTimeout(r,2000);});
+      return uploadPhotoWithRetry(payload, index, retries - 1);
+    }
+    throw err;
+  }
+}
+
+// ─── Sheets status ─────────────────────────────────────────────
 function updateSheetsStatus(){
   var el=document.getElementById('sheets-status');
   var txt=document.getElementById('sheets-status-text');
   if(GAS_URL){
     el.className='sheets-status connected';
-    txt.textContent='✅ Google Sheets + Drive connected — reports & photos sync with real Drive links.';
+    txt.textContent='✅ Google Sheets + Drive connected — reports and photos sync with real Drive links.';
   } else {
     el.className='sheets-status';
     txt.textContent='Google Sheets not configured — click ⚙️ Setup to connect.';
@@ -643,7 +667,7 @@ function copyScript(){
   navigator.clipboard.writeText(code).then(function(){showToast('📋 Script copied!','var(--forest)','📋');});
 }
 
-// ─── Log helper ───────────────────────────────────────────
+// ─── Log helper ────────────────────────────────────────────────
 function addLog(msg, type) {
   var log = document.getElementById('upload-log');
   var line = document.createElement('div');
@@ -653,7 +677,7 @@ function addLog(msg, type) {
   log.scrollTop = log.scrollHeight;
 }
 
-// ─── SUBMIT ───────────────────────────────────────────────
+// ─── SUBMIT ────────────────────────────────────────────────────
 async function submitReport(){
   var school=document.getElementById('f-school').value.trim();
   var facilitator=document.getElementById('f-facilitator').value.trim();
@@ -685,7 +709,7 @@ async function submitReport(){
     synced:false
   };
 
-  // Save locally first
+  // Save locally first so data is never lost
   var saved=loadReports();saved.unshift(report);saveReports(saved);
 
   if(!GAS_URL){
@@ -703,84 +727,104 @@ async function submitReport(){
   progWrap.style.display='block';
 
   var driveLinks=[];
+  var uploadedCount=0;
+  var failedCount=0;
   var folderName=school+' — '+date+' — '+facilitator;
 
   try {
-    // ── Step 1: Upload photos one by one via fetch() ───────
+    // ── Step 1: Upload photos one-by-one with retry ────────────
     if(photoDataURLs.length>0){
-      addLog('Starting upload of '+photoDataURLs.length+' photo(s)…','info');
+      addLog('Starting upload of '+photoDataURLs.length+' photo(s) at 640px/0.60…','info');
+
       for(var i=0;i<photoDataURLs.length;i++){
         progTxt.textContent='Uploading photo '+(i+1)+' of '+photoDataURLs.length+'…';
         progBar.style.width=Math.round(((i+0.5)/photoDataURLs.length)*70)+'%';
 
-        // Mark thumb as uploading
         var thumb=document.getElementById('thumb-'+i);
-        if(thumb)thumb.classList.add('uploading');
+        if(thumb){thumb.classList.remove('failed');thumb.classList.add('uploading');}
 
         var du=photoDataURLs[i];
         var m=du.match(/^data:(image\/[^;]+);base64,(.+)$/);
-        if(!m){addLog('Photo '+(i+1)+': skipped (bad format)','err');continue;}
+        if(!m){
+          addLog('Photo '+(i+1)+': skipped — bad data URL format','err');
+          if(thumb){thumb.classList.remove('uploading');thumb.classList.add('failed');}
+          failedCount++;
+          continue;
+        }
+
+        // Approximate size check
+        var approxKB = Math.round(m[2].length * 0.75 / 1024);
+        addLog('Photo '+(i+1)+': ~'+approxKB+' KB, uploading…','info');
 
         try {
-          // ✅ THE FIX: real fetch() → GAS returns JSON with Drive URL
-          var resp = await gasPost({
+          var resp = await uploadPhotoWithRetry({
             action:     'photo',
             folderName: folderName,
             mime:       m[1],
             data:       m[2],
             index:      i+1
-          });
+          }, i+1, 1);
 
           if(resp && resp.url){
             driveLinks.push(resp.url);
-            addLog('Photo '+(i+1)+': ✅ '+resp.url.slice(0,60)+'…','ok');
+            uploadedCount++;
+            addLog('Photo '+(i+1)+': ✅ '+resp.url.slice(0,70)+'…','ok');
             if(thumb){thumb.classList.remove('uploading');thumb.classList.add('uploaded');}
           } else {
-            // If we got a response but no URL, note it but continue
-            addLog('Photo '+(i+1)+': uploaded (no URL returned — check Drive manually)','err');
-            driveLinks.push('Uploaded to folder: '+folderName+' (no URL returned)');
-            if(thumb)thumb.classList.remove('uploading');
+            failedCount++;
+            var rawInfo = resp ? JSON.stringify(resp).slice(0,120) : 'null response';
+            addLog('Photo '+(i+1)+': ⚠️ No Drive URL returned. GAS response: '+rawInfo,'err');
+            addLog('  → Check GAS script uses MimeType.TEXT (not JSON) and is redeployed.','err');
+            driveLinks.push('[Upload failed — check GAS deployment]');
+            if(thumb){thumb.classList.remove('uploading');thumb.classList.add('failed');}
           }
         } catch(photoErr) {
+          failedCount++;
           addLog('Photo '+(i+1)+' error: '+photoErr.message,'err');
-          if(thumb)thumb.classList.remove('uploading');
+          if(thumb){thumb.classList.remove('uploading');thumb.classList.add('failed');}
         }
 
         progBar.style.width=Math.round(((i+1)/photoDataURLs.length)*70)+'%';
+
+        // Small delay between uploads to avoid GAS rate limits
+        if(i < photoDataURLs.length-1) await new Promise(function(r){setTimeout(r,300);});
+      }
+
+      if(failedCount>0){
+        addLog('⚠️ '+failedCount+' photo(s) failed. Ensure GAS script is v8 (MimeType.TEXT) and redeployed as a NEW VERSION.','err');
       }
     }
 
-    // ── Step 2: Send report row to Sheets ─────────────────
+    // ── Step 2: Save report row to Sheets ─────────────────────
     progTxt.textContent='Saving report to Google Sheets…';
-    progBar.style.width='80%';
+    progBar.style.width='82%';
     addLog('Saving report row to Sheets…','info');
 
     var sheetResp = await gasPost({
-      action:     'report',
-      date:       report.date,
-      school:     report.school,
-      location:   report.location,
-      time:       report.time,
-      facilitator:report.facilitator,
-      email:      report.email,
-      phone:      report.phone,
-      zone:       report.zone,
-      male:       report.male,
-      female:     report.female,
-      staff:      report.staff,
-      total:      report.total,
-      topics:     report.topics,
-      challenges: report.challenges,
-      highlights: report.highlights,
-      photoCount: report.photoCount,
-      // ✅ Real Drive URLs stored in the Sheet
-      photoLinks: driveLinks
+      action:      'report',
+      date:        report.date,
+      school:      report.school,
+      location:    report.location,
+      time:        report.time,
+      facilitator: report.facilitator,
+      email:       report.email,
+      phone:       report.phone,
+      zone:        report.zone,
+      male:        report.male,
+      female:      report.female,
+      staff:       report.staff,
+      total:       report.total,
+      topics:      report.topics,
+      challenges:  report.challenges,
+      highlights:  report.highlights,
+      photoCount:  report.photoCount,
+      photoLinks:  driveLinks        // real Drive URLs stored in Sheet
     });
 
     progBar.style.width='100%';
 
     if(sheetResp && sheetResp.result==='success'){
-      progTxt.textContent='✅ Synced to Google Sheets!';
+      progTxt.textContent='✅ Report saved to Google Sheets!';
       addLog('Report saved to Sheets ✅','ok');
       report.driveLinks=driveLinks;
       report.synced=true;
@@ -789,14 +833,15 @@ async function submitReport(){
       addLog('Sheet response: '+JSON.stringify(sheetResp),'err');
     }
 
-    // Update local record
-    report.driveLinks=driveLinks;
+    // Update local record with Drive links and sync status
     var recs=loadReports();
     var idx=recs.findIndex(function(x){return x.id===report.id;});
     if(idx>-1){recs[idx]=report;saveReports(recs);}
 
-    var photoMsg=driveLinks.length>0?' + '+driveLinks.length+' photo(s) in Drive':'';
-    showToast('✅ Report saved to Sheets'+photoMsg,'var(--forest)','✅');
+    var photoMsg = uploadedCount > 0
+      ? ' + '+uploadedCount+' photo(s) in Drive'+(failedCount>0?' ('+failedCount+' failed)':'')
+      : (report.photoCount > 0 ? ' (photo upload failed — see log)' : '');
+    showToast('✅ Report submitted'+photoMsg,'var(--forest)','✅');
 
   } catch(err) {
     progTxt.textContent='⚠️ Error — '+err.message;
@@ -804,14 +849,14 @@ async function submitReport(){
     showToast('⚠️ Local save OK — sync error: '+err.message,'#8b3a1c','⚠️');
     console.error('Sync error:',err);
   } finally {
-    setTimeout(function(){progWrap.style.display='none';progBar.style.width='0%';},5000);
+    setTimeout(function(){progWrap.style.display='none';progBar.style.width='0%';},8000);
     btn.classList.remove('loading');btn.disabled=false;
   }
 
   clearForm();renderTable();updateStats();
 }
 
-// ─── Clear form ───────────────────────────────────────────
+// ─── Clear form ────────────────────────────────────────────────
 function clearForm(){
   ['f-school','f-location','f-time','f-facilitator','f-email','f-phone','f-zone','f-topics','f-challenges','f-highlights']
     .forEach(function(id){document.getElementById(id).value='';});
@@ -826,7 +871,7 @@ function clearForm(){
 }
 function printReport(){window.print();}
 
-// ─── Dashboard table ──────────────────────────────────────
+// ─── Dashboard table ───────────────────────────────────────────
 function renderTable(){
   var reports=loadReports();
   var q=((document.getElementById('search-input')||{}).value||'').toLowerCase();
@@ -844,6 +889,11 @@ function renderTable(){
     var syncBadge=r.synced
       ?'<span class="badge badge-green">☁ Synced</span>'
       :'<span class="badge" style="background:rgba(139,58,28,.1);color:var(--rust)">📱 Local</span>';
+    var photoBadge='—';
+    if(r.photoCount){
+      var driveOk=r.driveLinks&&r.driveLinks.filter(function(l){return l.startsWith('http');}).length;
+      photoBadge='📷 '+r.photoCount+(driveOk?' <small style="color:var(--success)">✅ '+driveOk+' Drive</small>':'');
+    }
     var tr=document.createElement('tr');
     tr.innerHTML=
       '<td><span class="badge badge-gold">#'+(i+1)+'</span></td>'+
@@ -851,7 +901,7 @@ function renderTable(){
       '<td><strong>'+escHtml(r.school)+'</strong>'+(r.location?'<br/><small style="color:var(--muted)">'+escHtml(r.location)+'</small>':'')+'</td>'+
       '<td>'+escHtml(r.facilitator)+(r.zone?'<br/><small style="color:var(--muted)">'+escHtml(r.zone)+'</small>':'')+'</td>'+
       '<td><span class="badge badge-green">'+r.total+'</span></td>'+
-      '<td>'+(r.photoCount?'📷 '+r.photoCount+(r.driveLinks&&r.driveLinks.length?' <small style="color:var(--success)">✅ Drive</small>':''):'—')+'</td>'+
+      '<td>'+photoBadge+'</td>'+
       '<td>'+syncBadge+'</td>'+
       '<td><button class="btn btn-outline" style="padding:6px 14px;font-size:.8rem" onclick="viewReport('+r.id+')">View</button></td>';
     tbody.appendChild(tr);
@@ -866,7 +916,7 @@ function updateStats(){
   document.getElementById('stat-facilitators').textContent=new Set(reports.map(function(r){return r.facilitator;})).size;
 }
 
-// ─── Detail modal ─────────────────────────────────────────
+// ─── Detail modal ──────────────────────────────────────────────
 function viewReport(id){
   var reports=loadReports();
   var r=reports.find(function(x){return x.id===id;});if(!r)return;
@@ -882,7 +932,7 @@ function viewReport(id){
         :'<span style="color:var(--muted);font-size:.8rem">'+escHtml(l)+'</span>';
     }).join('')+'</div>';
   } else if(r.photoCount){
-    driveHtml='📷 '+r.photoCount+' photo(s) — '+(r.synced?'check Google Drive folder: '+escHtml(r.school):'not yet synced to Drive');
+    driveHtml='📷 '+r.photoCount+' photo(s) — '+(r.synced?'see Google Drive folder "KCMC Session Photos"':'not yet synced to Drive');
   } else {
     driveHtml='—';
   }
@@ -905,7 +955,7 @@ function drow(k,v){return'<div class="detail-row"><div class="detail-key">'+k+'<
 function closeModal(e){if(e.target===document.getElementById('modal-overlay'))closeModalDirect();}
 function closeModalDirect(){document.getElementById('modal-overlay').classList.remove('open');}
 
-// ─── Excel export ─────────────────────────────────────────
+// ─── Excel export ──────────────────────────────────────────────
 function exportXLSX(){
   var reports=loadReports();
   if(!reports.length){showToast('⚠️ No reports to export.','#8b3a1c','⚠️');return;}
@@ -938,7 +988,7 @@ function exportXLSX(){
   showToast('📊 Excel file downloaded!','var(--forest)','📊');
 }
 
-// ─── CSV export ───────────────────────────────────────────
+// ─── CSV export ────────────────────────────────────────────────
 function exportCSV(){
   var reports=loadReports();
   if(!reports.length){showToast('⚠️ No reports to export.','#8b3a1c','⚠️');return;}
@@ -957,7 +1007,7 @@ function exportCSV(){
   showToast('⬇ CSV exported!','var(--forest)','⬇️');
 }
 
-// ─── Helpers ──────────────────────────────────────────────
+// ─── Helpers ───────────────────────────────────────────────────
 function cv(v){var s=(v||'').toString().replace(/"/g,'""');return'"'+s+'"';}
 function escHtml(s){if(!s)return'';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function formatDate(d){if(!d)return'—';return new Date(d+'T00:00:00').toLocaleDateString('en-KE',{day:'numeric',month:'short',year:'numeric'});}
@@ -967,7 +1017,7 @@ function showToast(msg,bg,icon){
   document.getElementById('toast-icon').textContent=icon||'✅';
   t.style.background=bg||'var(--forest)';
   t.classList.add('show');
-  setTimeout(function(){t.classList.remove('show');},5000);
+  setTimeout(function(){t.classList.remove('show');},6000);
 }
 
 try{init();}catch(err){console.error('Init error:',err);}
