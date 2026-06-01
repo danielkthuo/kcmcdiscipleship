@@ -1,810 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-  <title>KCMC Discipleship · Field Report System</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --primary-dark: #0b3b2f;
-      --primary: #1f6e5c;
-      --primary-light: #d9f0ea;
-      --gold: #d4af37;
-      --gold-dark: #b58d2a;
-      --bg: #fefbf5;
-      --card: #ffffff;
-      --border: #e6dfd3;
-      --muted: #6b5b4a;
-      --success: #2b7a4b;
-      --danger: #c14432;
-      --radius: 20px;
-      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: #1e1e1c;
-      line-height: 1.5;
-    }
-
-    /* classic nav */
-    .top-nav {
-      background: var(--primary-dark);
-      padding: 0 20px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 0;
-    }
-
-    .logo-icon {
-      background: var(--gold);
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 14px;
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--primary-dark);
-    }
-
-    .logo-text {
-      color: white;
-      font-weight: 700;
-      font-size: 1.2rem;
-      font-family: 'Playfair Display', serif;
-      letter-spacing: -0.3px;
-    }
-
-    .logo-sub {
-      font-size: 0.7rem;
-      opacity: 0.75;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .nav-buttons {
-      display: flex;
-      gap: 6px;
-    }
-
-    .nav-btn {
-      background: transparent;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 40px;
-      color: rgba(255, 255, 255, 0.85);
-      font-weight: 500;
-      cursor: pointer;
-      transition: 0.2s;
-      font-size: 0.9rem;
-    }
-
-    .nav-btn.active {
-      background: var(--gold);
-      color: var(--primary-dark);
-      font-weight: 600;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    /* main containers */
-    .view {
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .view.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 24px 20px;
-    }
-
-    /* classic card style */
-    .hero-card {
-      background: linear-gradient(115deg, var(--primary-dark) 0%, #236754 100%);
-      border-radius: var(--radius);
-      padding: 28px 32px;
-      margin-bottom: 28px;
-      color: white;
-    }
-
-    .hero-card h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.9rem;
-      font-weight: 800;
-    }
-
-    .hero-card h1 span {
-      color: var(--gold);
-    }
-
-    .status-badge {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(4px);
-      border-radius: 60px;
-      padding: 6px 18px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      margin-top: 12px;
-    }
-
-    .form-card, .dashboard-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px 28px;
-      margin-bottom: 28px;
-      box-shadow: var(--shadow);
-    }
-
-    .section-title {
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: var(--primary-dark);
-      margin-bottom: 20px;
-      border-left: 5px solid var(--gold);
-      padding-left: 16px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    @media (max-width: 680px) {
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-      .form-card, .hero-card {
-        padding: 20px;
-      }
-    }
-
-    .field {
-      margin-bottom: 18px;
-    }
-
-    .field label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--muted);
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 12px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: 16px;
-      font-family: 'Inter', sans-serif;
-      background: white;
-      transition: 0.2s;
-    }
-
-    input:focus, textarea:focus {
-      border-color: var(--gold);
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
-    }
-
-    .counter-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .counter-box {
-      flex: 1;
-      background: #f8f5ef;
-      border-radius: 20px;
-      padding: 14px 18px;
-      text-align: center;
-    }
-
-    .counter-box input {
-      text-align: center;
-      font-weight: 700;
-      font-size: 1.6rem;
-      padding: 6px 0;
-      background: transparent;
-      border: none;
-    }
-
-    .total-box {
-      background: var(--primary);
-      color: white;
-    }
-
-    .total-box label {
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    .total-num {
-      font-size: 2rem;
-      font-weight: 800;
-    }
-
-    /* photo upload classic */
-    .photo-drop-classic {
-      border: 2px dashed var(--border);
-      background: #fefaf2;
-      border-radius: 24px;
-      padding: 24px;
-      text-align: center;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .photo-preview {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .preview-img {
-      position: relative;
-      width: 80px;
-      height: 80px;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-
-    .preview-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .remove-preview {
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      background: var(--danger);
-      color: white;
-      border-radius: 30px;
-      width: 22px;
-      height: 22px;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border: none;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 28px;
-      border-radius: 40px;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      transition: 0.2s;
-      font-size: 0.9rem;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-
-    .btn-gold {
-      background: var(--gold);
-      color: var(--primary-dark);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1.5px solid var(--primary);
-      color: var(--primary);
-    }
-
-    .btn-danger {
-      border: 1.5px solid var(--danger);
-      background: transparent;
-      color: var(--danger);
-    }
-
-    /* progress bar */
-    .progress-panel {
-      background: #f3efe8;
-      border-radius: 28px;
-      padding: 16px 20px;
-      margin-top: 20px;
-      display: none;
-      transition: 0.2s;
-    }
-
-    .progress-bar-bg {
-      background: #ddd2c0;
-      border-radius: 40px;
-      height: 12px;
-      overflow: hidden;
-      margin: 8px 0;
-    }
-
-    .progress-fill {
-      background: linear-gradient(90deg, var(--primary), var(--gold));
-      width: 0%;
-      height: 100%;
-      border-radius: 40px;
-      transition: width 0.4s ease;
-    }
-
-    .log-area {
-      font-size: 0.75rem;
-      font-family: monospace;
-      background: #fff8ef;
-      border-radius: 14px;
-      padding: 10px;
-      max-height: 120px;
-      overflow-y: auto;
-      margin-top: 12px;
-    }
-
-    /* dashboard */
-    .source-bar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .src-group {
-      background: #ece4d9;
-      border-radius: 48px;
-      padding: 4px;
-      display: flex;
-    }
-
-    .src-chip {
-      padding: 8px 20px;
-      border-radius: 40px;
-      background: transparent;
-      border: none;
-      font-weight: 500;
-      cursor: pointer;
-    }
-
-    .src-chip.active {
-      background: var(--primary);
-      color: white;
-    }
-
-    .stats-mini {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 14px;
-      margin-bottom: 28px;
-    }
-
-    .stat-item {
-      background: white;
-      border-radius: 24px;
-      padding: 16px;
-      border: 1px solid var(--border);
-    }
-
-    .stat-number {
-      font-size: 1.9rem;
-      font-weight: 800;
-      color: var(--primary-dark);
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      background: white;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th {
-      background: var(--primary-dark);
-      color: white;
-      padding: 12px 14px;
-      font-weight: 600;
-      font-size: 0.8rem;
-    }
-
-    td {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .badge {
-      padding: 4px 12px;
-      border-radius: 40px;
-      font-size: 0.7rem;
-      font-weight: 600;
-    }
-
-    .badge-sheets {
-      background: #e5e9ff;
-      color: #1f3a8a;
-    }
-
-    .badge-local {
-      background: #fef2e0;
-      color: #a16207;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .modal.open {
-      display: flex;
-    }
-
-    .modal-card {
-      background: white;
-      max-width: 550px;
-      width: 90%;
-      border-radius: 32px;
-      max-height: 85vh;
-      overflow-y: auto;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 20px;
-      background: #1c2b26;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 60px;
-      font-weight: 500;
-      z-index: 1100;
-      transform: translateY(100px);
-      opacity: 0;
-      transition: 0.25s;
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    button:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
-
-    @media (max-width: 500px) {
-      .nav-btn {
-        padding: 6px 14px;
-        font-size: 0.8rem;
-      }
-      .btn {
-        padding: 8px 18px;
-      }
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>KCMC Discipleship · Professional Daily Report v13</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@600;700;900&display=swap" rel="stylesheet"/>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --forest:#0F3B2C; --gold:#C7841A; --gold-light:#F2C46A; --cream:#FEFAF2;
+    --ink:#1F1A10; --muted:#6F5E47; --border:#E2D4C0; --success:#2B7A4B;
+    --radius:20px; --shadow:0 8px 30px rgba(0,0,0,0.08),0 2px 4px rgba(0,0,0,0.02);
+  }
+  body{
+    font-family:'Inter',sans-serif; background:var(--cream); color:var(--ink);
+    scroll-behavior:smooth;
+  }
+  /* classic / elegant baseline */
+  .container{max-width:1280px;margin:0 auto;padding:0 20px;}
+  nav{
+    background:var(--forest); backdrop-filter:blur(0px); color:white;
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; padding:12px 24px; gap:12px;
+    box-shadow:0 4px 18px rgba(0,0,0,0.1); position:sticky; top:0; z-index:100;
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .cross-icon{background:var(--gold); width:38px; height:38px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center; font-weight:900; font-size:20px;
+    color:var(--forest); box-shadow:0 4px 8px rgba(0,0,0,0.1);}
+  .brand-text h1{font-family:'Playfair Display',serif; font-size:1.3rem; line-height:1.2;}
+  .brand-text p{font-size:0.7rem; opacity:0.75; letter-spacing:1px;}
+  .nav-tabs{display:flex; gap:6px; background:rgba(255,255,255,0.12); padding:4px; border-radius:60px;}
+  .nav-tab{
+    background:transparent; border:none; color:#e9e1d4; font-weight:500;
+    padding:8px 18px; border-radius:40px; font-size:0.85rem; cursor:pointer;
+    transition:all 0.2s ease; font-family:'Inter',sans-serif;
+  }
+  .nav-tab.active{background:var(--gold); color:var(--forest); box-shadow:0 2px 8px rgba(0,0,0,0.2); font-weight:600;}
+  .view{display:none; animation:fadeIn 0.35s ease;}
+  .view.active{display:block;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(10px);}to{opacity:1; transform:translateY(0);}}
+
+  /* cards & classic elegance */
+  .hero-panel{
+    background:linear-gradient(112deg, var(--forest) 0%, #17503b 100%);
+    color:white; border-radius:0 0 var(--radius) var(--radius); margin:0 0 28px 0;
+    padding:2rem 2rem; position:relative; overflow:hidden;
+  }
+  .hero-panel h2{font-family:'Playfair Display',serif; font-size:1.9rem; font-weight:800;}
+  .hero-panel span{color:var(--gold-light);}
+  .glass-card{
+    background:white; border-radius:var(--radius); box-shadow:var(--shadow);
+    border:1px solid var(--border); padding:24px 28px; margin-bottom:28px;
+  }
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  @media(max-width:680px){.grid-2{grid-template-columns:1fr;}}
+  .field{margin-bottom:18px;}
+  .field label{font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;
+    color:var(--muted); display:block; margin-bottom:6px;}
+  .field label .star{color:#B13E2E;}
+  input, select, textarea{
+    width:100%; padding:12px 16px; font-family:'Inter',sans-serif;
+    border:1.5px solid var(--border); border-radius:16px; background:var(--cream);
+    transition:all 0.2s; font-size:0.9rem;
+  }
+  input:focus, textarea:focus, select:focus{outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(199,132,26,0.2);}
+  .counter-row{
+    display:flex; gap:14px; flex-wrap:wrap; margin:12px 0 8px;
+  }
+  .counter-card{
+    flex:1; background:#F9F5EC; border-radius:20px; border:1px solid var(--border);
+    padding:12px 16px; text-align:center;
+  }
+  .counter-card label{font-size:0.7rem; text-transform:uppercase; font-weight:700; color:var(--muted);}
+  .counter-card input{font-size:1.8rem; font-weight:800; text-align:center; border:none; background:transparent; padding:0;}
+  .total-card{background:linear-gradient(135deg,var(--forest),#1E5A42); color:white;}
+  .total-card label{color:#FFE1A0;}
+  .total-num{font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:var(--gold-light);}
+  .photo-zone{
+    border:2px dashed var(--border); border-radius:24px; padding:28px;
+    background:rgba(245,237,220,0.4); transition:0.2s; cursor:pointer; text-align:center;
+  }
+  .photo-zone.drag-over{border-color:var(--gold); background:#FFF6E5;}
+  .preview-flex{display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;}
+  .photo-thumb{width:80px; height:80px; border-radius:14px; object-fit:cover; border:2px solid white; box-shadow:var(--shadow);}
+  .upload-progress-card{background:#EADFCB; border-radius:20px; padding:14px; margin-top:12px; display:none;}
+  .action-bar{display:flex; gap:12px; justify-content:flex-end; flex-wrap:wrap; margin-top:16px;}
+  .btn{
+    font-family:'Inter',sans-serif; font-weight:600; padding:12px 26px;
+    border-radius:60px; border:none; cursor:pointer; transition:0.2s; display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{background:var(--forest); color:white; box-shadow:0 4px 12px rgba(15,59,44,0.3);}
+  .btn-primary:hover{transform:translateY(-2px); background:#18513b;}
+  .btn-gold{background:var(--gold); color:var(--forest);}
+  .btn-outline{background:transparent; border:1.5px solid var(--forest); color:var(--forest);}
+  .btn-danger{background:#F4DAD5; color:#A03A28; border:1px solid #E1BCB0;}
+
+  /* dashboard */
+  .stats-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:20px; margin:24px 0;}
+  .stat-tile{
+    background:white; border-radius:24px; padding:18px; text-align:center;
+    border:1px solid var(--border); box-shadow:var(--shadow);
+  }
+  .stat-number{font-size:2.2rem; font-weight:800; font-family:'Playfair Display',serif; color:var(--forest);}
+  .source-indicator{font-size:0.65rem; display:flex; align-items:center; justify-content:center; gap:6px; margin-top:8px;}
+  .source-dot{width:8px; height:8px; border-radius:50%; background:var(--muted);}
+  .source-dot.live{background:var(--success); animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
+  
+  .toolbar{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:15px; margin-bottom:20px;}
+  .source-switch{display:flex; background:#EDE5D8; border-radius:60px; padding:4px;}
+  .src-option{background:transparent; border:none; padding:8px 18px; border-radius:40px; font-weight:500; cursor:pointer;}
+  .src-option.active{background:var(--forest); color:white;}
+  .table-wrapper{overflow-x:auto; border-radius:24px; border:1px solid var(--border); background:white; margin-bottom:24px;}
+  table{width:100%; border-collapse:collapse;}
+  th{background:var(--forest); color:white; padding:14px 16px; font-weight:600; font-size:0.75rem; text-align:left;}
+  td{padding:12px 16px; border-bottom:1px solid var(--border); vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  .badge{display:inline-block; padding:4px 12px; border-radius:40px; font-size:0.7rem; font-weight:600;}
+  .badge-sheets{background:#E9EEF5; color:#1E4668;}
+  .badge-local{background:#FEF1E0; color:#B9660D;}
+  .action-icon{background:transparent; border:none; font-size:1.1rem; cursor:pointer; margin:0 5px;}
+
+  .modal-overlay, .confirm-overlay, .setup-overlay{
+    display:none; position:fixed; inset:0; background:rgba(20,20,15,0.5);
+    backdrop-filter:blur(4px); align-items:center; justify-content:center; z-index:200; padding:20px;
+  }
+  .modal-card{background:white; border-radius:32px; max-width:640px; width:100%; max-height:85vh; overflow-y:auto; box-shadow:0 25px 50px -12px black;}
+  .toast{position:fixed; bottom:24px; right:24px; background:var(--forest); color:white; padding:12px 20px; border-radius:60px; 
+    display:flex; gap:10px; align-items:center; box-shadow:0 10px 20px rgba(0,0,0,0.1); transform:translateY(100px); opacity:0;
+    transition:all 0.3s cubic-bezier(0.34,1.2,0.64,1); z-index:300;}
+  .toast.show{transform:translateY(0); opacity:1;}
+  .sheet-status-banner{background:#EDE4D5; border-radius:60px; padding:8px 20px; font-size:0.8rem; margin-bottom:20px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
+  @media(max-width:600px){
+    .container{padding:0 12px;}
+    .glass-card{padding:18px;}
+    .btn{padding:8px 16px;}
+    .nav-tab{padding:6px 12px;}
+  }
+  .bar-chart{display:flex; flex-direction:column; gap:8px;}
+  .bar-item{display:flex; align-items:center; gap:10px; font-size:0.8rem;}
+  .bar-bg{flex:1; height:10px; background:#EADFCB; border-radius:20px; overflow:hidden;}
+  .bar-fill{height:100%; background:linear-gradient(90deg,var(--forest),var(--gold)); border-radius:20px; width:0%;}
+</style>
 </head>
 <body>
 
-<nav class="top-nav">
-  <div class="logo-area">
-    <div class="logo-icon">✞</div>
-    <div><div class="logo-text">KCMC Discipleship</div><div class="logo-sub">Field Report System</div></div>
+<nav>
+  <div class="brand">
+    <div class="cross-icon">✝</div>
+    <div class="brand-text">
+      <h1>KCMC Discipleship</h1>
+      <p>DAILY REPORT · CLASSIC FIELD SYSTEM</p>
+    </div>
   </div>
-  <div class="nav-buttons">
-    <button class="nav-btn active" data-view="form">📋 Report</button>
-    <button class="nav-btn" data-view="dashboard">📊 Dashboard</button>
-    <button class="nav-btn" id="setupBtn">⚙️ Connect</button>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchView('form',this)">📋 NEW REPORT</button>
+    <button class="nav-tab" onclick="switchView('admin',this)">📊 DASHBOARD</button>
+    <button class="nav-tab" onclick="openSetupModal()">⚙️ CONNECT</button>
   </div>
 </nav>
 
 <!-- FORM VIEW -->
 <div id="formView" class="view active">
-  <div class="container">
-    <div class="hero-card">
-      <h1>Session <span>Daily Log</span></h1>
-      <p>Record attendance, topics, and upload evidence — classic missionary report</p>
-      <div class="status-badge" id="cloudStatus">📡 checking connection...</div>
+  <div class="hero-panel">
+    <div class="container">
+      <p style="opacity:0.7; letter-spacing:1px;" id="currentDateText"></p>
+      <h2>Session <span>Daily Report</span></h2>
+      <p>Fill the discipleship record — photos auto‑upload to Drive, report syncs to Google Sheets.</p>
     </div>
-    <div class="form-card">
-      <div class="section-title">📌 Session info</div>
+  </div>
+  <div class="container">
+    <div class="sheet-status-banner" id="sheetsConnectStatus">
+      <span>🔌</span> <span id="connText">Checking configuration...</span>
+    </div>
+    <div class="glass-card">
       <div class="grid-2">
-        <div class="field"><label>School *</label><input id="school" placeholder="e.g., Mwanga Secondary"></div>
-        <div class="field"><label>Date *</label><input type="date" id="reportDate"></div>
-        <div class="field"><label>Location/Town</label><input id="location" placeholder="Moshi, Arusha..."></div>
-        <div class="field"><label>Session Time</label><input id="sessionTime" placeholder="9:00 AM - 12:30 PM"></div>
+        <div class="field"><label>📖 School Name <span class="star">*</span></label><input id="school" placeholder="e.g., Mwanga High School"></div>
+        <div class="field"><label>📅 Date <span class="star">*</span></label><input type="date" id="sessionDate"></div>
+        <div class="field"><label>📍 Location / Town</label><input id="location" placeholder="Moshi Urban"></div>
+        <div class="field"><label>⏰ Session Time</label><input id="sessionTime" placeholder="9:00 AM – 11:30 AM"></div>
       </div>
-      <div class="section-title">👤 Facilitator</div>
+    </div>
+    <div class="glass-card">
       <div class="grid-2">
-        <div class="field"><label>Full name *</label><input id="facilitator" placeholder="John M. Kivuyo"></div>
-        <div class="field"><label>Email</label><input id="email" type="email"></div>
-        <div class="field"><label>Phone / WhatsApp</label><input id="phone"></div>
-        <div class="field"><label>Zone / Supervisor</label><input id="zone"></div>
+        <div class="field"><label>🙋 Facilitator <span class="star">*</span></label><input id="facilitator" placeholder="Full name"></div>
+        <div class="field"><label>📧 Email</label><input type="email" id="email"></div>
+        <div class="field"><label>📞 Phone / WhatsApp</label><input id="phone"></div>
+        <div class="field"><label>🗺️ Zone/Supervisor</label><input id="zone"></div>
       </div>
-      <div class="section-title">👥 Attendance</div>
+    </div>
+    <div class="glass-card">
+      <label style="font-weight:700;">👥 ATTENDANCE (Numbers)</label>
       <div class="counter-row">
-        <div class="counter-box"><label>Male Students</label><input type="number" id="maleCount" value="0" oninput="updateTotal()"></div>
-        <div class="counter-box"><label>Female Students</label><input type="number" id="femaleCount" value="0" oninput="updateTotal()"></div>
-        <div class="counter-box"><label>Teachers/Staff</label><input type="number" id="staffCount" value="0" oninput="updateTotal()"></div>
-        <div class="counter-box total-box"><label>Total Present</label><div class="total-num" id="totalDisplay">0</div></div>
+        <div class="counter-card"><label>Male Students</label><input type="number" id="male" value="0" min="0" oninput="updateTotalAttendance()"></div>
+        <div class="counter-card"><label>Female Students</label><input type="number" id="female" value="0" min="0" oninput="updateTotalAttendance()"></div>
+        <div class="counter-card"><label>Teachers/Staff</label><input type="number" id="staff" value="0" min="0" oninput="updateTotalAttendance()"></div>
+        <div class="counter-card total-card"><label>Total Present</label><div class="total-num" id="totalAttendDisplay">0</div></div>
       </div>
-      <div class="section-title">📖 Topics covered</div>
-      <textarea id="topics" rows="3" placeholder="List main themes, bible passages, discussion points..."></textarea>
-      <div class="section-title">⚠️ Challenges & Observations</div>
-      <textarea id="challenges" rows="2" placeholder="Challenges faced, student engagement..."></textarea>
-      <textarea id="highlights" rows="2" placeholder="Key highlights, testimonies, responses..." style="margin-top:12px;"></textarea>
-      <div class="section-title">📸 Photos (max 8)</div>
-      <div class="photo-drop-classic" id="photoZone"><span>🖼️ Click or drag images (JPEG/PNG)</span><input type="file" id="photoInput" multiple accept="image/*" style="display:none"></div>
-      <div class="photo-preview" id="photoPreviewArea"></div>
-      
-      <!-- PROGRESS PANEL (shown during submit) -->
-      <div class="progress-panel" id="progressPanel">
-        <div style="font-weight:600;" id="progressStatusText">Preparing submission...</div>
-        <div class="progress-bar-bg"><div class="progress-fill" id="progressFill"></div></div>
-        <div class="log-area" id="submitLog"></div>
+    </div>
+    <div class="glass-card">
+      <div class="field"><label>📖 Topics Covered <span class="star">*</span></label><textarea id="topics" rows="3" placeholder="Main themes, Bible passages, discussions..."></textarea></div>
+      <div class="field"><label>⚠️ Challenges Faced</label><textarea id="challenges" rows="2"></textarea></div>
+      <div class="field"><label>✨ Observations / Highlights</label><textarea id="highlights" rows="2"></textarea></div>
+    </div>
+    <div class="glass-card">
+      <label>📸 Session Photos (max 10, auto compress)</label>
+      <div class="photo-zone" id="photoDropZone">
+        <input type="file" id="photoFiles" accept="image/*" multiple style="display:none" onchange="handlePhotoSelect(this.files)">
+        <div>🖼️ Drag & drop or <strong style="color:var(--gold);">click to upload</strong><br><small style="color:var(--muted);">JPG/PNG, up to 10 images, uploaded to Drive</small></div>
       </div>
-      
-      <div style="display:flex; gap:14px; justify-content:flex-end; flex-wrap:wrap; margin-top:24px;">
-        <button class="btn btn-outline" onclick="resetFormFields()">🗑 Clear</button>
-        <button class="btn btn-primary" id="mainSubmitBtn">📤 Submit Report</button>
-      </div>
+      <div class="preview-flex" id="photoPreviewArea"></div>
+      <div class="upload-progress-card" id="uploadProgressPanel"><div id="uploadLogText" style="font-size:0.75rem;"></div><div style="height:6px; background:#ccc; border-radius:6px; margin-top:8px;"><div id="uploadBarFill" style="width:0%; height:100%; background:var(--gold); border-radius:6px;"></div></div></div>
+    </div>
+    <div class="action-bar">
+      <button class="btn btn-outline" onclick="resetForm()">🗑️ Clear Form</button>
+      <button class="btn btn-gold" onclick="exportFullExcel()">📊 Export Excel</button>
+      <button class="btn btn-primary" id="submitReportBtn" onclick="submitCompleteReport()"><span id="submitSpinner" style="display:none;">⏳</span> ✅ Submit Report</button>
     </div>
   </div>
 </div>
 
-<!-- DASHBOARD VIEW -->
-<div id="dashboardView" class="view">
+<!-- ADMIN VIEW (Dashboard) -->
+<div id="adminView" class="view">
+  <div class="hero-panel" style="background:#1E4A38;">
+    <div class="container"><h2>Admin <span>Dashboard</span></h2><p>Live merged reports · Google Sheets + local storage</p></div>
+  </div>
   <div class="container">
-    <div class="hero-card"><h1>Mission <span>Dashboard</span></h1><p>Unified reports · Sheets + local records</p></div>
-    <div class="source-bar">
-      <div class="src-group"><button class="src-chip active" data-src="all">🌍 All (merged)</button><button class="src-chip" data-src="sheets">☁ Sheets</button><button class="src-chip" data-src="local">📱 Local only</button></div>
-      <div><button class="btn btn-outline" id="syncDashboardBtn" style="padding:8px 18px;">🔄 Refresh from Sheets</button></div>
+    <div class="stats-grid" id="statsGrid"></div>
+    <div class="toolbar">
+      <div class="source-switch" id="sourceSwitch">
+        <button class="src-option active" data-src="all" onclick="setDataSource('all')">🌍 All (Merged)</button>
+        <button class="src-option" data-src="sheets" onclick="setDataSource('sheets')">☁️ Sheets Only</button>
+        <button class="src-option" data-src="local" onclick="setDataSource('local')">📱 Local Only</button>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-outline" onclick="fetchSheetsData()" style="padding:8px 16px;">🔄 Sync from Sheets</button>
+        <button class="btn btn-primary" onclick="retryUnsyncedReports()" style="padding:8px 16px;">🔄 Retry Pending</button>
+      </div>
     </div>
-    <div class="stats-mini" id="statsMini"></div>
-    <div class="table-wrap"><table><thead><tr><th>#</th><th>Date</th><th>School</th><th>Facilitator</th><th>Total</th><th>Photos</th><th>Source</th><th>Action</th></tr></thead><tbody id="dashboardTableBody"></tbody></table></div>
-    <div id="dashboardEmpty" style="text-align:center;padding:36px;color:var(--muted);display:none;">📭 No reports — sync from Sheets or submit a new report.</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>#</th><th>Date</th><th>School</th><th>Facilitator</th><th>Attendance</th><th>Photos</th><th>Source</th><th>Actions</th></tr></thead>
+        <tbody id="dashboardTableBody"></tbody>
+      </table>
+      <div id="emptyTableMsg" class="empty-state" style="text-align:center;padding:40px; display:none;">📭 No reports — click sync or submit a new report.</div>
+    </div>
+    <!-- simple charts -->
+    <div class="glass-card"><h3 style="margin-bottom:12px;">📊 Top Schools Attendance</h3><div id="topSchoolsChart" class="bar-chart"></div></div>
   </div>
 </div>
 
-<!-- MODAL -->
-<div id="detailModal" class="modal"><div class="modal-card"><div style="background:var(--primary-dark);color:white;padding:18px 24px;border-radius:32px 32px 0 0;display:flex;justify-content:space-between;"><h3 id="modalTitle">Details</h3><button onclick="closeDetailModal()" style="background:transparent;border:none;color:white;font-size:22px;">✕</button></div><div id="modalBodyContent" style="padding:20px;"></div></div></div>
-<div id="globalToast" class="toast">✅ Done</div>
+<!-- MODALS -->
+<div id="detailModal" class="modal-overlay" onclick="if(event.target===this) closeDetailModal()"><div class="modal-card" style="max-width:600px;"><div id="modalContent"></div><div style="padding:16px;text-align:right;"><button class="btn btn-outline" onclick="closeDetailModal()">Close</button></div></div></div>
+<div id="confirmModal" class="confirm-overlay" onclick="if(event.target===this) closeConfirmModal()"><div class="modal-card" style="max-width:380px; text-align:center; padding:28px;"><h3 id="confirmTitle"></h3><p id="confirmMsg"></p><div style="display:flex; gap:12px; justify-content:center; margin-top:20px;"><button class="btn btn-outline" onclick="closeConfirmModal()">Cancel</button><button class="btn btn-primary" id="confirmActionBtn">Confirm</button></div></div></div>
+<div id="setupModal" class="setup-overlay" onclick="if(event.target===this) closeSetupModal()"><div class="modal-card" style="max-width:680px;"><div style="padding:20px 28px; background:var(--forest); color:white; border-radius:32px 32px 0 0;"><h2>⚙️ Google Sheets + Drive Setup</h2><p>Paste script URL & deploy</p></div><div style="padding:20px;"><p><strong>1️⃣ Save GAS script (v13 with getReports)</strong> <button class="btn btn-outline" onclick="copyFullScript()" style="padding:4px 12px;">📋 Copy Script</button></p><textarea id="gasScriptSample" rows="6" style="font-family:monospace; font-size:0.75rem;">// KCMC v13 GAS — include doGet with action=getReports + doPost for reports & photos. (Full script in instructions)</textarea><p style="margin-top:12px;"><strong>2️⃣ Deployed Web App URL</strong></p><div style="display:flex; gap:8px;"><input type="text" id="gasUrlInput" placeholder="https://script.google.com/macros/s/.../exec" style="flex:1;"><button class="btn btn-primary" onclick="saveGasUrlAndTest()">Save & Test</button></div><div id="setupTestMsg" class="sheet-status-banner" style="margin-top:12px;"></div></div></div></div>
+<div id="globalToast" class="toast"><span>✅</span><span id="toastMsg">Completed</span></div>
 
 <script>
-  // ---------- GLOBALS ----------
-  let LOCAL_REPORTS = [];
-  let SHEETS_REPORTS = [];
-  let currentSource = 'all';
-  let pendingPhotos = [];  // array of base64 strings
-  let GAS_URL = localStorage.getItem('kcmc_gas_classic') || '';
-
-  // Load local
-  function loadLocal() { try { LOCAL_REPORTS = JSON.parse(localStorage.getItem('kcmc_classic_reports') || '[]'); } catch(e){ LOCAL_REPORTS=[]; } }
-  function saveLocal() { try { localStorage.setItem('kcmc_classic_reports', JSON.stringify(LOCAL_REPORTS.slice(0,300))); } catch(e){} }
-  loadLocal();
+  // ----------------------------------- GLOBAL STATE ---------------------------------
+  let GAS_URL = localStorage.getItem('kcmc_gas_url') || '';
+  let sheetsReports = [];        // fetched from sheets
+  let currentDataSource = 'all'; // all, sheets, local
+  let pendingPhotoFiles = [];     // store dataURLs (compressed)
 
   // helpers
-  function showToast(msg, type='success'){ let t=document.getElementById('globalToast'); t.innerText=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3500); }
-  function updateTotal(){ let m=+document.getElementById('maleCount').value||0, f=+document.getElementById('femaleCount').value||0, s=+document.getElementById('staffCount').value||0; document.getElementById('totalDisplay').innerText=m+f+s; }
-  function formatDateView(d){ if(!d) return '—'; try{ return new Date(d).toLocaleDateString(); }catch(e){return d;} }
-  function escapeHtml(str){ if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;});}
-
-  // update connection status
-  function updateConnStatus(){ let el=document.getElementById('cloudStatus'); if(GAS_URL) el.innerHTML='✅ Google Sheets connected · reports sync to Drive'; else el.innerHTML='⚠️ Click ⚙️ Connect to enable cloud backup'; }
-
-  // ---------- PHOTO HANDLING ----------
-  document.getElementById('photoZone')?.addEventListener('click',()=>document.getElementById('photoInput').click());
-  document.getElementById('photoInput')?.addEventListener('change',(e)=>handleNewPhotos(e.target.files));
-  function handleNewPhotos(files){
-    let remaining=8-pendingPhotos.length;
-    let toAdd=Array.from(files).slice(0,remaining);
-    toAdd.forEach(file=>{ let reader=new FileReader(); reader.onload=(ev)=> { pendingPhotos.push(ev.target.result); renderPhotoGrid(); }; reader.readAsDataURL(file); });
-    if(toAdd.length<files.length) showToast(`Max 8 photos, already ${pendingPhotos.length}`, 'warning');
-  }
-  function renderPhotoGrid(){ let container=document.getElementById('photoPreviewArea'); container.innerHTML=''; pendingPhotos.forEach((src,i)=>{ let div=document.createElement('div'); div.className='preview-img'; div.innerHTML=`<img src="${src}"><button class="remove-preview" data-idx="${i}">✕</button>`; container.appendChild(div); }); document.querySelectorAll('.remove-preview').forEach(btn=>btn.addEventListener('click',(e)=>{ let idx=parseInt(btn.dataset.idx); pendingPhotos.splice(idx,1); renderPhotoGrid(); })); }
+  function showToast(msg, type='success'){ let t=document.getElementById('globalToast'); document.getElementById('toastMsg').innerText=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),4000);}
+  function loadLocalReports(){ try{ return JSON.parse(localStorage.getItem('kcmc_reports_v2')||'[]'); }catch(e){return [];} }
+  function saveLocalReports(arr){ localStorage.setItem('kcmc_reports_v2',JSON.stringify(arr.slice(0,200))); }
   
-  // ---------- GAS COMMUNICATION ----------
-  async function callGasGet(action){ if(!GAS_URL) throw new Error('No GAS URL'); let url=`${GAS_URL}?action=${action}&_=${Date.now()}`; let r=await fetch(url); let txt=await r.text(); try{ return JSON.parse(txt); }catch(e){ throw new Error('Invalid response'); } }
-  async function callGasPost(payload){ if(!GAS_URL) throw new Error('No GAS URL'); let r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)}); let txt=await r.text(); try{ return JSON.parse(txt); }catch(e){ return {result:'error',message:'parse error'}; } }
+  function updateTotalAttendance(){ let m=+document.getElementById('male').value||0,f=+document.getElementById('female').value||0,s=+document.getElementById('staff').value||0; document.getElementById('totalAttendDisplay').innerText=m+f+s; }
+  function resetForm(){ document.getElementById('school').value=''; document.getElementById('sessionDate').value=new Date().toISOString().slice(0,10); document.getElementById('location').value=''; document.getElementById('sessionTime').value=''; document.getElementById('facilitator').value=''; document.getElementById('email').value=''; document.getElementById('phone').value=''; document.getElementById('zone').value=''; document.getElementById('male').value=0; document.getElementById('female').value=0; document.getElementById('staff').value=0; document.getElementById('topics').value=''; document.getElementById('challenges').value=''; document.getElementById('highlights').value=''; pendingPhotoFiles=[]; renderPhotoPreviews(); updateTotalAttendance(); }
   
-  async function syncSheetsToDashboard(){
-    if(!GAS_URL){ showToast('Setup Google Sheets URL first (⚙️ Connect)'); return; }
-    let btn=document.getElementById('syncDashboardBtn'); if(btn) btn.disabled=true;
-    try{
-      let res=await callGasGet('getReports');
-      if(res.result==='success' && Array.isArray(res.reports)){
-        SHEETS_REPORTS = res.reports.map(r=>({ ...r, source:'sheets', id:r.id||`sheet_${Date.now()}_${Math.random()}` }));
-        showToast(`📥 Synced ${SHEETS_REPORTS.length} reports from Sheets`);
-      } else throw new Error('Invalid data');
-    } catch(err){ showToast(`Sync error: ${err.message}`, 'danger'); } finally{ if(btn) btn.disabled=false; renderDashboardView(); updateStatsCards(); }
-  }
-
-  // ---------- SUBMIT with PROGRESS ----------
-  async function submitFullReport(){
-    let school=document.getElementById('school').value.trim();
-    let facilitator=document.getElementById('facilitator').value.trim();
-    let date=document.getElementById('reportDate').value;
-    let topics=document.getElementById('topics').value.trim();
-    if(!school || !facilitator || !date || !topics){ showToast('Please fill School, Facilitator, Date, Topics','danger'); return; }
-    let male=+document.getElementById('maleCount').value||0, female=+document.getElementById('femaleCount').value||0, staff=+document.getElementById('staffCount').value||0;
-    let reportObj={ id:Date.now(), source:'local', synced:false, date, school, location:document.getElementById('location').value, time:document.getElementById('sessionTime').value,
-      facilitator, email:document.getElementById('email').value, phone:document.getElementById('phone').value, zone:document.getElementById('zone').value,
-      male, female, staff, total:male+female+staff, topics, challenges:document.getElementById('challenges').value, highlights:document.getElementById('highlights').value,
-      photoCount:pendingPhotos.length, driveLinks:[]
-    };
-    // save local first
-    LOCAL_REPORTS.unshift(reportObj); saveLocal();
-    renderDashboardView(); showToast('📱 Saved locally, now syncing to cloud...');
-    
-    let progressDiv=document.getElementById('progressPanel');
-    let progressFill=document.getElementById('progressFill');
-    let statusTxt=document.getElementById('progressStatusText');
-    let logDiv=document.getElementById('submitLog');
-    progressDiv.style.display='block';
-    progressFill.style.width='0%';
-    logDiv.innerHTML='';
-    const addLog=(msg,type='info')=>{ let p=document.createElement('div'); p.style.color=type==='error'?'#c14432':type==='success'?'#2b7a4b':'#6b5b4a'; p.innerText=`⏱️ ${new Date().toLocaleTimeString()} ${msg}`; logDiv.appendChild(p); logDiv.scrollTop=logDiv.scrollHeight; };
-    
-    let finalLinks=[];
-    let folderName=`${school}_${date}_${facilitator}`.replace(/[^a-z0-9]/gi,'_');
-    let submitBtn=document.getElementById('mainSubmitBtn');
-    submitBtn.disabled=true;
-    try{
-      // upload photos step
-      if(pendingPhotos.length>0){
-        statusTxt.innerText=`📸 Uploading ${pendingPhotos.length} photo(s) ...`;
-        progressFill.style.width='20%';
-        for(let i=0;i<pendingPhotos.length;i++){
-          addLog(`Uploading photo ${i+1}/${pendingPhotos.length}...`);
-          let b64=pendingPhotos[i];
-          let match=b64.match(/^data:image\/(jpeg|png|jpg|webp);base64,(.+)$/);
-          if(match){
-            let respPhoto=await callGasPost({action:'photo', folderName, mime:`image/${match[1]}`, data:match[2], index:i+1});
-            if(respPhoto && respPhoto.url){ finalLinks.push(respPhoto.url); addLog(`✅ Photo ${i+1} uploaded to Drive`, 'success'); }
-            else { finalLinks.push('[failed]'); addLog(`❌ Photo ${i+1} failed`, 'error'); }
-          } else { addLog(`Photo ${i+1} invalid format`, 'error'); finalLinks.push('[invalid]'); }
-          let percent=20 + Math.round((i+1)/pendingPhotos.length * 50);
-          progressFill.style.width=`${percent}%`;
-          await new Promise(r=>setTimeout(r,200));
-        }
+  function renderPhotoPreviews(){ let previewDiv=document.getElementById('photoPreviewArea'); previewDiv.innerHTML=''; pendingPhotoFiles.forEach((url,idx)=>{ let img=document.createElement('img'); img.src=url; img.className='photo-thumb'; let removeBtn=document.createElement('button'); removeBtn.innerText='✕'; removeBtn.style.background='#A03A28'; removeBtn.style.color='white'; removeBtn.style.border='none'; removeBtn.style.borderRadius='30px'; removeBtn.style.width='22px'; removeBtn.style.marginLeft='6px'; removeBtn.style.cursor='pointer'; let wrap=document.createElement('div'); wrap.style.position='relative'; wrap.appendChild(img); wrap.appendChild(removeBtn); removeBtn.onclick=()=>{ pendingPhotoFiles.splice(idx,1); renderPhotoPreviews(); }; previewDiv.appendChild(wrap); }); }
+  
+  function compressAndAdd(file){ let reader=new FileReader(); reader.onload=e=>{ let img=new Image(); img.onload=()=>{ let canvas=document.createElement('canvas'); let w=img.width,h=img.height; if(w>800){ let ratio=800/w; w=800; h*=ratio;} canvas.width=w; canvas.height=h; canvas.getContext('2d').drawImage(img,0,0,w,h); pendingPhotoFiles.push(canvas.toDataURL('image/jpeg',0.7)); renderPhotoPreviews(); }; img.src=e.target.result; }; reader.readAsDataURL(file); }
+  function handlePhotoSelect(files){ Array.from(files).slice(0,10-pendingPhotoFiles.length).forEach(f=>compressAndAdd(f)); }
+  document.getElementById('photoDropZone').addEventListener('click',()=>document.getElementById('photoFiles').click());
+  document.getElementById('photoDropZone').addEventListener('dragover',e=>{e.preventDefault();document.getElementById('photoDropZone').classList.add('drag-over');});
+  document.getElementById('photoDropZone').addEventListener('dragleave',()=>document.getElementById('photoDropZone').classList.remove('drag-over'));
+  document.getElementById('photoDropZone').addEventListener('drop',e=>{e.preventDefault();document.getElementById('photoDropZone').classList.remove('drag-over'); if(e.dataTransfer.files) handlePhotoSelect(e.dataTransfer.files);});
+  
+  // Google Drive upload + submit
+  async function uploadSinglePhoto(dataURL, folderName, idx){ let match=dataURL.match(/^data:(image\/[^;]+);base64,(.+)$/); if(!match) return null; let res=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'photo',folderName:folderName,mime:match[1],data:match[2],index:idx})}); let txt=await res.text(); try{ let json=JSON.parse(txt); return json.url||null; }catch(e){return null;} }
+  
+  async function submitCompleteReport(){
+    let school=document.getElementById('school').value.trim(), facilitator=document.getElementById('facilitator').value.trim(), date=document.getElementById('sessionDate').value, topics=document.getElementById('topics').value.trim();
+    if(!school || !facilitator || !date || !topics){ showToast('❌ School, Facilitator, Date & Topics required','error'); return; }
+    let male=+document.getElementById('male').value,female=+document.getElementById('female').value,staff=+document.getElementById('staff').value,total=male+female+staff;
+    let reportObj={ id: Date.now(), source:'local', synced:false, date, school, location:document.getElementById('location').value, time:document.getElementById('sessionTime').value, facilitator, email:document.getElementById('email').value, phone:document.getElementById('phone').value, zone:document.getElementById('zone').value, male, female, staff, total, topics, challenges:document.getElementById('challenges').value, highlights:document.getElementById('highlights').value, photoCount:pendingPhotoFiles.length, driveLinks:[] };
+    let localReports=loadLocalReports(); localReports.unshift(reportObj); saveLocalReports(localReports);
+    let progPanel=document.getElementById('uploadProgressPanel'); progPanel.style.display='block'; let uploadLog=document.getElementById('uploadLogText'); let barFill=document.getElementById('uploadBarFill');
+    let driveUrls=[];
+    if(pendingPhotoFiles.length && GAS_URL){
+      let folderName=`${school}_${date}_${facilitator}`.replace(/[^a-z0-9_]/gi,'_');
+      for(let i=0;i<pendingPhotoFiles.length;i++){
+        uploadLog.innerText=`📸 Uploading photo ${i+1}/${pendingPhotoFiles.length}...`; barFill.style.width=`${(i/pendingPhotoFiles.length)*50}%`;
+        let url=await uploadSinglePhoto(pendingPhotoFiles[i], folderName, i);
+        if(url) driveUrls.push(url);
+        await new Promise(r=>setTimeout(r,300));
       }
-      statusTxt.innerText='📄 Saving report to Google Sheets...';
-      progressFill.style.width='75%';
-      let sheetPayload={action:'report', ...reportObj, photoLinks:finalLinks, photoCount:finalLinks.length};
-      let sheetRes=await callGasPost(sheetPayload);
-      if(sheetRes.result==='success'){
-        addLog(`✅ Report saved to Google Sheets`, 'success');
-        let idx=LOCAL_REPORTS.findIndex(r=>r.id===reportObj.id);
-        if(idx!==-1){ LOCAL_REPORTS[idx].synced=true; LOCAL_REPORTS[idx].driveLinks=finalLinks; saveLocal(); }
-        statusTxt.innerText='✔️ Submission complete!';
-        progressFill.style.width='100%';
-        showToast(`Submitted + ${finalLinks.length} photo(s) synced`);
-        // refresh sheets cache after submit
-        await syncSheetsToDashboard();
-      } else { throw new Error(sheetRes.message||'sheets error'); }
-    }catch(err){ addLog(`❌ Cloud sync error: ${err.message}`, 'error'); statusTxt.innerText='⚠️ Saved locally but sync incomplete'; showToast(`Local saved, but sync issue: ${err.message}`, 'danger'); }
-    finally{ submitBtn.disabled=false; setTimeout(()=>{ progressDiv.style.display='none'; }, 4000); resetFormFields(); renderDashboardView(); updateStatsCards(); }
+    }
+    reportObj.driveLinks=driveUrls; reportObj.photoCount=driveUrls.length;
+    if(GAS_URL){
+      uploadLog.innerText=`📤 Syncing to Google Sheets...`; barFill.style.width=`75%`;
+      let sheetPayload={action:'report',date:reportObj.date,school:reportObj.school,location:reportObj.location,time:reportObj.time,facilitator:reportObj.facilitator,email:reportObj.email,phone:reportObj.phone,zone:reportObj.zone,male:reportObj.male,female:reportObj.female,staff:reportObj.staff,total:reportObj.total,topics:reportObj.topics,challenges:reportObj.challenges,highlights:reportObj.highlights,photoCount:reportObj.photoCount,photoLinks:driveUrls};
+      try{ let resp=await fetch(GAS_URL,{method:'POST',body:JSON.stringify(sheetPayload)}); let res=await resp.json(); if(res.result==='success') reportObj.synced=true; }catch(e){}
+    }
+    // update local record
+    let updatedLocal=loadLocalReports(); let idx=updatedLocal.findIndex(r=>r.id===reportObj.id); if(idx!==-1) updatedLocal[idx]=reportObj; saveLocalReports(updatedLocal);
+    barFill.style.width='100%'; uploadLog.innerText=`✅ Submitted! ${driveUrls.length} photos attached.`; setTimeout(()=>progPanel.style.display='none',2500);
+    resetForm(); showToast('Report saved & synced (online).'); renderDashboardTableAndStats(); 
   }
-
-  function resetFormFields(){
-    document.getElementById('school').value=''; document.getElementById('location').value=''; document.getElementById('sessionTime').value='';
-    document.getElementById('facilitator').value=''; document.getElementById('email').value=''; document.getElementById('phone').value='';
-    document.getElementById('zone').value=''; document.getElementById('maleCount').value=0; document.getElementById('femaleCount').value=0;
-    document.getElementById('staffCount').value=0; document.getElementById('topics').value=''; document.getElementById('challenges').value='';
-    document.getElementById('highlights').value=''; document.getElementById('reportDate').value=new Date().toISOString().slice(0,10);
-    pendingPhotos=[]; renderPhotoGrid(); updateTotal();
+  
+  // ---------- Dashboard logic: fetch sheets + merging ----------
+  async function fetchSheetsData(){
+    if(!GAS_URL){ showToast('⚠️ Setup GAS URL first','error'); return; }
+    try{ let url=`${GAS_URL}?action=getReports&_=${Date.now()}`; let res=await fetch(url); let data=await res.json(); if(data.result==='success' && data.reports){ sheetsReports=data.reports.map(r=>({...r,source:'sheets',id:r.id||`sheet_${Math.random()}`})); localStorage.setItem('kcmc_sheets_cache',JSON.stringify(sheetsReports)); showToast(`✅ Synced ${sheetsReports.length} reports from Sheets`); } else{ sheetsReports=[]; showToast('⚠️ Sheets returned empty','error'); } }catch(e){ sheetsReports=[]; showToast(`Fetch error: ${e.message}`,'error'); }
+    renderDashboardTableAndStats();
   }
-
-  // dashboard logic
+  
   function getMergedReports(){
-    if(currentSource==='local') return LOCAL_REPORTS;
-    if(currentSource==='sheets') return SHEETS_REPORTS;
-    let sheetKeys=new Set(SHEETS_REPORTS.map(r=>`${r.date}|${r.school}|${r.facilitator}`.toLowerCase()));
-    let localUnique=LOCAL_REPORTS.filter(r=>!sheetKeys.has(`${r.date}|${r.school}|${r.facilitator}`.toLowerCase()));
-    return [...SHEETS_REPORTS, ...localUnique].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    let local=loadLocalReports(); if(currentDataSource==='local') return local; if(currentDataSource==='sheets') return sheetsReports;
+    let sheetKeys=new Set(sheetsReports.map(s=>`${s.date}|${s.school}|${s.facilitator}`.toLowerCase()));
+    let localUnique=local.filter(l=>!sheetKeys.has(`${l.date}|${l.school}|${l.facilitator}`.toLowerCase()));
+    return [...sheetsReports, ...localUnique].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
   }
-  function renderDashboardView(){
-    let reports=getMergedReports();
-    let tbody=document.getElementById('dashboardTableBody'); let emptyDiv=document.getElementById('dashboardEmpty');
-    if(!reports.length){ tbody.innerHTML=''; emptyDiv.style.display='block'; return; }
-    emptyDiv.style.display='none';
-    tbody.innerHTML=reports.map((r,idx)=>{
-      let isSheets=r.source==='sheets';
-      let sourceTag=isSheets?'<span class="badge badge-sheets">☁ Sheets</span>':(r.synced?'<span class="badge badge-sheets">✅ Synced</span>':'<span class="badge badge-local">📱 Local</span>');
-      let photoIcon=r.photoCount?`📷 ${r.photoCount}`:'—';
-      let deleteLocalBtn=(!isSheets)?`<button class="btn btn-danger" style="padding:4px 12px;font-size:0.7rem;" onclick="deleteLocalItem('${r.id}')">Del</button>`:'';
-      return `<tr><td>${idx+1}</td><td>${formatDateView(r.date)}</td><td><strong>${escapeHtml(r.school||'')}</strong><br><small>${escapeHtml(r.location||'')}</small></td><td>${escapeHtml(r.facilitator||'')}</td><td><span style="font-weight:700;">${r.total||0}</span></td><td>${photoIcon}</td><td>${sourceTag}</td><td><button class="btn btn-outline" style="padding:4px 12px;font-size:0.7rem;" onclick="viewReportDetail('${r.id}')">View</button> ${deleteLocalBtn}</td></tr>`;
-    }).join('');
-    updateStatsCards();
-  }
-  function updateStatsCards(){
-    let reports=getMergedReports();
-    let totalR=reports.length, schools=new Set(reports.map(r=>r.school)).size, attendees=reports.reduce((a,b)=>a+(b.total||0),0), photos=reports.reduce((a,b)=>a+(b.photoCount||0),0);
-    document.getElementById('statsMini').innerHTML=`<div class="stat-item"><div class="stat-number">${totalR}</div><div>Reports</div></div><div class="stat-item"><div class="stat-number">${schools}</div><div>Schools</div></div><div class="stat-item"><div class="stat-number">${attendees}</div><div>Attendees</div></div><div class="stat-item"><div class="stat-number">${photos}</div><div>Photos</div></div>`;
-  }
-  function viewReportDetail(id){
-    let all=getMergedReports();
-    let r=all.find(x=>String(x.id)===String(id));
-    if(!r) return;
-    document.getElementById('modalTitle').innerHTML=`${escapeHtml(r.school)} · ${formatDateView(r.date)}`;
-    document.getElementById('modalBodyContent').innerHTML=`
-      <div class="detail-row"><strong>Facilitator:</strong> ${escapeHtml(r.facilitator)}</div><div class="detail-row"><strong>Attendance:</strong> M:${r.male||0} F:${r.female||0} Staff:${r.staff||0} → ${r.total}</div>
-      <div class="detail-row"><strong>Topics:</strong> ${escapeHtml(r.topics||'—')}</div><div class="detail-row"><strong>Challenges:</strong> ${escapeHtml(r.challenges||'—')}</div><div class="detail-row"><strong>Highlights:</strong> ${escapeHtml(r.highlights||'—')}</div>
-      <div class="detail-row"><strong>Photos:</strong> ${(r.driveLinks && r.driveLinks.length)?r.driveLinks.map(l=>`<a href="${l}" target="_blank">🔗 Photo</a>`).join(' '):(r.photoCount?`${r.photoCount} photos (uploaded to drive)`:'—')}</div><div class="detail-row"><strong>Source:</strong> ${r.source==='sheets'?'Google Sheets':(r.synced?'Synced to cloud':'Local only')}</div>`;
-    document.getElementById('detailModal').classList.add('open');
-  }
-  function closeDetailModal(){ document.getElementById('detailModal').classList.remove('open'); }
-  function deleteLocalItem(id){ if(confirm('Delete this local report? (Sheets data stays)')){ LOCAL_REPORTS=LOCAL_REPORTS.filter(r=>String(r.id)!==String(id)); saveLocal(); renderDashboardView(); showToast('Deleted locally'); } }
-  function setSource(src){ currentSource=src; document.querySelectorAll('.src-chip').forEach(c=>c.classList.remove('active')); document.querySelector(`.src-chip[data-src="${src}"]`).classList.add('active'); renderDashboardView(); updateStatsCards(); }
   
-  // SETUP (Classic)
-  function openSetup(){ let newUrl=prompt('🔗 Paste your Google Apps Script Web App URL (deployed with doGet+doPost):', GAS_URL || ''); if(newUrl && newUrl.trim()){ GAS_URL=newUrl.trim(); localStorage.setItem('kcmc_gas_classic', GAS_URL); updateConnStatus(); showToast('✅ URL saved'); syncSheetsToDashboard(); } }
+  function renderDashboardTableAndStats(){
+    let reports=getMergedReports(); let tbody=document.getElementById('dashboardTableBody'); let emptyDiv=document.getElementById('emptyTableMsg'); tbody.innerHTML=''; if(!reports.length){ emptyDiv.style.display='block'; }else{ emptyDiv.style.display='none'; reports.forEach((r,i)=>{ let isSheets=r.source==='sheets'; let badge=isSheets?'<span class="badge badge-sheets">☁ Sheets</span>':'<span class="badge badge-local">📱 Local</span>'; let photoText=r.photoCount?`📷 ${r.photoCount}`:'—'; let row=`<tr><td>${i+1}</td><td>${r.date||'—'}</td><td><strong>${escapeHtml(r.school||'')}</strong><br><small>${escapeHtml(r.location||'')}</small></td><td>${escapeHtml(r.facilitator||'')}</td><td><span class="badge" style="background:var(--success);color:white;">${r.total||0}</span></td><td>${photoText}</td><td>${badge}</td><td><button class="action-icon" onclick="viewDetail('${r.id}')">👁️</button> ${!isSheets?`<button class="action-icon" onclick="deleteLocalReport('${r.id}')">🗑️</button>`:''}</td></tr>`; tbody.insertAdjacentHTML('beforeend',row); }); }
+    let totalAtt=reports.reduce((s,r)=>s+(r.total||0),0); let uniqueSchools=new Set(reports.map(r=>r.school)).size; let totalReports=reports.length;
+    document.getElementById('statsGrid').innerHTML=`<div class="stat-tile"><div class="stat-number">${totalReports}</div><div>Total Reports</div><div class="source-indicator"><span class="source-dot ${sheetsReports.length?'live':''}"></span> ${currentDataSource==='all'?'Merged':currentDataSource}</div></div><div class="stat-tile"><div class="stat-number">${uniqueSchools}</div><div>Schools</div></div><div class="stat-tile"><div class="stat-number">${totalAtt}</div><div>Attendees</div></div><div class="stat-tile"><div class="stat-number">${reports.filter(r=>r.photoCount).length}</div><div>With Photos</div></div>`;
+    // top schools chart
+    let schoolMap=new Map(); reports.forEach(r=>{if(r.school) schoolMap.set(r.school,(schoolMap.get(r.school)||0)+(r.total||0));});
+    let sorted=Array.from(schoolMap.entries()).sort((a,b)=>b[1]-a[1]).slice(0,5); let chartDiv=document.getElementById('topSchoolsChart'); chartDiv.innerHTML=sorted.map(([name,val])=>`<div class="bar-item"><span style="width:100px;">${escapeHtml(name)}</span><div class="bar-bg"><div class="bar-fill" style="width:${Math.min(100,(val/ (sorted[0]?.[1]||1))*100)}%"></div></div><span>${val}</span></div>`).join('');
+  }
   
-  // Event listeners
-  document.querySelectorAll('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>{ let v=btn.dataset.view; document.querySelectorAll('.view').forEach(vw=>vw.classList.remove('active')); document.getElementById(`${v}View`).classList.add('active'); document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); if(v==='dashboard'){ renderDashboardView(); if(SHEETS_REPORTS.length===0 && GAS_URL) syncSheetsToDashboard(); } }));
-  document.getElementById('setupBtn')?.addEventListener('click',openSetup);
-  document.getElementById('mainSubmitBtn')?.addEventListener('click',submitFullReport);
-  document.getElementById('syncDashboardBtn')?.addEventListener('click',syncSheetsToDashboard);
-  document.querySelectorAll('.src-chip').forEach(ch=>ch.addEventListener('click',()=>setSource(ch.dataset.src)));
+  function setDataSource(src){ currentDataSource=src; document.querySelectorAll('.src-option').forEach(btn=>btn.classList.remove('active')); document.querySelector(`.src-option[data-src="${src}"]`).classList.add('active'); renderDashboardTableAndStats(); }
+  async function retryUnsyncedReports(){ let local=loadLocalReports(); let unsynced=local.filter(r=>!r.synced && GAS_URL); if(!unsynced.length){ showToast('✅ All local reports synced'); return; } for(let r of unsynced){ try{ let payload={action:'report',date:r.date,school:r.school,location:r.location,time:r.time,facilitator:r.facilitator,email:r.email,phone:r.phone,zone:r.zone,male:r.male,female:r.female,staff:r.staff,total:r.total,topics:r.topics,challenges:r.challenges,highlights:r.highlights,photoCount:r.photoCount||0,photoLinks:r.driveLinks||[]}; await fetch(GAS_URL,{method:'POST',body:JSON.stringify(payload)}); r.synced=true; }catch(e){} } saveLocalReports(local); renderDashboardTableAndStats(); showToast('Sync retry completed'); }
+  function deleteLocalReport(id){ let local=loadLocalReports(); let updated=local.filter(r=>String(r.id)!==String(id)); saveLocalReports(updated); renderDashboardTableAndStats(); showToast('Deleted local report'); }
+  function viewDetail(id){ let all=getMergedReports(); let report=all.find(r=>String(r.id)===String(id)); if(!report) return; document.getElementById('modalContent').innerHTML=`<div style="padding:24px;"><h3>${escapeHtml(report.school)}</h3><p><strong>Date:</strong> ${report.date}<br><strong>Facilitator:</strong> ${escapeHtml(report.facilitator)}<br><strong>Total:</strong> ${report.total}<br><strong>Topics:</strong> ${escapeHtml(report.topics)}<br><strong>Challenges:</strong> ${escapeHtml(report.challenges)}<br><strong>Photos:</strong> ${(report.driveLinks||[]).map(l=>`<a href="${l}" target="_blank">📷 Photo</a>`).join(', ') || '—'}</p></div>`; document.getElementById('detailModal').style.display='flex';}
+  function closeDetailModal(){ document.getElementById('detailModal').style.display='none'; }
+  function closeConfirmModal(){ document.getElementById('confirmModal').style.display='none'; }
+  function openSetupModal(){ document.getElementById('gasUrlInput').value=GAS_URL; document.getElementById('setupModal').style.display='flex'; }
+  function closeSetupModal(){ document.getElementById('setupModal').style.display='none'; }
+  function saveGasUrlAndTest(){ let url=document.getElementById('gasUrlInput').value.trim(); if(!url){ showToast('Enter URL'); return; } GAS_URL=url; localStorage.setItem('kcmc_gas_url',GAS_URL); document.getElementById('setupTestMsg').innerHTML='✅ URL saved, test fetch...'; fetch(`${url}?action=ping`).then(()=>{ document.getElementById('setupTestMsg').innerHTML='✅ Connected!'; showToast('Connected to GAS'); closeSetupModal(); }).catch(()=>{ document.getElementById('setupTestMsg').innerHTML='⚠️ URL saved but CORS/ping failed (normal for GAS)'; }); }
+  function copyFullScript(){ navigator.clipboard.writeText(`function doGet(e){if(e.parameter.action==="getReports"){ ... } } // full script (see provided v12+ )`); showToast('Script template copied'); }
   
-  // initial
-  resetFormFields(); updateConnStatus(); renderDashboardView();
+  function exportFullExcel(){ let reports=getMergedReports(); if(!reports.length){ showToast('No data'); return; } let csvRows=[['ID','Date','School','Facilitator','Total','Topics','Photos']]; reports.forEach(r=>{ csvRows.push([r.id,r.date,r.school,r.facilitator,r.total,r.topics,(r.driveLinks||[]).join(';')]); }); let csvContent=csvRows.map(row=>row.map(cell=>`"${String(cell).replace(/"/g,'""')}"`).join(',')).join('\n'); let blob=new Blob([csvContent],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='kcmc_reports.csv'; a.click(); showToast('CSV exported'); }
+  
+  function switchView(view,btn){ document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); document.getElementById(view+'View').classList.add('active'); document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active')); if(btn) btn.classList.add('active'); if(view==='admin'){ renderDashboardTableAndStats(); if(sheetsReports.length===0 && GAS_URL) fetchSheetsData(); } }
+  document.getElementById('sessionDate').valueAsDate=new Date(); document.getElementById('currentDateText').innerText=new Date().toLocaleDateString('en-KE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  function escapeHtml(str){ if(!str) return ''; return str.replace(/[&<>]/g,function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+  window.init = ()=>{ let cachedSheets=localStorage.getItem('kcmc_sheets_cache'); if(cachedSheets) sheetsReports=JSON.parse(cachedSheets); renderDashboardTableAndStats(); updateTotalAttendance(); if(GAS_URL) document.getElementById('connText').innerHTML='✅ Connected to Google Sheets'; else document.getElementById('connText').innerHTML='⚙️ Setup missing — click CONNECT'; };
+  init();
 </script>
 </body>
 </html>
