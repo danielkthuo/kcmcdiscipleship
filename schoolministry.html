@@ -599,27 +599,45 @@ function gasPost(payload) {
   });
 }
 
-// ─── uploadPhotoWithRetry: 1 automatic retry on failure ───────
-async function uploadPhotoWithRetry(payload, index, retries) {
-  retries = retries || 1;
-  try {
-    var resp = await gasPost(payload);
-    if (resp && resp.url) return resp;
-    // Got a response but no URL — retry once
-    if (retries > 0) {
-      addLog('Photo '+(index)+': no URL in response, retrying…', 'info');
-      await new Promise(function(r){setTimeout(r,1500);});
-      return uploadPhotoWithRetry(payload, index, retries - 1);
-    }
-    return resp;
-  } catch(err) {
-    if (retries > 0) {
-      addLog('Photo '+(index)+': error ('+err.message+'), retrying…', 'info');
-      await new Promise(function(r){setTimeout(r,2000);});
-      return uploadPhotoWithRetry(payload, index, retries - 1);
-    }
-    throw err;
+// ─── gasPostRaw: same as gasPost but also returns the raw text ─
+function gasPostRaw(payload) {
+  return fetch(GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  })
+  .then(function(r) { return r.text(); })
+  .then(function(txt) {
+    var parsed;
+    try { parsed = JSON.parse(txt); } catch(e) { parsed = { result: 'parse_error', raw: txt }; }
+    return { parsed: parsed, raw: txt };
+  });
+}
+
+// ─── uploadPhotoOnce: single attempt, logs raw GAS response ───
+async function uploadPhotoOnce(payload, index) {
+  var result = await gasPostRaw(payload);
+  var resp   = result.parsed;
+  var raw    = result.raw;
+
+  if (resp && resp.url) {
+    return resp;                       // ✅ success
   }
+
+  // No URL — log exactly what GAS returned so the user can diagnose
+  addLog('Photo '+index+': GAS raw response → ' + raw.slice(0, 200), 'err');
+
+  if (resp && resp.result === 'error') {
+    addLog('Photo '+index+': GAS error message → ' + (resp.message || '(none)'), 'err');
+  }
+  if (!raw || raw.trim() === '') {
+    addLog('Photo '+index+': GAS returned EMPTY body — script may not be deployed as new version', 'err');
+  }
+  if (raw && raw.toLowerCase().includes('html')) {
+    addLog('Photo '+index+': GAS returned HTML — likely an auth/permission error. Re-authorize the deployment.', 'err');
+  }
+
+  return resp;   // return whatever we got (caller checks for .url)
 }
 
 // ─── Sheets status ─────────────────────────────────────────────
@@ -757,13 +775,13 @@ async function submitReport(){
         addLog('Photo '+(i+1)+': ~'+approxKB+' KB, uploading…','info');
 
         try {
-          var resp = await uploadPhotoWithRetry({
+          var resp = await uploadPhotoOnce({
             action:     'photo',
             folderName: folderName,
             mime:       m[1],
             data:       m[2],
             index:      i+1
-          }, i+1, 1);
+          }, i+1);
 
           if(resp && resp.url){
             driveLinks.push(resp.url);
@@ -800,7 +818,7 @@ async function submitReport(){
     progBar.style.width='82%';
     addLog('Saving report row to Sheets…','info');
 
-    var sheetResp = await gasPost({
+    var sheetResult = await gasPostRaw({
       action:      'report',
       date:        report.date,
       school:      report.school,
@@ -823,6 +841,8 @@ async function submitReport(){
 
     progBar.style.width='100%';
 
+    var sheetResp = sheetResult.parsed;
+
     if(sheetResp && sheetResp.result==='success'){
       progTxt.textContent='✅ Report saved to Google Sheets!';
       addLog('Report saved to Sheets ✅','ok');
@@ -831,6 +851,7 @@ async function submitReport(){
     } else {
       progTxt.textContent='⚠️ Sheet sync may have failed — check manually';
       addLog('Sheet response: '+JSON.stringify(sheetResp),'err');
+      addLog('Sheet raw: '+sheetResult.raw.slice(0,200),'err');
     }
 
     // Update local record with Drive links and sync status
