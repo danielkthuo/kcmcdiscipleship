@@ -13,6 +13,8 @@
   body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;
     background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(201,149,42,.13) 0%,transparent 70%),
     url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9952a' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+
+  /* ── Nav ── */
   nav{background:var(--forest);color:#fff;display:flex;align-items:center;justify-content:space-between;
     padding:0 32px;height:64px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.18)}
   .nav-brand{display:flex;align-items:center;gap:12px}
@@ -25,13 +27,19 @@
     font-size:.85rem;font-weight:500;padding:8px 18px;border-radius:8px;cursor:pointer;transition:all .2s;letter-spacing:.03em}
   .nav-tab:hover{background:rgba(255,255,255,.08);color:#fff}
   .nav-tab.active{background:var(--gold);color:var(--forest);font-weight:600}
+
+  /* ── Views ── */
   .view{display:none;animation:fadeUp .4s ease both}.view.active{display:block}
   @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ── Hero ── */
   .hero{background:linear-gradient(135deg,var(--forest) 0%,#2c5e4a 100%);color:#fff;padding:36px 32px 32px;position:relative;overflow:hidden}
   .hero::before{content:'✝';position:absolute;right:-20px;top:-30px;font-size:180px;opacity:.05;font-family:serif;line-height:1}
   .hero-date{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin-bottom:6px}
   .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;line-height:1.1}
   .hero h1 span{color:var(--gold-light)}.hero p{margin-top:8px;opacity:.7;font-size:.9rem;max-width:480px}
+
+  /* ── Connection banner ── */
   .sheets-banner{max-width:760px;margin:16px auto 0;padding:0 20px}
   .sheets-status{display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:10px;
     font-size:.83rem;font-weight:500;border:1.5px solid var(--border);background:var(--card)}
@@ -39,6 +47,8 @@
   .sheets-status .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0}
   .sheets-status.connected .dot{background:var(--success);animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  /* ── Form ── */
   .form-wrap{max-width:760px;margin:24px auto 60px;padding:0 20px}
   .section-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
     box-shadow:var(--shadow);padding:28px 32px;margin-bottom:24px;animation:fadeUp .5s ease both}
@@ -57,7 +67,12 @@
     font-family:'DM Sans',sans-serif;font-size:.92rem;border:1.5px solid var(--border);border-radius:9px;
     padding:10px 14px;background:var(--cream);color:var(--ink);transition:border-color .2s,box-shadow .2s;width:100%;outline:none}
   input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,149,42,.15)}
+  input.error,textarea.error{border-color:var(--rust)!important;box-shadow:0 0 0 3px rgba(139,58,28,.12)!important}
+  .field-error{font-size:.75rem;color:var(--rust);margin-top:3px;display:none}
+  .field-error.show{display:block}
   textarea{resize:vertical;min-height:90px}
+
+  /* ── Attendance counters ── */
   .counter-row{display:flex;gap:12px;flex-wrap:wrap}
   .counter-box{flex:1;min-width:130px;background:var(--warm);border:1.5px solid var(--border);
     border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
@@ -67,6 +82,8 @@
   .total-box{background:linear-gradient(135deg,var(--forest),#2c5e4a);border-color:var(--forest)}
   .total-box label{color:rgba(255,255,255,.7)}
   .total-box .total-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold-light);line-height:1}
+
+  /* ── Photo upload ── */
   .photo-drop{border:2px dashed var(--border);border-radius:12px;padding:30px 20px;text-align:center;
     cursor:pointer;transition:all .2s;background:var(--cream);position:relative}
   .photo-drop:hover,.photo-drop.drag-over{border-color:var(--gold);background:rgba(201,149,42,.05)}
@@ -88,6 +105,8 @@
     place-items:center;font-size:1.4rem;background:rgba(139,58,28,.15);border-radius:9px;color:var(--rust)}
   .remove-photo{position:absolute;top:-6px;right:-6px;width:20px;height:20px;background:var(--rust);
     color:#fff;border:none;border-radius:50%;font-size:11px;cursor:pointer;display:grid;place-items:center}
+
+  /* ── Upload progress ── */
   .upload-progress{margin-top:14px;display:none;background:var(--warm);border-radius:10px;padding:12px 16px}
   .upload-progress-bar-wrap{background:var(--border);border-radius:99px;height:10px;overflow:hidden;margin-top:6px}
   .upload-progress-bar{height:100%;background:linear-gradient(90deg,var(--forest),var(--gold));border-radius:99px;width:0%;transition:width .4s}
@@ -97,6 +116,8 @@
   .log-line{padding:2px 0;border-bottom:1px solid rgba(0,0,0,.05)}
   .log-line:last-child{border-bottom:none}
   .log-ok{color:var(--success)}.log-err{color:var(--rust)}.log-info{color:var(--muted)}
+
+  /* ── Buttons ── */
   .action-bar{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;margin-top:8px}
   .btn{font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:12px 28px;border-radius:10px;
     border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s;letter-spacing:.02em}
@@ -106,16 +127,22 @@
   .btn-gold:hover:not(:disabled){transform:translateY(-2px)}
   .btn-outline{background:transparent;color:var(--forest);border:1.5px solid var(--forest)}
   .btn-outline:hover{background:rgba(30,64,53,.06)}
+  .btn-danger{background:transparent;color:var(--rust);border:1.5px solid var(--rust);font-size:.8rem;padding:6px 14px}
+  .btn-danger:hover{background:rgba(139,58,28,.06)}
   .btn:disabled{opacity:.55;cursor:not-allowed;transform:none!important}
   .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;
     border-radius:50%;animation:spin .7s linear infinite;display:none}
   .btn.loading .spinner{display:block}.btn.loading .btn-label{display:none}
   @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ── Toast ── */
   .toast{position:fixed;bottom:28px;right:28px;background:var(--forest);color:#fff;padding:14px 22px;
     border-radius:12px;font-size:.9rem;font-weight:500;box-shadow:0 8px 32px rgba(0,0,0,.2);z-index:999;
     display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;
     transition:all .35s cubic-bezier(.34,1.56,.64,1);max-width:400px}
   .toast.show{transform:translateY(0);opacity:1}
+
+  /* ── Dashboard ── */
   .dashboard-wrap{max-width:1000px;margin:36px auto 60px;padding:0 20px}
   .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px}
   .stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
@@ -140,6 +167,14 @@
   .badge-gold{background:rgba(201,149,42,.15);color:#8a6410}
   .empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
   .empty-state .empty-icon{font-size:3rem;margin-bottom:12px}
+
+  /* ── Retry sync banner ── */
+  .retry-banner{display:none;align-items:center;gap:10px;padding:10px 16px;border-radius:10px;
+    font-size:.83rem;font-weight:500;border:1.5px solid var(--gold);background:rgba(201,149,42,.08);
+    color:#7a4e00;margin-bottom:16px}
+  .retry-banner.show{display:flex}
+
+  /* ── Detail modal ── */
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.5);z-index:200;
     align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
   .modal-overlay.open{display:flex}
@@ -158,6 +193,8 @@
   .detail-val{flex:1;color:var(--ink)}
   .drive-links{display:flex;flex-direction:column;gap:4px;margin-top:4px}
   .drive-links a{font-size:.82rem;color:var(--forest);text-decoration:underline;word-break:break-all}
+
+  /* ── Setup modal ── */
   .setup-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.6);z-index:300;
     align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
   .setup-overlay.open{display:flex}
@@ -182,8 +219,31 @@
   .info-banner{display:flex;align-items:flex-start;gap:10px;padding:12px 16px;border-radius:10px;
     font-size:.83rem;border:1.5px solid #c9952a;background:rgba(201,149,42,.08);color:#7a4e00;margin-bottom:16px;line-height:1.5}
   .info-banner.green{border-color:var(--success);background:rgba(45,122,79,.07);color:#1a5c35}
-  @media print{nav,.action-bar,.photo-drop,.sheets-banner{display:none!important}body{background:#fff}.section-card{box-shadow:none;border:1px solid #ccc}}
-  @media(max-width:600px){nav{padding:0 16px}.nav-tabs .nav-tab{padding:8px 10px;font-size:.78rem}.section-card{padding:20px 18px}.hero{padding:24px 18px}.form-wrap,.dashboard-wrap{padding:0 12px}}
+
+  /* ── Confirm delete modal ── */
+  .confirm-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.55);z-index:400;
+    align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+  .confirm-overlay.open{display:flex}
+  .confirm-modal{background:var(--card);border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.3);
+    max-width:400px;width:100%;padding:28px;animation:fadeUp .25s ease;text-align:center}
+  .confirm-modal h3{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--rust);margin-bottom:8px}
+  .confirm-modal p{font-size:.88rem;color:var(--muted);margin-bottom:20px;line-height:1.5}
+  .confirm-actions{display:flex;gap:10px;justify-content:center}
+
+  /* ── Print ── */
+  @media print{nav,.action-bar,.photo-drop,.sheets-banner,.retry-banner{display:none!important}body{background:#fff}.section-card{box-shadow:none;border:1px solid #ccc}}
+
+  /* ── Mobile ── */
+  @media(max-width:600px){
+    nav{padding:0 12px}
+    .nav-title{font-size:.95rem}
+    .nav-tabs .nav-tab{padding:8px 10px;font-size:.75rem}
+    .section-card{padding:18px 16px}
+    .hero{padding:22px 16px}
+    .form-wrap,.dashboard-wrap{padding:0 12px}
+    .action-bar{justify-content:stretch}
+    .action-bar .btn{flex:1;justify-content:center}
+  }
 </style>
 </head>
 <body>
@@ -193,7 +253,7 @@
     <div class="nav-cross">✝</div>
     <div>
       <div class="nav-title">KCMC Discipleship</div>
-      <div class="nav-sub">Daily Report System · v10</div>
+      <div class="nav-sub">Daily Report System · v11</div>
     </div>
   </div>
   <div class="nav-tabs">
@@ -213,7 +273,7 @@
   <div class="sheets-banner">
     <div class="sheets-status" id="sheets-status">
       <span class="dot"></span>
-      <span id="sheets-status-text">Google Sheets not configured — click ⚙️ Setup to connect.</span>
+      <span id="sheets-status-text">Checking connection…</span>
     </div>
   </div>
   <div class="form-wrap">
@@ -221,8 +281,16 @@
     <div class="section-card">
       <div class="section-label"><span class="icon">🏫</span> Session Information</div>
       <div class="field-row" style="margin-bottom:16px">
-        <div class="field"><label>School Name <span class="req">*</span></label><input type="text" id="f-school" placeholder="e.g. Mwanga Secondary School"/></div>
-        <div class="field"><label>Date <span class="req">*</span></label><input type="date" id="f-date"/></div>
+        <div class="field">
+          <label>School Name <span class="req">*</span></label>
+          <input type="text" id="f-school" placeholder="e.g. Mwanga Secondary School"/>
+          <span class="field-error" id="err-school">School name is required</span>
+        </div>
+        <div class="field">
+          <label>Date <span class="req">*</span></label>
+          <input type="date" id="f-date"/>
+          <span class="field-error" id="err-date">Date is required</span>
+        </div>
       </div>
       <div class="field-row">
         <div class="field"><label>Location / Town</label><input type="text" id="f-location" placeholder="e.g. Moshi Urban"/></div>
@@ -233,11 +301,15 @@
     <div class="section-card">
       <div class="section-label"><span class="icon">👤</span> Facilitator Details</div>
       <div class="field-row" style="margin-bottom:16px">
-        <div class="field"><label>Facilitator Name <span class="req">*</span></label><input type="text" id="f-facilitator" placeholder="Full name"/></div>
+        <div class="field">
+          <label>Facilitator Name <span class="req">*</span></label>
+          <input type="text" id="f-facilitator" placeholder="Full name"/>
+          <span class="field-error" id="err-facilitator">Facilitator name is required</span>
+        </div>
         <div class="field"><label>Email</label><input type="email" id="f-email" placeholder="facilitator@kcmc.org"/></div>
       </div>
       <div class="field-row">
-        <div class="field"><label>Phone / WhatsApp</label><input type="text" id="f-phone" placeholder="+255 ..."/></div>
+        <div class="field"><label>Phone / WhatsApp</label><input type="text" id="f-phone" placeholder="+255 …"/></div>
         <div class="field"><label>Supervisor / Zone</label><input type="text" id="f-zone" placeholder="e.g. Northern Zone"/></div>
       </div>
     </div>
@@ -247,7 +319,7 @@
       <div class="counter-row">
         <div class="counter-box"><label>Male Students</label><input type="number" id="f-male" min="0" value="0" oninput="updateTotal()"/></div>
         <div class="counter-box"><label>Female Students</label><input type="number" id="f-female" min="0" value="0" oninput="updateTotal()"/></div>
-        <div class="counter-box"><label>Teachers/Staff</label><input type="number" id="f-staff" min="0" value="0" oninput="updateTotal()"/></div>
+        <div class="counter-box"><label>Teachers / Staff</label><input type="number" id="f-staff" min="0" value="0" oninput="updateTotal()"/></div>
         <div class="counter-box total-box"><label>Total Present</label><div class="total-num" id="total-display">0</div></div>
       </div>
     </div>
@@ -257,6 +329,7 @@
       <div class="field">
         <label>Topics / Themes Discussed <span class="req">*</span></label>
         <textarea id="f-topics" placeholder="Describe the topics and themes covered in today's session…" style="min-height:110px"></textarea>
+        <span class="field-error" id="err-topics">Please describe the topics covered</span>
       </div>
     </div>
 
@@ -274,7 +347,7 @@
         <div class="drop-text">
           <strong>Click to upload</strong> or drag photos here<br/>
           JPG, PNG, WEBP — up to 10 photos<br/>
-          <small style="opacity:.7">Compressed to ~640 px · uploaded to Google Drive · real shareable links stored in Sheet</small>
+          <small style="opacity:.7">Compressed to ~640 px · uploaded to Google Drive · links stored in Sheet</small>
         </div>
       </div>
       <div class="photo-preview" id="photo-preview"></div>
@@ -313,15 +386,25 @@
       <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-num" id="stat-students">0</div><div class="stat-label">Total Students</div></div>
       <div class="stat-card"><div class="stat-icon">👤</div><div class="stat-num" id="stat-facilitators">0</div><div class="stat-label">Facilitators Active</div></div>
     </div>
+
+    <!-- Retry unsynced banner -->
+    <div class="retry-banner" id="retry-banner">
+      ⚠️ <span id="retry-count">0</span> report(s) saved locally but not yet synced to Google Sheets.
+      <button class="btn btn-primary" style="padding:7px 16px;font-size:.8rem;margin-left:auto" onclick="retryUnsynced()">
+        <span class="spinner"></span><span class="btn-label">🔄 Retry Sync</span>
+      </button>
+    </div>
+
     <div class="dash-section-title">Submitted Reports</div>
-    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
-      <input type="text" id="search-input" placeholder="🔍  Search by school, facilitator…" style="max-width:320px;flex:1" oninput="renderTable()"/>
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center">
+      <input type="text" id="search-input" placeholder="🔍  Search by school, facilitator, location…" style="max-width:340px;flex:1" oninput="renderTable()"/>
       <button class="btn btn-gold" onclick="exportXLSX()" style="padding:10px 20px;font-size:.85rem">📊 Excel</button>
       <button class="btn btn-outline" onclick="exportCSV()" style="padding:10px 20px;font-size:.85rem">⬇ CSV</button>
+      <button class="btn btn-danger" onclick="confirmClearAll()">🗑 Clear All</button>
     </div>
     <div class="report-table-wrap">
       <table>
-        <thead><tr><th>#</th><th>Date</th><th>School</th><th>Facilitator</th><th>Attended</th><th>Photos</th><th>Synced</th><th>Action</th></tr></thead>
+        <thead><tr><th>#</th><th>Date</th><th>School</th><th>Facilitator</th><th>Attended</th><th>Photos</th><th>Synced</th><th>Actions</th></tr></thead>
         <tbody id="report-tbody"></tbody>
       </table>
       <div id="empty-state" class="empty-state" style="display:none">
@@ -332,7 +415,7 @@
   </div>
 </div>
 
-<!-- DETAIL MODAL -->
+<!-- ══ DETAIL MODAL ══ -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
   <div class="modal">
     <div class="modal-header">
@@ -343,7 +426,19 @@
   </div>
 </div>
 
-<!-- SETUP MODAL -->
+<!-- ══ CONFIRM DELETE MODAL ══ -->
+<div class="confirm-overlay" id="confirm-overlay">
+  <div class="confirm-modal">
+    <h3 id="confirm-title">Delete Report?</h3>
+    <p id="confirm-msg">This action cannot be undone.</p>
+    <div class="confirm-actions">
+      <button class="btn btn-outline" onclick="closeConfirm()">Cancel</button>
+      <button class="btn btn-primary" style="background:var(--rust);box-shadow:none" id="confirm-ok-btn" onclick="confirmOk()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SETUP MODAL ══ -->
 <div class="setup-overlay" id="setup-overlay">
   <div class="setup-modal">
     <div class="setup-header">
@@ -352,7 +447,7 @@
     </div>
     <div class="setup-body">
       <div class="info-banner green">
-        ✅ <strong>v10 — No Drive required.</strong> Photos are now stored as base64 in a <strong>Photos</strong> tab inside your Google Sheet. Works even when Google Drive API is blocked by your Workspace admin. The Reports tab stores row references to each photo.
+        ✅ <strong>v11 — URL is pre-configured.</strong> The GAS endpoint is hardcoded in this file — no manual setup needed on any device. Use the fields below only if you need to change the URL or re-test.
       </div>
       <div class="setup-step">
         <div class="step-num">1</div>
@@ -363,12 +458,27 @@
         <div class="step-content">
           <strong>Paste the script and save (Ctrl+S)</strong>
           <code id="gas-script-code">// ══════════════════════════════════════════════════════════════
-//  KCMC Discipleship — Google Apps Script  v10
-//  NO DRIVE REQUIRED — photos stored as base64 in "Photos" sheet
-//  tab. Works even when Drive API is blocked by Workspace admin.
+//  KCMC Discipleship — Google Apps Script  v11
+//  Scopes declared explicitly in appsscript.json manifest.
+//  IMPORTANT: Add these scopes to appsscript.json before deploying:
+//  {
+//    "oauthScopes": [
+//      "https://www.googleapis.com/auth/spreadsheets",
+//      "https://www.googleapis.com/auth/drive",
+//      "https://www.googleapis.com/auth/script.external_request"
+//    ]
+//  }
 // ══════════════════════════════════════════════════════════════
 
-var SHEET_ID = "YOUR_SHEET_ID_HERE"; // ← replace with your Sheet ID
+var SHEET_ID    = "1j_gFds4AZ-NrbQkdkENO-u9I7psIqNutUx2trXEtf6g";
+var FOLDER_NAME = "KCMCSessionPhotos";
+
+function doAuthCheck() {
+  var driveTest = DriveApp.getRootFolder().getName();
+  var sheetTest = SpreadsheetApp.openById(SHEET_ID).getName();
+  Logger.log("Auth OK — Drive: " + driveTest + " | Sheet: " + sheetTest);
+  return "OK";
+}
 
 function corsOutput(obj) {
   return ContentService
@@ -378,15 +488,18 @@ function corsOutput(obj) {
 
 function doGet(e) {
   if (e && e.parameter && e.parameter.action === "ping") {
-    return corsOutput({ result: "success", message: "KCMC OK v10" });
+    return corsOutput({ result: "success", message: "KCMC OK v11" });
   }
-  return ContentService.createTextOutput("KCMC Discipleship GAS v10 — OK");
+  return ContentService.createTextOutput("KCMC Discipleship GAS v11 — OK");
 }
 
-function getOrCreateSheet(ss, name) {
-  var s = ss.getSheetByName(name);
-  if (!s) { s = ss.insertSheet(name); }
-  return s;
+function getOrCreateFolder(name) {
+  var it = DriveApp.getFoldersByName(name);
+  return it.hasNext() ? it.next() : DriveApp.createFolder(name);
+}
+function getOrCreateSubFolder(parent, name) {
+  var it = parent.getFoldersByName(name);
+  return it.hasNext() ? it.next() : parent.createFolder(name);
 }
 
 function doPost(e) {
@@ -402,57 +515,50 @@ function doPost(e) {
 
     var d      = JSON.parse(raw);
     var action = d.action || "report";
-    var ss     = SpreadsheetApp.openById(SHEET_ID);
 
-    // ── PHOTO: store base64 in "Photos" tab ─────────────────────
     if (action === "photo") {
       if (!d.data) throw new Error("Photo action missing base64 data");
-      var photoSheet = getOrCreateSheet(ss, "Photos");
-      if (photoSheet.getLastRow() === 0) {
-        photoSheet.appendRow(["Timestamp","Session Key","Photo Index","MIME Type","Filename","Base64 Data"]);
-        photoSheet.setFrozenRows(1);
-        photoSheet.getRange(1,1,1,6).setFontWeight("bold").setBackground("#1e4035").setFontColor("#ffffff");
-        photoSheet.hideColumns(6);
-      }
-      var mime     = d.mime || "image/jpeg";
-      var ext      = mime.split("/")[1] || "jpg";
-      var filename = "photo_" + (d.index||1) + "." + ext;
-      var rowNum   = photoSheet.getLastRow() + 1;
-      photoSheet.appendRow([
-        new Date().toISOString(),
-        d.folderName || "Session",
-        d.index || 1,
-        mime,
-        filename,
-        d.data
-      ]);
-      return corsOutput({ result:"success", url:"sheets://Photos/row/"+rowNum, name:filename, row:rowNum });
+      var root       = getOrCreateFolder(FOLDER_NAME);
+      var folderName = (d.folderName || "Session").replace(/[\/\\:*?"<>|]/g, "-").slice(0, 100);
+      var folder     = getOrCreateSubFolder(root, folderName);
+      var mime       = d.mime || "image/jpeg";
+      var ext        = mime.split("/")[1] || "jpg";
+      var bytes      = Utilities.base64Decode(d.data);
+      var blob       = Utilities.newBlob(bytes, mime, "photo_" + (d.index || 1) + "." + ext);
+      var file       = folder.createFile(blob);
+      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+      return corsOutput({ result: "success", url: file.getUrl(), name: file.getName() });
     }
 
-    // ── REPORT: append row to "Reports" tab ─────────────────────
-    var reportSheet = getOrCreateSheet(ss, "Reports");
-    if (reportSheet.getLastRow() === 0) {
-      reportSheet.appendRow(["Timestamp","Date","School","Location","Session Time",
-        "Facilitator","Email","Phone","Zone","Male","Female","Staff","Total",
-        "Topics","Challenges","Highlights","Photo Count","Photo Refs"]);
-      reportSheet.setFrozenRows(1);
-      reportSheet.getRange(1,1,1,18).setFontWeight("bold").setBackground("#1e4035").setFontColor("#ffffff");
+    var ss    = SpreadsheetApp.openById(SHEET_ID);
+    var sheet = ss.getActiveSheet();
+
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(["Timestamp","Date","School","Location","Session Time",
+        "Facilitator","Email","Phone","Zone",
+        "Male","Female","Staff","Total",
+        "Topics","Challenges","Highlights","Photo Count","Photo Links (Drive)"]);
+      sheet.setFrozenRows(1);
+      sheet.getRange(1,1,1,18).setFontWeight("bold").setBackground("#1e4035").setFontColor("#ffffff");
     }
-    reportSheet.appendRow([
+
+    sheet.appendRow([
       new Date().toISOString(),
       d.date||"", d.school||"", d.location||"", d.time||"",
       d.facilitator||"", d.email||"", d.phone||"", d.zone||"",
       Number(d.male)||0, Number(d.female)||0, Number(d.staff)||0, Number(d.total)||0,
       d.topics||"", d.challenges||"", d.highlights||"",
       Number(d.photoCount)||0,
-      (d.photoLinks||[]).join(", ")
+      (d.photoLinks||[]).join("\n")
     ]);
-    return corsOutput({ result:"success", saved:true });
+
+    Logger.log("Report saved: " + d.school + " / " + d.facilitator);
+    return corsOutput({ result: "success", saved: true });
 
   } catch(err) {
-    Logger.log("KCMC ERR: " + err.message);
+    Logger.log("KCMC ERR: " + err.message + "\n" + err.stack);
     return ContentService
-      .createTextOutput(JSON.stringify({ result:"error", message:err.toString() }))
+      .createTextOutput(JSON.stringify({ result: "error", message: err.toString() }))
       .setMimeType(ContentService.MimeType.TEXT);
   }
 }</code>
@@ -462,23 +568,34 @@ function doPost(e) {
       <div class="setup-step">
         <div class="step-num">3</div>
         <div class="step-content">
-          <strong>Replace YOUR_SHEET_ID_HERE</strong> with the ID from your Sheet URL:<br/>
-          <code>…/spreadsheets/d/<strong>YOUR_SHEET_ID</strong>/edit…</code>
+          <strong>Add OAuth scopes to appsscript.json</strong><br/>
+          In the editor click ⚙️ Project Settings → check "Show appsscript.json". Then replace its contents with:
+          <code>{
+  "timeZone": "Africa/Nairobi",
+  "dependencies": {},
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive",
+    "https://www.googleapis.com/auth/script.external_request"
+  ]
+}</code>
         </div>
       </div>
       <div class="setup-step">
         <div class="step-num">4</div>
         <div class="step-content">
-          <strong>Deploy → New deployment → Web app</strong><br/>
-          Execute as: <strong>Me</strong> &nbsp;|&nbsp; Who has access: <strong>Anyone</strong><br/>
-          Authorize Drive + Sheets. Copy the <strong>/exec URL</strong>.<br/>
-          ⚠️ If you updated existing code: <strong>Deploy → Manage deployments → Edit → New version → Deploy</strong>
+          <strong>Run doAuthCheck manually first</strong><br/>
+          Select <code>doAuthCheck</code> in the dropdown → ▶ Run → Allow all permissions (Drive + Sheets must both appear). Check the log shows both Drive and Sheet names.
         </div>
       </div>
       <div class="setup-step">
         <div class="step-num">5</div>
         <div class="step-content">
-          <strong>How photos are stored in v10:</strong> Instead of Google Drive (which your Workspace admin has blocked), photos are stored as base64 strings in a hidden <strong>Photos</strong> tab in your Sheet. Each photo gets its own row. The <strong>Reports</strong> tab stores row references like <code>sheets://Photos/row/2</code>. To view a photo, open the Photos tab, find the row, copy the Base64 value into a base64-to-image converter, or ask IT to enable Drive access.
+          <strong>Deploy → Manage deployments → Edit → New version → Deploy</strong><br/>
+          Execute as: <strong>Me</strong> &nbsp;|&nbsp; Who has access: <strong>Anyone</strong><br/>
+          Always create a <strong>New version</strong> after any script change — old versions cache old scopes.
         </div>
       </div>
       <div class="setup-url-row">
@@ -495,38 +612,58 @@ function doPost(e) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════════
-//  KCMC Discipleship v8 — Frontend JS
-//
-//  KEY FIXES vs v7:
-//  1. compressImage uses 640px / quality 0.60 → ~80 KB per photo
-//  2. gasPost() parses response as text then JSON.parse() —
-//     works whether GAS returns TEXT or JSON mime type
-//  3. Photo upload has per-photo retry (1 retry on failure)
-//  4. Detailed log shows exact error if upload fails
-//  5. Failed photos marked with red ✕ overlay on thumbnail
+//  KCMC Discipleship v11 — Frontend JS
+//  CHANGES vs v10:
+//  1. GAS URL hardcoded — no Setup needed on any device
+//  2. Inline field validation with red highlights + error labels
+//  3. Retry Sync button for locally-saved-but-unsynced reports
+//  4. Delete individual report (with confirm dialog)
+//  5. Clear All reports button (with confirm dialog)
+//  6. Unsynced count badge shown on Dashboard
+//  7. Status banner auto-refreshes on page focus
 // ═══════════════════════════════════════════════════════════════
 
-function loadReports(){try{return JSON.parse(localStorage.getItem('kcmc_reports')||'[]');}catch(e){return[];}}
-function saveReports(arr){if(arr.length>200)arr=arr.slice(0,200);try{localStorage.setItem('kcmc_reports',JSON.stringify(arr));}catch(e){showToast('⚠️ Storage full — old reports trimmed.','#8b3a1c','⚠️');}}
+// ── Hardcoded GAS URL — works on every device with no setup ───
+var DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbz-SrAE3iIPsGZTrwrRiSJZ4HpuxIEKNRSZX-mQDdV3gzmAQea2CcFLGhLXiYwpYrusYQ/exec';
+var GAS_URL = localStorage.getItem('kcmc_gas_url') || DEFAULT_GAS_URL;
 
 var photoDataURLs = [];
-//var GAS_URL = localStorage.getItem('kcmc_gas_url') || '';
-  var GAS_URL = localStorage.getItem('kcmc_gas_url') || 'https://script.google.com/macros/s/AKfycbz-SrAE3iIPsGZTrwrRiSJZ4HpuxIEKNRSZX-mQDdV3gzmAQea2CcFLGhLXiYwpYrusYQ/exec';
+var confirmCallback = null;
 
-// ─── Init ──────────────────────────────────────────────────────
-function init() {
-  var today = new Date();
-  var fmt = today.toLocaleDateString('en-KE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  document.getElementById('hero-date').textContent = fmt;
-  document.getElementById('hero-date-admin').textContent = fmt;
-  document.getElementById('f-date').value = today.toISOString().slice(0,10);
-  var drop = document.getElementById('photo-drop');
+// ── Storage helpers ────────────────────────────────────────────
+function loadReports(){
+  try{return JSON.parse(localStorage.getItem('kcmc_reports')||'[]');}catch(e){return[];}
+}
+function saveReports(arr){
+  if(arr.length>200)arr=arr.slice(0,200);
+  try{localStorage.setItem('kcmc_reports',JSON.stringify(arr));}
+  catch(e){showToast('⚠️ Storage full — old reports trimmed.','#8b3a1c','⚠️');}
+}
+
+// ── Init ──────────────────────────────────────────────────────
+function init(){
+  var today=new Date();
+  var fmt=today.toLocaleDateString('en-KE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('hero-date').textContent=fmt;
+  document.getElementById('hero-date-admin').textContent=fmt;
+  document.getElementById('f-date').value=today.toISOString().slice(0,10);
+
+  var drop=document.getElementById('photo-drop');
   drop.addEventListener('dragover',function(e){e.preventDefault();drop.classList.add('drag-over');});
   drop.addEventListener('dragleave',function(){drop.classList.remove('drag-over');});
   drop.addEventListener('drop',function(e){e.preventDefault();drop.classList.remove('drag-over');handleFiles(e.dataTransfer.files);});
+
+  // Clear error state on input
+  ['f-school','f-date','f-facilitator','f-topics'].forEach(function(id){
+    document.getElementById(id).addEventListener('input',function(){clearFieldError(id);});
+  });
+
   updateSheetsStatus();
   renderTable();
   updateStats();
+
+  // Refresh status when window regains focus (e.g. after authorizing GAS)
+  window.addEventListener('focus',updateSheetsStatus);
 }
 
 function switchView(v,tabEl){
@@ -534,7 +671,7 @@ function switchView(v,tabEl){
   document.querySelectorAll('.nav-tab').forEach(function(el){el.classList.remove('active');});
   document.getElementById('view-'+v).classList.add('active');
   if(tabEl)tabEl.classList.add('active');
-  if(v==='admin'){renderTable();updateStats();}
+  if(v==='admin'){renderTable();updateStats();updateRetryBanner();}
 }
 
 function updateTotal(){
@@ -544,20 +681,44 @@ function updateTotal(){
   document.getElementById('total-display').textContent=m+f+s;
 }
 
-// ─── Photo handling ────────────────────────────────────────────
+// ── Validation ─────────────────────────────────────────────────
+function setFieldError(id,errId){
+  document.getElementById(id).classList.add('error');
+  document.getElementById(errId).classList.add('show');
+}
+function clearFieldError(id){
+  document.getElementById(id).classList.remove('error');
+  var errId='err-'+id.replace('f-','');
+  var el=document.getElementById(errId);
+  if(el)el.classList.remove('show');
+}
+function validateForm(){
+  var ok=true;
+  var checks=[
+    {id:'f-school',errId:'err-school',val:function(){return document.getElementById('f-school').value.trim();}},
+    {id:'f-date',errId:'err-date',val:function(){return document.getElementById('f-date').value;}},
+    {id:'f-facilitator',errId:'err-facilitator',val:function(){return document.getElementById('f-facilitator').value.trim();}},
+    {id:'f-topics',errId:'err-topics',val:function(){return document.getElementById('f-topics').value.trim();}}
+  ];
+  checks.forEach(function(c){
+    if(!c.val()){setFieldError(c.id,c.errId);ok=false;}
+    else{clearFieldError(c.id);}
+  });
+  return ok;
+}
+
+// ── Photo handling ─────────────────────────────────────────────
 function handlePhotos(input){handleFiles(input.files);}
 function handleFiles(files){
   var available=10-photoDataURLs.length;
   if(available<=0){showToast('⚠️ Maximum 10 photos per report.','#8b3a1c','⚠️');return;}
   Array.from(files).slice(0,available).forEach(function(file){
-    // FIX: 640px / 0.60 quality → ~80 KB each (vs ~350 KB at 800px/0.78)
     compressImage(file,640,0.60,function(dataURL){
       photoDataURLs.push(dataURL);
       renderPhotoPreview();
     });
   });
 }
-
 function compressImage(file,maxPx,q,cb){
   var reader=new FileReader();
   reader.onload=function(e){
@@ -574,7 +735,6 @@ function compressImage(file,maxPx,q,cb){
   };
   reader.readAsDataURL(file);
 }
-
 function renderPhotoPreview(){
   var preview=document.getElementById('photo-preview');
   preview.innerHTML='';
@@ -584,83 +744,105 @@ function renderPhotoPreview(){
     wrap.id='thumb-'+i;
     wrap.innerHTML='<img src="'+src+'" alt="Photo '+(i+1)+'"/>'
       +'<span class="upload-tick">✓</span>'
-      +'<button class="remove-photo" onclick="removePhoto('+i+')">✕</button>';
+      +'<button class="remove-photo" onclick="removePhoto('+i+')" title="Remove photo">✕</button>';
     preview.appendChild(wrap);
   });
 }
 function removePhoto(i){photoDataURLs.splice(i,1);renderPhotoPreview();}
 
-// ─── gasPost: fetch() with text/plain ─────────────────────────
-// FIX: response parsed as .text() then JSON.parse() — works for
-// both MimeType.TEXT and MimeType.JSON from GAS.
-function gasPost(payload) {
-  return fetch(GAS_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify(payload)
+// ── GAS fetch helpers ──────────────────────────────────────────
+function gasPostRaw(payload){
+  return fetch(GAS_URL,{
+    method:'POST',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify(payload)
   })
-  .then(function(r) { return r.text(); })
-  .then(function(txt) {
-    if (!txt || txt.trim() === '') throw new Error('Empty response from GAS');
-    try { return JSON.parse(txt); }
-    catch(e) { return { result: 'unknown', raw: txt.slice(0,200) }; }
-  });
-}
-
-// ─── gasPostRaw: same as gasPost but also returns the raw text ─
-function gasPostRaw(payload) {
-  return fetch(GAS_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify(payload)
-  })
-  .then(function(r) { return r.text(); })
-  .then(function(txt) {
+  .then(function(r){return r.text();})
+  .then(function(txt){
     var parsed;
-    try { parsed = JSON.parse(txt); } catch(e) { parsed = { result: 'parse_error', raw: txt }; }
-    return { parsed: parsed, raw: txt };
+    try{parsed=JSON.parse(txt);}catch(e){parsed={result:'parse_error',raw:txt};}
+    return{parsed:parsed,raw:txt};
   });
 }
 
-// ─── uploadPhotoOnce: single attempt, logs raw GAS response ───
-async function uploadPhotoOnce(payload, index) {
-  var result = await gasPostRaw(payload);
-  var resp   = result.parsed;
-  var raw    = result.raw;
-
-  if (resp && resp.url) {
-    return resp;                       // ✅ success
-  }
-
-  // No URL — log exactly what GAS returned so the user can diagnose
-  addLog('Photo '+index+': GAS raw response → ' + raw.slice(0, 200), 'err');
-
-  if (resp && resp.result === 'error') {
-    addLog('Photo '+index+': GAS error message → ' + (resp.message || '(none)'), 'err');
-  }
-  if (!raw || raw.trim() === '') {
-    addLog('Photo '+index+': GAS returned EMPTY body — script may not be deployed as new version', 'err');
-  }
-  if (raw && raw.toLowerCase().includes('html')) {
-    addLog('Photo '+index+': GAS returned HTML — likely an auth/permission error. Re-authorize the deployment.', 'err');
-  }
-
-  return resp;   // return whatever we got (caller checks for .url)
+async function uploadPhotoOnce(payload,index){
+  var result=await gasPostRaw(payload);
+  var resp=result.parsed;
+  var raw=result.raw;
+  if(resp&&resp.url)return resp;
+  addLog('Photo '+index+': GAS raw → '+raw.slice(0,200),'err');
+  if(resp&&resp.result==='error')addLog('Photo '+index+': '+( resp.message||'(no message)'),'err');
+  if(!raw||raw.trim()==='')addLog('Photo '+index+': empty response — redeploy as new version','err');
+  if(raw&&raw.toLowerCase().includes('html'))addLog('Photo '+index+': HTML response — re-authorize GAS deployment','err');
+  return resp;
 }
 
-// ─── Sheets status ─────────────────────────────────────────────
+// ── Sheets status ──────────────────────────────────────────────
 function updateSheetsStatus(){
   var el=document.getElementById('sheets-status');
   var txt=document.getElementById('sheets-status-text');
   if(GAS_URL){
     el.className='sheets-status connected';
-    txt.textContent='✅ Google Sheets + Drive connected — reports and photos sync with real Drive links.';
-  } else {
+    txt.textContent='✅ Connected to Google Sheets + Drive — all devices use this endpoint automatically.';
+  }else{
     el.className='sheets-status';
-    txt.textContent='Google Sheets not configured — click ⚙️ Setup to connect.';
+    txt.textContent='Not configured — click ⚙️ Setup to connect.';
   }
 }
 
+function updateRetryBanner(){
+  var unsynced=loadReports().filter(function(r){return!r.synced;}).length;
+  var banner=document.getElementById('retry-banner');
+  var count=document.getElementById('retry-count');
+  if(unsynced>0&&GAS_URL){
+    count.textContent=unsynced;
+    banner.classList.add('show');
+  }else{
+    banner.classList.remove('show');
+  }
+}
+
+// ── Retry unsynced reports ─────────────────────────────────────
+async function retryUnsynced(){
+  var reports=loadReports();
+  var unsynced=reports.filter(function(r){return!r.synced;});
+  if(!unsynced.length){showToast('✅ All reports already synced.','var(--forest)','✅');return;}
+
+  var btn=document.querySelector('#retry-banner .btn');
+  btn.classList.add('loading');btn.disabled=true;
+
+  var synced=0,failed=0;
+  for(var i=0;i<unsynced.length;i++){
+    var r=unsynced[i];
+    try{
+      var result=await gasPostRaw({
+        action:'report',
+        date:r.date,school:r.school,location:r.location,time:r.time,
+        facilitator:r.facilitator,email:r.email,phone:r.phone,zone:r.zone,
+        male:r.male,female:r.female,staff:r.staff,total:r.total,
+        topics:r.topics,challenges:r.challenges,highlights:r.highlights,
+        photoCount:r.photoCount,photoLinks:r.driveLinks||[]
+      });
+      if(result.parsed&&result.parsed.result==='success'){
+        var idx=reports.findIndex(function(x){return x.id===r.id;});
+        if(idx>-1){reports[idx].synced=true;}
+        synced++;
+      }else{failed++;}
+    }catch(e){failed++;}
+    // Small delay between retries
+    if(i<unsynced.length-1)await new Promise(function(res){setTimeout(res,400);});
+  }
+
+  saveReports(reports);
+  btn.classList.remove('loading');btn.disabled=false;
+  renderTable();updateStats();updateRetryBanner();
+
+  if(synced>0&&failed===0)showToast('✅ '+synced+' report(s) synced to Sheets!','var(--forest)','✅');
+  else if(synced>0)showToast('⚠️ '+synced+' synced, '+failed+' still failed — check GAS.','#8b3a1c','⚠️');
+  else showToast('⚠️ Sync failed — check GAS authorization.','#8b3a1c','⚠️');
+}
+
+// ── Setup modal ────────────────────────────────────────────────
 function openSetup(){
   document.getElementById('gas-url-input').value=GAS_URL;
   document.getElementById('test-result').textContent='';
@@ -683,7 +865,7 @@ async function saveGasUrl(){
   }catch(e){
     GAS_URL=url;localStorage.setItem('kcmc_gas_url',GAS_URL);
     res.style.color='var(--success)';
-    res.textContent='✅ URL saved. (CORS blocked the GET ping — normal for GAS. POST uploads will work fine.)';
+    res.textContent='✅ URL saved. (CORS blocked GET ping — normal for GAS. POST will work fine.)';
     updateSheetsStatus();
   }
 }
@@ -693,30 +875,28 @@ function copyScript(){
   navigator.clipboard.writeText(code).then(function(){showToast('📋 Script copied!','var(--forest)','📋');});
 }
 
-// ─── Log helper ────────────────────────────────────────────────
-function addLog(msg, type) {
-  var log = document.getElementById('upload-log');
-  var line = document.createElement('div');
-  line.className = 'log-line log-' + (type||'info');
-  line.textContent = new Date().toLocaleTimeString('en-KE') + '  ' + msg;
+// ── Log helper ─────────────────────────────────────────────────
+function addLog(msg,type){
+  var log=document.getElementById('upload-log');
+  var line=document.createElement('div');
+  line.className='log-line log-'+(type||'info');
+  line.textContent=new Date().toLocaleTimeString('en-KE')+'  '+msg;
   log.appendChild(line);
-  log.scrollTop = log.scrollHeight;
+  log.scrollTop=log.scrollHeight;
 }
 
-// ─── SUBMIT ────────────────────────────────────────────────────
+// ── SUBMIT ─────────────────────────────────────────────────────
 async function submitReport(){
+  if(!validateForm())return;
+
   var school=document.getElementById('f-school').value.trim();
   var facilitator=document.getElementById('f-facilitator').value.trim();
   var date=document.getElementById('f-date').value;
   var topics=document.getElementById('f-topics').value.trim();
-  if(!school||!facilitator||!date||!topics){
-    showToast('⚠️ School, Facilitator, Date and Topics are required.','#8b3a1c','⚠️');return;
-  }
 
   var report={
     id:Date.now(),
-    date:date,
-    school:school,
+    date:date,school:school,
     location:document.getElementById('f-location').value.trim(),
     time:document.getElementById('f-time').value.trim(),
     facilitator:facilitator,
@@ -735,11 +915,11 @@ async function submitReport(){
     synced:false
   };
 
-  // Save locally first so data is never lost
+  // Always save locally first
   var saved=loadReports();saved.unshift(report);saveReports(saved);
 
   if(!GAS_URL){
-    showToast('✅ Report saved locally. Connect Google Sheets via ⚙️ Setup to sync.','var(--forest)','✅');
+    showToast('✅ Saved locally. Add GAS URL in ⚙️ Setup to sync.','var(--forest)','✅');
     clearForm();renderTable();updateStats();return;
   }
 
@@ -753,142 +933,111 @@ async function submitReport(){
   progWrap.style.display='block';
 
   var driveLinks=[];
-  var uploadedCount=0;
-  var failedCount=0;
+  var uploadedCount=0,failedCount=0;
   var folderName=school+' — '+date+' — '+facilitator;
 
-  try {
-    // ── Step 1: Upload photos one-by-one with retry ────────────
+  try{
+    // ── Step 1: Upload photos ────────────────────────────────
     if(photoDataURLs.length>0){
-      addLog('Starting upload of '+photoDataURLs.length+' photo(s) at 640px/0.60…','info');
-
+      addLog('Starting upload of '+photoDataURLs.length+' photo(s)…','info');
       for(var i=0;i<photoDataURLs.length;i++){
         progTxt.textContent='Uploading photo '+(i+1)+' of '+photoDataURLs.length+'…';
         progBar.style.width=Math.round(((i+0.5)/photoDataURLs.length)*70)+'%';
-
         var thumb=document.getElementById('thumb-'+i);
         if(thumb){thumb.classList.remove('failed');thumb.classList.add('uploading');}
 
         var du=photoDataURLs[i];
-        var m=du.match(/^data:(image\/[^;]+);base64,(.+)$/);
-        if(!m){
-          addLog('Photo '+(i+1)+': skipped — bad data URL format','err');
+        var mt=du.match(/^data:(image\/[^;]+);base64,(.+)$/);
+        if(!mt){
+          addLog('Photo '+(i+1)+': skipped — bad data URL','err');
           if(thumb){thumb.classList.remove('uploading');thumb.classList.add('failed');}
-          failedCount++;
-          continue;
+          failedCount++;continue;
         }
 
-        // Approximate size check
-        var approxKB = Math.round(m[2].length * 0.75 / 1024);
+        var approxKB=Math.round(mt[2].length*0.75/1024);
         addLog('Photo '+(i+1)+': ~'+approxKB+' KB, uploading…','info');
 
-        try {
-          var resp = await uploadPhotoOnce({
-            action:     'photo',
-            folderName: folderName,
-            mime:       m[1],
-            data:       m[2],
-            index:      i+1
-          }, i+1);
-
-          if(resp && resp.url){
-            driveLinks.push(resp.url);
-            uploadedCount++;
+        try{
+          var resp=await uploadPhotoOnce({
+            action:'photo',folderName:folderName,mime:mt[1],data:mt[2],index:i+1
+          },i+1);
+          if(resp&&resp.url){
+            driveLinks.push(resp.url);uploadedCount++;
             addLog('Photo '+(i+1)+': ✅ '+resp.url.slice(0,70)+'…','ok');
             if(thumb){thumb.classList.remove('uploading');thumb.classList.add('uploaded');}
-          } else {
+          }else{
             failedCount++;
-            var rawInfo = resp ? JSON.stringify(resp).slice(0,120) : 'null response';
-            addLog('Photo '+(i+1)+': ⚠️ No Drive URL returned. GAS response: '+rawInfo,'err');
-            addLog('  → Check GAS script uses MimeType.TEXT (not JSON) and is redeployed.','err');
-            driveLinks.push('[Upload failed — check GAS deployment]');
+            addLog('Photo '+(i+1)+': ⚠️ No URL. '+JSON.stringify(resp).slice(0,100),'err');
+            driveLinks.push('[Upload failed]');
             if(thumb){thumb.classList.remove('uploading');thumb.classList.add('failed');}
           }
-        } catch(photoErr) {
+        }catch(photoErr){
           failedCount++;
           addLog('Photo '+(i+1)+' error: '+photoErr.message,'err');
           if(thumb){thumb.classList.remove('uploading');thumb.classList.add('failed');}
         }
 
         progBar.style.width=Math.round(((i+1)/photoDataURLs.length)*70)+'%';
-
-        // Small delay between uploads to avoid GAS rate limits
-        if(i < photoDataURLs.length-1) await new Promise(function(r){setTimeout(r,300);});
+        if(i<photoDataURLs.length-1)await new Promise(function(r){setTimeout(r,300);});
       }
-
-      if(failedCount>0){
-        addLog('⚠️ '+failedCount+' photo(s) failed. Ensure GAS script is v8 (MimeType.TEXT) and redeployed as a NEW VERSION.','err');
-      }
+      if(failedCount>0)addLog('⚠️ '+failedCount+' failed — re-authorize GAS and redeploy as NEW version.','err');
     }
 
-    // ── Step 2: Save report row to Sheets ─────────────────────
+    // ── Step 2: Save report row ──────────────────────────────
     progTxt.textContent='Saving report to Google Sheets…';
     progBar.style.width='82%';
-    addLog('Saving report row to Sheets…','info');
+    addLog('Saving report to Sheets…','info');
 
-    var sheetResult = await gasPostRaw({
-      action:      'report',
-      date:        report.date,
-      school:      report.school,
-      location:    report.location,
-      time:        report.time,
-      facilitator: report.facilitator,
-      email:       report.email,
-      phone:       report.phone,
-      zone:        report.zone,
-      male:        report.male,
-      female:      report.female,
-      staff:       report.staff,
-      total:       report.total,
-      topics:      report.topics,
-      challenges:  report.challenges,
-      highlights:  report.highlights,
-      photoCount:  report.photoCount,
-      photoLinks:  driveLinks        // real Drive URLs stored in Sheet
+    var sheetResult=await gasPostRaw({
+      action:'report',
+      date:report.date,school:report.school,location:report.location,time:report.time,
+      facilitator:report.facilitator,email:report.email,phone:report.phone,zone:report.zone,
+      male:report.male,female:report.female,staff:report.staff,total:report.total,
+      topics:report.topics,challenges:report.challenges,highlights:report.highlights,
+      photoCount:report.photoCount,photoLinks:driveLinks
     });
 
     progBar.style.width='100%';
+    var sheetResp=sheetResult.parsed;
 
-    var sheetResp = sheetResult.parsed;
-
-    if(sheetResp && sheetResp.result==='success'){
+    if(sheetResp&&sheetResp.result==='success'){
       progTxt.textContent='✅ Report saved to Google Sheets!';
-      addLog('Report saved to Sheets ✅','ok');
+      addLog('Saved to Sheets ✅','ok');
       report.driveLinks=driveLinks;
       report.synced=true;
-    } else {
-      progTxt.textContent='⚠️ Sheet sync may have failed — check manually';
-      addLog('Sheet response: '+JSON.stringify(sheetResp),'err');
-      addLog('Sheet raw: '+sheetResult.raw.slice(0,200),'err');
+    }else{
+      progTxt.textContent='⚠️ Sheets sync failed — saved locally, use Retry Sync on Dashboard.';
+      addLog('Sheet error: '+JSON.stringify(sheetResp),'err');
+      addLog('Raw: '+sheetResult.raw.slice(0,200),'err');
     }
 
-    // Update local record with Drive links and sync status
     var recs=loadReports();
     var idx=recs.findIndex(function(x){return x.id===report.id;});
     if(idx>-1){recs[idx]=report;saveReports(recs);}
 
-    var photoMsg = uploadedCount > 0
-      ? ' + '+uploadedCount+' photo(s) in Drive'+(failedCount>0?' ('+failedCount+' failed)':'')
-      : (report.photoCount > 0 ? ' (photo upload failed — see log)' : '');
+    var photoMsg=uploadedCount>0
+      ?' + '+uploadedCount+' photo(s)'+(failedCount>0?' ('+failedCount+' failed)':'')
+      :(report.photoCount>0?' (photo upload failed — see log)':'');
     showToast('✅ Report submitted'+photoMsg,'var(--forest)','✅');
 
-  } catch(err) {
+  }catch(err){
     progTxt.textContent='⚠️ Error — '+err.message;
-    addLog('Fatal error: '+err.message,'err');
+    addLog('Fatal: '+err.message,'err');
     showToast('⚠️ Local save OK — sync error: '+err.message,'#8b3a1c','⚠️');
-    console.error('Sync error:',err);
-  } finally {
+    console.error(err);
+  }finally{
     setTimeout(function(){progWrap.style.display='none';progBar.style.width='0%';},8000);
     btn.classList.remove('loading');btn.disabled=false;
   }
 
-  clearForm();renderTable();updateStats();
+  clearForm();renderTable();updateStats();updateRetryBanner();
 }
 
-// ─── Clear form ────────────────────────────────────────────────
+// ── Clear form ─────────────────────────────────────────────────
 function clearForm(){
   ['f-school','f-location','f-time','f-facilitator','f-email','f-phone','f-zone','f-topics','f-challenges','f-highlights']
     .forEach(function(id){document.getElementById(id).value='';});
+  ['f-school','f-date','f-facilitator','f-topics'].forEach(function(id){clearFieldError(id);});
   document.getElementById('f-male').value=0;
   document.getElementById('f-female').value=0;
   document.getElementById('f-staff').value=0;
@@ -900,12 +1049,12 @@ function clearForm(){
 }
 function printReport(){window.print();}
 
-// ─── Dashboard table ───────────────────────────────────────────
+// ── Dashboard table ────────────────────────────────────────────
 function renderTable(){
   var reports=loadReports();
   var q=((document.getElementById('search-input')||{}).value||'').toLowerCase();
   var filtered=reports.filter(function(r){
-    return (r.school||'').toLowerCase().includes(q)
+    return(r.school||'').toLowerCase().includes(q)
         ||(r.facilitator||'').toLowerCase().includes(q)
         ||(r.location||'').toLowerCase().includes(q);
   });
@@ -920,10 +1069,8 @@ function renderTable(){
       :'<span class="badge" style="background:rgba(139,58,28,.1);color:var(--rust)">📱 Local</span>';
     var photoBadge='—';
     if(r.photoCount){
-      var driveOk=r.driveLinks&&r.driveLinks.filter(function(l){return l.startsWith('http');}).length;
-      var sheetsOk=r.driveLinks&&r.driveLinks.filter(function(l){return l.startsWith('sheets://');}).length;
-      var stored=driveOk||sheetsOk;
-      photoBadge='📷 '+r.photoCount+(stored?' <small style="color:var(--success)">✅ '+stored+' saved</small>':'');
+      var driveOk=(r.driveLinks||[]).filter(function(l){return l.startsWith('http');}).length;
+      photoBadge='📷 '+r.photoCount+(driveOk?' <small style="color:var(--success)">✅ '+driveOk+' saved</small>':'');
     }
     var tr=document.createElement('tr');
     tr.innerHTML=
@@ -934,7 +1081,10 @@ function renderTable(){
       '<td><span class="badge badge-green">'+r.total+'</span></td>'+
       '<td>'+photoBadge+'</td>'+
       '<td>'+syncBadge+'</td>'+
-      '<td><button class="btn btn-outline" style="padding:6px 14px;font-size:.8rem" onclick="viewReport('+r.id+')">View</button></td>';
+      '<td style="display:flex;gap:6px;flex-wrap:wrap">'+
+        '<button class="btn btn-outline" style="padding:6px 12px;font-size:.78rem" onclick="viewReport('+r.id+')">View</button>'+
+        '<button class="btn btn-danger" onclick="confirmDelete('+r.id+')">Delete</button>'+
+      '</td>';
     tbody.appendChild(tr);
   });
 }
@@ -947,38 +1097,77 @@ function updateStats(){
   document.getElementById('stat-facilitators').textContent=new Set(reports.map(function(r){return r.facilitator;})).size;
 }
 
-// ─── Detail modal ──────────────────────────────────────────────
+// ── Confirm dialog ─────────────────────────────────────────────
+function openConfirm(title,msg,okLabel,cb){
+  document.getElementById('confirm-title').textContent=title;
+  document.getElementById('confirm-msg').textContent=msg;
+  document.getElementById('confirm-ok-btn').textContent=okLabel||'Confirm';
+  confirmCallback=cb;
+  document.getElementById('confirm-overlay').classList.add('open');
+}
+function closeConfirm(){
+  document.getElementById('confirm-overlay').classList.remove('open');
+  confirmCallback=null;
+}
+function confirmOk(){
+  if(confirmCallback)confirmCallback();
+  closeConfirm();
+}
+
+function confirmDelete(id){
+  var r=loadReports().find(function(x){return x.id===id;});
+  if(!r)return;
+  openConfirm(
+    'Delete Report?',
+    'Delete "'+r.school+'" on '+formatDate(r.date)+'? This cannot be undone.',
+    'Delete',
+    function(){deleteReport(id);}
+  );
+}
+function deleteReport(id){
+  var reports=loadReports().filter(function(r){return r.id!==id;});
+  saveReports(reports);
+  renderTable();updateStats();updateRetryBanner();
+  showToast('🗑 Report deleted.','var(--forest)','🗑');
+}
+
+function confirmClearAll(){
+  var count=loadReports().length;
+  if(!count){showToast('⚠️ No reports to clear.','#8b3a1c','⚠️');return;}
+  openConfirm(
+    'Clear All Reports?',
+    'This will permanently delete all '+count+' report(s) from this device. This cannot be undone.',
+    'Clear All',
+    function(){
+      saveReports([]);
+      renderTable();updateStats();updateRetryBanner();
+      showToast('🗑 All reports cleared.','var(--forest)','🗑');
+    }
+  );
+}
+
+// ── Detail modal ───────────────────────────────────────────────
 function viewReport(id){
-  var reports=loadReports();
-  var r=reports.find(function(x){return x.id===id;});if(!r)return;
+  var r=loadReports().find(function(x){return x.id===id;});if(!r)return;
   document.getElementById('modal-title').textContent=r.school;
   document.getElementById('modal-sub').textContent=formatDate(r.date)+' · '+r.facilitator;
 
   var driveHtml;
   if(r.driveLinks&&r.driveLinks.length){
     driveHtml='<div class="drive-links">'+r.driveLinks.map(function(l,i){
-      if(l.startsWith('http')){
-        return '<a href="'+escHtml(l)+'" target="_blank" rel="noopener">📁 Drive Photo '+(i+1)+'</a>';
-      } else if(l.startsWith('sheets://')){
-        // Stored in Photos sheet tab — row reference
-        var row=l.split('/').pop();
-        return '<span style="color:var(--success);font-size:.82rem">✅ Photo '+(i+1)+' stored in Sheets (Photos tab, row '+escHtml(row)+')</span>';
-      } else {
-        return '<span style="color:var(--muted);font-size:.8rem">'+escHtml(l)+'</span>';
-      }
+      if(l.startsWith('http'))return'<a href="'+escHtml(l)+'" target="_blank" rel="noopener">📁 Drive Photo '+(i+1)+'</a>';
+      return'<span style="color:var(--muted);font-size:.8rem">'+escHtml(l)+'</span>';
     }).join('')+'</div>';
-  } else if(r.photoCount){
-    driveHtml='📷 '+r.photoCount+' photo(s) — '+(r.synced?'stored in Google Sheet "Photos" tab':'not yet synced');
-  } else {
-    driveHtml='—';
-  }
+  }else if(r.photoCount){
+    driveHtml='📷 '+r.photoCount+' photo(s) — '+(r.synced?'synced':'not yet synced');
+  }else{driveHtml='—';}
 
   document.getElementById('modal-body').innerHTML=
     drow('Date',formatDate(r.date))+drow('Session Time',escHtml(r.time)||'—')+
     drow('Location',escHtml(r.location)||'—')+drow('Facilitator',escHtml(r.facilitator))+
     drow('Zone',escHtml(r.zone)||'—')+drow('Email',escHtml(r.email)||'—')+
     drow('Phone',escHtml(r.phone)||'—')+
-    drow('Male Students',''+r.male)+drow('Female Students',''+r.female)+drow('Staff/Teachers',''+r.staff)+
+    drow('Male Students',''+r.male)+drow('Female Students',''+r.female)+drow('Staff / Teachers',''+r.staff)+
     drow('Total Attended','<strong>'+r.total+'</strong>')+
     drow('Synced to Sheets',r.synced?'<span style="color:var(--success)">✅ Yes</span>':'<span style="color:var(--rust)">📱 Local only</span>')+
     drow('Topics','<span style="white-space:pre-wrap">'+escHtml(r.topics||'—')+'</span>')+
@@ -991,7 +1180,7 @@ function drow(k,v){return'<div class="detail-row"><div class="detail-key">'+k+'<
 function closeModal(e){if(e.target===document.getElementById('modal-overlay'))closeModalDirect();}
 function closeModalDirect(){document.getElementById('modal-overlay').classList.remove('open');}
 
-// ─── Excel export ──────────────────────────────────────────────
+// ── Excel export ───────────────────────────────────────────────
 function exportXLSX(){
   var reports=loadReports();
   if(!reports.length){showToast('⚠️ No reports to export.','#8b3a1c','⚠️');return;}
@@ -1021,10 +1210,10 @@ function exportXLSX(){
   ws2['!cols']=[{wch:22},{wch:18}];
   XLSX.utils.book_append_sheet(wb,ws2,'Summary');
   XLSX.writeFile(wb,'KCMC_Reports_'+new Date().toISOString().slice(0,10)+'.xlsx');
-  showToast('📊 Excel file downloaded!','var(--forest)','📊');
+  showToast('📊 Excel downloaded!','var(--forest)','📊');
 }
 
-// ─── CSV export ────────────────────────────────────────────────
+// ── CSV export ─────────────────────────────────────────────────
 function exportCSV(){
   var reports=loadReports();
   if(!reports.length){showToast('⚠️ No reports to export.','#8b3a1c','⚠️');return;}
@@ -1033,7 +1222,8 @@ function exportCSV(){
   var rows=reports.map(function(r){
     return[r.id,r.date,cv(r.school),cv(r.location),cv(r.time),cv(r.facilitator),
            cv(r.email),cv(r.phone),cv(r.zone),r.male||0,r.female||0,r.staff||0,r.total||0,
-           cv(r.topics),cv(r.challenges),cv(r.highlights),r.photoCount||0,cv((r.driveLinks||[]).join(' | '))];
+           cv(r.topics),cv(r.challenges),cv(r.highlights),r.photoCount||0,
+           cv((r.driveLinks||[]).join(' | '))];
   });
   var content=[headers.join(',')].concat(rows.map(function(r){return r.join(',');})).join('\n');
   var a=document.createElement('a');
@@ -1043,7 +1233,7 @@ function exportCSV(){
   showToast('⬇ CSV exported!','var(--forest)','⬇️');
 }
 
-// ─── Helpers ───────────────────────────────────────────────────
+// ── Helpers ────────────────────────────────────────────────────
 function cv(v){var s=(v||'').toString().replace(/"/g,'""');return'"'+s+'"';}
 function escHtml(s){if(!s)return'';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function formatDate(d){if(!d)return'—';return new Date(d+'T00:00:00').toLocaleDateString('en-KE',{day:'numeric',month:'short',year:'numeric'});}
