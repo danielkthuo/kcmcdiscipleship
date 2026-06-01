@@ -945,10 +945,9 @@ function setFetchStatus(state,text,spinning,timeStr){
   var dot=document.getElementById('fetch-dot');
   var txt=document.getElementById('fetch-status-text');
   var timeEl=document.getElementById('fetch-last-time');
-  dot.className='fetch-status-dot'+(state==='live'?' live':state==='error'?' error':state==='loading'?' loading':'');
-  txt.textContent=text;
-  if(timeStr)timeEl.textContent='· Last synced '+timeStr;
-  else if(!spinning){}
+  if(dot)dot.className='fetch-status-dot'+(state==='live'?' live':state==='error'?' error':state==='loading'?' loading':'');
+  if(txt)txt.textContent=text;
+  if(timeEl&&timeStr)timeEl.textContent='· Last synced '+timeStr;
 }
 
 // ── Source toggle ──────────────────────────────────────────────
