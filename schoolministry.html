@@ -510,7 +510,8 @@ function loadReports(){try{return JSON.parse(localStorage.getItem('kcmc_reports'
 function saveReports(arr){if(arr.length>200)arr=arr.slice(0,200);try{localStorage.setItem('kcmc_reports',JSON.stringify(arr));}catch(e){showToast('⚠️ Storage full — old reports trimmed.','#8b3a1c','⚠️');}}
 
 var photoDataURLs = [];
-var GAS_URL = localStorage.getItem('kcmc_gas_url') || '';
+//var GAS_URL = localStorage.getItem('kcmc_gas_url') || '';
+  var GAS_URL = localStorage.getItem('kcmc_gas_url') || 'https://script.google.com/macros/s/AKfycbz-SrAE3iIPsGZTrwrRiSJZ4HpuxIEKNRSZX-mQDdV3gzmAQea2CcFLGhLXiYwpYrusYQ/exec';
 
 // ─── Init ──────────────────────────────────────────────────────
 function init() {
