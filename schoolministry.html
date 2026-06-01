@@ -193,7 +193,7 @@
     <div class="nav-cross">✝</div>
     <div>
       <div class="nav-title">KCMC Discipleship</div>
-      <div class="nav-sub">Daily Report System · v8</div>
+      <div class="nav-sub">Daily Report System · v10</div>
     </div>
   </div>
   <div class="nav-tabs">
@@ -352,7 +352,7 @@
     </div>
     <div class="setup-body">
       <div class="info-banner green">
-        ✅ <strong>v8 — Photo upload fix.</strong> GAS now returns <code>MimeType.TEXT</code> (not JSON) so the browser can always read the Drive URL across the GAS redirect. Photos compress to 640px / quality 0.60 (~80 KB each).
+        ✅ <strong>v10 — No Drive required.</strong> Photos are now stored as base64 in a <strong>Photos</strong> tab inside your Google Sheet. Works even when Google Drive API is blocked by your Workspace admin. The Reports tab stores row references to each photo.
       </div>
       <div class="setup-step">
         <div class="step-num">1</div>
@@ -363,26 +363,13 @@
         <div class="step-content">
           <strong>Paste the script and save (Ctrl+S)</strong>
           <code id="gas-script-code">// ══════════════════════════════════════════════════════════════
-//  KCMC Discipleship — Google Apps Script  v8
-//  FIX: corsOutput uses MimeType.TEXT so Drive URLs are readable
-//       cross-origin after the GAS /exec redirect.
+//  KCMC Discipleship — Google Apps Script  v10
+//  NO DRIVE REQUIRED — photos stored as base64 in "Photos" sheet
+//  tab. Works even when Drive API is blocked by Workspace admin.
 // ══════════════════════════════════════════════════════════════
 
-var SHEET_ID    = "YOUR_SHEET_ID_HERE"; // ← replace with your Sheet ID
-var FOLDER_NAME = "KCMC Session Photos";
+var SHEET_ID = "YOUR_SHEET_ID_HERE"; // ← replace with your Sheet ID
 
-function getOrCreateFolder(name) {
-  var it = DriveApp.getFoldersByName(name);
-  return it.hasNext() ? it.next() : DriveApp.createFolder(name);
-}
-function getOrCreateSubFolder(parent, name) {
-  var it = parent.getFoldersByName(name);
-  return it.hasNext() ? it.next() : parent.createFolder(name);
-}
-
-// CRITICAL: MimeType.TEXT — NOT MimeType.JSON
-// JSON responses lose CORS headers on the GAS /exec redirect.
-// TEXT responses are always cross-origin readable without headers.
 function corsOutput(obj) {
   return ContentService
     .createTextOutput(JSON.stringify(obj))
@@ -391,9 +378,15 @@ function corsOutput(obj) {
 
 function doGet(e) {
   if (e && e.parameter && e.parameter.action === "ping") {
-    return corsOutput({ result: "success", message: "KCMC OK v8" });
+    return corsOutput({ result: "success", message: "KCMC OK v10" });
   }
-  return ContentService.createTextOutput("KCMC Discipleship GAS v8 — OK");
+  return ContentService.createTextOutput("KCMC Discipleship GAS v10 — OK");
+}
+
+function getOrCreateSheet(ss, name) {
+  var s = ss.getSheetByName(name);
+  if (!s) { s = ss.insertSheet(name); }
+  return s;
 }
 
 function doPost(e) {
@@ -409,43 +402,57 @@ function doPost(e) {
 
     var d      = JSON.parse(raw);
     var action = d.action || "report";
+    var ss     = SpreadsheetApp.openById(SHEET_ID);
 
+    // ── PHOTO: store base64 in "Photos" tab ─────────────────────
     if (action === "photo") {
-      var root       = getOrCreateFolder(FOLDER_NAME);
-      var folderName = (d.folderName || "Session").replace(/[\/\\:*?"<>|]/g,"-").slice(0,100);
-      var folder     = getOrCreateSubFolder(root, folderName);
-      var mime       = d.mime || "image/jpeg";
-      var ext        = mime.split("/")[1] || "jpg";
-      var bytes      = Utilities.base64Decode(d.data);
-      var blob       = Utilities.newBlob(bytes, mime, "photo_" + (d.index||1) + "." + ext);
-      var file       = folder.createFile(blob);
-      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-      return corsOutput({ result: "success", url: file.getUrl(), name: file.getName() });
+      if (!d.data) throw new Error("Photo action missing base64 data");
+      var photoSheet = getOrCreateSheet(ss, "Photos");
+      if (photoSheet.getLastRow() === 0) {
+        photoSheet.appendRow(["Timestamp","Session Key","Photo Index","MIME Type","Filename","Base64 Data"]);
+        photoSheet.setFrozenRows(1);
+        photoSheet.getRange(1,1,1,6).setFontWeight("bold").setBackground("#1e4035").setFontColor("#ffffff");
+        photoSheet.hideColumns(6);
+      }
+      var mime     = d.mime || "image/jpeg";
+      var ext      = mime.split("/")[1] || "jpg";
+      var filename = "photo_" + (d.index||1) + "." + ext;
+      var rowNum   = photoSheet.getLastRow() + 1;
+      photoSheet.appendRow([
+        new Date().toISOString(),
+        d.folderName || "Session",
+        d.index || 1,
+        mime,
+        filename,
+        d.data
+      ]);
+      return corsOutput({ result:"success", url:"sheets://Photos/row/"+rowNum, name:filename, row:rowNum });
     }
 
-    var sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
-    if (sheet.getLastRow() === 0) {
-      sheet.appendRow(["Timestamp","Date","School","Location","Session Time",
+    // ── REPORT: append row to "Reports" tab ─────────────────────
+    var reportSheet = getOrCreateSheet(ss, "Reports");
+    if (reportSheet.getLastRow() === 0) {
+      reportSheet.appendRow(["Timestamp","Date","School","Location","Session Time",
         "Facilitator","Email","Phone","Zone","Male","Female","Staff","Total",
-        "Topics","Challenges","Highlights","Photo Count","Photo Links (Drive)"]);
-      sheet.setFrozenRows(1);
-      sheet.getRange(1,1,1,18).setFontWeight("bold")
-           .setBackground("#1e4035").setFontColor("#ffffff");
+        "Topics","Challenges","Highlights","Photo Count","Photo Refs"]);
+      reportSheet.setFrozenRows(1);
+      reportSheet.getRange(1,1,1,18).setFontWeight("bold").setBackground("#1e4035").setFontColor("#ffffff");
     }
-    sheet.appendRow([
+    reportSheet.appendRow([
       new Date().toISOString(),
       d.date||"", d.school||"", d.location||"", d.time||"",
       d.facilitator||"", d.email||"", d.phone||"", d.zone||"",
       Number(d.male)||0, Number(d.female)||0, Number(d.staff)||0, Number(d.total)||0,
       d.topics||"", d.challenges||"", d.highlights||"",
-      Number(d.photoCount)||0, (d.photoLinks||[]).join("\n")
+      Number(d.photoCount)||0,
+      (d.photoLinks||[]).join(", ")
     ]);
-    return corsOutput({ result: "success", saved: true });
+    return corsOutput({ result:"success", saved:true });
 
   } catch(err) {
     Logger.log("KCMC ERR: " + err.message);
     return ContentService
-      .createTextOutput(JSON.stringify({ result:"error", message: err.toString() }))
+      .createTextOutput(JSON.stringify({ result:"error", message:err.toString() }))
       .setMimeType(ContentService.MimeType.TEXT);
   }
 }</code>
@@ -471,7 +478,7 @@ function doPost(e) {
       <div class="setup-step">
         <div class="step-num">5</div>
         <div class="step-content">
-          <strong>Why photos work in v8:</strong> The GAS <code>corsOutput()</code> now uses <code>MimeType.TEXT</code> instead of <code>MimeType.JSON</code>. When GAS <code>/exec</code> redirects, the browser loses CORS headers on JSON-typed responses and can't read the body — so <code>resp.url</code> was always <code>undefined</code>. Plain TEXT responses are always cross-origin readable. The frontend still parses them with <code>JSON.parse()</code>.
+          <strong>How photos are stored in v10:</strong> Instead of Google Drive (which your Workspace admin has blocked), photos are stored as base64 strings in a hidden <strong>Photos</strong> tab in your Sheet. Each photo gets its own row. The <strong>Reports</strong> tab stores row references like <code>sheets://Photos/row/2</code>. To view a photo, open the Photos tab, find the row, copy the Base64 value into a base64-to-image converter, or ask IT to enable Drive access.
         </div>
       </div>
       <div class="setup-url-row">
@@ -913,7 +920,9 @@ function renderTable(){
     var photoBadge='—';
     if(r.photoCount){
       var driveOk=r.driveLinks&&r.driveLinks.filter(function(l){return l.startsWith('http');}).length;
-      photoBadge='📷 '+r.photoCount+(driveOk?' <small style="color:var(--success)">✅ '+driveOk+' Drive</small>':'');
+      var sheetsOk=r.driveLinks&&r.driveLinks.filter(function(l){return l.startsWith('sheets://');}).length;
+      var stored=driveOk||sheetsOk;
+      photoBadge='📷 '+r.photoCount+(stored?' <small style="color:var(--success)">✅ '+stored+' saved</small>':'');
     }
     var tr=document.createElement('tr');
     tr.innerHTML=
@@ -947,13 +956,18 @@ function viewReport(id){
   var driveHtml;
   if(r.driveLinks&&r.driveLinks.length){
     driveHtml='<div class="drive-links">'+r.driveLinks.map(function(l,i){
-      var isUrl=l.startsWith('http');
-      return isUrl
-        ?'<a href="'+escHtml(l)+'" target="_blank" rel="noopener">📁 Drive Photo '+(i+1)+'</a>'
-        :'<span style="color:var(--muted);font-size:.8rem">'+escHtml(l)+'</span>';
+      if(l.startsWith('http')){
+        return '<a href="'+escHtml(l)+'" target="_blank" rel="noopener">📁 Drive Photo '+(i+1)+'</a>';
+      } else if(l.startsWith('sheets://')){
+        // Stored in Photos sheet tab — row reference
+        var row=l.split('/').pop();
+        return '<span style="color:var(--success);font-size:.82rem">✅ Photo '+(i+1)+' stored in Sheets (Photos tab, row '+escHtml(row)+')</span>';
+      } else {
+        return '<span style="color:var(--muted);font-size:.8rem">'+escHtml(l)+'</span>';
+      }
     }).join('')+'</div>';
   } else if(r.photoCount){
-    driveHtml='📷 '+r.photoCount+' photo(s) — '+(r.synced?'see Google Drive folder "KCMC Session Photos"':'not yet synced to Drive');
+    driveHtml='📷 '+r.photoCount+' photo(s) — '+(r.synced?'stored in Google Sheet "Photos" tab':'not yet synced');
   } else {
     driveHtml='—';
   }
