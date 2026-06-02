@@ -297,12 +297,12 @@
     <div class="nav-cross">✝</div>
     <div>
       <div class="nav-title">KCMC</div>
-      <div class="nav-sub">Daily Report · v13</div>
+      <div class="nav-sub">School Outreach</div>
     </div>
   </div>
   <div class="nav-tabs">
-    <button class="nav-tab active" onclick="switchView('form',this)">📋 Report</button>
-    <button class="nav-tab" onclick="switchView('admin',this)">📊 Dashboard</button>
+    <button class="nav-tab active" onclick="switchView('form',this)">📋Report</button>
+    <button class="nav-tab" onclick="switchView('admin',this)">📊Dashboard</button>
     <button class="nav-tab" onclick="openSetup()">⚙️</button>
   </div>
 </nav>
@@ -312,7 +312,7 @@
   <div class="hero">
     <div class="hero-date" id="hero-date"></div>
     <h1>Session <span>Daily Report</span></h1>
-    <p>Fill in all details for today's discipleship session and submit.</p>
+    <p>Fill in all details for today's PPI / C.U session and submit.</p>
   </div>
   <div class="sheets-banner">
     <div class="sheets-status" id="sheets-status">
@@ -378,7 +378,7 @@
       <div class="field"><label>Key Observations / Highlights</label><textarea id="f-highlights" placeholder="Notable moments, student responses, breakthroughs…"></textarea></div>
     </div>
     <div class="section-card">
-      <div class="section-label"><span class="icon">📷</span> Session Photos</div>
+      <div class="section-label"><span class="icon">📷</span> Session Photos<span class="req">*</span></div>
       <div class="photo-drop" id="photo-drop">
         <input type="file" id="photo-input" accept="image/*" multiple onchange="handlePhotos(this)"/>
         <div class="drop-icon">🖼️</div>
