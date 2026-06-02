@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>KCMC Child & Youth Ministry — Child Record</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #111827;
+  --ink-soft: #374151;
+  --gold: #c9972b;
+  --gold-light: #f0c96a;
+  --gold-pale: #fdf6e3;
+  --gold-dim: rgba(201,151,43,0.15);
+  --cream: #f9f7f3;
+  --ivory: #f3ede3;
+  --white: #ffffff;
+  --border: #e5ddd0;
+  --border-focus: #c9972b;
+  --muted: #6b7280;
+  --muted-light: #9ca3af;
+  --red: #dc2626;
+  --red-pale: #fef2f2;
+  --green: #16a34a;
+  --green-pale: #f0fdf4;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --header-h: 72px;
+  --sidebar-w: 260px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  font-family: 'Outfit', sans-serif;
+  color: var(--ink);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══ HEADER ═══ */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: var(--ink);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 14px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+}
+
+.logo-ring {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px; font-weight: 700;
+  color: var(--ink);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(201,151,43,0.25);
+}
+
+.header-title {
+  flex: 1;
+  min-width: 0;
+}
+.header-title h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(14px, 3vw, 18px);
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+.header-title p {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--gold-light);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.lock-badge {
+  background: rgba(201,151,43,0.15);
+  border: 1px solid rgba(201,151,43,0.35);
+  color: var(--gold-light);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  display: flex; align-items: center; gap: 4px;
+  white-space: nowrap;
+}
+@media (max-width: 500px) { .lock-badge { display: none; } }
+
+.btn-dashboard {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  display: flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.btn-dashboard:hover {
+  background: rgba(201,151,43,0.2);
+  border-color: rgba(201,151,43,0.5);
+}
+.btn-dashboard span.icon { font-size: 14px; }
+
+/* ═══ LAYOUT ═══ */
+.layout {
+  display: flex;
+  margin-top: var(--header-h);
+  min-height: calc(100vh - var(--header-h));
+}
+
+/* ═══ SIDEBAR ═══ */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  padding: 28px 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.sidebar-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-light);
+  padding: 0 20px;
+  margin-bottom: 10px;
+}
+
+.nav-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 12px;
+}
+
+.nav-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1.5px solid transparent;
+  text-decoration: none;
+  position: relative;
+}
+.nav-step:hover { background: var(--gold-pale); }
+.nav-step.active {
+  background: var(--gold-pale);
+  border-color: var(--gold);
+}
+.nav-step.done .step-circle { background: var(--green); border-color: var(--green); }
+.nav-step.done .step-num { display: none; }
+.nav-step.done .step-check { display: flex; }
+
+.step-circle {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--ivory);
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.25s;
+}
+.nav-step.active .step-circle {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+.step-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.nav-step.active .step-num { color: var(--ink); }
+.step-check {
+  display: none;
+  font-size: 13px;
+  color: #fff;
+  font-weight: 700;
+}
+
+.step-info { flex: 1; min-width: 0; }
+.step-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  line-height: 1.2;
+}
+.nav-step.active .step-name { color: var(--ink); }
+.step-desc {
+  font-size: 10.5px;
+  color: var(--muted-light);
+  margin-top: 1px;
+  line-height: 1.3;
+}
+
+.sidebar-progress {
+  padding: 20px 24px 0;
+  margin-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.sidebar-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.sidebar-progress-bar {
+  height: 5px;
+  background: var(--ivory);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.sidebar-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 99px;
+  width: 0%;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ═══ MAIN CONTENT ═══ */
+.main {
+  flex: 1;
+  padding: 28px 20px 80px;
+  max-width: 740px;
+  min-width: 0;
+}
+
+/* ═══ MOBILE NAV BAR (tabs at bottom) ═══ */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  z-index: 300;
+  padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+}
+.mobile-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.mobile-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 6px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.15s;
+  flex: 1;
+  min-width: 0;
+}
+.mobile-step:hover { background: var(--gold-pale); }
+.mobile-step.active .ms-dot { background: var(--gold); color: var(--ink); }
+.mobile-step.done .ms-dot { background: var(--green); color: #fff; }
+.ms-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--ivory);
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+.ms-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  text-align: center;
+}
+.mobile-step.active .ms-label { color: var(--gold); }
+.mobile-step.done .ms-label { color: var(--green); }
+
+/* ═══ SECTION CARD ═══ */
+.section {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 20px;
+  overflow: hidden;
+  animation: fadeUp 0.35s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.section:nth-child(2) { animation-delay: .07s; }
+.section:nth-child(3) { animation-delay: .12s; }
+.section:nth-child(4) { animation-delay: .17s; }
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 22px;
+  background: linear-gradient(to right, var(--ivory), var(--white));
+  border-bottom: 1px solid var(--border);
+}
+.section-badge {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--ink);
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(201,151,43,0.3);
+}
+.section-info { flex: 1; }
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.section-subtitle {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+.section-body { padding: 22px; }
+
+/* ═══ FIELD ═══ */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.field label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.req { color: var(--red); }
+
+.field input,
+.field select,
+.field textarea {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--cream);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  outline: none;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field input::placeholder,
+.field textarea::placeholder { color: var(--muted-light); }
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(201,151,43,0.12);
+  background: var(--white);
+}
+.field input.error,
+.field select.error,
+.field textarea.error {
+  border-color: var(--red);
+  background: var(--red-pale);
+  box-shadow: 0 0 0 3px rgba(220,38,38,0.1);
+}
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%236b7280' d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  padding-right: 36px;
+  cursor: pointer;
+}
+.field textarea { resize: vertical; min-height: 76px; line-height: 1.6; }
+
+.roll-no-field {
+  background: var(--gold-pale) !important;
+  color: var(--gold) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  font-size: 15px !important;
+  cursor: default !important;
+  border-color: rgba(201,151,43,0.3) !important;
+}
+.field-hint {
+  font-size: 10.5px;
+  color: var(--muted-light);
+  font-style: italic;
+}
+
+/* ═══ GRID ═══ */
+.grid { display: grid; gap: 16px; }
+.g2 { grid-template-columns: repeat(2, 1fr); }
+.g3 { grid-template-columns: repeat(3, 1fr); }
+
+@media (max-width: 540px) {
+  .g2, .g3 { grid-template-columns: 1fr; }
+}
+@media (min-width: 541px) and (max-width: 720px) {
+  .g3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ═══ DIVIDER ═══ */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 20px 0;
+}
+
+/* ═══ PHOTO UPLOAD ═══ */
+.photo-section {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.photo-col { flex-shrink: 0; }
+.photo-label-text {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 4px;
+}
+
+.photo-drop {
+  width: 106px; height: 128px;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-md);
+  background: var(--ivory);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  overflow: hidden;
+  position: relative;
+}
+.photo-drop:hover { border-color: var(--gold); background: var(--gold-pale); }
+.photo-drop.photo-ok { border-style: solid; border-color: var(--green); background: var(--green-pale); }
+.photo-drop.photo-error { border-color: var(--red); background: var(--red-pale); box-shadow: 0 0 0 3px rgba(220,38,38,0.1); }
+.photo-drop img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; border-radius: calc(var(--radius-md) - 2px); }
+.drop-content { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px; position: relative; z-index: 1; }
+.drop-icon { font-size: 26px; line-height: 1; }
+.drop-text { font-size: 10px; font-weight: 600; color: var(--muted); text-align: center; line-height: 1.4; }
+.photo-status {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 6px;
+  text-align: center;
+  width: 106px;
+  color: var(--red);
+}
+.photo-status.ok { color: var(--green); }
+#photoInput { display: none; }
+
+.photo-fields { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+
+@media (max-width: 440px) {
+  .photo-section { flex-direction: column; }
+  .photo-drop { width: 100%; height: 110px; flex-direction: row; gap: 16px; justify-content: flex-start; padding: 0 16px; }
+  .drop-content { flex-direction: row; gap: 12px; }
+  .photo-status { width: 100%; }
+}
+
+/* ═══ GUARDIAN BLOCK ═══ */
+.guardian-block {
+  background: var(--ivory);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+}
+.guardian-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.guardian-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+.guardian-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-soft);
+}
+
+/* ═══ CHECKBOX GRID ═══ */
+.check-hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.check-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 9px;
+}
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 13px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.18s;
+  user-select: none;
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--white);
+  color: var(--ink-soft);
+}
+.check-item:hover { border-color: var(--gold); background: var(--gold-pale); }
+.check-item.checked { border-color: var(--gold); background: var(--gold-pale); color: var(--ink); }
+.check-item input[type="checkbox"] {
+  accent-color: var(--gold);
+  width: 16px; height: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.check-emoji { font-size: 16px; line-height: 1; }
+
+/* ═══ MENTOR BLOCK ═══ */
+.mentor-block {
+  background: var(--ivory);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+}
+.mentor-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.mentor-num {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.mentor-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-soft);
+}
+
+/* ═══ SUBMIT AREA ═══ */
+.submit-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.submit-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.submit-note {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.7;
+  flex: 1;
+  min-width: 200px;
+}
+.submit-note strong { color: var(--ink); font-weight: 700; }
+
+.btn-submit {
+  background: linear-gradient(135deg, var(--gold), #b8861f);
+  color: var(--ink);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 14px 32px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(201,151,43,0.4);
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(201,151,43,0.5);
+}
+.btn-submit:active { transform: translateY(0); }
+.btn-submit:disabled {
+  background: var(--border);
+  color: var(--muted);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* ═══ SAVING OVERLAY ═══ */
+.overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(17,24,39,0.7);
+  z-index: 9000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.overlay.active { display: flex; }
+.overlay-box {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 36px 40px;
+  width: min(400px, 90vw);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+.overlay-icon { font-size: 36px; margin-bottom: 12px; }
+.overlay-box h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.overlay-box p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 20px;
+  min-height: 18px;
+}
+.overlay-track {
+  height: 7px;
+  background: var(--ivory);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.overlay-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 99px;
+  width: 0%;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.overlay-pct {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+/* ═══ TOAST ═══ */
+.toast {
+  position: fixed;
+  bottom: 80px; left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  background: var(--ink);
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: 30px;
+  font-size: 13.5px;
+  font-weight: 500;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.22);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 9999;
+  pointer-events: none;
+  text-align: center;
+  max-width: 88vw;
+  letter-spacing: 0.01em;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.success { background: var(--green); }
+.toast.error { background: var(--red); }
+
+/* ═══ RESPONSIVE LAYOUT SWITCH ═══ */
+@media (min-width: 900px) {
+  .main { padding: 32px 32px 80px; }
+}
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .mobile-nav { display: flex; }
+  .layout { display: block; }
+  .main { padding: 20px 16px calc(80px + env(safe-area-inset-bottom)); max-width: 100%; }
+  .section-body { padding: 18px 16px; }
+  .submit-card { padding: 20px 16px; }
+  .btn-submit { width: 100%; justify-content: center; }
+  .toast { bottom: calc(70px + env(safe-area-inset-bottom)); }
+}
+
+/* ═══ PAGE TITLE ═══ */
+.page-title {
+  margin-bottom: 22px;
+}
+.page-title h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 4vw, 26px);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.page-title p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+/* ═══ REQUIRED INDICATOR ROW ═══ */
+.required-note {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 18px;
+  display: flex; align-items: center; gap: 4px;
+}
+.required-note span { color: var(--red); font-size: 14px; }
+
+/* ═══ SCROLL SPACING ═══ */
+.spacer-block { height: 8px; }
+</style>
+</head>
+<body>
+
+<!-- ════ HEADER ════ -->
+<header class="header">
+  <div class="logo-ring">CY</div>
+  <div class="header-title">
+    <h1>KCMC Child &amp; Youth Ministry</h1>
+    <p>Child Registration — Confidential</p>
+  </div>
+  <div class="header-actions">
+    <div class="lock-badge">🔒 Authorised Only</div>
+    <a href="cydashboard.html" class="btn-dashboard">
+      <span class="icon">📊</span> Dashboard
+    </a>
+  </div>
+</header>
+
+<!-- ════ LAYOUT ════ -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-label">Form Sections</div>
+    <nav class="nav-steps" id="sidebarNav">
+      <a href="#sectionA" class="nav-step active" data-section="A">
+        <div class="step-circle">
+          <span class="step-num">1</span>
+          <span class="step-check">✓</span>
+        </div>
+        <div class="step-info">
+          <div class="step-name">Personal Info</div>
+          <div class="step-desc">Name, DOB, photo</div>
+        </div>
+      </a>
+      <a href="#sectionB" class="nav-step" data-section="B">
+        <div class="step-circle">
+          <span class="step-num">2</span>
+          <span class="step-check">✓</span>
+        </div>
+        <div class="step-info">
+          <div class="step-name">Guardians</div>
+          <div class="step-desc">Parent / Guardian details</div>
+        </div>
+      </a>
+      <a href="#sectionC" class="nav-step" data-section="C">
+        <div class="step-circle">
+          <span class="step-num">3</span>
+          <span class="step-check">✓</span>
+        </div>
+        <div class="step-info">
+          <div class="step-name">Ministry Areas</div>
+          <div class="step-desc">Service & involvement</div>
+        </div>
+      </a>
+      <a href="#sectionD" class="nav-step" data-section="D">
+        <div class="step-circle">
+          <span class="step-num">4</span>
+          <span class="step-check">✓</span>
+        </div>
+        <div class="step-info">
+          <div class="step-name">Leadership</div>
+          <div class="step-desc">Roles & mentors</div>
+        </div>
+      </a>
+      <a href="#submitArea" class="nav-step" data-section="S">
+        <div class="step-circle">
+          <span class="step-num">5</span>
+          <span class="step-check">✓</span>
+        </div>
+        <div class="step-info">
+          <div class="step-name">Save Record</div>
+          <div class="step-desc">Review &amp; submit</div>
+        </div>
+      </a>
+    </nav>
+
+    <div class="sidebar-progress">
+      <div class="sidebar-progress-label">
+        <span>Completion</span>
+        <span id="sidebarPct">0%</span>
+      </div>
+      <div class="sidebar-progress-bar">
+        <div class="sidebar-progress-fill" id="sidebarFill"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="page-title">
+      <h2>New Child Registration</h2>
+      <p>Complete all required fields marked <span style="color:var(--red);font-weight:700">*</span>. Record is saved to Google Sheets &amp; Drive.</p>
+    </div>
+
+    <form id="childForm" novalidate>
+
+      <!-- ══ SECTION A ══ -->
+      <div class="section" id="sectionA">
+        <div class="section-head">
+          <div class="section-badge">A</div>
+          <div class="section-info">
+            <div class="section-title">Child Personal Information</div>
+            <div class="section-subtitle">Basic identification &amp; contact details</div>
+          </div>
+        </div>
+        <div class="section-body">
+
+          <!-- Photo + Roll/Name row -->
+          <div class="photo-section">
+            <div class="photo-col">
+              <div class="photo-label-text">Photo <span class="req">*</span></div>
+              <div class="photo-drop" id="photoDrop" onclick="document.getElementById('photoInput').click()" role="button" tabindex="0" aria-label="Upload passport photo">
+                <div class="drop-content">
+                  <div class="drop-icon">📷</div>
+                  <div class="drop-text">Tap to<br>upload</div>
+                </div>
+              </div>
+              <div class="photo-status" id="photoStatus">Required</div>
+              <input type="file" id="photoInput" accept="image/*" onchange="previewPhoto(event)" capture="environment">
+            </div>
+
+            <div class="photo-fields">
+              <div class="grid g2">
+                <div class="field">
+                  <label>Roll No. <span style="font-size:9px;font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;">(auto)</span></label>
+                  <input type="text" name="rollNo" id="rollNoField" class="roll-no-field" placeholder="Auto-assigned…" readonly>
+                  <div class="field-hint" id="rollBadge">Assigned on save</div>
+                </div>
+                <div class="field">
+                  <label>Reg. Date</label>
+                  <input type="date" name="regDate">
+                </div>
+              </div>
+
+              <div class="field">
+                <label>Full Name <span class="req">*</span></label>
+                <input type="text" name="fullName" placeholder="As in birth certificate" required autocomplete="name">
+              </div>
+
+              <div class="grid g2">
+                <div class="field">
+                  <label>Gender <span class="req">*</span></label>
+                  <select name="gender" required>
+                    <option value="">— Select —</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Date of Birth <span class="req">*</span></label>
+                  <input type="date" name="dob" required>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="grid g2">
+            <div class="field">
+              <label>Age Group <span class="req">*</span></label>
+              <select name="ageGroup" required>
+                <option value="">— Select —</option>
+                <option value="0-2">0-2 years</option>
+                <option value="3-5">3-5 years</option>
+                <option value="6-8">6-8 years</option>
+                <option value="9-11">9-11 years</option>
+                <option value="12-14">12-14 years</option>
+                <option value="15-18">15-18 years</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>School</label>
+              <input type="text" name="school" placeholder="School name" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="grid g2" style="margin-top:16px;">
+            <div class="field">
+              <label>Area / Estate / Street</label>
+              <input type="text" name="residence" placeholder="Residence area">
+            </div>
+            <div class="field">
+              <label>Nearest Landmark <span class="req">*</span></label>
+              <input type="text" name="landmark" placeholder="e.g. Near St. Peter's" required>
+            </div>
+          </div>
+
+          <div class="grid g2" style="margin-top:16px;">
+            <div class="field">
+              <label>Class / Grade</label>
+              <input type="text" name="classGrade" placeholder="e.g. Grade 5 / Form 2">
+            </div>
+            <div class="field">
+              <label>Emergency Contact</label>
+              <input type="tel" name="emergencyContact" placeholder="Name &amp; phone (non-parent)">
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:16px;">
+            <label>Special Needs / Medical Conditions</label>
+            <textarea name="specialNeeds" placeholder="Describe any allergies, conditions, or special needs…"></textarea>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ══ SECTION B ══ -->
+      <div class="section" id="sectionB">
+        <div class="section-head">
+          <div class="section-badge">B</div>
+          <div class="section-info">
+            <div class="section-title">Parent / Guardian Details</div>
+            <div class="section-subtitle">At least one guardian required</div>
+          </div>
+        </div>
+        <div class="section-body" style="display:flex;flex-direction:column;gap:16px;">
+
+          <div class="guardian-block">
+            <div class="guardian-header">
+              <div class="guardian-icon">👨</div>
+              <div class="guardian-label">Father / Guardian 1</div>
+            </div>
+            <div class="grid g3">
+              <div class="field">
+                <label>Full Name</label>
+                <input type="text" name="fatherName" placeholder="Full name">
+              </div>
+              <div class="field">
+                <label>Relationship</label>
+                <select name="fatherRel">
+                  <option value="">— Select —</option>
+                  <option value="Father">Father</option>
+                  <option value="Step-Father">Step-Father</option>
+                  <option value="Uncle">Uncle</option>
+                  <option value="Grandfather">Grandfather</option>
+                  <option value="Brother">Brother (older)</option>
+                  <option value="Guardian">Legal Guardian</option>
+                  <option value="Family Friend">Family Friend</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Phone</label>
+                <input type="tel" name="fatherPhone" placeholder="+254 7XX XXX XXX">
+              </div>
+            </div>
+          </div>
+
+          <div class="guardian-block">
+            <div class="guardian-header">
+              <div class="guardian-icon">👩</div>
+              <div class="guardian-label">Mother / Guardian 2</div>
+            </div>
+            <div class="grid g3">
+              <div class="field">
+                <label>Full Name</label>
+                <input type="text" name="motherName" placeholder="Full name">
+              </div>
+              <div class="field">
+                <label>Relationship</label>
+                <select name="motherRel">
+                  <option value="">— Select —</option>
+                  <option value="Mother">Mother</option>
+                  <option value="Step-Mother">Step-Mother</option>
+                  <option value="Aunt">Aunt</option>
+                  <option value="Grandmother">Grandmother</option>
+                  <option value="Sister">Sister (older)</option>
+                  <option value="Guardian">Legal Guardian</option>
+                  <option value="Family Friend">Family Friend</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Phone</label>
+                <input type="tel" name="motherPhone" placeholder="+254 7XX XXX XXX">
+              </div>
+            </div>
+          </div>
+
+          <div class="grid g3">
+            <div class="field">
+              <label>Home Fellowship</label>
+              <input type="text" name="homeFellowship" placeholder="Fellowship group">
+            </div>
+            <div class="field">
+              <label>KCMC Member?</label>
+              <select name="kcmcMember">
+                <option value="">— Select —</option>
+                <option value="Y">Yes — Both parents</option>
+                <option value="One">One parent</option>
+                <option value="N">No</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Member Card No.</label>
+              <input type="text" name="memberCardNo" placeholder="Card number">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ══ SECTION C ══ -->
+      <div class="section" id="sectionC">
+        <div class="section-head">
+          <div class="section-badge">C</div>
+          <div class="section-info">
+            <div class="section-title">Ministry Serving Areas</div>
+            <div class="section-subtitle">Select all that apply</div>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="check-hint">Tick all ministry areas this child is involved in:</div>
+          <div class="check-grid">
+            <label class="check-item" onclick="toggleCheck(this)">
+              <input type="checkbox" name="ministry" value="Choir / Praise & Worship">
+              <span class="check-emoji">🎵</span> Choir / Praise &amp; Worship
+            </label>
+            <label class="check-item" onclick="toggleCheck(this)">
+              <input type="checkbox" name="ministry" value="Ushering / Hospitality">
+              <span class="check-emoji">🤝</span> Ushering / Hospitality
+            </label>
+            <label class="check-item" onclick="toggleCheck(this)">
+              <input type="checkbox" name="ministry" value="Media / Tech / Sound">
+              <span class="check-emoji">🎛️</span> Media / Tech / Sound
+            </label>
+            <label class="check-item" onclick="toggleCheck(this)">
+              <input type="checkbox" name="ministry" value="Drama / Dance / Arts">
+              <span class="check-emoji">🎭</span> Drama / Dance / Arts
+            </label>
+            <label class="check-item" onclick="toggleCheck(this)">
+              <input type="checkbox" name="ministry" value="Outreach / Evangelism">
+              <span class="check-emoji">📣</span> Outreach / Evangelism
+            </label>
+            <label class="check-item" onclick="toggleCheck(this)">
+              <input type="checkbox" name="ministry" value="Children's Church Helper">
+              <span class="check-emoji">🙏</span> Children's Church Helper
+            </label>
+            <label class="check-item" onclick="toggleCheck(this)">
+              <input type="checkbox" name="ministry" value="Cleaning / Decorating">
+              <span class="check-emoji">🧹</span> Cleaning / Decorating
+            </label>
+          </div>
+          <div class="field" style="margin-top:16px;">
+            <label>Other (specify)</label>
+            <input type="text" name="ministryOther" placeholder="Any other area of service…">
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SECTION D ══ -->
+      <div class="section" id="sectionD">
+        <div class="section-head">
+          <div class="section-badge">D</div>
+          <div class="section-info">
+            <div class="section-title">Leadership &amp; Mentorship</div>
+            <div class="section-subtitle">Roles, titles &amp; assigned mentors</div>
+          </div>
+        </div>
+        <div class="section-body" style="display:flex;flex-direction:column;gap:16px;">
+
+          <div class="field">
+            <label>Leadership Role / Title</label>
+            <input type="text" name="leadershipRole" placeholder="e.g. Team Leader, Prefect, Class Rep">
+          </div>
+
+          <div class="mentor-block">
+            <div class="mentor-header">
+              <div class="mentor-num">1</div>
+              <div class="mentor-label">Primary Mentor</div>
+            </div>
+            <div class="grid g2">
+              <div class="field">
+                <label>Mentor Name</label>
+                <input type="text" name="mentor1Name" placeholder="Full name">
+              </div>
+              <div class="field">
+                <label>Mentor Contact</label>
+                <input type="tel" name="mentor1Contact" placeholder="+254 7XX XXX XXX">
+              </div>
+            </div>
+          </div>
+
+          <div class="mentor-block">
+            <div class="mentor-header">
+              <div class="mentor-num">2</div>
+              <div class="mentor-label">Secondary Mentor</div>
+            </div>
+            <div class="grid g2">
+              <div class="field">
+                <label>Mentor Name</label>
+                <input type="text" name="mentor2Name" placeholder="Full name">
+              </div>
+              <div class="field">
+                <label>Mentor Contact</label>
+                <input type="tel" name="mentor2Contact" placeholder="+254 7XX XXX XXX">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ══ SUBMIT ══ -->
+      <div class="submit-card" id="submitArea">
+        <div class="submit-inner">
+          <div class="submit-note">
+            <strong>🔒 Confidential Record</strong><br>
+            For authorised KCMC Child &amp; Youth Ministry use only. Data is saved to the secure Google Sheet &amp; Drive. Roll No. is auto-assigned on save.
+          </div>
+          <button type="submit" class="btn-submit" id="submitBtn">
+            <span>💾</span>
+            <span id="submitLabel">Save Record</span>
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </main>
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav">
+  <div class="mobile-nav-inner" id="mobileNav">
+    <div class="mobile-step active" data-section="A" onclick="scrollTo('#sectionA')">
+      <div class="ms-dot" id="msDotA">1</div>
+      <div class="ms-label">Personal</div>
+    </div>
+    <div class="mobile-step" data-section="B" onclick="scrollTo('#sectionB')">
+      <div class="ms-dot" id="msDotB">2</div>
+      <div class="ms-label">Guardians</div>
+    </div>
+    <div class="mobile-step" data-section="C" onclick="scrollTo('#sectionC')">
+      <div class="ms-dot" id="msDotC">3</div>
+      <div class="ms-label">Ministry</div>
+    </div>
+    <div class="mobile-step" data-section="D" onclick="scrollTo('#sectionD')">
+      <div class="ms-dot" id="msDotD">4</div>
+      <div class="ms-label">Lead.</div>
+    </div>
+    <div class="mobile-step" data-section="S" onclick="scrollTo('#submitArea')">
+      <div class="ms-dot" id="msDotS">5</div>
+      <div class="ms-label">Save</div>
+    </div>
+  </div>
+</nav>
+
+<!-- SAVING OVERLAY -->
+<div class="overlay" id="saveOverlay">
+  <div class="overlay-box">
+    <div class="overlay-icon">📋</div>
+    <h3>Saving Record…</h3>
+    <p id="overlayMsg">Preparing data</p>
+    <div class="overlay-track">
+      <div class="overlay-fill" id="overlayFill"></div>
+    </div>
+    <div class="overlay-pct" id="overlayPct">0%</div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG ───────────────────────────────────────────────────────────────
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
+
+// ── STATE ────────────────────────────────────────────────────────────────
+let photoDataUrl = null, photoMimeType = null, photoName = null;
+
+// ── HELPERS ──────────────────────────────────────────────────────────────
+const delay = ms => new Promise(r => setTimeout(r, ms));
+const $ = id => document.getElementById(id);
+const getNextRollNo = () => parseInt(localStorage.getItem('cy_last_roll') || '0', 10) + 1;
+const commitRollNo  = n => localStorage.setItem('cy_last_roll', String(n));
+const formatRoll    = n => 'CY-' + String(n).padStart(4, '0');
+
+function scrollTo(selector) {
+  const el = document.querySelector(selector);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
+  refreshProgress();
+
+  // Live progress update
+  document.getElementById('childForm').addEventListener('change', refreshProgress);
+  document.getElementById('childForm').addEventListener('input', refreshProgress);
+
+  // Scroll-spy for sidebar / mobile nav
+  const sections = ['sectionA','sectionB','sectionC','sectionD','submitArea'];
+  const sectionMap = { sectionA:'A', sectionB:'B', sectionC:'C', sectionD:'D', submitArea:'S' };
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const sec = sectionMap[entry.target.id];
+        if (sec) highlightNav(sec);
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+
+  // Keyboard on photo drop
+  document.getElementById('photoDrop').addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      document.getElementById('photoInput').click();
+    }
+  });
+});
+
+function highlightNav(sec) {
+  document.querySelectorAll('.nav-step').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.mobile-step').forEach(s => s.classList.remove('active'));
+  const sideStep = document.querySelector(`.nav-step[data-section="${sec}"]`);
+  const mobStep  = document.querySelector(`.mobile-step[data-section="${sec}"]`);
+  if (sideStep) sideStep.classList.add('active');
+  if (mobStep)  mobStep.classList.add('active');
+}
+
+// ── PHOTO PREVIEW ─────────────────────────────────────────────────────────
+function previewPhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  photoMimeType = file.type;
+  photoName = file.name;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    photoDataUrl = ev.target.result;
+    const drop = $('photoDrop');
+    drop.innerHTML = `<img src="${photoDataUrl}" alt="Passport photo">`;
+    drop.classList.add('photo-ok');
+    drop.classList.remove('photo-error');
+    const st = $('photoStatus');
+    st.textContent = '✓ Photo uploaded';
+    st.classList.add('ok');
+    refreshProgress();
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── CHECKBOX TOGGLE ───────────────────────────────────────────────────────
+function toggleCheck(label) {
+  setTimeout(() => {
+    label.classList.toggle('checked', label.querySelector('input').checked);
+    refreshProgress();
+  }, 0);
+}
+
+// ── PROGRESS ──────────────────────────────────────────────────────────────
+function refreshProgress() {
+  const form = document.getElementById('childForm');
+  const fd   = new FormData(form);
+
+  const checks = [
+    !!(photoDataUrl && fd.get('fullName') && fd.get('gender') && fd.get('dob') && fd.get('ageGroup') && fd.get('landmark')),
+    !!(fd.get('fatherName') || fd.get('motherName')),
+    true,
+    true,
+  ];
+
+  // Sidebar steps
+  const navSteps = document.querySelectorAll('.nav-step');
+  const mobDots  = ['A','B','C','D','S'];
+
+  checks.forEach((done, i) => {
+    const step = navSteps[i];
+    if (!step) return;
+    step.classList.toggle('done', done);
+    const dot = document.querySelector(`.mobile-step[data-section="${['A','B','C','D'][i]}"] .ms-dot`);
+    if (dot) dot.textContent = done ? '✓' : (i + 1);
+    if (done) {
+      const mobStep = document.querySelector(`.mobile-step[data-section="${['A','B','C','D'][i]}"]`);
+      if (mobStep) mobStep.classList.add('done');
+    } else {
+      const mobStep = document.querySelector(`.mobile-step[data-section="${['A','B','C','D'][i]}"]`);
+      if (mobStep) mobStep.classList.remove('done');
+    }
+  });
+
+  const doneCount = checks.filter(Boolean).length;
+  const pct = Math.round((doneCount / 4) * 100);
+  $('sidebarFill').style.width = pct + '%';
+  $('sidebarPct').textContent  = pct + '%';
+}
+
+// ── OVERLAY ───────────────────────────────────────────────────────────────
+function showOverlay(pct, msg) {
+  $('saveOverlay').classList.add('active');
+  $('overlayFill').style.width = pct + '%';
+  $('overlayPct').textContent  = pct + '%';
+  if (msg) $('overlayMsg').textContent = msg;
+}
+function hideOverlay() {
+  $('saveOverlay').classList.remove('active');
+}
+
+// ── FORM SUBMIT ───────────────────────────────────────────────────────────
+document.getElementById('childForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  if (!SCRIPT_URL) {
+    showToast('⚠️ Script URL not configured.', 'error');
+    return;
+  }
+
+  // Validate required fields
+  let valid = true;
+  this.querySelectorAll('[required]').forEach(f => {
+    const empty = !f.value.trim();
+    f.classList.toggle('error', empty);
+    if (empty) {
+      valid = false;
+      f.addEventListener('input',  () => f.classList.remove('error'), { once: true });
+      f.addEventListener('change', () => f.classList.remove('error'), { once: true });
+    }
+  });
+
+  if (!photoDataUrl) {
+    $('photoDrop').classList.add('photo-error');
+    $('photoStatus').textContent = '⚠ Photo required';
+    $('photoStatus').classList.remove('ok');
+    valid = false;
+  }
+
+  if (!valid) {
+    showToast('⚠️ Please complete all required fields and upload a photo.', 'error');
+    const firstErr = this.querySelector('.error') || $('photoDrop');
+    firstErr?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const nextNum = getNextRollNo();
+  const rollNo  = formatRoll(nextNum);
+  $('rollNoField').value   = rollNo;
+  $('rollBadge').textContent = 'Assigned: ' + rollNo;
+
+  const ministryChecked = [...this.querySelectorAll('[name="ministry"]:checked')].map(c => c.value).join(', ');
+  const ministryOther   = this.querySelector('[name="ministryOther"]').value.trim();
+  const allMinistry     = [ministryChecked, ministryOther].filter(Boolean).join(', ');
+
+  const fd = new FormData(this);
+  const payload = {
+    rollNo,
+    regDate:          fd.get('regDate'),
+    fullName:         fd.get('fullName'),
+    gender:           fd.get('gender'),
+    dob:              fd.get('dob'),
+    ageGroup:         fd.get('ageGroup'),
+    residence:        fd.get('residence'),
+    landmark:         fd.get('landmark'),
+    school:           fd.get('school'),
+    classGrade:       fd.get('classGrade'),
+    specialNeeds:     fd.get('specialNeeds'),
+    emergencyContact: fd.get('emergencyContact'),
+    fatherName:       fd.get('fatherName'),
+    fatherRel:        fd.get('fatherRel'),
+    fatherPhone:      fd.get('fatherPhone'),
+    motherName:       fd.get('motherName'),
+    motherRel:        fd.get('motherRel'),
+    motherPhone:      fd.get('motherPhone'),
+    homeFellowship:   fd.get('homeFellowship'),
+    kcmcMember:       fd.get('kcmcMember'),
+    memberCardNo:     fd.get('memberCardNo'),
+    ministryAreas:    allMinistry,
+    leadershipRole:   fd.get('leadershipRole'),
+    mentor1Name:      fd.get('mentor1Name'),
+    mentor1Contact:   fd.get('mentor1Contact'),
+    mentor2Name:      fd.get('mentor2Name'),
+    mentor2Contact:   fd.get('mentor2Contact'),
+    photoBase64:      photoDataUrl,
+    photoMimeType:    photoMimeType,
+    photoName:        photoName,
+  };
+
+  const btn = $('submitBtn');
+  btn.disabled = true;
+
+  showOverlay(5,  'Preparing data…');
+  await delay(350);
+  showOverlay(22, 'Uploading photo…');
+  await delay(500);
+  showOverlay(45, 'Sending to Google Sheets…');
+
+  try {
+    const response = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload),
+      redirect: 'follow',
+    });
+
+    showOverlay(75, 'Saving record…');
+    await delay(300);
+
+    if (!response.ok) throw new Error(`Server responded ${response.status}`);
+
+    const result = await response.json();
+    showOverlay(95, 'Finalising…');
+    await delay(300);
+
+    if (result.success) {
+      const confirmedRoll = result.rollNo || rollNo;
+      commitRollNo(nextNum);
+      showOverlay(100, 'Record saved! ✅');
+      await delay(700);
+      hideOverlay();
+      showToast(`✅ Saved! Roll No: ${confirmedRoll}`, 'success');
+      $('rollNoField').value = confirmedRoll;
+
+      setTimeout(() => {
+        if (confirm(`Record saved!\nRoll No: ${confirmedRoll}\n\nReset the form for a new entry?`)) {
+          resetForm();
+        }
+      }, 1000);
+    } else {
+      hideOverlay();
+      $('rollNoField').value = '';
+      $('rollBadge').textContent = 'Assigned on save';
+      showToast('❌ ' + (result.error || 'Save failed. Please try again.'), 'error');
+    }
+  } catch (err) {
+    hideOverlay();
+    $('rollNoField').value = '';
+    $('rollBadge').textContent = 'Assigned on save';
+    console.error(err);
+    showToast('❌ ' + (err.message || 'Network error. Check connection.'), 'error');
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+// ── RESET ─────────────────────────────────────────────────────────────────
+function resetForm() {
+  document.getElementById('childForm').reset();
+  $('photoDrop').classList.remove('photo-ok','photo-error');
+  $('photoDrop').innerHTML = `<div class="drop-content"><div class="drop-icon">📷</div><div class="drop-text">Tap to<br>upload</div></div>`;
+  $('photoStatus').textContent = 'Required';
+  $('photoStatus').classList.remove('ok');
+  photoDataUrl = photoMimeType = photoName = null;
+  $('rollNoField').value = '';
+  $('rollBadge').textContent = 'Assigned on save';
+  document.querySelectorAll('.check-item').forEach(l => l.classList.remove('checked'));
+  document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
+  refreshProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────
+function showToast(msg, type = '') {
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.className = 'toast', 5000);
+}
+</script>
+</body>
+</html>
