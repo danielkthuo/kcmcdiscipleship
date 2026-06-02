@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>KCMC Discipleship — Daily Report v12</title>
+<title>KCMC Discipleship — Daily Report v13</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
   :root{--ink:#1a1208;--gold:#c9952a;--gold-light:#f0c96a;--cream:#fdf8ef;--warm:#f5ede0;--rust:#8b3a1c;
@@ -14,111 +14,122 @@
     background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(201,149,42,.13) 0%,transparent 70%),
     url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9952a' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
 
+  /* ── NAV ── */
   nav{background:var(--forest);color:#fff;display:flex;align-items:center;justify-content:space-between;
-    padding:0 32px;height:64px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.18)}
-  .nav-brand{display:flex;align-items:center;gap:12px}
-  .nav-cross{width:32px;height:32px;background:var(--gold);border-radius:6px;display:grid;place-items:center;
-    font-size:18px;font-weight:900;color:var(--forest);flex-shrink:0}
-  .nav-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;letter-spacing:.02em;line-height:1.2}
-  .nav-sub{font-size:.7rem;opacity:.65;letter-spacing:.08em;text-transform:uppercase}
-  .nav-tabs{display:flex;gap:4px}
+    padding:0 16px;height:60px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.18);gap:8px}
+  .nav-brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+  .nav-cross{width:30px;height:30px;background:var(--gold);border-radius:6px;display:grid;place-items:center;
+    font-size:16px;font-weight:900;color:var(--forest);flex-shrink:0}
+  .nav-title{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;letter-spacing:.02em;line-height:1.2}
+  .nav-sub{font-size:.62rem;opacity:.65;letter-spacing:.08em;text-transform:uppercase}
+  .nav-tabs{display:flex;gap:3px;flex-wrap:nowrap}
   .nav-tab{background:transparent;border:none;color:rgba(255,255,255,.65);font-family:'DM Sans',sans-serif;
-    font-size:.85rem;font-weight:500;padding:8px 18px;border-radius:8px;cursor:pointer;transition:all .2s;letter-spacing:.03em}
+    font-size:.78rem;font-weight:500;padding:7px 10px;border-radius:8px;cursor:pointer;transition:all .2s;
+    white-space:nowrap;letter-spacing:.02em}
   .nav-tab:hover{background:rgba(255,255,255,.08);color:#fff}
   .nav-tab.active{background:var(--gold);color:var(--forest);font-weight:600}
 
   .view{display:none;animation:fadeUp .4s ease both}.view.active{display:block}
   @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 
-  .hero{background:linear-gradient(135deg,var(--forest) 0%,#2c5e4a 100%);color:#fff;padding:36px 32px 32px;position:relative;overflow:hidden}
-  .hero::before{content:'✝';position:absolute;right:-20px;top:-30px;font-size:180px;opacity:.05;font-family:serif;line-height:1}
-  .hero-date{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin-bottom:6px}
-  .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;line-height:1.1}
-  .hero h1 span{color:var(--gold-light)}.hero p{margin-top:8px;opacity:.7;font-size:.9rem;max-width:480px}
+  .hero{background:linear-gradient(135deg,var(--forest) 0%,#2c5e4a 100%);color:#fff;padding:28px 16px 24px;position:relative;overflow:hidden}
+  .hero::before{content:'✝';position:absolute;right:-20px;top:-30px;font-size:140px;opacity:.05;font-family:serif;line-height:1}
+  .hero-date{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin-bottom:6px}
+  .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,5vw,2.2rem);font-weight:900;line-height:1.1}
+  .hero h1 span{color:var(--gold-light)}.hero p{margin-top:8px;opacity:.7;font-size:.85rem}
 
-  .sheets-banner{max-width:760px;margin:16px auto 0;padding:0 20px}
-  .sheets-status{display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:10px;
-    font-size:.83rem;font-weight:500;border:1.5px solid var(--border);background:var(--card)}
+  .sheets-banner{max-width:760px;margin:12px auto 0;padding:0 12px}
+  .sheets-status{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;
+    font-size:.82rem;font-weight:500;border:1.5px solid var(--border);background:var(--card)}
   .sheets-status.connected{border-color:#2d7a4f;background:rgba(45,122,79,.07);color:#1a5c35}
   .sheets-status .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0}
   .sheets-status.connected .dot{background:var(--success);animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-  .form-wrap{max-width:760px;margin:24px auto 60px;padding:0 20px}
+  .form-wrap{max-width:760px;margin:20px auto 60px;padding:0 12px}
   .section-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-    box-shadow:var(--shadow);padding:28px 32px;margin-bottom:24px;animation:fadeUp .5s ease both}
+    box-shadow:var(--shadow);padding:20px 16px;margin-bottom:16px;animation:fadeUp .5s ease both}
   .section-card:nth-child(2){animation-delay:.07s}.section-card:nth-child(3){animation-delay:.14s}
   .section-card:nth-child(4){animation-delay:.21s}.section-card:nth-child(5){animation-delay:.28s}
-  .section-label{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--forest);
-    margin-bottom:20px;display:flex;align-items:center;gap:10px}
-  .section-label .icon{width:30px;height:30px;background:linear-gradient(135deg,var(--forest),#2c5e4a);
-    border-radius:8px;display:grid;place-items:center;font-size:14px;flex-shrink:0}
-  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  @media(max-width:540px){.field-row{grid-template-columns:1fr}}
-  .field{display:flex;flex-direction:column;gap:6px}
-  .field label{font-size:.78rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+  .section-label{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--forest);
+    margin-bottom:16px;display:flex;align-items:center;gap:10px}
+  .section-label .icon{width:28px;height:28px;background:linear-gradient(135deg,var(--forest),#2c5e4a);
+    border-radius:8px;display:grid;place-items:center;font-size:13px;flex-shrink:0}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:520px){.field-row{grid-template-columns:1fr}}
+  .field{display:flex;flex-direction:column;gap:6px;margin-bottom:0}
+  .field+.field,.field-row+.field,.field-row+.field-row{margin-top:12px}
+  .field label{font-size:.74rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
   .field label .req{color:var(--rust);margin-left:2px}
   input[type="text"],input[type="date"],input[type="number"],input[type="email"],select,textarea{
-    font-family:'DM Sans',sans-serif;font-size:.92rem;border:1.5px solid var(--border);border-radius:9px;
-    padding:10px 14px;background:var(--cream);color:var(--ink);transition:border-color .2s,box-shadow .2s;width:100%;outline:none}
+    font-family:'DM Sans',sans-serif;font-size:.9rem;border:1.5px solid var(--border);border-radius:9px;
+    padding:10px 12px;background:var(--cream);color:var(--ink);transition:border-color .2s,box-shadow .2s;width:100%;outline:none}
   input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,149,42,.15)}
   input.error,textarea.error{border-color:var(--rust)!important;box-shadow:0 0 0 3px rgba(139,58,28,.12)!important}
-  .field-error{font-size:.75rem;color:var(--rust);margin-top:3px;display:none}
+  .field-error{font-size:.74rem;color:var(--rust);margin-top:3px;display:none}
   .field-error.show{display:block}
   textarea{resize:vertical;min-height:90px}
 
-  .counter-row{display:flex;gap:12px;flex-wrap:wrap}
-  .counter-box{flex:1;min-width:130px;background:var(--warm);border:1.5px solid var(--border);
-    border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
-  .counter-box label{font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+  /* Attendance counters — 2-col on mobile */
+  .counter-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .counter-box{background:var(--warm);border:1.5px solid var(--border);
+    border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+  .counter-box label{font-size:.68rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
   .counter-box input{font-size:1.5rem;font-weight:700;border:none;background:transparent;padding:0;color:var(--forest);width:100%}
   .counter-box input:focus{box-shadow:none;border:none}
   .total-box{background:linear-gradient(135deg,var(--forest),#2c5e4a);border-color:var(--forest)}
   .total-box label{color:rgba(255,255,255,.7)}
   .total-box .total-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold-light);line-height:1}
 
-  .photo-drop{border:2px dashed var(--border);border-radius:12px;padding:30px 20px;text-align:center;
+  .photo-drop{border:2px dashed var(--border);border-radius:12px;padding:24px 16px;text-align:center;
     cursor:pointer;transition:all .2s;background:var(--cream);position:relative}
   .photo-drop:hover,.photo-drop.drag-over{border-color:var(--gold);background:rgba(201,149,42,.05)}
   .photo-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-  .photo-drop .drop-icon{font-size:2.5rem;margin-bottom:8px}
-  .photo-drop .drop-text{font-size:.88rem;color:var(--muted)}
+  .photo-drop .drop-icon{font-size:2rem;margin-bottom:6px}
+  .photo-drop .drop-text{font-size:.84rem;color:var(--muted)}
   .photo-drop .drop-text strong{color:var(--forest)}
-  .photo-preview{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-  .photo-thumb-wrap{position:relative;width:90px;height:90px}
+  .photo-preview{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .photo-thumb-wrap{position:relative;width:80px;height:80px}
   .photo-thumb-wrap img{width:100%;height:100%;border-radius:9px;object-fit:cover;border:2px solid var(--border)}
   .photo-thumb-wrap .upload-tick{position:absolute;bottom:4px;right:4px;background:var(--success);
     color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;display:none;place-items:center}
   .photo-thumb-wrap.uploaded .upload-tick{display:grid}
   .photo-thumb-wrap.uploading img{opacity:.5}
   .photo-thumb-wrap.uploading::after{content:'⏳';position:absolute;inset:0;display:grid;
-    place-items:center;font-size:1.4rem;background:rgba(255,255,255,.5);border-radius:9px}
+    place-items:center;font-size:1.2rem;background:rgba(255,255,255,.5);border-radius:9px}
   .photo-thumb-wrap.failed img{border-color:var(--rust)}
   .photo-thumb-wrap.failed::after{content:'✕';position:absolute;inset:0;display:grid;
-    place-items:center;font-size:1.4rem;background:rgba(139,58,28,.15);border-radius:9px;color:var(--rust)}
+    place-items:center;font-size:1.2rem;background:rgba(139,58,28,.15);border-radius:9px;color:var(--rust)}
   .remove-photo{position:absolute;top:-6px;right:-6px;width:20px;height:20px;background:var(--rust);
-    color:#fff;border:none;border-radius:50%;font-size:11px;cursor:pointer;display:grid;place-items:center}
+    color:#fff;border:none;border-radius:50%;font-size:11px;cursor:pointer;display:grid;place-items:center;
+    touch-action:manipulation}
 
-  .upload-progress{margin-top:14px;display:none;background:var(--warm);border-radius:10px;padding:12px 16px}
+  .upload-progress{margin-top:12px;display:none;background:var(--warm);border-radius:10px;padding:12px 14px}
   .upload-progress-bar-wrap{background:var(--border);border-radius:99px;height:10px;overflow:hidden;margin-top:6px}
   .upload-progress-bar{height:100%;background:linear-gradient(90deg,var(--forest),var(--gold));border-radius:99px;width:0%;transition:width .4s}
   .upload-progress-text{font-size:.82rem;color:var(--muted);font-weight:500}
-  .upload-log{margin-top:10px;max-height:140px;overflow-y:auto;font-size:.75rem;font-family:monospace;
+  .upload-log{margin-top:10px;max-height:120px;overflow-y:auto;font-size:.72rem;font-family:monospace;
     background:#f0ece3;border-radius:8px;padding:8px 10px;color:var(--ink);border:1px solid var(--border)}
   .log-line{padding:2px 0;border-bottom:1px solid rgba(0,0,0,.05)}
   .log-line:last-child{border-bottom:none}
   .log-ok{color:var(--success)}.log-err{color:var(--rust)}.log-info{color:var(--muted)}
 
-  .action-bar{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;margin-top:8px}
-  .btn{font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:12px 28px;border-radius:10px;
-    border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s;letter-spacing:.02em}
+  /* Action bar — stacks on mobile */
+  .action-bar{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin-top:8px}
+  @media(max-width:520px){
+    .action-bar{flex-direction:column}
+    .action-bar .btn{width:100%;justify-content:center}
+  }
+  .btn{font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;padding:12px 22px;border-radius:10px;
+    border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s;
+    letter-spacing:.02em;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
   .btn-primary{background:linear-gradient(135deg,var(--forest),#2c5e4a);color:#fff;box-shadow:0 4px 16px rgba(30,64,53,.25)}
   .btn-primary:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(30,64,53,.3)}
   .btn-gold{background:linear-gradient(135deg,var(--gold),#e0a830);color:var(--forest);box-shadow:0 4px 16px rgba(201,149,42,.25)}
   .btn-gold:hover:not(:disabled){transform:translateY(-2px)}
   .btn-outline{background:transparent;color:var(--forest);border:1.5px solid var(--forest)}
   .btn-outline:hover{background:rgba(30,64,53,.06)}
-  .btn-danger{background:transparent;color:var(--rust);border:1.5px solid var(--rust);font-size:.8rem;padding:6px 14px}
+  .btn-danger{background:transparent;color:var(--rust);border:1.5px solid var(--rust);font-size:.8rem;padding:8px 14px}
   .btn-danger:hover{background:rgba(139,58,28,.06)}
   .btn:disabled{opacity:.55;cursor:not-allowed;transform:none!important}
   .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;
@@ -126,152 +137,157 @@
   .btn.loading .spinner{display:block}.btn.loading .btn-label{display:none}
   @keyframes spin{to{transform:rotate(360deg)}}
 
-  .toast{position:fixed;bottom:28px;right:28px;background:var(--forest);color:#fff;padding:14px 22px;
-    border-radius:12px;font-size:.9rem;font-weight:500;box-shadow:0 8px 32px rgba(0,0,0,.2);z-index:999;
-    display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;
-    transition:all .35s cubic-bezier(.34,1.56,.64,1);max-width:400px}
-  .toast.show{transform:translateY(0);opacity:1}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);
+    background:var(--forest);color:#fff;padding:12px 20px;border-radius:12px;font-size:.88rem;
+    font-weight:500;box-shadow:0 8px 32px rgba(0,0,0,.2);z-index:999;
+    display:flex;align-items:center;gap:10px;opacity:0;
+    transition:all .35s cubic-bezier(.34,1.56,.64,1);max-width:calc(100vw - 32px);width:max-content}
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
-  /* ── Dashboard ── */
-  .dashboard-wrap{max-width:1060px;margin:36px auto 60px;padding:0 20px}
-  .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px}
+  /* ── DASHBOARD ── */
+  .dashboard-wrap{max-width:1060px;margin:24px auto 60px;padding:0 12px}
+  .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
   .stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-    padding:22px 20px;box-shadow:var(--shadow);animation:fadeUp .5s ease both;position:relative;overflow:hidden}
+    padding:16px 14px;box-shadow:var(--shadow);animation:fadeUp .5s ease both;position:relative;overflow:hidden}
   .stat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--forest),var(--gold))}
-  .stat-num{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;color:var(--forest);line-height:1}
-  .stat-label{font-size:.75rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:6px}
-  .stat-icon{font-size:1.5rem;margin-bottom:8px}
-  .stat-source{font-size:.68rem;color:var(--muted);margin-top:4px;display:flex;align-items:center;gap:4px}
+  .stat-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--forest);line-height:1}
+  .stat-label{font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+  .stat-icon{font-size:1.3rem;margin-bottom:6px}
+  .stat-source{font-size:.65rem;color:var(--muted);margin-top:4px;display:flex;align-items:center;gap:4px}
   .stat-source .src-dot{width:6px;height:6px;border-radius:50%;background:var(--muted);display:inline-block}
   .stat-source.live .src-dot{background:var(--success);animation:pulse 2s infinite}
   .stat-source.live{color:var(--success)}
 
-  /* ── Sheets fetch bar ── */
-  .sheets-fetch-bar{display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:12px;
-    border:1.5px solid var(--border);background:var(--card);margin-bottom:20px;box-shadow:var(--shadow);flex-wrap:wrap}
-  .fetch-status-dot{width:10px;height:10px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .3s}
+  .sheets-fetch-bar{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:12px;
+    border:1.5px solid var(--border);background:var(--card);margin-bottom:16px;box-shadow:var(--shadow);flex-wrap:wrap}
+  .fetch-status-dot{width:10px;height:10px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .3s;margin-top:5px}
   .fetch-status-dot.live{background:var(--success);animation:pulse 2s infinite}
   .fetch-status-dot.error{background:var(--rust)}
   .fetch-status-dot.loading{background:var(--gold);animation:pulse .6s infinite}
-  .fetch-status-text{font-size:.84rem;font-weight:500;flex:1;color:var(--ink)}
-  .fetch-status-text small{color:var(--muted);font-weight:400;margin-left:6px}
-  .fetch-last-time{font-size:.75rem;color:var(--muted);white-space:nowrap}
-
-  /* ── Data source toggle ── */
-  .source-toggle{display:flex;background:var(--warm);border:1.5px solid var(--border);border-radius:9px;padding:3px;gap:2px;margin-bottom:4px}
-  .src-btn{flex:1;padding:7px 14px;border:none;border-radius:7px;font-family:'DM Sans',sans-serif;
-    font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--muted)}
+  .fetch-status-text{font-size:.84rem;font-weight:500;flex:1;color:var(--ink);min-width:120px}
+  .fetch-status-text small{color:var(--muted);font-weight:400;margin-left:6px;display:block;margin-top:2px}
+  .fetch-controls{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:2px}
+  .source-toggle{display:flex;background:var(--warm);border:1.5px solid var(--border);border-radius:9px;padding:3px;gap:2px}
+  .src-btn{flex:1;padding:6px 10px;border:none;border-radius:7px;font-family:'DM Sans',sans-serif;
+    font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--muted);
+    white-space:nowrap;touch-action:manipulation}
   .src-btn.active{background:var(--forest);color:#fff;box-shadow:0 2px 8px rgba(30,64,53,.2)}
 
-  .dash-section-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--forest);
-    margin-bottom:16px;display:flex;align-items:center;gap:10px}
+  .dash-section-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--forest);
+    margin-bottom:14px;display:flex;align-items:center;gap:10px}
   .dash-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+  /* Table — scroll on mobile */
   .report-table-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-    box-shadow:var(--shadow);overflow:auto;margin-bottom:28px;animation:fadeUp .5s ease .1s both}
-  table{width:100%;border-collapse:collapse;min-width:600px}
-  thead th{background:var(--forest);color:#fff;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
-    font-weight:600;padding:12px 16px;text-align:left}
+    box-shadow:var(--shadow);overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:20px;
+    animation:fadeUp .5s ease .1s both}
+  table{width:100%;border-collapse:collapse;min-width:560px}
+  thead th{background:var(--forest);color:#fff;font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;
+    font-weight:600;padding:10px 12px;text-align:left;white-space:nowrap}
   thead th:first-child{border-radius:12px 0 0 0}thead th:last-child{border-radius:0 12px 0 0}
   tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
   tbody tr:last-child{border-bottom:none}tbody tr:hover{background:rgba(201,149,42,.05)}
-  tbody td{padding:12px 16px;font-size:.87rem;color:var(--ink);vertical-align:middle}
-  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600}
+  tbody td{padding:10px 12px;font-size:.84rem;color:var(--ink);vertical-align:middle}
+  /* Inline action buttons in table */
+  .row-actions{display:flex;gap:6px;flex-wrap:nowrap}
+  .badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:.7rem;font-weight:600}
   .badge-green{background:rgba(45,122,79,.12);color:var(--success)}
   .badge-gold{background:rgba(201,149,42,.15);color:#8a6410}
   .badge-blue{background:rgba(30,64,100,.1);color:#1e4064}
-  .empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
-  .empty-state .empty-icon{font-size:3rem;margin-bottom:12px}
+  .empty-state{text-align:center;padding:48px 20px;color:var(--muted)}
+  .empty-state .empty-icon{font-size:2.6rem;margin-bottom:10px}
 
-  .retry-banner{display:none;align-items:center;gap:10px;padding:10px 16px;border-radius:10px;
-    font-size:.83rem;font-weight:500;border:1.5px solid var(--gold);background:rgba(201,149,42,.08);
-    color:#7a4e00;margin-bottom:16px}
+  .retry-banner{display:none;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;
+    font-size:.82rem;font-weight:500;border:1.5px solid var(--gold);background:rgba(201,149,42,.08);
+    color:#7a4e00;margin-bottom:14px;flex-wrap:wrap}
   .retry-banner.show{display:flex}
 
-  /* ── Charts row ── */
-  .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
-  @media(max-width:680px){.charts-row{grid-template-columns:1fr}}
+  /* Charts */
+  .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+  @media(max-width:600px){.charts-row{grid-template-columns:1fr}}
   .chart-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-    padding:20px 22px;box-shadow:var(--shadow);animation:fadeUp .5s ease .15s both}
-  .chart-title{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--forest);margin-bottom:16px}
+    padding:16px 18px;box-shadow:var(--shadow);animation:fadeUp .5s ease .15s both}
+  .chart-title{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--forest);margin-bottom:12px}
   .bar-chart{display:flex;flex-direction:column;gap:8px}
-  .bar-row{display:flex;align-items:center;gap:10px;font-size:.78rem}
-  .bar-label{min-width:110px;color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bar-row{display:flex;align-items:center;gap:8px;font-size:.76rem}
+  .bar-label{min-width:90px;max-width:90px;color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .bar-track{flex:1;background:var(--warm);border-radius:99px;height:10px;overflow:hidden}
   .bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--forest),var(--gold));transition:width .8s cubic-bezier(.4,0,.2,1)}
-  .bar-val{min-width:28px;text-align:right;font-weight:600;color:var(--forest)}
-  .donut-wrap{display:flex;align-items:center;gap:20px}
+  .bar-val{min-width:24px;text-align:right;font-weight:600;color:var(--forest)}
+  .donut-wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
   .donut-svg{flex-shrink:0}
-  .donut-legend{display:flex;flex-direction:column;gap:8px}
-  .legend-item{display:flex;align-items:center;gap:8px;font-size:.78rem}
+  .donut-legend{display:flex;flex-direction:column;gap:6px;flex:1;min-width:100px}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:.76rem}
   .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 
-  /* ── Detail modal ── */
+  /* Detail modal — full-screen on mobile */
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.5);z-index:200;
-    align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+    align-items:flex-end;justify-content:center;padding:0;backdrop-filter:blur(4px)}
   .modal-overlay.open{display:flex}
-  .modal{background:var(--card);border-radius:18px;box-shadow:0 24px 80px rgba(0,0,0,.3);
-    max-width:640px;width:100%;max-height:85vh;overflow-y:auto;animation:fadeUp .3s ease}
-  .modal-header{background:linear-gradient(135deg,var(--forest),#2c5e4a);color:#fff;padding:22px 28px;
-    border-radius:18px 18px 0 0;display:flex;justify-content:space-between;align-items:flex-start}
-  .modal-header h2{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700}
-  .modal-header p{opacity:.65;font-size:.82rem;margin-top:3px}
-  .modal-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:30px;height:30px;
-    border-radius:50%;cursor:pointer;font-size:1rem;display:grid;place-items:center}
-  .modal-body{padding:24px 28px}
-  .detail-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:.88rem}
+  @media(min-width:600px){
+    .modal-overlay{align-items:center;padding:20px}
+    .modal{border-radius:18px;max-height:85vh}
+  }
+  .modal{background:var(--card);border-radius:18px 18px 0 0;box-shadow:0 -8px 40px rgba(0,0,0,.25);
+    width:100%;max-width:640px;max-height:92vh;overflow-y:auto;animation:slideUp .3s ease}
+  @keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .modal-header{background:linear-gradient(135deg,var(--forest),#2c5e4a);color:#fff;padding:18px 20px;
+    border-radius:18px 18px 0 0;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .modal-header h2{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700}
+  .modal-header p{opacity:.65;font-size:.8rem;margin-top:3px}
+  .modal-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:32px;height:32px;min-width:32px;
+    border-radius:50%;cursor:pointer;font-size:1rem;display:grid;place-items:center;touch-action:manipulation}
+  .modal-body{padding:18px 20px}
+  .detail-row{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:.86rem}
   .detail-row:last-child{border-bottom:none}
-  .detail-key{font-weight:600;color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;min-width:130px;padding-top:2px}
-  .detail-val{flex:1;color:var(--ink)}
+  .detail-key{font-weight:600;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;min-width:110px;padding-top:2px;flex-shrink:0}
+  .detail-val{flex:1;color:var(--ink);word-break:break-word}
   .drive-links{display:flex;flex-direction:column;gap:4px;margin-top:4px}
   .drive-links a{font-size:.82rem;color:var(--forest);text-decoration:underline;word-break:break-all}
 
   .setup-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.6);z-index:300;
-    align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+    align-items:flex-end;justify-content:center;padding:0;backdrop-filter:blur(4px)}
   .setup-overlay.open{display:flex}
-  .setup-modal{background:var(--card);border-radius:18px;box-shadow:0 24px 80px rgba(0,0,0,.3);
-    max-width:680px;width:100%;overflow:hidden;animation:fadeUp .3s ease}
-  .setup-header{background:linear-gradient(135deg,var(--forest),#2c5e4a);color:#fff;padding:22px 28px;
-    display:flex;justify-content:space-between;align-items:flex-start}
-  .setup-header h2{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700}
-  .setup-header p{opacity:.65;font-size:.82rem;margin-top:3px}
-  .setup-body{padding:24px 28px;max-height:80vh;overflow-y:auto}
-  .setup-step{display:flex;gap:14px;margin-bottom:14px;padding:14px 16px;border:1.5px solid var(--border);
-    border-radius:10px;background:var(--cream);font-size:.87rem}
+  @media(min-width:600px){.setup-overlay{align-items:center;padding:20px}}
+  .setup-modal{background:var(--card);border-radius:18px 18px 0 0;box-shadow:0 -8px 40px rgba(0,0,0,.25);
+    width:100%;max-width:700px;overflow:hidden;animation:slideUp .3s ease}
+  @media(min-width:600px){.setup-modal{border-radius:18px}}
+  .setup-header{background:linear-gradient(135deg,var(--forest),#2c5e4a);color:#fff;padding:18px 20px;
+    display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .setup-header h2{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700}
+  .setup-header p{opacity:.65;font-size:.8rem;margin-top:3px}
+  .setup-body{padding:18px 20px;max-height:80vh;overflow-y:auto}
+  .setup-step{display:flex;gap:12px;margin-bottom:12px;padding:12px 14px;border:1.5px solid var(--border);
+    border-radius:10px;background:var(--cream);font-size:.85rem}
   .step-num{width:26px;height:26px;border-radius:50%;background:var(--forest);color:#fff;display:grid;
     place-items:center;font-weight:700;font-size:.78rem;flex-shrink:0;margin-top:1px}
   .step-content strong{display:block;margin-bottom:3px;color:var(--forest)}
   .step-content code{display:block;background:#f0ece3;border:1px solid var(--border);border-radius:6px;
-    padding:10px 12px;font-size:.72rem;font-family:monospace;color:var(--ink);margin-top:6px;
-    word-break:break-all;line-height:1.7;white-space:pre-wrap;max-height:280px;overflow-y:auto}
-  .copy-btn{margin-top:8px;font-size:.78rem;padding:5px 12px;border-radius:6px}
-  .setup-url-row{display:flex;gap:8px;margin-top:14px}
+    padding:8px 10px;font-size:.7rem;font-family:monospace;color:var(--ink);margin-top:6px;
+    word-break:break-all;line-height:1.7;white-space:pre-wrap;max-height:240px;overflow-y:auto}
+  .copy-btn{margin-top:8px;font-size:.76rem;padding:5px 12px;border-radius:6px}
+  .setup-url-row{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+  @media(min-width:480px){.setup-url-row{flex-direction:row}}
   .setup-url-row input{flex:1}
-  .info-banner{display:flex;align-items:flex-start;gap:10px;padding:12px 16px;border-radius:10px;
-    font-size:.83rem;border:1.5px solid #c9952a;background:rgba(201,149,42,.08);color:#7a4e00;margin-bottom:16px;line-height:1.5}
+  .info-banner{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:10px;
+    font-size:.82rem;border:1.5px solid #c9952a;background:rgba(201,149,42,.08);color:#7a4e00;margin-bottom:14px;line-height:1.5}
   .info-banner.green{border-color:var(--success);background:rgba(45,122,79,.07);color:#1a5c35}
 
   .confirm-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.55);z-index:400;
-    align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+    align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
   .confirm-overlay.open{display:flex}
   .confirm-modal{background:var(--card);border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.3);
-    max-width:400px;width:100%;padding:28px;animation:fadeUp .25s ease;text-align:center}
-  .confirm-modal h3{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--rust);margin-bottom:8px}
-  .confirm-modal p{font-size:.88rem;color:var(--muted);margin-bottom:20px;line-height:1.5}
+    max-width:380px;width:100%;padding:24px;animation:fadeUp .25s ease;text-align:center}
+  .confirm-modal h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--rust);margin-bottom:8px}
+  .confirm-modal p{font-size:.86rem;color:var(--muted);margin-bottom:18px;line-height:1.5}
   .confirm-actions{display:flex;gap:10px;justify-content:center}
 
-  /* skeleton loader */
-  .skeleton{background:linear-gradient(90deg,var(--warm) 25%,var(--border) 50%,var(--warm) 75%);
-    background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:6px;display:inline-block}
-  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  /* Search + export toolbar */
+  .dash-toolbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+  .dash-toolbar input{flex:1;min-width:160px}
+  .dash-toolbar-actions{display:flex;gap:8px;flex-wrap:nowrap}
 
   @media print{nav,.action-bar,.photo-drop,.sheets-banner,.retry-banner,.sheets-fetch-bar{display:none!important}body{background:#fff}.section-card{box-shadow:none;border:1px solid #ccc}}
-  @media(max-width:600px){
-    nav{padding:0 12px}.nav-title{font-size:.95rem}
-    .nav-tabs .nav-tab{padding:8px 10px;font-size:.75rem}
-    .section-card{padding:18px 16px}.hero{padding:22px 16px}
-    .form-wrap,.dashboard-wrap{padding:0 12px}
-    .action-bar{justify-content:stretch}.action-bar .btn{flex:1;justify-content:center}
-  }
 </style>
 </head>
 <body>
@@ -281,11 +297,11 @@
     <div class="nav-cross">✝</div>
     <div>
       <div class="nav-title">KCMC Discipleship</div>
-      <div class="nav-sub">Daily Report System · v12</div>
+      <div class="nav-sub">Daily Report · v13</div>
     </div>
   </div>
   <div class="nav-tabs">
-    <button class="nav-tab active" onclick="switchView('form',this)">📋 New Report</button>
+    <button class="nav-tab active" onclick="switchView('form',this)">📋 Report</button>
     <button class="nav-tab" onclick="switchView('admin',this)">📊 Dashboard</button>
     <button class="nav-tab" onclick="openSetup()">⚙️ Setup</button>
   </div>
@@ -307,10 +323,10 @@
   <div class="form-wrap">
     <div class="section-card">
       <div class="section-label"><span class="icon">🏫</span> Session Information</div>
-      <div class="field-row" style="margin-bottom:16px">
+      <div class="field-row">
         <div class="field">
           <label>School Name <span class="req">*</span></label>
-          <input type="text" id="f-school" placeholder="e.g. Mwanga Secondary School"/>
+          <input type="text" id="f-school" placeholder="e.g. Mwanga Secondary"/>
           <span class="field-error" id="err-school">School name is required</span>
         </div>
         <div class="field">
@@ -326,7 +342,7 @@
     </div>
     <div class="section-card">
       <div class="section-label"><span class="icon">👤</span> Facilitator Details</div>
-      <div class="field-row" style="margin-bottom:16px">
+      <div class="field-row">
         <div class="field">
           <label>Facilitator Name <span class="req">*</span></label>
           <input type="text" id="f-facilitator" placeholder="Full name"/>
@@ -359,7 +375,7 @@
     <div class="section-card">
       <div class="section-label"><span class="icon">⚠️</span> Challenges &amp; Observations</div>
       <div class="field"><label>Challenges Faced</label><textarea id="f-challenges" placeholder="Describe any challenges encountered during the session…"></textarea></div>
-      <div class="field" style="margin-top:16px"><label>Key Observations / Highlights</label><textarea id="f-highlights" placeholder="Notable moments, student responses, breakthroughs…"></textarea></div>
+      <div class="field"><label>Key Observations / Highlights</label><textarea id="f-highlights" placeholder="Notable moments, student responses, breakthroughs…"></textarea></div>
     </div>
     <div class="section-card">
       <div class="section-label"><span class="icon">📷</span> Session Photos</div>
@@ -367,9 +383,9 @@
         <input type="file" id="photo-input" accept="image/*" multiple onchange="handlePhotos(this)"/>
         <div class="drop-icon">🖼️</div>
         <div class="drop-text">
-          <strong>Click to upload</strong> or drag photos here<br/>
+          <strong>Tap to upload</strong> or drag photos here<br/>
           JPG, PNG, WEBP — up to 10 photos<br/>
-          <small style="opacity:.7">Compressed to ~640 px · uploaded to Google Drive · links stored in Sheet</small>
+          <small style="opacity:.7">Compressed to ~640 px · uploaded to Google Drive</small>
         </div>
       </div>
       <div class="photo-preview" id="photo-preview"></div>
@@ -382,7 +398,7 @@
     <div class="section-card" style="background:transparent;border:none;box-shadow:none;padding:0">
       <div class="action-bar">
         <button class="btn btn-outline" onclick="clearForm()">🗑 Clear</button>
-        <button class="btn btn-gold" onclick="exportXLSX()">📊 Export Excel</button>
+        <button class="btn btn-gold" onclick="exportXLSX()">📊 Excel</button>
         <button class="btn btn-outline" onclick="printReport()">🖨 Print</button>
         <button class="btn btn-primary" id="submit-btn" onclick="submitReport()">
           <span class="spinner"></span>
@@ -398,30 +414,28 @@
   <div class="hero">
     <div class="hero-date" id="hero-date-admin"></div>
     <h1>Admin <span>Dashboard</span></h1>
-    <p>Live data from Google Sheets + local submissions — unified view.</p>
+    <p>Live data from Google Sheets + local submissions.</p>
   </div>
   <div class="dashboard-wrap">
 
-    <!-- Sheets fetch status bar -->
     <div class="sheets-fetch-bar">
       <div class="fetch-status-dot" id="fetch-dot"></div>
       <div class="fetch-status-text" id="fetch-status-text">
         Dashboard data
         <small id="fetch-last-time"></small>
       </div>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <div class="fetch-controls">
         <div class="source-toggle">
-          <button class="src-btn active" id="src-btn-all" onclick="setSource('all')">All (Merged)</button>
-          <button class="src-btn" id="src-btn-sheets" onclick="setSource('sheets')">☁ Sheets Only</button>
-          <button class="src-btn" id="src-btn-local" onclick="setSource('local')">📱 Local Only</button>
+          <button class="src-btn active" id="src-btn-all" onclick="setSource('all')">All</button>
+          <button class="src-btn" id="src-btn-sheets" onclick="setSource('sheets')">☁ Sheets</button>
+          <button class="src-btn" id="src-btn-local" onclick="setSource('local')">📱 Local</button>
         </div>
-        <button class="btn btn-primary" id="fetch-btn" onclick="fetchFromSheets()" style="padding:8px 18px;font-size:.82rem">
-          <span class="spinner"></span><span class="btn-label">🔄 Sync from Sheets</span>
+        <button class="btn btn-primary" id="fetch-btn" onclick="fetchFromSheets()" style="padding:8px 14px;font-size:.8rem">
+          <span class="spinner"></span><span class="btn-label">🔄 Sync</span>
         </button>
       </div>
     </div>
 
-    <!-- Stats row -->
     <div class="stats-row">
       <div class="stat-card">
         <div class="stat-icon">📋</div>
@@ -432,30 +446,29 @@
       <div class="stat-card">
         <div class="stat-icon">🏫</div>
         <div class="stat-num" id="stat-schools">0</div>
-        <div class="stat-label">Schools Reached</div>
+        <div class="stat-label">Schools</div>
         <div class="stat-source" id="stat-source-schools"><span class="src-dot"></span> Local</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">👥</div>
         <div class="stat-num" id="stat-students">0</div>
-        <div class="stat-label">Total Students</div>
+        <div class="stat-label">Students</div>
         <div class="stat-source" id="stat-source-students"><span class="src-dot"></span> Local</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">👤</div>
         <div class="stat-num" id="stat-facilitators">0</div>
-        <div class="stat-label">Facilitators Active</div>
+        <div class="stat-label">Facilitators</div>
         <div class="stat-source" id="stat-source-facs"><span class="src-dot"></span> Local</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">📷</div>
         <div class="stat-num" id="stat-photos">0</div>
-        <div class="stat-label">Photos Uploaded</div>
+        <div class="stat-label">Photos</div>
         <div class="stat-source" id="stat-source-photos"><span class="src-dot"></span> Local</div>
       </div>
     </div>
 
-    <!-- Charts row -->
     <div class="charts-row">
       <div class="chart-card">
         <div class="chart-title">Top Schools by Attendance</div>
@@ -464,46 +477,47 @@
       <div class="chart-card">
         <div class="chart-title">Attendance Breakdown</div>
         <div class="donut-wrap">
-          <svg class="donut-svg" id="donut-svg" viewBox="0 0 120 120" width="120" height="120"></svg>
+          <svg class="donut-svg" id="donut-svg" viewBox="0 0 120 120" width="110" height="110"></svg>
           <div class="donut-legend" id="donut-legend"></div>
         </div>
       </div>
     </div>
 
-    <!-- Retry unsynced banner -->
     <div class="retry-banner" id="retry-banner">
-      ⚠️ <span id="retry-count">0</span> report(s) saved locally but not yet synced to Google Sheets.
-      <button class="btn btn-primary" style="padding:7px 16px;font-size:.8rem;margin-left:auto" onclick="retryUnsynced()">
-        <span class="spinner"></span><span class="btn-label">🔄 Retry Sync</span>
+      ⚠️ <span id="retry-count">0</span> report(s) saved locally but not yet synced.
+      <button class="btn btn-primary" style="padding:7px 14px;font-size:.8rem;margin-left:auto" onclick="retryUnsynced()">
+        <span class="spinner"></span><span class="btn-label">🔄 Retry</span>
       </button>
     </div>
 
     <div class="dash-section-title">Submitted Reports</div>
-    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center">
-      <input type="text" id="search-input" placeholder="🔍  Search by school, facilitator, location…" style="max-width:340px;flex:1" oninput="renderTable()"/>
-      <button class="btn btn-gold" onclick="exportXLSX()" style="padding:10px 20px;font-size:.85rem">📊 Excel</button>
-      <button class="btn btn-outline" onclick="exportCSV()" style="padding:10px 20px;font-size:.85rem">⬇ CSV</button>
-      <button class="btn btn-danger" onclick="confirmClearAll()">🗑 Clear Local</button>
+    <div class="dash-toolbar">
+      <input type="text" id="search-input" placeholder="🔍 Search by school, facilitator…" oninput="renderTable()"/>
+      <div class="dash-toolbar-actions">
+        <button class="btn btn-gold" onclick="exportXLSX()" style="padding:10px 16px;font-size:.83rem">📊</button>
+        <button class="btn btn-outline" onclick="exportCSV()" style="padding:10px 16px;font-size:.83rem">⬇ CSV</button>
+        <button class="btn btn-danger" onclick="confirmClearAll()">🗑</button>
+      </div>
     </div>
     <div class="report-table-wrap">
       <table>
-        <thead><tr><th>#</th><th>Date</th><th>School</th><th>Facilitator</th><th>Attended</th><th>Photos</th><th>Source</th><th>Actions</th></tr></thead>
+        <thead><tr><th>#</th><th>Date</th><th>School</th><th>Facilitator</th><th>Attended</th><th>Source</th><th>Actions</th></tr></thead>
         <tbody id="report-tbody"></tbody>
       </table>
       <div id="empty-state" class="empty-state" style="display:none">
         <div class="empty-icon">📭</div>
-        <p>No reports found. Click <strong>🔄 Sync from Sheets</strong> to load live data, or go to <strong>New Report</strong> to submit.</p>
+        <p>No reports found. Tap <strong>🔄 Sync</strong> to load live data, or submit a new report.</p>
       </div>
     </div>
   </div>
 </div>
 
 <!-- ══ DETAIL MODAL ══ -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+<div class="modal-overlay" id="modal-overlay">
   <div class="modal">
     <div class="modal-header">
       <div><h2 id="modal-title">Report Detail</h2><p id="modal-sub"></p></div>
-      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+      <button class="modal-close" onclick="closeModalDirect()" aria-label="Close">✕</button>
     </div>
     <div class="modal-body" id="modal-body"></div>
   </div>
@@ -525,12 +539,12 @@
 <div class="setup-overlay" id="setup-overlay">
   <div class="setup-modal">
     <div class="setup-header">
-      <div><h2>⚙️ Connect Google Sheets + Drive</h2><p>Reports → Sheets · Photos → Google Drive · Dashboard fetches live data</p></div>
-      <button class="modal-close" onclick="closeSetup()">✕</button>
+      <div><h2>⚙️ Connect Google Sheets + Drive</h2><p>Reports → Sheets · Photos → Drive · Dashboard fetches live data</p></div>
+      <button class="modal-close" onclick="closeSetup()" aria-label="Close">✕</button>
     </div>
     <div class="setup-body">
       <div class="info-banner green">
-        ✅ <strong>v12 — Live Dashboard fetch.</strong> The GAS script now includes a <code>getReports</code> action so the Dashboard can pull all rows directly from Google Sheets. Update your GAS script and redeploy as a new version.
+        ✅ <strong>v13 — Live Dashboard fetch.</strong> The GAS script includes a <code>getReports</code> action so the Dashboard pulls all rows from Google Sheets.
       </div>
       <div class="setup-step">
         <div class="step-num">1</div>
@@ -539,10 +553,10 @@
       <div class="setup-step">
         <div class="step-num">2</div>
         <div class="step-content">
-          <strong>Paste the v12 script and save (Ctrl+S)</strong>
+          <strong>Paste the v13 script and save (Ctrl+S)</strong>
           <code id="gas-script-code">// ══════════════════════════════════════════════════════════════
-//  KCMC Discipleship — Google Apps Script  v12
-//  NEW: getReports action in doGet — Dashboard fetches live data
+//  KCMC Discipleship — Google Apps Script  v13
+//  getReports action in doGet — Dashboard fetches live data
 // ══════════════════════════════════════════════════════════════
 
 var SHEET_ID    = "1j_gFds4AZ-NrbQkdkENO-u9I7psIqNutUx2trXEtf6g";
@@ -565,10 +579,9 @@ function doGet(e) {
   var action = e && e.parameter && e.parameter.action;
 
   if (action === "ping") {
-    return corsOutput({ result: "success", message: "KCMC OK v12" });
+    return corsOutput({ result: "success", message: "KCMC OK v13" });
   }
 
-  // ── NEW: fetch all rows for Dashboard ──────────────────────
   if (action === "getReports") {
     try {
       var ss    = SpreadsheetApp.openById(SHEET_ID);
@@ -579,11 +592,10 @@ function doGet(e) {
         return corsOutput({ result: "success", reports: [] });
       }
 
-      // Row 1 = header, rows 2..lastRow = data
       var data = sheet.getRange(2, 1, lastRow - 1, 18).getValues();
       var reports = data.map(function(row, i) {
         return {
-          id:          "sheet_" + (i + 2),   // stable ID: "sheet_rowNumber"
+          id:          "sheet_" + (i + 2),
           source:      "sheets",
           timestamp:   row[0]  ? row[0].toString()  : "",
           date:        row[1]  ? Utilities.formatDate(new Date(row[1]), Session.getScriptTimeZone(), "yyyy-MM-dd") : "",
@@ -607,7 +619,6 @@ function doGet(e) {
         };
       });
 
-      // Most recent first
       reports.reverse();
       return corsOutput({ result: "success", reports: reports, count: reports.length });
     } catch(err) {
@@ -615,7 +626,7 @@ function doGet(e) {
     }
   }
 
-  return ContentService.createTextOutput("KCMC Discipleship GAS v12 — OK");
+  return ContentService.createTextOutput("KCMC Discipleship GAS v13 — OK");
 }
 
 function getOrCreateFolder(name) {
@@ -710,13 +721,13 @@ function doPost(e) {
       <div class="setup-step">
         <div class="step-num">4</div>
         <div class="step-content">
-          <strong>Run doAuthCheck manually</strong> → Allow all permissions → Then Deploy → New version → Deploy<br/>
+          <strong>Run doAuthCheck manually</strong> → Allow all permissions → Deploy → New version → Deploy<br/>
           Execute as: <strong>Me</strong> &nbsp;|&nbsp; Who has access: <strong>Anyone</strong>
         </div>
       </div>
       <div class="setup-url-row">
         <input type="text" id="gas-url-input" placeholder="https://script.google.com/macros/s/…/exec"/>
-        <button class="btn btn-primary" onclick="saveGasUrl()" style="padding:10px 20px;white-space:nowrap;font-size:.85rem">Save &amp; Test</button>
+        <button class="btn btn-primary" onclick="saveGasUrl()" style="padding:10px 18px;white-space:nowrap;font-size:.85rem">Save &amp; Test</button>
       </div>
       <div id="test-result" style="margin-top:12px;font-size:.83rem;min-height:20px"></div>
     </div>
@@ -728,11 +739,10 @@ function doPost(e) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════════
-//  KCMC Discipleship v12 — Frontend JS
-//  KEY NEW FEATURE: Dashboard fetches live data from Google Sheets
-//  via ?action=getReports and merges with localStorage records.
-//  Source toggle: All (merged) / Sheets Only / Local Only
-//  Charts: Top Schools bar chart + Attendance donut
+//  KCMC Discipleship v13 — Frontend JS
+//  FIX: viewReport now uses data-id attribute on buttons so IDs
+//       with special characters (sheet_2 etc.) never break onclick.
+//  FIX: Full mobile-friendly layout.
 // ═══════════════════════════════════════════════════════════════
 
 var DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbz-SrAE3iIPsGZTrwrRiSJZ4HpuxIEKNRSZX-mQDdV3gzmAQea2CcFLGhLXiYwpYrusYQ/exec';
@@ -740,11 +750,11 @@ var GAS_URL = localStorage.getItem('kcmc_gas_url') || DEFAULT_GAS_URL;
 
 var photoDataURLs = [];
 var confirmCallback = null;
-var sheetsData = [];          // rows fetched from Google Sheets
-var currentSource = 'all';   // 'all' | 'sheets' | 'local'
+var sheetsData = [];
+var currentSource = 'all';
 var fetchInProgress = false;
 
-// ── Storage helpers ────────────────────────────────────────────
+// ── Storage helpers ──────────────────────────────────────────
 function loadReports(){
   try{return JSON.parse(localStorage.getItem('kcmc_reports')||'[]');}catch(e){return[];}
 }
@@ -754,7 +764,7 @@ function saveReports(arr){
   catch(e){showToast('⚠️ Storage full — old reports trimmed.','#8b3a1c','⚠️');}
 }
 
-// ── Init ──────────────────────────────────────────────────────
+// ── Init ────────────────────────────────────────────────────
 function init(){
   var today=new Date();
   var fmt=today.toLocaleDateString('en-KE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
@@ -771,12 +781,28 @@ function init(){
     document.getElementById(id).addEventListener('input',function(){clearFieldError(id);});
   });
 
+  // ── Delegated click handler for table action buttons ──────
+  // This fixes the Sheets-record View button by avoiding onclick
+  // attribute injection with potentially special-character IDs.
+  document.getElementById('report-tbody').addEventListener('click', function(e){
+    var btn = e.target.closest('button[data-action]');
+    if(!btn) return;
+    var action = btn.dataset.action;
+    var id = btn.dataset.id;
+    if(action === 'view') viewReport(id);
+    else if(action === 'delete') confirmDelete(id);
+  });
+
+  // Close modal when tapping overlay backdrop
+  document.getElementById('modal-overlay').addEventListener('click', function(e){
+    if(e.target === this) closeModalDirect();
+  });
+
   updateSheetsStatus();
   renderTable();
   updateStats();
   window.addEventListener('focus',updateSheetsStatus);
 
-  // Pre-load cached sheets data if available
   try{
     var cached=localStorage.getItem('kcmc_sheets_cache');
     if(cached){
@@ -795,7 +821,6 @@ function switchView(v,tabEl){
     renderTable();
     updateStats();
     updateRetryBanner();
-    // Auto-fetch if we haven't yet this session
     if(!window._fetchedThisSession && GAS_URL){
       window._fetchedThisSession=true;
       fetchFromSheets();
@@ -810,7 +835,7 @@ function updateTotal(){
   document.getElementById('total-display').textContent=m+f+s;
 }
 
-// ── Validation ─────────────────────────────────────────────────
+// ── Validation ───────────────────────────────────────────────
 function setFieldError(id,errId){
   document.getElementById(id).classList.add('error');
   document.getElementById(errId).classList.add('show');
@@ -836,7 +861,7 @@ function validateForm(){
   return ok;
 }
 
-// ── Photo handling ─────────────────────────────────────────────
+// ── Photo handling ───────────────────────────────────────────
 function handlePhotos(input){handleFiles(input.files);}
 function handleFiles(files){
   var available=10-photoDataURLs.length;
@@ -871,13 +896,13 @@ function renderPhotoPreview(){
     wrap.className='photo-thumb-wrap';wrap.id='thumb-'+i;
     wrap.innerHTML='<img src="'+src+'" alt="Photo '+(i+1)+'"/>'
       +'<span class="upload-tick">✓</span>'
-      +'<button class="remove-photo" onclick="removePhoto('+i+')" title="Remove">✕</button>';
+      +'<button class="remove-photo" onclick="removePhoto('+i+')" title="Remove" type="button">✕</button>';
     preview.appendChild(wrap);
   });
 }
 function removePhoto(i){photoDataURLs.splice(i,1);renderPhotoPreview();}
 
-// ── GAS fetch helpers ──────────────────────────────────────────
+// ── GAS fetch helpers ────────────────────────────────────────
 function gasPostRaw(payload){
   return fetch(GAS_URL,{
     method:'POST',
@@ -900,7 +925,7 @@ async function uploadPhotoOnce(payload,index){
   return resp;
 }
 
-// ══ FETCH FROM SHEETS (new in v12) ════════════════════════════
+// ── FETCH FROM SHEETS ────────────────────────────────────────
 async function fetchFromSheets(){
   if(!GAS_URL){showToast('⚠️ No GAS URL — open ⚙️ Setup first.','#8b3a1c','⚠️');return;}
   if(fetchInProgress){showToast('⏳ Fetch already in progress…','var(--forest)','⏳');return;}
@@ -908,10 +933,9 @@ async function fetchFromSheets(){
   fetchInProgress=true;
   var btn=document.getElementById('fetch-btn');
   btn.classList.add('loading');btn.disabled=true;
-  setFetchStatus('loading','⏳ Fetching data from Google Sheets…',true);
+  setFetchStatus('loading','⏳ Fetching from Google Sheets…',true);
 
   try{
-    // GAS doGet with ?action=getReports
     var url=GAS_URL+'?action=getReports&_='+Date.now();
     var resp=await fetch(url,{cache:'no-store'});
     var txt=await resp.text();
@@ -921,7 +945,6 @@ async function fetchFromSheets(){
     if(parsed.result==='error'){throw new Error(parsed.message||'GAS error');}
 
     sheetsData=parsed.reports||[];
-    // Cache in localStorage for offline resilience
     try{localStorage.setItem('kcmc_sheets_cache',JSON.stringify(sheetsData));}catch(e){}
 
     var now=new Date().toLocaleTimeString('en-KE');
@@ -946,11 +969,10 @@ function setFetchStatus(state,text,spinning,timeStr){
   var txt=document.getElementById('fetch-status-text');
   var timeEl=document.getElementById('fetch-last-time');
   if(dot)dot.className='fetch-status-dot'+(state==='live'?' live':state==='error'?' error':state==='loading'?' loading':'');
-  if(txt)txt.textContent=text;
-  if(timeEl&&timeStr)timeEl.textContent='· Last synced '+timeStr;
+  if(txt)txt.innerHTML=text+(timeStr?'<small>· Last synced '+timeStr+'</small>':'');
 }
 
-// ── Source toggle ──────────────────────────────────────────────
+// ── Source toggle ────────────────────────────────────────────
 function setSource(src){
   currentSource=src;
   ['all','sheets','local'].forEach(function(s){
@@ -961,14 +983,12 @@ function setSource(src){
   renderCharts();
 }
 
-// ── Merge logic ────────────────────────────────────────────────
+// ── Merge logic ──────────────────────────────────────────────
 function getMergedReports(){
   var local=loadReports();
   if(currentSource==='local')return local;
   if(currentSource==='sheets')return sheetsData;
 
-  // Merge: prefer sheets records, supplement with local-only
-  // De-duplicate: local records that match a sheets record by (date+school+facilitator) are hidden
   var sheetKeys=new Set(sheetsData.map(function(r){
     return(r.date+'|'+r.school+'|'+r.facilitator).toLowerCase();
   }));
@@ -981,16 +1001,16 @@ function getMergedReports(){
   });
 }
 
-// ── Sheets status ──────────────────────────────────────────────
+// ── Sheets status ────────────────────────────────────────────
 function updateSheetsStatus(){
   var el=document.getElementById('sheets-status');
   var txt=document.getElementById('sheets-status-text');
   if(GAS_URL){
     el.className='sheets-status connected';
-    txt.textContent='✅ Connected — reports sync to Google Sheets + Drive on all devices.';
+    txt.textContent='✅ Connected — reports sync to Google Sheets + Drive.';
   }else{
     el.className='sheets-status';
-    txt.textContent='Not configured — click ⚙️ Setup to connect.';
+    txt.textContent='Not configured — tap ⚙️ Setup to connect.';
   }
 }
 
@@ -1001,7 +1021,7 @@ function updateRetryBanner(){
   banner.classList.toggle('show',unsynced>0&&!!GAS_URL);
 }
 
-// ── Retry unsynced ─────────────────────────────────────────────
+// ── Retry unsynced ───────────────────────────────────────────
 async function retryUnsynced(){
   var reports=loadReports();
   var unsynced=reports.filter(function(r){return!r.synced;});
@@ -1036,7 +1056,7 @@ async function retryUnsynced(){
   else showToast('⚠️ Sync failed — check GAS authorization.','#8b3a1c','⚠️');
 }
 
-// ── Charts ─────────────────────────────────────────────────────
+// ── Charts ───────────────────────────────────────────────────
 function renderCharts(){
   var reports=getMergedReports();
   renderSchoolsChart(reports);
@@ -1053,7 +1073,7 @@ function renderSchoolsChart(reports){
     .sort(function(a,b){return b.val-a.val;}).slice(0,6);
   var max=sorted.length?sorted[0].val:1;
   var container=document.getElementById('chart-schools');
-  if(!sorted.length){container.innerHTML='<div style="color:var(--muted);font-size:.82rem;padding:16px 0">No data yet — sync from Sheets.</div>';return;}
+  if(!sorted.length){container.innerHTML='<div style="color:var(--muted);font-size:.82rem;padding:12px 0">No data yet — sync from Sheets.</div>';return;}
   container.innerHTML=sorted.map(function(item){
     var pct=Math.round((item.val/max)*100);
     return '<div class="bar-row">'
@@ -1101,7 +1121,6 @@ function renderDonut(reports){
   }).join('');
 }
 
-// ── Sheets status source badges ────────────────────────────────
 function updateStatSourceBadges(){
   var hasSheets=sheetsData.length>0;
   var sourceLabel=currentSource==='sheets'
@@ -1119,7 +1138,10 @@ function updateStatSourceBadges(){
   });
 }
 
-// ── Dashboard table ────────────────────────────────────────────
+// ── Dashboard table ──────────────────────────────────────────
+// KEY FIX: buttons use data-action and data-id attributes.
+// A single delegated listener on tbody (set in init()) handles clicks.
+// This avoids escaping issues with IDs like "sheet_2" in onclick="".
 function renderTable(){
   var reports=getMergedReports();
   var q=((document.getElementById('search-input')||{}).value||'').toLowerCase();
@@ -1140,24 +1162,23 @@ function renderTable(){
       :(r.synced
         ?'<span class="badge badge-green">☁ Synced</span>'
         :'<span class="badge" style="background:rgba(139,58,28,.1);color:var(--rust)">📱 Local</span>');
-    var photoBadge='—';
-    if(r.photoCount){
-      var driveOk=(r.driveLinks||[]).filter(function(l){return l.startsWith('http');}).length;
-      photoBadge='📷 '+r.photoCount+(driveOk?' <small style="color:var(--success)">✅ '+driveOk+'</small>':'');
-    }
-    var canDelete=!isSheets; // Sheets rows can't be deleted from local
+
+    // Escape the ID for the data attribute (safe for all IDs including "sheet_2")
+    var safeId = escAttr(String(r.id));
+    var canDelete=!isSheets;
+
     var tr=document.createElement('tr');
     tr.innerHTML=
       '<td><span class="badge badge-gold">#'+(i+1)+'</span></td>'+
-      '<td>'+formatDate(r.date)+'</td>'+
+      '<td style="white-space:nowrap">'+formatDate(r.date)+'</td>'+
       '<td><strong>'+escHtml(r.school)+'</strong>'+(r.location?'<br/><small style="color:var(--muted)">'+escHtml(r.location)+'</small>':'')+'</td>'+
       '<td>'+escHtml(r.facilitator)+(r.zone?'<br/><small style="color:var(--muted)">'+escHtml(r.zone)+'</small>':'')+'</td>'+
       '<td><span class="badge badge-green">'+r.total+'</span></td>'+
-      '<td>'+photoBadge+'</td>'+
       '<td>'+sourceBadge+'</td>'+
-      '<td style="display:flex;gap:6px;flex-wrap:wrap">'+
-        '<button class="btn btn-outline" style="padding:6px 12px;font-size:.78rem" onclick="viewReport(\''+r.id+'\')">View</button>'+
-        (canDelete?'<button class="btn btn-danger" onclick="confirmDelete(\''+r.id+'\')">Delete</button>':'')+'</td>';
+      '<td><div class="row-actions">'+
+        '<button class="btn btn-outline" style="padding:7px 12px;font-size:.78rem" data-action="view" data-id="'+safeId+'">View</button>'+
+        (canDelete?'<button class="btn btn-danger" data-action="delete" data-id="'+safeId+'">Delete</button>':'')
+      +'</div></td>';
     tbody.appendChild(tr);
   });
 }
@@ -1173,7 +1194,7 @@ function updateStats(){
   renderCharts();
 }
 
-// ── Confirm dialog ─────────────────────────────────────────────
+// ── Confirm dialog ───────────────────────────────────────────
 function openConfirm(title,msg,okLabel,cb){
   document.getElementById('confirm-title').textContent=title;
   document.getElementById('confirm-msg').textContent=msg;
@@ -1203,10 +1224,15 @@ function confirmClearAll(){
   });
 }
 
-// ── Detail modal ───────────────────────────────────────────────
+// ── Detail modal ─────────────────────────────────────────────
 function viewReport(id){
   var all=getMergedReports();
-  var r=all.find(function(x){return String(x.id)===String(id);});if(!r)return;
+  // Match by string comparison so "sheet_2" === "sheet_2" works
+  var r=all.find(function(x){return String(x.id)===String(id);});
+  if(!r){
+    showToast('⚠️ Report not found.','#8b3a1c','⚠️');
+    return;
+  }
   document.getElementById('modal-title').textContent=r.school;
   document.getElementById('modal-sub').textContent=formatDate(r.date)+' · '+r.facilitator;
   var driveHtml;
@@ -1214,7 +1240,7 @@ function viewReport(id){
     driveHtml='<div class="drive-links">'+r.driveLinks.map(function(l,i){
       if(l.startsWith('http'))return'<a href="'+escHtml(l)+'" target="_blank" rel="noopener">📁 Drive Photo '+(i+1)+'</a>';
       return'<span style="color:var(--muted);font-size:.8rem">'+escHtml(l)+'</span>';
-    }).join('')+'</div>';
+    }).join('')+"</div>";
   }else if(r.photoCount){
     driveHtml='📷 '+r.photoCount+' photo(s) — '+(r.synced||r.source==='sheets'?'synced to Drive':'not yet synced');
   }else{driveHtml='—';}
@@ -1238,10 +1264,9 @@ function viewReport(id){
   document.getElementById('modal-overlay').classList.add('open');
 }
 function drow(k,v){return'<div class="detail-row"><div class="detail-key">'+k+'</div><div class="detail-val">'+v+'</div></div>';}
-function closeModal(e){if(e.target===document.getElementById('modal-overlay'))closeModalDirect();}
 function closeModalDirect(){document.getElementById('modal-overlay').classList.remove('open');}
 
-// ── Submit ─────────────────────────────────────────────────────
+// ── Submit ───────────────────────────────────────────────────
 async function submitReport(){
   if(!validateForm())return;
   var school=document.getElementById('f-school').value.trim();
@@ -1318,7 +1343,6 @@ async function submitReport(){
     if(sheetResp&&sheetResp.result==='success'){
       progTxt.textContent='✅ Report saved to Google Sheets!';addLog('Saved ✅','ok');
       report.driveLinks=driveLinks;report.synced=true;
-      // Invalidate sheets cache so next dashboard load re-fetches
       window._fetchedThisSession=false;
     }else{
       progTxt.textContent='⚠️ Sheets sync failed — saved locally.';
@@ -1326,7 +1350,7 @@ async function submitReport(){
     }
     var recs=loadReports();var idx=recs.findIndex(function(x){return x.id===report.id;});
     if(idx>-1){recs[idx]=report;saveReports(recs);}
-    var photoMsg=uploadedCount>0?' + '+uploadedCount+' photo(s)'+(failedCount>0?' ('+failedCount+' failed)':''):(report.photoCount>0?' (photo upload failed)':'');
+    var photoMsg=uploadedCount>0?' + '+uploadedCount+' photo(s)'+(failedCount>0?' ('+failedCount+' failed)':'')+'':(report.photoCount>0?' (photo upload failed)':'')+'';
     showToast('✅ Report submitted'+photoMsg,'var(--forest)','✅');
   }catch(err){
     progTxt.textContent='⚠️ Error — '+err.message;addLog('Fatal: '+err.message,'err');
@@ -1352,7 +1376,6 @@ function clearForm(){
 }
 function printReport(){window.print();}
 
-// ── Excel / CSV export ─────────────────────────────────────────
 function exportXLSX(){
   var reports=getMergedReports();
   if(!reports.length){showToast('⚠️ No reports to export.','#8b3a1c','⚠️');return;}
@@ -1360,28 +1383,16 @@ function exportXLSX(){
   var headers=['ID','Source','Date','School','Location','Session Time','Facilitator','Email','Phone','Zone',
                'Male','Female','Staff','Total Attended','Topics','Challenges','Highlights','Photo Count','Drive Links'];
   var rows=reports.map(function(r){
-    return[r.id,r.source||'local',r.date,r.school||'',r.location||'',r.time||'',
-           r.facilitator||'',r.email||'',r.phone||'',r.zone||'',
-           r.male||0,r.female||0,r.staff||0,r.total||0,
-           r.topics||'',r.challenges||'',r.highlights||'',r.photoCount||0,
+    return[r.id,r.source||'local',r.date,r.school||'',,r.location||'',,r.time||'',,
+           r.facilitator||'',,r.email||'',,r.phone||'',,r.zone||'',,
+           r.male||0,,r.female||0,,r.staff||0,,r.total||0,,
+           r.topics||'',,r.challenges||'',,r.highlights||'',,r.photoCount||0,,
            (r.driveLinks||[]).join('\n')];
   });
   var wb=XLSX.utils.book_new();
   var ws=XLSX.utils.aoa_to_sheet([headers].concat(rows));
   ws['!cols']=[8,8,12,24,20,16,22,26,16,18,8,8,8,14,40,30,30,12,50].map(function(w){return{wch:w};});
   XLSX.utils.book_append_sheet(wb,ws,'Reports');
-  var schools=new Set(reports.map(function(r){return r.school;})).size;
-  var total=reports.reduce(function(s,r){return s+(r.total||0);},0);
-  var facs=new Set(reports.map(function(r){return r.facilitator;})).size;
-  var ws2=XLSX.utils.aoa_to_sheet([
-    ['KCMC Discipleship — Summary Report'],[],
-    ['Generated',new Date().toLocaleString('en-KE')],[],
-    ['Total Reports',reports.length],['Schools Reached',schools],
-    ['Total Attendees',total],['Facilitators',facs],
-    ['Data Source',currentSource]
-  ]);
-  ws2['!cols']=[{wch:22},{wch:18}];
-  XLSX.utils.book_append_sheet(wb,ws2,'Summary');
   XLSX.writeFile(wb,'KCMC_Reports_'+new Date().toISOString().slice(0,10)+'.xlsx');
   showToast('📊 Excel downloaded!','var(--forest)','📊');
 }
@@ -1402,7 +1413,6 @@ function exportCSV(){
   showToast('⬇ CSV exported!','var(--forest)','⬇️');
 }
 
-// ── Setup modal ────────────────────────────────────────────────
 function openSetup(){
   document.getElementById('gas-url-input').value=GAS_URL;
   document.getElementById('test-result').textContent='';
@@ -1431,7 +1441,6 @@ function copyScript(){
   navigator.clipboard.writeText(code).then(function(){showToast('📋 Script copied!','var(--forest)','📋');});
 }
 
-// ── Log + helpers ─────────────────────────────────────────────
 function addLog(msg,type){
   var log=document.getElementById('upload-log');
   var line=document.createElement('div');
@@ -1439,8 +1448,9 @@ function addLog(msg,type){
   line.textContent=new Date().toLocaleTimeString('en-KE')+'  '+msg;
   log.appendChild(line);log.scrollTop=log.scrollHeight;
 }
-function cv(v){var s=(v||'').toString().replace(/"/g,'""');return'"'+s+'"';}
-function escHtml(s){if(!s)return'';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function cv(v){var s=(v||'').toString().replace(/"/g,'\"\"'  );return'"'+s+'"';}
+function escHtml(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escAttr(s){if(!s)return'';return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function formatDate(d){if(!d)return'—';try{return new Date(d+'T00:00:00').toLocaleDateString('en-KE',{day:'numeric',month:'short',year:'numeric'});}catch(e){return d;}}
 function showToast(msg,bg,icon){
   var t=document.getElementById('toast');
