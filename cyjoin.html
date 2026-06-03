@@ -658,38 +658,28 @@
       </div>
       <div class="section-body">
 
-        <!-- Photo choice modal -->
-        <div id="photoModal" style="display:none;position:fixed;inset:0;background:rgba(26,26,46,0.65);z-index:8000;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px);" onclick="closePhotoModal(event)">
-          <div style="background:#fff;border-radius:18px 18px 0 0;padding:28px 20px 32px;width:100%;max-width:480px;box-shadow:0 -8px 40px rgba(0,0,0,0.2);">
-            <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:6px;text-align:center;">Add Passport Photo</div>
-            <div style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:22px;">Choose how to add the child's photo</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-              <button type="button" onclick="triggerCamera()" style="background:var(--ivory);border:1.5px solid var(--border);border-radius:10px;padding:18px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink);transition:border-color .2s,background .2s;-webkit-tap-highlight-color:transparent;">
-                <span style="font-size:30px;">📸</span>Take Photo
-              </button>
-              <button type="button" onclick="triggerUpload()" style="background:var(--ivory);border:1.5px solid var(--border);border-radius:10px;padding:18px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink);transition:border-color .2s,background .2s;-webkit-tap-highlight-color:transparent;">
-                <span style="font-size:30px;">🖼️</span>Upload from Gallery
-              </button>
-            </div>
-            <button type="button" onclick="closePhotoModal()" style="margin-top:16px;width:100%;background:none;border:1.5px solid var(--border);border-radius:8px;padding:11px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;">Cancel</button>
-          </div>
-        </div>
-
         <div class="photo-section">
-          <div class="photo-wrap">
+          <div class="photo-wrap" style="position:relative;">
             <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;">
               Passport Photo <span style="color:var(--red)">*</span>
             </div>
-            <div class="photo-drop" id="photoDrop" onclick="openPhotoModal()">
+            <div class="photo-drop" id="photoDrop" onclick="togglePhotoMenu()">
               <div class="drop-hint">
                 <div class="drop-icon">📷</div>
                 Tap to add
               </div>
             </div>
+            <!-- Compact inline popover menu -->
+            <div id="photoMenu" style="display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:500;background:#fff;border:1.5px solid var(--border);border-radius:10px;box-shadow:0 6px 24px rgba(26,26,46,0.14);min-width:190px;overflow:hidden;">
+              <button type="button" onclick="triggerCamera()" style="display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;background:none;border:none;border-bottom:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;">
+                <span style="font-size:18px;">📸</span> Take Photo
+              </button>
+              <button type="button" onclick="triggerUpload()" style="display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;background:none;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;">
+                <span style="font-size:18px;">🖼️</span> Upload from Gallery
+              </button>
+            </div>
             <div class="photo-req-note" id="photoReqNote">Required</div>
-            <!-- Upload from gallery (no capture) -->
             <input type="file" id="photoInputUpload" accept="image/*" style="display:none" onchange="previewPhoto(event)">
-            <!-- Take photo with camera -->
             <input type="file" id="photoInputCamera" accept="image/*" capture="environment" style="display:none" onchange="previewPhoto(event)">
           </div>
           <div class="photo-meta">
@@ -732,12 +722,12 @@
             <label>Age Group <span class="req">*</span></label>
             <select name="ageGroup" required>
               <option value="">— Select Age Group —</option>
-              <option value="Age 0 to 2">0 – 2 years</option>
-              <option value="Age 3 to 5">3 – 5 years</option>
-              <option value="Age 6 to 8">6 – 8 years</option>
-              <option value="Age 9 to 11">9 – 11 years</option>
-              <option value="Age 12 to 14">12 – 14 years</option>
-              <option value="Age 15 to 18">15 – 18 years</option>
+              <option value="0-2 years">0 – 2 years</option>
+              <option value="3-5 years">3 – 5 years</option>
+              <option value="6-8 years">6 – 8 years</option>
+              <option value="9-11 years">9 – 11 years</option>
+              <option value="12-14 years">12 – 14 years</option>
+              <option value="15-18 years">15 – 18 years</option>
             </select>
           </div>
           <div class="field">
@@ -974,36 +964,32 @@
   // ── CONFIG ──────────────────────────────────────────────────────────────
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
 
-  // ── ROLL NUMBER COUNTER ─────────────────────────────────────────────────
-  // nextRollNum is fetched from server on load; falls back to localStorage
-  let nextRollNum = null;
+  // ── ROLL NUMBER ─────────────────────────────────────────────────────────
+  // Roll No is blank until Save Record is clicked.
+  // On submit, we ask the server for the current highest roll in the sheet,
+  // add 1, format as CY-XXXX, and use that.  localStorage is only a last-resort
+  // fallback if the server GET fails.
 
   function formatRoll(n) {
     return 'CY-' + String(n).padStart(4, '0');
   }
 
-  async function fetchAndShowNextRoll() {
-    const field = document.getElementById('rollNoField');
-    const badge = document.getElementById('rollBadge');
+  /** Ask the Apps Script for the highest numeric roll in the sheet.
+   *  Returns a Promise<number> (the next roll integer to use). */
+  async function fetchNextRollFromServer() {
     try {
       const res = await fetch(SCRIPT_URL + '?action=getNextRoll', { redirect: 'follow' });
       if (res.ok) {
         const data = await res.json();
-        if (data && data.nextRoll) {
-          nextRollNum = parseInt(data.nextRoll, 10);
-          // Sync localStorage so offline fallback stays accurate
-          localStorage.setItem('cy_last_roll', String(nextRollNum - 1));
-          field.placeholder = formatRoll(nextRollNum) + ' (preview)';
-          badge.textContent = 'Next available';
-          return;
-        }
+        // Server should return { nextRoll: <number> } — the NEXT available number
+        if (data && data.nextRoll) return parseInt(data.nextRoll, 10);
+        // Alternatively some scripts return the highest existing roll
+        if (data && data.lastRoll != null) return parseInt(data.lastRoll, 10) + 1;
       }
-    } catch (_) { /* fall through to localStorage */ }
-    // Fallback: use localStorage
+    } catch (_) { /* network error — fall through */ }
+    // localStorage fallback
     const last = parseInt(localStorage.getItem('cy_last_roll') || '0', 10);
-    nextRollNum = last + 1;
-    field.placeholder = formatRoll(nextRollNum) + ' (preview)';
-    badge.textContent = 'Next available (local)';
+    return last + 1;
   }
 
   function commitRollNo(n) {
@@ -1014,28 +1000,40 @@
   window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
     updateProgressBar();
-    fetchAndShowNextRoll();
+    // Roll No field stays blank — assigned only when Save Record is clicked
+    document.getElementById('rollBadge').textContent = 'Assigned on save';
     document.getElementById('childForm').addEventListener('change', updateProgressBar);
     document.getElementById('childForm').addEventListener('input', updateProgressBar);
   });
 
-  // ── PHOTO MODAL ─────────────────────────────────────────────────────────
-  function openPhotoModal() {
-    const m = document.getElementById('photoModal');
-    m.style.display = 'flex';
-    requestAnimationFrame(() => m.style.opacity = '1');
+  // ── PHOTO MENU (compact inline popover) ────────────────────────────────
+  function togglePhotoMenu() {
+    // If photo already set, tapping again re-opens the menu to change it
+    const menu = document.getElementById('photoMenu');
+    const isOpen = menu.style.display === 'block';
+    menu.style.display = isOpen ? 'none' : 'block';
+    if (!isOpen) {
+      // Close when clicking anywhere outside
+      setTimeout(() => {
+        document.addEventListener('click', closePhotoMenuOutside, { once: true });
+      }, 0);
+    }
   }
-  function closePhotoModal(e) {
-    // Close only if clicking the backdrop or the cancel button (no argument = cancel btn)
-    if (e && e.target !== document.getElementById('photoModal')) return;
-    document.getElementById('photoModal').style.display = 'none';
+  function closePhotoMenuOutside(e) {
+    const menu = document.getElementById('photoMenu');
+    const drop = document.getElementById('photoDrop');
+    if (!menu.contains(e.target) && e.target !== drop) {
+      menu.style.display = 'none';
+    } else if (!menu.contains(e.target)) {
+      menu.style.display = 'none';
+    }
   }
   function triggerCamera() {
-    document.getElementById('photoModal').style.display = 'none';
+    document.getElementById('photoMenu').style.display = 'none';
     document.getElementById('photoInputCamera').click();
   }
   function triggerUpload() {
-    document.getElementById('photoModal').style.display = 'none';
+    document.getElementById('photoMenu').style.display = 'none';
     document.getElementById('photoInputUpload').click();
   }
 
@@ -1159,13 +1157,10 @@
       return;
     }
 
-    // Use server-fetched next roll (or localStorage fallback)
-    if (!nextRollNum) {
-      const last = parseInt(localStorage.getItem('cy_last_roll') || '0', 10);
-      nextRollNum = last + 1;
-    }
-    const nextNum  = nextRollNum;
-    const rollNo   = formatRoll(nextNum);
+    // ── Fetch the next Roll No from the server right now (at save time)
+    showSubmitProgress(3, 'Getting next Roll No…');
+    const nextNum = await fetchNextRollFromServer();
+    const rollNo  = formatRoll(nextNum);
     document.getElementById('rollNoField').value = rollNo;
     document.getElementById('rollBadge').textContent = 'Assigned: ' + rollNo;
 
@@ -1239,7 +1234,6 @@
       if (result.success) {
         const confirmedRoll = result.rollNo || rollNo;
         commitRollNo(nextNum);
-        nextRollNum = null; // will re-fetch on reset
 
         showSubmitProgress(100, 'Record saved! ✅');
         await delay(700);
@@ -1277,17 +1271,15 @@
   function resetForm() {
     document.getElementById('childForm').reset();
     document.getElementById('photoDrop').innerHTML =
-      `<div class="drop-hint"><div class="drop-icon">📷</div>Tap to upload</div>`;
+      `<div class="drop-hint"><div class="drop-icon">📷</div>Tap to add</div>`;
     document.getElementById('photoDrop').className = 'photo-drop';
     document.getElementById('photoReqNote').textContent = 'Required';
     document.getElementById('photoReqNote').style.color = 'var(--red)';
     photoDataUrl = null; photoMimeType = null; photoName = null;
     document.getElementById('rollNoField').value = '';
-    document.getElementById('rollBadge').textContent = 'Fetching…';
+    document.getElementById('rollBadge').textContent = 'Assigned on save';
     document.querySelectorAll('.check-item').forEach(l => l.classList.remove('checked'));
     document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
-    nextRollNum = null;
-    fetchAndShowNextRoll();
     updateProgressBar();
   }
 
