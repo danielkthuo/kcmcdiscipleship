@@ -44,9 +44,7 @@
   .pin-key {
     background: var(--ivory); border: 1.5px solid var(--border); border-radius: 10px;
     padding: 14px; font-size: 18px; font-weight: 600; cursor: pointer;
-    transition: background .15s, transform .1s; user-select: none;
-    /* Bigger touch target on mobile */
-    min-height: 52px;
+    transition: background .15s, transform .1s; user-select: none; min-height: 52px;
   }
   .pin-key:hover  { background: #f0e8d8; }
   .pin-key:active { transform: scale(0.95); background: #e8dcc8; }
@@ -70,14 +68,24 @@
   .btn-outline {
     border: 1.5px solid rgba(201,151,43,0.4); color: var(--gold-light);
     background: transparent; border-radius: 6px; padding: 7px 10px;
-    font-size: 12px; font-weight: 500; cursor: pointer; transition: background .2s;
-    white-space: nowrap;
+    font-size: 12px; font-weight: 500; cursor: pointer; transition: background .2s; white-space: nowrap;
   }
   .btn-outline:hover { background: rgba(201,151,43,0.1); }
-  /* On very small screens hide Refresh label, keep icon */
-  @media (max-width: 400px) {
-    .btn-outline .btn-label { display: none; }
+  @media (max-width: 400px) { .btn-outline .btn-label { display: none; } }
+
+  /* OFFLINE BANNER */
+  .offline-banner {
+    display: none; background: #e67e22; color: #fff;
+    text-align: center; padding: 8px 16px; font-size: 13px; font-weight: 500;
+    position: sticky; top: 68px; z-index: 98;
   }
+  .offline-banner.show { display: block; }
+  .sync-banner {
+    display: none; background: var(--green); color: #fff;
+    text-align: center; padding: 8px 16px; font-size: 13px; font-weight: 500;
+    position: sticky; top: 68px; z-index: 98;
+  }
+  .sync-banner.show { display: block; }
 
   /* TABS */
   .tabs-wrap { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.07); overflow-x: auto; -webkit-overflow-scrolling: touch; position: sticky; top: 68px; z-index: 99; }
@@ -105,19 +113,26 @@
   .stat-card .value { font-size: 28px; font-weight: 600; color: var(--ink); line-height: 1; }
   .stat-card .sub   { font-size: 11px; color: var(--muted); margin-top: 4px; }
 
+  /* ALERT CARD */
+  .alert-card {
+    border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;
+    border-left: 4px solid; display: flex; align-items: flex-start; gap: 12px;
+  }
+  .alert-card.warning { background: #fff8ec; border-color: #e67e22; }
+  .alert-card.danger  { background: #fff5f5; border-color: var(--red); }
+  .alert-card.info    { background: #f0f7ff; border-color: var(--blue); }
+  .alert-card .alert-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .alert-card .alert-body { flex: 1; }
+  .alert-card .alert-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  .alert-card .alert-text  { font-size: 13px; color: var(--muted); }
+
   /* PANEL */
   .panel { display: none; }
   .panel.active { display: block; }
 
   /* CARD */
-  .card {
-    background: var(--section-bg); border: 1px solid var(--border); border-radius: 12px;
-    box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden;
-  }
-  .card-head {
-    background: var(--ivory); border-bottom: 1px solid var(--border);
-    padding: 12px 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  }
+  .card { background: var(--section-bg); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden; }
+  .card-head { background: var(--ivory); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .card-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; }
   .card-body  { padding: 16px; }
   @media (max-width: 480px) { .card-body { padding: 12px; } }
@@ -126,10 +141,8 @@
   .search-row { display: flex; gap: 8px; flex-wrap: wrap; }
   .search-input {
     flex: 1; min-width: 160px; border: 1.5px solid var(--border); border-radius: 7px;
-    padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: max(16px, 14px);
     background: var(--cream); outline: none; transition: border-color .2s;
-    /* iOS zoom prevention */
-    font-size: max(16px, 14px);
   }
   .search-input:focus { border-color: var(--gold); background: #fff; }
 
@@ -163,13 +176,10 @@
   .btn-gold:active { background: #a07219; }
   .btn-outline-sm { background: transparent; border: 1.5px solid var(--border); color: var(--ink); }
   .btn-outline-sm:hover { border-color: var(--gold); }
+  .btn-danger { background: var(--red); color: #fff; border: none; }
 
-  /* Action buttons in child table — stack on small screens */
   .action-cell { display: flex; gap: 5px; flex-wrap: wrap; }
-  @media (max-width: 600px) {
-    /* Hide some columns on mobile */
-    .col-school { display: none; }
-  }
+  @media (max-width: 600px) { .col-school { display: none; } }
 
   /* MODAL */
   .modal-backdrop {
@@ -180,20 +190,14 @@
     backdrop-filter: blur(2px); -webkit-overflow-scrolling: touch;
   }
   .modal-backdrop.open { display: flex; }
-  .modal {
-    background: #fff; border-radius: 14px; width: min(700px, 100%);
-    box-shadow: 0 24px 60px rgba(0,0,0,0.25);
-  }
+  .modal { background: #fff; border-radius: 14px; width: min(700px, 100%); box-shadow: 0 24px 60px rgba(0,0,0,0.25); }
   .modal-head {
     background: var(--ink); color: #fff; padding: 16px 20px;
     border-radius: 14px 14px 0 0; display: flex; align-items: center; justify-content: space-between;
     position: sticky; top: 0; z-index: 1;
   }
   .modal-head h3 { font-family: 'Playfair Display', serif; font-size: 17px; }
-  .modal-close {
-    background: none; border: none; color: rgba(255,255,255,0.5); font-size: 22px;
-    cursor: pointer; line-height: 1; padding: 4px 8px; touch-action: manipulation;
-  }
+  .modal-close { background: none; border: none; color: rgba(255,255,255,0.5); font-size: 22px; cursor: pointer; line-height: 1; padding: 4px 8px; touch-action: manipulation; }
   .modal-close:hover { color: #fff; }
   .modal-body { padding: 20px; }
   @media (max-width: 480px) { .modal-body { padding: 14px; } }
@@ -212,41 +216,60 @@
 
   /* MILESTONE */
   .milestone-list { display: flex; flex-direction: column; gap: 10px; }
-  .milestone-item {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 10px 12px; background: var(--ivory); border-radius: 8px; border: 1px solid var(--border);
-  }
-  .milestone-icon {
-    width: 34px; height: 34px; border-radius: 50%; background: var(--gold);
-    display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0;
-  }
+  .milestone-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: var(--ivory); border-radius: 8px; border: 1px solid var(--border); }
+  .milestone-icon { width: 34px; height: 34px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
   .milestone-info .type { font-size: 13px; font-weight: 600; }
   .milestone-info .meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .milestone-add {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px;
-    padding-top: 14px; border-top: 1px solid var(--border);
-  }
+  .milestone-add { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
   @media (max-width: 500px) { .milestone-add { grid-template-columns: 1fr; } }
 
-  /* ATTENDANCE FILTER BAR */
-  .att-filter-bar {
-    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: flex-end;
+  /* GROWTH PATHWAY */
+  .pathway-wrap { overflow-x: auto; padding-bottom: 8px; }
+  .pathway { display: flex; align-items: center; gap: 0; min-width: max-content; padding: 4px 0; }
+  .pathway-step {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    width: 90px; position: relative;
   }
+  .pathway-step:not(:last-child)::after {
+    content: ''; position: absolute; top: 22px; right: -18px;
+    width: 36px; height: 2px; background: var(--border); z-index: 0;
+  }
+  .pathway-step:not(:last-child).done::after { background: var(--gold); }
+  .step-circle {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 2px solid var(--border); background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; z-index: 1; transition: all .3s;
+  }
+  .pathway-step.done .step-circle { border-color: var(--gold); background: rgba(201,151,43,0.1); }
+  .pathway-step.current .step-circle { border-color: var(--blue); background: rgba(37,99,235,0.08); box-shadow: 0 0 0 4px rgba(37,99,235,0.12); }
+  .step-label { font-size: 10px; text-align: center; color: var(--muted); font-weight: 500; line-height: 1.3; }
+  .pathway-step.done .step-label { color: var(--ink); }
+  .pathway-step.current .step-label { color: var(--blue); font-weight: 600; }
+  .pathway-child-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .pathway-roll { font-size: 11px; color: var(--muted); margin-bottom: 14px; }
+  .pathway-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+
+  /* ABSENCE BADGES */
+  .absent-badge {
+    display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px;
+    border-radius: 30px; white-space: nowrap;
+  }
+  .absent-3 { background: #fff8ec; color: #e67e22; border: 1px solid #f0a500; }
+  .absent-5 { background: #fff5f5; color: var(--red); border: 1px solid #e88; }
+  .absent-ok { background: #f0fff4; color: var(--green); border: 1px solid #7bd; }
+
+  /* ATTENDANCE FILTER BAR */
+  .att-filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: flex-end; }
   .att-filter-bar .field { display: flex; flex-direction: column; gap: 4px; }
   .att-filter-bar label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
   .att-filter-bar input, .att-filter-bar select {
     border: 1.5px solid var(--border); border-radius: 7px; padding: 8px 10px;
-    font-family: 'DM Sans', sans-serif; font-size: max(16px, 13px); background: var(--cream); outline: none;
-    transition: border-color .2s;
+    font-family: 'DM Sans', sans-serif; font-size: max(16px, 13px); background: var(--cream); outline: none; transition: border-color .2s;
   }
   .att-filter-bar input:focus, .att-filter-bar select:focus { border-color: var(--gold); background: #fff; }
   .att-filter-bar .field.grow { flex: 1; min-width: 130px; }
-
-  /* ATTENDANCE SESSION TABLE select */
-  .att-status-select {
-    border: 1.5px solid var(--border); border-radius: 6px; padding: 5px 7px;
-    font-size: max(16px, 13px); background: var(--cream); min-width: 110px;
-  }
+  .att-status-select { border: 1.5px solid var(--border); border-radius: 6px; padding: 5px 7px; font-size: max(16px, 13px); background: var(--cream); min-width: 110px; }
 
   /* FIELD HELPERS */
   .field-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 14px; }
@@ -254,23 +277,14 @@
   .field-row label  { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
   .field-row input, .field-row select {
     border: 1.5px solid var(--border); border-radius: 7px; padding: 9px 10px;
-    font-family: 'DM Sans', sans-serif; font-size: max(16px, 14px); background: var(--cream); outline: none;
-    transition: border-color .2s;
+    font-family: 'DM Sans', sans-serif; font-size: max(16px, 14px); background: var(--cream); outline: none; transition: border-color .2s;
   }
   .field-row input:focus, .field-row select:focus { border-color: var(--gold); background: #fff; }
   .field-row .field.grow { flex: 1; min-width: 130px; }
 
   /* SORT CONTROLS */
-  .sort-bar {
-    display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
-    padding: 8px 12px; background: var(--ivory); border-bottom: 1px solid var(--border);
-    font-size: 12px; color: var(--muted);
-  }
-  .sort-btn {
-    background: none; border: 1px solid var(--border); border-radius: 5px;
-    padding: 4px 9px; font-size: 11px; cursor: pointer; font-family: 'DM Sans', sans-serif;
-    color: var(--ink); transition: all .15s; touch-action: manipulation;
-  }
+  .sort-bar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 12px; background: var(--ivory); border-bottom: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  .sort-btn { background: none; border: 1px solid var(--border); border-radius: 5px; padding: 4px 9px; font-size: 11px; cursor: pointer; font-family: 'DM Sans', sans-serif; color: var(--ink); transition: all .15s; touch-action: manipulation; }
   .sort-btn.active { background: var(--gold); border-color: var(--gold); color: var(--ink); font-weight: 600; }
   .sort-btn:hover:not(.active) { border-color: var(--gold); }
 
@@ -279,6 +293,20 @@
   .status-absent  { color: var(--red); font-weight: 600; }
   .status-late    { color: #e67e22; font-weight: 600; }
   .status-excused { color: var(--blue); font-weight: 600; }
+
+  /* OFFLINE QUEUE INDICATOR */
+  .queue-pill {
+    display: none; background: #e67e22; color: #fff;
+    font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 30px;
+    margin-left: auto;
+  }
+  .queue-pill.show { display: inline-block; }
+
+  /* BIRTHDAY CARD */
+  .birthday-row { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; background: #fffbf0; border: 1px solid #ffe082; margin-bottom: 8px; }
+  .birthday-row .bday-icon { font-size: 20px; flex-shrink: 0; }
+  .birthday-row .bday-name { font-weight: 600; font-size: 14px; }
+  .birthday-row .bday-meta { font-size: 12px; color: var(--muted); }
 
   /* TOAST */
   .toast {
@@ -297,9 +325,14 @@
   .empty .icon { font-size: 32px; margin-bottom: 10px; }
   .loading { text-align: center; padding: 28px; color: var(--muted); font-size: 14px; }
 
-  /* Spinning refresh icon */
   .spin { display: inline-block; animation: spin .7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* PROGRESS BAR (spiritual pathway mini) */
+  .mini-pathway { display: flex; gap: 3px; align-items: center; }
+  .mini-step { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--border); background: #fff; flex-shrink: 0; transition: all .2s; }
+  .mini-step.done { background: var(--gold); border-color: var(--gold); }
+  .mini-step.current { background: var(--blue); border-color: var(--blue); }
 </style>
 </head>
 <body>
@@ -334,6 +367,10 @@
   </div>
 </div>
 
+<!-- OFFLINE / SYNC BANNERS -->
+<div class="offline-banner" id="offlineBanner">⚡ You are offline — attendance marks will be saved locally and synced when connection returns</div>
+<div class="sync-banner" id="syncBanner">✅ Back online — syncing offline attendance records…</div>
+
 <!-- ══════════════════════ HEADER ══════════════════════ -->
 <div class="header">
   <div class="header-logo">CY</div>
@@ -352,11 +389,13 @@
 <!-- ══════════════════════ TABS ══════════════════════ -->
 <div class="tabs-wrap">
   <div class="tabs">
-    <div class="tab active" data-tab="overview"    onclick="switchTab('overview')">📊 Overview</div>
-    <div class="tab"        data-tab="children"    onclick="switchTab('children')">👦 Children</div>
-    <div class="tab"        data-tab="milestones"  onclick="switchTab('milestones')">🏅 Milestones</div>
-    <div class="tab"        data-tab="attendance"  onclick="switchTab('attendance')">✅ Attendance</div>
-    <div class="tab"        onclick="window.location.href='cymembership.html'">👦 Membership</div>
+    <div class="tab active" data-tab="overview"   onclick="switchTab('overview')">📊 Overview</div>
+    <div class="tab"        data-tab="children"   onclick="switchTab('children')">👦 Children</div>
+    <div class="tab"        data-tab="milestones" onclick="switchTab('milestones')">🏅 Milestones</div>
+    <div class="tab"        data-tab="attendance" onclick="switchTab('attendance')">✅ Attendance</div>
+    <div class="tab"        data-tab="pathway"    onclick="switchTab('pathway')">🌱 Growth</div>
+    <div class="tab"        data-tab="followup"   onclick="switchTab('followup')">🔔 Follow-Up</div>
+    <div class="tab"        onclick="window.location.href='cymembership.html'">👥 Membership</div>
   </div>
 </div>
 
@@ -365,6 +404,10 @@
 
   <!-- ── OVERVIEW ── -->
   <div class="panel active" id="panel-overview">
+
+    <!-- Alerts section -->
+    <div id="overviewAlerts"></div>
+
     <div class="stat-row">
       <div class="stat-card">
         <div class="label">Registered</div>
@@ -387,6 +430,13 @@
         <div class="sub" id="stat-groups-sub">Active groups</div>
       </div>
     </div>
+
+    <!-- Birthdays this week -->
+    <div class="card" id="birthdayCard" style="display:none">
+      <div class="card-head"><span class="card-title">🎂 Birthdays This Week</span></div>
+      <div class="card-body" id="birthdayList"></div>
+    </div>
+
     <div class="card">
       <div class="card-head"><span class="card-title">Age Group Breakdown</span></div>
       <div class="card-body" id="ageChart"><div class="loading">Loading stats…</div></div>
@@ -415,7 +465,6 @@
         <span class="card-title">Results</span>
         <span id="resultCount" style="margin-left:auto;font-size:11px;color:var(--muted)"></span>
       </div>
-      <!-- Sort bar -->
       <div class="sort-bar" id="childSortBar" style="display:none">
         <span>Sort:</span>
         <button class="sort-btn active" id="sort-rollno" onclick="sortChildren('rollNo')">Roll No. ↑</button>
@@ -432,11 +481,12 @@
                 <th>Age Group</th>
                 <th>Gender</th>
                 <th class="col-school">School</th>
+                <th>Journey</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody id="childTable">
-              <tr><td colspan="6"><div class="loading">Search to find children…</div></td></tr>
+              <tr><td colspan="7"><div class="loading">Search to find children…</div></td></tr>
             </tbody>
           </table>
         </div>
@@ -502,7 +552,10 @@
   <!-- ── ATTENDANCE ── -->
   <div class="panel" id="panel-attendance">
     <div class="card">
-      <div class="card-head"><span class="card-title">Mark Attendance</span></div>
+      <div class="card-head">
+        <span class="card-title">Mark Attendance</span>
+        <span class="queue-pill" id="offlineQueuePill">0 pending sync</span>
+      </div>
       <div class="card-body">
         <div class="field-row">
           <div class="field">
@@ -524,18 +577,143 @@
         <div class="table-wrap">
           <table>
             <thead>
-              <tr>
-                <th>Date</th>
-                <th>Session</th>
-                <th>Roll No.</th>
-                <th>Name</th>
-                <th>Status</th>
-              </tr>
+              <tr><th>Date</th><th>Session</th><th>Roll No.</th><th>Name</th><th>Status</th></tr>
             </thead>
             <tbody id="attHistoryTable">
               <tr><td colspan="5"><div class="loading">Loading…</div></td></tr>
             </tbody>
           </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SPIRITUAL GROWTH PATHWAY ── -->
+  <div class="panel" id="panel-pathway">
+    <div class="card">
+      <div class="card-head"><span class="card-title">🌱 Spiritual Growth Pathway</span></div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+          Track each child's discipleship journey across seven key stages. Stages are automatically detected from milestone records, and can also be set manually.
+        </p>
+        <div class="field-row">
+          <div class="field grow">
+            <label>Search child</label>
+            <input type="search" id="pathwaySearch" placeholder="Name or Roll No." autocomplete="off">
+          </div>
+          <button class="btn-sm btn-gold" style="align-self:flex-end" onclick="searchForPathway()">View Journey</button>
+        </div>
+        <div id="pathwaySearchResult"></div>
+      </div>
+    </div>
+
+    <div class="card" id="pathwayDetail" style="display:none">
+      <div class="card-head"><span class="card-title" id="pathwayDetailTitle">Journey</span></div>
+      <div class="card-body">
+        <div id="pathwayChildName" class="pathway-child-name"></div>
+        <div id="pathwayChildRoll" class="pathway-roll"></div>
+        <div class="pathway-wrap">
+          <div class="pathway" id="pathwaySteps"></div>
+        </div>
+        <div id="pathwayProgress" style="margin-top:12px;font-size:13px;color:var(--muted)"></div>
+        <div class="pathway-actions" id="pathwayActions"></div>
+      </div>
+    </div>
+
+    <!-- All children journey overview -->
+    <div class="card">
+      <div class="card-head"><span class="card-title">Journey Overview — All Children</span></div>
+      <div class="card-body" style="padding:0">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Roll No.</th><th>Name</th><th>Age</th><th>Journey Progress</th><th>Stage</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="pathwayOverviewTable">
+              <tr><td colspan="6"><div class="loading">Loading journey data…</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FOLLOW-UP / ABSENTEEISM ── -->
+  <div class="panel" id="panel-followup">
+    <div class="card">
+      <div class="card-head"><span class="card-title">🔔 Absenteeism Alerts</span></div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+          Children who have been absent for 3 or more consecutive sessions are flagged here for pastoral follow-up.
+        </p>
+        <div class="field-row" style="margin-bottom:0">
+          <div class="field">
+            <label>Check sessions since</label>
+            <input type="date" id="followupSince" value="">
+          </div>
+          <button class="btn-sm btn-gold" style="align-self:flex-end" onclick="loadAbsenteeAlerts()">Run Check</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="absenteeResults"></div>
+
+    <div class="card">
+      <div class="card-head"><span class="card-title">📋 Follow-Up Log</span></div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Record a pastoral follow-up for any child.</p>
+        <div class="edit-grid" id="followupForm">
+          <div class="edit-field">
+            <label>Child Roll No. / Name</label>
+            <input type="text" id="fuChild" placeholder="e.g. CY-0001 or Jane Doe">
+          </div>
+          <div class="edit-field">
+            <label>Follow-Up Date</label>
+            <input type="date" id="fuDate">
+          </div>
+          <div class="edit-field">
+            <label>Method</label>
+            <select id="fuMethod">
+              <option>Phone call to parent</option>
+              <option>WhatsApp message</option>
+              <option>Home visit</option>
+              <option>In-person at church</option>
+              <option>Prayer only</option>
+            </select>
+          </div>
+          <div class="edit-field">
+            <label>Outcome</label>
+            <select id="fuOutcome">
+              <option>Connected — will return</option>
+              <option>Connected — has reason (travel/school)</option>
+              <option>Connected — family issue</option>
+              <option>No response</option>
+              <option>No longer attending</option>
+              <option>Transferred to another church</option>
+            </select>
+          </div>
+          <div class="edit-field" style="grid-column:1/-1">
+            <label>Notes</label>
+            <textarea id="fuNotes" rows="2" style="width:100%;border:1.5px solid var(--border);border-radius:7px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:max(16px,14px);background:var(--cream);outline:none;resize:vertical"></textarea>
+          </div>
+          <div class="edit-field">
+            <label>Followed Up By</label>
+            <input type="text" id="fuBy" placeholder="Leader name">
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn-sm btn-gold" onclick="saveFollowUp()">💾 Save Follow-Up</button>
+          </div>
+        </div>
+
+        <div style="margin-top:18px">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Date</th><th>Child</th><th>Method</th><th>Outcome</th><th>By</th></tr></thead>
+              <tbody id="followupHistoryTable">
+                <tr><td colspan="5"><div class="loading">Loading…</div></td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -570,10 +748,83 @@
 const SCRIPT_URL    = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
 const DASHBOARD_PIN = '1234';
 const SESSION_KEY   = 'cy_dash_unlocked';
+const OFFLINE_QUEUE_KEY = 'cy_offline_queue';
+const PATHWAY_KEY   = 'cy_pathway_data';
+
 
 // ══════════════════════════════════════════════════════
-//  PIN  — uses sessionStorage so refresh doesn't log out
-//         but closing the tab/browser does
+//  OFFLINE DETECTION
+// ══════════════════════════════════════════════════════
+let isOnline = navigator.onLine;
+
+window.addEventListener('online',  () => { isOnline = true;  onOnline(); });
+window.addEventListener('offline', () => { isOnline = false; onOffline(); });
+
+function onOffline() {
+  document.getElementById('offlineBanner').classList.add('show');
+  document.getElementById('syncBanner').classList.remove('show');
+  updateQueuePill();
+}
+
+function onOnline() {
+  document.getElementById('offlineBanner').classList.remove('show');
+  const q = getOfflineQueue();
+  if (q.length) {
+    document.getElementById('syncBanner').classList.add('show');
+    syncOfflineQueue().then(() => {
+      setTimeout(() => document.getElementById('syncBanner').classList.remove('show'), 3000);
+    });
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  OFFLINE QUEUE
+// ══════════════════════════════════════════════════════
+function getOfflineQueue() {
+  try { return JSON.parse(localStorage.getItem(OFFLINE_QUEUE_KEY) || '[]'); } catch { return []; }
+}
+function saveOfflineQueue(q) {
+  localStorage.setItem(OFFLINE_QUEUE_KEY, JSON.stringify(q));
+  updateQueuePill();
+}
+function addToOfflineQueue(params) {
+  const q = getOfflineQueue();
+  q.push({ ...params, _queuedAt: new Date().toISOString() });
+  saveOfflineQueue(q);
+}
+function updateQueuePill() {
+  const q = getOfflineQueue();
+  const pill = document.getElementById('offlineQueuePill');
+  if (q.length > 0) {
+    pill.textContent = q.length + ' pending sync';
+    pill.classList.add('show');
+  } else {
+    pill.classList.remove('show');
+  }
+}
+
+async function syncOfflineQueue() {
+  const q = getOfflineQueue();
+  if (!q.length) return;
+  const results = await Promise.allSettled(q.map(params => {
+    const { _queuedAt, ...clean } = params;
+    return api(clean);
+  }));
+  const failed = results.filter(r => r.status === 'rejected' || !r.value?.success);
+  if (failed.length === 0) {
+    saveOfflineQueue([]);
+    showToast('✅ Synced ' + q.length + ' offline records', 'success');
+    loadAttendanceHistory();
+    loadStats();
+  } else {
+    const keep = q.filter((_, i) => results[i].status === 'rejected' || !results[i].value?.success);
+    saveOfflineQueue(keep);
+    showToast('Synced ' + (q.length - keep.length) + ', ' + keep.length + ' still pending', 'error');
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  PIN
 // ══════════════════════════════════════════════════════
 let pinBuffer = '';
 
@@ -588,12 +839,9 @@ function pinKey(k) {
   if (k === 'del') { pinBuffer = pinBuffer.slice(0, -1); }
   else if (k === 'clr') { pinBuffer = ''; }
   else if (pinBuffer.length < 4) { pinBuffer += k; }
-
   for (let i = 0; i < 4; i++)
     document.getElementById('d' + i).classList.toggle('filled', i < pinBuffer.length);
-
   document.getElementById('pinError').textContent = '';
-
   if (pinBuffer.length === 4) {
     if (pinBuffer === DASHBOARD_PIN) {
       sessionStorage.setItem(SESSION_KEY, '1');
@@ -623,23 +871,32 @@ function lockDashboard() {
   for (let i = 0; i < 4; i++) document.getElementById('d' + i).classList.remove('filled');
 }
 
-// Run on load
 checkSession();
 
 // ══════════════════════════════════════════════════════
 //  INIT
 // ══════════════════════════════════════════════════════
 function initDashboard() {
-  document.getElementById('attDate').value = today();
-  document.getElementById('msDate').value  = today();
+  document.getElementById('attDate').value    = today();
+  document.getElementById('msDate').value     = today();
+  document.getElementById('fuDate').value     = today();
+
+  // Set follow-up "since" to 30 days ago
+  const d30 = new Date(); d30.setDate(d30.getDate() - 30);
+  document.getElementById('followupSince').value = d30.toISOString().split('T')[0];
+
+  updateQueuePill();
+  if (!isOnline) onOffline();
+
   loadStats();
   loadAttendanceHistory();
+  loadFollowUpHistory();
 }
 
 function today() { return new Date().toISOString().split('T')[0]; }
 
 // ══════════════════════════════════════════════════════
-//  REFRESH (fixes non-responding button)
+//  REFRESH
 // ══════════════════════════════════════════════════════
 async function refreshDashboard(btn) {
   const icon = btn.querySelector('.refresh-icon');
@@ -647,24 +904,22 @@ async function refreshDashboard(btn) {
   btn.disabled = true;
   try {
     await loadStats();
-    // Also reload active panel data
     const activeTab = document.querySelector('.tab.active');
     if (activeTab) {
       const tab = activeTab.dataset.tab;
-      if (tab === 'children') { const q = document.getElementById('childSearch').value; if(q) searchChildren(q); }
+      if (tab === 'children')  { const q = document.getElementById('childSearch').value; if(q) searchChildren(q); }
       if (tab === 'attendance') loadAttendanceHistory();
+      if (tab === 'followup')   loadAbsenteeAlerts();
+      if (tab === 'pathway')    loadPathwayOverview();
     }
+    if (isOnline) syncOfflineQueue();
     showToast('✅ Refreshed', 'success');
-  } catch(e) {
-    showToast('Refresh failed', 'error');
-  } finally {
-    icon.classList.remove('spin');
-    btn.disabled = false;
-  }
+  } catch(e) { showToast('Refresh failed', 'error'); }
+  finally { icon.classList.remove('spin'); btn.disabled = false; }
 }
 
 // ══════════════════════════════════════════════════════
-//  API HELPER
+//  API HELPER (offline-aware for attendance)
 // ══════════════════════════════════════════════════════
 async function api(params) {
   const url = SCRIPT_URL + '?' + new URLSearchParams(params).toString();
@@ -672,19 +927,29 @@ async function api(params) {
   return res.json();
 }
 
+async function apiWithOffline(params) {
+  if (!isOnline) {
+    addToOfflineQueue(params);
+    return { success: true, offline: true };
+  }
+  try {
+    return await api(params);
+  } catch(e) {
+    addToOfflineQueue(params);
+    return { success: true, offline: true };
+  }
+}
+
 // ══════════════════════════════════════════════════════
 //  TABS
 // ══════════════════════════════════════════════════════
 function switchTab(name) {
-  document.querySelectorAll('.tab[data-tab]').forEach(t => {
-    t.classList.toggle('active', t.dataset.tab === name);
-  });
-  document.querySelectorAll('.panel').forEach(p => {
-    p.classList.toggle('active', p.id === 'panel-' + name);
-  });
-  // Scroll tabs into view on mobile
+  document.querySelectorAll('.tab[data-tab]').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
   const activeTab = document.querySelector('.tab.active');
   if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  if (name === 'pathway') loadPathwayOverview();
+  if (name === 'followup') loadAbsenteeAlerts();
 }
 
 // ══════════════════════════════════════════════════════
@@ -733,7 +998,86 @@ async function loadStats() {
           <span style="display:flex;align-items:center;gap:6px"><span style="width:11px;height:11px;border-radius:50%;background:#ec4899;display:inline-block"></span>Female ${d.genders.F || 0} (${fPct}%)</span>
         </div>
       </div>`;
+
+    // Load birthdays and overview alerts
+    loadBirthdaysFromChildren();
   } catch(err) { showToast('Failed to load stats', 'error'); }
+}
+
+// ══════════════════════════════════════════════════════
+//  BIRTHDAYS
+// ══════════════════════════════════════════════════════
+async function loadBirthdaysFromChildren() {
+  try {
+    const d = await api({ action: 'getChildren', q: '' });
+    if (!d.success || !d.data) return;
+
+    const now = new Date();
+    const weekAhead = new Date(); weekAhead.setDate(weekAhead.getDate() + 7);
+
+    const upcoming = d.data.filter(c => {
+      if (!c['Date of Birth']) return false;
+      try {
+        const dob = new Date(c['Date of Birth']);
+        const thisYear = new Date(now.getFullYear(), dob.getMonth(), dob.getDate());
+        return thisYear >= now && thisYear <= weekAhead;
+      } catch { return false; }
+    }).map(c => {
+      const dob = new Date(c['Date of Birth']);
+      return { ...c, bday: new Date(now.getFullYear(), dob.getMonth(), dob.getDate()) };
+    }).sort((a,b) => a.bday - b.bday);
+
+    const card = document.getElementById('birthdayCard');
+    const list = document.getElementById('birthdayList');
+    if (!upcoming.length) { card.style.display = 'none'; return; }
+    card.style.display = '';
+    list.innerHTML = upcoming.map(c => {
+      const age = now.getFullYear() - new Date(c['Date of Birth']).getFullYear();
+      const isToday = c.bday.toDateString() === now.toDateString();
+      return `<div class="birthday-row">
+        <span class="bday-icon">${isToday ? '🎂' : '🎁'}</span>
+        <div>
+          <div class="bday-name">${esc(c.fullName)} <span class="roll-badge">${esc(c.rollNo)}</span></div>
+          <div class="bday-meta">${isToday ? 'Today!' : 'This week'} · Turns ${age} · ${esc(c.ageGroup)}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    // Also check for absenteeism and put alerts on overview
+    checkAbsenteeForOverview(d.data);
+  } catch(e) {}
+}
+
+async function checkAbsenteeForOverview(children) {
+  try {
+    const att = await api({ action: 'getAttendance' });
+    if (!att.success || !att.data) return;
+
+    const alerts = [];
+    children.forEach(c => {
+      const records = att.data
+        .filter(a => a.rollNo === c.rollNo)
+        .sort((a,b) => new Date(b.sessionDate) - new Date(a.sessionDate))
+        .slice(0, 5);
+
+      if (records.length >= 3) {
+        const consecutive = records.every(r => r.status === 'Absent');
+        if (consecutive) alerts.push({ child: c, count: records.length });
+      }
+    });
+
+    const alertsEl = document.getElementById('overviewAlerts');
+    if (!alerts.length) { alertsEl.innerHTML = ''; return; }
+    alertsEl.innerHTML = `
+      <div class="alert-card warning">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-body">
+          <div class="alert-title">${alerts.length} child${alerts.length > 1 ? 'ren' : ''} may need follow-up</div>
+          <div class="alert-text">${alerts.slice(0,3).map(a => a.child.fullName).join(', ')}${alerts.length > 3 ? ' and ' + (alerts.length-3) + ' more' : ''} have been absent for 3+ consecutive sessions.
+          <a href="#" onclick="switchTab('followup');return false;" style="color:var(--gold);font-weight:600;margin-left:6px">View Follow-Up tab →</a></div>
+        </div>
+      </div>`;
+  } catch(e) {}
 }
 
 // ══════════════════════════════════════════════════════
@@ -752,21 +1096,39 @@ function debounceSearch(v) {
 async function searchChildren(q) {
   const query = q !== undefined ? q : document.getElementById('childSearch').value;
   const tbody = document.getElementById('childTable');
-  tbody.innerHTML = '<tr><td colspan="6"><div class="loading">Searching…</div></td></tr>';
+  tbody.innerHTML = '<tr><td colspan="7"><div class="loading">Searching…</div></td></tr>';
   document.getElementById('childSortBar').style.display = 'none';
   try {
-    const d = await api({ action: 'getChildren', q: query });
-    document.getElementById('resultCount').textContent = d.data ? d.data.length + ' found' : '';
-    if (!d.success || !d.data.length) {
-      tbody.innerHTML = '<tr><td colspan="6"><div class="empty"><div class="icon">🔍</div>No children found</div></td></tr>';
+    const [cd, att] = await Promise.all([
+      api({ action: 'getChildren', q: query }),
+      api({ action: 'getAttendance' })
+    ]);
+    document.getElementById('resultCount').textContent = cd.data ? cd.data.length + ' found' : '';
+    if (!cd.success || !cd.data.length) {
+      tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="icon">🔍</div>No children found</div></td></tr>';
       childrenData = [];
       return;
     }
-    childrenData = d.data;
+
+    // Build absence map
+    const absenceMap = {};
+    if (att.success && att.data) {
+      cd.data.forEach(c => {
+        const records = att.data
+          .filter(a => a.rollNo === c.rollNo)
+          .sort((a,b) => new Date(b.sessionDate) - new Date(a.sessionDate))
+          .slice(0, 5);
+        let streak = 0;
+        for (const r of records) { if (r.status === 'Absent') streak++; else break; }
+        absenceMap[c.rollNo] = streak;
+      });
+    }
+
+    childrenData = cd.data.map(c => ({ ...c, absenceStreak: absenceMap[c.rollNo] || 0 }));
     document.getElementById('childSortBar').style.display = 'flex';
     renderChildTable();
   } catch(err) {
-    tbody.innerHTML = '<tr><td colspan="6"><div class="empty">Error loading data</div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty">Error loading data</div></td></tr>';
   }
 }
 
@@ -782,6 +1144,13 @@ function sortChildren(key) {
   renderChildTable();
 }
 
+function getMiniPathway(rollNo) {
+  try {
+    const data = JSON.parse(localStorage.getItem(PATHWAY_KEY) || '{}');
+    return data[rollNo] || [];
+  } catch { return []; }
+}
+
 function renderChildTable() {
   const sorted = [...childrenData].sort((a, b) => {
     let va, vb;
@@ -790,22 +1159,39 @@ function renderChildTable() {
     else { va = a.ageGroup; vb = b.ageGroup; }
     return String(va).localeCompare(String(vb), undefined, { numeric: true }) * childSortDir;
   });
+
   const tbody = document.getElementById('childTable');
-  tbody.innerHTML = sorted.map(c => `
+  tbody.innerHTML = sorted.map(c => {
+    const stages = getMiniPathway(c.rollNo);
+    const doneCount = stages.filter(s => s).length;
+    const miniDots = Array(7).fill(0).map((_, i) =>
+      `<div class="mini-step ${stages[i] === 'done' ? 'done' : stages[i] === 'current' ? 'current' : ''}"></div>`
+    ).join('');
+
+    let absenceBadge = '';
+    if (c.absenceStreak >= 5)      absenceBadge = `<span class="absent-badge absent-5">⚠ ${c.absenceStreak} absent</span>`;
+    else if (c.absenceStreak >= 3) absenceBadge = `<span class="absent-badge absent-3">⚠ ${c.absenceStreak} absent</span>`;
+
+    return `
     <tr>
-      <td><span class="roll-badge">${esc(c.rollNo)}</span></td>
+      <td><span class="roll-badge">${esc(c.rollNo)}</span>${absenceBadge ? '<br style="margin:2px 0">'+absenceBadge : ''}</td>
       <td><strong>${esc(c.fullName)}</strong></td>
       <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
       <td>${c.gender === 'M' ? '♂' : '♀'}</td>
       <td class="col-school">${esc(c.school)}</td>
       <td>
+        <div class="mini-pathway" title="${doneCount}/7 stages complete">${miniDots}</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:3px">${doneCount}/7 stages</div>
+      </td>
+      <td>
         <div class="action-cell">
           <button class="btn-sm btn-gold" onclick="openEditModal('${esc(c.rollNo)}')">✏️</button>
           <button class="btn-sm btn-outline-sm" onclick="openMilestoneForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">🏅</button>
-          <button class="btn-sm btn-outline-sm" onclick="openAttForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">✅</button>
+          <button class="btn-sm btn-outline-sm" onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">🌱</button>
         </div>
       </td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 }
 
 // ══════════════════════════════════════════════════════
@@ -886,6 +1272,11 @@ function closeModal(id) { document.getElementById(id).classList.remove('open'); 
 //  MILESTONES
 // ══════════════════════════════════════════════════════
 let msCurrentRoll = '', msCurrentName = '';
+const MS_ICONS = {
+  'Water Baptism': '💧', 'Holy Communion (first)': '🍞', 'Camp Attended': '⛺',
+  'Leadership Appointed': '⭐', 'Award / Recognition': '🏆', 'Salvation Decision': '✝️',
+  'Memory Verse Champion': '📖', 'Volunteered for Outreach': '📣', 'Other': '📌',
+};
 
 async function searchForMilestone() {
   const q = document.getElementById('msSearch').value.trim();
@@ -916,23 +1307,21 @@ async function selectMilestoneChild(rollNo, name) {
     const d = await api({ action: 'getMilestones', rollNo });
     if (!d.success || !d.data.length) {
       document.getElementById('msListWrap').innerHTML = '<div class="empty"><div class="icon">🏅</div>No milestones yet</div>';
+      // Also update pathway from milestones
+      updatePathwayFromMilestones(rollNo, []);
       return;
     }
-    const icons = {
-      'Water Baptism': '💧', 'Holy Communion (first)': '🍞', 'Camp Attended': '⛺',
-      'Leadership Appointed': '⭐', 'Award / Recognition': '🏆', 'Salvation Decision': '✝️',
-      'Memory Verse Champion': '📖', 'Volunteered for Outreach': '📣', 'Other': '📌',
-    };
     document.getElementById('msListWrap').innerHTML =
       `<div class="milestone-list">` +
       d.data.map(m => `
         <div class="milestone-item">
-          <div class="milestone-icon">${icons[m.type] || '📌'}</div>
+          <div class="milestone-icon">${MS_ICONS[m.type] || '📌'}</div>
           <div class="milestone-info">
             <div class="type">${esc(m.type)}</div>
             <div class="meta">${fmtDate(m.date)} · ${esc(m.recordedBy)}${m.notes ? ' · ' + esc(m.notes) : ''}</div>
           </div>
         </div>`).join('') + `</div>`;
+    updatePathwayFromMilestones(rollNo, d.data);
   } catch(err) {
     document.getElementById('msListWrap').innerHTML = '<div class="empty">Error loading milestones</div>';
   }
@@ -964,9 +1353,368 @@ async function saveMilestone() {
 }
 
 // ══════════════════════════════════════════════════════
-//  ATTENDANCE — with filter + sort
+//  SPIRITUAL GROWTH PATHWAY
 // ══════════════════════════════════════════════════════
-let attSessionData = []; // store loaded children for filtering
+const PATHWAY_STAGES = [
+  { key: 'enrolled',   label: 'Enrolled',       icon: '📝', milestone: null },
+  { key: 'attending',  label: 'Attending',       icon: '⛪', milestone: null },
+  { key: 'salvation',  label: 'Salvation',       icon: '✝️', milestone: 'Salvation Decision' },
+  { key: 'verse',      label: 'Memory Verse',    icon: '📖', milestone: 'Memory Verse Champion' },
+  { key: 'communion',  label: 'Communion',       icon: '🍞', milestone: 'Holy Communion (first)' },
+  { key: 'baptism',    label: 'Baptism',         icon: '💧', milestone: 'Water Baptism' },
+  { key: 'serving',    label: 'Serving',         icon: '🤝', milestone: 'Volunteered for Outreach' },
+];
+
+function getPathwayData() {
+  try { return JSON.parse(localStorage.getItem(PATHWAY_KEY) || '{}'); } catch { return {}; }
+}
+function savePathwayData(data) { localStorage.setItem(PATHWAY_KEY, JSON.stringify(data)); }
+
+function updatePathwayFromMilestones(rollNo, milestones) {
+  const data = getPathwayData();
+  const types = new Set(milestones.map(m => m.type));
+  const stages = PATHWAY_STAGES.map(s => {
+    if (s.milestone && types.has(s.milestone)) return 'done';
+    if (s.key === 'enrolled') return 'done';  // enrolled if they're in the system
+    return '';
+  });
+  // find current stage: first non-done
+  let foundCurrent = false;
+  for (let i = 0; i < stages.length; i++) {
+    if (stages[i] !== 'done' && !foundCurrent) { stages[i] = 'current'; foundCurrent = true; }
+  }
+  data[rollNo] = stages;
+  savePathwayData(data);
+}
+
+async function searchForPathway() {
+  const q = document.getElementById('pathwaySearch').value.trim();
+  if (!q) return;
+  document.getElementById('pathwaySearchResult').innerHTML = '<div class="loading">Searching…</div>';
+  try {
+    const d = await api({ action: 'getChildren', q });
+    if (!d.success || !d.data.length) {
+      document.getElementById('pathwaySearchResult').innerHTML = '<div class="empty">No child found</div>';
+      return;
+    }
+    document.getElementById('pathwaySearchResult').innerHTML =
+      `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">` +
+      d.data.map(c => `
+        <button class="btn-sm btn-outline-sm"
+          onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">
+          <strong>${esc(c.rollNo)}</strong> — ${esc(c.fullName)}
+        </button>`).join('') + `</div>`;
+  } catch(err) { showToast('Search failed', 'error'); }
+}
+
+async function openPathwayForChild(rollNo, name) {
+  switchTab('pathway');
+  // Load milestones to auto-detect stages
+  try {
+    const d = await api({ action: 'getMilestones', rollNo });
+    updatePathwayFromMilestones(rollNo, d.success ? (d.data || []) : []);
+  } catch(e) {}
+
+  const data   = getPathwayData();
+  const stages = data[rollNo] || Array(7).fill('').map((_, i) => i === 0 ? 'done' : i === 1 ? 'current' : '');
+  const doneCount = stages.filter(s => s === 'done').length;
+
+  document.getElementById('pathwayDetail').style.display = '';
+  document.getElementById('pathwayDetailTitle').textContent = 'Journey — ' + name;
+  document.getElementById('pathwayChildName').textContent   = name;
+  document.getElementById('pathwayChildRoll').textContent   = rollNo;
+
+  document.getElementById('pathwaySteps').innerHTML = PATHWAY_STAGES.map((s, i) => `
+    <div class="pathway-step ${stages[i] === 'done' ? 'done' : stages[i] === 'current' ? 'current' : ''}">
+      <div class="step-circle">${s.icon}</div>
+      <div class="step-label">${s.label}</div>
+    </div>`
+  ).join('');
+
+  const pct = Math.round(doneCount / PATHWAY_STAGES.length * 100);
+  document.getElementById('pathwayProgress').innerHTML =
+    `<strong>${doneCount}</strong> of ${PATHWAY_STAGES.length} stages complete (${pct}%)
+     <div style="margin-top:6px;height:8px;background:var(--ivory);border-radius:4px;overflow:hidden">
+       <div style="width:${pct}%;background:var(--gold);height:100%;border-radius:4px;transition:width .6s"></div>
+     </div>`;
+
+  document.getElementById('pathwayActions').innerHTML =
+    `<div style="font-size:13px;color:var(--muted);margin-right:auto">
+      Manually advance or update this child's stage:
+    </div>` +
+    PATHWAY_STAGES.map((s, i) => `
+      <button class="btn-sm ${stages[i]==='done' ? 'btn-gold' : 'btn-outline-sm'}"
+        onclick="togglePathwayStage('${rollNo}','${name}',${i})"
+        title="${s.label}">
+        ${s.icon} ${s.label}
+      </button>`).join('');
+
+  document.getElementById('pathwaySearch').value = rollNo;
+}
+
+function togglePathwayStage(rollNo, name, idx) {
+  const data   = getPathwayData();
+  const stages = data[rollNo] || Array(7).fill('');
+  stages[idx]  = stages[idx] === 'done' ? '' : 'done';
+  // Recompute current
+  let foundCurrent = false;
+  for (let i = 0; i < stages.length; i++) {
+    if (stages[i] === 'current') stages[i] = '';
+  }
+  for (let i = 0; i < stages.length; i++) {
+    if (stages[i] !== 'done' && !foundCurrent) { stages[i] = 'current'; foundCurrent = true; }
+  }
+  data[rollNo] = stages;
+  savePathwayData(data);
+  openPathwayForChild(rollNo, name);
+}
+
+async function loadPathwayOverview() {
+  const tbody = document.getElementById('pathwayOverviewTable');
+  tbody.innerHTML = '<tr><td colspan="6"><div class="loading">Loading…</div></td></tr>';
+  try {
+    const d = await api({ action: 'getChildren', q: '' });
+    if (!d.success || !d.data.length) {
+      tbody.innerHTML = '<tr><td colspan="6"><div class="empty">No children found</div></td></tr>';
+      return;
+    }
+    const data = getPathwayData();
+    tbody.innerHTML = d.data.map(c => {
+      const stages = data[c.rollNo] || Array(7).fill('').map((_, i) => i === 0 ? 'current' : '');
+      const doneCount = stages.filter(s => s === 'done').length;
+      const currentStageIdx = stages.findIndex(s => s === 'current');
+      const currentStage = currentStageIdx >= 0 ? PATHWAY_STAGES[currentStageIdx] : null;
+      const pct = Math.round(doneCount / 7 * 100);
+      const miniDots = stages.map(s =>
+        `<div class="mini-step ${s === 'done' ? 'done' : s === 'current' ? 'current' : ''}"></div>`
+      ).join('');
+      return `<tr>
+        <td><span class="roll-badge">${esc(c.rollNo)}</span></td>
+        <td><strong>${esc(c.fullName)}</strong></td>
+        <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
+        <td>
+          <div style="display:flex;align-items:center;gap:6px">
+            <div class="mini-pathway">${miniDots}</div>
+            <span style="font-size:11px;color:var(--muted)">${pct}%</span>
+          </div>
+        </td>
+        <td style="font-size:12px">${currentStage ? currentStage.icon + ' ' + currentStage.label : '—'}</td>
+        <td>
+          <button class="btn-sm btn-outline-sm"
+            onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">View →</button>
+        </td>
+      </tr>`;
+    }).join('');
+  } catch(err) {
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty">Error loading data</div></td></tr>';
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  ABSENTEEISM ALERTS
+// ══════════════════════════════════════════════════════
+async function loadAbsenteeAlerts() {
+  const since = document.getElementById('followupSince').value;
+  const resultsEl = document.getElementById('absenteeResults');
+  resultsEl.innerHTML = '<div class="card"><div class="card-body"><div class="loading">Analysing attendance records…</div></div></div>';
+
+  try {
+    const [children, att] = await Promise.all([
+      api({ action: 'getChildren', q: '' }),
+      api({ action: 'getAttendance' })
+    ]);
+
+    if (!children.success || !att.success) {
+      resultsEl.innerHTML = '<div class="card"><div class="card-body"><div class="empty">Could not load data</div></div></div>';
+      return;
+    }
+
+    const sinceDate = since ? new Date(since) : null;
+    const alerts = [];
+
+    children.data.forEach(c => {
+      let records = att.data.filter(a => a.rollNo === c.rollNo);
+      if (sinceDate) records = records.filter(a => new Date(a.sessionDate) >= sinceDate);
+      records = records.sort((a,b) => new Date(b.sessionDate) - new Date(a.sessionDate));
+
+      if (records.length === 0) return;
+
+      let streak = 0;
+      for (const r of records) {
+        if (r.status === 'Absent') streak++;
+        else break;
+      }
+
+      const totalSessions = records.length;
+      const absentCount   = records.filter(r => r.status === 'Absent').length;
+      const absenceRate   = totalSessions > 0 ? Math.round(absentCount / totalSessions * 100) : 0;
+      const lastSeen      = records.find(r => r.status === 'Present' || r.status === 'Late');
+
+      if (streak >= 3) {
+        alerts.push({ child: c, streak, absenceRate, lastSeen: lastSeen?.sessionDate || null, totalSessions });
+      }
+    });
+
+    if (!alerts.length) {
+      resultsEl.innerHTML = `
+        <div class="alert-card info">
+          <div class="alert-icon">✅</div>
+          <div class="alert-body">
+            <div class="alert-title">No absenteeism alerts</div>
+            <div class="alert-text">No children have 3+ consecutive absences in the selected period. Great work!</div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    alerts.sort((a, b) => b.streak - a.streak);
+
+    resultsEl.innerHTML = `
+      <div class="alert-card ${alerts.length > 5 ? 'danger' : 'warning'}">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-body">
+          <div class="alert-title">${alerts.length} child${alerts.length > 1 ? 'ren need' : ' needs'} follow-up</div>
+          <div class="alert-text">These children have been absent for 3 or more consecutive sessions.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-title">Children Requiring Follow-Up</span></div>
+        <div class="card-body" style="padding:0">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Roll No.</th><th>Name</th><th>Age</th><th>Consecutive Absences</th><th>Absence Rate</th><th>Last Seen</th><th>Action</th></tr></thead>
+              <tbody>` +
+      alerts.map(a => `<tr>
+        <td><span class="roll-badge">${esc(a.child.rollNo)}</span></td>
+        <td><strong>${esc(a.child.fullName)}</strong></td>
+        <td><span class="age-badge">${esc(a.child.ageGroup)}</span></td>
+        <td><span class="absent-badge ${a.streak >= 5 ? 'absent-5' : 'absent-3'}">⚠ ${a.streak} sessions</span></td>
+        <td>${a.absenceRate}% absent</td>
+        <td style="font-size:12px">${a.lastSeen ? fmtDate(a.lastSeen) : '<em>Never present</em>'}</td>
+        <td>
+          <button class="btn-sm btn-gold"
+            onclick="prefillFollowUp('${esc(a.child.rollNo)}','${esc(a.child.fullName)}')">
+            Log Follow-Up
+          </button>
+        </td>
+      </tr>`).join('') +
+      `</tbody></table></div></div></div>`;
+
+  } catch(err) {
+    resultsEl.innerHTML = '<div class="card"><div class="card-body"><div class="empty">Error analysing attendance</div></div></div>';
+  }
+}
+
+function prefillFollowUp(rollNo, name) {
+  document.getElementById('fuChild').value = rollNo + ' — ' + name;
+  document.getElementById('fuDate').value  = today();
+  document.getElementById('fuChild').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  document.getElementById('fuChild').focus();
+}
+
+// ══════════════════════════════════════════════════════
+//  FOLLOW-UP LOG — Google Sheet backed
+// ══════════════════════════════════════════════════════
+async function saveFollowUp() {
+  const child   = document.getElementById('fuChild').value.trim();
+  const date    = document.getElementById('fuDate').value;
+  const method  = document.getElementById('fuMethod').value;
+  const outcome = document.getElementById('fuOutcome').value;
+  const notes   = document.getElementById('fuNotes').value;
+  const by      = document.getElementById('fuBy').value.trim();
+
+  if (!child || !date) { showToast('Fill in child name and date', 'error'); return; }
+
+  const btn = document.querySelector('#followupForm button[onclick="saveFollowUp()"]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+
+  try {
+    const d = await apiWithOffline({
+      action: 'addFollowUp', child, date, method, outcome,
+      notes: notes || '', recordedBy: by || 'Admin'
+    });
+
+    if (d.offline) {
+      showToast('📥 Saved offline — will sync when reconnected', '');
+    } else if (d.success) {
+      showToast('✅ Follow-up logged to sheet', 'success');
+    } else {
+      showToast('Save failed: ' + (d.error || 'unknown error'), 'error');
+      return;
+    }
+
+    document.getElementById('fuChild').value = '';
+    document.getElementById('fuNotes').value = '';
+    loadFollowUpHistory();
+  } catch(err) {
+    showToast('Error: ' + err.message, 'error');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '💾 Save Follow-Up'; }
+  }
+}
+
+async function loadFollowUpHistory() {
+  const tbody = document.getElementById('followupHistoryTable');
+  tbody.innerHTML = '<tr><td colspan="5"><div class="loading">Loading…</div></td></tr>';
+
+  // Show any offline-queued follow-ups immediately while we wait for the sheet
+  const queued = getOfflineQueue().filter(p => p.action === 'addFollowUp');
+
+  try {
+    const d = await api({ action: 'getFollowUps' });
+
+    if (!d.success && !queued.length) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><div class="icon">📋</div>No follow-ups logged yet</div></td></tr>';
+      return;
+    }
+
+    const sheetRows = (d.success && d.data) ? d.data : [];
+
+    // Merge sheet rows + any still-queued offline entries (show offline ones at top)
+    const offlineRows = queued.map(p => ({
+      date: p.date, child: p.child, method: p.method,
+      outcome: p.outcome, recordedBy: p.recordedBy, _offline: true
+    }));
+
+    const allRows = [...offlineRows, ...sheetRows]
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 60);
+
+    if (!allRows.length) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><div class="icon">📋</div>No follow-ups logged yet</div></td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = allRows.map(f => `
+      <tr ${f._offline ? 'style="opacity:.65"' : ''}>
+        <td>${fmtDate(f.date)}${f._offline ? ' <span style="font-size:10px;color:#e67e22">(pending)</span>' : ''}</td>
+        <td><strong>${esc(f.child)}</strong></td>
+        <td style="font-size:12px">${esc(f.method)}</td>
+        <td style="font-size:12px">${esc(f.outcome)}</td>
+        <td style="font-size:12px">${esc(f.recordedBy || f.by || '')}</td>
+      </tr>`).join('');
+
+  } catch(err) {
+    // Fallback — show queued items only
+    if (queued.length) {
+      tbody.innerHTML = queued.map(f => `
+        <tr style="opacity:.65">
+          <td>${fmtDate(f.date)} <span style="font-size:10px;color:#e67e22">(pending)</span></td>
+          <td><strong>${esc(f.child)}</strong></td>
+          <td style="font-size:12px">${esc(f.method)}</td>
+          <td style="font-size:12px">${esc(f.outcome)}</td>
+          <td style="font-size:12px">${esc(f.recordedBy)}</td>
+        </tr>`).join('');
+    } else {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty">Could not load follow-up history</div></td></tr>';
+    }
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  ATTENDANCE (offline-aware)
+// ══════════════════════════════════════════════════════
+let attSessionData = [];
 let attSessionDate = '', attSessionName = '';
 let attSortKey = 'rollNo', attSortDir = 1;
 
@@ -974,7 +1722,6 @@ async function loadAttendanceSession() {
   attSessionDate = document.getElementById('attDate').value;
   attSessionName = document.getElementById('attSession').value || 'Sunday Service';
   if (!attSessionDate) { showToast('Pick a session date', 'error'); return; }
-
   document.getElementById('attSessionWrap').innerHTML = '<div class="loading">Loading children…</div>';
 
   try {
@@ -987,12 +1734,16 @@ async function loadAttendanceSession() {
     (existing.data || []).filter(a => String(a.sessionDate).startsWith(attSessionDate))
       .forEach(a => { markedMap[a.rollNo] = a.status; });
 
+    // Also check offline queue
+    getOfflineQueue()
+      .filter(p => p.action === 'markAttendance' && p.sessionDate === attSessionDate)
+      .forEach(p => { markedMap[p.rollNo] = p.status; });
+
     if (!children.data || !children.data.length) {
       document.getElementById('attSessionWrap').innerHTML = '<div class="empty">No registered children</div>';
       return;
     }
 
-    // Attach current marks and store
     attSessionData = children.data.map(c => ({ ...c, currentStatus: markedMap[c.rollNo] || '' }));
     renderAttendanceSession();
   } catch(err) { showToast('Error loading session: ' + err.message, 'error'); }
@@ -1010,7 +1761,6 @@ function renderAttendanceSession() {
     return nameMatch && ageMatch && markMatch;
   });
 
-  // Sort
   filtered = filtered.sort((a, b) => {
     let va, vb;
     if (attSortKey === 'name') { va = a.fullName; vb = b.fullName; }
@@ -1020,14 +1770,17 @@ function renderAttendanceSession() {
   });
 
   const ageGroups = [...new Set(attSessionData.map(c => c.ageGroup))].sort();
+  const markedCount = attSessionData.filter(c => c.currentStatus).length;
+  const onlineNotice = !isOnline ? `<div style="background:#fff8ec;border:1px solid #f0a500;border-radius:7px;padding:10px 14px;margin-bottom:12px;font-size:13px">
+    ⚡ <strong>Offline mode</strong> — marks will be saved locally and synced when you reconnect. Continue marking as normal.</div>` : '';
 
   document.getElementById('attSessionWrap').innerHTML = `
+    ${onlineNotice}
     <div style="margin-top:6px;margin-bottom:10px;font-size:13px;color:var(--muted)">
       Session: <strong>${esc(attSessionName)}</strong> on <strong>${attSessionDate}</strong>
       &nbsp;·&nbsp; <span style="color:var(--ink);font-weight:600">${filtered.length}</span> shown of ${attSessionData.length}
+      &nbsp;·&nbsp; <span style="color:var(--green);font-weight:600">${markedCount}</span> marked
     </div>
-
-    <!-- Filter + Sort Bar -->
     <div class="att-filter-bar">
       <div class="field grow">
         <label>Filter by name / roll</label>
@@ -1049,19 +1802,15 @@ function renderAttendanceSession() {
           <option value="Absent"  ${filterMark==='Absent' ?'selected':''}>❌ Absent</option>
           <option value="Late"    ${filterMark==='Late'   ?'selected':''}>⏰ Late</option>
           <option value="Excused" ${filterMark==='Excused'?'selected':''}>📋 Excused</option>
-          <option value=""        ${filterMark===''&&filterMark!==undefined?'':''}></option>
         </select>
       </div>
     </div>
-
-    <!-- Sort bar -->
     <div class="sort-bar" style="margin-bottom:8px">
       <span>Sort:</span>
       <button class="sort-btn ${attSortKey==='rollNo'?'active':''}" onclick="attSort('rollNo')">Roll No.${attSortKey==='rollNo'?(attSortDir===1?' ↑':' ↓'):''}</button>
       <button class="sort-btn ${attSortKey==='name'  ?'active':''}" onclick="attSort('name')">Name${attSortKey==='name'?(attSortDir===1?' ↑':' ↓'):''}</button>
       <button class="sort-btn ${attSortKey==='age'   ?'active':''}" onclick="attSort('age')">Age Group${attSortKey==='age'?(attSortDir===1?' ↑':' ↓'):''}</button>
     </div>
-
     <div class="table-wrap">
       <table>
         <thead><tr><th>Roll No.</th><th>Name</th><th>Age</th><th>Status</th><th>Mark</th></tr></thead>
@@ -1114,26 +1863,26 @@ async function markOne(rollNo, name, date, session) {
   const status = sel ? sel.value : '';
   if (!status) return;
   updateLocalStatus(rollNo, status);
-  try {
-    const d = await api({ action: 'markAttendance', rollNo, fullName: name, sessionDate: date, sessionName: session, status });
-    if (d.success) { showToast('Marked ' + rollNo, 'success'); loadAttendanceHistory(); }
-    else showToast('Failed: ' + d.error, 'error');
-  } catch(err) { showToast('Error', 'error'); }
+  const params = { action: 'markAttendance', rollNo, fullName: name, sessionDate: date, sessionName: session, status };
+  const d = await apiWithOffline(params);
+  if (d.offline) { showToast('📥 Saved offline — will sync later', ''); }
+  else if (d.success) { showToast('Marked ' + rollNo, 'success'); loadAttendanceHistory(); }
+  else showToast('Failed: ' + d.error, 'error');
 }
 
 async function markAll() {
   const marked = attSessionData.filter(c => c.currentStatus);
   if (!marked.length) { showToast('No statuses selected', 'error'); return; }
-  const promises = marked.map(c =>
-    api({ action: 'markAttendance', rollNo: c.rollNo, fullName: c.fullName,
-          sessionDate: attSessionDate, sessionName: attSessionName, status: c.currentStatus })
-  );
-  try {
-    await Promise.all(promises);
-    showToast(`✅ Saved ${marked.length} attendance marks`, 'success');
-    loadAttendanceHistory();
-    loadStats();
-  } catch(err) { showToast('Some saves failed', 'error'); }
+  const results = await Promise.all(marked.map(c =>
+    apiWithOffline({ action: 'markAttendance', rollNo: c.rollNo, fullName: c.fullName,
+      sessionDate: attSessionDate, sessionName: attSessionName, status: c.currentStatus })
+  ));
+  const offlineCount = results.filter(r => r.offline).length;
+  const onlineCount  = results.length - offlineCount;
+  if (offlineCount > 0) showToast(`📥 ${onlineCount} saved online, ${offlineCount} queued for sync`, '');
+  else showToast(`✅ Saved ${marked.length} attendance marks`, 'success');
+  loadAttendanceHistory();
+  loadStats();
 }
 
 async function loadAttendanceHistory() {
@@ -1155,8 +1904,6 @@ async function loadAttendanceHistory() {
       </tr>`).join('');
   } catch(err) { /* silent */ }
 }
-
-function openAttForChild(rollNo, name) { switchTab('attendance'); }
 
 // ══════════════════════════════════════════════════════
 //  HELPERS
