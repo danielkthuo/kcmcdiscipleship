@@ -658,19 +658,39 @@
       </div>
       <div class="section-body">
 
+        <!-- Photo choice modal -->
+        <div id="photoModal" style="display:none;position:fixed;inset:0;background:rgba(26,26,46,0.65);z-index:8000;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px);" onclick="closePhotoModal(event)">
+          <div style="background:#fff;border-radius:18px 18px 0 0;padding:28px 20px 32px;width:100%;max-width:480px;box-shadow:0 -8px 40px rgba(0,0,0,0.2);">
+            <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:6px;text-align:center;">Add Passport Photo</div>
+            <div style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:22px;">Choose how to add the child's photo</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <button type="button" onclick="triggerCamera()" style="background:var(--ivory);border:1.5px solid var(--border);border-radius:10px;padding:18px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink);transition:border-color .2s,background .2s;-webkit-tap-highlight-color:transparent;">
+                <span style="font-size:30px;">📸</span>Take Photo
+              </button>
+              <button type="button" onclick="triggerUpload()" style="background:var(--ivory);border:1.5px solid var(--border);border-radius:10px;padding:18px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink);transition:border-color .2s,background .2s;-webkit-tap-highlight-color:transparent;">
+                <span style="font-size:30px;">🖼️</span>Upload from Gallery
+              </button>
+            </div>
+            <button type="button" onclick="closePhotoModal()" style="margin-top:16px;width:100%;background:none;border:1.5px solid var(--border);border-radius:8px;padding:11px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;">Cancel</button>
+          </div>
+        </div>
+
         <div class="photo-section">
           <div class="photo-wrap">
             <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;">
               Passport Photo <span style="color:var(--red)">*</span>
             </div>
-            <div class="photo-drop" id="photoDrop" onclick="document.getElementById('photoInput').click()">
+            <div class="photo-drop" id="photoDrop" onclick="openPhotoModal()">
               <div class="drop-hint">
                 <div class="drop-icon">📷</div>
-                Tap to upload
+                Tap to add
               </div>
             </div>
             <div class="photo-req-note" id="photoReqNote">Required</div>
-            <input type="file" id="photoInput" accept="image/*" capture="environment" onchange="previewPhoto(event)">
+            <!-- Upload from gallery (no capture) -->
+            <input type="file" id="photoInputUpload" accept="image/*" style="display:none" onchange="previewPhoto(event)">
+            <!-- Take photo with camera -->
+            <input type="file" id="photoInputCamera" accept="image/*" capture="environment" style="display:none" onchange="previewPhoto(event)">
           </div>
           <div class="photo-meta">
             <div class="grid g2">
@@ -712,12 +732,12 @@
             <label>Age Group <span class="req">*</span></label>
             <select name="ageGroup" required>
               <option value="">— Select Age Group —</option>
-              <option value="0-2">0 – 2 years</option>
-              <option value="3-5">3 – 5 years</option>
-              <option value="6-8">6 – 8 years</option>
-              <option value="9-11">9 – 11 years</option>
-              <option value="12-14">12 – 14 years</option>
-              <option value="15-18">15 – 18 years</option>
+              <option value="Age 0 to 2">0 – 2 years</option>
+              <option value="Age 3 to 5">3 – 5 years</option>
+              <option value="Age 6 to 8">6 – 8 years</option>
+              <option value="Age 9 to 11">9 – 11 years</option>
+              <option value="Age 12 to 14">12 – 14 years</option>
+              <option value="Age 15 to 18">15 – 18 years</option>
             </select>
           </div>
           <div class="field">
@@ -955,24 +975,69 @@
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
 
   // ── ROLL NUMBER COUNTER ─────────────────────────────────────────────────
-  function getNextRollNo() {
-    const last = parseInt(localStorage.getItem('cy_last_roll') || '0', 10);
-    return last + 1;
-  }
-  function commitRollNo(n) {
-    localStorage.setItem('cy_last_roll', String(n));
-  }
+  // nextRollNum is fetched from server on load; falls back to localStorage
+  let nextRollNum = null;
+
   function formatRoll(n) {
     return 'CY-' + String(n).padStart(4, '0');
+  }
+
+  async function fetchAndShowNextRoll() {
+    const field = document.getElementById('rollNoField');
+    const badge = document.getElementById('rollBadge');
+    try {
+      const res = await fetch(SCRIPT_URL + '?action=getNextRoll', { redirect: 'follow' });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.nextRoll) {
+          nextRollNum = parseInt(data.nextRoll, 10);
+          // Sync localStorage so offline fallback stays accurate
+          localStorage.setItem('cy_last_roll', String(nextRollNum - 1));
+          field.placeholder = formatRoll(nextRollNum) + ' (preview)';
+          badge.textContent = 'Next available';
+          return;
+        }
+      }
+    } catch (_) { /* fall through to localStorage */ }
+    // Fallback: use localStorage
+    const last = parseInt(localStorage.getItem('cy_last_roll') || '0', 10);
+    nextRollNum = last + 1;
+    field.placeholder = formatRoll(nextRollNum) + ' (preview)';
+    badge.textContent = 'Next available (local)';
+  }
+
+  function commitRollNo(n) {
+    localStorage.setItem('cy_last_roll', String(n));
   }
 
   // ── INIT ────────────────────────────────────────────────────────────────
   window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
     updateProgressBar();
+    fetchAndShowNextRoll();
     document.getElementById('childForm').addEventListener('change', updateProgressBar);
     document.getElementById('childForm').addEventListener('input', updateProgressBar);
   });
+
+  // ── PHOTO MODAL ─────────────────────────────────────────────────────────
+  function openPhotoModal() {
+    const m = document.getElementById('photoModal');
+    m.style.display = 'flex';
+    requestAnimationFrame(() => m.style.opacity = '1');
+  }
+  function closePhotoModal(e) {
+    // Close only if clicking the backdrop or the cancel button (no argument = cancel btn)
+    if (e && e.target !== document.getElementById('photoModal')) return;
+    document.getElementById('photoModal').style.display = 'none';
+  }
+  function triggerCamera() {
+    document.getElementById('photoModal').style.display = 'none';
+    document.getElementById('photoInputCamera').click();
+  }
+  function triggerUpload() {
+    document.getElementById('photoModal').style.display = 'none';
+    document.getElementById('photoInputUpload').click();
+  }
 
   // ── PHOTO PREVIEW ───────────────────────────────────────────────────────
   let photoDataUrl = null, photoMimeType = null, photoName = null;
@@ -990,10 +1055,12 @@
       drop.classList.remove('photo-error');
       drop.classList.add('photo-ok');
       document.getElementById('photoReqNote').style.color = 'var(--green)';
-      document.getElementById('photoReqNote').textContent = '✓ Photo uploaded';
+      document.getElementById('photoReqNote').textContent = '✓ Photo added';
       updateProgressBar();
     };
     reader.readAsDataURL(file);
+    // Reset input so same file can be re-selected if user changes mind
+    e.target.value = '';
   }
 
   // ── CHECKBOX TOGGLE ─────────────────────────────────────────────────────
@@ -1092,7 +1159,12 @@
       return;
     }
 
-    const nextNum  = getNextRollNo();
+    // Use server-fetched next roll (or localStorage fallback)
+    if (!nextRollNum) {
+      const last = parseInt(localStorage.getItem('cy_last_roll') || '0', 10);
+      nextRollNum = last + 1;
+    }
+    const nextNum  = nextRollNum;
     const rollNo   = formatRoll(nextNum);
     document.getElementById('rollNoField').value = rollNo;
     document.getElementById('rollBadge').textContent = 'Assigned: ' + rollNo;
@@ -1167,6 +1239,7 @@
       if (result.success) {
         const confirmedRoll = result.rollNo || rollNo;
         commitRollNo(nextNum);
+        nextRollNum = null; // will re-fetch on reset
 
         showSubmitProgress(100, 'Record saved! ✅');
         await delay(700);
@@ -1210,9 +1283,11 @@
     document.getElementById('photoReqNote').style.color = 'var(--red)';
     photoDataUrl = null; photoMimeType = null; photoName = null;
     document.getElementById('rollNoField').value = '';
-    document.getElementById('rollBadge').textContent = 'Generated on save';
+    document.getElementById('rollBadge').textContent = 'Fetching…';
     document.querySelectorAll('.check-item').forEach(l => l.classList.remove('checked'));
     document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
+    nextRollNum = null;
+    fetchAndShowNextRoll();
     updateProgressBar();
   }
 
