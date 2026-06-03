@@ -2,1292 +2,1233 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>KCMC Child & Youth Ministry — Child Record</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>KCMC CY Ministry — Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #1a1a2e;
-    --gold: #c9972b;
-    --gold-light: #f0c96a;
-    --cream: #faf7f2;
-    --ivory: #f3ede3;
-    --border: #d9cfc0;
-    --muted: #7a7060;
-    --red: #c0392b;
-    --green: #27ae60;
-    --section-bg: #ffffff;
+    --ink: #1a1a2e; --gold: #c9972b; --gold-light: #f0c96a;
+    --cream: #faf7f2; --ivory: #f3ede3; --border: #d9cfc0;
+    --muted: #7a7060; --red: #c0392b; --green: #27ae60;
+    --blue: #2563eb; --section-bg: #ffffff;
     --shadow: 0 2px 16px rgba(26,26,46,0.08);
-
-    /* Mobile-tuned spacing tokens */
-    --space-xs: 8px;
-    --space-sm: 12px;
-    --space-md: 16px;
-    --space-lg: 24px;
-    --space-xl: 32px;
-    --radius-sm: 7px;
-    --radius-md: 10px;
-    --radius-lg: 14px;
-    --input-h: 46px; /* taller tap targets on mobile */
+    --input-h: 44px;
   }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { -webkit-text-size-adjust: 100%; }
-
   body {
-    background: var(--cream);
-    font-family: 'DM Sans', sans-serif;
-    color: var(--ink);
-    min-height: 100vh;
-    padding: 0 0 env(safe-area-inset-bottom, 60px);
-    /* Prevent horizontal scroll on mobile */
-    overflow-x: hidden;
+    background: var(--cream); font-family: 'DM Sans', sans-serif;
+    color: var(--ink); min-height: 100vh; overflow-x: hidden;
   }
 
-  /* ── HEADER ── */
+  /* ══ PIN SCREEN ══ */
+  .pin-screen {
+    position: fixed; inset: 0; background: var(--ink);
+    display: flex; align-items: center; justify-content: center; z-index: 9999;
+    padding: 16px;
+  }
+  .pin-box {
+    background: #fff; border-radius: 16px;
+    padding: clamp(24px, 6vw, 40px) clamp(20px, 7vw, 48px);
+    width: min(380px, 100%);
+    text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+  }
+  .pin-logo {
+    width: 56px; height: 56px; border-radius: 50%; background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700;
+    color: var(--ink); margin: 0 auto 16px;
+  }
+  .pin-box h2 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 6px; }
+  .pin-box p  { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+  .pin-dots   { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+  .pin-dot    {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 2px solid var(--border); background: transparent;
+    transition: background .2s, border-color .2s;
+  }
+  .pin-dot.filled { background: var(--gold); border-color: var(--gold); }
+  .pin-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .pin-key {
+    background: var(--ivory); border: 1.5px solid var(--border); border-radius: 10px;
+    padding: 14px; font-size: 18px; font-weight: 600; cursor: pointer;
+    transition: background .15s, transform .1s; user-select: none;
+    min-height: 52px; -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .pin-key:hover  { background: #f0e8d8; }
+  .pin-key:active { transform: scale(0.95); background: #f0e8d8; }
+  .pin-key.del    { font-size: 14px; color: var(--muted); }
+  .pin-error { color: var(--red); font-size: 13px; margin-top: 12px; min-height: 18px; }
+
+  /* ══ HEADER ══ */
   .header {
-    background: var(--ink);
-    color: #fff;
-    padding: clamp(16px, 4vw, 32px) clamp(16px, 5vw, 40px) clamp(14px, 3.5vw, 28px);
-    display: flex;
-    align-items: center;
-    gap: clamp(10px, 3vw, 20px);
-    position: relative;
-    overflow: hidden;
-    flex-wrap: nowrap;
+    background: var(--ink); color: #fff;
+    padding: clamp(12px, 3vw, 20px) clamp(14px, 4vw, 32px);
+    display: flex; align-items: center; gap: clamp(10px, 3vw, 16px);
+    flex-wrap: nowrap; position: relative; overflow: hidden;
   }
   .header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 18px,
-      rgba(201,151,43,0.06) 18px,
-      rgba(201,151,43,0.06) 19px
-    );
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(201,151,43,0.05) 18px,rgba(201,151,43,0.05) 19px);
   }
   .header-logo {
-    width: clamp(44px, 10vw, 62px);
-    height: clamp(44px, 10vw, 62px);
-    border-radius: 50%;
-    background: var(--gold);
+    width: clamp(36px, 8vw, 44px); height: clamp(36px, 8vw, 44px);
+    border-radius: 50%; background: var(--gold);
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(16px, 4vw, 22px);
-    font-weight: 700;
-    color: var(--ink);
-    flex-shrink: 0;
-    position: relative; z-index: 1;
-    box-shadow: 0 0 0 3px rgba(201,151,43,0.3);
+    font-family: 'Playfair Display', serif; font-size: clamp(13px, 3.5vw, 16px);
+    font-weight: 700; color: var(--ink); flex-shrink: 0; position: relative; z-index: 1;
   }
   .header-text { position: relative; z-index: 1; flex: 1; min-width: 0; }
   .header-text h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(14px, 3.8vw, 26px);
-    font-weight: 700;
-    letter-spacing: 0.01em;
-    line-height: 1.2;
-    /* Prevent overflow on very small screens */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-family: 'Playfair Display', serif; font-size: clamp(14px, 3.8vw, 20px);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  .header-text p {
-    font-size: clamp(9px, 2vw, 12px);
-    font-weight: 300;
-    color: var(--gold-light);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-top: 3px;
+  .header-text p  {
+    font-size: clamp(9px, 2vw, 11px); color: var(--gold-light);
+    letter-spacing: .1em; text-transform: uppercase;
   }
-  .header-badge {
-    margin-left: auto;
-    background: rgba(201,151,43,0.18);
-    border: 1px solid rgba(201,151,43,0.4);
-    color: var(--gold-light);
-    font-size: clamp(8px, 1.8vw, 10px);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 5px 10px;
-    border-radius: 30px;
-    font-weight: 500;
-    position: relative; z-index: 1;
-    white-space: nowrap;
-    flex-shrink: 0;
+  .header-actions {
+    margin-left: auto; display: flex; gap: 8px;
+    position: relative; z-index: 1; flex-shrink: 0;
+  }
+  .btn-outline {
+    border: 1.5px solid rgba(201,151,43,0.4); color: var(--gold-light);
+    background: transparent; border-radius: 6px;
+    padding: clamp(6px, 1.5vw, 8px) clamp(8px, 2.5vw, 16px);
+    font-size: clamp(11px, 2.4vw, 12px); font-weight: 500; cursor: pointer;
+    transition: background .2s; white-space: nowrap;
+    -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-outline:hover  { background: rgba(201,151,43,0.1); }
+  .btn-outline:active { background: rgba(201,151,43,0.18); }
+
+  /* Hide text on very small screens, show icons only */
+  @media (max-width: 380px) {
+    .btn-outline .btn-text { display: none; }
+    .btn-outline { padding: 7px 10px; }
   }
 
-  /* Dashboard button */
-  .dashboard-btn {
-    background: #2d6cdf;
-    color: white;
-    padding: clamp(6px, 1.5vw, 8px) clamp(10px, 3vw, 16px);
-    border-radius: 40px;
-    font-weight: 600;
-    font-size: clamp(11px, 2.4vw, 14px);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: none;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    white-space: nowrap;
-    flex-shrink: 0;
-    text-decoration: none;
-    position: relative; z-index: 1;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-  .dashboard-btn:active { transform: scale(0.96); background: #1f4fb8; }
-
-  /* Hide section-head dashboard btn on mobile — header one is sufficient */
-  .section-head .dashboard-btn {
-    margin-left: auto;
-    font-size: 11px;
-    padding: 5px 10px;
-  }
-
-  /* ── PROGRESS BAR ── */
-  .progress-bar-wrap {
+  /* ══ TABS ══ */
+  .tabs {
     background: var(--ink);
-    padding: 0 clamp(12px, 5vw, 40px) 16px;
-    position: relative; z-index: 2;
+    padding: 0 clamp(10px, 4vw, 32px);
+    display: flex; gap: 2px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
-  .progress-steps {
-    display: flex;
-    align-items: center;
-    max-width: 860px;
-    margin: 0 auto;
-  }
-  .progress-step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    flex: 1;
-    position: relative;
-  }
-  .progress-step:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    top: 13px;
-    left: 50%;
-    width: 100%;
-    height: 2px;
-    background: rgba(255,255,255,0.12);
-    z-index: 0;
-    transition: background 0.4s;
-  }
-  .progress-step.done:not(:last-child)::after { background: var(--gold); }
-  .step-dot {
-    width: clamp(22px, 6vw, 28px);
-    height: clamp(22px, 6vw, 28px);
-    border-radius: 50%;
-    background: rgba(255,255,255,0.1);
-    border: 2px solid rgba(255,255,255,0.2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: clamp(9px, 2.5vw, 11px);
-    font-weight: 700;
-    color: rgba(255,255,255,0.4);
-    transition: all 0.35s ease;
-    position: relative; z-index: 1;
-  }
-  .progress-step.active .step-dot {
-    background: var(--gold); border-color: var(--gold);
-    color: var(--ink);
-    box-shadow: 0 0 0 4px rgba(201,151,43,0.25);
-  }
-  .progress-step.done .step-dot { background: var(--gold); border-color: var(--gold); color: var(--ink); }
-  .step-label {
-    font-size: clamp(7px, 1.8vw, 9px);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
-    font-weight: 500;
-    text-align: center;
-    transition: color 0.3s;
-    white-space: nowrap;
-  }
-  .progress-step.active .step-label,
-  .progress-step.done .step-label { color: var(--gold-light); }
-
-  /* Hide labels on very small screens */
-  @media (max-width: 360px) {
-    .step-label { display: none; }
-    .progress-bar-wrap { padding-bottom: 10px; }
-  }
-
-  /* ── SUBMIT OVERLAY ── */
-  .submit-progress-overlay {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(26,26,46,0.72);
-    z-index: 9000;
-    align-items: center; justify-content: center;
-    backdrop-filter: blur(3px);
-    padding: 16px;
-  }
-  .submit-progress-overlay.active { display: flex; }
-  .submit-progress-box {
-    background: #fff;
-    border-radius: var(--radius-lg);
-    padding: clamp(24px, 6vw, 36px) clamp(20px, 6vw, 44px);
-    width: min(420px, 92vw);
-    box-shadow: 0 24px 60px rgba(0,0,0,0.25);
-    text-align: center;
-  }
-  .submit-progress-box h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(16px, 4vw, 20px);
-    color: var(--ink); margin-bottom: 6px;
-  }
-  .submit-progress-box p {
-    font-size: clamp(12px, 3vw, 13px);
-    color: var(--muted); margin-bottom: 24px; min-height: 20px;
-  }
-  .progress-track {
-    height: 8px; background: var(--ivory);
-    border-radius: 99px; overflow: hidden; margin-bottom: 10px;
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--gold), var(--gold-light));
-    border-radius: 99px; width: 0%;
-    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-  }
-  .progress-pct { font-size: 12px; font-weight: 600; color: var(--gold); letter-spacing: 0.05em; }
-
-  /* ── WRAPPER ── */
-  .form-wrap {
-    max-width: 860px;
-    margin: clamp(16px, 4vw, 32px) auto 0;
-    padding: 0 clamp(10px, 3vw, 16px);
-  }
-
-  /* ── SECTION ── */
-  .section {
-    background: var(--section-bg);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow);
-    margin-bottom: clamp(12px, 3vw, 20px);
-    overflow: hidden;
-    border: 1px solid var(--border);
-    animation: fadeUp 0.4s ease both;
-  }
-  @keyframes fadeUp {
-    from { opacity:0; transform:translateY(14px); }
-    to   { opacity:1; transform:translateY(0); }
-  }
-  .section:nth-child(2) { animation-delay:.05s; }
-  .section:nth-child(3) { animation-delay:.10s; }
-  .section:nth-child(4) { animation-delay:.15s; }
-  .section:nth-child(5) { animation-delay:.20s; }
-
-  .section-head {
-    background: var(--ivory);
-    border-bottom: 1px solid var(--border);
-    padding: clamp(10px, 2.5vw, 14px) clamp(14px, 4vw, 24px);
-    display: flex; align-items: center; gap: 10px;
-    flex-wrap: wrap;
-  }
-  .section-letter {
-    width: 28px; height: 28px;
-    border-radius: 6px;
-    background: var(--gold); color: var(--ink);
-    font-family: 'Playfair Display', serif;
-    font-weight: 700; font-size: 14px;
-    display: flex; align-items: center; justify-content: center;
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: clamp(10px, 2.5vw, 12px) clamp(10px, 3vw, 18px);
+    font-size: clamp(11px, 2.8vw, 13px); font-weight: 500; cursor: pointer;
+    border-bottom: 3px solid transparent; color: rgba(255,255,255,0.45);
+    transition: color .2s, border-color .2s; white-space: nowrap;
+    -webkit-tap-highlight-color: transparent; touch-action: manipulation;
     flex-shrink: 0;
   }
-  .section-title {
-    font-size: clamp(11px, 2.8vw, 13px);
-    font-weight: 600; letter-spacing: 0.08em;
-    text-transform: uppercase; color: var(--ink);
-  }
+  .tab.active { color: var(--gold-light); border-bottom-color: var(--gold); }
+  .tab:hover:not(.active) { color: rgba(255,255,255,0.7); }
 
-  .section-body { padding: clamp(14px, 4vw, 22px) clamp(14px, 4vw, 24px); }
+  /* ══ MAIN ══ */
+  .main { max-width: 1100px; margin: clamp(16px, 4vw, 28px) auto; padding: 0 clamp(10px, 3vw, 20px); }
 
-  /* ── GRID — mobile-first ── */
-  .grid { display: grid; gap: clamp(10px, 2.5vw, 16px); }
-
-  /* Default: single column on mobile */
-  .g2, .g3, .g4 { grid-template-columns: 1fr; }
-
-  /* 2-col at 480px+ */
-  @media (min-width: 480px) {
-    .g2 { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  /* 2-col at 520px+, 3-col at 700px+ */
-  @media (min-width: 520px) {
-    .g3 { grid-template-columns: repeat(2, 1fr); }
-    .g4 { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (min-width: 700px) {
-    .g3 { grid-template-columns: repeat(3, 1fr); }
-  }
-  @media (min-width: 820px) {
-    .g4 { grid-template-columns: repeat(4, 1fr); }
-  }
-
-  /* ── FIELD ── */
-  .field { display: flex; flex-direction: column; gap: 5px; }
-  .field label {
-    font-size: clamp(10px, 2.4vw, 11px);
-    font-weight: 600; letter-spacing: 0.07em;
-    text-transform: uppercase; color: var(--muted);
-  }
-  .field label .req { color: var(--red); margin-left: 2px; }
-
-  /* Taller inputs for easy tapping on mobile */
-  .field input,
-  .field select,
-  .field textarea {
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 0 13px;
-    height: var(--input-h);
-    font-family: 'DM Sans', sans-serif;
-    font-size: clamp(14px, 3.5vw, 15px); /* ≥16px prevents iOS zoom */
-    color: var(--ink);
-    background: var(--cream);
-    transition: border-color .2s, box-shadow .2s;
-    outline: none;
-    width: 100%;
-    /* Prevent iOS from shrinking text */
-    -webkit-text-size-adjust: none;
-    /* Smooth tap feedback */
-    -webkit-tap-highlight-color: transparent;
-    appearance: none;
-    -webkit-appearance: none;
-  }
-  .field input:focus,
-  .field select:focus,
-  .field textarea:focus {
-    border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(201,151,43,0.13);
-    background: #fff;
-  }
-  /* Custom arrow for selects */
-  .field select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7060' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-    cursor: pointer;
-  }
-  .field textarea {
-    height: auto;
-    padding: 11px 13px;
-    resize: vertical;
-    min-height: 72px;
-    line-height: 1.5;
-  }
-
-  /* Roll No. auto-generated */
-  .field input[name="rollNo"] {
-    background: var(--ivory);
-    color: var(--gold);
-    font-weight: 700; letter-spacing: 0.08em;
-    cursor: default; font-size: 15px;
-  }
-  .roll-badge {
-    font-size: 10px; color: var(--muted);
-    font-style: italic; margin-top: 2px;
-  }
-
-  /* ── PHOTO UPLOAD ── */
-  .photo-section {
-    display: flex;
-    gap: clamp(14px, 4vw, 22px);
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-  .photo-wrap { display: flex; flex-direction: column; gap: 6px; }
-  .photo-drop {
-    width: clamp(90px, 22vw, 110px);
-    height: clamp(108px, 26vw, 130px);
-    border: 2px dashed var(--border);
-    border-radius: var(--radius-md);
-    background: var(--ivory);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    cursor: pointer;
-    transition: border-color .2s, background .2s, box-shadow .2s;
-    overflow: hidden; flex-shrink: 0; position: relative;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-  .photo-drop:hover,
-  .photo-drop:active { border-color: var(--gold); background: #fdf6e9; }
-  .photo-drop.photo-error { border-color: var(--red); box-shadow: 0 0 0 3px rgba(192,57,43,0.13); }
-  .photo-drop.photo-ok { border-color: var(--green); border-style: solid; }
-  .photo-drop img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
-  .photo-drop .drop-hint {
-    font-size: clamp(10px, 2.5vw, 11px);
-    color: var(--muted); text-align: center;
-    padding: 8px; line-height: 1.4;
-    position: relative; z-index: 1;
-  }
-  .photo-drop .drop-icon { font-size: clamp(20px, 5vw, 24px); margin-bottom: 5px; }
-  .photo-req-note {
-    font-size: 10px; color: var(--red);
-    font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; text-align: center;
-    width: clamp(90px, 22vw, 110px);
-  }
-  #photoInput { display: none; }
-  .photo-meta { flex: 1; min-width: min(200px, 100%); display: flex; flex-direction: column; gap: clamp(10px, 2.5vw, 12px); }
-
-  /* ── CHECKBOXES ── */
-  .check-grid {
+  /* ══ STAT CARDS ══ */
+  .stat-row {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(160px, 45%), 1fr));
-    gap: clamp(8px, 2vw, 10px);
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(10px, 2.5vw, 16px);
+    margin-bottom: clamp(16px, 4vw, 24px);
   }
-  .check-item {
-    display: flex; align-items: center; gap: 9px;
-    padding: clamp(10px, 2.5vw, 11px) clamp(10px, 2.5vw, 12px);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: border-color .2s, background .2s;
-    user-select: none;
-    font-size: clamp(12px, 3vw, 13px);
-    font-weight: 500;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    /* Min touch target height */
-    min-height: 44px;
+  @media (min-width: 600px) { .stat-row { grid-template-columns: repeat(4, 1fr); } }
+  .stat-card {
+    background: var(--section-bg); border: 1px solid var(--border); border-radius: 12px;
+    padding: clamp(14px, 3.5vw, 20px) clamp(14px, 3.5vw, 22px); box-shadow: var(--shadow);
   }
-  .check-item:hover,
-  .check-item:active { border-color: var(--gold); background: #fdf6e9; }
-  .check-item input[type="checkbox"] {
-    accent-color: var(--gold);
-    width: 18px; height: 18px;
-    cursor: pointer; flex-shrink: 0;
-    /* Larger hit area */
-    min-width: 18px;
+  .stat-card .label {
+    font-size: clamp(9px, 2.2vw, 11px); font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 6px;
   }
-  .check-item.checked { border-color: var(--gold); background: #fdf6e9; }
+  .stat-card .value { font-size: clamp(24px, 6vw, 32px); font-weight: 600; color: var(--ink); line-height: 1; }
+  .stat-card .sub   { font-size: clamp(10px, 2.4vw, 12px); color: var(--muted); margin-top: 4px; }
 
-  /* ── GUARDIAN / MENTOR BLOCKS ── */
-  .guardian-block,
-  .mentor-block {
-    background: var(--ivory);
-    border-radius: var(--radius-sm);
-    padding: clamp(12px, 3vw, 16px);
-    border: 1px solid var(--border);
+  /* ══ PANEL ══ */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ══ CARD ══ */
+  .card {
+    background: var(--section-bg); border: 1px solid var(--border); border-radius: 12px;
+    box-shadow: var(--shadow); margin-bottom: clamp(12px, 3vw, 20px); overflow: hidden;
   }
-  .guardian-label {
-    font-size: 12px; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.07em;
-    color: var(--muted); margin-bottom: clamp(10px, 2.5vw, 12px);
+  .card-head {
+    background: var(--ivory); border-bottom: 1px solid var(--border);
+    padding: clamp(10px, 2.5vw, 14px) clamp(14px, 3.5vw, 20px);
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
   }
-  .mentor-label {
-    font-size: 12px; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.07em;
-    color: var(--muted); margin-bottom: clamp(10px, 2.5vw, 12px);
-    display: flex; align-items: center; gap: 6px;
+  .card-title {
+    font-size: clamp(11px, 2.6vw, 13px); font-weight: 600;
+    text-transform: uppercase; letter-spacing: .07em;
   }
-  .mentor-number {
-    width: 20px; height: 20px; border-radius: 50%;
-    background: var(--gold); color: var(--ink);
-    font-size: 11px; font-weight: 700;
-    display: inline-flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
+  .card-body { padding: clamp(14px, 3.5vw, 20px); }
+
+  /* ══ SEARCH ══ */
+  .search-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .search-input {
+    flex: 1; min-width: 0;
+    border: 1.5px solid var(--border); border-radius: 7px;
+    padding: 10px 14px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+    background: var(--cream); outline: none; transition: border-color .2s;
+    height: var(--input-h); -webkit-appearance: none;
+  }
+  .search-input:focus { border-color: var(--gold); background: #fff; }
+
+  /* ══ TABLE — mobile cards fallback ══ */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 480px; }
+  th {
+    background: var(--ivory); padding: 10px 12px; text-align: left; font-weight: 600;
+    font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted);
+    border-bottom: 1px solid var(--border); white-space: nowrap;
+  }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fdf8f0; }
+  .roll-badge {
+    font-size: 11px; font-weight: 700; letter-spacing: .05em;
+    color: var(--gold); background: rgba(201,151,43,0.1); padding: 3px 8px;
+    border-radius: 30px; border: 1px solid rgba(201,151,43,0.25); white-space: nowrap;
+  }
+  .age-badge {
+    font-size: 11px; padding: 3px 8px; border-radius: 30px;
+    background: var(--ivory); border: 1px solid var(--border); white-space: nowrap;
   }
 
-  /* ── DIVIDER ── */
-  .divider { height: 1px; background: var(--border); margin: clamp(12px, 3vw, 18px) 0; }
+  /* Action buttons — stack on mobile */
+  .action-cell { display: flex; gap: 5px; flex-wrap: wrap; }
 
-  /* ── SUBMIT AREA ── */
-  .submit-area {
-    background: var(--section-bg);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border);
-    padding: clamp(18px, 5vw, 28px) clamp(14px, 4vw, 24px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: clamp(12px, 3vw, 16px);
+  .btn-sm {
+    font-size: 12px; padding: 6px 12px; border-radius: 6px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-weight: 500; transition: background .15s;
+    min-height: 32px; white-space: nowrap;
+    -webkit-tap-highlight-color: transparent; touch-action: manipulation;
   }
-  .submit-note {
-    font-size: clamp(11px, 2.8vw, 12px);
-    color: var(--muted); line-height: 1.6;
-    max-width: 420px; flex: 1;
-  }
-  .submit-note strong { color: var(--ink); }
+  .btn-gold   { background: var(--gold); color: var(--ink); border: none; }
+  .btn-gold:hover { background: #b8861f; }
+  .btn-gold:active { background: #a0751a; }
+  .btn-outline-sm { background: transparent; border: 1.5px solid var(--border); color: var(--ink); }
+  .btn-outline-sm:hover  { border-color: var(--gold); }
+  .btn-outline-sm:active { background: var(--ivory); }
 
-  .btn-submit {
-    background: var(--gold); color: var(--ink);
-    border: none; border-radius: var(--radius-sm);
-    padding: clamp(12px, 3vw, 14px) clamp(24px, 6vw, 36px);
-    font-family: 'DM Sans', sans-serif;
-    font-size: clamp(14px, 3.5vw, 15px);
-    font-weight: 600; cursor: pointer;
-    transition: background .2s, transform .15s, box-shadow .2s;
-    box-shadow: 0 4px 14px rgba(201,151,43,0.35);
-    display: flex; align-items: center; gap: 8px;
-    white-space: nowrap;
-    /* Full-width on narrow screens */
-    width: 100%;
-    justify-content: center;
-    min-height: 50px;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
+  /* ══ MODAL ══ */
+  .modal-backdrop {
+    display: none; position: fixed; inset: 0;
+    background: rgba(26,26,46,0.6); z-index: 8000;
+    align-items: flex-start; justify-content: center;
+    padding: clamp(16px, 4vw, 40px) clamp(10px, 3vw, 16px);
+    overflow-y: auto; backdrop-filter: blur(2px);
   }
-  @media (min-width: 520px) {
-    .btn-submit { width: auto; }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: #fff; border-radius: 14px; width: min(700px, 100%);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.25);
   }
-  .btn-submit:hover { background: #b8861f; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(201,151,43,0.45); }
-  .btn-submit:active { transform: translateY(1px); box-shadow: 0 2px 8px rgba(201,151,43,0.2); }
-  .btn-submit:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; box-shadow: none; transform: none; }
+  .modal-head {
+    background: var(--ink); color: #fff; padding: clamp(14px, 3vw, 18px) clamp(16px, 4vw, 24px);
+    border-radius: 14px 14px 0 0; display: flex; align-items: center; justify-content: space-between;
+  }
+  .modal-head h3 { font-family: 'Playfair Display', serif; font-size: clamp(15px, 4vw, 18px); }
+  .modal-close {
+    background: none; border: none; color: rgba(255,255,255,0.5); font-size: 22px;
+    cursor: pointer; line-height: 1; padding: 0 4px; min-width: 32px; min-height: 32px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-close:hover { color: #fff; }
+  .modal-body { padding: clamp(16px, 4vw, 24px); }
 
-  /* ── TOAST ── */
+  /* ══ EDIT FIELDS ══ */
+  .edit-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 480px) { .edit-grid { grid-template-columns: 1fr 1fr; } }
+  .edit-field { display: flex; flex-direction: column; gap: 4px; }
+  .edit-field label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+  .edit-field input, .edit-field select, .edit-field textarea {
+    border: 1.5px solid var(--border); border-radius: 7px;
+    padding: 9px 12px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+    background: var(--cream); outline: none; transition: border-color .2s;
+    min-height: var(--input-h); -webkit-appearance: none; appearance: none;
+  }
+  .edit-field input:focus, .edit-field select:focus { border-color: var(--gold); background: #fff; }
+  .edit-field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7060' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px;
+  }
+
+  /* ══ MILESTONE ══ */
+  .milestone-list { display: flex; flex-direction: column; gap: 10px; }
+  .milestone-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: clamp(10px, 2.5vw, 12px) clamp(10px, 2.5vw, 14px);
+    background: var(--ivory); border-radius: 8px; border: 1px solid var(--border);
+  }
+  .milestone-icon {
+    width: 36px; height: 36px; border-radius: 50%; background: var(--gold);
+    display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;
+  }
+  .milestone-info .type { font-size: 14px; font-weight: 600; }
+  .milestone-info .meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .milestone-add {
+    display: grid; grid-template-columns: 1fr; gap: 12px;
+    margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);
+  }
+  @media (min-width: 480px) { .milestone-add { grid-template-columns: 1fr 1fr; } }
+
+  /* ══ ATTENDANCE ══ */
+  .att-header-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; align-items: flex-end; }
+  .att-table th, .att-table td { padding: 8px 10px; }
+  .status-present { color: var(--green); font-weight: 600; }
+  .status-absent  { color: var(--red); font-weight: 600; }
+  .status-late    { color: #e67e22; font-weight: 600; }
+
+  /* ══ ATTENDANCE FILTER BAR ══ */
+  .att-filter-bar {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 12px; align-items: center;
+  }
+  .att-filter-bar select,
+  .att-filter-bar input {
+    border: 1.5px solid var(--border); border-radius: 7px;
+    padding: 8px 12px; font-family: 'DM Sans', sans-serif; font-size: 13px;
+    background: var(--cream); outline: none; transition: border-color .2s;
+    min-height: 38px; -webkit-appearance: none; appearance: none;
+  }
+  .att-filter-bar select:focus,
+  .att-filter-bar input:focus { border-color: var(--gold); background: #fff; }
+  .att-filter-bar select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7060' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px;
+  }
+  .att-filter-label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .07em; color: var(--muted); white-space: nowrap;
+  }
+
+  /* ══ FIELD ROW — responsive ══ */
+  .field-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 16px; }
+  .field-row .field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 140px; }
+  .field-row label  { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+  .field-row input, .field-row select {
+    border: 1.5px solid var(--border); border-radius: 7px; padding: 9px 12px;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; background: var(--cream); outline: none;
+    transition: border-color .2s; min-height: var(--input-h); width: 100%;
+    -webkit-appearance: none; appearance: none;
+  }
+  .field-row input:focus, .field-row select:focus { border-color: var(--gold); background: #fff; }
+  .field-row .btn-sm { flex-shrink: 0; align-self: flex-end; }
+
+  /* ══ ATTENDANCE SESSION TABLE — mobile selects ══ */
+  .att-session-select {
+    border: 1.5px solid var(--border); border-radius: 6px;
+    padding: 6px 8px; font-size: 13px; background: var(--cream);
+    min-height: 38px; width: 100%; min-width: 120px;
+    -webkit-appearance: none; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7060' stroke-width='1.3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 8px center; padding-right: 24px;
+  }
+
+  /* ══ TOAST ══ */
   .toast {
-    position: fixed;
-    bottom: max(20px, env(safe-area-inset-bottom));
-    left: 50%;
+    position: fixed; bottom: max(20px, env(safe-area-inset-bottom)); left: 50%;
     transform: translateX(-50%) translateY(20px);
     background: var(--ink); color: #fff;
-    padding: clamp(10px, 3vw, 12px) clamp(18px, 5vw, 24px);
-    border-radius: 30px;
-    font-size: clamp(13px, 3.2vw, 14px);
-    font-weight: 500;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-    opacity: 0;
-    transition: opacity .3s, transform .3s;
-    z-index: 9999;
-    pointer-events: none;
-    text-align: center;
-    max-width: 92vw;
-    width: max-content;
+    padding: clamp(10px,2.5vw,12px) clamp(16px,5vw,24px);
+    border-radius: 30px; font-size: clamp(12px,3vw,14px); font-weight: 500;
+    box-shadow: 0 8px 30px rgba(0,0,0,.25);
+    opacity: 0; transition: opacity .3s, transform .3s; z-index: 9999;
+    pointer-events: none; text-align: center; max-width: 92vw; width: max-content;
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .toast.success { background: var(--green); }
-  .toast.error { background: var(--red); }
+  .toast.error   { background: var(--red); }
 
-  /* ── HEADER RESPONSIVE TWEAKS ── */
-  @media (max-width: 400px) {
-    .header-badge { display: none; }
-    /* Show only icon on very small screens */
-    .dashboard-btn span { display: none; }
-    .dashboard-btn::before { content: '📊'; }
-  }
-  @media (max-width: 320px) {
-    .header-text h1 { font-size: 12px; }
-    .header-text p { display: none; }
-  }
+  /* ══ EMPTY / LOADING ══ */
+  .empty { text-align: center; padding: clamp(24px,6vw,40px) 20px; color: var(--muted); font-size: 14px; }
+  .empty .icon { font-size: 36px; margin-bottom: 10px; }
+  .loading { text-align: center; padding: 30px; color: var(--muted); font-size: 14px; }
 
-  /* Keep section-head dashboard btn but only on wider screens */
-  @media (max-width: 600px) {
-    .section-head .dashboard-btn { display: none; }
+  /* ══ RESULT COUNT ══ */
+  #resultCount { margin-left: auto; font-size: 12px; color: var(--muted); }
+
+  /* ══ MODAL SAVE ROW ══ */
+  .modal-save-row {
+    margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;
   }
+  .modal-save-row .btn-sm { min-width: 100px; justify-content: center; display: flex; align-items: center; }
+
+  /* ══ REFRESH SPINNER ══ */
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinning { display: inline-block; animation: spin .7s linear infinite; }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- ══════════════ PIN SCREEN ══════════════ -->
+<div class="pin-screen" id="pinScreen">
+  <div class="pin-box">
+    <div class="pin-logo">CY</div>
+    <h2>Ministry Dashboard</h2>
+    <p>Enter your PIN to access the dashboard</p>
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+    </div>
+    <div class="pin-keypad">
+      <button class="pin-key" onclick="pinKey('1')">1</button>
+      <button class="pin-key" onclick="pinKey('2')">2</button>
+      <button class="pin-key" onclick="pinKey('3')">3</button>
+      <button class="pin-key" onclick="pinKey('4')">4</button>
+      <button class="pin-key" onclick="pinKey('5')">5</button>
+      <button class="pin-key" onclick="pinKey('6')">6</button>
+      <button class="pin-key" onclick="pinKey('7')">7</button>
+      <button class="pin-key" onclick="pinKey('8')">8</button>
+      <button class="pin-key" onclick="pinKey('9')">9</button>
+      <button class="pin-key del" onclick="pinKey('del')">⌫</button>
+      <button class="pin-key" onclick="pinKey('0')">0</button>
+      <button class="pin-key del" onclick="pinKey('clr')">✕</button>
+    </div>
+    <div class="pin-error" id="pinError"></div>
+  </div>
+</div>
+
+<!-- ══════════════ HEADER ══════════════ -->
 <div class="header">
   <div class="header-logo">CY</div>
   <div class="header-text">
     <h1>KCMC Child &amp; Youth Ministry</h1>
-    <p>Child Registration — Confidential</p>
+    <p>Admin Dashboard</p>
   </div>
-  <div class="header-badge">🔒 Authorised Use Only</div>
-  <div class="dashboard-btn" onclick="window.location.href='cydashboard.html'">
-    📊 <span>Dashboard</span>
-  </div>
-</div>
-
-<!-- PROGRESS BAR -->
-<div class="progress-bar-wrap">
-  <div class="progress-steps" id="progressSteps">
-    <div class="progress-step active" data-step="0">
-      <div class="step-dot">1</div>
-      <div class="step-label">Personal</div>
-    </div>
-    <div class="progress-step" data-step="1">
-      <div class="step-dot">2</div>
-      <div class="step-label">Guardians</div>
-    </div>
-    <div class="progress-step" data-step="2">
-      <div class="step-dot">3</div>
-      <div class="step-label">Ministry</div>
-    </div>
-    <div class="progress-step" data-step="3">
-      <div class="step-dot">4</div>
-      <div class="step-label">Leadership</div>
-    </div>
-    <div class="progress-step" data-step="4">
-      <div class="step-dot">✓</div>
-      <div class="step-label">Submit</div>
-    </div>
+  <div class="header-actions">
+    <button class="btn-outline" id="refreshBtn" onclick="doRefresh()">
+      <span id="refreshIcon">↻</span> <span class="btn-text">Refresh</span>
+    </button>
+    <button class="btn-outline" onclick="lockDashboard()">🔒 <span class="btn-text">Lock</span></button>
   </div>
 </div>
 
-<!-- SUBMIT PROGRESS OVERLAY -->
-<div class="submit-progress-overlay" id="submitOverlay">
-  <div class="submit-progress-box">
-    <h3>Saving Record…</h3>
-    <p id="progressMsg">Preparing data</p>
-    <div class="progress-track">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-    <div class="progress-pct" id="progressPct">0%</div>
-  </div>
+<!-- ══════════════ TABS ══════════════ -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('overview')">📊 Overview</div>
+  <div class="tab" onclick="switchTab('children')">👦 Children</div>
+  <div class="tab" onclick="switchTab('milestones')">🏅 Milestones</div>
+  <div class="tab" onclick="switchTab('attendance')">✅ Attendance</div>
+  <div class="tab" onclick="window.location.href='cymembership.html'">👤 Membership</div>
 </div>
 
-<div class="form-wrap">
-  <form id="childForm" novalidate>
+<!-- ══════════════ MAIN ══════════════ -->
+<div class="main">
 
-    <!-- SECTION A -->
-    <div class="section">
-      <div class="section-head">
-        <div class="section-letter">A</div>
-        <span class="section-title">Child Personal Information</span>
-        <div class="dashboard-btn" onclick="window.location.href='cydashboard.html'">
-          📊 <span>Dashboard</span>
-        </div>
+  <!-- ── OVERVIEW ── -->
+  <div class="panel active" id="panel-overview">
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="label">Registered</div>
+        <div class="value" id="stat-total">—</div>
+        <div class="sub">Children on record</div>
       </div>
-      <div class="section-body">
-
-        <div class="photo-section">
-          <div class="photo-wrap" style="position:relative;">
-            <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;">
-              Passport Photo <span style="color:var(--red)">*</span>
-            </div>
-            <div class="photo-drop" id="photoDrop" onclick="togglePhotoMenu()">
-              <div class="drop-hint">
-                <div class="drop-icon">📷</div>
-                Tap to add
-              </div>
-            </div>
-            <!-- Compact inline popover menu -->
-            <div id="photoMenu" style="display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:500;background:#fff;border:1.5px solid var(--border);border-radius:10px;box-shadow:0 6px 24px rgba(26,26,46,0.14);min-width:190px;overflow:hidden;">
-              <button type="button" onclick="triggerCamera()" style="display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;background:none;border:none;border-bottom:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;">
-                <span style="font-size:18px;">📸</span> Take Photo
-              </button>
-              <button type="button" onclick="triggerUpload()" style="display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;background:none;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;">
-                <span style="font-size:18px;">🖼️</span> Upload from Gallery
-              </button>
-            </div>
-            <div class="photo-req-note" id="photoReqNote">Required</div>
-            <input type="file" id="photoInputUpload" accept="image/*" style="display:none" onchange="previewPhoto(event)">
-            <input type="file" id="photoInputCamera" accept="image/*" capture="environment" style="display:none" onchange="previewPhoto(event)">
-          </div>
-          <div class="photo-meta">
-            <div class="grid g2">
-              <div class="field">
-                <label>Roll No. <span style="font-size:9px;font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;">(auto-generated)</span></label>
-                <input type="text" name="rollNo" id="rollNoField" placeholder="" readonly>
-                <div class="roll-badge" id="rollBadge">Generated on save</div>
-              </div>
-              <div class="field">
-                <label>Registration Date</label>
-                <input type="date" name="regDate">
-              </div>
-            </div>
-            <div class="field">
-              <label>Full Name <span class="req">*</span></label>
-              <input type="text" name="fullName" placeholder="As in birth certificate" required autocomplete="name">
-            </div>
-            <div class="grid g2">
-              <div class="field">
-                <label>Gender <span class="req">*</span></label>
-                <select name="gender" required>
-                  <option value="">— Select —</option>
-                  <option value="M">Male</option>
-                  <option value="F">Female</option>
-                </select>
-              </div>
-              <div class="field">
-                <label>Date of Birth <span class="req">*</span></label>
-                <input type="date" name="dob" required>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="grid g2">
-          <div class="field">
-            <label>Age Group <span class="req">*</span></label>
-            <select name="ageGroup" required>
-              <option value="">— Select Age Group —</option>
-              <option value="0-2">0-2</option>
-              <option value="3-5">3-5</option>
-              <option value="6-8">6-8</option>
-              <option value="9-11">9-11</option>
-              <option value="12-14">12-14</option>
-              <option value="15-18">15-18</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>School</label>
-            <input type="text" name="school" placeholder="School name" autocomplete="off">
-          </div>
-        </div>
-
-        <div class="grid g2" style="margin-top:16px;">
-          <div class="field">
-            <label>Area / Estate / Street</label>
-            <input type="text" name="residence" placeholder="Residence area">
-          </div>
-          <div class="field">
-            <label>Nearest Landmark <span class="req">*</span></label>
-            <input type="text" name="landmark" placeholder="e.g. near St. Peter's" required>
-          </div>
-        </div>
-
-        <div class="grid g2" style="margin-top:16px;">
-          <div class="field">
-            <label>Class / Grade</label>
-            <input type="text" name="classGrade" placeholder="e.g. Grade 5 / Form 2">
-          </div>
-          <div class="field">
-            <label>Emergency Contact (non-parent)</label>
-            <input type="text" name="emergencyContact" placeholder="Name &amp; phone">
-          </div>
-        </div>
-
-        <div class="field" style="margin-top:16px;">
-          <label>Special Needs / Medical Conditions</label>
-          <textarea name="specialNeeds" placeholder="Describe any special needs, allergies, or medical conditions…"></textarea>
-        </div>
-
+      <div class="stat-card">
+        <div class="label">Milestones</div>
+        <div class="value" id="stat-milestones">—</div>
+        <div class="sub">Total recorded</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Attendance Marks</div>
+        <div class="value" id="stat-attendance">—</div>
+        <div class="sub">All sessions</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Age Groups</div>
+        <div class="value" id="stat-groups">—</div>
+        <div class="sub" id="stat-groups-sub">Active age groups</div>
       </div>
     </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Age Group Breakdown</span></div>
+      <div class="card-body" id="ageChart"><div class="loading">Loading stats…</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Gender Split</span></div>
+      <div class="card-body" id="genderChart"><div class="loading">Loading…</div></div>
+    </div>
+  </div>
 
-    <!-- SECTION B -->
-    <div class="section">
-      <div class="section-head">
-        <div class="section-letter">B</div>
-        <span class="section-title">Parent / Guardian Details</span>
+  <!-- ── CHILDREN ── -->
+  <div class="panel" id="panel-children">
+    <div class="card">
+      <div class="card-head"><span class="card-title">Search Children</span></div>
+      <div class="card-body">
+        <div class="search-row">
+          <input type="search" class="search-input" id="childSearch"
+            placeholder="Search by name, Roll No., or area…"
+            oninput="debounceSearch(this.value)">
+          <button class="btn-sm btn-gold" onclick="searchChildren()">Search</button>
+        </div>
       </div>
-      <div class="section-body" style="display:flex;flex-direction:column;gap:16px;">
-
-        <div class="guardian-block">
-          <div class="guardian-label">👨 Father / Guardian 1</div>
-          <div class="grid g3">
-            <div class="field">
-              <label>Full Name</label>
-              <input type="text" name="fatherName" placeholder="Full name">
-            </div>
-            <div class="field">
-              <label>Relationship</label>
-              <select name="fatherRel">
-                <option value="">— Select —</option>
-                <option value="Father">Father</option>
-                <option value="Step-Father">Step-Father</option>
-                <option value="Uncle">Uncle</option>
-                <option value="Grandfather">Grandfather</option>
-                <option value="Brother">Brother (older)</option>
-                <option value="Guardian">Legal Guardian</option>
-                <option value="Family Friend">Family Friend</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Phone</label>
-              <input type="tel" name="fatherPhone" placeholder="+254 7XX XXX XXX" autocomplete="tel">
-            </div>
-          </div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">Results</span>
+        <span id="resultCount"></span>
+      </div>
+      <div class="card-body" style="padding:0">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Roll No.</th>
+                <th>Name</th>
+                <th>Age Group</th>
+                <th>Gender</th>
+                <th>School</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="childTable">
+              <tr><td colspan="6"><div class="loading">Search to find children…</div></td></tr>
+            </tbody>
+          </table>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <div class="guardian-block">
-          <div class="guardian-label">👩 Mother / Guardian 2</div>
-          <div class="grid g3">
-            <div class="field">
-              <label>Full Name</label>
-              <input type="text" name="motherName" placeholder="Full name">
-            </div>
-            <div class="field">
-              <label>Relationship</label>
-              <select name="motherRel">
-                <option value="">— Select —</option>
-                <option value="Mother">Mother</option>
-                <option value="Step-Mother">Step-Mother</option>
-                <option value="Aunt">Aunt</option>
-                <option value="Grandmother">Grandmother</option>
-                <option value="Sister">Sister (older)</option>
-                <option value="Guardian">Legal Guardian</option>
-                <option value="Family Friend">Family Friend</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Phone</label>
-              <input type="tel" name="motherPhone" placeholder="+254 7XX XXX XXX" autocomplete="tel">
-            </div>
+  <!-- ── MILESTONES ── -->
+  <div class="panel" id="panel-milestones">
+    <div class="card">
+      <div class="card-head"><span class="card-title">Browse / Add Milestones</span></div>
+      <div class="card-body">
+        <div class="field-row">
+          <div class="field">
+            <label>Search child (name or Roll No.)</label>
+            <input type="text" id="msSearch" placeholder="e.g. CY-0001 or Jane">
           </div>
+          <button class="btn-sm btn-gold" onclick="searchForMilestone()">Find</button>
         </div>
-
-        <div class="grid g3">
-          <div class="field">
-            <label>Home Fellowship Group</label>
-            <input type="text" name="homeFellowship" placeholder="Fellowship group name">
-          </div>
-          <div class="field">
-            <label>KCMC Member?</label>
-            <select name="kcmcMember">
+        <div id="msChildResult"></div>
+      </div>
+    </div>
+    <div class="card" id="msHistory" style="display:none">
+      <div class="card-head"><span class="card-title" id="msHistoryTitle">Milestone History</span></div>
+      <div class="card-body">
+        <div id="msListWrap"><div class="loading">Loading…</div></div>
+        <div class="milestone-add">
+          <div class="edit-field">
+            <label>Milestone Type</label>
+            <select id="msType">
               <option value="">— Select —</option>
-              <option value="Y">Yes — Both parents</option>
-              <option value="One">One parent</option>
-              <option value="N">No</option>
+              <option>Water Baptism</option>
+              <option>Holy Communion (first)</option>
+              <option>Camp Attended</option>
+              <option>Leadership Appointed</option>
+              <option>Award / Recognition</option>
+              <option>Salvation Decision</option>
+              <option>Memory Verse Champion</option>
+              <option>Volunteered for Outreach</option>
+              <option>Other</option>
             </select>
           </div>
+          <div class="edit-field">
+            <label>Date</label>
+            <input type="date" id="msDate">
+          </div>
+          <div class="edit-field" style="grid-column:1/-1">
+            <label>Notes</label>
+            <textarea id="msNotes" rows="2" style="width:100%;border:1.5px solid var(--border);border-radius:7px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:14px;background:var(--cream);outline:none;resize:vertical"></textarea>
+          </div>
+          <div class="edit-field">
+            <label>Recorded By</label>
+            <input type="text" id="msRecordedBy" placeholder="Your name">
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn-sm btn-gold" style="padding:10px 20px" onclick="saveMilestone()">💾 Add Milestone</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ATTENDANCE ── -->
+  <div class="panel" id="panel-attendance">
+    <div class="card">
+      <div class="card-head"><span class="card-title">Mark Attendance</span></div>
+      <div class="card-body">
+        <div class="field-row">
           <div class="field">
-            <label>Member Card No.</label>
-            <input type="text" name="memberCardNo" placeholder="Card number">
+            <label>Session Date</label>
+            <input type="date" id="attDate">
           </div>
+          <div class="field">
+            <label>Session Name</label>
+            <input type="text" id="attSession" placeholder="e.g. Sunday Service" value="Sunday Service">
+          </div>
+          <button class="btn-sm btn-gold" onclick="loadAttendanceSession()">Load / Start</button>
         </div>
-
+        <div id="attSessionWrap"></div>
       </div>
     </div>
 
-    <!-- SECTION C -->
-    <div class="section">
-      <div class="section-head">
-        <div class="section-letter">C</div>
-        <span class="section-title">Ministry Serving Areas</span>
+    <!-- ATTENDANCE HISTORY with FILTERS -->
+    <div class="card">
+      <div class="card-head"><span class="card-title">Attendance History</span></div>
+      <div class="card-body" style="padding-bottom:0">
+        <!-- Filter bar — NEW -->
+        <div class="att-filter-bar">
+          <span class="att-filter-label">Filter:</span>
+          <input type="text" id="attFilterName" placeholder="Name / Roll No."
+            oninput="filterAttendanceHistory()" style="flex:1;min-width:100px">
+          <select id="attFilterStatus" onchange="filterAttendanceHistory()">
+            <option value="">All Statuses</option>
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+            <option value="Late">Late</option>
+            <option value="Excused">Excused</option>
+          </select>
+          <select id="attFilterAge" onchange="filterAttendanceHistory()">
+            <option value="">All Age Groups</option>
+            <option value="0-2">0-2</option>
+            <option value="3-5">3-5</option>
+            <option value="6-8">6-8</option>
+            <option value="9-11">9-11</option>
+            <option value="12-14">12-14</option>
+            <option value="15-18">15-18</option>
+          </select>
+          <input type="date" id="attFilterDate" title="Filter by date"
+            onchange="filterAttendanceHistory()">
+          <button class="btn-sm btn-outline-sm" onclick="clearAttFilters()">✕ Clear</button>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px" id="attHistoryCount"></div>
       </div>
-      <div class="section-body">
-        <div style="font-size:12px;color:var(--muted);margin-bottom:14px;">Tick all that apply</div>
-        <div class="check-grid">
-          <label class="check-item" onclick="toggleCheck(this)">
-            <input type="checkbox" name="ministry" value="Choir / Praise &amp; Worship"> 🎵 Choir / Praise &amp; Worship
-          </label>
-          <label class="check-item" onclick="toggleCheck(this)">
-            <input type="checkbox" name="ministry" value="Ushering / Hospitality"> 🤝 Ushering / Hospitality
-          </label>
-          <label class="check-item" onclick="toggleCheck(this)">
-            <input type="checkbox" name="ministry" value="Media / Tech / Sound"> 🎛️ Media / Tech / Sound
-          </label>
-          <label class="check-item" onclick="toggleCheck(this)">
-            <input type="checkbox" name="ministry" value="Drama / Dance / Arts"> 🎭 Drama / Dance / Arts
-          </label>
-          <label class="check-item" onclick="toggleCheck(this)">
-            <input type="checkbox" name="ministry" value="Outreach / Evangelism"> 📣 Outreach / Evangelism
-          </label>
-          <label class="check-item" onclick="toggleCheck(this)">
-            <input type="checkbox" name="ministry" value="Children's Church Helper"> 🙏 Children's Church Helper
-          </label>
-          <label class="check-item" onclick="toggleCheck(this)">
-            <input type="checkbox" name="ministry" value="Cleaning / Decorating"> 🧹 Cleaning / Decorating
-          </label>
+      <div class="card-body" style="padding-top:0">
+        <div class="table-wrap">
+          <table class="att-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Session</th>
+                <th>Roll No.</th>
+                <th>Name</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="attHistoryTable">
+              <tr><td colspan="5"><div class="loading">Loading…</div></td></tr>
+            </tbody>
+          </table>
         </div>
-        <div class="field" style="margin-top:14px;">
-          <label>Other Ministry Area (specify)</label>
-          <input type="text" name="ministryOther" placeholder="Describe other area of service">
-        </div>
-      </div>
-    </div>
-
-    <!-- SECTION D -->
-    <div class="section">
-      <div class="section-head">
-        <div class="section-letter">D</div>
-        <span class="section-title">Leadership &amp; Mentorship</span>
-      </div>
-      <div class="section-body" style="display:flex;flex-direction:column;gap:16px;">
-
-        <div class="field">
-          <label>Leadership Role / Title</label>
-          <input type="text" name="leadershipRole" placeholder="e.g. Team Leader, Prefect">
-        </div>
-
-        <div class="mentor-block">
-          <div class="mentor-label">
-            <span class="mentor-number">1</span>
-            Primary Mentor
-          </div>
-          <div class="grid g2">
-            <div class="field">
-              <label>Mentor Name</label>
-              <input type="text" name="mentor1Name" placeholder="Full name">
-            </div>
-            <div class="field">
-              <label>Mentor Contact</label>
-              <input type="tel" name="mentor1Contact" placeholder="+254 7XX XXX XXX">
-            </div>
-          </div>
-        </div>
-
-        <div class="mentor-block">
-          <div class="mentor-label">
-            <span class="mentor-number">2</span>
-            Secondary Mentor
-          </div>
-          <div class="grid g2">
-            <div class="field">
-              <label>Mentor Name</label>
-              <input type="text" name="mentor2Name" placeholder="Full name">
-            </div>
-            <div class="field">
-              <label>Mentor Contact</label>
-              <input type="tel" name="mentor2Contact" placeholder="+254 7XX XXX XXX">
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
+  </div>
 
-    <!-- SUBMIT -->
-    <div class="submit-area">
-      <div class="submit-note">
-        <strong>🔒 Confidential Record</strong><br>
-        This form is for authorised KCMC Child &amp; Youth Ministry use only.
-        Data is saved to the ministry's secure Google Sheet and Drive.
-        Roll No. is auto-assigned sequentially on save.
-      </div>
-      <button type="submit" class="btn-submit" id="submitBtn">
-        <span id="submitLabel">💾 Save Record</span>
-      </button>
+</div><!-- /main -->
+
+<!-- ══════════════ CHILD EDIT MODAL ══════════════ -->
+<div class="modal-backdrop" id="editModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="editModalTitle">Edit Record</h3>
+      <button class="modal-close" onclick="closeModal('editModal')">✕</button>
     </div>
-
-  </form>
+    <div class="modal-body">
+      <div class="edit-grid" id="editFields"></div>
+      <div class="modal-save-row">
+        <button class="btn-sm btn-outline-sm" onclick="closeModal('editModal')">Cancel</button>
+        <button class="btn-sm btn-gold" onclick="saveEdits()">💾 Save Changes</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-  // ── CONFIG ──────────────────────────────────────────────────────────────
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
+// ══════════════════════════════════════════════════════
+//  CONFIG
+// ══════════════════════════════════════════════════════
+const SCRIPT_URL    = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
+const DASHBOARD_PIN = '1234';
 
-  // ── ROLL NUMBER ─────────────────────────────────────────────────────────
-  // Roll No is blank until Save Record is clicked.
-  // On submit, we ask the server for the current highest roll in the sheet,
-  // add 1, format as CY-XXXX, and use that.  localStorage is only a last-resort
-  // fallback if the server GET fails.
+// ══════════════════════════════════════════════════════
+//  PIN
+// ══════════════════════════════════════════════════════
+let pinBuffer = '';
 
-  function formatRoll(n) {
-    return 'CY-' + String(n).padStart(4, '0');
+function pinKey(k) {
+  if (k === 'del') { pinBuffer = pinBuffer.slice(0, -1); }
+  else if (k === 'clr') { pinBuffer = ''; }
+  else if (pinBuffer.length < 4) { pinBuffer += k; }
+
+  for (let i = 0; i < 4; i++)
+    document.getElementById('d' + i).classList.toggle('filled', i < pinBuffer.length);
+
+  document.getElementById('pinError').textContent = '';
+
+  if (pinBuffer.length === 4) {
+    if (pinBuffer === DASHBOARD_PIN) {
+      document.getElementById('pinScreen').style.display = 'none';
+      initDashboard();
+    } else {
+      document.getElementById('pinError').textContent = '⚠ Incorrect PIN. Try again.';
+      pinBuffer = '';
+      for (let i = 0; i < 4; i++) document.getElementById('d' + i).classList.remove('filled');
+    }
   }
+}
 
-  /** Ask the Apps Script for the highest numeric roll in the sheet.
-   *  Returns a Promise<number> (the next roll integer to use). */
-  async function fetchNextRollFromServer() {
-    try {
-      const res = await fetch(SCRIPT_URL + '?action=getNextRoll', { redirect: 'follow' });
-      if (res.ok) {
-        const data = await res.json();
-        // Server should return { nextRoll: <number> } — the NEXT available number
-        if (data && data.nextRoll) return parseInt(data.nextRoll, 10);
-        // Alternatively some scripts return the highest existing roll
-        if (data && data.lastRoll != null) return parseInt(data.lastRoll, 10) + 1;
-      }
-    } catch (_) { /* network error — fall through */ }
-    // localStorage fallback
-    const last = parseInt(localStorage.getItem('cy_last_roll') || '0', 10);
-    return last + 1;
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('pinScreen').style.display ||
+       document.getElementById('pinScreen').style.display !== 'none') {
+    if (e.key >= '0' && e.key <= '9') pinKey(e.key);
+    if (e.key === 'Backspace') pinKey('del');
+    if (e.key === 'Escape')    pinKey('clr');
   }
+});
 
-  function commitRollNo(n) {
-    localStorage.setItem('cy_last_roll', String(n));
+function lockDashboard() {
+  document.getElementById('pinScreen').style.display = '';
+  pinBuffer = '';
+  for (let i = 0; i < 4; i++) document.getElementById('d' + i).classList.remove('filled');
+}
+
+// ══════════════════════════════════════════════════════
+//  REFRESH BUTTON (FIXED)
+// ══════════════════════════════════════════════════════
+async function doRefresh() {
+  const icon = document.getElementById('refreshIcon');
+  const btn  = document.getElementById('refreshBtn');
+  icon.classList.add('spinning');
+  btn.disabled = true;
+  try {
+    await loadStats();
+    await loadAttendanceHistory();
+    showToast('✅ Dashboard refreshed', 'success');
+  } catch(e) {
+    showToast('Refresh failed', 'error');
+  } finally {
+    icon.classList.remove('spinning');
+    btn.disabled = false;
   }
+}
 
-  // ── INIT ────────────────────────────────────────────────────────────────
-  window.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
-    updateProgressBar();
-    // Roll No field stays blank — assigned only when Save Record is clicked
-    document.getElementById('rollBadge').textContent = 'Assigned on save';
-    document.getElementById('childForm').addEventListener('change', updateProgressBar);
-    document.getElementById('childForm').addEventListener('input', updateProgressBar);
+// ══════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════
+function initDashboard() {
+  document.getElementById('attDate').value = today();
+  document.getElementById('msDate').value  = today();
+  loadStats();
+  loadAttendanceHistory();
+}
+
+function today() { return new Date().toISOString().split('T')[0]; }
+
+// ══════════════════════════════════════════════════════
+//  API HELPER
+// ══════════════════════════════════════════════════════
+async function api(params) {
+  const url = SCRIPT_URL + '?' + new URLSearchParams(params).toString();
+  const res = await fetch(url, { redirect: 'follow' });
+  return res.json();
+}
+
+// ══════════════════════════════════════════════════════
+//  TABS
+// ══════════════════════════════════════════════════════
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    const panels = ['overview','children','milestones','attendance'];
+    t.classList.toggle('active', panels[i] === name);
   });
+  document.querySelectorAll('.panel').forEach(p => {
+    p.classList.toggle('active', p.id === 'panel-' + name);
+  });
+}
 
-  // ── PHOTO MENU (compact inline popover) ────────────────────────────────
-  function togglePhotoMenu() {
-    // If photo already set, tapping again re-opens the menu to change it
-    const menu = document.getElementById('photoMenu');
-    const isOpen = menu.style.display === 'block';
-    menu.style.display = isOpen ? 'none' : 'block';
-    if (!isOpen) {
-      // Close when clicking anywhere outside
-      setTimeout(() => {
-        document.addEventListener('click', closePhotoMenuOutside, { once: true });
-      }, 0);
+// ══════════════════════════════════════════════════════
+//  STATS / OVERVIEW
+// ══════════════════════════════════════════════════════
+async function loadStats() {
+  try {
+    const d = await api({ action: 'getStats' });
+    if (!d.success) return;
+    document.getElementById('stat-total').textContent      = d.total;
+    document.getElementById('stat-milestones').textContent = d.milestoneCount;
+    document.getElementById('stat-attendance').textContent = d.attendanceCount;
+    const gk = Object.keys(d.ageGroups || {});
+    document.getElementById('stat-groups').textContent     = gk.length;
+
+    // Age group bar chart
+    const ageEl  = document.getElementById('ageChart');
+    const groups = ['0-2','3-5','6-8','9-11','12-14','15-18'];
+    const max    = Math.max(1, ...groups.map(g => d.ageGroups[g] || 0));
+    ageEl.innerHTML = `<div style="display:flex;flex-direction:column;gap:10px">` +
+      groups.map(g => {
+        const n   = d.ageGroups[g] || 0;
+        const pct = Math.round(n / max * 100);
+        return `<div style="display:flex;align-items:center;gap:10px">
+          <span style="width:48px;font-size:12px;color:var(--muted);flex-shrink:0">${g}</span>
+          <div style="flex:1;background:var(--ivory);border-radius:4px;height:20px;overflow:hidden">
+            <div style="width:${pct}%;background:var(--gold);height:100%;border-radius:4px;transition:width .6s"></div>
+          </div>
+          <span style="width:28px;font-size:13px;font-weight:600;text-align:right">${n}</span>
+        </div>`;
+      }).join('') + `</div>`;
+
+    // Gender chart
+    const gEl = document.getElementById('genderChart');
+    const total = (d.genders.M || 0) + (d.genders.F || 0) || 1;
+    const mPct  = Math.round((d.genders.M || 0) / total * 100);
+    const fPct  = 100 - mPct;
+    gEl.innerHTML = `
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <div style="height:24px;border-radius:12px;overflow:hidden;display:flex">
+            <div style="width:${mPct}%;background:#2563eb;transition:width .6s"></div>
+            <div style="width:${fPct}%;background:#ec4899;transition:width .6s"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:20px;font-size:13px;flex-wrap:wrap">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:50%;background:#2563eb;display:inline-block"></span>Male ${d.genders.M || 0} (${mPct}%)</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:50%;background:#ec4899;display:inline-block"></span>Female ${d.genders.F || 0} (${fPct}%)</span>
+        </div>
+      </div>`;
+  } catch(err) { showToast('Failed to load stats', 'error'); }
+}
+
+// ══════════════════════════════════════════════════════
+//  CHILDREN
+// ══════════════════════════════════════════════════════
+let searchTimer;
+function debounceSearch(v) {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => searchChildren(v), 400);
+}
+
+async function searchChildren(q) {
+  const query = q !== undefined ? q : document.getElementById('childSearch').value;
+  const tbody = document.getElementById('childTable');
+  tbody.innerHTML = '<tr><td colspan="6"><div class="loading">Searching…</div></td></tr>';
+  try {
+    const d = await api({ action: 'getChildren', q: query });
+    document.getElementById('resultCount').textContent = d.data ? d.data.length + ' found' : '';
+    if (!d.success || !d.data.length) {
+      tbody.innerHTML = '<tr><td colspan="6"><div class="empty"><div class="icon">🔍</div>No children found</div></td></tr>';
+      return;
     }
+    tbody.innerHTML = d.data.map(c => `
+      <tr>
+        <td><span class="roll-badge">${c.rollNo}</span></td>
+        <td><strong>${esc(c.fullName)}</strong></td>
+        <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
+        <td>${c.gender === 'M' ? '♂ Male' : '♀ Female'}</td>
+        <td>${esc(c.school)}</td>
+        <td>
+          <div class="action-cell">
+            <button class="btn-sm btn-gold" onclick="openEditModal('${esc(c.rollNo)}')">✏️ Edit</button>
+            <button class="btn-sm btn-outline-sm" onclick="openMilestoneForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">🏅</button>
+            <button class="btn-sm btn-outline-sm" onclick="openAttForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">✅</button>
+          </div>
+        </td>
+      </tr>`).join('');
+  } catch(err) {
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty">Error loading data</div></td></tr>';
   }
-  function closePhotoMenuOutside(e) {
-    const menu = document.getElementById('photoMenu');
-    const drop = document.getElementById('photoDrop');
-    if (!menu.contains(e.target) && e.target !== drop) {
-      menu.style.display = 'none';
-    } else if (!menu.contains(e.target)) {
-      menu.style.display = 'none';
-    }
-  }
-  function triggerCamera() {
-    document.getElementById('photoMenu').style.display = 'none';
-    document.getElementById('photoInputCamera').click();
-  }
-  function triggerUpload() {
-    document.getElementById('photoMenu').style.display = 'none';
-    document.getElementById('photoInputUpload').click();
-  }
+}
 
-  // ── PHOTO PREVIEW ───────────────────────────────────────────────────────
-  let photoDataUrl = null, photoMimeType = null, photoName = null;
+// ══════════════════════════════════════════════════════
+//  EDIT MODAL
+// ══════════════════════════════════════════════════════
+let editRollNo = '';
+const EDITABLE_FIELDS = [
+  'Full Name','Gender','Date of Birth','Age Group','Residence / Area',
+  'Nearest Landmark','School','Class / Grade','Special Needs / Medical',
+  'Emergency Contact','Father / Guardian 1 Name','Father / Guardian 1 Phone',
+  'Mother / Guardian 2 Name','Mother / Guardian 2 Phone',
+  'Home Fellowship Group','KCMC Member?','Member Card No.',
+  'Ministry Areas','Leadership Role',
+  'Mentor 1 Name','Mentor 1 Contact','Mentor 2 Name','Mentor 2 Contact',
+];
 
-  function previewPhoto(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    photoMimeType = file.type;
-    photoName = file.name;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      photoDataUrl = ev.target.result;
-      const drop = document.getElementById('photoDrop');
-      drop.innerHTML = `<img src="${photoDataUrl}" alt="Passport photo">`;
-      drop.classList.remove('photo-error');
-      drop.classList.add('photo-ok');
-      document.getElementById('photoReqNote').style.color = 'var(--green)';
-      document.getElementById('photoReqNote').textContent = '✓ Photo added';
-      updateProgressBar();
-    };
-    reader.readAsDataURL(file);
-    // Reset input so same file can be re-selected if user changes mind
-    e.target.value = '';
-  }
+async function openEditModal(rollNo) {
+  editRollNo = rollNo;
+  document.getElementById('editModalTitle').textContent = 'Edit Record — ' + rollNo;
+  document.getElementById('editFields').innerHTML = '<div class="loading">Loading…</div>';
+  document.getElementById('editModal').classList.add('open');
 
-  // ── CHECKBOX TOGGLE ─────────────────────────────────────────────────────
-  function toggleCheck(label) {
-    setTimeout(() => {
-      label.classList.toggle('checked', label.querySelector('input').checked);
-      updateProgressBar();
-    }, 0);
-  }
+  try {
+    const d = await api({ action: 'getChild', rollNo });
+    if (!d.success) { showToast('Failed to load child record', 'error'); return; }
 
-  // ── LIVE PROGRESS BAR ────────────────────────────────────────────────────
-  function updateProgressBar() {
-    const form = document.getElementById('childForm');
-    const fd = new FormData(form);
-
-    const sectionDone = [
-      !!(photoDataUrl &&
-         fd.get('fullName') &&
-         fd.get('gender') &&
-         fd.get('dob') &&
-         fd.get('ageGroup') &&
-         fd.get('landmark')),
-      !!(fd.get('fatherName') || fd.get('motherName')),
-      true,
-      true,
-    ];
-
-    const steps = document.querySelectorAll('.progress-step');
-    let lastDone = -1;
-    sectionDone.forEach((done, i) => { if (done) lastDone = i; });
-
-    steps.forEach((step, i) => {
-      step.classList.remove('active', 'done');
-      if (i <= lastDone) {
-        step.classList.add('done');
-        step.querySelector('.step-dot').textContent = '✓';
-      } else if (i === lastDone + 1) {
-        step.classList.add('active');
-        step.querySelector('.step-dot').textContent = i + 1;
-      } else {
-        step.querySelector('.step-dot').textContent = i + 1;
+    const child = d.data;
+    document.getElementById('editFields').innerHTML = EDITABLE_FIELDS.map(f => {
+      const val = child[f] || '';
+      if (f === 'Gender') {
+        return `<div class="edit-field"><label>${f}</label>
+          <select data-field="${f}">
+            <option value="M" ${val==='M'?'selected':''}>Male</option>
+            <option value="F" ${val==='F'?'selected':''}>Female</option>
+          </select></div>`;
       }
-    });
+      if (f === 'Age Group') {
+        const opts = ['0-2','3-5','6-8','9-11','12-14','15-18'];
+        return `<div class="edit-field"><label>${f}</label>
+          <select data-field="${f}">${opts.map(o=>`<option ${val===o?'selected':''}>${o}</option>`).join('')}</select></div>`;
+      }
+      if (f === 'KCMC Member?') {
+        return `<div class="edit-field"><label>${f}</label>
+          <select data-field="${f}">
+            <option value="" ${!val?'selected':''}>—</option>
+            <option value="Y"   ${val==='Y'?'selected':''}>Yes — Both</option>
+            <option value="One" ${val==='One'?'selected':''}>One parent</option>
+            <option value="N"   ${val==='N'?'selected':''}>No</option>
+          </select></div>`;
+      }
+      if (f === 'Date of Birth') {
+        return `<div class="edit-field"><label>${f}</label>
+          <input type="date" data-field="${f}" value="${esc(val)}"></div>`;
+      }
+      return `<div class="edit-field"><label>${f}</label>
+        <input type="text" data-field="${f}" value="${esc(val)}"></div>`;
+    }).join('');
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+}
 
-    const submitStep = steps[4];
-    submitStep.classList.remove('active', 'done');
-    if (lastDone >= 3) {
-      submitStep.classList.add('active');
-      submitStep.querySelector('.step-dot').textContent = '✓';
+async function saveEdits() {
+  const inputs = document.querySelectorAll('#editFields [data-field]');
+  const promises = [];
+  inputs.forEach(inp => {
+    promises.push(api({ action: 'updateChild', rollNo: editRollNo, field: inp.dataset.field, value: inp.value }));
+  });
+  try {
+    const results = await Promise.all(promises);
+    const failed  = results.filter(r => !r.success);
+    if (failed.length) { showToast('Some fields failed to save', 'error'); return; }
+    showToast('✅ Record updated', 'success');
+    closeModal('editModal');
+    searchChildren();
+  } catch(err) { showToast('Save failed: ' + err.message, 'error'); }
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// ══════════════════════════════════════════════════════
+//  MILESTONES
+// ══════════════════════════════════════════════════════
+let msCurrentRoll = '', msCurrentName = '';
+
+async function searchForMilestone() {
+  const q = document.getElementById('msSearch').value.trim();
+  if (!q) return;
+  document.getElementById('msChildResult').innerHTML = '<div class="loading">Searching…</div>';
+  try {
+    const d = await api({ action: 'getChildren', q });
+    if (!d.success || !d.data.length) {
+      document.getElementById('msChildResult').innerHTML = '<div class="empty">No child found</div>';
+      return;
     }
-  }
+    document.getElementById('msChildResult').innerHTML =
+      `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">` +
+      d.data.map(c => `
+        <button class="btn-sm btn-outline-sm"
+          onclick="selectMilestoneChild('${esc(c.rollNo)}','${esc(c.fullName)}')">
+          <strong>${esc(c.rollNo)}</strong> — ${esc(c.fullName)}
+        </button>`).join('') + `</div>`;
+  } catch(err) { showToast('Search failed', 'error'); }
+}
 
-  // ── SUBMIT PROGRESS OVERLAY ──────────────────────────────────────────────
-  function showSubmitProgress(pct, msg) {
-    document.getElementById('submitOverlay').classList.add('active');
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('progressPct').textContent = pct + '%';
-    if (msg) document.getElementById('progressMsg').textContent = msg;
-  }
-  function hideSubmitProgress() {
-    document.getElementById('submitOverlay').classList.remove('active');
-  }
+async function selectMilestoneChild(rollNo, name) {
+  msCurrentRoll = rollNo; msCurrentName = name;
+  document.getElementById('msHistory').style.display = '';
+  document.getElementById('msHistoryTitle').textContent = 'Milestones — ' + name + ' (' + rollNo + ')';
+  document.getElementById('msListWrap').innerHTML = '<div class="loading">Loading milestones…</div>';
 
-  // ── FORM SUBMIT ─────────────────────────────────────────────────────────
-  document.getElementById('childForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
+  try {
+    const d = await api({ action: 'getMilestones', rollNo });
+    if (!d.success || !d.data.length) {
+      document.getElementById('msListWrap').innerHTML = '<div class="empty"><div class="icon">🏅</div>No milestones yet</div>';
+      return;
+    }
+    const icons = {
+      'Water Baptism': '💧', 'Holy Communion (first)': '🍞', 'Camp Attended': '⛺',
+      'Leadership Appointed': '⭐', 'Award / Recognition': '🏆', 'Salvation Decision': '✝️',
+      'Memory Verse Champion': '📖', 'Volunteered for Outreach': '📣', 'Other': '📌',
+    };
+    document.getElementById('msListWrap').innerHTML =
+      `<div class="milestone-list">` +
+      d.data.map(m => `
+        <div class="milestone-item">
+          <div class="milestone-icon">${icons[m.type] || '📌'}</div>
+          <div class="milestone-info">
+            <div class="type">${esc(m.type)}</div>
+            <div class="meta">${fmtDate(m.date)} • Recorded by ${esc(m.recordedBy)}
+              ${m.notes ? ' • ' + esc(m.notes) : ''}</div>
+          </div>
+        </div>`).join('') + `</div>`;
+  } catch(err) {
+    document.getElementById('msListWrap').innerHTML = '<div class="empty">Error loading milestones</div>';
+  }
+}
 
-    if (!SCRIPT_URL) {
-      showToast('⚠️ Script URL not configured.', 'error');
+function openMilestoneForChild(rollNo, name) {
+  switchTab('milestones');
+  document.getElementById('msSearch').value = rollNo;
+  selectMilestoneChild(rollNo, name);
+}
+
+async function saveMilestone() {
+  if (!msCurrentRoll) { showToast('Select a child first', 'error'); return; }
+  const type  = document.getElementById('msType').value;
+  const date  = document.getElementById('msDate').value;
+  const notes = document.getElementById('msNotes').value;
+  const by    = document.getElementById('msRecordedBy').value;
+  if (!type) { showToast('Select a milestone type', 'error'); return; }
+  try {
+    const d = await api({ action: 'addMilestone', rollNo: msCurrentRoll, fullName: msCurrentName, type, date, notes, recordedBy: by || 'Admin' });
+    if (d.success) {
+      showToast('✅ Milestone added!', 'success');
+      document.getElementById('msType').value  = '';
+      document.getElementById('msNotes').value = '';
+      selectMilestoneChild(msCurrentRoll, msCurrentName);
+      loadStats();
+    } else { showToast('Failed: ' + d.error, 'error'); }
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+}
+
+// ══════════════════════════════════════════════════════
+//  ATTENDANCE
+// ══════════════════════════════════════════════════════
+async function loadAttendanceSession() {
+  const date    = document.getElementById('attDate').value;
+  const session = document.getElementById('attSession').value || 'Sunday Service';
+  if (!date) { showToast('Pick a session date', 'error'); return; }
+
+  document.getElementById('attSessionWrap').innerHTML = '<div class="loading">Loading children…</div>';
+
+  try {
+    const [children, existing] = await Promise.all([
+      api({ action: 'getChildren', q: '' }),
+      api({ action: 'getAttendance', session: date }),
+    ]);
+
+    const markedMap = {};
+    (existing.data || []).filter(a => a.sessionDate === date || String(a.sessionDate).startsWith(date))
+      .forEach(a => { markedMap[a.rollNo] = a.status; });
+
+    if (!children.data || !children.data.length) {
+      document.getElementById('attSessionWrap').innerHTML = '<div class="empty">No registered children</div>';
       return;
     }
 
-    const required = this.querySelectorAll('[required]');
-    let valid = true;
-    required.forEach(f => {
-      if (!f.value.trim()) {
-        f.style.borderColor = 'var(--red)';
-        valid = false;
-        f.addEventListener('input',  () => f.style.borderColor = '', { once: true });
-        f.addEventListener('change', () => f.style.borderColor = '', { once: true });
-      }
-    });
+    // ── Attendance session search/filter ──
+    let attSessionData = children.data;
 
-    if (!photoDataUrl) {
-      const drop = document.getElementById('photoDrop');
-      drop.classList.add('photo-error');
-      document.getElementById('photoReqNote').textContent = '⚠ Photo is required';
-      valid = false;
-    }
+    document.getElementById('attSessionWrap').innerHTML = `
+      <div style="margin-top:6px;margin-bottom:12px;font-size:13px;color:var(--muted)">
+        Session: <strong>${esc(session)}</strong> on <strong>${date}</strong> —
+        <span id="attSessionCount">${attSessionData.length}</span> children
+      </div>
+      <!-- inline filter for session attendance -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
+        <input type="search" id="attSessionSearch" placeholder="Filter by name or Roll No."
+          oninput="filterSessionTable()"
+          style="flex:1;min-width:0;border:1.5px solid var(--border);border-radius:7px;padding:8px 12px;font-size:14px;background:var(--cream);outline:none;min-height:38px">
+        <select id="attSessionAgeFilter" onchange="filterSessionTable()"
+          style="border:1.5px solid var(--border);border-radius:7px;padding:8px 12px;font-size:13px;background:var(--cream);outline:none;min-height:38px;-webkit-appearance:none;appearance:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7060' stroke-width='1.3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 10px center;padding-right:28px">
+          <option value="">All Age Groups</option>
+          <option value="0-2">0-2</option>
+          <option value="3-5">3-5</option>
+          <option value="6-8">6-8</option>
+          <option value="9-11">9-11</option>
+          <option value="12-14">12-14</option>
+          <option value="15-18">15-18</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table id="attSessionTable">
+          <thead><tr><th>Roll No.</th><th>Name</th><th>Age Group</th><th>Status</th><th>Save</th></tr></thead>
+          <tbody id="attSessionBody">` +
+      attSessionData.map(c => {
+        const cur = markedMap[c.rollNo] || '';
+        return `<tr data-roll="${esc(c.rollNo)}" data-name="${esc(c.fullName).toLowerCase()}" data-age="${esc(c.ageGroup)}">
+          <td><span class="roll-badge">${esc(c.rollNo)}</span></td>
+          <td>${esc(c.fullName)}</td>
+          <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
+          <td>
+            <select id="att-${esc(c.rollNo)}" class="att-session-select">
+              <option value="" ${!cur?'selected':''}>—</option>
+              <option value="Present" ${cur==='Present'?'selected':''}>✅ Present</option>
+              <option value="Absent"  ${cur==='Absent' ?'selected':''}>❌ Absent</option>
+              <option value="Late"    ${cur==='Late'   ?'selected':''}>⏰ Late</option>
+              <option value="Excused" ${cur==='Excused'?'selected':''}>📋 Excused</option>
+            </select>
+          </td>
+          <td>
+            <button class="btn-sm btn-gold"
+              onclick="markOne('${esc(c.rollNo)}','${esc(c.fullName)}','${date}','${esc(session)}')">Mark</button>
+          </td>
+        </tr>`;
+      }).join('') +
+      `</tbody></table></div>
+      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn-sm btn-gold" onclick="markAll('${date}','${esc(session)}')">💾 Save All</button>
+        <button class="btn-sm btn-outline-sm" onclick="markAllVisible('${date}','${esc(session)}','Present')">✅ Mark All Visible Present</button>
+        <button class="btn-sm btn-outline-sm" onclick="markAllVisible('${date}','${esc(session)}','Absent')">❌ Mark All Visible Absent</button>
+      </div>`;
+  } catch(err) { showToast('Error loading session: ' + err.message, 'error'); }
+}
 
-    if (!valid) {
-      showToast('⚠️ Please fill in all required fields and upload a photo.', 'error');
-      const firstError = this.querySelector('[style*="var(--red)"]') ||
-                         document.getElementById('photoDrop');
-      firstError && firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return;
-    }
+// Filter the session attendance table by name/roll or age group
+function filterSessionTable() {
+  const nameQ = (document.getElementById('attSessionSearch')?.value || '').toLowerCase();
+  const ageQ  = document.getElementById('attSessionAgeFilter')?.value || '';
+  const rows  = document.querySelectorAll('#attSessionBody tr');
+  let visible = 0;
+  rows.forEach(row => {
+    const name = row.dataset.name || '';
+    const roll = row.dataset.roll?.toLowerCase() || '';
+    const age  = row.dataset.age || '';
+    const nameMatch = !nameQ || name.includes(nameQ) || roll.includes(nameQ);
+    const ageMatch  = !ageQ  || age === ageQ;
+    const show = nameMatch && ageMatch;
+    row.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const countEl = document.getElementById('attSessionCount');
+  if (countEl) countEl.textContent = visible;
+}
 
-    // ── Fetch the next Roll No from the server right now (at save time)
-    showSubmitProgress(3, 'Getting next Roll No…');
-    const nextNum = await fetchNextRollFromServer();
-    const rollNo  = formatRoll(nextNum);
-    document.getElementById('rollNoField').value = rollNo;
-    document.getElementById('rollBadge').textContent = 'Assigned: ' + rollNo;
+// Mark all currently visible rows with a given status
+function markAllVisible(date, session, status) {
+  const rows = document.querySelectorAll('#attSessionBody tr');
+  rows.forEach(row => {
+    if (row.style.display === 'none') return;
+    const roll = row.dataset.roll;
+    const sel  = document.getElementById('att-' + roll);
+    if (sel) sel.value = status;
+  });
+}
 
-    const ministryChecked = [...this.querySelectorAll('[name="ministry"]:checked')]
-      .map(c => c.value).join(', ');
-    const ministryOther = this.querySelector('[name="ministryOther"]').value.trim();
-    const allMinistry = [ministryChecked, ministryOther].filter(Boolean).join(', ');
+async function markOne(rollNo, name, date, session) {
+  const status = document.getElementById('att-' + rollNo).value;
+  if (!status) return;
+  try {
+    const d = await api({ action: 'markAttendance', rollNo, fullName: name, sessionDate: date, sessionName: session, status });
+    if (d.success) { showToast('Marked ' + rollNo, 'success'); loadAttendanceHistory(); }
+    else showToast('Failed: ' + d.error, 'error');
+  } catch(err) { showToast('Error', 'error'); }
+}
 
-    const fd = new FormData(this);
-    const payload = {
-      rollNo,
-      regDate:          fd.get('regDate'),
-      fullName:         fd.get('fullName'),
-      gender:           fd.get('gender'),
-      dob:              fd.get('dob'),
-      ageGroup:         "'" + fd.get('ageGroup'),  // apostrophe prefix forces Google Sheets to treat as text, not date
-      residence:        fd.get('residence'),
-      landmark:         fd.get('landmark'),
-      school:           fd.get('school'),
-      classGrade:       fd.get('classGrade'),
-      specialNeeds:     fd.get('specialNeeds'),
-      emergencyContact: fd.get('emergencyContact'),
-      fatherName:       fd.get('fatherName'),
-      fatherRel:        fd.get('fatherRel'),
-      fatherPhone:      fd.get('fatherPhone'),
-      motherName:       fd.get('motherName'),
-      motherRel:        fd.get('motherRel'),
-      motherPhone:      fd.get('motherPhone'),
-      homeFellowship:   fd.get('homeFellowship'),
-      kcmcMember:       fd.get('kcmcMember'),
-      memberCardNo:     fd.get('memberCardNo'),
-      ministryAreas:    allMinistry,
-      leadershipRole:   fd.get('leadershipRole'),
-      mentor1Name:      fd.get('mentor1Name'),
-      mentor1Contact:   fd.get('mentor1Contact'),
-      mentor2Name:      fd.get('mentor2Name'),
-      mentor2Contact:   fd.get('mentor2Contact'),
-      photoBase64:      photoDataUrl,
-      photoMimeType:    photoMimeType,
-      photoName:        photoName,
-    };
+async function markAll(date, session) {
+  const rows   = document.querySelectorAll('#attSessionWrap select[id^="att-"]');
+  const marked = [...rows].filter(s => s.value);
+  if (!marked.length) { showToast('No statuses selected', 'error'); return; }
 
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-
-    showSubmitProgress(5, 'Preparing data…');
-    await delay(350);
-    showSubmitProgress(20, 'Uploading passport photo…');
-    await delay(500);
-    showSubmitProgress(45, 'Sending to Google Sheets…');
-
-    try {
-      const response = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(payload),
-        redirect: 'follow',
-      });
-
-      showSubmitProgress(75, 'Saving record…');
-      await delay(300);
-
-      if (!response.ok) {
-        throw new Error(`Server responded with status ${response.status}`);
-      }
-
-      const result = await response.json();
-      showSubmitProgress(95, 'Finalising…');
-      await delay(300);
-
-      if (result.success) {
-        const confirmedRoll = result.rollNo || rollNo;
-        commitRollNo(nextNum);
-
-        showSubmitProgress(100, 'Record saved! ✅');
-        await delay(700);
-        hideSubmitProgress();
-
-        showToast(`✅ Record saved! Roll No: ${confirmedRoll}`, 'success');
-        document.getElementById('rollNoField').value = confirmedRoll;
-
-        setTimeout(() => {
-          resetForm();
-        }, 1200);
-      } else {
-        hideSubmitProgress();
-        document.getElementById('rollNoField').value = '';
-        document.getElementById('rollBadge').textContent = 'Generated on save';
-        showToast('❌ ' + (result.error || 'Save failed. Please try again.'), 'error');
-      }
-
-    } catch (err) {
-      hideSubmitProgress();
-      document.getElementById('rollNoField').value = '';
-      document.getElementById('rollBadge').textContent = 'Generated on save';
-      console.error('Submission error:', err);
-      showToast('❌ ' + (err.message || 'Network error. Check your connection and try again.'), 'error');
-    } finally {
-      btn.disabled = false;
-    }
+  const promises = marked.map(s => {
+    const rollNo = s.id.replace('att-', '');
+    const name   = s.closest('tr').querySelectorAll('td')[1].textContent;
+    return api({ action: 'markAttendance', rollNo, fullName: name, sessionDate: date, sessionName: session, status: s.value });
   });
 
-  // ── HELPERS ─────────────────────────────────────────────────────────────
-  function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+  try {
+    await Promise.all(promises);
+    showToast(`✅ Saved ${marked.length} attendance marks`, 'success');
+    loadAttendanceHistory();
+    loadStats();
+  } catch(err) { showToast('Some saves failed', 'error'); }
+}
 
-  function resetForm() {
-    document.getElementById('childForm').reset();
-    document.getElementById('photoDrop').innerHTML =
-      `<div class="drop-hint"><div class="drop-icon">📷</div>Tap to add</div>`;
-    document.getElementById('photoDrop').className = 'photo-drop';
-    document.getElementById('photoReqNote').textContent = 'Required';
-    document.getElementById('photoReqNote').style.color = 'var(--red)';
-    photoDataUrl = null; photoMimeType = null; photoName = null;
-    document.getElementById('rollNoField').value = '';
-    document.getElementById('rollBadge').textContent = 'Assigned on save';
-    document.querySelectorAll('.check-item').forEach(l => l.classList.remove('checked'));
-    document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
-    updateProgressBar();
-  }
+// ── ATTENDANCE HISTORY + FILTERS ──
+let allAttHistory = [];
 
-  function showToast(msg, type = '') {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = 'toast show ' + type;
-    setTimeout(() => t.className = 'toast', 5000);
+async function loadAttendanceHistory() {
+  try {
+    const d = await api({ action: 'getAttendance' });
+    if (!d.success || !d.data.length) {
+      allAttHistory = [];
+      renderAttHistory([]);
+      return;
+    }
+    allAttHistory = d.data.slice().reverse();
+    filterAttendanceHistory();
+  } catch(err) { /* silent */ }
+}
+
+function filterAttendanceHistory() {
+  const nameQ   = (document.getElementById('attFilterName')?.value  || '').toLowerCase();
+  const statusQ = document.getElementById('attFilterStatus')?.value || '';
+  const ageQ    = document.getElementById('attFilterAge')?.value    || '';
+  const dateQ   = document.getElementById('attFilterDate')?.value   || '';
+
+  const filtered = allAttHistory.filter(a => {
+    const nameMatch   = !nameQ   || esc(a.fullName).toLowerCase().includes(nameQ) || esc(a.rollNo).toLowerCase().includes(nameQ);
+    const statusMatch = !statusQ || (a.status || '').toLowerCase() === statusQ.toLowerCase();
+    const ageMatch    = !ageQ    || (a.ageGroup || '') === ageQ;
+    const dateMatch   = !dateQ   || String(a.sessionDate).startsWith(dateQ);
+    return nameMatch && statusMatch && ageMatch && dateMatch;
+  });
+
+  renderAttHistory(filtered.slice(0, 100));
+  const countEl = document.getElementById('attHistoryCount');
+  if (countEl) countEl.textContent = `Showing ${Math.min(filtered.length, 100)} of ${allAttHistory.length} records`;
+}
+
+function clearAttFilters() {
+  ['attFilterName','attFilterStatus','attFilterAge','attFilterDate'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  filterAttendanceHistory();
+}
+
+function renderAttHistory(rows) {
+  const tbody = document.getElementById('attHistoryTable');
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty">No attendance records match</div></td></tr>';
+    return;
   }
+  tbody.innerHTML = rows.map(a => `
+    <tr>
+      <td>${fmtDate(a.sessionDate)}</td>
+      <td>${esc(a.sessionName)}</td>
+      <td><span class="roll-badge">${esc(a.rollNo)}</span></td>
+      <td>${esc(a.fullName)}</td>
+      <td class="status-${(a.status||'').toLowerCase()}">${esc(a.status)}</td>
+    </tr>`).join('');
+}
+
+function openAttForChild(rollNo, name) {
+  switchTab('attendance');
+}
+
+// ══════════════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════════════
+function esc(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function fmtDate(d) {
+  if (!d) return '';
+  const dt = new Date(d);
+  if (isNaN(dt)) return String(d);
+  return dt.toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast show ' + type;
+  setTimeout(() => t.className = 'toast', 4000);
+}
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 </script>
-
 </body>
 </html>
