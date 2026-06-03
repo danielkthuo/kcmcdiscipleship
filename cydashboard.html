@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>KCMC CY Ministry — Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -45,55 +45,65 @@
     background: var(--ivory); border: 1.5px solid var(--border); border-radius: 10px;
     padding: 14px; font-size: 18px; font-weight: 600; cursor: pointer;
     transition: background .15s, transform .1s; user-select: none;
+    /* Bigger touch target on mobile */
+    min-height: 52px;
   }
   .pin-key:hover  { background: #f0e8d8; }
-  .pin-key:active { transform: scale(0.95); }
+  .pin-key:active { transform: scale(0.95); background: #e8dcc8; }
   .pin-key.del    { font-size: 14px; color: var(--muted); }
   .pin-error { color: var(--red); font-size: 13px; margin-top: 12px; min-height: 18px; }
 
   /* HEADER */
   .header {
-    background: var(--ink); color: #fff; padding: 20px 32px;
-    display: flex; align-items: center; gap: 16px;
+    background: var(--ink); color: #fff; padding: 14px 20px;
+    display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100;
   }
   .header-logo {
-    width: 44px; height: 44px; border-radius: 50%; background: var(--gold);
+    width: 40px; height: 40px; border-radius: 50%; background: var(--gold); flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--ink);
+    font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink);
   }
-  .header h1 { font-family: 'Playfair Display', serif; font-size: 20px; }
-  .header p  { font-size: 11px; color: var(--gold-light); letter-spacing: .1em; text-transform: uppercase; }
-  .header-actions { margin-left: auto; display: flex; gap: 10px; }
+  .header-text { flex: 1; min-width: 0; }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .header p  { font-size: 10px; color: var(--gold-light); letter-spacing: .1em; text-transform: uppercase; }
+  .header-actions { display: flex; gap: 6px; flex-shrink: 0; }
   .btn-outline {
     border: 1.5px solid rgba(201,151,43,0.4); color: var(--gold-light);
-    background: transparent; border-radius: 6px; padding: 8px 16px;
+    background: transparent; border-radius: 6px; padding: 7px 10px;
     font-size: 12px; font-weight: 500; cursor: pointer; transition: background .2s;
+    white-space: nowrap;
   }
   .btn-outline:hover { background: rgba(201,151,43,0.1); }
+  /* On very small screens hide Refresh label, keep icon */
+  @media (max-width: 400px) {
+    .btn-outline .btn-label { display: none; }
+  }
 
   /* TABS */
-  .tabs { background: var(--ink); padding: 0 32px; display: flex; gap: 4px; border-top: 1px solid rgba(255,255,255,0.07); }
+  .tabs-wrap { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.07); overflow-x: auto; -webkit-overflow-scrolling: touch; position: sticky; top: 68px; z-index: 99; }
+  .tabs { display: flex; gap: 2px; padding: 0 12px; min-width: max-content; }
   .tab {
-    padding: 12px 18px; font-size: 13px; font-weight: 500; cursor: pointer;
+    padding: 11px 14px; font-size: 12px; font-weight: 500; cursor: pointer;
     border-bottom: 3px solid transparent; color: rgba(255,255,255,0.45);
-    transition: color .2s, border-color .2s; white-space: nowrap;
+    transition: color .2s, border-color .2s; white-space: nowrap; user-select: none;
   }
   .tab.active { color: var(--gold-light); border-bottom-color: var(--gold); }
   .tab:hover:not(.active) { color: rgba(255,255,255,0.7); }
 
   /* MAIN */
-  .main { max-width: 1100px; margin: 28px auto; padding: 0 20px; }
+  .main { max-width: 1100px; margin: 20px auto; padding: 0 12px; }
 
   /* STAT CARDS */
-  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  @media (max-width: 700px) { .stat-row { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+  @media (max-width: 360px) { .stat-row { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
   .stat-card {
     background: var(--section-bg); border: 1px solid var(--border); border-radius: 12px;
-    padding: 20px 22px; box-shadow: var(--shadow);
+    padding: 16px 14px; box-shadow: var(--shadow);
   }
-  .stat-card .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 6px; }
-  .stat-card .value { font-size: 32px; font-weight: 600; color: var(--ink); line-height: 1; }
-  .stat-card .sub   { font-size: 12px; color: var(--muted); margin-top: 4px; }
-  @media (max-width: 700px) { .stat-row { grid-template-columns: repeat(2, 1fr); } }
+  .stat-card .label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 6px; }
+  .stat-card .value { font-size: 28px; font-weight: 600; color: var(--ink); line-height: 1; }
+  .stat-card .sub   { font-size: 11px; color: var(--muted); margin-top: 4px; }
 
   /* PANEL */
   .panel { display: none; }
@@ -102,60 +112,72 @@
   /* CARD */
   .card {
     background: var(--section-bg); border: 1px solid var(--border); border-radius: 12px;
-    box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden;
+    box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden;
   }
   .card-head {
     background: var(--ivory); border-bottom: 1px solid var(--border);
-    padding: 14px 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 12px 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
   }
-  .card-title { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; }
-  .card-body  { padding: 20px; }
+  .card-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; }
+  .card-body  { padding: 16px; }
+  @media (max-width: 480px) { .card-body { padding: 12px; } }
 
   /* SEARCH */
-  .search-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .search-row { display: flex; gap: 8px; flex-wrap: wrap; }
   .search-input {
-    flex: 1; min-width: 200px; border: 1.5px solid var(--border); border-radius: 7px;
-    padding: 10px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    flex: 1; min-width: 160px; border: 1.5px solid var(--border); border-radius: 7px;
+    padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: 14px;
     background: var(--cream); outline: none; transition: border-color .2s;
+    /* iOS zoom prevention */
+    font-size: max(16px, 14px);
   }
   .search-input:focus { border-color: var(--gold); background: #fff; }
 
-  /* CHILDREN TABLE */
-  .table-wrap { overflow-x: auto; }
+  /* TABLE */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th {
-    background: var(--ivory); padding: 10px 12px; text-align: left; font-weight: 600;
-    font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted);
+    background: var(--ivory); padding: 9px 10px; text-align: left; font-weight: 600;
+    font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted);
     border-bottom: 1px solid var(--border); white-space: nowrap;
   }
-  td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: #fdf8f0; }
   .roll-badge {
     font-size: 11px; font-weight: 700; letter-spacing: .05em;
-    color: var(--gold); background: rgba(201,151,43,0.1); padding: 3px 8px;
-    border-radius: 30px; border: 1px solid rgba(201,151,43,0.25); white-space: nowrap;
+    color: var(--gold); background: rgba(201,151,43,0.1); padding: 3px 7px;
+    border-radius: 30px; border: 1px solid rgba(201,151,43,0.25); white-space: nowrap; display: inline-block;
   }
   .age-badge {
-    font-size: 11px; padding: 3px 8px; border-radius: 30px;
-    background: var(--ivory); border: 1px solid var(--border); white-space: nowrap;
+    font-size: 11px; padding: 3px 7px; border-radius: 30px;
+    background: var(--ivory); border: 1px solid var(--border); white-space: nowrap; display: inline-block;
   }
   .btn-sm {
-    font-size: 12px; padding: 5px 12px; border-radius: 6px; cursor: pointer;
+    font-size: 12px; padding: 6px 12px; border-radius: 6px; cursor: pointer;
     font-family: 'DM Sans', sans-serif; font-weight: 500; transition: background .15s;
+    white-space: nowrap; touch-action: manipulation;
   }
   .btn-gold   { background: var(--gold); color: var(--ink); border: none; }
   .btn-gold:hover { background: #b8861f; }
+  .btn-gold:active { background: #a07219; }
   .btn-outline-sm { background: transparent; border: 1.5px solid var(--border); color: var(--ink); }
   .btn-outline-sm:hover { border-color: var(--gold); }
+
+  /* Action buttons in child table — stack on small screens */
+  .action-cell { display: flex; gap: 5px; flex-wrap: wrap; }
+  @media (max-width: 600px) {
+    /* Hide some columns on mobile */
+    .col-school { display: none; }
+  }
 
   /* MODAL */
   .modal-backdrop {
     display: none; position: fixed; inset: 0;
     background: rgba(26,26,46,0.6); z-index: 8000;
     align-items: flex-start; justify-content: center;
-    padding: 40px 16px; overflow-y: auto;
-    backdrop-filter: blur(2px);
+    padding: 20px 12px; overflow-y: auto;
+    backdrop-filter: blur(2px); -webkit-overflow-scrolling: touch;
   }
   .modal-backdrop.open { display: flex; }
   .modal {
@@ -163,25 +185,27 @@
     box-shadow: 0 24px 60px rgba(0,0,0,0.25);
   }
   .modal-head {
-    background: var(--ink); color: #fff; padding: 18px 24px;
+    background: var(--ink); color: #fff; padding: 16px 20px;
     border-radius: 14px 14px 0 0; display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 1;
   }
-  .modal-head h3 { font-family: 'Playfair Display', serif; font-size: 18px; }
+  .modal-head h3 { font-family: 'Playfair Display', serif; font-size: 17px; }
   .modal-close {
     background: none; border: none; color: rgba(255,255,255,0.5); font-size: 22px;
-    cursor: pointer; line-height: 1; padding: 0 4px;
+    cursor: pointer; line-height: 1; padding: 4px 8px; touch-action: manipulation;
   }
   .modal-close:hover { color: #fff; }
-  .modal-body { padding: 24px; }
+  .modal-body { padding: 20px; }
+  @media (max-width: 480px) { .modal-body { padding: 14px; } }
 
   /* EDIT FIELD */
-  .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   @media (max-width: 500px) { .edit-grid { grid-template-columns: 1fr; } }
   .edit-field { display: flex; flex-direction: column; gap: 4px; }
-  .edit-field label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+  .edit-field label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
   .edit-field input, .edit-field select, .edit-field textarea {
     border: 1.5px solid var(--border); border-radius: 7px;
-    padding: 9px 12px; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    padding: 9px 10px; font-family: 'DM Sans', sans-serif; font-size: max(16px, 14px);
     background: var(--cream); outline: none; transition: border-color .2s;
   }
   .edit-field input:focus, .edit-field select:focus { border-color: var(--gold); background: #fff; }
@@ -189,56 +213,93 @@
   /* MILESTONE */
   .milestone-list { display: flex; flex-direction: column; gap: 10px; }
   .milestone-item {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 12px 14px; background: var(--ivory); border-radius: 8px; border: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 12px; background: var(--ivory); border-radius: 8px; border: 1px solid var(--border);
   }
   .milestone-icon {
-    width: 36px; height: 36px; border-radius: 50%; background: var(--gold);
-    display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;
+    width: 34px; height: 34px; border-radius: 50%; background: var(--gold);
+    display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0;
   }
-  .milestone-info .type { font-size: 14px; font-weight: 600; }
-  .milestone-info .meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .milestone-info .type { font-size: 13px; font-weight: 600; }
+  .milestone-info .meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
   .milestone-add {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px;
-    padding-top: 16px; border-top: 1px solid var(--border);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px;
+    padding-top: 14px; border-top: 1px solid var(--border);
   }
   @media (max-width: 500px) { .milestone-add { grid-template-columns: 1fr; } }
 
-  /* ATTENDANCE */
-  .att-header-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; align-items: flex-end; }
-  .att-table th, .att-table td { padding: 8px 10px; }
-  .status-present { color: var(--green); font-weight: 600; }
-  .status-absent  { color: var(--red); font-weight: 600; }
-  .status-late    { color: #e67e22; font-weight: 600; }
+  /* ATTENDANCE FILTER BAR */
+  .att-filter-bar {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: flex-end;
+  }
+  .att-filter-bar .field { display: flex; flex-direction: column; gap: 4px; }
+  .att-filter-bar label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+  .att-filter-bar input, .att-filter-bar select {
+    border: 1.5px solid var(--border); border-radius: 7px; padding: 8px 10px;
+    font-family: 'DM Sans', sans-serif; font-size: max(16px, 13px); background: var(--cream); outline: none;
+    transition: border-color .2s;
+  }
+  .att-filter-bar input:focus, .att-filter-bar select:focus { border-color: var(--gold); background: #fff; }
+  .att-filter-bar .field.grow { flex: 1; min-width: 130px; }
 
-  /* FORM HELPERS */
-  .field-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 16px; }
+  /* ATTENDANCE SESSION TABLE select */
+  .att-status-select {
+    border: 1.5px solid var(--border); border-radius: 6px; padding: 5px 7px;
+    font-size: max(16px, 13px); background: var(--cream); min-width: 110px;
+  }
+
+  /* FIELD HELPERS */
+  .field-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 14px; }
   .field-row .field { display: flex; flex-direction: column; gap: 4px; }
-  .field-row label  { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+  .field-row label  { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
   .field-row input, .field-row select {
-    border: 1.5px solid var(--border); border-radius: 7px; padding: 9px 12px;
-    font-family: 'DM Sans', sans-serif; font-size: 14px; background: var(--cream); outline: none;
+    border: 1.5px solid var(--border); border-radius: 7px; padding: 9px 10px;
+    font-family: 'DM Sans', sans-serif; font-size: max(16px, 14px); background: var(--cream); outline: none;
     transition: border-color .2s;
   }
   .field-row input:focus, .field-row select:focus { border-color: var(--gold); background: #fff; }
+  .field-row .field.grow { flex: 1; min-width: 130px; }
+
+  /* SORT CONTROLS */
+  .sort-bar {
+    display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
+    padding: 8px 12px; background: var(--ivory); border-bottom: 1px solid var(--border);
+    font-size: 12px; color: var(--muted);
+  }
+  .sort-btn {
+    background: none; border: 1px solid var(--border); border-radius: 5px;
+    padding: 4px 9px; font-size: 11px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    color: var(--ink); transition: all .15s; touch-action: manipulation;
+  }
+  .sort-btn.active { background: var(--gold); border-color: var(--gold); color: var(--ink); font-weight: 600; }
+  .sort-btn:hover:not(.active) { border-color: var(--gold); }
+
+  /* STATUS */
+  .status-present { color: var(--green); font-weight: 600; }
+  .status-absent  { color: var(--red); font-weight: 600; }
+  .status-late    { color: #e67e22; font-weight: 600; }
+  .status-excused { color: var(--blue); font-weight: 600; }
 
   /* TOAST */
   .toast {
-    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
-    background: var(--ink); color: #fff; padding: 12px 24px; border-radius: 30px;
-    font-size: 14px; font-weight: 500; box-shadow: 0 8px 30px rgba(0,0,0,.25);
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--ink); color: #fff; padding: 11px 22px; border-radius: 30px;
+    font-size: 13px; font-weight: 500; box-shadow: 0 8px 30px rgba(0,0,0,.25);
     opacity: 0; transition: opacity .3s, transform .3s; z-index: 9999; pointer-events: none;
+    max-width: calc(100vw - 40px); text-align: center;
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .toast.success { background: var(--green); }
   .toast.error   { background: var(--red); }
 
-  /* EMPTY STATE */
-  .empty { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 14px; }
-  .empty .icon { font-size: 36px; margin-bottom: 10px; }
+  /* EMPTY / LOADING */
+  .empty { text-align: center; padding: 36px 16px; color: var(--muted); font-size: 14px; }
+  .empty .icon { font-size: 32px; margin-bottom: 10px; }
+  .loading { text-align: center; padding: 28px; color: var(--muted); font-size: 14px; }
 
-  /* LOADING */
-  .loading { text-align: center; padding: 30px; color: var(--muted); font-size: 14px; }
+  /* Spinning refresh icon */
+  .spin { display: inline-block; animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
@@ -276,23 +337,27 @@
 <!-- ══════════════════════ HEADER ══════════════════════ -->
 <div class="header">
   <div class="header-logo">CY</div>
-  <div>
-    <h1>KCMC Child & Youth Ministry</h1>
+  <div class="header-text">
+    <h1>KCMC Child &amp; Youth Ministry</h1>
     <p>Admin Dashboard</p>
   </div>
   <div class="header-actions">
-    <button class="btn-outline" onclick="loadStats()">↻ Refresh</button>
-    <button class="btn-outline" onclick="lockDashboard()">🔒 Lock</button>
+    <button class="btn-outline" onclick="refreshDashboard(this)" title="Refresh">
+      <span class="refresh-icon">↻</span> <span class="btn-label">Refresh</span>
+    </button>
+    <button class="btn-outline" onclick="lockDashboard()" title="Lock">🔒</button>
   </div>
 </div>
 
 <!-- ══════════════════════ TABS ══════════════════════ -->
-<div class="tabs">
-  <div class="tab active" onclick="switchTab('overview')">📊 Overview</div>
-  <div class="tab" onclick="switchTab('children')">👦 Children</div>
-  <div class="tab" onclick="switchTab('milestones')">🏅 Milestones</div>
-  <div class="tab" onclick="switchTab('attendance')">✅ Attendance</div>
-  <div class="tab" onclick="window.location.href='cymembership.html'">👦Membership</div>
+<div class="tabs-wrap">
+  <div class="tabs">
+    <div class="tab active" data-tab="overview"    onclick="switchTab('overview')">📊 Overview</div>
+    <div class="tab"        data-tab="children"    onclick="switchTab('children')">👦 Children</div>
+    <div class="tab"        data-tab="milestones"  onclick="switchTab('milestones')">🏅 Milestones</div>
+    <div class="tab"        data-tab="attendance"  onclick="switchTab('attendance')">✅ Attendance</div>
+    <div class="tab"        onclick="window.location.href='cymembership.html'">👦 Membership</div>
+  </div>
 </div>
 
 <!-- ══════════════════════ MAIN ══════════════════════ -->
@@ -312,48 +377,52 @@
         <div class="sub">Total recorded</div>
       </div>
       <div class="stat-card">
-        <div class="label">Attendance Marks</div>
+        <div class="label">Attendance</div>
         <div class="value" id="stat-attendance">—</div>
         <div class="sub">All sessions</div>
       </div>
       <div class="stat-card">
         <div class="label">Age Groups</div>
         <div class="value" id="stat-groups">—</div>
-        <div class="sub" id="stat-groups-sub">Active age groups</div>
+        <div class="sub" id="stat-groups-sub">Active groups</div>
       </div>
     </div>
     <div class="card">
       <div class="card-head"><span class="card-title">Age Group Breakdown</span></div>
-      <div class="card-body" id="ageChart">
-        <div class="loading">Loading stats…</div>
-      </div>
+      <div class="card-body" id="ageChart"><div class="loading">Loading stats…</div></div>
     </div>
     <div class="card">
       <div class="card-head"><span class="card-title">Gender Split</span></div>
-      <div class="card-body" id="genderChart">
-        <div class="loading">Loading…</div>
-      </div>
+      <div class="card-body" id="genderChart"><div class="loading">Loading…</div></div>
     </div>
   </div>
 
   <!-- ── CHILDREN ── -->
   <div class="panel" id="panel-children">
     <div class="card">
-      <div class="card-head">
-        <span class="card-title">Search Children</span>
-      </div>
+      <div class="card-head"><span class="card-title">Search Children</span></div>
       <div class="card-body">
         <div class="search-row">
-          <input type="text" class="search-input" id="childSearch"
-            placeholder="Search by name, Roll No., or area…"
-            oninput="debounceSearch(this.value)">
+          <input type="search" class="search-input" id="childSearch"
+            placeholder="Name, Roll No., or area…"
+            oninput="debounceSearch(this.value)" autocomplete="off">
           <button class="btn-sm btn-gold" onclick="searchChildren()">Search</button>
         </div>
       </div>
     </div>
     <div class="card">
-      <div class="card-head"><span class="card-title">Results</span><span id="resultCount" style="margin-left:auto;font-size:12px;color:var(--muted)"></span></div>
-      <div class="card-body" style="padding:0">
+      <div class="card-head">
+        <span class="card-title">Results</span>
+        <span id="resultCount" style="margin-left:auto;font-size:11px;color:var(--muted)"></span>
+      </div>
+      <!-- Sort bar -->
+      <div class="sort-bar" id="childSortBar" style="display:none">
+        <span>Sort:</span>
+        <button class="sort-btn active" id="sort-rollno" onclick="sortChildren('rollNo')">Roll No. ↑</button>
+        <button class="sort-btn" id="sort-name"   onclick="sortChildren('name')">Name</button>
+        <button class="sort-btn" id="sort-age"    onclick="sortChildren('age')">Age Group</button>
+      </div>
+      <div style="padding:0">
         <div class="table-wrap">
           <table>
             <thead>
@@ -362,7 +431,7 @@
                 <th>Name</th>
                 <th>Age Group</th>
                 <th>Gender</th>
-                <th>School</th>
+                <th class="col-school">School</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -381,11 +450,11 @@
       <div class="card-head"><span class="card-title">Browse / Add Milestones</span></div>
       <div class="card-body">
         <div class="field-row">
-          <div class="field">
+          <div class="field grow">
             <label>Search child (name or Roll No.)</label>
-            <input type="text" id="msSearch" placeholder="e.g. CY-0001 or Jane">
+            <input type="search" id="msSearch" placeholder="e.g. CY-0001 or Jane" autocomplete="off">
           </div>
-          <button class="btn-sm btn-gold" onclick="searchForMilestone()">Find</button>
+          <button class="btn-sm btn-gold" style="align-self:flex-end" onclick="searchForMilestone()">Find</button>
         </div>
         <div id="msChildResult"></div>
       </div>
@@ -394,7 +463,6 @@
       <div class="card-head"><span class="card-title" id="msHistoryTitle">Milestone History</span></div>
       <div class="card-body">
         <div id="msListWrap"><div class="loading">Loading…</div></div>
-        <!-- ADD MILESTONE FORM -->
         <div class="milestone-add">
           <div class="edit-field">
             <label>Milestone Type</label>
@@ -417,14 +485,14 @@
           </div>
           <div class="edit-field" style="grid-column:1/-1">
             <label>Notes</label>
-            <textarea id="msNotes" rows="2" style="width:100%;border:1.5px solid var(--border);border-radius:7px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:14px;background:var(--cream);outline:none;resize:vertical"></textarea>
+            <textarea id="msNotes" rows="2" style="width:100%;border:1.5px solid var(--border);border-radius:7px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:max(16px,14px);background:var(--cream);outline:none;resize:vertical"></textarea>
           </div>
           <div class="edit-field">
             <label>Recorded By</label>
-            <input type="text" id="msRecordedBy" placeholder="Your name">
+            <input type="text" id="msRecordedBy" placeholder="Your name" autocomplete="name">
           </div>
           <div style="display:flex;align-items:flex-end">
-            <button class="btn-sm btn-gold" style="padding:10px 20px" onclick="saveMilestone()">💾 Add Milestone</button>
+            <button class="btn-sm btn-gold" style="padding:10px 18px" onclick="saveMilestone()">💾 Add Milestone</button>
           </div>
         </div>
       </div>
@@ -441,11 +509,11 @@
             <label>Session Date</label>
             <input type="date" id="attDate">
           </div>
-          <div class="field">
+          <div class="field grow">
             <label>Session Name</label>
             <input type="text" id="attSession" placeholder="e.g. Sunday Service" value="Sunday Service">
           </div>
-          <button class="btn-sm btn-gold" onclick="loadAttendanceSession()">Load / Start</button>
+          <button class="btn-sm btn-gold" style="align-self:flex-end" onclick="loadAttendanceSession()">Load / Start</button>
         </div>
         <div id="attSessionWrap"></div>
       </div>
@@ -454,10 +522,10 @@
       <div class="card-head"><span class="card-title">Attendance History</span></div>
       <div class="card-body" style="padding:0">
         <div class="table-wrap">
-          <table class="att-table">
+          <table>
             <thead>
               <tr>
-                <th>Session Date</th>
+                <th>Date</th>
                 <th>Session</th>
                 <th>Roll No.</th>
                 <th>Name</th>
@@ -473,7 +541,7 @@
     </div>
   </div>
 
-</div>
+</div><!-- /main -->
 
 <!-- ══════════════════════ CHILD EDIT MODAL ══════════════════════ -->
 <div class="modal-backdrop" id="editModal">
@@ -484,7 +552,7 @@
     </div>
     <div class="modal-body">
       <div class="edit-grid" id="editFields"></div>
-      <div style="margin-top:20px;display:flex;gap:10px;justify-content:flex-end">
+      <div style="margin-top:18px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap">
         <button class="btn-sm btn-outline-sm" onclick="closeModal('editModal')">Cancel</button>
         <button class="btn-sm btn-gold" onclick="saveEdits()">💾 Save Changes</button>
       </div>
@@ -497,15 +565,24 @@
 
 <script>
 // ══════════════════════════════════════════════════════
-//  CONFIG — update these two values
+//  CONFIG
 // ══════════════════════════════════════════════════════
 const SCRIPT_URL    = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
-const DASHBOARD_PIN = '1234'; // change to your PIN
+const DASHBOARD_PIN = '1234';
+const SESSION_KEY   = 'cy_dash_unlocked';
 
 // ══════════════════════════════════════════════════════
-//  PIN
+//  PIN  — uses sessionStorage so refresh doesn't log out
+//         but closing the tab/browser does
 // ══════════════════════════════════════════════════════
 let pinBuffer = '';
+
+function checkSession() {
+  if (sessionStorage.getItem(SESSION_KEY) === '1') {
+    document.getElementById('pinScreen').style.display = 'none';
+    initDashboard();
+  }
+}
 
 function pinKey(k) {
   if (k === 'del') { pinBuffer = pinBuffer.slice(0, -1); }
@@ -519,6 +596,7 @@ function pinKey(k) {
 
   if (pinBuffer.length === 4) {
     if (pinBuffer === DASHBOARD_PIN) {
+      sessionStorage.setItem(SESSION_KEY, '1');
       document.getElementById('pinScreen').style.display = 'none';
       initDashboard();
     } else {
@@ -530,8 +608,8 @@ function pinKey(k) {
 }
 
 document.addEventListener('keydown', e => {
-  if (!document.getElementById('pinScreen').style.display ||
-       document.getElementById('pinScreen').style.display !== 'none') {
+  const pin = document.getElementById('pinScreen');
+  if (!pin.style.display || pin.style.display !== 'none') {
     if (e.key >= '0' && e.key <= '9') pinKey(e.key);
     if (e.key === 'Backspace') pinKey('del');
     if (e.key === 'Escape')    pinKey('clr');
@@ -539,23 +617,51 @@ document.addEventListener('keydown', e => {
 });
 
 function lockDashboard() {
+  sessionStorage.removeItem(SESSION_KEY);
   document.getElementById('pinScreen').style.display = '';
   pinBuffer = '';
   for (let i = 0; i < 4; i++) document.getElementById('d' + i).classList.remove('filled');
 }
 
+// Run on load
+checkSession();
+
 // ══════════════════════════════════════════════════════
 //  INIT
 // ══════════════════════════════════════════════════════
 function initDashboard() {
-  document.querySelector('[name="attDate"]') ;
-  document.getElementById('attDate').value  = today();
-  document.getElementById('msDate').value   = today();
+  document.getElementById('attDate').value = today();
+  document.getElementById('msDate').value  = today();
   loadStats();
   loadAttendanceHistory();
 }
 
 function today() { return new Date().toISOString().split('T')[0]; }
+
+// ══════════════════════════════════════════════════════
+//  REFRESH (fixes non-responding button)
+// ══════════════════════════════════════════════════════
+async function refreshDashboard(btn) {
+  const icon = btn.querySelector('.refresh-icon');
+  icon.classList.add('spin');
+  btn.disabled = true;
+  try {
+    await loadStats();
+    // Also reload active panel data
+    const activeTab = document.querySelector('.tab.active');
+    if (activeTab) {
+      const tab = activeTab.dataset.tab;
+      if (tab === 'children') { const q = document.getElementById('childSearch').value; if(q) searchChildren(q); }
+      if (tab === 'attendance') loadAttendanceHistory();
+    }
+    showToast('✅ Refreshed', 'success');
+  } catch(e) {
+    showToast('Refresh failed', 'error');
+  } finally {
+    icon.classList.remove('spin');
+    btn.disabled = false;
+  }
+}
 
 // ══════════════════════════════════════════════════════
 //  API HELPER
@@ -570,13 +676,15 @@ async function api(params) {
 //  TABS
 // ══════════════════════════════════════════════════════
 function switchTab(name) {
-  document.querySelectorAll('.tab').forEach((t, i) => {
-    const panels = ['overview','children','milestones','attendance'];
-    t.classList.toggle('active', panels[i] === name);
+  document.querySelectorAll('.tab[data-tab]').forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === name);
   });
   document.querySelectorAll('.panel').forEach(p => {
     p.classList.toggle('active', p.id === 'panel-' + name);
   });
+  // Scroll tabs into view on mobile
+  const activeTab = document.querySelector('.tab.active');
+  if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
 }
 
 // ══════════════════════════════════════════════════════
@@ -592,7 +700,6 @@ async function loadStats() {
     const gk = Object.keys(d.ageGroups || {});
     document.getElementById('stat-groups').textContent     = gk.length;
 
-    // Age group bar chart
     const ageEl  = document.getElementById('ageChart');
     const groups = ['0-2','3-5','6-8','9-11','12-14','15-18'];
     const max    = Math.max(1, ...groups.map(g => d.ageGroups[g] || 0));
@@ -600,39 +707,42 @@ async function loadStats() {
       groups.map(g => {
         const n   = d.ageGroups[g] || 0;
         const pct = Math.round(n / max * 100);
-        return `<div style="display:flex;align-items:center;gap:10px">
-          <span style="width:48px;font-size:12px;color:var(--muted);flex-shrink:0">${g}</span>
-          <div style="flex:1;background:var(--ivory);border-radius:4px;height:20px;overflow:hidden">
+        return `<div style="display:flex;align-items:center;gap:8px">
+          <span style="width:44px;font-size:11px;color:var(--muted);flex-shrink:0">${g}</span>
+          <div style="flex:1;background:var(--ivory);border-radius:4px;height:18px;overflow:hidden">
             <div style="width:${pct}%;background:var(--gold);height:100%;border-radius:4px;transition:width .6s"></div>
           </div>
-          <span style="width:28px;font-size:13px;font-weight:600;text-align:right">${n}</span>
+          <span style="width:26px;font-size:12px;font-weight:600;text-align:right">${n}</span>
         </div>`;
       }).join('') + `</div>`;
 
-    // Gender chart
-    const gEl = document.getElementById('genderChart');
+    const gEl   = document.getElementById('genderChart');
     const total = (d.genders.M || 0) + (d.genders.F || 0) || 1;
     const mPct  = Math.round((d.genders.M || 0) / total * 100);
     const fPct  = 100 - mPct;
     gEl.innerHTML = `
-      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
-        <div style="flex:1;min-width:200px">
-          <div style="height:24px;border-radius:12px;overflow:hidden;display:flex">
+      <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+        <div style="flex:1;min-width:180px">
+          <div style="height:22px;border-radius:11px;overflow:hidden;display:flex">
             <div style="width:${mPct}%;background:#2563eb;transition:width .6s"></div>
             <div style="width:${fPct}%;background:#ec4899;transition:width .6s"></div>
           </div>
         </div>
-        <div style="display:flex;gap:20px;font-size:13px">
-          <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:50%;background:#2563eb;display:inline-block"></span>Male ${d.genders.M || 0} (${mPct}%)</span>
-          <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:50%;background:#ec4899;display:inline-block"></span>Female ${d.genders.F || 0} (${fPct}%)</span>
+        <div style="display:flex;gap:16px;font-size:13px;flex-wrap:wrap">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:11px;height:11px;border-radius:50%;background:#2563eb;display:inline-block"></span>Male ${d.genders.M || 0} (${mPct}%)</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:11px;height:11px;border-radius:50%;background:#ec4899;display:inline-block"></span>Female ${d.genders.F || 0} (${fPct}%)</span>
         </div>
       </div>`;
   } catch(err) { showToast('Failed to load stats', 'error'); }
 }
 
 // ══════════════════════════════════════════════════════
-//  CHILDREN
+//  CHILDREN + SORT
 // ══════════════════════════════════════════════════════
+let childrenData = [];
+let childSortKey = 'rollNo';
+let childSortDir = 1;
+
 let searchTimer;
 function debounceSearch(v) {
   clearTimeout(searchTimer);
@@ -643,29 +753,59 @@ async function searchChildren(q) {
   const query = q !== undefined ? q : document.getElementById('childSearch').value;
   const tbody = document.getElementById('childTable');
   tbody.innerHTML = '<tr><td colspan="6"><div class="loading">Searching…</div></td></tr>';
+  document.getElementById('childSortBar').style.display = 'none';
   try {
     const d = await api({ action: 'getChildren', q: query });
     document.getElementById('resultCount').textContent = d.data ? d.data.length + ' found' : '';
     if (!d.success || !d.data.length) {
       tbody.innerHTML = '<tr><td colspan="6"><div class="empty"><div class="icon">🔍</div>No children found</div></td></tr>';
+      childrenData = [];
       return;
     }
-    tbody.innerHTML = d.data.map(c => `
-      <tr>
-        <td><span class="roll-badge">${c.rollNo}</span></td>
-        <td><strong>${esc(c.fullName)}</strong></td>
-        <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
-        <td>${c.gender === 'M' ? '♂ Male' : '♀ Female'}</td>
-        <td>${esc(c.school)}</td>
-        <td style="display:flex;gap:6px;flex-wrap:wrap">
-          <button class="btn-sm btn-gold" onclick="openEditModal('${esc(c.rollNo)}')">✏️ Edit</button>
-          <button class="btn-sm btn-outline-sm" onclick="openMilestoneForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">🏅 Milestone</button>
-          <button class="btn-sm btn-outline-sm" onclick="openAttForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">✅ Att.</button>
-        </td>
-      </tr>`).join('');
+    childrenData = d.data;
+    document.getElementById('childSortBar').style.display = 'flex';
+    renderChildTable();
   } catch(err) {
     tbody.innerHTML = '<tr><td colspan="6"><div class="empty">Error loading data</div></td></tr>';
   }
+}
+
+function sortChildren(key) {
+  if (childSortKey === key) { childSortDir *= -1; }
+  else { childSortKey = key; childSortDir = 1; }
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('sort-' + key);
+  if (btn) {
+    btn.classList.add('active');
+    btn.textContent = (key === 'rollNo' ? 'Roll No.' : key === 'name' ? 'Name' : 'Age Group') + (childSortDir === 1 ? ' ↑' : ' ↓');
+  }
+  renderChildTable();
+}
+
+function renderChildTable() {
+  const sorted = [...childrenData].sort((a, b) => {
+    let va, vb;
+    if (childSortKey === 'rollNo') { va = a.rollNo; vb = b.rollNo; }
+    else if (childSortKey === 'name') { va = a.fullName; vb = b.fullName; }
+    else { va = a.ageGroup; vb = b.ageGroup; }
+    return String(va).localeCompare(String(vb), undefined, { numeric: true }) * childSortDir;
+  });
+  const tbody = document.getElementById('childTable');
+  tbody.innerHTML = sorted.map(c => `
+    <tr>
+      <td><span class="roll-badge">${esc(c.rollNo)}</span></td>
+      <td><strong>${esc(c.fullName)}</strong></td>
+      <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
+      <td>${c.gender === 'M' ? '♂' : '♀'}</td>
+      <td class="col-school">${esc(c.school)}</td>
+      <td>
+        <div class="action-cell">
+          <button class="btn-sm btn-gold" onclick="openEditModal('${esc(c.rollNo)}')">✏️</button>
+          <button class="btn-sm btn-outline-sm" onclick="openMilestoneForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">🏅</button>
+          <button class="btn-sm btn-outline-sm" onclick="openAttForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">✅</button>
+        </div>
+      </td>
+    </tr>`).join('');
 }
 
 // ══════════════════════════════════════════════════════
@@ -684,14 +824,12 @@ const EDITABLE_FIELDS = [
 
 async function openEditModal(rollNo) {
   editRollNo = rollNo;
-  document.getElementById('editModalTitle').textContent = 'Edit Record — ' + rollNo;
+  document.getElementById('editModalTitle').textContent = 'Edit — ' + rollNo;
   document.getElementById('editFields').innerHTML = '<div class="loading">Loading…</div>';
   document.getElementById('editModal').classList.add('open');
-
   try {
     const d = await api({ action: 'getChild', rollNo });
     if (!d.success) { showToast('Failed to load child record', 'error'); return; }
-
     const child = d.data;
     document.getElementById('editFields').innerHTML = EDITABLE_FIELDS.map(f => {
       const val = child[f] || '';
@@ -774,7 +912,6 @@ async function selectMilestoneChild(rollNo, name) {
   document.getElementById('msHistory').style.display = '';
   document.getElementById('msHistoryTitle').textContent = 'Milestones — ' + name + ' (' + rollNo + ')';
   document.getElementById('msListWrap').innerHTML = '<div class="loading">Loading milestones…</div>';
-
   try {
     const d = await api({ action: 'getMilestones', rollNo });
     if (!d.success || !d.data.length) {
@@ -793,8 +930,7 @@ async function selectMilestoneChild(rollNo, name) {
           <div class="milestone-icon">${icons[m.type] || '📌'}</div>
           <div class="milestone-info">
             <div class="type">${esc(m.type)}</div>
-            <div class="meta">${fmtDate(m.date)} • Recorded by ${esc(m.recordedBy)}
-              ${m.notes ? ' • ' + esc(m.notes) : ''}</div>
+            <div class="meta">${fmtDate(m.date)} · ${esc(m.recordedBy)}${m.notes ? ' · ' + esc(m.notes) : ''}</div>
           </div>
         </div>`).join('') + `</div>`;
   } catch(err) {
@@ -828,23 +964,27 @@ async function saveMilestone() {
 }
 
 // ══════════════════════════════════════════════════════
-//  ATTENDANCE
+//  ATTENDANCE — with filter + sort
 // ══════════════════════════════════════════════════════
+let attSessionData = []; // store loaded children for filtering
+let attSessionDate = '', attSessionName = '';
+let attSortKey = 'rollNo', attSortDir = 1;
+
 async function loadAttendanceSession() {
-  const date    = document.getElementById('attDate').value;
-  const session = document.getElementById('attSession').value || 'Sunday Service';
-  if (!date) { showToast('Pick a session date', 'error'); return; }
+  attSessionDate = document.getElementById('attDate').value;
+  attSessionName = document.getElementById('attSession').value || 'Sunday Service';
+  if (!attSessionDate) { showToast('Pick a session date', 'error'); return; }
 
   document.getElementById('attSessionWrap').innerHTML = '<div class="loading">Loading children…</div>';
 
   try {
     const [children, existing] = await Promise.all([
       api({ action: 'getChildren', q: '' }),
-      api({ action: 'getAttendance', session: date }),
+      api({ action: 'getAttendance', session: attSessionDate }),
     ]);
 
     const markedMap = {};
-    (existing.data || []).filter(a => a.sessionDate === date || String(a.sessionDate).startsWith(date))
+    (existing.data || []).filter(a => String(a.sessionDate).startsWith(attSessionDate))
       .forEach(a => { markedMap[a.rollNo] = a.status; });
 
     if (!children.data || !children.data.length) {
@@ -852,45 +992,128 @@ async function loadAttendanceSession() {
       return;
     }
 
-    document.getElementById('attSessionWrap').innerHTML = `
-      <div style="margin-top:6px;margin-bottom:14px;font-size:13px;color:var(--muted)">
-        Session: <strong>${esc(session)}</strong> on <strong>${date}</strong>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Roll No.</th><th>Name</th><th>Age Group</th><th>Status</th><th>Save</th></tr></thead>
-          <tbody>` +
-      children.data.map(c => {
-        const cur = markedMap[c.rollNo] || '';
-        return `<tr>
-          <td><span class="roll-badge">${esc(c.rollNo)}</span></td>
-          <td>${esc(c.fullName)}</td>
-          <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
-          <td>
-            <select id="att-${esc(c.rollNo)}" style="border:1.5px solid var(--border);border-radius:6px;padding:5px 8px;font-size:13px;background:var(--cream)">
-              <option value="" ${!cur?'selected':''}>—</option>
-              <option value="Present" ${cur==='Present'?'selected':''}>✅ Present</option>
-              <option value="Absent"  ${cur==='Absent' ?'selected':''}>❌ Absent</option>
-              <option value="Late"    ${cur==='Late'   ?'selected':''}>⏰ Late</option>
-              <option value="Excused" ${cur==='Excused'?'selected':''}>📋 Excused</option>
-            </select>
-          </td>
-          <td>
-            <button class="btn-sm btn-gold"
-              onclick="markOne('${esc(c.rollNo)}','${esc(c.fullName)}','${date}','${esc(session)}')">Mark</button>
-          </td>
-        </tr>`;
-      }).join('') +
-      `</tbody></table></div>
-      <div style="margin-top:14px;display:flex;gap:10px">
-        <button class="btn-sm btn-gold" onclick="markAll('${date}','${esc(session)}')">💾 Save All</button>
-      </div>`;
+    // Attach current marks and store
+    attSessionData = children.data.map(c => ({ ...c, currentStatus: markedMap[c.rollNo] || '' }));
+    renderAttendanceSession();
   } catch(err) { showToast('Error loading session: ' + err.message, 'error'); }
 }
 
+function renderAttendanceSession() {
+  const filterName  = (document.getElementById('attFilterName')  || {}).value || '';
+  const filterAge   = (document.getElementById('attFilterAge')   || {}).value || '';
+  const filterMark  = (document.getElementById('attFilterMark')  || {}).value || '';
+
+  let filtered = attSessionData.filter(c => {
+    const nameMatch = !filterName || c.fullName.toLowerCase().includes(filterName.toLowerCase()) || c.rollNo.toLowerCase().includes(filterName.toLowerCase());
+    const ageMatch  = !filterAge  || c.ageGroup === filterAge;
+    const markMatch = !filterMark || c.currentStatus === filterMark;
+    return nameMatch && ageMatch && markMatch;
+  });
+
+  // Sort
+  filtered = filtered.sort((a, b) => {
+    let va, vb;
+    if (attSortKey === 'name') { va = a.fullName; vb = b.fullName; }
+    else if (attSortKey === 'age') { va = a.ageGroup; vb = b.ageGroup; }
+    else { va = a.rollNo; vb = b.rollNo; }
+    return String(va).localeCompare(String(vb), undefined, { numeric: true }) * attSortDir;
+  });
+
+  const ageGroups = [...new Set(attSessionData.map(c => c.ageGroup))].sort();
+
+  document.getElementById('attSessionWrap').innerHTML = `
+    <div style="margin-top:6px;margin-bottom:10px;font-size:13px;color:var(--muted)">
+      Session: <strong>${esc(attSessionName)}</strong> on <strong>${attSessionDate}</strong>
+      &nbsp;·&nbsp; <span style="color:var(--ink);font-weight:600">${filtered.length}</span> shown of ${attSessionData.length}
+    </div>
+
+    <!-- Filter + Sort Bar -->
+    <div class="att-filter-bar">
+      <div class="field grow">
+        <label>Filter by name / roll</label>
+        <input type="search" id="attFilterName" placeholder="Search…" value="${esc(filterName)}"
+          oninput="renderAttendanceSession()" autocomplete="off">
+      </div>
+      <div class="field">
+        <label>Age Group</label>
+        <select id="attFilterAge" onchange="renderAttendanceSession()">
+          <option value="">All</option>
+          ${ageGroups.map(g => `<option value="${g}" ${filterAge===g?'selected':''}>${g}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <select id="attFilterMark" onchange="renderAttendanceSession()">
+          <option value="">All</option>
+          <option value="Present" ${filterMark==='Present'?'selected':''}>✅ Present</option>
+          <option value="Absent"  ${filterMark==='Absent' ?'selected':''}>❌ Absent</option>
+          <option value="Late"    ${filterMark==='Late'   ?'selected':''}>⏰ Late</option>
+          <option value="Excused" ${filterMark==='Excused'?'selected':''}>📋 Excused</option>
+          <option value=""        ${filterMark===''&&filterMark!==undefined?'':''}></option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Sort bar -->
+    <div class="sort-bar" style="margin-bottom:8px">
+      <span>Sort:</span>
+      <button class="sort-btn ${attSortKey==='rollNo'?'active':''}" onclick="attSort('rollNo')">Roll No.${attSortKey==='rollNo'?(attSortDir===1?' ↑':' ↓'):''}</button>
+      <button class="sort-btn ${attSortKey==='name'  ?'active':''}" onclick="attSort('name')">Name${attSortKey==='name'?(attSortDir===1?' ↑':' ↓'):''}</button>
+      <button class="sort-btn ${attSortKey==='age'   ?'active':''}" onclick="attSort('age')">Age Group${attSortKey==='age'?(attSortDir===1?' ↑':' ↓'):''}</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Roll No.</th><th>Name</th><th>Age</th><th>Status</th><th>Mark</th></tr></thead>
+        <tbody>` +
+    (filtered.length === 0 ? '<tr><td colspan="5"><div class="empty">No children match filter</div></td></tr>' :
+    filtered.map(c => `<tr>
+      <td><span class="roll-badge">${esc(c.rollNo)}</span></td>
+      <td>${esc(c.fullName)}</td>
+      <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
+      <td>
+        <select id="att-${esc(c.rollNo)}" class="att-status-select"
+          onchange="updateLocalStatus('${esc(c.rollNo)}',this.value)">
+          <option value="" ${!c.currentStatus?'selected':''}>—</option>
+          <option value="Present" ${c.currentStatus==='Present'?'selected':''}>✅ Present</option>
+          <option value="Absent"  ${c.currentStatus==='Absent' ?'selected':''}>❌ Absent</option>
+          <option value="Late"    ${c.currentStatus==='Late'   ?'selected':''}>⏰ Late</option>
+          <option value="Excused" ${c.currentStatus==='Excused'?'selected':''}>📋 Excused</option>
+        </select>
+      </td>
+      <td>
+        <button class="btn-sm btn-gold"
+          onclick="markOne('${esc(c.rollNo)}','${esc(c.fullName)}','${attSessionDate}','${esc(attSessionName)}')">Mark</button>
+      </td>
+    </tr>`).join('')) +
+    `</tbody></table></div>
+    <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn-sm btn-gold" onclick="markAll()">💾 Save All Marked</button>
+      <button class="btn-sm btn-outline-sm" onclick="markAllPresent()">✅ Mark All Present</button>
+    </div>`;
+}
+
+function attSort(key) {
+  if (attSortKey === key) attSortDir *= -1;
+  else { attSortKey = key; attSortDir = 1; }
+  renderAttendanceSession();
+}
+
+function updateLocalStatus(rollNo, status) {
+  const child = attSessionData.find(c => c.rollNo === rollNo);
+  if (child) child.currentStatus = status;
+}
+
+function markAllPresent() {
+  attSessionData.forEach(c => c.currentStatus = 'Present');
+  renderAttendanceSession();
+}
+
 async function markOne(rollNo, name, date, session) {
-  const status = document.getElementById('att-' + rollNo).value;
+  const sel = document.getElementById('att-' + rollNo);
+  const status = sel ? sel.value : '';
   if (!status) return;
+  updateLocalStatus(rollNo, status);
   try {
     const d = await api({ action: 'markAttendance', rollNo, fullName: name, sessionDate: date, sessionName: session, status });
     if (d.success) { showToast('Marked ' + rollNo, 'success'); loadAttendanceHistory(); }
@@ -898,17 +1121,13 @@ async function markOne(rollNo, name, date, session) {
   } catch(err) { showToast('Error', 'error'); }
 }
 
-async function markAll(date, session) {
-  const rows   = document.querySelectorAll('#attSessionWrap select[id^="att-"]');
-  const marked = [...rows].filter(s => s.value);
+async function markAll() {
+  const marked = attSessionData.filter(c => c.currentStatus);
   if (!marked.length) { showToast('No statuses selected', 'error'); return; }
-
-  const promises = marked.map(s => {
-    const rollNo = s.id.replace('att-', '');
-    const name   = s.closest('tr').querySelectorAll('td')[1].textContent;
-    return api({ action: 'markAttendance', rollNo, fullName: name, sessionDate: date, sessionName: session, status: s.value });
-  });
-
+  const promises = marked.map(c =>
+    api({ action: 'markAttendance', rollNo: c.rollNo, fullName: c.fullName,
+          sessionDate: attSessionDate, sessionName: attSessionName, status: c.currentStatus })
+  );
   try {
     await Promise.all(promises);
     showToast(`✅ Saved ${marked.length} attendance marks`, 'success');
@@ -937,9 +1156,7 @@ async function loadAttendanceHistory() {
   } catch(err) { /* silent */ }
 }
 
-function openAttForChild(rollNo, name) {
-  switchTab('attendance');
-}
+function openAttForChild(rollNo, name) { switchTab('attendance'); }
 
 // ══════════════════════════════════════════════════════
 //  HELPERS
@@ -954,9 +1171,9 @@ function fmtDate(d) {
 function showToast(msg, type='') {
   const t = document.getElementById('toast');
   t.textContent = msg; t.className = 'toast show ' + type;
-  setTimeout(() => t.className = 'toast', 4000);
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.className = 'toast', 4000);
 }
-function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 </script>
 </body>
 </html>
