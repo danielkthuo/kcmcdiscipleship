@@ -168,15 +168,11 @@
   /* ══════════════════════════════════════
      MOBILE-FIRST TABLE SYSTEM
      ══════════════════════════════════════ */
-
-  /* Wrapper that enables horizontal scroll on desktop, card-flip on mobile */
   .table-wrap {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     border-radius: 0 0 12px 12px;
   }
-
-  /* Base table — desktop default */
   table {
     width: 100%;
     border-collapse: collapse;
@@ -193,12 +189,7 @@
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: #fdf8f0; }
 
-  /* ── MOBILE CARD TABLE (≤ 600px) ──
-     Converts each <tr> into a stacked card.
-     Uses data-label attribute from <td> for inline labels.
-  */
   @media (max-width: 600px) {
-    /* Tables that opt-in to card-flip via .mobile-cards class */
     .mobile-cards thead { display: none; }
     .mobile-cards tbody tr {
       display: block;
@@ -232,21 +223,15 @@
       min-width: 80px;
       padding-top: 1px;
     }
-    /* Cells with no label (action cells) */
     .mobile-cards tbody td[data-label=""] {
       justify-content: flex-end;
       padding-top: 8px;
     }
     .mobile-cards tbody td[data-label=""]::before { display: none; }
-
-    /* Full-width table wrap on mobile to avoid double scroll */
     .table-wrap { overflow-x: visible; }
-
-    /* Keep non-card tables scrollable on mobile */
     .table-wrap:not(:has(.mobile-cards)) { overflow-x: auto; }
   }
 
-  /* ── Attendance mark table: compact on mobile ── */
   @media (max-width: 600px) {
     .att-mark-table thead { display: none; }
     .att-mark-table tbody tr {
@@ -260,22 +245,16 @@
     }
     .att-mark-table tbody tr:last-child { border-bottom: none; }
     .att-mark-table tbody td { padding: 0; border: none; font-size: 12px; }
-    /* Col 1: Roll + Name spans first row */
     .att-mark-table td.att-roll { grid-column: 1; grid-row: 1; font-weight: 600; }
     .att-mark-table td.att-name { grid-column: 1; grid-row: 2; color: var(--muted); font-size: 11px; }
-    /* Col 2: Status select + button stacked right */
     .att-mark-table td.att-status { grid-column: 2; grid-row: 1; }
     .att-mark-table td.att-action { grid-column: 2; grid-row: 2; display: flex; justify-content: flex-end; }
-    /* Hide age / original status columns on mobile */
     .att-mark-table td.att-age,
     .att-mark-table td.att-orig { display: none; }
   }
 
-  /* ── Attendance history table: scrollable strip ── */
   .att-history-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .att-history-wrap table { min-width: 420px; }
-
-  /* ── Follow-up history: card-flip ── */
 
   /* BADGES */
   .roll-badge {
@@ -505,6 +484,20 @@
     .att-status-select { min-width: 90px; font-size: 13px; }
     .btn-sm { padding: 5px 9px; font-size: 11px; }
   }
+
+  /* ── ATTENDANCE HISTORY FILTER BAR ── */
+  .att-hist-filter-bar {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end;
+    padding: 10px 14px; background: var(--ivory); border-bottom: 1px solid var(--border);
+  }
+  .att-hist-filter-bar .field { display: flex; flex-direction: column; gap: 4px; }
+  .att-hist-filter-bar label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+  .att-hist-filter-bar select {
+    border: 1.5px solid var(--border); border-radius: 7px; padding: 7px 10px;
+    font-family: 'DM Sans', sans-serif; font-size: max(16px, 13px); background: var(--cream); outline: none; transition: border-color .2s; cursor: pointer;
+  }
+  .att-hist-filter-bar select:focus { border-color: var(--gold); background: #fff; }
+  .att-hist-count { font-size: 12px; color: var(--muted); align-self: center; margin-left: auto; }
 </style>
 </head>
 <body>
@@ -639,7 +632,6 @@
       </div>
       <div style="padding:0">
         <div class="table-wrap">
-          <!-- mobile-cards: each row becomes a card on small screens -->
           <table class="mobile-cards">
             <thead>
               <tr>
@@ -738,8 +730,29 @@
         <div id="attSessionWrap"></div>
       </div>
     </div>
+    <!-- ── ATTENDANCE HISTORY with month filter ── -->
     <div class="card">
       <div class="card-head"><span class="card-title">Attendance History</span></div>
+      <!-- Month filter bar -->
+      <div class="att-hist-filter-bar">
+        <div class="field">
+          <label>Filter by Month</label>
+          <select id="attHistMonthFilter" onchange="renderAttendanceHistory()">
+            <option value="">All Months</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="attHistStatusFilter" onchange="renderAttendanceHistory()">
+            <option value="">All Statuses</option>
+            <option value="Present">✅ Present</option>
+            <option value="Absent">❌ Absent</option>
+            <option value="Late">⏰ Late</option>
+            <option value="Excused">📋 Excused</option>
+          </select>
+        </div>
+        <span class="att-hist-count" id="attHistCount"></span>
+      </div>
       <div class="att-history-wrap" style="padding:0">
         <table>
           <thead>
@@ -783,7 +796,6 @@
         <div class="pathway-actions" id="pathwayActions"></div>
       </div>
     </div>
-    <!-- All children journey overview -->
     <div class="card">
       <div class="card-head"><span class="card-title">Journey Overview — All Children</span></div>
       <div class="pathway-table-wrap" style="padding:0">
@@ -914,17 +926,14 @@ const PATHWAY_KEY       = 'cy_pathway_data';
 // ══════════════════════════════════════════════════════
 //  DATE HELPERS — timezone-safe (fixes YYYY-MM-DD UTC shift)
 // ══════════════════════════════════════════════════════
-
-/** Parse any date string/value as LOCAL midnight, avoiding UTC-offset day drift */
 function parseDate(s) {
   if (!s) return null;
-  const str = String(s).substring(0, 10); // works for "2026-06-03" and "2026-06-03T..."
+  const str = String(s).substring(0, 10);
   const parts = str.split('-').map(Number);
   if (parts.length < 3 || isNaN(parts[0])) return null;
-  return new Date(parts[0], parts[1] - 1, parts[2]); // local time, no UTC shift
+  return new Date(parts[0], parts[1] - 1, parts[2]);
 }
 
-/** Format a date value for display in en-KE locale */
 function fmtDate(d) {
   if (!d) return '';
   const dt = parseDate(d);
@@ -932,7 +941,19 @@ function fmtDate(d) {
   return dt.toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
-/** Today as YYYY-MM-DD string */
+/** Returns "Jun 2026" label for a date string — used in history filter */
+function monthLabel(dateStr) {
+  const dt = parseDate(dateStr);
+  if (!dt || isNaN(dt)) return null;
+  return dt.toLocaleDateString('en-KE', { month: 'short', year: 'numeric' });
+}
+
+/** Returns "YYYY-MM" key for grouping/filtering */
+function monthKey(dateStr) {
+  const str = String(dateStr || '').substring(0, 10);
+  return str.substring(0, 7); // "YYYY-MM"
+}
+
 function today() { return new Date().toISOString().split('T')[0]; }
 
 // ══════════════════════════════════════════════════════
@@ -970,6 +991,22 @@ function saveOfflineQueue(q) {
 }
 function addToOfflineQueue(params) {
   const q = getOfflineQueue();
+
+  // ── DEDUPLICATION: for attendance marks, replace any existing queued entry
+  //    for the same rollNo + sessionDate with the latest status ──
+  if (params.action === 'markAttendance') {
+    const idx = q.findIndex(p =>
+      p.action === 'markAttendance' &&
+      p.rollNo === params.rollNo &&
+      p.sessionDate === params.sessionDate
+    );
+    if (idx >= 0) {
+      q[idx] = { ...params, _queuedAt: new Date().toISOString() };
+      saveOfflineQueue(q);
+      return;
+    }
+  }
+
   q.push({ ...params, _queuedAt: new Date().toISOString() });
   saveOfflineQueue(q);
 }
@@ -1078,7 +1115,7 @@ async function refreshDashboard(btn) {
     const activeTab = document.querySelector('.tab.active');
     if (activeTab) {
       const tab = activeTab.dataset.tab;
-      if (tab === 'children')  { const q = document.getElementById('childSearch').value; if (q) searchChildren(q); }
+      if (tab === 'children')   { const q = document.getElementById('childSearch').value; if (q) searchChildren(q); }
       if (tab === 'attendance') loadAttendanceHistory();
       if (tab === 'followup')   loadAbsenteeAlerts();
       if (tab === 'pathway')    loadPathwayOverview();
@@ -1111,7 +1148,7 @@ function switchTab(name) {
   document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
   const activeTab = document.querySelector('.tab.active');
   if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-  if (name === 'pathway') loadPathwayOverview();
+  if (name === 'pathway')  loadPathwayOverview();
   if (name === 'followup') loadAbsenteeAlerts();
 }
 
@@ -1314,9 +1351,9 @@ function renderChildTable() {
 
   const tbody = document.getElementById('childTable');
   tbody.innerHTML = sorted.map(c => {
-    const stages   = getMiniPathway(c.rollNo);
+    const stages    = getMiniPathway(c.rollNo);
     const doneCount = stages.filter(s => s === 'done').length;
-    const miniDots = Array(7).fill(0).map((_, i) =>
+    const miniDots  = Array(7).fill(0).map((_, i) =>
       `<div class="mini-step ${stages[i] === 'done' ? 'done' : stages[i] === 'current' ? 'current' : ''}"></div>`
     ).join('');
 
@@ -1824,6 +1861,7 @@ async function loadFollowUpHistory() {
 
 // ══════════════════════════════════════════════════════
 //  ATTENDANCE (offline-aware) — WITH SESSION LOCK / EDIT MODE
+//  FIX: duplicate prevention on both markOne() and markAll()
 // ══════════════════════════════════════════════════════
 let attSessionData  = [];
 let attSessionDate  = '';
@@ -1832,6 +1870,9 @@ let attSortKey      = 'rollNo';
 let attSortDir      = 1;
 let attSessionMode  = 'new';
 let attOriginalMap  = {};
+
+// ── Stores all raw attendance history rows for client-side filtering ──
+let attHistoryRows  = [];
 
 async function loadAttendanceSession() {
   attSessionDate = document.getElementById('attDate').value;
@@ -1928,8 +1969,6 @@ function renderAttendanceSession() {
         </div>
       </div>`;
 
-  // Build the attendance mark table rows
-  // On mobile the table uses a special 2-column grid layout (att-mark-table class)
   const tableRows = filtered.length === 0
     ? `<tr><td colspan="${isEdit ? 6 : 5}"><div class="empty">No children match filter</div></td></tr>`
     : filtered.map(c => {
@@ -2056,17 +2095,25 @@ function markAllPresent() {
   renderAttendanceSession();
 }
 
+// ── FIX: markOne — skip if status unchanged from what's already on the sheet ──
 async function markOne(rollNo, name, date, session) {
-  const sel = document.getElementById('att-' + rollNo);
+  const sel    = document.getElementById('att-' + rollNo);
   const status = sel ? sel.value : '';
   if (!status) { showToast('Select a status first', 'error'); return; }
+
+  // ── DUPLICATE GUARD: if this exact status is already confirmed on the sheet, skip ──
+  if (attOriginalMap[rollNo] === status) {
+    showToast(`Already saved as "${status}" for this session`, '');
+    return;
+  }
+
   updateLocalStatus(rollNo, status);
   const params = { action: 'markAttendance', rollNo, fullName: name, sessionDate: date, sessionName: session, status };
   const d = await apiWithOffline(params);
   if (d.offline) {
     showToast('📥 Saved offline — will sync later', '');
   } else if (d.success) {
-    attOriginalMap[rollNo] = status;
+    attOriginalMap[rollNo] = status;   // update local original so re-clicks are caught
     renderAttendanceSession();
     showToast(`${attSessionMode === 'edit' ? '✏️ Updated' : '✅ Marked'} ${rollNo}`, 'success');
     loadAttendanceHistory();
@@ -2075,13 +2122,23 @@ async function markOne(rollNo, name, date, session) {
   }
 }
 
+// ── FIX: markAll — only send records that differ from what's on the sheet ──
 async function markAll() {
   const isEdit = attSessionMode === 'edit';
-  const toSave = isEdit
-    ? attSessionData.filter(c => c.currentStatus && c.currentStatus !== attOriginalMap[c.rollNo])
-    : attSessionData.filter(c => c.currentStatus);
 
-  if (!toSave.length) { showToast(isEdit ? 'No changes to save' : 'No statuses selected', 'error'); return; }
+  // In edit mode: only rows where status changed from original.
+  // In new mode: only rows with a status selected AND not already matching attOriginalMap
+  // (attOriginalMap may have offline-queued entries too — skip those as well).
+  const toSave = attSessionData.filter(c => {
+    if (!c.currentStatus) return false;                      // nothing selected
+    if (c.currentStatus === attOriginalMap[c.rollNo]) return false; // already saved, skip duplicate
+    return true;
+  });
+
+  if (!toSave.length) {
+    showToast(isEdit ? 'No changes to save' : 'No new statuses to post', 'error');
+    return;
+  }
 
   const results = await Promise.all(toSave.map(c =>
     apiWithOffline({ action: 'markAttendance', rollNo: c.rollNo, fullName: c.fullName, sessionDate: attSessionDate, sessionName: attSessionName, status: c.currentStatus })
@@ -2090,6 +2147,7 @@ async function markAll() {
   const offlineCount = results.filter(r => r.offline).length;
   const onlineCount  = results.length - offlineCount;
 
+  // Update attOriginalMap for successfully saved rows so re-saves are blocked
   toSave.forEach((c, i) => {
     if (!results[i].offline && results[i].success) attOriginalMap[c.rollNo] = c.currentStatus;
   });
@@ -2102,24 +2160,78 @@ async function markAll() {
   loadStats();
 }
 
+// ══════════════════════════════════════════════════════
+//  ATTENDANCE HISTORY — with month + status filter
+// ══════════════════════════════════════════════════════
 async function loadAttendanceHistory() {
+  const tbody = document.getElementById('attHistoryTable');
+  tbody.innerHTML = '<tr><td colspan="5"><div class="loading">Loading…</div></td></tr>';
   try {
     const d = await api({ action: 'getAttendance' });
-    const tbody = document.getElementById('attHistoryTable');
     if (!d.success || !d.data.length) {
+      attHistoryRows = [];
       tbody.innerHTML = '<tr><td colspan="5"><div class="empty">No attendance records yet</div></td></tr>';
+      populateHistoryMonthFilter([]);
       return;
     }
-    const sorted = d.data.slice().reverse().slice(0, 50);
-    tbody.innerHTML = sorted.map(a => `
-      <tr>
-        <td>${fmtDate(a.sessionDate)}</td>
-        <td>${esc(a.sessionName)}</td>
-        <td><span class="roll-badge">${esc(a.rollNo)}</span></td>
-        <td>${esc(a.fullName)}</td>
-        <td class="status-${(a.status||'').toLowerCase()}">${esc(a.status)}</td>
-      </tr>`).join('');
+    // Store all rows newest-first, cap at 500 for performance
+    attHistoryRows = d.data.slice().reverse().slice(0, 500);
+    populateHistoryMonthFilter(attHistoryRows);
+    renderAttendanceHistory();
   } catch(err) { /* silent */ }
+}
+
+/** Populate the month dropdown from available data */
+function populateHistoryMonthFilter(rows) {
+  const sel = document.getElementById('attHistMonthFilter');
+  if (!sel) return;
+  const currentVal = sel.value;
+
+  // Collect unique YYYY-MM keys sorted newest first
+  const seen = new Map(); // key → label
+  rows.forEach(a => {
+    const k = monthKey(a.sessionDate);
+    if (k && !seen.has(k)) seen.set(k, monthLabel(a.sessionDate));
+  });
+  const sorted = [...seen.entries()].sort((a, b) => b[0].localeCompare(a[0]));
+
+  sel.innerHTML = '<option value="">All Months</option>' +
+    sorted.map(([k, lbl]) => `<option value="${k}" ${currentVal === k ? 'selected' : ''}>${lbl}</option>`).join('');
+}
+
+/** Re-render the history table based on current filter selections */
+function renderAttendanceHistory() {
+  const tbody      = document.getElementById('attHistoryTable');
+  const monthSel   = document.getElementById('attHistMonthFilter');
+  const statusSel  = document.getElementById('attHistStatusFilter');
+  if (!tbody) return;
+
+  const filterMonth  = monthSel  ? monthSel.value  : '';
+  const filterStatus = statusSel ? statusSel.value : '';
+
+  const filtered = attHistoryRows.filter(a => {
+    const mOk = !filterMonth  || monthKey(a.sessionDate) === filterMonth;
+    const sOk = !filterStatus || (a.status || '') === filterStatus;
+    return mOk && sOk;
+  });
+
+  // Show count
+  const countEl = document.getElementById('attHistCount');
+  if (countEl) countEl.textContent = filtered.length + ' record' + (filtered.length !== 1 ? 's' : '');
+
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty">No records match filter</div></td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(a => `
+    <tr>
+      <td>${fmtDate(a.sessionDate)}</td>
+      <td>${esc(a.sessionName)}</td>
+      <td><span class="roll-badge">${esc(a.rollNo)}</span></td>
+      <td>${esc(a.fullName)}</td>
+      <td class="status-${(a.status||'').toLowerCase()}">${esc(a.status)}</td>
+    </tr>`).join('');
 }
 
 // ══════════════════════════════════════════════════════
