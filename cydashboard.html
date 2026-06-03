@@ -498,6 +498,148 @@
   }
   .att-hist-filter-bar select:focus { border-color: var(--gold); background: #fff; }
   .att-hist-count { font-size: 12px; color: var(--muted); align-self: center; margin-left: auto; }
+
+  /* ════════════════════════════════════════
+     ✨ ENHANCED ATTENDANCE STYLES (NEW)
+     ════════════════════════════════════════ */
+
+  /* Session summary tally bar */
+  .att-tally-bar {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    padding: 10px 14px; background: var(--ivory);
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .att-tally-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-right: 4px; }
+  .tally-chip {
+    display: flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 12px;
+    border: 1.5px solid;
+  }
+  .tally-chip.tc-present { background: #f0fff4; border-color: #86efac; color: var(--green); }
+  .tally-chip.tc-absent  { background: #fff5f5; border-color: #fca5a5; color: var(--red); }
+  .tally-chip.tc-late    { background: #fff8ec; border-color: #fcd34d; color: #b45309; }
+  .tally-chip.tc-excused { background: #f0f7ff; border-color: #93c5fd; color: var(--blue); }
+  .tally-chip.tc-unmarked{ background: var(--ivory); border-color: var(--border); color: var(--muted); }
+  .tally-chip .tc-count  { font-size: 15px; font-weight: 700; }
+  .att-tally-progress {
+    margin-left: auto; font-size: 11px; color: var(--muted); white-space: nowrap;
+  }
+  .att-tally-progress strong { color: var(--ink); }
+
+  /* Save-all footer */
+  .att-save-footer {
+    display: none; /* shown when session active */
+    align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 12px 16px; background: var(--ink); border-radius: 0 0 12px 12px;
+  }
+  .att-save-footer.visible { display: flex; }
+  .att-save-footer .footer-info { flex: 1; font-size: 12px; color: rgba(255,255,255,0.6); }
+  .att-save-footer .footer-info strong { color: #fff; }
+
+  /* Row: already-saved indicator */
+  tr.att-saved-row td { background: #f9fffe !important; }
+  tr.att-saved-row td:first-child { border-left: 3px solid var(--green); }
+  tr.att-saved-row.att-saved-absent td:first-child { border-left-color: var(--red); }
+  tr.att-saved-row.att-saved-late   td:first-child { border-left-color: #e67e22; }
+  tr.att-saved-row.att-saved-excused td:first-child { border-left-color: var(--blue); }
+
+  /* Saved-status badge */
+  .saved-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px;
+    text-transform: uppercase; letter-spacing: .05em; white-space: nowrap;
+  }
+  .saved-badge.sb-present { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+  .saved-badge.sb-absent  { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+  .saved-badge.sb-late    { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+  .saved-badge.sb-excused { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+  .saved-badge .sb-dot    { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  /* Override toggle button */
+  .btn-override {
+    font-size: 10px; padding: 3px 8px; border-radius: 5px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-weight: 600;
+    background: transparent; border: 1.5px solid var(--border); color: var(--muted);
+    transition: all .15s; touch-action: manipulation; white-space: nowrap;
+  }
+  .btn-override:hover { border-color: #e67e22; color: #e67e22; background: #fff8ec; }
+
+  /* Override mode: row highlight */
+  tr.att-override-mode td { background: #fffbf0 !important; }
+  tr.att-override-mode td:first-child { border-left: 3px solid #e67e22; }
+
+  /* Conflict warning badge */
+  .conflict-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px;
+    background: #fff8ec; color: #92400e; border: 1px solid #fcd34d; white-space: nowrap;
+  }
+
+  /* Keyboard shortcut hint */
+  .att-shortcut-hint {
+    font-size: 11px; color: var(--muted); padding: 6px 14px 10px;
+    text-align: center;
+  }
+  .att-shortcut-hint kbd {
+    display: inline-block; background: var(--ivory); border: 1px solid var(--border);
+    border-radius: 3px; padding: 1px 5px; font-size: 10px; font-family: monospace;
+  }
+
+  /* Quick-mark buttons (P / A / L / E) */
+  .quick-mark-btns { display: flex; gap: 4px; }
+  .qm-btn {
+    width: 28px; height: 28px; border-radius: 5px; border: 1.5px solid var(--border);
+    background: transparent; font-size: 11px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .15s; touch-action: manipulation;
+  }
+  .qm-btn.qm-p { color: var(--green); }
+  .qm-btn.qm-a { color: var(--red); }
+  .qm-btn.qm-l { color: #b45309; }
+  .qm-btn.qm-e { color: var(--blue); }
+  .qm-btn:hover { border-color: currentColor; background: currentColor; color: #fff; }
+  .qm-btn.active-p { background: var(--green); border-color: var(--green); color: #fff; }
+  .qm-btn.active-a { background: var(--red);   border-color: var(--red);   color: #fff; }
+  .qm-btn.active-l { background: #b45309;       border-color: #b45309;      color: #fff; }
+  .qm-btn.active-e { background: var(--blue);  border-color: var(--blue);  color: #fff; }
+
+  /* Session loaded info strip */
+  .session-info-strip {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 10px;
+    background: var(--ink); color: #fff; padding: 10px 16px;
+    border-radius: 10px; margin-bottom: 14px; font-size: 13px;
+  }
+  .session-info-strip .sis-date { font-weight: 700; color: var(--gold-light); }
+  .session-info-strip .sis-name { color: rgba(255,255,255,0.7); }
+  .session-info-strip .sis-sep  { color: rgba(255,255,255,0.3); }
+  .session-info-strip .sis-count { margin-left: auto; font-size: 11px; color: rgba(255,255,255,0.5); }
+
+  /* Duplicate confirmation modal */
+  .confirm-modal-body { padding: 20px; }
+  .confirm-modal-body h4 { font-family: 'Playfair Display', serif; font-size: 16px; margin-bottom: 10px; }
+  .confirm-modal-body p  { font-size: 13px; color: var(--muted); margin-bottom: 16px; line-height: 1.6; }
+  .confirm-btns { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+  .confirm-existing-val {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    background: var(--ivory); border: 1px solid var(--border); margin-bottom: 14px;
+  }
+
+  /* "Mark All Present" quick action */
+  .mark-all-bar {
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+    padding: 8px 14px; background: #f0fff4; border-bottom: 1px solid #86efac;
+    font-size: 12px; color: var(--green);
+  }
+  .mark-all-bar .mark-all-label { flex: 1; font-weight: 600; }
+  .mark-all-bar .btn-sm { font-size: 11px; padding: 5px 10px; }
+
+  /* ── ATTENDANCE HISTORY FILTER BAR ── */
+  .att-hist-filter-bar {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end;
+    padding: 10px 14px; background: var(--ivory); border-bottom: 1px solid var(--border);
+  }
 </style>
 </head>
 <body>
@@ -730,10 +872,9 @@
         <div id="attSessionWrap"></div>
       </div>
     </div>
-    <!-- ── ATTENDANCE HISTORY with month filter ── -->
+    <!-- ATTENDANCE HISTORY -->
     <div class="card">
       <div class="card-head"><span class="card-title">Attendance History</span></div>
-      <!-- Month filter bar -->
       <div class="att-hist-filter-bar">
         <div class="field">
           <label>Filter by Month</label>
@@ -910,6 +1051,26 @@
   </div>
 </div>
 
+<!-- ══════════ DUPLICATE ATTENDANCE CONFIRM MODAL ══════════ -->
+<div class="modal-backdrop" id="dupModal">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-head" style="background:#b45309">
+      <h3>⚠️ Already Marked</h3>
+      <button class="modal-close" onclick="closeModal('dupModal')">✕</button>
+    </div>
+    <div class="confirm-modal-body">
+      <h4 id="dupModalChild"></h4>
+      <p id="dupModalMsg"></p>
+      <div class="confirm-existing-val" id="dupModalExisting"></div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Do you want to override with the new status?</p>
+      <div class="confirm-btns">
+        <button class="btn-sm btn-outline-sm" onclick="closeModal('dupModal')">Cancel — Keep Existing</button>
+        <button class="btn-sm btn-edit" id="dupConfirmBtn">Override →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
@@ -923,8 +1084,62 @@ const SESSION_KEY       = 'cy_dash_unlocked';
 const OFFLINE_QUEUE_KEY = 'cy_offline_queue';
 const PATHWAY_KEY       = 'cy_pathway_data';
 
+// ── NEW: local attendance cache keys ──────────────────
+// cy_local_att  → { "rollNo|YYYY-MM-DD": { status, session, savedAt } }
+// cy_session_marks|YYYY-MM-DD|SessionName → { rollNo: status, … }
+const LOCAL_ATT_KEY     = 'cy_local_att';
+const SESSION_DRAFT_PFX = 'cy_sess_draft|';
+
 // ══════════════════════════════════════════════════════
-//  DATE HELPERS — timezone-safe (fixes YYYY-MM-DD UTC shift)
+//  LOCAL ATTENDANCE CACHE HELPERS
+// ══════════════════════════════════════════════════════
+function getLocalAttCache() {
+  try { return JSON.parse(localStorage.getItem(LOCAL_ATT_KEY) || '{}'); }
+  catch { return {}; }
+}
+function saveLocalAttCache(obj) {
+  localStorage.setItem(LOCAL_ATT_KEY, JSON.stringify(obj));
+}
+/** Write a mark into the local cache */
+function writeLocalMark(rollNo, sessionDate, sessionName, status) {
+  const cache = getLocalAttCache();
+  cache[rollNo + '|' + sessionDate] = { status, session: sessionName, savedAt: new Date().toISOString() };
+  saveLocalAttCache(cache);
+  // Also write into the session draft map so the UI pre-populates correctly on reload
+  const draftKey = SESSION_DRAFT_PFX + sessionDate + '|' + sessionName;
+  let draft = {};
+  try { draft = JSON.parse(localStorage.getItem(draftKey) || '{}'); } catch {}
+  draft[rollNo] = status;
+  localStorage.setItem(draftKey, JSON.stringify(draft));
+}
+/** Read the already-known status for a roll + date from local cache (returns null if unknown) */
+function getLocalMark(rollNo, sessionDate) {
+  const cache = getLocalAttCache();
+  return cache[rollNo + '|' + sessionDate] || null;
+}
+/** Get session draft map for a date+name combo */
+function getSessionDraft(sessionDate, sessionName) {
+  const draftKey = SESSION_DRAFT_PFX + sessionDate + '|' + sessionName;
+  try { return JSON.parse(localStorage.getItem(draftKey) || '{}'); }
+  catch { return {}; }
+}
+/** Merge remote attendance records into the local cache (called when API returns history) */
+function mergeRemoteIntoLocalCache(records) {
+  if (!records || !records.length) return;
+  const cache = getLocalAttCache();
+  let changed = false;
+  records.forEach(r => {
+    const key = r.rollNo + '|' + (String(r.sessionDate || '').substring(0, 10));
+    if (!cache[key]) {
+      cache[key] = { status: r.status, session: r.session || r.sessionName || '', savedAt: r.timestamp || '' };
+      changed = true;
+    }
+  });
+  if (changed) saveLocalAttCache(cache);
+}
+
+// ══════════════════════════════════════════════════════
+//  DATE HELPERS — timezone-safe
 // ══════════════════════════════════════════════════════
 function parseDate(s) {
   if (!s) return null;
@@ -933,27 +1148,21 @@ function parseDate(s) {
   if (parts.length < 3 || isNaN(parts[0])) return null;
   return new Date(parts[0], parts[1] - 1, parts[2]);
 }
-
 function fmtDate(d) {
   if (!d) return '';
   const dt = parseDate(d);
   if (!dt || isNaN(dt)) return String(d);
   return dt.toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' });
 }
-
-/** Returns "Jun 2026" label for a date string — used in history filter */
 function monthLabel(dateStr) {
   const dt = parseDate(dateStr);
   if (!dt || isNaN(dt)) return null;
   return dt.toLocaleDateString('en-KE', { month: 'short', year: 'numeric' });
 }
-
-/** Returns "YYYY-MM" key for grouping/filtering */
 function monthKey(dateStr) {
   const str = String(dateStr || '').substring(0, 10);
-  return str.substring(0, 7); // "YYYY-MM"
+  return str.substring(0, 7);
 }
-
 function today() { return new Date().toISOString().split('T')[0]; }
 
 // ══════════════════════════════════════════════════════
@@ -991,9 +1200,7 @@ function saveOfflineQueue(q) {
 }
 function addToOfflineQueue(params) {
   const q = getOfflineQueue();
-
-  // ── DEDUPLICATION: for attendance marks, replace any existing queued entry
-  //    for the same rollNo + sessionDate with the latest status ──
+  // Deduplication: replace existing attendance mark for same rollNo + sessionDate
   if (params.action === 'markAttendance') {
     const idx = q.findIndex(p =>
       p.action === 'markAttendance' &&
@@ -1006,7 +1213,6 @@ function addToOfflineQueue(params) {
       return;
     }
   }
-
   q.push({ ...params, _queuedAt: new Date().toISOString() });
   saveOfflineQueue(q);
 }
@@ -1016,7 +1222,6 @@ function updateQueuePill() {
   if (q.length > 0) { pill.textContent = q.length + ' pending sync'; pill.classList.add('show'); }
   else              { pill.classList.remove('show'); }
 }
-
 async function syncOfflineQueue() {
   const q = getOfflineQueue();
   if (!q.length) return;
@@ -1047,7 +1252,6 @@ function checkSession() {
     initDashboard();
   }
 }
-
 function pinKey(k) {
   if (k === 'del') { pinBuffer = pinBuffer.slice(0, -1); }
   else if (k === 'clr') { pinBuffer = ''; }
@@ -1067,7 +1271,6 @@ function pinKey(k) {
     }
   }
 }
-
 document.addEventListener('keydown', e => {
   const pin = document.getElementById('pinScreen');
   if (!pin.style.display || pin.style.display !== 'none') {
@@ -1076,7 +1279,6 @@ document.addEventListener('keydown', e => {
     if (e.key === 'Escape')    pinKey('clr');
   }
 });
-
 function lockDashboard() {
   sessionStorage.removeItem(SESSION_KEY);
   document.getElementById('pinScreen').style.display = '';
@@ -1209,11 +1411,9 @@ async function loadBirthdaysFromChildren() {
   try {
     const d = await api({ action: 'getChildren', q: '' });
     if (!d.success || !d.data) return;
-
     const now       = new Date();
     const weekAhead = new Date(); weekAhead.setDate(weekAhead.getDate() + 7);
-
-    const upcoming = d.data.filter(c => {
+    const upcoming  = d.data.filter(c => {
       if (!c['Date of Birth']) return false;
       const dob = parseDate(c['Date of Birth']);
       if (!dob) return false;
@@ -1249,6 +1449,7 @@ async function checkAbsenteeForOverview(children) {
   try {
     const att = await api({ action: 'getAttendance' });
     if (!att.success || !att.data) return;
+    mergeRemoteIntoLocalCache(att.data);
     const alerts = [];
     children.forEach(c => {
       const records = att.data
@@ -1303,6 +1504,7 @@ async function searchChildren(q) {
       childrenData = [];
       return;
     }
+    if (att.success && att.data) mergeRemoteIntoLocalCache(att.data);
     const absenceMap = {};
     if (att.success && att.data) {
       cd.data.forEach(c => {
@@ -1462,55 +1664,53 @@ const MS_ICONS = {
 
 async function searchForMilestone() {
   const q = document.getElementById('msSearch').value.trim();
-  if (!q) return;
-  document.getElementById('msChildResult').innerHTML = '<div class="loading">Searching…</div>';
+  if (!q) { showToast('Enter a name or Roll No.', 'error'); return; }
+  const resultEl = document.getElementById('msChildResult');
+  resultEl.innerHTML = '<div class="loading">Searching…</div>';
   try {
     const d = await api({ action: 'getChildren', q });
     if (!d.success || !d.data.length) {
-      document.getElementById('msChildResult').innerHTML = '<div class="empty">No child found</div>';
+      resultEl.innerHTML = '<div class="empty"><div class="icon">🔍</div>No child found</div>';
+      document.getElementById('msHistory').style.display = 'none';
       return;
     }
-    document.getElementById('msChildResult').innerHTML =
-      `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">` +
-      d.data.map(c => `<button class="btn-sm btn-outline-sm"
-        onclick="selectMilestoneChild('${esc(c.rollNo)}','${esc(c.fullName)}')">
-        <strong>${esc(c.rollNo)}</strong> — ${esc(c.fullName)}
-      </button>`).join('') + `</div>`;
-  } catch(err) { showToast('Search failed', 'error'); }
+    if (d.data.length === 1) {
+      openMilestoneForChild(d.data[0].rollNo, d.data[0].fullName);
+      resultEl.innerHTML = '';
+    } else {
+      resultEl.innerHTML = '<div style="margin-top:10px;display:flex;flex-direction:column;gap:6px">' +
+        d.data.slice(0, 6).map(c => `<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--ivory);border:1px solid var(--border);border-radius:8px;cursor:pointer" onclick="openMilestoneForChild('${esc(c.rollNo)}','${esc(c.fullName)}');document.getElementById('msChildResult').innerHTML=''">
+          <span class="roll-badge">${esc(c.rollNo)}</span>
+          <span style="font-weight:600">${esc(c.fullName)}</span>
+          <span class="age-badge" style="margin-left:auto">${esc(c.ageGroup)}</span>
+        </div>`).join('') + '</div>';
+    }
+  } catch(e) { resultEl.innerHTML = '<div class="empty">Error searching</div>'; }
 }
 
-async function selectMilestoneChild(rollNo, name) {
+async function openMilestoneForChild(rollNo, name) {
   msCurrentRoll = rollNo; msCurrentName = name;
-  document.getElementById('msHistory').style.display = '';
-  document.getElementById('msHistoryTitle').textContent = 'Milestones — ' + name + ' (' + rollNo + ')';
+  const histCard = document.getElementById('msHistory');
+  histCard.style.display = '';
+  document.getElementById('msHistoryTitle').textContent = '🏅 ' + name + ' — ' + rollNo;
   document.getElementById('msListWrap').innerHTML = '<div class="loading">Loading milestones…</div>';
+  switchTab('milestones');
   try {
     const d = await api({ action: 'getMilestones', rollNo });
-    if (!d.success || !d.data.length) {
+    if (!d.success) { document.getElementById('msListWrap').innerHTML = '<div class="empty">Failed to load</div>'; return; }
+    if (!d.data.length) {
       document.getElementById('msListWrap').innerHTML = '<div class="empty"><div class="icon">🏅</div>No milestones yet</div>';
-      updatePathwayFromMilestones(rollNo, []);
       return;
     }
-    document.getElementById('msListWrap').innerHTML =
-      `<div class="milestone-list">` +
-      d.data.map(m => `
-        <div class="milestone-item">
-          <div class="milestone-icon">${MS_ICONS[m.type] || '📌'}</div>
-          <div class="milestone-info">
-            <div class="type">${esc(m.type)}</div>
-            <div class="meta">${fmtDate(m.date)} · ${esc(m.recordedBy)}${m.notes ? ' · ' + esc(m.notes) : ''}</div>
-          </div>
-        </div>`).join('') + `</div>`;
-    updatePathwayFromMilestones(rollNo, d.data);
-  } catch(err) {
-    document.getElementById('msListWrap').innerHTML = '<div class="empty">Error loading milestones</div>';
-  }
-}
-
-function openMilestoneForChild(rollNo, name) {
-  switchTab('milestones');
-  document.getElementById('msSearch').value = rollNo;
-  selectMilestoneChild(rollNo, name);
+    document.getElementById('msListWrap').innerHTML = '<div class="milestone-list">' +
+      d.data.map(m => `<div class="milestone-item">
+        <div class="milestone-icon">${MS_ICONS[m.type] || '📌'}</div>
+        <div class="milestone-info">
+          <div class="type">${esc(m.type)}</div>
+          <div class="meta">${fmtDate(m.date)}${m.notes ? ' · ' + esc(m.notes) : ''}${m.recordedBy ? ' · by ' + esc(m.recordedBy) : ''}</div>
+        </div>
+      </div>`).join('') + '</div>';
+  } catch(e) { document.getElementById('msListWrap').innerHTML = '<div class="empty">Error loading</div>'; }
 }
 
 async function saveMilestone() {
@@ -1520,261 +1720,767 @@ async function saveMilestone() {
   const notes = document.getElementById('msNotes').value;
   const by    = document.getElementById('msRecordedBy').value;
   if (!type) { showToast('Select a milestone type', 'error'); return; }
+  if (!date) { showToast('Select a date', 'error'); return; }
   try {
-    const d = await api({ action: 'addMilestone', rollNo: msCurrentRoll, fullName: msCurrentName, type, date, notes, recordedBy: by || 'Admin' });
-    if (d.success) {
-      showToast('✅ Milestone added!', 'success');
-      document.getElementById('msType').value  = '';
-      document.getElementById('msNotes').value = '';
-      selectMilestoneChild(msCurrentRoll, msCurrentName);
-      loadStats();
-    } else { showToast('Failed: ' + d.error, 'error'); }
-  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+    const d = await api({ action: 'addMilestone', rollNo: msCurrentRoll, type, date, notes, recordedBy: by });
+    if (!d.success) { showToast('Failed to save milestone', 'error'); return; }
+    showToast('✅ Milestone saved!', 'success');
+    document.getElementById('msType').value = '';
+    document.getElementById('msNotes').value = '';
+    openMilestoneForChild(msCurrentRoll, msCurrentName);
+    loadStats();
+  } catch(e) { showToast('Error saving milestone', 'error'); }
+}
+
+// ══════════════════════════════════════════════════════
+//  ✨ ENHANCED ATTENDANCE MARKING
+// ══════════════════════════════════════════════════════
+
+// State for the current session view
+let _attSessionChildren  = [];  // list of { rollNo, fullName, ageGroup, ... }
+let _attSessionDate      = '';
+let _attSessionName      = '';
+let _attSessionMarks     = {};  // { rollNo: { status, source: 'local'|'remote'|'pending' } }
+let _attUnsavedCount     = 0;
+
+/** Status display helpers */
+const STATUS_EMOJI = { Present: '✅', Absent: '❌', Late: '⏰', Excused: '📋' };
+const STATUS_CLASS = { Present: 'sb-present', Absent: 'sb-absent', Late: 'sb-late', Excused: 'sb-excused' };
+const STATUS_ROW   = { Present: 'att-saved-present', Absent: 'att-saved-absent', Late: 'att-saved-late', Excused: 'att-saved-excused' };
+
+function savedBadgeHtml(status) {
+  return `<span class="saved-badge ${STATUS_CLASS[status] || ''}">
+    <span class="sb-dot"></span>${STATUS_EMOJI[status] || ''} ${status}
+  </span>`;
+}
+
+/** Load a session: fetch children, cross-check local cache, show roster */
+async function loadAttendanceSession() {
+  const date    = document.getElementById('attDate').value;
+  const session = (document.getElementById('attSession').value || 'Sunday Service').trim();
+  if (!date) { showToast('Select a session date', 'error'); return; }
+
+  const wrap = document.getElementById('attSessionWrap');
+  wrap.innerHTML = '<div class="loading"><span class="spin">↻</span> Loading session…</div>';
+
+  _attSessionDate  = date;
+  _attSessionName  = session;
+  _attSessionMarks = {};
+  _attUnsavedCount = 0;
+
+  try {
+    // 1. Fetch children list
+    const childRes = await api({ action: 'getChildren', q: '' });
+    if (!childRes.success || !childRes.data.length) {
+      wrap.innerHTML = '<div class="empty">No children registered yet.</div>';
+      return;
+    }
+    _attSessionChildren = childRes.data;
+
+    // 2. Try to fetch remote attendance for this date (best-effort; works offline too)
+    let remoteMarks = {};
+    if (isOnline) {
+      try {
+        const attRes = await api({ action: 'getAttendance', date });
+        if (attRes.success && attRes.data) {
+          mergeRemoteIntoLocalCache(attRes.data);
+          attRes.data
+            .filter(r => String(r.sessionDate || '').substring(0, 10) === date)
+            .forEach(r => {
+              remoteMarks[r.rollNo] = { status: r.status, source: 'remote' };
+            });
+        }
+      } catch {}
+    }
+
+    // 3. Cross-check local cache (local cache wins for any mark not in remote,
+    //    or where offline queue has a newer value)
+    const localCache = getLocalAttCache();
+    const sessionDraft = getSessionDraft(date, session);
+    const offlineQueue = getOfflineQueue();
+
+    _attSessionChildren.forEach(c => {
+      const cacheKey    = c.rollNo + '|' + date;
+      const localEntry  = localCache[cacheKey];
+      const draftStatus = sessionDraft[c.rollNo];
+      // Check if offline queue has a pending mark for this child+date
+      const queuedEntry = offlineQueue.find(q =>
+        q.action === 'markAttendance' && q.rollNo === c.rollNo && q.sessionDate === date
+      );
+
+      if (queuedEntry) {
+        // Offline queue is most authoritative (last user action)
+        _attSessionMarks[c.rollNo] = { status: queuedEntry.status, source: 'pending' };
+      } else if (remoteMarks[c.rollNo]) {
+        _attSessionMarks[c.rollNo] = remoteMarks[c.rollNo];
+      } else if (localEntry) {
+        _attSessionMarks[c.rollNo] = { status: localEntry.status, source: 'local' };
+      } else if (draftStatus) {
+        _attSessionMarks[c.rollNo] = { status: draftStatus, source: 'draft' };
+      }
+      // Otherwise undefined — child not yet marked
+    });
+
+    renderAttendanceRoster(wrap, date, session);
+  } catch(err) {
+    wrap.innerHTML = `<div class="empty">Error loading session: ${esc(err.message)}</div>`;
+  }
+}
+
+/** Render the full roster with tally bar, quick-mark buttons, save footer */
+function renderAttendanceRoster(wrap, date, session) {
+  const total = _attSessionChildren.length;
+  const marked = Object.keys(_attSessionMarks).length;
+  const unmarked = total - marked;
+
+  // Count by status
+  const tally = { Present: 0, Absent: 0, Late: 0, Excused: 0 };
+  Object.values(_attSessionMarks).forEach(m => {
+    if (m && tally[m.status] !== undefined) tally[m.status]++;
+  });
+
+  const hasExisting = Object.values(_attSessionMarks).some(m => m && (m.source === 'remote' || m.source === 'local'));
+  const modeBannerHtml = hasExisting
+    ? `<div class="session-mode-banner mode-edit">
+        <span class="mode-icon">✏️</span>
+        <div class="mode-body">
+          <div class="mode-title">Editing Existing Session</div>
+          <div class="mode-text">This session has ${marked} marks already recorded. Previously marked rows show their saved status — tap <strong>Re-mark</strong> to change.</div>
+        </div>
+      </div>`
+    : `<div class="session-mode-banner mode-new">
+        <span class="mode-icon">✅</span>
+        <div class="mode-body">
+          <div class="mode-title">New Session — ${fmtDate(date)}</div>
+          <div class="mode-text">${total} children registered. Mark each child's attendance below.</div>
+        </div>
+      </div>`;
+
+  const tallyHtml = `<div class="att-tally-bar" id="attTallyBar">
+    <span class="att-tally-label">Tally:</span>
+    <span class="tally-chip tc-present"><span class="tc-count" id="tc-present">${tally.Present}</span>Present</span>
+    <span class="tally-chip tc-absent"><span class="tc-count" id="tc-absent">${tally.Absent}</span>Absent</span>
+    <span class="tally-chip tc-late"><span class="tc-count" id="tc-late">${tally.Late}</span>Late</span>
+    <span class="tally-chip tc-excused"><span class="tc-count" id="tc-excused">${tally.Excused}</span>Excused</span>
+    <span class="tally-chip tc-unmarked"><span class="tc-count" id="tc-unmarked">${unmarked}</span>Unmarked</span>
+    <span class="att-tally-progress"><strong id="tc-marked">${marked}</strong>/${total} marked</span>
+  </div>`;
+
+  const markAllBar = `<div class="mark-all-bar">
+    <span class="mark-all-label">⚡ Quick actions:</span>
+    <button class="btn-sm btn-outline-sm" onclick="markAllUnmarked('Present')" title="Mark all unmarked as Present">✅ Mark all unmarked Present</button>
+    <button class="btn-sm btn-outline-sm" onclick="markAllUnmarked('Absent')" title="Mark all unmarked as Absent">❌ Mark all unmarked Absent</button>
+  </div>`;
+
+  const rowsHtml = _attSessionChildren.map(c => buildAttRow(c)).join('');
+
+  const saveFooterHtml = `<div class="att-save-footer" id="attSaveFooter">
+    <div class="footer-info">Session: <strong>${esc(session)}</strong> · <strong>${fmtDate(date)}</strong></div>
+    <span id="attPendingCount" style="font-size:11px;color:rgba(255,255,255,.5)"></span>
+    <button class="btn-sm btn-gold" onclick="saveAllMarks()">💾 Save All Marks</button>
+  </div>`;
+
+  wrap.innerHTML = `
+    ${modeBannerHtml}
+    ${tallyHtml}
+    ${markAllBar}
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+      <table class="att-mark-table" id="attRosterTable" style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr>
+            <th style="background:var(--ivory);padding:9px 10px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap">Roll No.</th>
+            <th style="background:var(--ivory);padding:9px 10px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--border)">Name</th>
+            <th style="background:var(--ivory);padding:9px 10px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--border)" class="att-age">Age</th>
+            <th style="background:var(--ivory);padding:9px 10px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--border)" class="att-orig">Prior</th>
+            <th style="background:var(--ivory);padding:9px 10px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--border)">Status</th>
+            <th style="background:var(--ivory);padding:9px 10px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--border)">Mark</th>
+          </tr>
+        </thead>
+        <tbody>${rowsHtml}</tbody>
+      </table>
+    </div>
+    <div class="att-shortcut-hint">
+      Tip: tap <kbd>P</kbd> Present · <kbd>A</kbd> Absent · <kbd>L</kbd> Late · <kbd>E</kbd> Excused per row, or use the dropdowns
+    </div>
+    ${saveFooterHtml}`;
+
+  // Show the save footer
+  document.getElementById('attSaveFooter').classList.add('visible');
+  updateTallyBar();
+}
+
+/** Build a single attendance row */
+function buildAttRow(child) {
+  const rollNo  = child.rollNo;
+  const mark    = _attSessionMarks[rollNo];
+  const hasMark = mark && mark.status;
+  const isPending = mark && mark.source === 'pending';
+  const isLocal   = mark && (mark.source === 'local' || mark.source === 'draft');
+  const isRemote  = mark && mark.source === 'remote';
+
+  // Row class
+  let rowClass = '';
+  if (hasMark) {
+    rowClass = `att-saved-row att-saved-${(mark.status || '').toLowerCase()}`;
+  }
+
+  // Prior-status column: show badge if already marked, plus source indicator
+  let priorHtml = '<span style="color:var(--muted);font-size:11px">—</span>';
+  if (hasMark) {
+    const sourceLabel = isPending
+      ? `<span class="conflict-badge">⏳ pending</span>`
+      : isLocal
+      ? `<span style="font-size:9px;color:var(--muted);display:block;margin-top:2px">local cache</span>`
+      : `<span style="font-size:9px;color:var(--muted);display:block;margin-top:2px">saved</span>`;
+    priorHtml = savedBadgeHtml(mark.status) + sourceLabel;
+  }
+
+  // Status column: if marked, show badge + re-mark button; if unmarked, show select
+  let statusHtml;
+  const selectId  = `sel_${rollNo}`;
+  const rowId     = `row_${rollNo.replace(/[^a-zA-Z0-9]/g, '_')}`;
+
+  if (hasMark) {
+    // Row is already marked — show badge + Re-mark button
+    statusHtml = `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+      ${savedBadgeHtml(mark.status)}
+      <button class="btn-override" onclick="enableOverride('${esc(rollNo)}')" title="Click to re-mark this child">✏️ Re-mark</button>
+    </div>`;
+  } else {
+    // Unmarked — show quick-mark buttons
+    statusHtml = `<div class="quick-mark-btns" id="qmb_${rowId}">
+      <button class="qm-btn qm-p" title="Present" onclick="quickMark('${esc(rollNo)}','Present')">P</button>
+      <button class="qm-btn qm-a" title="Absent"  onclick="quickMark('${esc(rollNo)}','Absent')">A</button>
+      <button class="qm-btn qm-l" title="Late"    onclick="quickMark('${esc(rollNo)}','Late')">L</button>
+      <button class="qm-btn qm-e" title="Excused" onclick="quickMark('${esc(rollNo)}','Excused')">E</button>
+    </div>`;
+  }
+
+  // Save button column
+  const saveBtnHtml = `<button class="btn-sm btn-gold" id="savebtn_${rowId}" onclick="saveOneMark('${esc(rollNo)}')" style="${hasMark ? '' : 'display:none'}">💾</button>`;
+
+  return `<tr class="${rowClass}" id="${rowId}" data-roll="${esc(rollNo)}">
+    <td class="att-roll"><span class="roll-badge">${esc(rollNo)}</span></td>
+    <td class="att-name"><strong>${esc(child.fullName)}</strong></td>
+    <td class="att-age"><span class="age-badge">${esc(child.ageGroup)}</span></td>
+    <td class="att-orig" id="prior_${rowId}">${priorHtml}</td>
+    <td class="att-status" id="status_${rowId}">${statusHtml}</td>
+    <td class="att-action" id="action_${rowId}">${saveBtnHtml}</td>
+  </tr>`;
+}
+
+/** Enable override mode for an already-marked row */
+function enableOverride(rollNo) {
+  const rowId = `row_${rollNo.replace(/[^a-zA-Z0-9]/g, '_')}`;
+  const row   = document.getElementById(rowId);
+  if (!row) return;
+
+  const mark = _attSessionMarks[rollNo];
+  const currentStatus = mark ? mark.status : '';
+
+  // Swap the status cell to show quick-mark buttons (with current status highlighted)
+  const statusCell = document.getElementById(`status_${rowId}`);
+  statusCell.innerHTML = `<div class="quick-mark-btns" id="qmb_${rowId}">
+    <button class="qm-btn qm-p ${currentStatus==='Present'?'active-p':''}" title="Present" onclick="quickMark('${esc(rollNo)}','Present')">P</button>
+    <button class="qm-btn qm-a ${currentStatus==='Absent'?'active-a':''}"  title="Absent"  onclick="quickMark('${esc(rollNo)}','Absent')">A</button>
+    <button class="qm-btn qm-l ${currentStatus==='Late'?'active-l':''}"    title="Late"    onclick="quickMark('${esc(rollNo)}','Late')">L</button>
+    <button class="qm-btn qm-e ${currentStatus==='Excused'?'active-e':''}" title="Excused" onclick="quickMark('${esc(rollNo)}','Excused')">E</button>
+    <button class="btn-override" style="margin-left:4px" onclick="cancelOverride('${esc(rollNo)}')" title="Cancel">✕</button>
+  </div>`;
+
+  // Add override highlight
+  row.classList.add('att-override-mode');
+  row.classList.remove('att-saved-row', `att-saved-${(currentStatus || '').toLowerCase()}`);
+
+  // Show save button
+  const actionCell = document.getElementById(`action_${rowId}`);
+  const saveBtn = actionCell.querySelector('button');
+  if (saveBtn) saveBtn.style.display = '';
+}
+
+/** Cancel override — restore saved state display */
+function cancelOverride(rollNo) {
+  const rowId = `row_${rollNo.replace(/[^a-zA-Z0-9]/g, '_')}`;
+  const row   = document.getElementById(rowId);
+  if (!row) return;
+  const mark = _attSessionMarks[rollNo];
+  if (!mark) return;
+
+  // Restore to saved-badge view
+  const statusCell = document.getElementById(`status_${rowId}`);
+  statusCell.innerHTML = `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+    ${savedBadgeHtml(mark.status)}
+    <button class="btn-override" onclick="enableOverride('${esc(rollNo)}')" title="Click to re-mark this child">✏️ Re-mark</button>
+  </div>`;
+
+  // Restore row class
+  row.classList.remove('att-override-mode');
+  row.classList.add('att-saved-row', `att-saved-${(mark.status || '').toLowerCase()}`);
+
+  // Hide save button
+  const actionCell = document.getElementById(`action_${rowId}`);
+  const saveBtn = actionCell.querySelector('button');
+  if (saveBtn) saveBtn.style.display = 'none';
+}
+
+/** Called when a quick-mark button is tapped */
+function quickMark(rollNo, status) {
+  const rowId = `row_${rollNo.replace(/[^a-zA-Z0-9]/g, '_')}`;
+  const row   = document.getElementById(rowId);
+  if (!row) return;
+
+  const previousMark  = _attSessionMarks[rollNo];
+  const isNewMark     = !previousMark;
+  const isOverride    = !!previousMark;
+
+  // Update in-memory state
+  _attSessionMarks[rollNo] = { status, source: 'draft' };
+
+  // Update quick-mark button highlights
+  const qmbWrap = document.getElementById(`qmb_${rowId}`);
+  if (qmbWrap) {
+    qmbWrap.querySelectorAll('.qm-btn').forEach(b => {
+      b.className = b.className.replace(/active-[pale]/g, '').trim();
+    });
+    const map = { Present: 'active-p', Absent: 'active-a', Late: 'active-l', Excused: 'active-e' };
+    const target = qmbWrap.querySelector(`.qm-${status[0].toLowerCase()}`);
+    if (target) target.classList.add(map[status]);
+  }
+
+  // Show save button
+  const actionCell = document.getElementById(`action_${rowId}`);
+  const saveBtn = actionCell ? actionCell.querySelector('button') : null;
+  if (saveBtn) saveBtn.style.display = '';
+
+  // Write to local draft cache immediately (prevents data loss on reload)
+  writeLocalMark(rollNo, _attSessionDate, _attSessionName, status);
+
+  // Update tally
+  updateTallyBar();
+
+  // For new marks: also instantly persist via API (fire-and-forget with offline fallback)
+  // For overrides: wait for explicit save button click to confirm intent
+  if (isNewMark) {
+    persistMark(rollNo, status, false);
+  }
+}
+
+/** Mark all currently-unmarked children with a status */
+function markAllUnmarked(status) {
+  _attSessionChildren.forEach(c => {
+    if (!_attSessionMarks[c.rollNo]) {
+      quickMark(c.rollNo, status);
+    }
+  });
+  updateTallyBar();
+}
+
+/** Save a single row (used by the per-row 💾 button) */
+async function saveOneMark(rollNo) {
+  const mark = _attSessionMarks[rollNo];
+  if (!mark) return;
+
+  const rowId  = `row_${rollNo.replace(/[^a-zA-Z0-9]/g, '_')}`;
+  const btn    = document.getElementById(`action_${rowId}`)?.querySelector('button');
+  if (btn) { btn.textContent = '…'; btn.disabled = true; }
+
+  await persistMark(rollNo, mark.status, true);
+
+  // Update row to saved state
+  const row = document.getElementById(rowId);
+  if (row) {
+    row.className = `att-saved-row att-saved-${(mark.status || '').toLowerCase()}`;
+  }
+  // Swap status cell back to badge view
+  const statusCell = document.getElementById(`status_${rowId}`);
+  if (statusCell) {
+    statusCell.innerHTML = `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+      ${savedBadgeHtml(mark.status)}
+      <button class="btn-override" onclick="enableOverride('${esc(rollNo)}')" title="Click to re-mark this child">✏️ Re-mark</button>
+    </div>`;
+  }
+  if (btn) { btn.textContent = '✅'; btn.disabled = true; }
+  updateTallyBar();
+}
+
+/** Save all marks in the current session */
+async function saveAllMarks() {
+  const allRolls = Object.keys(_attSessionMarks);
+  if (!allRolls.length) { showToast('No marks to save yet', 'error'); return; }
+
+  const btn = document.querySelector('#attSaveFooter .btn-gold');
+  if (btn) { btn.textContent = '⏳ Saving…'; btn.disabled = true; }
+
+  let saved = 0, failed = 0;
+  await Promise.allSettled(allRolls.map(async rollNo => {
+    const mark = _attSessionMarks[rollNo];
+    if (!mark) return;
+    const res = await persistMark(rollNo, mark.status, false);
+    if (res) saved++; else failed++;
+  }));
+
+  if (btn) { btn.textContent = '💾 Save All Marks'; btn.disabled = false; }
+
+  if (failed === 0) {
+    showToast(`✅ Saved ${saved} attendance marks`, 'success');
+    // Re-render all rows to "saved" state
+    _attSessionChildren.forEach(c => {
+      const mark  = _attSessionMarks[c.rollNo];
+      if (!mark) return;
+      const rowId = `row_${c.rollNo.replace(/[^a-zA-Z0-9]/g, '_')}`;
+      const row   = document.getElementById(rowId);
+      if (row) row.className = `att-saved-row att-saved-${(mark.status || '').toLowerCase()}`;
+      const statusCell = document.getElementById(`status_${rowId}`);
+      if (statusCell) {
+        statusCell.innerHTML = `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          ${savedBadgeHtml(mark.status)}
+          <button class="btn-override" onclick="enableOverride('${esc(c.rollNo)}')" title="Click to re-mark this child">✏️ Re-mark</button>
+        </div>`;
+      }
+      const actionCell = document.getElementById(`action_${rowId}`);
+      const saveBtn = actionCell ? actionCell.querySelector('button') : null;
+      if (saveBtn) { saveBtn.textContent = '✅'; saveBtn.disabled = true; }
+    });
+    loadAttendanceHistory();
+    loadStats();
+  } else {
+    showToast(`Saved ${saved}, ${failed} failed (may be in offline queue)`, 'error');
+  }
+  updateTallyBar();
+}
+
+/** Core persist function — writes to local cache + API (or offline queue) */
+async function persistMark(rollNo, status, showFeedback) {
+  const date    = _attSessionDate;
+  const session = _attSessionName;
+
+  // Always write local cache first
+  writeLocalMark(rollNo, date, session, status);
+
+  const params = { action: 'markAttendance', rollNo, sessionDate: date, session, status };
+  try {
+    const res = await apiWithOffline(params);
+    if (res.offline) {
+      if (showFeedback) showToast('📦 Saved offline — will sync when connected', 'info');
+      _attSessionMarks[rollNo] = { status, source: 'pending' };
+    } else if (res.success) {
+      if (showFeedback) showToast(`✅ ${rollNo} marked ${status}`, 'success');
+      _attSessionMarks[rollNo] = { status, source: 'remote' };
+    } else {
+      if (showFeedback) showToast('Failed to save mark', 'error');
+      return false;
+    }
+    return true;
+  } catch(e) {
+    addToOfflineQueue(params);
+    if (showFeedback) showToast('📦 Queued for sync', 'info');
+    _attSessionMarks[rollNo] = { status, source: 'pending' };
+    return true;
+  }
+}
+
+/** Update the tally bar counts */
+function updateTallyBar() {
+  const total  = _attSessionChildren.length;
+  const tally  = { Present: 0, Absent: 0, Late: 0, Excused: 0 };
+  let   marked = 0;
+
+  Object.values(_attSessionMarks).forEach(m => {
+    if (m && tally[m.status] !== undefined) { tally[m.status]++; marked++; }
+  });
+
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  set('tc-present', tally.Present);
+  set('tc-absent',  tally.Absent);
+  set('tc-late',    tally.Late);
+  set('tc-excused', tally.Excused);
+  set('tc-unmarked', total - marked);
+  set('tc-marked',   marked);
+}
+
+// ══════════════════════════════════════════════════════
+//  ATTENDANCE HISTORY
+// ══════════════════════════════════════════════════════
+let _allAttHistory = [];
+
+async function loadAttendanceHistory() {
+  const tbody = document.getElementById('attHistoryTable');
+  tbody.innerHTML = '<tr><td colspan="5"><div class="loading">Loading…</div></td></tr>';
+  try {
+    const d = await api({ action: 'getAttendance' });
+    if (!d.success) { tbody.innerHTML = '<tr><td colspan="5"><div class="empty">Failed to load</div></td></tr>'; return; }
+    _allAttHistory = d.data || [];
+    mergeRemoteIntoLocalCache(_allAttHistory);
+    populateAttHistoryMonthFilter();
+    renderAttendanceHistory();
+  } catch(e) {
+    // Fallback: render from local cache
+    _allAttHistory = [];
+    const cache = getLocalAttCache();
+    Object.entries(cache).forEach(([key, val]) => {
+      const [rollNo, date] = key.split('|');
+      _allAttHistory.push({ rollNo, sessionDate: date, session: val.session || '', status: val.status });
+    });
+    populateAttHistoryMonthFilter();
+    renderAttendanceHistory();
+  }
+}
+
+function populateAttHistoryMonthFilter() {
+  const monthSet = new Map();
+  _allAttHistory.forEach(r => {
+    const k = monthKey(r.sessionDate);
+    if (k && !monthSet.has(k)) monthSet.set(k, monthLabel(r.sessionDate) || k);
+  });
+  const sorted = [...monthSet.entries()].sort((a, b) => b[0].localeCompare(a[0]));
+  const sel    = document.getElementById('attHistMonthFilter');
+  const cur    = sel.value;
+  sel.innerHTML = '<option value="">All Months</option>' +
+    sorted.map(([k, label]) => `<option value="${k}" ${cur===k?'selected':''}>${label}</option>`).join('');
+}
+
+function renderAttendanceHistory() {
+  const tbody       = document.getElementById('attHistoryTable');
+  const monthFilter = document.getElementById('attHistMonthFilter').value;
+  const statFilter  = document.getElementById('attHistStatusFilter').value;
+
+  let filtered = _allAttHistory;
+  if (monthFilter) filtered = filtered.filter(r => monthKey(r.sessionDate) === monthFilter);
+  if (statFilter)  filtered = filtered.filter(r => r.status === statFilter);
+
+  filtered = [...filtered].sort((a, b) => (parseDate(b.sessionDate) || 0) - (parseDate(a.sessionDate) || 0));
+  document.getElementById('attHistCount').textContent = filtered.length + ' record' + (filtered.length !== 1 ? 's' : '');
+
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty">No records found</div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.map(r =>
+    `<tr>
+      <td>${fmtDate(r.sessionDate)}</td>
+      <td>${esc(r.session || r.sessionName || '')}</td>
+      <td><span class="roll-badge">${esc(r.rollNo)}</span></td>
+      <td>${esc(r.name || r.fullName || '')}</td>
+      <td><span class="status-${(r.status || '').toLowerCase()}">${STATUS_EMOJI[r.status] || ''} ${esc(r.status)}</span></td>
+    </tr>`
+  ).join('');
 }
 
 // ══════════════════════════════════════════════════════
 //  SPIRITUAL GROWTH PATHWAY
 // ══════════════════════════════════════════════════════
 const PATHWAY_STAGES = [
-  { key: 'enrolled',  label: 'Enrolled',     icon: '📝', milestone: null },
-  { key: 'attending', label: 'Attending',     icon: '⛪', milestone: null },
-  { key: 'salvation', label: 'Salvation',     icon: '✝️', milestone: 'Salvation Decision' },
-  { key: 'verse',     label: 'Memory Verse',  icon: '📖', milestone: 'Memory Verse Champion' },
-  { key: 'communion', label: 'Communion',     icon: '🍞', milestone: 'Holy Communion (first)' },
-  { key: 'baptism',   label: 'Baptism',       icon: '💧', milestone: 'Water Baptism' },
-  { key: 'serving',   label: 'Serving',       icon: '🤝', milestone: 'Volunteered for Outreach' },
+  { key: 'discovery',   label: 'Discovery',    icon: '🌱' },
+  { key: 'salvation',   label: 'Salvation',    icon: '✝️' },
+  { key: 'baptism',     label: 'Baptism',      icon: '💧' },
+  { key: 'communion',   label: 'Communion',    icon: '🍞' },
+  { key: 'discipleship',label: 'Discipleship', icon: '📖' },
+  { key: 'leadership',  label: 'Leadership',   icon: '⭐' },
+  { key: 'outreach',    label: 'Outreach',     icon: '📣' },
 ];
 
-function getPathwayData() {
-  try { return JSON.parse(localStorage.getItem(PATHWAY_KEY) || '{}'); } catch { return {}; }
+function getPathwayData(rollNo) {
+  try {
+    const all = JSON.parse(localStorage.getItem(PATHWAY_KEY) || '{}');
+    return all[rollNo] || Array(7).fill('');
+  } catch { return Array(7).fill(''); }
 }
-function savePathwayData(data) { localStorage.setItem(PATHWAY_KEY, JSON.stringify(data)); }
-
-function updatePathwayFromMilestones(rollNo, milestones) {
-  const data  = getPathwayData();
-  const types = new Set(milestones.map(m => m.type));
-  const stages = PATHWAY_STAGES.map(s => {
-    if (s.milestone && types.has(s.milestone)) return 'done';
-    if (s.key === 'enrolled') return 'done';
-    return '';
-  });
-  let foundCurrent = false;
-  for (let i = 0; i < stages.length; i++) {
-    if (stages[i] !== 'done' && !foundCurrent) { stages[i] = 'current'; foundCurrent = true; }
-  }
-  data[rollNo] = stages;
-  savePathwayData(data);
+function savePathwayData(rollNo, stages) {
+  try {
+    const all = JSON.parse(localStorage.getItem(PATHWAY_KEY) || '{}');
+    all[rollNo] = stages;
+    localStorage.setItem(PATHWAY_KEY, JSON.stringify(all));
+  } catch {}
+}
+function detectPathwayFromMilestones(milestones) {
+  const stages = Array(7).fill('');
+  const types  = milestones.map(m => m.type || '');
+  if (types.length)                                     stages[0] = 'done';
+  if (types.some(t => t.includes('Salvation')))         stages[1] = 'done';
+  if (types.some(t => t.includes('Baptism')))           stages[2] = 'done';
+  if (types.some(t => t.includes('Communion')))         stages[3] = 'done';
+  if (types.some(t => t.includes('Memory Verse') || t.includes('Camp'))) stages[4] = 'done';
+  if (types.some(t => t.includes('Leadership')))        stages[5] = 'done';
+  if (types.some(t => t.includes('Outreach')))          stages[6] = 'done';
+  const lastDone = stages.lastIndexOf('done');
+  if (lastDone < 6 && lastDone >= 0) stages[lastDone + 1] = 'current';
+  else if (lastDone < 0)             stages[0] = 'current';
+  return stages;
 }
 
 async function searchForPathway() {
   const q = document.getElementById('pathwaySearch').value.trim();
-  if (!q) return;
-  document.getElementById('pathwaySearchResult').innerHTML = '<div class="loading">Searching…</div>';
+  if (!q) { showToast('Enter a name or Roll No.', 'error'); return; }
+  const resultEl = document.getElementById('pathwaySearchResult');
+  resultEl.innerHTML = '<div class="loading">Searching…</div>';
   try {
     const d = await api({ action: 'getChildren', q });
     if (!d.success || !d.data.length) {
-      document.getElementById('pathwaySearchResult').innerHTML = '<div class="empty">No child found</div>';
+      resultEl.innerHTML = '<div class="empty"><div class="icon">🔍</div>No child found</div>';
+      document.getElementById('pathwayDetail').style.display = 'none';
       return;
     }
-    document.getElementById('pathwaySearchResult').innerHTML =
-      `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">` +
-      d.data.map(c => `<button class="btn-sm btn-outline-sm"
-        onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">
-        <strong>${esc(c.rollNo)}</strong> — ${esc(c.fullName)}
-      </button>`).join('') + `</div>`;
-  } catch(err) { showToast('Search failed', 'error'); }
+    if (d.data.length === 1) {
+      openPathwayForChild(d.data[0].rollNo, d.data[0].fullName);
+      resultEl.innerHTML = '';
+    } else {
+      resultEl.innerHTML = '<div style="margin-top:10px;display:flex;flex-direction:column;gap:6px">' +
+        d.data.slice(0, 6).map(c => `<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--ivory);border:1px solid var(--border);border-radius:8px;cursor:pointer" onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}');document.getElementById('pathwaySearchResult').innerHTML=''">
+          <span class="roll-badge">${esc(c.rollNo)}</span>
+          <strong>${esc(c.fullName)}</strong>
+          <span class="age-badge" style="margin-left:auto">${esc(c.ageGroup)}</span>
+        </div>`).join('') + '</div>';
+    }
+  } catch(e) { resultEl.innerHTML = '<div class="empty">Error searching</div>'; }
 }
 
 async function openPathwayForChild(rollNo, name) {
   switchTab('pathway');
+  const detailCard = document.getElementById('pathwayDetail');
+  detailCard.style.display = '';
+  document.getElementById('pathwayDetailTitle').textContent = '🌱 ' + name;
+  document.getElementById('pathwayChildName').textContent = name;
+  document.getElementById('pathwayChildRoll').textContent = rollNo;
+
+  let stages = getPathwayData(rollNo);
   try {
-    const d = await api({ action: 'getMilestones', rollNo });
-    updatePathwayFromMilestones(rollNo, d.success ? (d.data || []) : []);
-  } catch(e) {}
+    const ms = await api({ action: 'getMilestones', rollNo });
+    if (ms.success && ms.data.length) {
+      const autoStages = detectPathwayFromMilestones(ms.data);
+      autoStages.forEach((s, i) => { if (s && !stages[i]) stages[i] = s; });
+      savePathwayData(rollNo, stages);
+    }
+  } catch {}
 
-  const data      = getPathwayData();
-  const stages    = data[rollNo] || Array(7).fill('').map((_, i) => i === 0 ? 'done' : i === 1 ? 'current' : '');
-  const doneCount = stages.filter(s => s === 'done').length;
+  renderPathwaySteps(rollNo, stages, name);
+}
 
-  document.getElementById('pathwayDetail').style.display = '';
-  document.getElementById('pathwayDetailTitle').textContent = 'Journey — ' + name;
-  document.getElementById('pathwayChildName').textContent   = name;
-  document.getElementById('pathwayChildRoll').textContent   = rollNo;
-
-  document.getElementById('pathwaySteps').innerHTML = PATHWAY_STAGES.map((s, i) => `
-    <div class="pathway-step ${stages[i] === 'done' ? 'done' : stages[i] === 'current' ? 'current' : ''}">
+function renderPathwaySteps(rollNo, stages, name) {
+  const done = stages.filter(s => s === 'done').length;
+  document.getElementById('pathwaySteps').innerHTML = PATHWAY_STAGES.map((s, i) => {
+    const state = stages[i] || '';
+    return `<div class="pathway-step ${state}" id="pstep_${i}">
       <div class="step-circle">${s.icon}</div>
       <div class="step-label">${s.label}</div>
-    </div>`
-  ).join('');
+    </div>`;
+  }).join('');
 
-  const pct = Math.round(doneCount / PATHWAY_STAGES.length * 100);
-  document.getElementById('pathwayProgress').innerHTML =
-    `<strong>${doneCount}</strong> of ${PATHWAY_STAGES.length} stages complete (${pct}%)
-     <div style="margin-top:6px;height:8px;background:var(--ivory);border-radius:4px;overflow:hidden">
-       <div style="width:${pct}%;background:var(--gold);height:100%;border-radius:4px;transition:width .6s"></div>
-     </div>`;
+  document.getElementById('pathwayProgress').textContent = `${done} of ${PATHWAY_STAGES.length} stages complete`;
 
-  document.getElementById('pathwayActions').innerHTML =
-    `<div style="font-size:13px;color:var(--muted);margin-right:auto">Manually advance or update this child's stage:</div>` +
-    PATHWAY_STAGES.map((s, i) => `
-      <button class="btn-sm ${stages[i]==='done' ? 'btn-gold' : 'btn-outline-sm'}"
-        onclick="togglePathwayStage('${rollNo}','${name}',${i})"
-        title="${s.label}">
-        ${s.icon} ${s.label}
-      </button>`).join('');
-
-  document.getElementById('pathwaySearch').value = rollNo;
+  const actionsEl = document.getElementById('pathwayActions');
+  actionsEl.innerHTML = `
+    <span style="font-size:12px;color:var(--muted);align-self:center">Mark stage:</span>
+    ${PATHWAY_STAGES.map((s, i) => `<button class="btn-sm btn-outline-sm" onclick="togglePathwayStage('${esc(rollNo)}','${esc(name)}',${i})">${s.icon} ${s.label}</button>`).join('')}`;
 }
 
 function togglePathwayStage(rollNo, name, idx) {
-  const data   = getPathwayData();
-  const stages = data[rollNo] || Array(7).fill('');
+  const stages = getPathwayData(rollNo);
   stages[idx]  = stages[idx] === 'done' ? '' : 'done';
-  for (let i = 0; i < stages.length; i++) { if (stages[i] === 'current') stages[i] = ''; }
-  let foundCurrent = false;
-  for (let i = 0; i < stages.length; i++) {
-    if (stages[i] !== 'done' && !foundCurrent) { stages[i] = 'current'; foundCurrent = true; }
-  }
-  data[rollNo] = stages;
-  savePathwayData(data);
-  openPathwayForChild(rollNo, name);
+  const lastDone = stages.lastIndexOf('done');
+  stages.forEach((s, i) => { if (s === 'current') stages[i] = ''; });
+  if (lastDone < PATHWAY_STAGES.length - 1) stages[lastDone + 1] = 'current';
+  savePathwayData(rollNo, stages);
+  renderPathwaySteps(rollNo, stages, name);
+  loadPathwayOverview();
+  showToast('✅ Journey updated', 'success');
 }
 
 async function loadPathwayOverview() {
   const tbody = document.getElementById('pathwayOverviewTable');
-  tbody.innerHTML = '<tr><td colspan="6"><div class="loading">Loading…</div></td></tr>';
+  tbody.innerHTML = '<tr><td colspan="6"><div class="loading">Loading journey data…</div></td></tr>';
   try {
     const d = await api({ action: 'getChildren', q: '' });
     if (!d.success || !d.data.length) {
-      tbody.innerHTML = '<tr><td colspan="6"><div class="empty">No children found</div></td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6"><div class="empty">No children registered</div></td></tr>';
       return;
     }
-    const data = getPathwayData();
     tbody.innerHTML = d.data.map(c => {
-      const stages = data[c.rollNo] || Array(7).fill('').map((_, i) => i === 0 ? 'current' : '');
+      const stages    = getPathwayData(c.rollNo);
       const doneCount = stages.filter(s => s === 'done').length;
-      const currentStageIdx = stages.findIndex(s => s === 'current');
-      const currentStage = currentStageIdx >= 0 ? PATHWAY_STAGES[currentStageIdx] : null;
-      const pct = Math.round(doneCount / 7 * 100);
-      const miniDots = stages.map(s =>
+      const currentIdx= stages.indexOf('current');
+      const stage     = currentIdx >= 0 ? PATHWAY_STAGES[currentIdx]?.label : (doneCount === 7 ? 'Complete!' : 'Discovery');
+      const miniDots  = stages.map(s =>
         `<div class="mini-step ${s === 'done' ? 'done' : s === 'current' ? 'current' : ''}"></div>`
       ).join('');
       return `<tr>
         <td><span class="roll-badge">${esc(c.rollNo)}</span></td>
         <td><strong>${esc(c.fullName)}</strong></td>
         <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
-        <td>
-          <div style="display:flex;align-items:center;gap:6px">
-            <div class="mini-pathway">${miniDots}</div>
-            <span style="font-size:11px;color:var(--muted)">${pct}%</span>
-          </div>
-        </td>
-        <td style="font-size:12px">${currentStage ? currentStage.icon + ' ' + currentStage.label : '—'}</td>
-        <td>
-          <button class="btn-sm btn-outline-sm"
-            onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">View →</button>
-        </td>
+        <td><div class="mini-pathway">${miniDots}</div></td>
+        <td style="font-size:12px">${esc(stage)} (${doneCount}/7)</td>
+        <td><button class="btn-sm btn-outline-sm" onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">View</button></td>
       </tr>`;
     }).join('');
-  } catch(err) {
+  } catch(e) {
     tbody.innerHTML = '<tr><td colspan="6"><div class="empty">Error loading data</div></td></tr>';
   }
 }
 
 // ══════════════════════════════════════════════════════
-//  ABSENTEEISM ALERTS
+//  FOLLOW-UP / ABSENTEEISM
 // ══════════════════════════════════════════════════════
 async function loadAbsenteeAlerts() {
   const since     = document.getElementById('followupSince').value;
-  const resultsEl = document.getElementById('absenteeResults');
-  resultsEl.innerHTML = '<div class="card"><div class="card-body"><div class="loading">Analysing attendance records…</div></div></div>';
+  const resultDiv = document.getElementById('absenteeResults');
+  resultDiv.innerHTML = '<div class="card"><div class="card-body"><div class="loading">Checking absenteeism…</div></div></div>';
 
   try {
-    const [children, att] = await Promise.all([
+    const [childRes, attRes] = await Promise.all([
       api({ action: 'getChildren', q: '' }),
       api({ action: 'getAttendance' })
     ]);
-
-    if (!children.success || !att.success) {
-      resultsEl.innerHTML = '<div class="card"><div class="card-body"><div class="empty">Could not load data</div></div></div>';
+    if (!childRes.success || !attRes.success) {
+      resultDiv.innerHTML = '<div class="alert-card danger"><div class="alert-icon">❌</div><div class="alert-body"><div class="alert-title">Failed to load data</div></div></div>';
       return;
     }
 
-    const sinceDate = since ? parseDate(since) : null;
-    const alerts = [];
+    mergeRemoteIntoLocalCache(attRes.data);
 
-    children.data.forEach(c => {
-      let records = att.data.filter(a => a.rollNo === c.rollNo);
-      if (sinceDate) {
-        records = records.filter(a => {
-          const d = parseDate(a.sessionDate);
-          return d && d >= sinceDate;
-        });
-      }
+    const sinceDate = since ? parseDate(since) : null;
+    const alerts    = [];
+
+    childRes.data.forEach(c => {
+      let records = attRes.data.filter(a => a.rollNo === c.rollNo);
+      if (sinceDate) records = records.filter(r => (parseDate(r.sessionDate) || 0) >= sinceDate);
       records = records.sort((a, b) => (parseDate(b.sessionDate) || 0) - (parseDate(a.sessionDate) || 0));
-      if (records.length === 0) return;
 
       let streak = 0;
       for (const r of records) { if (r.status === 'Absent') streak++; else break; }
-
-      const totalSessions = records.length;
-      const absentCount   = records.filter(r => r.status === 'Absent').length;
-      const absenceRate   = totalSessions > 0 ? Math.round(absentCount / totalSessions * 100) : 0;
-      const lastSeen      = records.find(r => r.status === 'Present' || r.status === 'Late');
-
-      if (streak >= 3) alerts.push({ child: c, streak, absenceRate, lastSeen: lastSeen?.sessionDate || null, totalSessions });
+      if (streak >= 3) alerts.push({ child: c, streak, lastSeen: records.find(r => r.status !== 'Absent')?.sessionDate || null });
     });
 
     if (!alerts.length) {
-      resultsEl.innerHTML = `
-        <div class="alert-card info">
-          <div class="alert-icon">✅</div>
-          <div class="alert-body">
-            <div class="alert-title">No absenteeism alerts</div>
-            <div class="alert-text">No children have 3+ consecutive absences in the selected period. Great work!</div>
-          </div>
-        </div>`;
+      resultDiv.innerHTML = `<div class="alert-card success">
+        <div class="alert-icon">✅</div>
+        <div class="alert-body">
+          <div class="alert-title">No absenteeism concerns</div>
+          <div class="alert-text">No child has been absent for 3+ consecutive sessions${since ? ' since ' + fmtDate(since) : ''}.</div>
+        </div>
+      </div>`;
       return;
     }
 
     alerts.sort((a, b) => b.streak - a.streak);
-
-    resultsEl.innerHTML = `
-      <div class="alert-card ${alerts.length > 5 ? 'danger' : 'warning'}">
-        <div class="alert-icon">⚠️</div>
-        <div class="alert-body">
-          <div class="alert-title">${alerts.length} child${alerts.length > 1 ? 'ren need' : ' needs'} follow-up</div>
-          <div class="alert-text">These children have been absent for 3 or more consecutive sessions.</div>
-        </div>
+    resultDiv.innerHTML = `<div class="card">
+      <div class="card-head"><span class="card-title">⚠️ ${alerts.length} Child${alerts.length > 1 ? 'ren' : ''} Flagged for Follow-Up</span></div>
+      <div class="table-wrap" style="padding:0">
+        <table class="absentee-table" style="width:100%;border-collapse:collapse;font-size:13px">
+          <thead><tr><th>Roll No.</th><th>Name</th><th>Age Group</th><th>Absent Streak</th><th>Last Seen</th><th>Action</th></tr></thead>
+          <tbody>${alerts.map(a => `<tr style="background:#fff5f0">
+            <td data-label="Roll No."><span class="roll-badge">${esc(a.child.rollNo)}</span></td>
+            <td data-label="Name"><strong>${esc(a.child.fullName)}</strong></td>
+            <td data-label="Age Group"><span class="age-badge">${esc(a.child.ageGroup)}</span></td>
+            <td data-label="Absent Streak"><span class="absent-badge ${a.streak >= 5 ? 'absent-5' : 'absent-3'}">⚠ ${a.streak} sessions</span></td>
+            <td data-label="Last Seen">${a.lastSeen ? fmtDate(a.lastSeen) : '<em style="color:var(--muted)">Never recorded</em>'}</td>
+            <td data-label="">
+              <button class="btn-sm btn-edit" onclick="prefillFollowUp('${esc(a.child.rollNo)}','${esc(a.child.fullName)}')">📋 Log Follow-Up</button>
+            </td>
+          </tr>`).join('')}</tbody>
+        </table>
       </div>
-      <div class="card">
-        <div class="card-head"><span class="card-title">Children Requiring Follow-Up</span></div>
-        <div class="table-wrap" style="padding:0">
-          <table class="absentee-table">
-            <thead><tr>
-              <th>Roll No.</th><th>Name</th><th>Age</th>
-              <th>Consecutive Absences</th><th>Absence Rate</th><th>Last Seen</th><th>Action</th>
-            </tr></thead>
-            <tbody>` +
-    alerts.map(a => `<tr>
-      <td data-label="Roll No."><span class="roll-badge">${esc(a.child.rollNo)}</span></td>
-      <td data-label="Name"><strong>${esc(a.child.fullName)}</strong></td>
-      <td data-label="Age"><span class="age-badge">${esc(a.child.ageGroup)}</span></td>
-      <td data-label="Absences"><span class="absent-badge ${a.streak >= 5 ? 'absent-5' : 'absent-3'}">⚠ ${a.streak} sessions</span></td>
-      <td data-label="Rate">${a.absenceRate}% absent</td>
-      <td data-label="Last seen" style="font-size:12px">${a.lastSeen ? fmtDate(a.lastSeen) : '<em>Never present</em>'}</td>
-      <td data-label="">
-        <button class="btn-sm btn-gold"
-          onclick="prefillFollowUp('${esc(a.child.rollNo)}','${esc(a.child.fullName)}')">
-          Log Follow-Up
-        </button>
-      </td>
-    </tr>`).join('') +
-    `</tbody></table></div></div>`;
-
-  } catch(err) {
-    resultsEl.innerHTML = '<div class="card"><div class="card-body"><div class="empty">Error analysing attendance</div></div></div>';
+    </div>`;
+  } catch(e) {
+    resultDiv.innerHTML = '<div class="alert-card danger"><div class="alert-icon">❌</div><div class="alert-body"><div class="alert-title">Error checking attendance</div><div class="alert-text">' + esc(e.message) + '</div></div></div>';
   }
 }
 
@@ -1785,9 +2491,27 @@ function prefillFollowUp(rollNo, name) {
   document.getElementById('fuChild').focus();
 }
 
-// ══════════════════════════════════════════════════════
-//  FOLLOW-UP LOG
-// ══════════════════════════════════════════════════════
+async function loadFollowUpHistory() {
+  const tbody = document.getElementById('followupHistoryTable');
+  try {
+    const d = await api({ action: 'getFollowUps' });
+    if (!d.success || !d.data.length) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty">No follow-ups recorded yet</div></td></tr>';
+      return;
+    }
+    const sorted = [...d.data].sort((a, b) => (parseDate(b.date) || 0) - (parseDate(a.date) || 0));
+    tbody.innerHTML = sorted.map(f => `<tr>
+      <td data-label="Date">${fmtDate(f.date)}</td>
+      <td data-label="Child">${esc(f.child)}</td>
+      <td data-label="Method">${esc(f.method)}</td>
+      <td data-label="Outcome">${esc(f.outcome)}</td>
+      <td data-label="By">${esc(f.by || f.followedUpBy || '')}</td>
+    </tr>`).join('');
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty">Error loading follow-ups</div></td></tr>';
+  }
+}
+
 async function saveFollowUp() {
   const child   = document.getElementById('fuChild').value.trim();
   const date    = document.getElementById('fuDate').value;
@@ -1795,457 +2519,38 @@ async function saveFollowUp() {
   const outcome = document.getElementById('fuOutcome').value;
   const notes   = document.getElementById('fuNotes').value;
   const by      = document.getElementById('fuBy').value.trim();
-  if (!child || !date) { showToast('Fill in child name and date', 'error'); return; }
 
-  const btn = document.querySelector('#followupForm button[onclick="saveFollowUp()"]');
-  if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+  if (!child) { showToast('Enter a child name or Roll No.', 'error'); return; }
+  if (!date)  { showToast('Select a date', 'error'); return; }
 
   try {
-    const d = await apiWithOffline({ action: 'addFollowUp', child, date, method, outcome, notes: notes || '', recordedBy: by || 'Admin' });
-    if (d.offline)      showToast('📥 Saved offline — will sync when reconnected', '');
-    else if (d.success) showToast('✅ Follow-up logged to sheet', 'success');
-    else { showToast('Save failed: ' + (d.error || 'unknown error'), 'error'); return; }
+    const d = await apiWithOffline({ action: 'addFollowUp', child, date, method, outcome, notes, by });
+    if (d.offline) { showToast('📦 Follow-up saved offline', 'info'); return; }
+    if (!d.success) { showToast('Failed to save follow-up', 'error'); return; }
+    showToast('✅ Follow-up logged', 'success');
     document.getElementById('fuChild').value = '';
     document.getElementById('fuNotes').value = '';
     loadFollowUpHistory();
-  } catch(err) {
-    showToast('Error: ' + err.message, 'error');
-  } finally {
-    if (btn) { btn.disabled = false; btn.textContent = '💾 Save Follow-Up'; }
-  }
-}
-
-async function loadFollowUpHistory() {
-  const tbody  = document.getElementById('followupHistoryTable');
-  tbody.innerHTML = '<tr><td colspan="5"><div class="loading">Loading…</div></td></tr>';
-  const queued = getOfflineQueue().filter(p => p.action === 'addFollowUp');
-  try {
-    const d = await api({ action: 'getFollowUps' });
-    if (!d.success && !queued.length) {
-      tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><div class="icon">📋</div>No follow-ups logged yet</div></td></tr>';
-      return;
-    }
-    const sheetRows   = (d.success && d.data) ? d.data : [];
-    const offlineRows = queued.map(p => ({ date: p.date, child: p.child, method: p.method, outcome: p.outcome, recordedBy: p.recordedBy, _offline: true }));
-    const allRows = [...offlineRows, ...sheetRows]
-      .sort((a, b) => (parseDate(b.date) || 0) - (parseDate(a.date) || 0))
-      .slice(0, 60);
-
-    if (!allRows.length) {
-      tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><div class="icon">📋</div>No follow-ups logged yet</div></td></tr>';
-      return;
-    }
-    tbody.innerHTML = allRows.map(f => `
-      <tr ${f._offline ? 'style="opacity:.65"' : ''}>
-        <td data-label="Date">${fmtDate(f.date)}${f._offline ? ' <span style="font-size:10px;color:#e67e22">(pending)</span>' : ''}</td>
-        <td data-label="Child"><strong>${esc(f.child)}</strong></td>
-        <td data-label="Method" style="font-size:12px">${esc(f.method)}</td>
-        <td data-label="Outcome" style="font-size:12px">${esc(f.outcome)}</td>
-        <td data-label="By" style="font-size:12px">${esc(f.recordedBy || f.by || '')}</td>
-      </tr>`).join('');
-  } catch(err) {
-    if (queued.length) {
-      tbody.innerHTML = queued.map(f => `
-        <tr style="opacity:.65">
-          <td data-label="Date">${fmtDate(f.date)} <span style="font-size:10px;color:#e67e22">(pending)</span></td>
-          <td data-label="Child"><strong>${esc(f.child)}</strong></td>
-          <td data-label="Method" style="font-size:12px">${esc(f.method)}</td>
-          <td data-label="Outcome" style="font-size:12px">${esc(f.outcome)}</td>
-          <td data-label="By" style="font-size:12px">${esc(f.recordedBy)}</td>
-        </tr>`).join('');
-    } else {
-      tbody.innerHTML = '<tr><td colspan="5"><div class="empty">Could not load follow-up history</div></td></tr>';
-    }
-  }
+  } catch(e) { showToast('Error saving follow-up', 'error'); }
 }
 
 // ══════════════════════════════════════════════════════
-//  ATTENDANCE (offline-aware) — WITH SESSION LOCK / EDIT MODE
-//  FIX: duplicate prevention on both markOne() and markAll()
+//  TOAST
 // ══════════════════════════════════════════════════════
-let attSessionData  = [];
-let attSessionDate  = '';
-let attSessionName  = '';
-let attSortKey      = 'rollNo';
-let attSortDir      = 1;
-let attSessionMode  = 'new';
-let attOriginalMap  = {};
-
-// ── Stores all raw attendance history rows for client-side filtering ──
-let attHistoryRows  = [];
-
-async function loadAttendanceSession() {
-  attSessionDate = document.getElementById('attDate').value;
-  attSessionName = document.getElementById('attSession').value || 'Sunday Service';
-  if (!attSessionDate) { showToast('Pick a session date', 'error'); return; }
-
-  const loadBtn = document.getElementById('attLoadBtn');
-  if (loadBtn) { loadBtn.disabled = true; loadBtn.textContent = 'Loading…'; }
-  document.getElementById('attSessionWrap').innerHTML = '<div class="loading">Checking session records…</div>';
-
-  try {
-    const [children, existing] = await Promise.all([
-      api({ action: 'getChildren', q: '' }),
-      api({ action: 'getAttendance', session: attSessionDate }),
-    ]);
-
-    const postedMap = {};
-    (existing.data || [])
-      .filter(a => String(a.sessionDate).substring(0, 10) === attSessionDate)
-      .forEach(a => { postedMap[a.rollNo] = a.status; });
-
-    getOfflineQueue()
-      .filter(p => p.action === 'markAttendance' && p.sessionDate === attSessionDate)
-      .forEach(p => { postedMap[p.rollNo] = p.status; });
-
-    const alreadyPostedCount = Object.keys(postedMap).length;
-    attSessionMode = alreadyPostedCount > 0 ? 'edit' : 'new';
-    attOriginalMap = { ...postedMap };
-
-    if (!children.data || !children.data.length) {
-      document.getElementById('attSessionWrap').innerHTML = '<div class="empty">No registered children</div>';
-      return;
-    }
-
-    attSessionData = children.data.map(c => ({
-      ...c,
-      currentStatus: postedMap[c.rollNo] || ''
-    }));
-    renderAttendanceSession();
-  } catch(err) {
-    showToast('Error loading session: ' + err.message, 'error');
-    document.getElementById('attSessionWrap').innerHTML = '<div class="empty">Error loading session data</div>';
-  } finally {
-    if (loadBtn) { loadBtn.disabled = false; loadBtn.textContent = 'Load / Start'; }
-  }
-}
-
-function renderAttendanceSession() {
-  const filterName = (document.getElementById('attFilterName')  || {}).value || '';
-  const filterAge  = (document.getElementById('attFilterAge')   || {}).value || '';
-  const filterMark = (document.getElementById('attFilterMark')  || {}).value || '';
-
-  let filtered = attSessionData.filter(c => {
-    const nameMatch = !filterName || c.fullName.toLowerCase().includes(filterName.toLowerCase()) || c.rollNo.toLowerCase().includes(filterName.toLowerCase());
-    const ageMatch  = !filterAge  || c.ageGroup === filterAge;
-    const markMatch = !filterMark || c.currentStatus === filterMark;
-    return nameMatch && ageMatch && markMatch;
-  });
-
-  filtered = filtered.sort((a, b) => {
-    let va, vb;
-    if (attSortKey === 'name') { va = a.fullName; vb = b.fullName; }
-    else if (attSortKey === 'age') { va = a.ageGroup; vb = b.ageGroup; }
-    else { va = a.rollNo; vb = b.rollNo; }
-    return String(va).localeCompare(String(vb), undefined, { numeric: true }) * attSortDir;
-  });
-
-  const ageGroups     = [...new Set(attSessionData.map(c => c.ageGroup))].sort();
-  const markedCount   = attSessionData.filter(c => c.currentStatus).length;
-  const changedCount  = attSessionData.filter(c => c.currentStatus && c.currentStatus !== attOriginalMap[c.rollNo]).length;
-  const isEdit        = attSessionMode === 'edit';
-
-  const offlineNotice = !isOnline
-    ? `<div style="background:#fff8ec;border:1px solid #f0a500;border-radius:7px;padding:10px 14px;margin-bottom:12px;font-size:13px">
-        ⚡ <strong>Offline mode</strong> — marks saved locally and synced when you reconnect.</div>` : '';
-
-  const modeBanner = isEdit
-    ? `<div class="session-mode-banner mode-edit">
-        <div class="mode-icon">✏️</div>
-        <div class="mode-body">
-          <div class="mode-title">Editing posted session — ${fmtDate(attSessionDate)}</div>
-          <div class="mode-text">
-            ${Object.keys(attOriginalMap).length} records already on sheet.
-            Change statuses below and click <strong>Save All Changes</strong>.
-            ${changedCount > 0 ? `<span style="color:#e67e22;font-weight:600;margin-left:6px">⚠ ${changedCount} unsaved change${changedCount > 1 ? 's' : ''}</span>` : ''}
-          </div>
-        </div>
-      </div>`
-    : `<div class="session-mode-banner mode-new">
-        <div class="mode-icon">🆕</div>
-        <div class="mode-body">
-          <div class="mode-title">New session — ${fmtDate(attSessionDate)}</div>
-          <div class="mode-text">No attendance posted yet. Mark statuses and click <strong>Save All Marked</strong>.</div>
-        </div>
-      </div>`;
-
-  const tableRows = filtered.length === 0
-    ? `<tr><td colspan="${isEdit ? 6 : 5}"><div class="empty">No children match filter</div></td></tr>`
-    : filtered.map(c => {
-        const origStatus = attOriginalMap[c.rollNo] || '';
-        const hasChanged = c.currentStatus && c.currentStatus !== origStatus && isEdit;
-        const origBadge  = origStatus
-          ? `<span class="status-${origStatus.toLowerCase()}" style="font-size:12px">${origStatus}</span>`
-          : '<span style="font-size:12px;color:var(--muted)">—</span>';
-        return `<tr class="${hasChanged ? 'att-changed' : ''}">
-          <td class="att-roll"><span class="roll-badge">${esc(c.rollNo)}</span></td>
-          <td class="att-name">${esc(c.fullName)}</td>
-          <td class="att-age"><span class="age-badge">${esc(c.ageGroup)}</span></td>
-          ${isEdit ? `<td class="att-orig">${origBadge}</td>` : ''}
-          <td class="att-status">
-            <select id="att-${esc(c.rollNo)}" class="att-status-select"
-              onchange="updateLocalStatus('${esc(c.rollNo)}',this.value)">
-              <option value="" ${!c.currentStatus?'selected':''}>—</option>
-              <option value="Present" ${c.currentStatus==='Present'?'selected':''}>✅ Present</option>
-              <option value="Absent"  ${c.currentStatus==='Absent' ?'selected':''}>❌ Absent</option>
-              <option value="Late"    ${c.currentStatus==='Late'   ?'selected':''}>⏰ Late</option>
-              <option value="Excused" ${c.currentStatus==='Excused'?'selected':''}>📋 Excused</option>
-            </select>
-          </td>
-          <td class="att-action">
-            <button class="btn-sm ${isEdit ? 'btn-edit' : 'btn-gold'}"
-              onclick="markOne('${esc(c.rollNo)}','${esc(c.fullName)}','${attSessionDate}','${esc(attSessionName)}')">
-              ${isEdit ? '✏️' : '✓'}
-            </button>
-          </td>
-        </tr>`;
-      }).join('');
-
-  document.getElementById('attSessionWrap').innerHTML = `
-    ${offlineNotice}
-    ${modeBanner}
-    <div style="margin-bottom:10px;font-size:13px;color:var(--muted)">
-      Session: <strong>${esc(attSessionName)}</strong> · <strong>${attSessionDate}</strong>
-      &nbsp;·&nbsp; <span style="color:var(--ink);font-weight:600">${filtered.length}</span> shown of ${attSessionData.length}
-      &nbsp;·&nbsp; <span style="color:var(--green);font-weight:600">${markedCount}</span> marked
-      ${isEdit && changedCount > 0 ? `&nbsp;·&nbsp; <span style="color:#e67e22;font-weight:600">${changedCount} changed</span>` : ''}
-    </div>
-    <div class="att-filter-bar">
-      <div class="field grow">
-        <label>Filter by name / roll</label>
-        <input type="search" id="attFilterName" placeholder="Search…" value="${esc(filterName)}"
-          oninput="renderAttendanceSession()" autocomplete="off">
-      </div>
-      <div class="field">
-        <label>Age Group</label>
-        <select id="attFilterAge" onchange="renderAttendanceSession()">
-          <option value="">All</option>
-          ${ageGroups.map(g => `<option value="${g}" ${filterAge===g?'selected':''}>${g}</option>`).join('')}
-        </select>
-      </div>
-      <div class="field">
-        <label>Status</label>
-        <select id="attFilterMark" onchange="renderAttendanceSession()">
-          <option value="">All</option>
-          <option value="Present" ${filterMark==='Present'?'selected':''}>✅ Present</option>
-          <option value="Absent"  ${filterMark==='Absent' ?'selected':''}>❌ Absent</option>
-          <option value="Late"    ${filterMark==='Late'   ?'selected':''}>⏰ Late</option>
-          <option value="Excused" ${filterMark==='Excused'?'selected':''}>📋 Excused</option>
-        </select>
-      </div>
-    </div>
-    <div class="sort-bar" style="margin-bottom:8px">
-      <span>Sort:</span>
-      <button class="sort-btn ${attSortKey==='rollNo'?'active':''}" onclick="attSort('rollNo')">Roll No.${attSortKey==='rollNo'?(attSortDir===1?' ↑':' ↓'):''}</button>
-      <button class="sort-btn ${attSortKey==='name'  ?'active':''}" onclick="attSort('name')">Name${attSortKey==='name'?(attSortDir===1?' ↑':' ↓'):''}</button>
-      <button class="sort-btn ${attSortKey==='age'   ?'active':''}" onclick="attSort('age')">Age${attSortKey==='age'?(attSortDir===1?' ↑':' ↓'):''}</button>
-    </div>
-    <div class="table-wrap" style="overflow-x:auto">
-      <table class="att-mark-table" style="min-width:360px">
-        <thead>
-          <tr>
-            <th>Roll No.</th><th>Name</th><th>Age</th>
-            ${isEdit ? '<th>Original</th>' : ''}
-            <th>Status</th><th>Mark</th>
-          </tr>
-        </thead>
-        <tbody>${tableRows}</tbody>
-      </table>
-    </div>
-    <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-      <button class="btn-sm ${isEdit ? 'btn-edit' : 'btn-gold'}" onclick="markAll()">
-        ${isEdit ? '💾 Save All Changes' : '💾 Save All Marked'}
-      </button>
-      ${!isEdit ? `<button class="btn-sm btn-outline-sm" onclick="markAllPresent()">✅ Mark All Present</button>` : ''}
-      ${isEdit ? `<span style="font-size:12px;color:var(--muted)">Only changed rows will be updated.</span>` : ''}
-    </div>`;
-}
-
-function attSort(key) {
-  if (attSortKey === key) attSortDir *= -1;
-  else { attSortKey = key; attSortDir = 1; }
-  renderAttendanceSession();
-}
-
-function updateLocalStatus(rollNo, status) {
-  const child = attSessionData.find(c => c.rollNo === rollNo);
-  if (child) {
-    child.currentStatus = status;
-    const isEdit     = attSessionMode === 'edit';
-    const hasChanged = status && status !== attOriginalMap[rollNo] && isEdit;
-    const sel = document.querySelector(`#att-${CSS.escape(rollNo)}`);
-    if (sel) { const tr = sel.closest('tr'); if (tr) tr.className = hasChanged ? 'att-changed' : ''; }
-    const changedCount = attSessionData.filter(c => c.currentStatus && c.currentStatus !== attOriginalMap[c.rollNo]).length;
-    const bannerText = document.querySelector('.session-mode-banner.mode-edit .mode-text');
-    if (bannerText) {
-      const existing = bannerText.querySelector('span[style*="e67e22"]');
-      if (existing) existing.remove();
-      if (changedCount > 0) {
-        const span = document.createElement('span');
-        span.style.cssText = 'color:#e67e22;font-weight:600;margin-left:6px';
-        span.textContent = `⚠ ${changedCount} unsaved change${changedCount > 1 ? 's' : ''}`;
-        bannerText.appendChild(span);
-      }
-    }
-  }
-}
-
-function markAllPresent() {
-  attSessionData.forEach(c => c.currentStatus = 'Present');
-  renderAttendanceSession();
-}
-
-// ── FIX: markOne — skip if status unchanged from what's already on the sheet ──
-async function markOne(rollNo, name, date, session) {
-  const sel    = document.getElementById('att-' + rollNo);
-  const status = sel ? sel.value : '';
-  if (!status) { showToast('Select a status first', 'error'); return; }
-
-  // ── DUPLICATE GUARD: if this exact status is already confirmed on the sheet, skip ──
-  if (attOriginalMap[rollNo] === status) {
-    showToast(`Already saved as "${status}" for this session`, '');
-    return;
-  }
-
-  updateLocalStatus(rollNo, status);
-  const params = { action: 'markAttendance', rollNo, fullName: name, sessionDate: date, sessionName: session, status };
-  const d = await apiWithOffline(params);
-  if (d.offline) {
-    showToast('📥 Saved offline — will sync later', '');
-  } else if (d.success) {
-    attOriginalMap[rollNo] = status;   // update local original so re-clicks are caught
-    renderAttendanceSession();
-    showToast(`${attSessionMode === 'edit' ? '✏️ Updated' : '✅ Marked'} ${rollNo}`, 'success');
-    loadAttendanceHistory();
-  } else {
-    showToast('Failed: ' + d.error, 'error');
-  }
-}
-
-// ── FIX: markAll — only send records that differ from what's on the sheet ──
-async function markAll() {
-  const isEdit = attSessionMode === 'edit';
-
-  // In edit mode: only rows where status changed from original.
-  // In new mode: only rows with a status selected AND not already matching attOriginalMap
-  // (attOriginalMap may have offline-queued entries too — skip those as well).
-  const toSave = attSessionData.filter(c => {
-    if (!c.currentStatus) return false;                      // nothing selected
-    if (c.currentStatus === attOriginalMap[c.rollNo]) return false; // already saved, skip duplicate
-    return true;
-  });
-
-  if (!toSave.length) {
-    showToast(isEdit ? 'No changes to save' : 'No new statuses to post', 'error');
-    return;
-  }
-
-  const results = await Promise.all(toSave.map(c =>
-    apiWithOffline({ action: 'markAttendance', rollNo: c.rollNo, fullName: c.fullName, sessionDate: attSessionDate, sessionName: attSessionName, status: c.currentStatus })
-  ));
-
-  const offlineCount = results.filter(r => r.offline).length;
-  const onlineCount  = results.length - offlineCount;
-
-  // Update attOriginalMap for successfully saved rows so re-saves are blocked
-  toSave.forEach((c, i) => {
-    if (!results[i].offline && results[i].success) attOriginalMap[c.rollNo] = c.currentStatus;
-  });
-
-  if (offlineCount > 0) showToast(`📥 ${onlineCount} saved online, ${offlineCount} queued for sync`, '');
-  else showToast(isEdit ? `✅ Updated ${toSave.length} record${toSave.length > 1 ? 's' : ''}` : `✅ Posted ${toSave.length} mark${toSave.length > 1 ? 's' : ''}`, 'success');
-
-  renderAttendanceSession();
-  loadAttendanceHistory();
-  loadStats();
+let toastTimer;
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.className = 'toast', 3200);
 }
 
 // ══════════════════════════════════════════════════════
-//  ATTENDANCE HISTORY — with month + status filter
-// ══════════════════════════════════════════════════════
-async function loadAttendanceHistory() {
-  const tbody = document.getElementById('attHistoryTable');
-  tbody.innerHTML = '<tr><td colspan="5"><div class="loading">Loading…</div></td></tr>';
-  try {
-    const d = await api({ action: 'getAttendance' });
-    if (!d.success || !d.data.length) {
-      attHistoryRows = [];
-      tbody.innerHTML = '<tr><td colspan="5"><div class="empty">No attendance records yet</div></td></tr>';
-      populateHistoryMonthFilter([]);
-      return;
-    }
-    // Store all rows newest-first, cap at 500 for performance
-    attHistoryRows = d.data.slice().reverse().slice(0, 500);
-    populateHistoryMonthFilter(attHistoryRows);
-    renderAttendanceHistory();
-  } catch(err) { /* silent */ }
-}
-
-/** Populate the month dropdown from available data */
-function populateHistoryMonthFilter(rows) {
-  const sel = document.getElementById('attHistMonthFilter');
-  if (!sel) return;
-  const currentVal = sel.value;
-
-  // Collect unique YYYY-MM keys sorted newest first
-  const seen = new Map(); // key → label
-  rows.forEach(a => {
-    const k = monthKey(a.sessionDate);
-    if (k && !seen.has(k)) seen.set(k, monthLabel(a.sessionDate));
-  });
-  const sorted = [...seen.entries()].sort((a, b) => b[0].localeCompare(a[0]));
-
-  sel.innerHTML = '<option value="">All Months</option>' +
-    sorted.map(([k, lbl]) => `<option value="${k}" ${currentVal === k ? 'selected' : ''}>${lbl}</option>`).join('');
-}
-
-/** Re-render the history table based on current filter selections */
-function renderAttendanceHistory() {
-  const tbody      = document.getElementById('attHistoryTable');
-  const monthSel   = document.getElementById('attHistMonthFilter');
-  const statusSel  = document.getElementById('attHistStatusFilter');
-  if (!tbody) return;
-
-  const filterMonth  = monthSel  ? monthSel.value  : '';
-  const filterStatus = statusSel ? statusSel.value : '';
-
-  const filtered = attHistoryRows.filter(a => {
-    const mOk = !filterMonth  || monthKey(a.sessionDate) === filterMonth;
-    const sOk = !filterStatus || (a.status || '') === filterStatus;
-    return mOk && sOk;
-  });
-
-  // Show count
-  const countEl = document.getElementById('attHistCount');
-  if (countEl) countEl.textContent = filtered.length + ' record' + (filtered.length !== 1 ? 's' : '');
-
-  if (!filtered.length) {
-    tbody.innerHTML = '<tr><td colspan="5"><div class="empty">No records match filter</div></td></tr>';
-    return;
-  }
-
-  tbody.innerHTML = filtered.map(a => `
-    <tr>
-      <td>${fmtDate(a.sessionDate)}</td>
-      <td>${esc(a.sessionName)}</td>
-      <td><span class="roll-badge">${esc(a.rollNo)}</span></td>
-      <td>${esc(a.fullName)}</td>
-      <td class="status-${(a.status||'').toLowerCase()}">${esc(a.status)}</td>
-    </tr>`).join('');
-}
-
-// ══════════════════════════════════════════════════════
-//  HELPERS
+//  ESC HELPER
 // ══════════════════════════════════════════════════════
 function esc(s) {
-  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-
-function showToast(msg, type='') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast show ' + type;
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.className = 'toast', 4000);
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 </script>
 </body>
