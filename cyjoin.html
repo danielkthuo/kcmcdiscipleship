@@ -2,1585 +2,1227 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>KCMC Child & Youth Ministry — Child Record</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --ink: #111827;
-  --ink-soft: #374151;
-  --gold: #c9972b;
-  --gold-light: #f0c96a;
-  --gold-pale: #fdf6e3;
-  --gold-dim: rgba(201,151,43,0.15);
-  --cream: #f9f7f3;
-  --ivory: #f3ede3;
-  --white: #ffffff;
-  --border: #e5ddd0;
-  --border-focus: #c9972b;
-  --muted: #6b7280;
-  --muted-light: #9ca3af;
-  --red: #dc2626;
-  --red-pale: #fef2f2;
-  --green: #16a34a;
-  --green-pale: #f0fdf4;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --header-h: 72px;
-  --sidebar-w: 260px;
-}
+  :root {
+    --ink: #1a1a2e;
+    --gold: #c9972b;
+    --gold-light: #f0c96a;
+    --cream: #faf7f2;
+    --ivory: #f3ede3;
+    --border: #d9cfc0;
+    --muted: #7a7060;
+    --red: #c0392b;
+    --green: #27ae60;
+    --section-bg: #ffffff;
+    --shadow: 0 2px 16px rgba(26,26,46,0.08);
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Mobile-tuned spacing tokens */
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --radius-sm: 7px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --input-h: 46px; /* taller tap targets on mobile */
+  }
 
-html { scroll-behavior: smooth; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-body {
-  background: var(--cream);
-  font-family: 'Outfit', sans-serif;
-  color: var(--ink);
-  min-height: 100vh;
-  font-size: 15px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
+  html { -webkit-text-size-adjust: 100%; }
 
-/* ═══ HEADER ═══ */
-.header {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: var(--header-h);
-  background: var(--ink);
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  gap: 14px;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
-}
-.header::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
-}
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0 0 env(safe-area-inset-bottom, 60px);
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
+  }
 
-.logo-ring {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold), var(--gold-light));
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Playfair Display', serif;
-  font-size: 16px; font-weight: 700;
-  color: var(--ink);
-  flex-shrink: 0;
-  box-shadow: 0 0 0 3px rgba(201,151,43,0.25);
-}
+  /* ── HEADER ── */
+  .header {
+    background: var(--ink);
+    color: #fff;
+    padding: clamp(16px, 4vw, 32px) clamp(16px, 5vw, 40px) clamp(14px, 3.5vw, 28px);
+    display: flex;
+    align-items: center;
+    gap: clamp(10px, 3vw, 20px);
+    position: relative;
+    overflow: hidden;
+    flex-wrap: nowrap;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 18px,
+      rgba(201,151,43,0.06) 18px,
+      rgba(201,151,43,0.06) 19px
+    );
+  }
+  .header-logo {
+    width: clamp(44px, 10vw, 62px);
+    height: clamp(44px, 10vw, 62px);
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(16px, 4vw, 22px);
+    font-weight: 700;
+    color: var(--ink);
+    flex-shrink: 0;
+    position: relative; z-index: 1;
+    box-shadow: 0 0 0 3px rgba(201,151,43,0.3);
+  }
+  .header-text { position: relative; z-index: 1; flex: 1; min-width: 0; }
+  .header-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(14px, 3.8vw, 26px);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    /* Prevent overflow on very small screens */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .header-text p {
+    font-size: clamp(9px, 2vw, 12px);
+    font-weight: 300;
+    color: var(--gold-light);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+  .header-badge {
+    margin-left: auto;
+    background: rgba(201,151,43,0.18);
+    border: 1px solid rgba(201,151,43,0.4);
+    color: var(--gold-light);
+    font-size: clamp(8px, 1.8vw, 10px);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 30px;
+    font-weight: 500;
+    position: relative; z-index: 1;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
 
-.header-title {
-  flex: 1;
-  min-width: 0;
-}
-.header-title h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(14px, 3vw, 18px);
-  font-weight: 700;
-  color: #fff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.2;
-}
-.header-title p {
-  font-size: 10px;
-  font-weight: 400;
-  color: var(--gold-light);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-top: 2px;
-}
+  /* Dashboard button */
+  .dashboard-btn {
+    background: #2d6cdf;
+    color: white;
+    padding: clamp(6px, 1.5vw, 8px) clamp(10px, 3vw, 16px);
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: clamp(11px, 2.4vw, 14px);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-decoration: none;
+    position: relative; z-index: 1;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .dashboard-btn:active { transform: scale(0.96); background: #1f4fb8; }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
+  /* Hide section-head dashboard btn on mobile — header one is sufficient */
+  .section-head .dashboard-btn {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 5px 10px;
+  }
 
-.lock-badge {
-  background: rgba(201,151,43,0.15);
-  border: 1px solid rgba(201,151,43,0.35);
-  color: var(--gold-light);
-  font-size: 9px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-weight: 600;
-  display: flex; align-items: center; gap: 4px;
-  white-space: nowrap;
-}
-@media (max-width: 500px) { .lock-badge { display: none; } }
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap {
+    background: var(--ink);
+    padding: 0 clamp(12px, 5vw, 40px) 16px;
+    position: relative; z-index: 2;
+  }
+  .progress-steps {
+    display: flex;
+    align-items: center;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+    position: relative;
+  }
+  .progress-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 13px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: rgba(255,255,255,0.12);
+    z-index: 0;
+    transition: background 0.4s;
+  }
+  .progress-step.done:not(:last-child)::after { background: var(--gold); }
+  .step-dot {
+    width: clamp(22px, 6vw, 28px);
+    height: clamp(22px, 6vw, 28px);
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: clamp(9px, 2.5vw, 11px);
+    font-weight: 700;
+    color: rgba(255,255,255,0.4);
+    transition: all 0.35s ease;
+    position: relative; z-index: 1;
+  }
+  .progress-step.active .step-dot {
+    background: var(--gold); border-color: var(--gold);
+    color: var(--ink);
+    box-shadow: 0 0 0 4px rgba(201,151,43,0.25);
+  }
+  .progress-step.done .step-dot { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+  .step-label {
+    font-size: clamp(7px, 1.8vw, 9px);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    font-weight: 500;
+    text-align: center;
+    transition: color 0.3s;
+    white-space: nowrap;
+  }
+  .progress-step.active .step-label,
+  .progress-step.done .step-label { color: var(--gold-light); }
 
-.btn-dashboard {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: #fff;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
-  display: flex; align-items: center; gap: 6px;
-  white-space: nowrap;
-  text-decoration: none;
-  letter-spacing: 0.02em;
-}
-.btn-dashboard:hover {
-  background: rgba(201,151,43,0.2);
-  border-color: rgba(201,151,43,0.5);
-}
-.btn-dashboard span.icon { font-size: 14px; }
+  /* Hide labels on very small screens */
+  @media (max-width: 360px) {
+    .step-label { display: none; }
+    .progress-bar-wrap { padding-bottom: 10px; }
+  }
 
-/* ═══ LAYOUT ═══ */
-.layout {
-  display: flex;
-  margin-top: var(--header-h);
-  min-height: calc(100vh - var(--header-h));
-}
+  /* ── SUBMIT OVERLAY ── */
+  .submit-progress-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(26,26,46,0.72);
+    z-index: 9000;
+    align-items: center; justify-content: center;
+    backdrop-filter: blur(3px);
+    padding: 16px;
+  }
+  .submit-progress-overlay.active { display: flex; }
+  .submit-progress-box {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    padding: clamp(24px, 6vw, 36px) clamp(20px, 6vw, 44px);
+    width: min(420px, 92vw);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+    text-align: center;
+  }
+  .submit-progress-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(16px, 4vw, 20px);
+    color: var(--ink); margin-bottom: 6px;
+  }
+  .submit-progress-box p {
+    font-size: clamp(12px, 3vw, 13px);
+    color: var(--muted); margin-bottom: 24px; min-height: 20px;
+  }
+  .progress-track {
+    height: 8px; background: var(--ivory);
+    border-radius: 99px; overflow: hidden; margin-bottom: 10px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 99px; width: 0%;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+  .progress-pct { font-size: 12px; font-weight: 600; color: var(--gold); letter-spacing: 0.05em; }
 
-/* ═══ SIDEBAR ═══ */
-.sidebar {
-  width: var(--sidebar-w);
-  flex-shrink: 0;
-  position: sticky;
-  top: var(--header-h);
-  height: calc(100vh - var(--header-h));
-  overflow-y: auto;
-  background: var(--white);
-  border-right: 1px solid var(--border);
-  padding: 28px 0;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-}
+  /* ── WRAPPER ── */
+  .form-wrap {
+    max-width: 860px;
+    margin: clamp(16px, 4vw, 32px) auto 0;
+    padding: 0 clamp(10px, 3vw, 16px);
+  }
 
-.sidebar-label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted-light);
-  padding: 0 20px;
-  margin-bottom: 10px;
-}
+  /* ── SECTION ── */
+  .section {
+    background: var(--section-bg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow);
+    margin-bottom: clamp(12px, 3vw, 20px);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(14px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .section:nth-child(2) { animation-delay:.05s; }
+  .section:nth-child(3) { animation-delay:.10s; }
+  .section:nth-child(4) { animation-delay:.15s; }
+  .section:nth-child(5) { animation-delay:.20s; }
 
-.nav-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 0 12px;
-}
+  .section-head {
+    background: var(--ivory);
+    border-bottom: 1px solid var(--border);
+    padding: clamp(10px, 2.5vw, 14px) clamp(14px, 4vw, 24px);
+    display: flex; align-items: center; gap: 10px;
+    flex-wrap: wrap;
+  }
+  .section-letter {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: var(--gold); color: var(--ink);
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-size: clamp(11px, 2.8vw, 13px);
+    font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink);
+  }
 
-.nav-step {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all 0.2s;
-  border: 1.5px solid transparent;
-  text-decoration: none;
-  position: relative;
-}
-.nav-step:hover { background: var(--gold-pale); }
-.nav-step.active {
-  background: var(--gold-pale);
-  border-color: var(--gold);
-}
-.nav-step.done .step-circle { background: var(--green); border-color: var(--green); }
-.nav-step.done .step-num { display: none; }
-.nav-step.done .step-check { display: flex; }
+  .section-body { padding: clamp(14px, 4vw, 22px) clamp(14px, 4vw, 24px); }
 
-.step-circle {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: var(--ivory);
-  border: 2px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.25s;
-}
-.nav-step.active .step-circle {
-  background: var(--gold);
-  border-color: var(--gold);
-}
-.step-num {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--muted);
-}
-.nav-step.active .step-num { color: var(--ink); }
-.step-check {
-  display: none;
-  font-size: 13px;
-  color: #fff;
-  font-weight: 700;
-}
+  /* ── GRID — mobile-first ── */
+  .grid { display: grid; gap: clamp(10px, 2.5vw, 16px); }
 
-.step-info { flex: 1; min-width: 0; }
-.step-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ink-soft);
-  line-height: 1.2;
-}
-.nav-step.active .step-name { color: var(--ink); }
-.step-desc {
-  font-size: 10.5px;
-  color: var(--muted-light);
-  margin-top: 1px;
-  line-height: 1.3;
-}
+  /* Default: single column on mobile */
+  .g2, .g3, .g4 { grid-template-columns: 1fr; }
 
-.sidebar-progress {
-  padding: 20px 24px 0;
-  margin-top: 16px;
-  border-top: 1px solid var(--border);
-}
-.sidebar-progress-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--muted);
-  margin-bottom: 8px;
-}
-.sidebar-progress-bar {
-  height: 5px;
-  background: var(--ivory);
-  border-radius: 99px;
-  overflow: hidden;
-}
-.sidebar-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--gold), var(--gold-light));
-  border-radius: 99px;
-  width: 0%;
-  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-}
+  /* 2-col at 480px+ */
+  @media (min-width: 480px) {
+    .g2 { grid-template-columns: repeat(2, 1fr); }
+  }
 
-/* ═══ MAIN CONTENT ═══ */
-.main {
-  flex: 1;
-  padding: 28px 20px 80px;
-  max-width: 740px;
-  min-width: 0;
-}
+  /* 2-col at 520px+, 3-col at 700px+ */
+  @media (min-width: 520px) {
+    .g3 { grid-template-columns: repeat(2, 1fr); }
+    .g4 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 700px) {
+    .g3 { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 820px) {
+    .g4 { grid-template-columns: repeat(4, 1fr); }
+  }
 
-/* ═══ MOBILE NAV BAR (tabs at bottom) ═══ */
-.mobile-nav {
-  display: none;
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  background: var(--white);
-  border-top: 1px solid var(--border);
-  z-index: 300;
-  padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
-}
-.mobile-nav-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  max-width: 480px;
-  margin: 0 auto;
-}
-.mobile-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  padding: 4px 6px;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: background 0.15s;
-  flex: 1;
-  min-width: 0;
-}
-.mobile-step:hover { background: var(--gold-pale); }
-.mobile-step.active .ms-dot { background: var(--gold); color: var(--ink); }
-.mobile-step.done .ms-dot { background: var(--green); color: #fff; }
-.ms-dot {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: var(--ivory);
-  border: 1.5px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--muted);
-  transition: all 0.2s;
-}
-.ms-label {
-  font-size: 9px;
-  font-weight: 600;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-  text-align: center;
-}
-.mobile-step.active .ms-label { color: var(--gold); }
-.mobile-step.done .ms-label { color: var(--green); }
+  /* ── FIELD ── */
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label {
+    font-size: clamp(10px, 2.4vw, 11px);
+    font-weight: 600; letter-spacing: 0.07em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .field label .req { color: var(--red); margin-left: 2px; }
 
-/* ═══ SECTION CARD ═══ */
-.section {
-  background: var(--white);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 20px;
-  overflow: hidden;
-  animation: fadeUp 0.35s ease both;
-}
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.section:nth-child(2) { animation-delay: .07s; }
-.section:nth-child(3) { animation-delay: .12s; }
-.section:nth-child(4) { animation-delay: .17s; }
+  /* Taller inputs for easy tapping on mobile */
+  .field input,
+  .field select,
+  .field textarea {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0 13px;
+    height: var(--input-h);
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(14px, 3.5vw, 15px); /* ≥16px prevents iOS zoom */
+    color: var(--ink);
+    background: var(--cream);
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+    width: 100%;
+    /* Prevent iOS from shrinking text */
+    -webkit-text-size-adjust: none;
+    /* Smooth tap feedback */
+    -webkit-tap-highlight-color: transparent;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,151,43,0.13);
+    background: #fff;
+  }
+  /* Custom arrow for selects */
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7060' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+  .field textarea {
+    height: auto;
+    padding: 11px 13px;
+    resize: vertical;
+    min-height: 72px;
+    line-height: 1.5;
+  }
 
-.section-head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 22px;
-  background: linear-gradient(to right, var(--ivory), var(--white));
-  border-bottom: 1px solid var(--border);
-}
-.section-badge {
-  width: 34px; height: 34px;
-  border-radius: 9px;
-  background: linear-gradient(135deg, var(--gold), var(--gold-light));
-  color: var(--ink);
-  font-family: 'Playfair Display', serif;
-  font-size: 16px;
-  font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(201,151,43,0.3);
-}
-.section-info { flex: 1; }
-.section-title {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-.section-subtitle {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 1px;
-}
-.section-body { padding: 22px; }
+  /* Roll No. auto-generated */
+  .field input[name="rollNo"] {
+    background: var(--ivory);
+    color: var(--gold);
+    font-weight: 700; letter-spacing: 0.08em;
+    cursor: default; font-size: 15px;
+  }
+  .roll-badge {
+    font-size: 10px; color: var(--muted);
+    font-style: italic; margin-top: 2px;
+  }
 
-/* ═══ FIELD ═══ */
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.field label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
-.req { color: var(--red); }
+  /* ── PHOTO UPLOAD ── */
+  .photo-section {
+    display: flex;
+    gap: clamp(14px, 4vw, 22px);
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .photo-wrap { display: flex; flex-direction: column; gap: 6px; }
+  .photo-drop {
+    width: clamp(90px, 22vw, 110px);
+    height: clamp(108px, 26vw, 130px);
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-md);
+    background: var(--ivory);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: border-color .2s, background .2s, box-shadow .2s;
+    overflow: hidden; flex-shrink: 0; position: relative;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .photo-drop:hover,
+  .photo-drop:active { border-color: var(--gold); background: #fdf6e9; }
+  .photo-drop.photo-error { border-color: var(--red); box-shadow: 0 0 0 3px rgba(192,57,43,0.13); }
+  .photo-drop.photo-ok { border-color: var(--green); border-style: solid; }
+  .photo-drop img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
+  .photo-drop .drop-hint {
+    font-size: clamp(10px, 2.5vw, 11px);
+    color: var(--muted); text-align: center;
+    padding: 8px; line-height: 1.4;
+    position: relative; z-index: 1;
+  }
+  .photo-drop .drop-icon { font-size: clamp(20px, 5vw, 24px); margin-bottom: 5px; }
+  .photo-req-note {
+    font-size: 10px; color: var(--red);
+    font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; text-align: center;
+    width: clamp(90px, 22vw, 110px);
+  }
+  #photoInput { display: none; }
+  .photo-meta { flex: 1; min-width: min(200px, 100%); display: flex; flex-direction: column; gap: clamp(10px, 2.5vw, 12px); }
 
-.field input,
-.field select,
-.field textarea {
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 11px 14px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 14px;
-  color: var(--ink);
-  background: var(--cream);
-  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-  outline: none;
-  width: 100%;
-  -webkit-appearance: none;
-  appearance: none;
-}
-.field input::placeholder,
-.field textarea::placeholder { color: var(--muted-light); }
-.field input:focus,
-.field select:focus,
-.field textarea:focus {
-  border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(201,151,43,0.12);
-  background: var(--white);
-}
-.field input.error,
-.field select.error,
-.field textarea.error {
-  border-color: var(--red);
-  background: var(--red-pale);
-  box-shadow: 0 0 0 3px rgba(220,38,38,0.1);
-}
-.field select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%236b7280' d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 14px;
-  padding-right: 36px;
-  cursor: pointer;
-}
-.field textarea { resize: vertical; min-height: 76px; line-height: 1.6; }
+  /* ── CHECKBOXES ── */
+  .check-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(160px, 45%), 1fr));
+    gap: clamp(8px, 2vw, 10px);
+  }
+  .check-item {
+    display: flex; align-items: center; gap: 9px;
+    padding: clamp(10px, 2.5vw, 11px) clamp(10px, 2.5vw, 12px);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    user-select: none;
+    font-size: clamp(12px, 3vw, 13px);
+    font-weight: 500;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    /* Min touch target height */
+    min-height: 44px;
+  }
+  .check-item:hover,
+  .check-item:active { border-color: var(--gold); background: #fdf6e9; }
+  .check-item input[type="checkbox"] {
+    accent-color: var(--gold);
+    width: 18px; height: 18px;
+    cursor: pointer; flex-shrink: 0;
+    /* Larger hit area */
+    min-width: 18px;
+  }
+  .check-item.checked { border-color: var(--gold); background: #fdf6e9; }
 
-.roll-no-field {
-  background: var(--gold-pale) !important;
-  color: var(--gold) !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.08em !important;
-  font-size: 15px !important;
-  cursor: default !important;
-  border-color: rgba(201,151,43,0.3) !important;
-}
-.field-hint {
-  font-size: 10.5px;
-  color: var(--muted-light);
-  font-style: italic;
-}
+  /* ── GUARDIAN / MENTOR BLOCKS ── */
+  .guardian-block,
+  .mentor-block {
+    background: var(--ivory);
+    border-radius: var(--radius-sm);
+    padding: clamp(12px, 3vw, 16px);
+    border: 1px solid var(--border);
+  }
+  .guardian-label {
+    font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.07em;
+    color: var(--muted); margin-bottom: clamp(10px, 2.5vw, 12px);
+  }
+  .mentor-label {
+    font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.07em;
+    color: var(--muted); margin-bottom: clamp(10px, 2.5vw, 12px);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .mentor-number {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--gold); color: var(--ink);
+    font-size: 11px; font-weight: 700;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
 
-/* ═══ GRID ═══ */
-.grid { display: grid; gap: 16px; }
-.g2 { grid-template-columns: repeat(2, 1fr); }
-.g3 { grid-template-columns: repeat(3, 1fr); }
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--border); margin: clamp(12px, 3vw, 18px) 0; }
 
-@media (max-width: 540px) {
-  .g2, .g3 { grid-template-columns: 1fr; }
-}
-@media (min-width: 541px) and (max-width: 720px) {
-  .g3 { grid-template-columns: repeat(2, 1fr); }
-}
+  /* ── SUBMIT AREA ── */
+  .submit-area {
+    background: var(--section-bg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    padding: clamp(18px, 5vw, 28px) clamp(14px, 4vw, 24px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: clamp(12px, 3vw, 16px);
+  }
+  .submit-note {
+    font-size: clamp(11px, 2.8vw, 12px);
+    color: var(--muted); line-height: 1.6;
+    max-width: 420px; flex: 1;
+  }
+  .submit-note strong { color: var(--ink); }
 
-/* ═══ DIVIDER ═══ */
-.divider {
-  height: 1px;
-  background: var(--border);
-  margin: 20px 0;
-}
+  .btn-submit {
+    background: var(--gold); color: var(--ink);
+    border: none; border-radius: var(--radius-sm);
+    padding: clamp(12px, 3vw, 14px) clamp(24px, 6vw, 36px);
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(14px, 3.5vw, 15px);
+    font-weight: 600; cursor: pointer;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    box-shadow: 0 4px 14px rgba(201,151,43,0.35);
+    display: flex; align-items: center; gap: 8px;
+    white-space: nowrap;
+    /* Full-width on narrow screens */
+    width: 100%;
+    justify-content: center;
+    min-height: 50px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  @media (min-width: 520px) {
+    .btn-submit { width: auto; }
+  }
+  .btn-submit:hover { background: #b8861f; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(201,151,43,0.45); }
+  .btn-submit:active { transform: translateY(1px); box-shadow: 0 2px 8px rgba(201,151,43,0.2); }
+  .btn-submit:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; box-shadow: none; transform: none; }
 
-/* ═══ PHOTO UPLOAD ═══ */
-.photo-section {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-}
-.photo-col { flex-shrink: 0; }
-.photo-label-text {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 8px;
-  display: flex; align-items: center; gap: 4px;
-}
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink); color: #fff;
+    padding: clamp(10px, 3vw, 12px) clamp(18px, 5vw, 24px);
+    border-radius: 30px;
+    font-size: clamp(13px, 3.2vw, 14px);
+    font-weight: 500;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    opacity: 0;
+    transition: opacity .3s, transform .3s;
+    z-index: 9999;
+    pointer-events: none;
+    text-align: center;
+    max-width: 92vw;
+    width: max-content;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--green); }
+  .toast.error { background: var(--red); }
 
-.photo-drop {
-  width: 106px; height: 128px;
-  border: 2px dashed var(--border);
-  border-radius: var(--radius-md);
-  background: var(--ivory);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  overflow: hidden;
-  position: relative;
-}
-.photo-drop:hover { border-color: var(--gold); background: var(--gold-pale); }
-.photo-drop.photo-ok { border-style: solid; border-color: var(--green); background: var(--green-pale); }
-.photo-drop.photo-error { border-color: var(--red); background: var(--red-pale); box-shadow: 0 0 0 3px rgba(220,38,38,0.1); }
-.photo-drop img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; border-radius: calc(var(--radius-md) - 2px); }
-.drop-content { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px; position: relative; z-index: 1; }
-.drop-icon { font-size: 26px; line-height: 1; }
-.drop-text { font-size: 10px; font-weight: 600; color: var(--muted); text-align: center; line-height: 1.4; }
-.photo-status {
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-top: 6px;
-  text-align: center;
-  width: 106px;
-  color: var(--red);
-}
-.photo-status.ok { color: var(--green); }
-#photoInput { display: none; }
+  /* ── HEADER RESPONSIVE TWEAKS ── */
+  @media (max-width: 400px) {
+    .header-badge { display: none; }
+    /* Show only icon on very small screens */
+    .dashboard-btn span { display: none; }
+    .dashboard-btn::before { content: '📊'; }
+  }
+  @media (max-width: 320px) {
+    .header-text h1 { font-size: 12px; }
+    .header-text p { display: none; }
+  }
 
-.photo-fields { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
-
-@media (max-width: 440px) {
-  .photo-section { flex-direction: column; }
-  .photo-drop { width: 100%; height: 110px; flex-direction: row; gap: 16px; justify-content: flex-start; padding: 0 16px; }
-  .drop-content { flex-direction: row; gap: 12px; }
-  .photo-status { width: 100%; }
-}
-
-/* ═══ GUARDIAN BLOCK ═══ */
-.guardian-block {
-  background: var(--ivory);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 16px 18px;
-}
-.guardian-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-.guardian-icon {
-  font-size: 18px;
-  line-height: 1;
-}
-.guardian-label {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--ink-soft);
-}
-
-/* ═══ CHECKBOX GRID ═══ */
-.check-hint {
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 14px;
-}
-.check-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
-  gap: 9px;
-}
-.check-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 13px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all 0.18s;
-  user-select: none;
-  font-size: 13px;
-  font-weight: 500;
-  background: var(--white);
-  color: var(--ink-soft);
-}
-.check-item:hover { border-color: var(--gold); background: var(--gold-pale); }
-.check-item.checked { border-color: var(--gold); background: var(--gold-pale); color: var(--ink); }
-.check-item input[type="checkbox"] {
-  accent-color: var(--gold);
-  width: 16px; height: 16px;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-.check-emoji { font-size: 16px; line-height: 1; }
-
-/* ═══ MENTOR BLOCK ═══ */
-.mentor-block {
-  background: var(--ivory);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 16px 18px;
-}
-.mentor-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-.mentor-num {
-  width: 24px; height: 24px;
-  border-radius: 50%;
-  background: var(--gold);
-  color: var(--ink);
-  font-size: 12px;
-  font-weight: 800;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.mentor-label {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--ink-soft);
-}
-
-/* ═══ SUBMIT AREA ═══ */
-.submit-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  padding: 24px;
-  margin-bottom: 20px;
-}
-.submit-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-.submit-note {
-  font-size: 12.5px;
-  color: var(--muted);
-  line-height: 1.7;
-  flex: 1;
-  min-width: 200px;
-}
-.submit-note strong { color: var(--ink); font-weight: 700; }
-
-.btn-submit {
-  background: linear-gradient(135deg, var(--gold), #b8861f);
-  color: var(--ink);
-  border: none;
-  border-radius: var(--radius-sm);
-  padding: 14px 32px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 4px 14px rgba(201,151,43,0.4);
-  display: flex; align-items: center; gap: 8px;
-  white-space: nowrap;
-  letter-spacing: 0.02em;
-}
-.btn-submit:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(201,151,43,0.5);
-}
-.btn-submit:active { transform: translateY(0); }
-.btn-submit:disabled {
-  background: var(--border);
-  color: var(--muted);
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
-}
-
-/* ═══ SAVING OVERLAY ═══ */
-.overlay {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(17,24,39,0.7);
-  z-index: 9000;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(4px);
-}
-.overlay.active { display: flex; }
-.overlay-box {
-  background: var(--white);
-  border-radius: var(--radius-lg);
-  padding: 36px 40px;
-  width: min(400px, 90vw);
-  box-shadow: var(--shadow-lg);
-  text-align: center;
-}
-.overlay-icon { font-size: 36px; margin-bottom: 12px; }
-.overlay-box h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 20px;
-  color: var(--ink);
-  margin-bottom: 6px;
-}
-.overlay-box p {
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 20px;
-  min-height: 18px;
-}
-.overlay-track {
-  height: 7px;
-  background: var(--ivory);
-  border-radius: 99px;
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-.overlay-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--gold), var(--gold-light));
-  border-radius: 99px;
-  width: 0%;
-  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-}
-.overlay-pct {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--gold);
-}
-
-/* ═══ TOAST ═══ */
-.toast {
-  position: fixed;
-  bottom: 80px; left: 50%;
-  transform: translateX(-50%) translateY(16px);
-  background: var(--ink);
-  color: #fff;
-  padding: 12px 22px;
-  border-radius: 30px;
-  font-size: 13.5px;
-  font-weight: 500;
-  box-shadow: 0 8px 28px rgba(0,0,0,0.22);
-  opacity: 0;
-  transition: opacity 0.3s, transform 0.3s;
-  z-index: 9999;
-  pointer-events: none;
-  text-align: center;
-  max-width: 88vw;
-  letter-spacing: 0.01em;
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.toast.success { background: var(--green); }
-.toast.error { background: var(--red); }
-
-/* ═══ RESPONSIVE LAYOUT SWITCH ═══ */
-@media (min-width: 900px) {
-  .main { padding: 32px 32px 80px; }
-}
-@media (max-width: 768px) {
-  .sidebar { display: none; }
-  .mobile-nav { display: flex; }
-  .layout { display: block; }
-  .main { padding: 20px 16px calc(80px + env(safe-area-inset-bottom)); max-width: 100%; }
-  .section-body { padding: 18px 16px; }
-  .submit-card { padding: 20px 16px; }
-  .btn-submit { width: 100%; justify-content: center; }
-  .toast { bottom: calc(70px + env(safe-area-inset-bottom)); }
-}
-
-/* ═══ PAGE TITLE ═══ */
-.page-title {
-  margin-bottom: 22px;
-}
-.page-title h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(20px, 4vw, 26px);
-  font-weight: 700;
-  color: var(--ink);
-  line-height: 1.2;
-}
-.page-title p {
-  font-size: 13px;
-  color: var(--muted);
-  margin-top: 4px;
-  line-height: 1.5;
-}
-
-/* ═══ REQUIRED INDICATOR ROW ═══ */
-.required-note {
-  font-size: 11px;
-  color: var(--muted);
-  margin-bottom: 18px;
-  display: flex; align-items: center; gap: 4px;
-}
-.required-note span { color: var(--red); font-size: 14px; }
-
-/* ═══ SCROLL SPACING ═══ */
-.spacer-block { height: 8px; }
+  /* Keep section-head dashboard btn but only on wider screens */
+  @media (max-width: 600px) {
+    .section-head .dashboard-btn { display: none; }
+  }
 </style>
 </head>
 <body>
 
-<!-- ════ HEADER ════ -->
-<header class="header">
-  <div class="logo-ring">CY</div>
-  <div class="header-title">
+<!-- HEADER -->
+<div class="header">
+  <div class="header-logo">CY</div>
+  <div class="header-text">
     <h1>KCMC Child &amp; Youth Ministry</h1>
     <p>Child Registration — Confidential</p>
   </div>
-  <div class="header-actions">
-    <div class="lock-badge">🔒 Authorised Only</div>
-    <a href="cydashboard.html" class="btn-dashboard">
-      <span class="icon">📊</span> Dashboard
-    </a>
+  <div class="header-badge">🔒 Authorised Use Only</div>
+  <div class="dashboard-btn" onclick="window.location.href='cydashboard.html'">
+    📊 <span>Dashboard</span>
   </div>
-</header>
-
-<!-- ════ LAYOUT ════ -->
-<div class="layout">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-label">Form Sections</div>
-    <nav class="nav-steps" id="sidebarNav">
-      <a href="#sectionA" class="nav-step active" data-section="A">
-        <div class="step-circle">
-          <span class="step-num">1</span>
-          <span class="step-check">✓</span>
-        </div>
-        <div class="step-info">
-          <div class="step-name">Personal Info</div>
-          <div class="step-desc">Name, DOB, photo</div>
-        </div>
-      </a>
-      <a href="#sectionB" class="nav-step" data-section="B">
-        <div class="step-circle">
-          <span class="step-num">2</span>
-          <span class="step-check">✓</span>
-        </div>
-        <div class="step-info">
-          <div class="step-name">Guardians</div>
-          <div class="step-desc">Parent / Guardian details</div>
-        </div>
-      </a>
-      <a href="#sectionC" class="nav-step" data-section="C">
-        <div class="step-circle">
-          <span class="step-num">3</span>
-          <span class="step-check">✓</span>
-        </div>
-        <div class="step-info">
-          <div class="step-name">Ministry Areas</div>
-          <div class="step-desc">Service & involvement</div>
-        </div>
-      </a>
-      <a href="#sectionD" class="nav-step" data-section="D">
-        <div class="step-circle">
-          <span class="step-num">4</span>
-          <span class="step-check">✓</span>
-        </div>
-        <div class="step-info">
-          <div class="step-name">Leadership</div>
-          <div class="step-desc">Roles & mentors</div>
-        </div>
-      </a>
-      <a href="#submitArea" class="nav-step" data-section="S">
-        <div class="step-circle">
-          <span class="step-num">5</span>
-          <span class="step-check">✓</span>
-        </div>
-        <div class="step-info">
-          <div class="step-name">Save Record</div>
-          <div class="step-desc">Review &amp; submit</div>
-        </div>
-      </a>
-    </nav>
-
-    <div class="sidebar-progress">
-      <div class="sidebar-progress-label">
-        <span>Completion</span>
-        <span id="sidebarPct">0%</span>
-      </div>
-      <div class="sidebar-progress-bar">
-        <div class="sidebar-progress-fill" id="sidebarFill"></div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-    <div class="page-title">
-      <h2>New Child Registration</h2>
-      <p>Complete all required fields marked <span style="color:var(--red);font-weight:700">*</span>. Record is saved to Google Sheets &amp; Drive.</p>
-    </div>
-
-    <form id="childForm" novalidate>
-
-      <!-- ══ SECTION A ══ -->
-      <div class="section" id="sectionA">
-        <div class="section-head">
-          <div class="section-badge">A</div>
-          <div class="section-info">
-            <div class="section-title">Child Personal Information</div>
-            <div class="section-subtitle">Basic identification &amp; contact details</div>
-          </div>
-        </div>
-        <div class="section-body">
-
-          <!-- Photo + Roll/Name row -->
-          <div class="photo-section">
-            <div class="photo-col">
-              <div class="photo-label-text">Photo <span class="req">*</span></div>
-              <div class="photo-drop" id="photoDrop" onclick="document.getElementById('photoInput').click()" role="button" tabindex="0" aria-label="Upload passport photo">
-                <div class="drop-content">
-                  <div class="drop-icon">📷</div>
-                  <div class="drop-text">Tap to<br>upload</div>
-                </div>
-              </div>
-              <div class="photo-status" id="photoStatus">Required</div>
-              <input type="file" id="photoInput" accept="image/*" onchange="previewPhoto(event)" capture="environment">
-            </div>
-
-            <div class="photo-fields">
-              <div class="grid g2">
-                <div class="field">
-                  <label>Roll No. <span style="font-size:9px;font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;">(auto)</span></label>
-                  <input type="text" name="rollNo" id="rollNoField" class="roll-no-field" placeholder="Auto-assigned…" readonly>
-                  <div class="field-hint" id="rollBadge">Assigned on save</div>
-                </div>
-                <div class="field">
-                  <label>Reg. Date</label>
-                  <input type="date" name="regDate">
-                </div>
-              </div>
-
-              <div class="field">
-                <label>Full Name <span class="req">*</span></label>
-                <input type="text" name="fullName" placeholder="As in birth certificate" required autocomplete="name">
-              </div>
-
-              <div class="grid g2">
-                <div class="field">
-                  <label>Gender <span class="req">*</span></label>
-                  <select name="gender" required>
-                    <option value="">— Select —</option>
-                    <option value="M">Male</option>
-                    <option value="F">Female</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label>Date of Birth <span class="req">*</span></label>
-                  <input type="date" name="dob" required>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="grid g2">
-            <div class="field">
-              <label>Age Group <span class="req">*</span></label>
-              <select name="ageGroup" required>
-                <option value="">— Select —</option>
-                <option value="0-2">0-2 years</option>
-                <option value="3-5">3-5 years</option>
-                <option value="6-8">6-8 years</option>
-                <option value="9-11">9-11 years</option>
-                <option value="12-14">12-14 years</option>
-                <option value="15-18">15-18 years</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>School</label>
-              <input type="text" name="school" placeholder="School name" autocomplete="off">
-            </div>
-          </div>
-
-          <div class="grid g2" style="margin-top:16px;">
-            <div class="field">
-              <label>Area / Estate / Street</label>
-              <input type="text" name="residence" placeholder="Residence area">
-            </div>
-            <div class="field">
-              <label>Nearest Landmark <span class="req">*</span></label>
-              <input type="text" name="landmark" placeholder="e.g. Near St. Peter's" required>
-            </div>
-          </div>
-
-          <div class="grid g2" style="margin-top:16px;">
-            <div class="field">
-              <label>Class / Grade</label>
-              <input type="text" name="classGrade" placeholder="e.g. Grade 5 / Form 2">
-            </div>
-            <div class="field">
-              <label>Emergency Contact</label>
-              <input type="tel" name="emergencyContact" placeholder="Name &amp; phone (non-parent)">
-            </div>
-          </div>
-
-          <div class="field" style="margin-top:16px;">
-            <label>Special Needs / Medical Conditions</label>
-            <textarea name="specialNeeds" placeholder="Describe any allergies, conditions, or special needs…"></textarea>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- ══ SECTION B ══ -->
-      <div class="section" id="sectionB">
-        <div class="section-head">
-          <div class="section-badge">B</div>
-          <div class="section-info">
-            <div class="section-title">Parent / Guardian Details</div>
-            <div class="section-subtitle">At least one guardian required</div>
-          </div>
-        </div>
-        <div class="section-body" style="display:flex;flex-direction:column;gap:16px;">
-
-          <div class="guardian-block">
-            <div class="guardian-header">
-              <div class="guardian-icon">👨</div>
-              <div class="guardian-label">Father / Guardian 1</div>
-            </div>
-            <div class="grid g3">
-              <div class="field">
-                <label>Full Name</label>
-                <input type="text" name="fatherName" placeholder="Full name">
-              </div>
-              <div class="field">
-                <label>Relationship</label>
-                <select name="fatherRel">
-                  <option value="">— Select —</option>
-                  <option value="Father">Father</option>
-                  <option value="Step-Father">Step-Father</option>
-                  <option value="Uncle">Uncle</option>
-                  <option value="Grandfather">Grandfather</option>
-                  <option value="Brother">Brother (older)</option>
-                  <option value="Guardian">Legal Guardian</option>
-                  <option value="Family Friend">Family Friend</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              <div class="field">
-                <label>Phone</label>
-                <input type="tel" name="fatherPhone" placeholder="+254 7XX XXX XXX">
-              </div>
-            </div>
-          </div>
-
-          <div class="guardian-block">
-            <div class="guardian-header">
-              <div class="guardian-icon">👩</div>
-              <div class="guardian-label">Mother / Guardian 2</div>
-            </div>
-            <div class="grid g3">
-              <div class="field">
-                <label>Full Name</label>
-                <input type="text" name="motherName" placeholder="Full name">
-              </div>
-              <div class="field">
-                <label>Relationship</label>
-                <select name="motherRel">
-                  <option value="">— Select —</option>
-                  <option value="Mother">Mother</option>
-                  <option value="Step-Mother">Step-Mother</option>
-                  <option value="Aunt">Aunt</option>
-                  <option value="Grandmother">Grandmother</option>
-                  <option value="Sister">Sister (older)</option>
-                  <option value="Guardian">Legal Guardian</option>
-                  <option value="Family Friend">Family Friend</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              <div class="field">
-                <label>Phone</label>
-                <input type="tel" name="motherPhone" placeholder="+254 7XX XXX XXX">
-              </div>
-            </div>
-          </div>
-
-          <div class="grid g3">
-            <div class="field">
-              <label>Home Fellowship</label>
-              <input type="text" name="homeFellowship" placeholder="Fellowship group">
-            </div>
-            <div class="field">
-              <label>KCMC Member?</label>
-              <select name="kcmcMember">
-                <option value="">— Select —</option>
-                <option value="Y">Yes — Both parents</option>
-                <option value="One">One parent</option>
-                <option value="N">No</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Member Card No.</label>
-              <input type="text" name="memberCardNo" placeholder="Card number">
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- ══ SECTION C ══ -->
-      <div class="section" id="sectionC">
-        <div class="section-head">
-          <div class="section-badge">C</div>
-          <div class="section-info">
-            <div class="section-title">Ministry Serving Areas</div>
-            <div class="section-subtitle">Select all that apply</div>
-          </div>
-        </div>
-        <div class="section-body">
-          <div class="check-hint">Tick all ministry areas this child is involved in:</div>
-          <div class="check-grid">
-            <label class="check-item" onclick="toggleCheck(this)">
-              <input type="checkbox" name="ministry" value="Choir / Praise & Worship">
-              <span class="check-emoji">🎵</span> Choir / Praise &amp; Worship
-            </label>
-            <label class="check-item" onclick="toggleCheck(this)">
-              <input type="checkbox" name="ministry" value="Ushering / Hospitality">
-              <span class="check-emoji">🤝</span> Ushering / Hospitality
-            </label>
-            <label class="check-item" onclick="toggleCheck(this)">
-              <input type="checkbox" name="ministry" value="Media / Tech / Sound">
-              <span class="check-emoji">🎛️</span> Media / Tech / Sound
-            </label>
-            <label class="check-item" onclick="toggleCheck(this)">
-              <input type="checkbox" name="ministry" value="Drama / Dance / Arts">
-              <span class="check-emoji">🎭</span> Drama / Dance / Arts
-            </label>
-            <label class="check-item" onclick="toggleCheck(this)">
-              <input type="checkbox" name="ministry" value="Outreach / Evangelism">
-              <span class="check-emoji">📣</span> Outreach / Evangelism
-            </label>
-            <label class="check-item" onclick="toggleCheck(this)">
-              <input type="checkbox" name="ministry" value="Children's Church Helper">
-              <span class="check-emoji">🙏</span> Children's Church Helper
-            </label>
-            <label class="check-item" onclick="toggleCheck(this)">
-              <input type="checkbox" name="ministry" value="Cleaning / Decorating">
-              <span class="check-emoji">🧹</span> Cleaning / Decorating
-            </label>
-          </div>
-          <div class="field" style="margin-top:16px;">
-            <label>Other (specify)</label>
-            <input type="text" name="ministryOther" placeholder="Any other area of service…">
-          </div>
-        </div>
-      </div>
-
-      <!-- ══ SECTION D ══ -->
-      <div class="section" id="sectionD">
-        <div class="section-head">
-          <div class="section-badge">D</div>
-          <div class="section-info">
-            <div class="section-title">Leadership &amp; Mentorship</div>
-            <div class="section-subtitle">Roles, titles &amp; assigned mentors</div>
-          </div>
-        </div>
-        <div class="section-body" style="display:flex;flex-direction:column;gap:16px;">
-
-          <div class="field">
-            <label>Leadership Role / Title</label>
-            <input type="text" name="leadershipRole" placeholder="e.g. Team Leader, Prefect, Class Rep">
-          </div>
-
-          <div class="mentor-block">
-            <div class="mentor-header">
-              <div class="mentor-num">1</div>
-              <div class="mentor-label">Primary Mentor</div>
-            </div>
-            <div class="grid g2">
-              <div class="field">
-                <label>Mentor Name</label>
-                <input type="text" name="mentor1Name" placeholder="Full name">
-              </div>
-              <div class="field">
-                <label>Mentor Contact</label>
-                <input type="tel" name="mentor1Contact" placeholder="+254 7XX XXX XXX">
-              </div>
-            </div>
-          </div>
-
-          <div class="mentor-block">
-            <div class="mentor-header">
-              <div class="mentor-num">2</div>
-              <div class="mentor-label">Secondary Mentor</div>
-            </div>
-            <div class="grid g2">
-              <div class="field">
-                <label>Mentor Name</label>
-                <input type="text" name="mentor2Name" placeholder="Full name">
-              </div>
-              <div class="field">
-                <label>Mentor Contact</label>
-                <input type="tel" name="mentor2Contact" placeholder="+254 7XX XXX XXX">
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- ══ SUBMIT ══ -->
-      <div class="submit-card" id="submitArea">
-        <div class="submit-inner">
-          <div class="submit-note">
-            <strong>🔒 Confidential Record</strong><br>
-            For authorised KCMC Child &amp; Youth Ministry use only. Data is saved to the secure Google Sheet &amp; Drive. Roll No. is auto-assigned on save.
-          </div>
-          <button type="submit" class="btn-submit" id="submitBtn">
-            <span>💾</span>
-            <span id="submitLabel">Save Record</span>
-          </button>
-        </div>
-      </div>
-
-    </form>
-  </main>
 </div>
 
-<!-- MOBILE BOTTOM NAV -->
-<nav class="mobile-nav">
-  <div class="mobile-nav-inner" id="mobileNav">
-    <div class="mobile-step active" data-section="A" onclick="scrollTo('#sectionA')">
-      <div class="ms-dot" id="msDotA">1</div>
-      <div class="ms-label">Personal</div>
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-steps" id="progressSteps">
+    <div class="progress-step active" data-step="0">
+      <div class="step-dot">1</div>
+      <div class="step-label">Personal</div>
     </div>
-    <div class="mobile-step" data-section="B" onclick="scrollTo('#sectionB')">
-      <div class="ms-dot" id="msDotB">2</div>
-      <div class="ms-label">Guardians</div>
+    <div class="progress-step" data-step="1">
+      <div class="step-dot">2</div>
+      <div class="step-label">Guardians</div>
     </div>
-    <div class="mobile-step" data-section="C" onclick="scrollTo('#sectionC')">
-      <div class="ms-dot" id="msDotC">3</div>
-      <div class="ms-label">Ministry</div>
+    <div class="progress-step" data-step="2">
+      <div class="step-dot">3</div>
+      <div class="step-label">Ministry</div>
     </div>
-    <div class="mobile-step" data-section="D" onclick="scrollTo('#sectionD')">
-      <div class="ms-dot" id="msDotD">4</div>
-      <div class="ms-label">Lead.</div>
+    <div class="progress-step" data-step="3">
+      <div class="step-dot">4</div>
+      <div class="step-label">Leadership</div>
     </div>
-    <div class="mobile-step" data-section="S" onclick="scrollTo('#submitArea')">
-      <div class="ms-dot" id="msDotS">5</div>
-      <div class="ms-label">Save</div>
+    <div class="progress-step" data-step="4">
+      <div class="step-dot">✓</div>
+      <div class="step-label">Submit</div>
     </div>
   </div>
-</nav>
+</div>
 
-<!-- SAVING OVERLAY -->
-<div class="overlay" id="saveOverlay">
-  <div class="overlay-box">
-    <div class="overlay-icon">📋</div>
+<!-- SUBMIT PROGRESS OVERLAY -->
+<div class="submit-progress-overlay" id="submitOverlay">
+  <div class="submit-progress-box">
     <h3>Saving Record…</h3>
-    <p id="overlayMsg">Preparing data</p>
-    <div class="overlay-track">
-      <div class="overlay-fill" id="overlayFill"></div>
+    <p id="progressMsg">Preparing data</p>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
     </div>
-    <div class="overlay-pct" id="overlayPct">0%</div>
+    <div class="progress-pct" id="progressPct">0%</div>
   </div>
+</div>
+
+<div class="form-wrap">
+  <form id="childForm" novalidate>
+
+    <!-- SECTION A -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-letter">A</div>
+        <span class="section-title">Child Personal Information</span>
+        <div class="dashboard-btn" onclick="window.location.href='cydashboard.html'">
+          📊 <span>Dashboard</span>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <div class="photo-section">
+          <div class="photo-wrap">
+            <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;">
+              Passport Photo <span style="color:var(--red)">*</span>
+            </div>
+            <div class="photo-drop" id="photoDrop" onclick="document.getElementById('photoInput').click()">
+              <div class="drop-hint">
+                <div class="drop-icon">📷</div>
+                Tap to upload
+              </div>
+            </div>
+            <div class="photo-req-note" id="photoReqNote">Required</div>
+            <input type="file" id="photoInput" accept="image/*" capture="environment" onchange="previewPhoto(event)">
+          </div>
+          <div class="photo-meta">
+            <div class="grid g2">
+              <div class="field">
+                <label>Roll No. <span style="font-size:9px;font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;">(auto-generated)</span></label>
+                <input type="text" name="rollNo" id="rollNoField" placeholder="Will be assigned…" readonly>
+                <div class="roll-badge" id="rollBadge">Generated on save</div>
+              </div>
+              <div class="field">
+                <label>Registration Date</label>
+                <input type="date" name="regDate">
+              </div>
+            </div>
+            <div class="field">
+              <label>Full Name <span class="req">*</span></label>
+              <input type="text" name="fullName" placeholder="As in birth certificate" required autocomplete="name">
+            </div>
+            <div class="grid g2">
+              <div class="field">
+                <label>Gender <span class="req">*</span></label>
+                <select name="gender" required>
+                  <option value="">— Select —</option>
+                  <option value="M">Male</option>
+                  <option value="F">Female</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Date of Birth <span class="req">*</span></label>
+                <input type="date" name="dob" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="grid g2">
+          <div class="field">
+            <label>Age Group <span class="req">*</span></label>
+            <select name="ageGroup" required>
+              <option value="">— Select Age Group —</option>
+              <option value="0-2">0 – 2 years</option>
+              <option value="3-5">3 – 5 years</option>
+              <option value="6-8">6 – 8 years</option>
+              <option value="9-11">9 – 11 years</option>
+              <option value="12-14">12 – 14 years</option>
+              <option value="15-18">15 – 18 years</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>School</label>
+            <input type="text" name="school" placeholder="School name" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="grid g2" style="margin-top:16px;">
+          <div class="field">
+            <label>Area / Estate / Street</label>
+            <input type="text" name="residence" placeholder="Residence area">
+          </div>
+          <div class="field">
+            <label>Nearest Landmark <span class="req">*</span></label>
+            <input type="text" name="landmark" placeholder="e.g. near St. Peter's" required>
+          </div>
+        </div>
+
+        <div class="grid g2" style="margin-top:16px;">
+          <div class="field">
+            <label>Class / Grade</label>
+            <input type="text" name="classGrade" placeholder="e.g. Grade 5 / Form 2">
+          </div>
+          <div class="field">
+            <label>Emergency Contact (non-parent)</label>
+            <input type="text" name="emergencyContact" placeholder="Name &amp; phone">
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:16px;">
+          <label>Special Needs / Medical Conditions</label>
+          <textarea name="specialNeeds" placeholder="Describe any special needs, allergies, or medical conditions…"></textarea>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION B -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-letter">B</div>
+        <span class="section-title">Parent / Guardian Details</span>
+      </div>
+      <div class="section-body" style="display:flex;flex-direction:column;gap:16px;">
+
+        <div class="guardian-block">
+          <div class="guardian-label">👨 Father / Guardian 1</div>
+          <div class="grid g3">
+            <div class="field">
+              <label>Full Name</label>
+              <input type="text" name="fatherName" placeholder="Full name">
+            </div>
+            <div class="field">
+              <label>Relationship</label>
+              <select name="fatherRel">
+                <option value="">— Select —</option>
+                <option value="Father">Father</option>
+                <option value="Step-Father">Step-Father</option>
+                <option value="Uncle">Uncle</option>
+                <option value="Grandfather">Grandfather</option>
+                <option value="Brother">Brother (older)</option>
+                <option value="Guardian">Legal Guardian</option>
+                <option value="Family Friend">Family Friend</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Phone</label>
+              <input type="tel" name="fatherPhone" placeholder="+254 7XX XXX XXX" autocomplete="tel">
+            </div>
+          </div>
+        </div>
+
+        <div class="guardian-block">
+          <div class="guardian-label">👩 Mother / Guardian 2</div>
+          <div class="grid g3">
+            <div class="field">
+              <label>Full Name</label>
+              <input type="text" name="motherName" placeholder="Full name">
+            </div>
+            <div class="field">
+              <label>Relationship</label>
+              <select name="motherRel">
+                <option value="">— Select —</option>
+                <option value="Mother">Mother</option>
+                <option value="Step-Mother">Step-Mother</option>
+                <option value="Aunt">Aunt</option>
+                <option value="Grandmother">Grandmother</option>
+                <option value="Sister">Sister (older)</option>
+                <option value="Guardian">Legal Guardian</option>
+                <option value="Family Friend">Family Friend</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Phone</label>
+              <input type="tel" name="motherPhone" placeholder="+254 7XX XXX XXX" autocomplete="tel">
+            </div>
+          </div>
+        </div>
+
+        <div class="grid g3">
+          <div class="field">
+            <label>Home Fellowship Group</label>
+            <input type="text" name="homeFellowship" placeholder="Fellowship group name">
+          </div>
+          <div class="field">
+            <label>KCMC Member?</label>
+            <select name="kcmcMember">
+              <option value="">— Select —</option>
+              <option value="Y">Yes — Both parents</option>
+              <option value="One">One parent</option>
+              <option value="N">No</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Member Card No.</label>
+            <input type="text" name="memberCardNo" placeholder="Card number">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION C -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-letter">C</div>
+        <span class="section-title">Ministry Serving Areas</span>
+      </div>
+      <div class="section-body">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:14px;">Tick all that apply</div>
+        <div class="check-grid">
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="ministry" value="Choir / Praise &amp; Worship"> 🎵 Choir / Praise &amp; Worship
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="ministry" value="Ushering / Hospitality"> 🤝 Ushering / Hospitality
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="ministry" value="Media / Tech / Sound"> 🎛️ Media / Tech / Sound
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="ministry" value="Drama / Dance / Arts"> 🎭 Drama / Dance / Arts
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="ministry" value="Outreach / Evangelism"> 📣 Outreach / Evangelism
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="ministry" value="Children's Church Helper"> 🙏 Children's Church Helper
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="ministry" value="Cleaning / Decorating"> 🧹 Cleaning / Decorating
+          </label>
+        </div>
+        <div class="field" style="margin-top:14px;">
+          <label>Other Ministry Area (specify)</label>
+          <input type="text" name="ministryOther" placeholder="Describe other area of service">
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION D -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-letter">D</div>
+        <span class="section-title">Leadership &amp; Mentorship</span>
+      </div>
+      <div class="section-body" style="display:flex;flex-direction:column;gap:16px;">
+
+        <div class="field">
+          <label>Leadership Role / Title</label>
+          <input type="text" name="leadershipRole" placeholder="e.g. Team Leader, Prefect">
+        </div>
+
+        <div class="mentor-block">
+          <div class="mentor-label">
+            <span class="mentor-number">1</span>
+            Primary Mentor
+          </div>
+          <div class="grid g2">
+            <div class="field">
+              <label>Mentor Name</label>
+              <input type="text" name="mentor1Name" placeholder="Full name">
+            </div>
+            <div class="field">
+              <label>Mentor Contact</label>
+              <input type="tel" name="mentor1Contact" placeholder="+254 7XX XXX XXX">
+            </div>
+          </div>
+        </div>
+
+        <div class="mentor-block">
+          <div class="mentor-label">
+            <span class="mentor-number">2</span>
+            Secondary Mentor
+          </div>
+          <div class="grid g2">
+            <div class="field">
+              <label>Mentor Name</label>
+              <input type="text" name="mentor2Name" placeholder="Full name">
+            </div>
+            <div class="field">
+              <label>Mentor Contact</label>
+              <input type="tel" name="mentor2Contact" placeholder="+254 7XX XXX XXX">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-area">
+      <div class="submit-note">
+        <strong>🔒 Confidential Record</strong><br>
+        This form is for authorised KCMC Child &amp; Youth Ministry use only.
+        Data is saved to the ministry's secure Google Sheet and Drive.
+        Roll No. is auto-assigned sequentially on save.
+      </div>
+      <button type="submit" class="btn-submit" id="submitBtn">
+        <span id="submitLabel">💾 Save Record</span>
+      </button>
+    </div>
+
+  </form>
 </div>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ── CONFIG ───────────────────────────────────────────────────────────────
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
+  // ── CONFIG ──────────────────────────────────────────────────────────────
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
 
-// ── STATE ────────────────────────────────────────────────────────────────
-let photoDataUrl = null, photoMimeType = null, photoName = null;
+  // ── ROLL NUMBER COUNTER ─────────────────────────────────────────────────
+  function getNextRollNo() {
+    const last = parseInt(localStorage.getItem('cy_last_roll') || '0', 10);
+    return last + 1;
+  }
+  function commitRollNo(n) {
+    localStorage.setItem('cy_last_roll', String(n));
+  }
+  function formatRoll(n) {
+    return 'CY-' + String(n).padStart(4, '0');
+  }
 
-// ── HELPERS ──────────────────────────────────────────────────────────────
-const delay = ms => new Promise(r => setTimeout(r, ms));
-const $ = id => document.getElementById(id);
-const getNextRollNo = () => parseInt(localStorage.getItem('cy_last_roll') || '0', 10) + 1;
-const commitRollNo  = n => localStorage.setItem('cy_last_roll', String(n));
-const formatRoll    = n => 'CY-' + String(n).padStart(4, '0');
+  // ── INIT ────────────────────────────────────────────────────────────────
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
+    updateProgressBar();
+    document.getElementById('childForm').addEventListener('change', updateProgressBar);
+    document.getElementById('childForm').addEventListener('input', updateProgressBar);
+  });
 
-function scrollTo(selector) {
-  const el = document.querySelector(selector);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
+  // ── PHOTO PREVIEW ───────────────────────────────────────────────────────
+  let photoDataUrl = null, photoMimeType = null, photoName = null;
 
-// ── INIT ─────────────────────────────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', () => {
-  document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
-  refreshProgress();
+  function previewPhoto(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    photoMimeType = file.type;
+    photoName = file.name;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      photoDataUrl = ev.target.result;
+      const drop = document.getElementById('photoDrop');
+      drop.innerHTML = `<img src="${photoDataUrl}" alt="Passport photo">`;
+      drop.classList.remove('photo-error');
+      drop.classList.add('photo-ok');
+      document.getElementById('photoReqNote').style.color = 'var(--green)';
+      document.getElementById('photoReqNote').textContent = '✓ Photo uploaded';
+      updateProgressBar();
+    };
+    reader.readAsDataURL(file);
+  }
 
-  // Live progress update
-  document.getElementById('childForm').addEventListener('change', refreshProgress);
-  document.getElementById('childForm').addEventListener('input', refreshProgress);
+  // ── CHECKBOX TOGGLE ─────────────────────────────────────────────────────
+  function toggleCheck(label) {
+    setTimeout(() => {
+      label.classList.toggle('checked', label.querySelector('input').checked);
+      updateProgressBar();
+    }, 0);
+  }
 
-  // Scroll-spy for sidebar / mobile nav
-  const sections = ['sectionA','sectionB','sectionC','sectionD','submitArea'];
-  const sectionMap = { sectionA:'A', sectionB:'B', sectionC:'C', sectionD:'D', submitArea:'S' };
+  // ── LIVE PROGRESS BAR ────────────────────────────────────────────────────
+  function updateProgressBar() {
+    const form = document.getElementById('childForm');
+    const fd = new FormData(form);
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const sec = sectionMap[entry.target.id];
-        if (sec) highlightNav(sec);
+    const sectionDone = [
+      !!(photoDataUrl &&
+         fd.get('fullName') &&
+         fd.get('gender') &&
+         fd.get('dob') &&
+         fd.get('ageGroup') &&
+         fd.get('landmark')),
+      !!(fd.get('fatherName') || fd.get('motherName')),
+      true,
+      true,
+    ];
+
+    const steps = document.querySelectorAll('.progress-step');
+    let lastDone = -1;
+    sectionDone.forEach((done, i) => { if (done) lastDone = i; });
+
+    steps.forEach((step, i) => {
+      step.classList.remove('active', 'done');
+      if (i <= lastDone) {
+        step.classList.add('done');
+        step.querySelector('.step-dot').textContent = '✓';
+      } else if (i === lastDone + 1) {
+        step.classList.add('active');
+        step.querySelector('.step-dot').textContent = i + 1;
+      } else {
+        step.querySelector('.step-dot').textContent = i + 1;
       }
     });
-  }, { rootMargin: '-40% 0px -55% 0px' });
 
-  sections.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) observer.observe(el);
-  });
-
-  // Keyboard on photo drop
-  document.getElementById('photoDrop').addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      document.getElementById('photoInput').click();
+    const submitStep = steps[4];
+    submitStep.classList.remove('active', 'done');
+    if (lastDone >= 3) {
+      submitStep.classList.add('active');
+      submitStep.querySelector('.step-dot').textContent = '✓';
     }
-  });
-});
-
-function highlightNav(sec) {
-  document.querySelectorAll('.nav-step').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.mobile-step').forEach(s => s.classList.remove('active'));
-  const sideStep = document.querySelector(`.nav-step[data-section="${sec}"]`);
-  const mobStep  = document.querySelector(`.mobile-step[data-section="${sec}"]`);
-  if (sideStep) sideStep.classList.add('active');
-  if (mobStep)  mobStep.classList.add('active');
-}
-
-// ── PHOTO PREVIEW ─────────────────────────────────────────────────────────
-function previewPhoto(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  photoMimeType = file.type;
-  photoName = file.name;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    photoDataUrl = ev.target.result;
-    const drop = $('photoDrop');
-    drop.innerHTML = `<img src="${photoDataUrl}" alt="Passport photo">`;
-    drop.classList.add('photo-ok');
-    drop.classList.remove('photo-error');
-    const st = $('photoStatus');
-    st.textContent = '✓ Photo uploaded';
-    st.classList.add('ok');
-    refreshProgress();
-  };
-  reader.readAsDataURL(file);
-}
-
-// ── CHECKBOX TOGGLE ───────────────────────────────────────────────────────
-function toggleCheck(label) {
-  setTimeout(() => {
-    label.classList.toggle('checked', label.querySelector('input').checked);
-    refreshProgress();
-  }, 0);
-}
-
-// ── PROGRESS ──────────────────────────────────────────────────────────────
-function refreshProgress() {
-  const form = document.getElementById('childForm');
-  const fd   = new FormData(form);
-
-  const checks = [
-    !!(photoDataUrl && fd.get('fullName') && fd.get('gender') && fd.get('dob') && fd.get('ageGroup') && fd.get('landmark')),
-    !!(fd.get('fatherName') || fd.get('motherName')),
-    true,
-    true,
-  ];
-
-  // Sidebar steps
-  const navSteps = document.querySelectorAll('.nav-step');
-  const mobDots  = ['A','B','C','D','S'];
-
-  checks.forEach((done, i) => {
-    const step = navSteps[i];
-    if (!step) return;
-    step.classList.toggle('done', done);
-    const dot = document.querySelector(`.mobile-step[data-section="${['A','B','C','D'][i]}"] .ms-dot`);
-    if (dot) dot.textContent = done ? '✓' : (i + 1);
-    if (done) {
-      const mobStep = document.querySelector(`.mobile-step[data-section="${['A','B','C','D'][i]}"]`);
-      if (mobStep) mobStep.classList.add('done');
-    } else {
-      const mobStep = document.querySelector(`.mobile-step[data-section="${['A','B','C','D'][i]}"]`);
-      if (mobStep) mobStep.classList.remove('done');
-    }
-  });
-
-  const doneCount = checks.filter(Boolean).length;
-  const pct = Math.round((doneCount / 4) * 100);
-  $('sidebarFill').style.width = pct + '%';
-  $('sidebarPct').textContent  = pct + '%';
-}
-
-// ── OVERLAY ───────────────────────────────────────────────────────────────
-function showOverlay(pct, msg) {
-  $('saveOverlay').classList.add('active');
-  $('overlayFill').style.width = pct + '%';
-  $('overlayPct').textContent  = pct + '%';
-  if (msg) $('overlayMsg').textContent = msg;
-}
-function hideOverlay() {
-  $('saveOverlay').classList.remove('active');
-}
-
-// ── FORM SUBMIT ───────────────────────────────────────────────────────────
-document.getElementById('childForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-
-  if (!SCRIPT_URL) {
-    showToast('⚠️ Script URL not configured.', 'error');
-    return;
   }
 
-  // Validate required fields
-  let valid = true;
-  this.querySelectorAll('[required]').forEach(f => {
-    const empty = !f.value.trim();
-    f.classList.toggle('error', empty);
-    if (empty) {
-      valid = false;
-      f.addEventListener('input',  () => f.classList.remove('error'), { once: true });
-      f.addEventListener('change', () => f.classList.remove('error'), { once: true });
+  // ── SUBMIT PROGRESS OVERLAY ──────────────────────────────────────────────
+  function showSubmitProgress(pct, msg) {
+    document.getElementById('submitOverlay').classList.add('active');
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+    if (msg) document.getElementById('progressMsg').textContent = msg;
+  }
+  function hideSubmitProgress() {
+    document.getElementById('submitOverlay').classList.remove('active');
+  }
+
+  // ── FORM SUBMIT ─────────────────────────────────────────────────────────
+  document.getElementById('childForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    if (!SCRIPT_URL) {
+      showToast('⚠️ Script URL not configured.', 'error');
+      return;
     }
-  });
 
-  if (!photoDataUrl) {
-    $('photoDrop').classList.add('photo-error');
-    $('photoStatus').textContent = '⚠ Photo required';
-    $('photoStatus').classList.remove('ok');
-    valid = false;
-  }
-
-  if (!valid) {
-    showToast('⚠️ Please complete all required fields and upload a photo.', 'error');
-    const firstErr = this.querySelector('.error') || $('photoDrop');
-    firstErr?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    return;
-  }
-
-  const nextNum = getNextRollNo();
-  const rollNo  = formatRoll(nextNum);
-  $('rollNoField').value   = rollNo;
-  $('rollBadge').textContent = 'Assigned: ' + rollNo;
-
-  const ministryChecked = [...this.querySelectorAll('[name="ministry"]:checked')].map(c => c.value).join(', ');
-  const ministryOther   = this.querySelector('[name="ministryOther"]').value.trim();
-  const allMinistry     = [ministryChecked, ministryOther].filter(Boolean).join(', ');
-
-  const fd = new FormData(this);
-  const payload = {
-    rollNo,
-    regDate:          fd.get('regDate'),
-    fullName:         fd.get('fullName'),
-    gender:           fd.get('gender'),
-    dob:              fd.get('dob'),
-    ageGroup:         fd.get('ageGroup'),
-    residence:        fd.get('residence'),
-    landmark:         fd.get('landmark'),
-    school:           fd.get('school'),
-    classGrade:       fd.get('classGrade'),
-    specialNeeds:     fd.get('specialNeeds'),
-    emergencyContact: fd.get('emergencyContact'),
-    fatherName:       fd.get('fatherName'),
-    fatherRel:        fd.get('fatherRel'),
-    fatherPhone:      fd.get('fatherPhone'),
-    motherName:       fd.get('motherName'),
-    motherRel:        fd.get('motherRel'),
-    motherPhone:      fd.get('motherPhone'),
-    homeFellowship:   fd.get('homeFellowship'),
-    kcmcMember:       fd.get('kcmcMember'),
-    memberCardNo:     fd.get('memberCardNo'),
-    ministryAreas:    allMinistry,
-    leadershipRole:   fd.get('leadershipRole'),
-    mentor1Name:      fd.get('mentor1Name'),
-    mentor1Contact:   fd.get('mentor1Contact'),
-    mentor2Name:      fd.get('mentor2Name'),
-    mentor2Contact:   fd.get('mentor2Contact'),
-    photoBase64:      photoDataUrl,
-    photoMimeType:    photoMimeType,
-    photoName:        photoName,
-  };
-
-  const btn = $('submitBtn');
-  btn.disabled = true;
-
-  showOverlay(5,  'Preparing data…');
-  await delay(350);
-  showOverlay(22, 'Uploading photo…');
-  await delay(500);
-  showOverlay(45, 'Sending to Google Sheets…');
-
-  try {
-    const response = await fetch(SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload),
-      redirect: 'follow',
+    const required = this.querySelectorAll('[required]');
+    let valid = true;
+    required.forEach(f => {
+      if (!f.value.trim()) {
+        f.style.borderColor = 'var(--red)';
+        valid = false;
+        f.addEventListener('input',  () => f.style.borderColor = '', { once: true });
+        f.addEventListener('change', () => f.style.borderColor = '', { once: true });
+      }
     });
 
-    showOverlay(75, 'Saving record…');
-    await delay(300);
-
-    if (!response.ok) throw new Error(`Server responded ${response.status}`);
-
-    const result = await response.json();
-    showOverlay(95, 'Finalising…');
-    await delay(300);
-
-    if (result.success) {
-      const confirmedRoll = result.rollNo || rollNo;
-      commitRollNo(nextNum);
-      showOverlay(100, 'Record saved! ✅');
-      await delay(700);
-      hideOverlay();
-      showToast(`✅ Saved! Roll No: ${confirmedRoll}`, 'success');
-      $('rollNoField').value = confirmedRoll;
-
-      setTimeout(() => {
-        if (confirm(`Record saved!\nRoll No: ${confirmedRoll}\n\nReset the form for a new entry?`)) {
-          resetForm();
-        }
-      }, 1000);
-    } else {
-      hideOverlay();
-      $('rollNoField').value = '';
-      $('rollBadge').textContent = 'Assigned on save';
-      showToast('❌ ' + (result.error || 'Save failed. Please try again.'), 'error');
+    if (!photoDataUrl) {
+      const drop = document.getElementById('photoDrop');
+      drop.classList.add('photo-error');
+      document.getElementById('photoReqNote').textContent = '⚠ Photo is required';
+      valid = false;
     }
-  } catch (err) {
-    hideOverlay();
-    $('rollNoField').value = '';
-    $('rollBadge').textContent = 'Assigned on save';
-    console.error(err);
-    showToast('❌ ' + (err.message || 'Network error. Check connection.'), 'error');
-  } finally {
-    btn.disabled = false;
+
+    if (!valid) {
+      showToast('⚠️ Please fill in all required fields and upload a photo.', 'error');
+      const firstError = this.querySelector('[style*="var(--red)"]') ||
+                         document.getElementById('photoDrop');
+      firstError && firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    const nextNum  = getNextRollNo();
+    const rollNo   = formatRoll(nextNum);
+    document.getElementById('rollNoField').value = rollNo;
+    document.getElementById('rollBadge').textContent = 'Assigned: ' + rollNo;
+
+    const ministryChecked = [...this.querySelectorAll('[name="ministry"]:checked')]
+      .map(c => c.value).join(', ');
+    const ministryOther = this.querySelector('[name="ministryOther"]').value.trim();
+    const allMinistry = [ministryChecked, ministryOther].filter(Boolean).join(', ');
+
+    const fd = new FormData(this);
+    const payload = {
+      rollNo,
+      regDate:          fd.get('regDate'),
+      fullName:         fd.get('fullName'),
+      gender:           fd.get('gender'),
+      dob:              fd.get('dob'),
+      ageGroup:         fd.get('ageGroup'),
+      residence:        fd.get('residence'),
+      landmark:         fd.get('landmark'),
+      school:           fd.get('school'),
+      classGrade:       fd.get('classGrade'),
+      specialNeeds:     fd.get('specialNeeds'),
+      emergencyContact: fd.get('emergencyContact'),
+      fatherName:       fd.get('fatherName'),
+      fatherRel:        fd.get('fatherRel'),
+      fatherPhone:      fd.get('fatherPhone'),
+      motherName:       fd.get('motherName'),
+      motherRel:        fd.get('motherRel'),
+      motherPhone:      fd.get('motherPhone'),
+      homeFellowship:   fd.get('homeFellowship'),
+      kcmcMember:       fd.get('kcmcMember'),
+      memberCardNo:     fd.get('memberCardNo'),
+      ministryAreas:    allMinistry,
+      leadershipRole:   fd.get('leadershipRole'),
+      mentor1Name:      fd.get('mentor1Name'),
+      mentor1Contact:   fd.get('mentor1Contact'),
+      mentor2Name:      fd.get('mentor2Name'),
+      mentor2Contact:   fd.get('mentor2Contact'),
+      photoBase64:      photoDataUrl,
+      photoMimeType:    photoMimeType,
+      photoName:        photoName,
+    };
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+
+    showSubmitProgress(5, 'Preparing data…');
+    await delay(350);
+    showSubmitProgress(20, 'Uploading passport photo…');
+    await delay(500);
+    showSubmitProgress(45, 'Sending to Google Sheets…');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload),
+        redirect: 'follow',
+      });
+
+      showSubmitProgress(75, 'Saving record…');
+      await delay(300);
+
+      if (!response.ok) {
+        throw new Error(`Server responded with status ${response.status}`);
+      }
+
+      const result = await response.json();
+      showSubmitProgress(95, 'Finalising…');
+      await delay(300);
+
+      if (result.success) {
+        const confirmedRoll = result.rollNo || rollNo;
+        commitRollNo(nextNum);
+
+        showSubmitProgress(100, 'Record saved! ✅');
+        await delay(700);
+        hideSubmitProgress();
+
+        showToast(`✅ Record saved! Roll No: ${confirmedRoll}`, 'success');
+        document.getElementById('rollNoField').value = confirmedRoll;
+
+        setTimeout(() => {
+          if (confirm(`Record saved successfully!\nRoll No: ${confirmedRoll}\n\nReset the form for a new entry?`)) {
+            resetForm();
+          }
+        }, 1000);
+      } else {
+        hideSubmitProgress();
+        document.getElementById('rollNoField').value = '';
+        document.getElementById('rollBadge').textContent = 'Generated on save';
+        showToast('❌ ' + (result.error || 'Save failed. Please try again.'), 'error');
+      }
+
+    } catch (err) {
+      hideSubmitProgress();
+      document.getElementById('rollNoField').value = '';
+      document.getElementById('rollBadge').textContent = 'Generated on save';
+      console.error('Submission error:', err);
+      showToast('❌ ' + (err.message || 'Network error. Check your connection and try again.'), 'error');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  // ── HELPERS ─────────────────────────────────────────────────────────────
+  function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+  function resetForm() {
+    document.getElementById('childForm').reset();
+    document.getElementById('photoDrop').innerHTML =
+      `<div class="drop-hint"><div class="drop-icon">📷</div>Tap to upload</div>`;
+    document.getElementById('photoDrop').className = 'photo-drop';
+    document.getElementById('photoReqNote').textContent = 'Required';
+    document.getElementById('photoReqNote').style.color = 'var(--red)';
+    photoDataUrl = null; photoMimeType = null; photoName = null;
+    document.getElementById('rollNoField').value = '';
+    document.getElementById('rollBadge').textContent = 'Generated on save';
+    document.querySelectorAll('.check-item').forEach(l => l.classList.remove('checked'));
+    document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
+    updateProgressBar();
   }
-});
 
-// ── RESET ─────────────────────────────────────────────────────────────────
-function resetForm() {
-  document.getElementById('childForm').reset();
-  $('photoDrop').classList.remove('photo-ok','photo-error');
-  $('photoDrop').innerHTML = `<div class="drop-content"><div class="drop-icon">📷</div><div class="drop-text">Tap to<br>upload</div></div>`;
-  $('photoStatus').textContent = 'Required';
-  $('photoStatus').classList.remove('ok');
-  photoDataUrl = photoMimeType = photoName = null;
-  $('rollNoField').value = '';
-  $('rollBadge').textContent = 'Assigned on save';
-  document.querySelectorAll('.check-item').forEach(l => l.classList.remove('checked'));
-  document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
-  refreshProgress();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// ── TOAST ─────────────────────────────────────────────────────────────────
-function showToast(msg, type = '') {
-  const t = $('toast');
-  t.textContent = msg;
-  t.className = 'toast show ' + type;
-  setTimeout(() => t.className = 'toast', 5000);
-}
+  function showToast(msg, type = '') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + type;
+    setTimeout(() => t.className = 'toast', 5000);
+  }
 </script>
+
 </body>
 </html>
