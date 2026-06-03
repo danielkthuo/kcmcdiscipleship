@@ -16,7 +16,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--cream); font-family: 'DM Sans', sans-serif; color: var(--ink); min-height: 100vh; }
 
-  /* PIN SCREEN */
+  /* ── PIN SCREEN ── */
   .pin-screen {
     position: fixed; inset: 0; background: var(--ink);
     display: flex; align-items: center; justify-content: center; z-index: 9999;
@@ -51,7 +51,7 @@
   .pin-key.del    { font-size: 14px; color: var(--muted); }
   .pin-error { color: var(--red); font-size: 13px; margin-top: 12px; min-height: 18px; }
 
-  /* HEADER */
+  /* ── HEADER ── */
   .header {
     background: var(--ink); color: #fff; padding: 14px 20px;
     display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100;
@@ -73,7 +73,7 @@
   .btn-outline:hover { background: rgba(201,151,43,0.1); }
   @media (max-width: 400px) { .btn-outline .btn-label { display: none; } }
 
-  /* OFFLINE BANNER */
+  /* ── OFFLINE / SYNC BANNERS ── */
   .offline-banner {
     display: none; background: #e67e22; color: #fff;
     text-align: center; padding: 8px 16px; font-size: 13px; font-weight: 500;
@@ -87,8 +87,14 @@
   }
   .sync-banner.show { display: block; }
 
-  /* TABS */
-  .tabs-wrap { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.07); overflow-x: auto; -webkit-overflow-scrolling: touch; position: sticky; top: 68px; z-index: 99; }
+  /* ── TABS ── */
+  .tabs-wrap {
+    background: var(--ink); border-top: 1px solid rgba(255,255,255,0.07);
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    position: sticky; top: 68px; z-index: 99;
+    scrollbar-width: none;
+  }
+  .tabs-wrap::-webkit-scrollbar { display: none; }
   .tabs { display: flex; gap: 2px; padding: 0 12px; min-width: max-content; }
   .tab {
     padding: 11px 14px; font-size: 12px; font-weight: 500; cursor: pointer;
@@ -98,10 +104,10 @@
   .tab.active { color: var(--gold-light); border-bottom-color: var(--gold); }
   .tab:hover:not(.active) { color: rgba(255,255,255,0.7); }
 
-  /* MAIN */
+  /* ── MAIN ── */
   .main { max-width: 1100px; margin: 20px auto; padding: 0 12px; }
 
-  /* STAT CARDS */
+  /* ── STAT CARDS ── */
   .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
   @media (max-width: 700px) { .stat-row { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
   @media (max-width: 360px) { .stat-row { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
@@ -113,7 +119,7 @@
   .stat-card .value { font-size: 28px; font-weight: 600; color: var(--ink); line-height: 1; }
   .stat-card .sub   { font-size: 11px; color: var(--muted); margin-top: 4px; }
 
-  /* ALERT CARD */
+  /* ── ALERT CARDS ── */
   .alert-card {
     border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;
     border-left: 4px solid; display: flex; align-items: flex-start; gap: 12px;
@@ -121,23 +127,36 @@
   .alert-card.warning { background: #fff8ec; border-color: #e67e22; }
   .alert-card.danger  { background: #fff5f5; border-color: var(--red); }
   .alert-card.info    { background: #f0f7ff; border-color: var(--blue); }
+  .alert-card.success { background: #f0fff4; border-color: var(--green); }
   .alert-card .alert-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
   .alert-card .alert-body { flex: 1; }
   .alert-card .alert-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
   .alert-card .alert-text  { font-size: 13px; color: var(--muted); }
 
-  /* PANEL */
+  /* ── SESSION MODE BANNER ── */
+  .session-mode-banner {
+    border-radius: 10px; padding: 12px 16px; margin-bottom: 14px;
+    display: flex; align-items: flex-start; gap: 12px; border: 2px solid;
+  }
+  .session-mode-banner.mode-new  { background: #f0fff4; border-color: var(--green); }
+  .session-mode-banner.mode-edit { background: #fff8ec; border-color: #e67e22; }
+  .session-mode-banner .mode-icon  { font-size: 22px; flex-shrink: 0; }
+  .session-mode-banner .mode-body  { flex: 1; }
+  .session-mode-banner .mode-title { font-weight: 700; font-size: 14px; margin-bottom: 3px; }
+  .session-mode-banner .mode-text  { font-size: 13px; color: var(--muted); }
+
+  /* ── PANEL ── */
   .panel { display: none; }
   .panel.active { display: block; }
 
-  /* CARD */
+  /* ── CARD ── */
   .card { background: var(--section-bg); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden; }
   .card-head { background: var(--ivory); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .card-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; }
   .card-body  { padding: 16px; }
   @media (max-width: 480px) { .card-body { padding: 12px; } }
 
-  /* SEARCH */
+  /* ── SEARCH ── */
   .search-row { display: flex; gap: 8px; flex-wrap: wrap; }
   .search-input {
     flex: 1; min-width: 160px; border: 1.5px solid var(--border); border-radius: 7px;
@@ -146,17 +165,119 @@
   }
   .search-input:focus { border-color: var(--gold); background: #fff; }
 
-  /* TABLE */
-  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  /* ══════════════════════════════════════
+     MOBILE-FIRST TABLE SYSTEM
+     ══════════════════════════════════════ */
+
+  /* Wrapper that enables horizontal scroll on desktop, card-flip on mobile */
+  .table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 0 0 12px 12px;
+  }
+
+  /* Base table — desktop default */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
   th {
     background: var(--ivory); padding: 9px 10px; text-align: left; font-weight: 600;
     font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted);
     border-bottom: 1px solid var(--border); white-space: nowrap;
   }
-  td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  td {
+    padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: middle;
+  }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: #fdf8f0; }
+
+  /* ── MOBILE CARD TABLE (≤ 600px) ──
+     Converts each <tr> into a stacked card.
+     Uses data-label attribute from <td> for inline labels.
+  */
+  @media (max-width: 600px) {
+    /* Tables that opt-in to card-flip via .mobile-cards class */
+    .mobile-cards thead { display: none; }
+    .mobile-cards tbody tr {
+      display: block;
+      background: var(--section-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin: 0 12px 10px;
+      padding: 10px 12px;
+      box-shadow: 0 1px 6px rgba(26,26,46,0.06);
+    }
+    .mobile-cards tbody tr:hover { background: #fdf8f0; }
+    .mobile-cards tbody tr:last-child td { border-bottom: 1px solid var(--border); }
+    .mobile-cards tbody td {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 5px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .mobile-cards tbody td:last-child { border-bottom: none; }
+    .mobile-cards tbody td::before {
+      content: attr(data-label);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted);
+      flex-shrink: 0;
+      min-width: 80px;
+      padding-top: 1px;
+    }
+    /* Cells with no label (action cells) */
+    .mobile-cards tbody td[data-label=""] {
+      justify-content: flex-end;
+      padding-top: 8px;
+    }
+    .mobile-cards tbody td[data-label=""]::before { display: none; }
+
+    /* Full-width table wrap on mobile to avoid double scroll */
+    .table-wrap { overflow-x: visible; }
+
+    /* Keep non-card tables scrollable on mobile */
+    .table-wrap:not(:has(.mobile-cards)) { overflow-x: auto; }
+  }
+
+  /* ── Attendance mark table: compact on mobile ── */
+  @media (max-width: 600px) {
+    .att-mark-table thead { display: none; }
+    .att-mark-table tbody tr {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto;
+      gap: 2px 8px;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+    }
+    .att-mark-table tbody tr:last-child { border-bottom: none; }
+    .att-mark-table tbody td { padding: 0; border: none; font-size: 12px; }
+    /* Col 1: Roll + Name spans first row */
+    .att-mark-table td.att-roll { grid-column: 1; grid-row: 1; font-weight: 600; }
+    .att-mark-table td.att-name { grid-column: 1; grid-row: 2; color: var(--muted); font-size: 11px; }
+    /* Col 2: Status select + button stacked right */
+    .att-mark-table td.att-status { grid-column: 2; grid-row: 1; }
+    .att-mark-table td.att-action { grid-column: 2; grid-row: 2; display: flex; justify-content: flex-end; }
+    /* Hide age / original status columns on mobile */
+    .att-mark-table td.att-age,
+    .att-mark-table td.att-orig { display: none; }
+  }
+
+  /* ── Attendance history table: scrollable strip ── */
+  .att-history-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .att-history-wrap table { min-width: 420px; }
+
+  /* ── Follow-up history: card-flip ── */
+
+  /* BADGES */
   .roll-badge {
     font-size: 11px; font-weight: 700; letter-spacing: .05em;
     color: var(--gold); background: rgba(201,151,43,0.1); padding: 3px 7px;
@@ -166,6 +287,8 @@
     font-size: 11px; padding: 3px 7px; border-radius: 30px;
     background: var(--ivory); border: 1px solid var(--border); white-space: nowrap; display: inline-block;
   }
+
+  /* BUTTONS */
   .btn-sm {
     font-size: 12px; padding: 6px 12px; border-radius: 6px; cursor: pointer;
     font-family: 'DM Sans', sans-serif; font-weight: 500; transition: background .15s;
@@ -177,11 +300,12 @@
   .btn-outline-sm { background: transparent; border: 1.5px solid var(--border); color: var(--ink); }
   .btn-outline-sm:hover { border-color: var(--gold); }
   .btn-danger { background: var(--red); color: #fff; border: none; }
+  .btn-edit   { background: #e67e22; color: #fff; border: none; }
+  .btn-edit:hover { background: #ca6f1e; }
 
   .action-cell { display: flex; gap: 5px; flex-wrap: wrap; }
-  @media (max-width: 600px) { .col-school { display: none; } }
 
-  /* MODAL */
+  /* ── MODAL ── */
   .modal-backdrop {
     display: none; position: fixed; inset: 0;
     background: rgba(26,26,46,0.6); z-index: 8000;
@@ -202,7 +326,7 @@
   .modal-body { padding: 20px; }
   @media (max-width: 480px) { .modal-body { padding: 14px; } }
 
-  /* EDIT FIELD */
+  /* EDIT FIELDS */
   .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   @media (max-width: 500px) { .edit-grid { grid-template-columns: 1fr; } }
   .edit-field { display: flex; flex-direction: column; gap: 4px; }
@@ -269,9 +393,13 @@
   }
   .att-filter-bar input:focus, .att-filter-bar select:focus { border-color: var(--gold); background: #fff; }
   .att-filter-bar .field.grow { flex: 1; min-width: 130px; }
-  .att-status-select { border: 1.5px solid var(--border); border-radius: 6px; padding: 5px 7px; font-size: max(16px, 13px); background: var(--cream); min-width: 110px; }
+  .att-status-select {
+    border: 1.5px solid var(--border); border-radius: 6px; padding: 5px 7px;
+    font-size: max(16px, 13px); background: var(--cream); min-width: 110px;
+    font-family: 'DM Sans', sans-serif;
+  }
 
-  /* FIELD HELPERS */
+  /* FIELD ROW */
   .field-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 14px; }
   .field-row .field { display: flex; flex-direction: column; gap: 4px; }
   .field-row label  { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
@@ -282,7 +410,7 @@
   .field-row input:focus, .field-row select:focus { border-color: var(--gold); background: #fff; }
   .field-row .field.grow { flex: 1; min-width: 130px; }
 
-  /* SORT CONTROLS */
+  /* SORT BAR */
   .sort-bar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 12px; background: var(--ivory); border-bottom: 1px solid var(--border); font-size: 12px; color: var(--muted); }
   .sort-btn { background: none; border: 1px solid var(--border); border-radius: 5px; padding: 4px 9px; font-size: 11px; cursor: pointer; font-family: 'DM Sans', sans-serif; color: var(--ink); transition: all .15s; touch-action: manipulation; }
   .sort-btn.active { background: var(--gold); border-color: var(--gold); color: var(--ink); font-weight: 600; }
@@ -294,7 +422,7 @@
   .status-late    { color: #e67e22; font-weight: 600; }
   .status-excused { color: var(--blue); font-weight: 600; }
 
-  /* OFFLINE QUEUE INDICATOR */
+  /* OFFLINE QUEUE PILL */
   .queue-pill {
     display: none; background: #e67e22; color: #fff;
     font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 30px;
@@ -328,16 +456,60 @@
   .spin { display: inline-block; animation: spin .7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* PROGRESS BAR (spiritual pathway mini) */
+  /* MINI PATHWAY DOTS */
   .mini-pathway { display: flex; gap: 3px; align-items: center; }
   .mini-step { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--border); background: #fff; flex-shrink: 0; transition: all .2s; }
   .mini-step.done { background: var(--gold); border-color: var(--gold); }
   .mini-step.current { background: var(--blue); border-color: var(--blue); }
+
+  /* EDIT MODE ROW HIGHLIGHT */
+  tr.att-changed td { background: #fffbf0 !important; }
+  tr.att-changed td:first-child { border-left: 3px solid #e67e22; }
+
+  /* ── MOBILE: children table col hide ── */
+  @media (max-width: 600px) {
+    .col-hide-mobile { display: none; }
+  }
+
+  /* ── PATHWAY OVERVIEW TABLE: scrollable on mobile ── */
+  .pathway-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .pathway-table-wrap table { min-width: 480px; }
+
+  /* ── ABSENTEE TABLE: card flip ── */
+  @media (max-width: 600px) {
+    .absentee-table thead { display: none; }
+    .absentee-table tbody tr {
+      display: block;
+      background: #fff5f0;
+      border: 1px solid #f0a500;
+      border-radius: 10px;
+      margin: 0 0 10px;
+      padding: 10px 12px;
+    }
+    .absentee-table tbody td {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .absentee-table tbody td:last-child { border-bottom: none; padding-top: 8px; justify-content: flex-end; }
+    .absentee-table tbody td::before {
+      content: attr(data-label);
+      font-size: 10px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .06em; color: var(--muted); min-width: 80px; flex-shrink: 0; padding-top: 1px;
+    }
+    .absentee-table tbody td:last-child::before { display: none; }
+  }
+
+  /* ── ATTENDANCE compact on mobile ── */
+  @media (max-width: 480px) {
+    .att-status-select { min-width: 90px; font-size: 13px; }
+    .btn-sm { padding: 5px 9px; font-size: 11px; }
+  }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════ PIN SCREEN ══════════════════════ -->
+<!-- ══════════ PIN SCREEN ══════════ -->
 <div class="pin-screen" id="pinScreen">
   <div class="pin-box">
     <div class="pin-logo">CY</div>
@@ -371,7 +543,7 @@
 <div class="offline-banner" id="offlineBanner">⚡ You are offline — attendance marks will be saved locally and synced when connection returns</div>
 <div class="sync-banner" id="syncBanner">✅ Back online — syncing offline attendance records…</div>
 
-<!-- ══════════════════════ HEADER ══════════════════════ -->
+<!-- ══════════ HEADER ══════════ -->
 <div class="header">
   <div class="header-logo">CY</div>
   <div class="header-text">
@@ -386,7 +558,7 @@
   </div>
 </div>
 
-<!-- ══════════════════════ TABS ══════════════════════ -->
+<!-- ══════════ TABS ══════════ -->
 <div class="tabs-wrap">
   <div class="tabs">
     <div class="tab active" data-tab="overview"   onclick="switchTab('overview')">📊 Overview</div>
@@ -399,15 +571,12 @@
   </div>
 </div>
 
-<!-- ══════════════════════ MAIN ══════════════════════ -->
+<!-- ══════════ MAIN ══════════ -->
 <div class="main">
 
   <!-- ── OVERVIEW ── -->
   <div class="panel active" id="panel-overview">
-
-    <!-- Alerts section -->
     <div id="overviewAlerts"></div>
-
     <div class="stat-row">
       <div class="stat-card">
         <div class="label">Registered</div>
@@ -430,13 +599,10 @@
         <div class="sub" id="stat-groups-sub">Active groups</div>
       </div>
     </div>
-
-    <!-- Birthdays this week -->
     <div class="card" id="birthdayCard" style="display:none">
       <div class="card-head"><span class="card-title">🎂 Birthdays This Week</span></div>
       <div class="card-body" id="birthdayList"></div>
     </div>
-
     <div class="card">
       <div class="card-head"><span class="card-title">Age Group Breakdown</span></div>
       <div class="card-body" id="ageChart"><div class="loading">Loading stats…</div></div>
@@ -473,14 +639,15 @@
       </div>
       <div style="padding:0">
         <div class="table-wrap">
-          <table>
+          <!-- mobile-cards: each row becomes a card on small screens -->
+          <table class="mobile-cards">
             <thead>
               <tr>
                 <th>Roll No.</th>
                 <th>Name</th>
                 <th>Age Group</th>
                 <th>Gender</th>
-                <th class="col-school">School</th>
+                <th class="col-hide-mobile">School</th>
                 <th>Journey</th>
                 <th>Actions</th>
               </tr>
@@ -566,24 +733,22 @@
             <label>Session Name</label>
             <input type="text" id="attSession" placeholder="e.g. Sunday Service" value="Sunday Service">
           </div>
-          <button class="btn-sm btn-gold" style="align-self:flex-end" onclick="loadAttendanceSession()">Load / Start</button>
+          <button class="btn-sm btn-gold" id="attLoadBtn" style="align-self:flex-end" onclick="loadAttendanceSession()">Load / Start</button>
         </div>
         <div id="attSessionWrap"></div>
       </div>
     </div>
     <div class="card">
       <div class="card-head"><span class="card-title">Attendance History</span></div>
-      <div class="card-body" style="padding:0">
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>Date</th><th>Session</th><th>Roll No.</th><th>Name</th><th>Status</th></tr>
-            </thead>
-            <tbody id="attHistoryTable">
-              <tr><td colspan="5"><div class="loading">Loading…</div></td></tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="att-history-wrap" style="padding:0">
+        <table>
+          <thead>
+            <tr><th>Date</th><th>Session</th><th>Roll No.</th><th>Name</th><th>Status</th></tr>
+          </thead>
+          <tbody id="attHistoryTable">
+            <tr><td colspan="5"><div class="loading">Loading…</div></td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -606,7 +771,6 @@
         <div id="pathwaySearchResult"></div>
       </div>
     </div>
-
     <div class="card" id="pathwayDetail" style="display:none">
       <div class="card-head"><span class="card-title" id="pathwayDetailTitle">Journey</span></div>
       <div class="card-body">
@@ -619,21 +783,18 @@
         <div class="pathway-actions" id="pathwayActions"></div>
       </div>
     </div>
-
     <!-- All children journey overview -->
     <div class="card">
       <div class="card-head"><span class="card-title">Journey Overview — All Children</span></div>
-      <div class="card-body" style="padding:0">
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>Roll No.</th><th>Name</th><th>Age</th><th>Journey Progress</th><th>Stage</th><th>Actions</th></tr>
-            </thead>
-            <tbody id="pathwayOverviewTable">
-              <tr><td colspan="6"><div class="loading">Loading journey data…</div></td></tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="pathway-table-wrap" style="padding:0">
+        <table>
+          <thead>
+            <tr><th>Roll No.</th><th>Name</th><th>Age</th><th>Journey Progress</th><th>Stage</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="pathwayOverviewTable">
+            <tr><td colspan="6"><div class="loading">Loading journey data…</div></td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -655,9 +816,7 @@
         </div>
       </div>
     </div>
-
     <div id="absenteeResults"></div>
-
     <div class="card">
       <div class="card-head"><span class="card-title">📋 Follow-Up Log</span></div>
       <div class="card-body">
@@ -704,11 +863,12 @@
             <button class="btn-sm btn-gold" onclick="saveFollowUp()">💾 Save Follow-Up</button>
           </div>
         </div>
-
         <div style="margin-top:18px">
           <div class="table-wrap">
-            <table>
-              <thead><tr><th>Date</th><th>Child</th><th>Method</th><th>Outcome</th><th>By</th></tr></thead>
+            <table class="mobile-cards">
+              <thead>
+                <tr><th>Date</th><th>Child</th><th>Method</th><th>Outcome</th><th>By</th></tr>
+              </thead>
               <tbody id="followupHistoryTable">
                 <tr><td colspan="5"><div class="loading">Loading…</div></td></tr>
               </tbody>
@@ -721,7 +881,7 @@
 
 </div><!-- /main -->
 
-<!-- ══════════════════════ CHILD EDIT MODAL ══════════════════════ -->
+<!-- ══════════ CHILD EDIT MODAL ══════════ -->
 <div class="modal-backdrop" id="editModal">
   <div class="modal">
     <div class="modal-head">
@@ -745,18 +905,40 @@
 // ══════════════════════════════════════════════════════
 //  CONFIG
 // ══════════════════════════════════════════════════════
-const SCRIPT_URL    = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
-const DASHBOARD_PIN = '1234';
-const SESSION_KEY   = 'cy_dash_unlocked';
+const SCRIPT_URL        = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
+const DASHBOARD_PIN     = '1234';
+const SESSION_KEY       = 'cy_dash_unlocked';
 const OFFLINE_QUEUE_KEY = 'cy_offline_queue';
-const PATHWAY_KEY   = 'cy_pathway_data';
+const PATHWAY_KEY       = 'cy_pathway_data';
 
+// ══════════════════════════════════════════════════════
+//  DATE HELPERS — timezone-safe (fixes YYYY-MM-DD UTC shift)
+// ══════════════════════════════════════════════════════
+
+/** Parse any date string/value as LOCAL midnight, avoiding UTC-offset day drift */
+function parseDate(s) {
+  if (!s) return null;
+  const str = String(s).substring(0, 10); // works for "2026-06-03" and "2026-06-03T..."
+  const parts = str.split('-').map(Number);
+  if (parts.length < 3 || isNaN(parts[0])) return null;
+  return new Date(parts[0], parts[1] - 1, parts[2]); // local time, no UTC shift
+}
+
+/** Format a date value for display in en-KE locale */
+function fmtDate(d) {
+  if (!d) return '';
+  const dt = parseDate(d);
+  if (!dt || isNaN(dt)) return String(d);
+  return dt.toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+/** Today as YYYY-MM-DD string */
+function today() { return new Date().toISOString().split('T')[0]; }
 
 // ══════════════════════════════════════════════════════
 //  OFFLINE DETECTION
 // ══════════════════════════════════════════════════════
 let isOnline = navigator.onLine;
-
 window.addEventListener('online',  () => { isOnline = true;  onOnline(); });
 window.addEventListener('offline', () => { isOnline = false; onOffline(); });
 
@@ -765,7 +947,6 @@ function onOffline() {
   document.getElementById('syncBanner').classList.remove('show');
   updateQueuePill();
 }
-
 function onOnline() {
   document.getElementById('offlineBanner').classList.remove('show');
   const q = getOfflineQueue();
@@ -793,14 +974,10 @@ function addToOfflineQueue(params) {
   saveOfflineQueue(q);
 }
 function updateQueuePill() {
-  const q = getOfflineQueue();
+  const q    = getOfflineQueue();
   const pill = document.getElementById('offlineQueuePill');
-  if (q.length > 0) {
-    pill.textContent = q.length + ' pending sync';
-    pill.classList.add('show');
-  } else {
-    pill.classList.remove('show');
-  }
+  if (q.length > 0) { pill.textContent = q.length + ' pending sync'; pill.classList.add('show'); }
+  else              { pill.classList.remove('show'); }
 }
 
 async function syncOfflineQueue() {
@@ -814,8 +991,7 @@ async function syncOfflineQueue() {
   if (failed.length === 0) {
     saveOfflineQueue([]);
     showToast('✅ Synced ' + q.length + ' offline records', 'success');
-    loadAttendanceHistory();
-    loadStats();
+    loadAttendanceHistory(); loadStats();
   } else {
     const keep = q.filter((_, i) => results[i].status === 'rejected' || !results[i].value?.success);
     saveOfflineQueue(keep);
@@ -877,37 +1053,32 @@ checkSession();
 //  INIT
 // ══════════════════════════════════════════════════════
 function initDashboard() {
-  document.getElementById('attDate').value    = today();
-  document.getElementById('msDate').value     = today();
-  document.getElementById('fuDate').value     = today();
+  document.getElementById('attDate').value = today();
+  document.getElementById('msDate').value  = today();
+  document.getElementById('fuDate').value  = today();
 
-  // Set follow-up "since" to 30 days ago
   const d30 = new Date(); d30.setDate(d30.getDate() - 30);
   document.getElementById('followupSince').value = d30.toISOString().split('T')[0];
 
   updateQueuePill();
   if (!isOnline) onOffline();
-
   loadStats();
   loadAttendanceHistory();
   loadFollowUpHistory();
 }
-
-function today() { return new Date().toISOString().split('T')[0]; }
 
 // ══════════════════════════════════════════════════════
 //  REFRESH
 // ══════════════════════════════════════════════════════
 async function refreshDashboard(btn) {
   const icon = btn.querySelector('.refresh-icon');
-  icon.classList.add('spin');
-  btn.disabled = true;
+  icon.classList.add('spin'); btn.disabled = true;
   try {
     await loadStats();
     const activeTab = document.querySelector('.tab.active');
     if (activeTab) {
       const tab = activeTab.dataset.tab;
-      if (tab === 'children')  { const q = document.getElementById('childSearch').value; if(q) searchChildren(q); }
+      if (tab === 'children')  { const q = document.getElementById('childSearch').value; if (q) searchChildren(q); }
       if (tab === 'attendance') loadAttendanceHistory();
       if (tab === 'followup')   loadAbsenteeAlerts();
       if (tab === 'pathway')    loadPathwayOverview();
@@ -919,25 +1090,17 @@ async function refreshDashboard(btn) {
 }
 
 // ══════════════════════════════════════════════════════
-//  API HELPER (offline-aware for attendance)
+//  API HELPER
 // ══════════════════════════════════════════════════════
 async function api(params) {
   const url = SCRIPT_URL + '?' + new URLSearchParams(params).toString();
   const res = await fetch(url, { redirect: 'follow' });
   return res.json();
 }
-
 async function apiWithOffline(params) {
-  if (!isOnline) {
-    addToOfflineQueue(params);
-    return { success: true, offline: true };
-  }
-  try {
-    return await api(params);
-  } catch(e) {
-    addToOfflineQueue(params);
-    return { success: true, offline: true };
-  }
+  if (!isOnline) { addToOfflineQueue(params); return { success: true, offline: true }; }
+  try { return await api(params); }
+  catch(e) { addToOfflineQueue(params); return { success: true, offline: true }; }
 }
 
 // ══════════════════════════════════════════════════════
@@ -963,14 +1126,14 @@ async function loadStats() {
     document.getElementById('stat-milestones').textContent = d.milestoneCount;
     document.getElementById('stat-attendance').textContent = d.attendanceCount;
     const gk = Object.keys(d.ageGroups || {});
-    document.getElementById('stat-groups').textContent     = gk.length;
+    document.getElementById('stat-groups').textContent = gk.length;
 
-    const ageEl  = document.getElementById('ageChart');
     const groups = ['0-2','3-5','6-8','9-11','12-14','15-18'];
     const max    = Math.max(1, ...groups.map(g => d.ageGroups[g] || 0));
-    ageEl.innerHTML = `<div style="display:flex;flex-direction:column;gap:10px">` +
+    document.getElementById('ageChart').innerHTML =
+      `<div style="display:flex;flex-direction:column;gap:10px">` +
       groups.map(g => {
-        const n   = d.ageGroups[g] || 0;
+        const n = d.ageGroups[g] || 0;
         const pct = Math.round(n / max * 100);
         return `<div style="display:flex;align-items:center;gap:8px">
           <span style="width:44px;font-size:11px;color:var(--muted);flex-shrink:0">${g}</span>
@@ -981,11 +1144,10 @@ async function loadStats() {
         </div>`;
       }).join('') + `</div>`;
 
-    const gEl   = document.getElementById('genderChart');
     const total = (d.genders.M || 0) + (d.genders.F || 0) || 1;
     const mPct  = Math.round((d.genders.M || 0) / total * 100);
     const fPct  = 100 - mPct;
-    gEl.innerHTML = `
+    document.getElementById('genderChart').innerHTML = `
       <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
         <div style="flex:1;min-width:180px">
           <div style="height:22px;border-radius:11px;overflow:hidden;display:flex">
@@ -999,7 +1161,6 @@ async function loadStats() {
         </div>
       </div>`;
 
-    // Load birthdays and overview alerts
     loadBirthdaysFromChildren();
   } catch(err) { showToast('Failed to load stats', 'error'); }
 }
@@ -1012,27 +1173,27 @@ async function loadBirthdaysFromChildren() {
     const d = await api({ action: 'getChildren', q: '' });
     if (!d.success || !d.data) return;
 
-    const now = new Date();
+    const now       = new Date();
     const weekAhead = new Date(); weekAhead.setDate(weekAhead.getDate() + 7);
 
     const upcoming = d.data.filter(c => {
       if (!c['Date of Birth']) return false;
-      try {
-        const dob = new Date(c['Date of Birth']);
-        const thisYear = new Date(now.getFullYear(), dob.getMonth(), dob.getDate());
-        return thisYear >= now && thisYear <= weekAhead;
-      } catch { return false; }
+      const dob = parseDate(c['Date of Birth']);
+      if (!dob) return false;
+      const thisYear = new Date(now.getFullYear(), dob.getMonth(), dob.getDate());
+      return thisYear >= now && thisYear <= weekAhead;
     }).map(c => {
-      const dob = new Date(c['Date of Birth']);
+      const dob = parseDate(c['Date of Birth']);
       return { ...c, bday: new Date(now.getFullYear(), dob.getMonth(), dob.getDate()) };
-    }).sort((a,b) => a.bday - b.bday);
+    }).sort((a, b) => a.bday - b.bday);
 
     const card = document.getElementById('birthdayCard');
     const list = document.getElementById('birthdayList');
     if (!upcoming.length) { card.style.display = 'none'; return; }
     card.style.display = '';
     list.innerHTML = upcoming.map(c => {
-      const age = now.getFullYear() - new Date(c['Date of Birth']).getFullYear();
+      const dob = parseDate(c['Date of Birth']);
+      const age = now.getFullYear() - dob.getFullYear();
       const isToday = c.bday.toDateString() === now.toDateString();
       return `<div class="birthday-row">
         <span class="bday-icon">${isToday ? '🎂' : '🎁'}</span>
@@ -1043,7 +1204,6 @@ async function loadBirthdaysFromChildren() {
       </div>`;
     }).join('');
 
-    // Also check for absenteeism and put alerts on overview
     checkAbsenteeForOverview(d.data);
   } catch(e) {}
 }
@@ -1052,20 +1212,17 @@ async function checkAbsenteeForOverview(children) {
   try {
     const att = await api({ action: 'getAttendance' });
     if (!att.success || !att.data) return;
-
     const alerts = [];
     children.forEach(c => {
       const records = att.data
         .filter(a => a.rollNo === c.rollNo)
-        .sort((a,b) => new Date(b.sessionDate) - new Date(a.sessionDate))
+        .sort((a, b) => (parseDate(b.sessionDate) || 0) - (parseDate(a.sessionDate) || 0))
         .slice(0, 5);
-
       if (records.length >= 3) {
         const consecutive = records.every(r => r.status === 'Absent');
         if (consecutive) alerts.push({ child: c, count: records.length });
       }
     });
-
     const alertsEl = document.getElementById('overviewAlerts');
     if (!alerts.length) { alertsEl.innerHTML = ''; return; }
     alertsEl.innerHTML = `
@@ -1109,21 +1266,18 @@ async function searchChildren(q) {
       childrenData = [];
       return;
     }
-
-    // Build absence map
     const absenceMap = {};
     if (att.success && att.data) {
       cd.data.forEach(c => {
         const records = att.data
           .filter(a => a.rollNo === c.rollNo)
-          .sort((a,b) => new Date(b.sessionDate) - new Date(a.sessionDate))
+          .sort((a, b) => (parseDate(b.sessionDate) || 0) - (parseDate(a.sessionDate) || 0))
           .slice(0, 5);
         let streak = 0;
         for (const r of records) { if (r.status === 'Absent') streak++; else break; }
         absenceMap[c.rollNo] = streak;
       });
     }
-
     childrenData = cd.data.map(c => ({ ...c, absenceStreak: absenceMap[c.rollNo] || 0 }));
     document.getElementById('childSortBar').style.display = 'flex';
     renderChildTable();
@@ -1145,10 +1299,8 @@ function sortChildren(key) {
 }
 
 function getMiniPathway(rollNo) {
-  try {
-    const data = JSON.parse(localStorage.getItem(PATHWAY_KEY) || '{}');
-    return data[rollNo] || [];
-  } catch { return []; }
+  try { return JSON.parse(localStorage.getItem(PATHWAY_KEY) || '{}')[rollNo] || []; }
+  catch { return []; }
 }
 
 function renderChildTable() {
@@ -1162,34 +1314,33 @@ function renderChildTable() {
 
   const tbody = document.getElementById('childTable');
   tbody.innerHTML = sorted.map(c => {
-    const stages = getMiniPathway(c.rollNo);
-    const doneCount = stages.filter(s => s).length;
+    const stages   = getMiniPathway(c.rollNo);
+    const doneCount = stages.filter(s => s === 'done').length;
     const miniDots = Array(7).fill(0).map((_, i) =>
       `<div class="mini-step ${stages[i] === 'done' ? 'done' : stages[i] === 'current' ? 'current' : ''}"></div>`
     ).join('');
 
     let absenceBadge = '';
-    if (c.absenceStreak >= 5)      absenceBadge = `<span class="absent-badge absent-5">⚠ ${c.absenceStreak} absent</span>`;
+    if      (c.absenceStreak >= 5) absenceBadge = `<span class="absent-badge absent-5">⚠ ${c.absenceStreak} absent</span>`;
     else if (c.absenceStreak >= 3) absenceBadge = `<span class="absent-badge absent-3">⚠ ${c.absenceStreak} absent</span>`;
 
-    return `
-    <tr>
-      <td><span class="roll-badge">${esc(c.rollNo)}</span>${absenceBadge ? '<br style="margin:2px 0">'+absenceBadge : ''}</td>
-      <td><strong>${esc(c.fullName)}</strong></td>
-      <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
-      <td>${c.gender === 'M' ? '♂' : '♀'}</td>
-      <td class="col-school">${esc(c.school)}</td>
-      <td>
-        <div class="mini-pathway" title="${doneCount}/7 stages complete">${miniDots}</div>
-        <div style="font-size:10px;color:var(--muted);margin-top:3px">${doneCount}/7 stages</div>
-      </td>
-      <td>
-        <div class="action-cell">
-          <button class="btn-sm btn-gold" onclick="openEditModal('${esc(c.rollNo)}')">✏️</button>
-          <button class="btn-sm btn-outline-sm" onclick="openMilestoneForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">🏅</button>
-          <button class="btn-sm btn-outline-sm" onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">🌱</button>
-        </div>
-      </td>
+    const journeyCell = `<div class="mini-pathway" title="${doneCount}/7 stages complete">${miniDots}</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:3px">${doneCount}/7 stages</div>`;
+
+    const actionsCell = `<div class="action-cell">
+      <button class="btn-sm btn-gold"       onclick="openEditModal('${esc(c.rollNo)}')">✏️</button>
+      <button class="btn-sm btn-outline-sm" onclick="openMilestoneForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">🏅</button>
+      <button class="btn-sm btn-outline-sm" onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">🌱</button>
+    </div>`;
+
+    return `<tr>
+      <td data-label="Roll No."><span class="roll-badge">${esc(c.rollNo)}</span>${absenceBadge ? ' '+absenceBadge : ''}</td>
+      <td data-label="Name"><strong>${esc(c.fullName)}</strong></td>
+      <td data-label="Age"><span class="age-badge">${esc(c.ageGroup)}</span></td>
+      <td data-label="Gender">${c.gender === 'M' ? '♂ Male' : '♀ Female'}</td>
+      <td data-label="School" class="col-hide-mobile">${esc(c.school)}</td>
+      <td data-label="Journey">${journeyCell}</td>
+      <td data-label="">${actionsCell}</td>
     </tr>`;
   }).join('');
 }
@@ -1219,31 +1370,25 @@ async function openEditModal(rollNo) {
     const child = d.data;
     document.getElementById('editFields').innerHTML = EDITABLE_FIELDS.map(f => {
       const val = child[f] || '';
-      if (f === 'Gender') {
-        return `<div class="edit-field"><label>${f}</label>
-          <select data-field="${f}">
-            <option value="M" ${val==='M'?'selected':''}>Male</option>
-            <option value="F" ${val==='F'?'selected':''}>Female</option>
-          </select></div>`;
-      }
+      if (f === 'Gender') return `<div class="edit-field"><label>${f}</label>
+        <select data-field="${f}">
+          <option value="M" ${val==='M'?'selected':''}>Male</option>
+          <option value="F" ${val==='F'?'selected':''}>Female</option>
+        </select></div>`;
       if (f === 'Age Group') {
         const opts = ['0-2','3-5','6-8','9-11','12-14','15-18'];
         return `<div class="edit-field"><label>${f}</label>
           <select data-field="${f}">${opts.map(o=>`<option ${val===o?'selected':''}>${o}</option>`).join('')}</select></div>`;
       }
-      if (f === 'KCMC Member?') {
-        return `<div class="edit-field"><label>${f}</label>
-          <select data-field="${f}">
-            <option value="" ${!val?'selected':''}>—</option>
-            <option value="Y"   ${val==='Y'?'selected':''}>Yes — Both</option>
-            <option value="One" ${val==='One'?'selected':''}>One parent</option>
-            <option value="N"   ${val==='N'?'selected':''}>No</option>
-          </select></div>`;
-      }
-      if (f === 'Date of Birth') {
-        return `<div class="edit-field"><label>${f}</label>
-          <input type="date" data-field="${f}" value="${esc(val)}"></div>`;
-      }
+      if (f === 'KCMC Member?') return `<div class="edit-field"><label>${f}</label>
+        <select data-field="${f}">
+          <option value="" ${!val?'selected':''}>—</option>
+          <option value="Y"   ${val==='Y'  ?'selected':''}>Yes — Both</option>
+          <option value="One" ${val==='One'?'selected':''}>One parent</option>
+          <option value="N"   ${val==='N'  ?'selected':''}>No</option>
+        </select></div>`;
+      if (f === 'Date of Birth') return `<div class="edit-field"><label>${f}</label>
+        <input type="date" data-field="${f}" value="${esc(val)}"></div>`;
       return `<div class="edit-field"><label>${f}</label>
         <input type="text" data-field="${f}" value="${esc(val)}"></div>`;
     }).join('');
@@ -1251,7 +1396,7 @@ async function openEditModal(rollNo) {
 }
 
 async function saveEdits() {
-  const inputs = document.querySelectorAll('#editFields [data-field]');
+  const inputs   = document.querySelectorAll('#editFields [data-field]');
   const promises = [];
   inputs.forEach(inp => {
     promises.push(api({ action: 'updateChild', rollNo: editRollNo, field: inp.dataset.field, value: inp.value }));
@@ -1290,11 +1435,10 @@ async function searchForMilestone() {
     }
     document.getElementById('msChildResult').innerHTML =
       `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">` +
-      d.data.map(c => `
-        <button class="btn-sm btn-outline-sm"
-          onclick="selectMilestoneChild('${esc(c.rollNo)}','${esc(c.fullName)}')">
-          <strong>${esc(c.rollNo)}</strong> — ${esc(c.fullName)}
-        </button>`).join('') + `</div>`;
+      d.data.map(c => `<button class="btn-sm btn-outline-sm"
+        onclick="selectMilestoneChild('${esc(c.rollNo)}','${esc(c.fullName)}')">
+        <strong>${esc(c.rollNo)}</strong> — ${esc(c.fullName)}
+      </button>`).join('') + `</div>`;
   } catch(err) { showToast('Search failed', 'error'); }
 }
 
@@ -1307,7 +1451,6 @@ async function selectMilestoneChild(rollNo, name) {
     const d = await api({ action: 'getMilestones', rollNo });
     if (!d.success || !d.data.length) {
       document.getElementById('msListWrap').innerHTML = '<div class="empty"><div class="icon">🏅</div>No milestones yet</div>';
-      // Also update pathway from milestones
       updatePathwayFromMilestones(rollNo, []);
       return;
     }
@@ -1335,8 +1478,8 @@ function openMilestoneForChild(rollNo, name) {
 
 async function saveMilestone() {
   if (!msCurrentRoll) { showToast('Select a child first', 'error'); return; }
-  const type = document.getElementById('msType').value;
-  const date = document.getElementById('msDate').value;
+  const type  = document.getElementById('msType').value;
+  const date  = document.getElementById('msDate').value;
   const notes = document.getElementById('msNotes').value;
   const by    = document.getElementById('msRecordedBy').value;
   if (!type) { showToast('Select a milestone type', 'error'); return; }
@@ -1356,13 +1499,13 @@ async function saveMilestone() {
 //  SPIRITUAL GROWTH PATHWAY
 // ══════════════════════════════════════════════════════
 const PATHWAY_STAGES = [
-  { key: 'enrolled',   label: 'Enrolled',       icon: '📝', milestone: null },
-  { key: 'attending',  label: 'Attending',       icon: '⛪', milestone: null },
-  { key: 'salvation',  label: 'Salvation',       icon: '✝️', milestone: 'Salvation Decision' },
-  { key: 'verse',      label: 'Memory Verse',    icon: '📖', milestone: 'Memory Verse Champion' },
-  { key: 'communion',  label: 'Communion',       icon: '🍞', milestone: 'Holy Communion (first)' },
-  { key: 'baptism',    label: 'Baptism',         icon: '💧', milestone: 'Water Baptism' },
-  { key: 'serving',    label: 'Serving',         icon: '🤝', milestone: 'Volunteered for Outreach' },
+  { key: 'enrolled',  label: 'Enrolled',     icon: '📝', milestone: null },
+  { key: 'attending', label: 'Attending',     icon: '⛪', milestone: null },
+  { key: 'salvation', label: 'Salvation',     icon: '✝️', milestone: 'Salvation Decision' },
+  { key: 'verse',     label: 'Memory Verse',  icon: '📖', milestone: 'Memory Verse Champion' },
+  { key: 'communion', label: 'Communion',     icon: '🍞', milestone: 'Holy Communion (first)' },
+  { key: 'baptism',   label: 'Baptism',       icon: '💧', milestone: 'Water Baptism' },
+  { key: 'serving',   label: 'Serving',       icon: '🤝', milestone: 'Volunteered for Outreach' },
 ];
 
 function getPathwayData() {
@@ -1371,14 +1514,13 @@ function getPathwayData() {
 function savePathwayData(data) { localStorage.setItem(PATHWAY_KEY, JSON.stringify(data)); }
 
 function updatePathwayFromMilestones(rollNo, milestones) {
-  const data = getPathwayData();
+  const data  = getPathwayData();
   const types = new Set(milestones.map(m => m.type));
   const stages = PATHWAY_STAGES.map(s => {
     if (s.milestone && types.has(s.milestone)) return 'done';
-    if (s.key === 'enrolled') return 'done';  // enrolled if they're in the system
+    if (s.key === 'enrolled') return 'done';
     return '';
   });
-  // find current stage: first non-done
   let foundCurrent = false;
   for (let i = 0; i < stages.length; i++) {
     if (stages[i] !== 'done' && !foundCurrent) { stages[i] = 'current'; foundCurrent = true; }
@@ -1399,24 +1541,22 @@ async function searchForPathway() {
     }
     document.getElementById('pathwaySearchResult').innerHTML =
       `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">` +
-      d.data.map(c => `
-        <button class="btn-sm btn-outline-sm"
-          onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">
-          <strong>${esc(c.rollNo)}</strong> — ${esc(c.fullName)}
-        </button>`).join('') + `</div>`;
+      d.data.map(c => `<button class="btn-sm btn-outline-sm"
+        onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">
+        <strong>${esc(c.rollNo)}</strong> — ${esc(c.fullName)}
+      </button>`).join('') + `</div>`;
   } catch(err) { showToast('Search failed', 'error'); }
 }
 
 async function openPathwayForChild(rollNo, name) {
   switchTab('pathway');
-  // Load milestones to auto-detect stages
   try {
     const d = await api({ action: 'getMilestones', rollNo });
     updatePathwayFromMilestones(rollNo, d.success ? (d.data || []) : []);
   } catch(e) {}
 
-  const data   = getPathwayData();
-  const stages = data[rollNo] || Array(7).fill('').map((_, i) => i === 0 ? 'done' : i === 1 ? 'current' : '');
+  const data      = getPathwayData();
+  const stages    = data[rollNo] || Array(7).fill('').map((_, i) => i === 0 ? 'done' : i === 1 ? 'current' : '');
   const doneCount = stages.filter(s => s === 'done').length;
 
   document.getElementById('pathwayDetail').style.display = '';
@@ -1439,9 +1579,7 @@ async function openPathwayForChild(rollNo, name) {
      </div>`;
 
   document.getElementById('pathwayActions').innerHTML =
-    `<div style="font-size:13px;color:var(--muted);margin-right:auto">
-      Manually advance or update this child's stage:
-    </div>` +
+    `<div style="font-size:13px;color:var(--muted);margin-right:auto">Manually advance or update this child's stage:</div>` +
     PATHWAY_STAGES.map((s, i) => `
       <button class="btn-sm ${stages[i]==='done' ? 'btn-gold' : 'btn-outline-sm'}"
         onclick="togglePathwayStage('${rollNo}','${name}',${i})"
@@ -1456,11 +1594,8 @@ function togglePathwayStage(rollNo, name, idx) {
   const data   = getPathwayData();
   const stages = data[rollNo] || Array(7).fill('');
   stages[idx]  = stages[idx] === 'done' ? '' : 'done';
-  // Recompute current
+  for (let i = 0; i < stages.length; i++) { if (stages[i] === 'current') stages[i] = ''; }
   let foundCurrent = false;
-  for (let i = 0; i < stages.length; i++) {
-    if (stages[i] === 'current') stages[i] = '';
-  }
   for (let i = 0; i < stages.length; i++) {
     if (stages[i] !== 'done' && !foundCurrent) { stages[i] = 'current'; foundCurrent = true; }
   }
@@ -1514,7 +1649,7 @@ async function loadPathwayOverview() {
 //  ABSENTEEISM ALERTS
 // ══════════════════════════════════════════════════════
 async function loadAbsenteeAlerts() {
-  const since = document.getElementById('followupSince').value;
+  const since     = document.getElementById('followupSince').value;
   const resultsEl = document.getElementById('absenteeResults');
   resultsEl.innerHTML = '<div class="card"><div class="card-body"><div class="loading">Analysing attendance records…</div></div></div>';
 
@@ -1529,30 +1664,29 @@ async function loadAbsenteeAlerts() {
       return;
     }
 
-    const sinceDate = since ? new Date(since) : null;
+    const sinceDate = since ? parseDate(since) : null;
     const alerts = [];
 
     children.data.forEach(c => {
       let records = att.data.filter(a => a.rollNo === c.rollNo);
-      if (sinceDate) records = records.filter(a => new Date(a.sessionDate) >= sinceDate);
-      records = records.sort((a,b) => new Date(b.sessionDate) - new Date(a.sessionDate));
-
+      if (sinceDate) {
+        records = records.filter(a => {
+          const d = parseDate(a.sessionDate);
+          return d && d >= sinceDate;
+        });
+      }
+      records = records.sort((a, b) => (parseDate(b.sessionDate) || 0) - (parseDate(a.sessionDate) || 0));
       if (records.length === 0) return;
 
       let streak = 0;
-      for (const r of records) {
-        if (r.status === 'Absent') streak++;
-        else break;
-      }
+      for (const r of records) { if (r.status === 'Absent') streak++; else break; }
 
       const totalSessions = records.length;
       const absentCount   = records.filter(r => r.status === 'Absent').length;
       const absenceRate   = totalSessions > 0 ? Math.round(absentCount / totalSessions * 100) : 0;
       const lastSeen      = records.find(r => r.status === 'Present' || r.status === 'Late');
 
-      if (streak >= 3) {
-        alerts.push({ child: c, streak, absenceRate, lastSeen: lastSeen?.sessionDate || null, totalSessions });
-      }
+      if (streak >= 3) alerts.push({ child: c, streak, absenceRate, lastSeen: lastSeen?.sessionDate || null, totalSessions });
     });
 
     if (!alerts.length) {
@@ -1579,26 +1713,28 @@ async function loadAbsenteeAlerts() {
       </div>
       <div class="card">
         <div class="card-head"><span class="card-title">Children Requiring Follow-Up</span></div>
-        <div class="card-body" style="padding:0">
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Roll No.</th><th>Name</th><th>Age</th><th>Consecutive Absences</th><th>Absence Rate</th><th>Last Seen</th><th>Action</th></tr></thead>
-              <tbody>` +
-      alerts.map(a => `<tr>
-        <td><span class="roll-badge">${esc(a.child.rollNo)}</span></td>
-        <td><strong>${esc(a.child.fullName)}</strong></td>
-        <td><span class="age-badge">${esc(a.child.ageGroup)}</span></td>
-        <td><span class="absent-badge ${a.streak >= 5 ? 'absent-5' : 'absent-3'}">⚠ ${a.streak} sessions</span></td>
-        <td>${a.absenceRate}% absent</td>
-        <td style="font-size:12px">${a.lastSeen ? fmtDate(a.lastSeen) : '<em>Never present</em>'}</td>
-        <td>
-          <button class="btn-sm btn-gold"
-            onclick="prefillFollowUp('${esc(a.child.rollNo)}','${esc(a.child.fullName)}')">
-            Log Follow-Up
-          </button>
-        </td>
-      </tr>`).join('') +
-      `</tbody></table></div></div></div>`;
+        <div class="table-wrap" style="padding:0">
+          <table class="absentee-table">
+            <thead><tr>
+              <th>Roll No.</th><th>Name</th><th>Age</th>
+              <th>Consecutive Absences</th><th>Absence Rate</th><th>Last Seen</th><th>Action</th>
+            </tr></thead>
+            <tbody>` +
+    alerts.map(a => `<tr>
+      <td data-label="Roll No."><span class="roll-badge">${esc(a.child.rollNo)}</span></td>
+      <td data-label="Name"><strong>${esc(a.child.fullName)}</strong></td>
+      <td data-label="Age"><span class="age-badge">${esc(a.child.ageGroup)}</span></td>
+      <td data-label="Absences"><span class="absent-badge ${a.streak >= 5 ? 'absent-5' : 'absent-3'}">⚠ ${a.streak} sessions</span></td>
+      <td data-label="Rate">${a.absenceRate}% absent</td>
+      <td data-label="Last seen" style="font-size:12px">${a.lastSeen ? fmtDate(a.lastSeen) : '<em>Never present</em>'}</td>
+      <td data-label="">
+        <button class="btn-sm btn-gold"
+          onclick="prefillFollowUp('${esc(a.child.rollNo)}','${esc(a.child.fullName)}')">
+          Log Follow-Up
+        </button>
+      </td>
+    </tr>`).join('') +
+    `</tbody></table></div></div>`;
 
   } catch(err) {
     resultsEl.innerHTML = '<div class="card"><div class="card-body"><div class="empty">Error analysing attendance</div></div></div>';
@@ -1613,7 +1749,7 @@ function prefillFollowUp(rollNo, name) {
 }
 
 // ══════════════════════════════════════════════════════
-//  FOLLOW-UP LOG — Google Sheet backed
+//  FOLLOW-UP LOG
 // ══════════════════════════════════════════════════════
 async function saveFollowUp() {
   const child   = document.getElementById('fuChild').value.trim();
@@ -1622,27 +1758,16 @@ async function saveFollowUp() {
   const outcome = document.getElementById('fuOutcome').value;
   const notes   = document.getElementById('fuNotes').value;
   const by      = document.getElementById('fuBy').value.trim();
-
   if (!child || !date) { showToast('Fill in child name and date', 'error'); return; }
 
   const btn = document.querySelector('#followupForm button[onclick="saveFollowUp()"]');
   if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
 
   try {
-    const d = await apiWithOffline({
-      action: 'addFollowUp', child, date, method, outcome,
-      notes: notes || '', recordedBy: by || 'Admin'
-    });
-
-    if (d.offline) {
-      showToast('📥 Saved offline — will sync when reconnected', '');
-    } else if (d.success) {
-      showToast('✅ Follow-up logged to sheet', 'success');
-    } else {
-      showToast('Save failed: ' + (d.error || 'unknown error'), 'error');
-      return;
-    }
-
+    const d = await apiWithOffline({ action: 'addFollowUp', child, date, method, outcome, notes: notes || '', recordedBy: by || 'Admin' });
+    if (d.offline)      showToast('📥 Saved offline — will sync when reconnected', '');
+    else if (d.success) showToast('✅ Follow-up logged to sheet', 'success');
+    else { showToast('Save failed: ' + (d.error || 'unknown error'), 'error'); return; }
     document.getElementById('fuChild').value = '';
     document.getElementById('fuNotes').value = '';
     loadFollowUpHistory();
@@ -1654,56 +1779,42 @@ async function saveFollowUp() {
 }
 
 async function loadFollowUpHistory() {
-  const tbody = document.getElementById('followupHistoryTable');
+  const tbody  = document.getElementById('followupHistoryTable');
   tbody.innerHTML = '<tr><td colspan="5"><div class="loading">Loading…</div></td></tr>';
-
-  // Show any offline-queued follow-ups immediately while we wait for the sheet
   const queued = getOfflineQueue().filter(p => p.action === 'addFollowUp');
-
   try {
     const d = await api({ action: 'getFollowUps' });
-
     if (!d.success && !queued.length) {
       tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><div class="icon">📋</div>No follow-ups logged yet</div></td></tr>';
       return;
     }
-
-    const sheetRows = (d.success && d.data) ? d.data : [];
-
-    // Merge sheet rows + any still-queued offline entries (show offline ones at top)
-    const offlineRows = queued.map(p => ({
-      date: p.date, child: p.child, method: p.method,
-      outcome: p.outcome, recordedBy: p.recordedBy, _offline: true
-    }));
-
+    const sheetRows   = (d.success && d.data) ? d.data : [];
+    const offlineRows = queued.map(p => ({ date: p.date, child: p.child, method: p.method, outcome: p.outcome, recordedBy: p.recordedBy, _offline: true }));
     const allRows = [...offlineRows, ...sheetRows]
-      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .sort((a, b) => (parseDate(b.date) || 0) - (parseDate(a.date) || 0))
       .slice(0, 60);
 
     if (!allRows.length) {
       tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><div class="icon">📋</div>No follow-ups logged yet</div></td></tr>';
       return;
     }
-
     tbody.innerHTML = allRows.map(f => `
       <tr ${f._offline ? 'style="opacity:.65"' : ''}>
-        <td>${fmtDate(f.date)}${f._offline ? ' <span style="font-size:10px;color:#e67e22">(pending)</span>' : ''}</td>
-        <td><strong>${esc(f.child)}</strong></td>
-        <td style="font-size:12px">${esc(f.method)}</td>
-        <td style="font-size:12px">${esc(f.outcome)}</td>
-        <td style="font-size:12px">${esc(f.recordedBy || f.by || '')}</td>
+        <td data-label="Date">${fmtDate(f.date)}${f._offline ? ' <span style="font-size:10px;color:#e67e22">(pending)</span>' : ''}</td>
+        <td data-label="Child"><strong>${esc(f.child)}</strong></td>
+        <td data-label="Method" style="font-size:12px">${esc(f.method)}</td>
+        <td data-label="Outcome" style="font-size:12px">${esc(f.outcome)}</td>
+        <td data-label="By" style="font-size:12px">${esc(f.recordedBy || f.by || '')}</td>
       </tr>`).join('');
-
   } catch(err) {
-    // Fallback — show queued items only
     if (queued.length) {
       tbody.innerHTML = queued.map(f => `
         <tr style="opacity:.65">
-          <td>${fmtDate(f.date)} <span style="font-size:10px;color:#e67e22">(pending)</span></td>
-          <td><strong>${esc(f.child)}</strong></td>
-          <td style="font-size:12px">${esc(f.method)}</td>
-          <td style="font-size:12px">${esc(f.outcome)}</td>
-          <td style="font-size:12px">${esc(f.recordedBy)}</td>
+          <td data-label="Date">${fmtDate(f.date)} <span style="font-size:10px;color:#e67e22">(pending)</span></td>
+          <td data-label="Child"><strong>${esc(f.child)}</strong></td>
+          <td data-label="Method" style="font-size:12px">${esc(f.method)}</td>
+          <td data-label="Outcome" style="font-size:12px">${esc(f.outcome)}</td>
+          <td data-label="By" style="font-size:12px">${esc(f.recordedBy)}</td>
         </tr>`).join('');
     } else {
       tbody.innerHTML = '<tr><td colspan="5"><div class="empty">Could not load follow-up history</div></td></tr>';
@@ -1712,17 +1823,24 @@ async function loadFollowUpHistory() {
 }
 
 // ══════════════════════════════════════════════════════
-//  ATTENDANCE (offline-aware)
+//  ATTENDANCE (offline-aware) — WITH SESSION LOCK / EDIT MODE
 // ══════════════════════════════════════════════════════
-let attSessionData = [];
-let attSessionDate = '', attSessionName = '';
-let attSortKey = 'rollNo', attSortDir = 1;
+let attSessionData  = [];
+let attSessionDate  = '';
+let attSessionName  = '';
+let attSortKey      = 'rollNo';
+let attSortDir      = 1;
+let attSessionMode  = 'new';
+let attOriginalMap  = {};
 
 async function loadAttendanceSession() {
   attSessionDate = document.getElementById('attDate').value;
   attSessionName = document.getElementById('attSession').value || 'Sunday Service';
   if (!attSessionDate) { showToast('Pick a session date', 'error'); return; }
-  document.getElementById('attSessionWrap').innerHTML = '<div class="loading">Loading children…</div>';
+
+  const loadBtn = document.getElementById('attLoadBtn');
+  if (loadBtn) { loadBtn.disabled = true; loadBtn.textContent = 'Loading…'; }
+  document.getElementById('attSessionWrap').innerHTML = '<div class="loading">Checking session records…</div>';
 
   try {
     const [children, existing] = await Promise.all([
@@ -1730,29 +1848,41 @@ async function loadAttendanceSession() {
       api({ action: 'getAttendance', session: attSessionDate }),
     ]);
 
-    const markedMap = {};
-    (existing.data || []).filter(a => String(a.sessionDate).startsWith(attSessionDate))
-      .forEach(a => { markedMap[a.rollNo] = a.status; });
+    const postedMap = {};
+    (existing.data || [])
+      .filter(a => String(a.sessionDate).substring(0, 10) === attSessionDate)
+      .forEach(a => { postedMap[a.rollNo] = a.status; });
 
-    // Also check offline queue
     getOfflineQueue()
       .filter(p => p.action === 'markAttendance' && p.sessionDate === attSessionDate)
-      .forEach(p => { markedMap[p.rollNo] = p.status; });
+      .forEach(p => { postedMap[p.rollNo] = p.status; });
+
+    const alreadyPostedCount = Object.keys(postedMap).length;
+    attSessionMode = alreadyPostedCount > 0 ? 'edit' : 'new';
+    attOriginalMap = { ...postedMap };
 
     if (!children.data || !children.data.length) {
       document.getElementById('attSessionWrap').innerHTML = '<div class="empty">No registered children</div>';
       return;
     }
 
-    attSessionData = children.data.map(c => ({ ...c, currentStatus: markedMap[c.rollNo] || '' }));
+    attSessionData = children.data.map(c => ({
+      ...c,
+      currentStatus: postedMap[c.rollNo] || ''
+    }));
     renderAttendanceSession();
-  } catch(err) { showToast('Error loading session: ' + err.message, 'error'); }
+  } catch(err) {
+    showToast('Error loading session: ' + err.message, 'error');
+    document.getElementById('attSessionWrap').innerHTML = '<div class="empty">Error loading session data</div>';
+  } finally {
+    if (loadBtn) { loadBtn.disabled = false; loadBtn.textContent = 'Load / Start'; }
+  }
 }
 
 function renderAttendanceSession() {
-  const filterName  = (document.getElementById('attFilterName')  || {}).value || '';
-  const filterAge   = (document.getElementById('attFilterAge')   || {}).value || '';
-  const filterMark  = (document.getElementById('attFilterMark')  || {}).value || '';
+  const filterName = (document.getElementById('attFilterName')  || {}).value || '';
+  const filterAge  = (document.getElementById('attFilterAge')   || {}).value || '';
+  const filterMark = (document.getElementById('attFilterMark')  || {}).value || '';
 
   let filtered = attSessionData.filter(c => {
     const nameMatch = !filterName || c.fullName.toLowerCase().includes(filterName.toLowerCase()) || c.rollNo.toLowerCase().includes(filterName.toLowerCase());
@@ -1769,17 +1899,77 @@ function renderAttendanceSession() {
     return String(va).localeCompare(String(vb), undefined, { numeric: true }) * attSortDir;
   });
 
-  const ageGroups = [...new Set(attSessionData.map(c => c.ageGroup))].sort();
-  const markedCount = attSessionData.filter(c => c.currentStatus).length;
-  const onlineNotice = !isOnline ? `<div style="background:#fff8ec;border:1px solid #f0a500;border-radius:7px;padding:10px 14px;margin-bottom:12px;font-size:13px">
-    ⚡ <strong>Offline mode</strong> — marks will be saved locally and synced when you reconnect. Continue marking as normal.</div>` : '';
+  const ageGroups     = [...new Set(attSessionData.map(c => c.ageGroup))].sort();
+  const markedCount   = attSessionData.filter(c => c.currentStatus).length;
+  const changedCount  = attSessionData.filter(c => c.currentStatus && c.currentStatus !== attOriginalMap[c.rollNo]).length;
+  const isEdit        = attSessionMode === 'edit';
+
+  const offlineNotice = !isOnline
+    ? `<div style="background:#fff8ec;border:1px solid #f0a500;border-radius:7px;padding:10px 14px;margin-bottom:12px;font-size:13px">
+        ⚡ <strong>Offline mode</strong> — marks saved locally and synced when you reconnect.</div>` : '';
+
+  const modeBanner = isEdit
+    ? `<div class="session-mode-banner mode-edit">
+        <div class="mode-icon">✏️</div>
+        <div class="mode-body">
+          <div class="mode-title">Editing posted session — ${fmtDate(attSessionDate)}</div>
+          <div class="mode-text">
+            ${Object.keys(attOriginalMap).length} records already on sheet.
+            Change statuses below and click <strong>Save All Changes</strong>.
+            ${changedCount > 0 ? `<span style="color:#e67e22;font-weight:600;margin-left:6px">⚠ ${changedCount} unsaved change${changedCount > 1 ? 's' : ''}</span>` : ''}
+          </div>
+        </div>
+      </div>`
+    : `<div class="session-mode-banner mode-new">
+        <div class="mode-icon">🆕</div>
+        <div class="mode-body">
+          <div class="mode-title">New session — ${fmtDate(attSessionDate)}</div>
+          <div class="mode-text">No attendance posted yet. Mark statuses and click <strong>Save All Marked</strong>.</div>
+        </div>
+      </div>`;
+
+  // Build the attendance mark table rows
+  // On mobile the table uses a special 2-column grid layout (att-mark-table class)
+  const tableRows = filtered.length === 0
+    ? `<tr><td colspan="${isEdit ? 6 : 5}"><div class="empty">No children match filter</div></td></tr>`
+    : filtered.map(c => {
+        const origStatus = attOriginalMap[c.rollNo] || '';
+        const hasChanged = c.currentStatus && c.currentStatus !== origStatus && isEdit;
+        const origBadge  = origStatus
+          ? `<span class="status-${origStatus.toLowerCase()}" style="font-size:12px">${origStatus}</span>`
+          : '<span style="font-size:12px;color:var(--muted)">—</span>';
+        return `<tr class="${hasChanged ? 'att-changed' : ''}">
+          <td class="att-roll"><span class="roll-badge">${esc(c.rollNo)}</span></td>
+          <td class="att-name">${esc(c.fullName)}</td>
+          <td class="att-age"><span class="age-badge">${esc(c.ageGroup)}</span></td>
+          ${isEdit ? `<td class="att-orig">${origBadge}</td>` : ''}
+          <td class="att-status">
+            <select id="att-${esc(c.rollNo)}" class="att-status-select"
+              onchange="updateLocalStatus('${esc(c.rollNo)}',this.value)">
+              <option value="" ${!c.currentStatus?'selected':''}>—</option>
+              <option value="Present" ${c.currentStatus==='Present'?'selected':''}>✅ Present</option>
+              <option value="Absent"  ${c.currentStatus==='Absent' ?'selected':''}>❌ Absent</option>
+              <option value="Late"    ${c.currentStatus==='Late'   ?'selected':''}>⏰ Late</option>
+              <option value="Excused" ${c.currentStatus==='Excused'?'selected':''}>📋 Excused</option>
+            </select>
+          </td>
+          <td class="att-action">
+            <button class="btn-sm ${isEdit ? 'btn-edit' : 'btn-gold'}"
+              onclick="markOne('${esc(c.rollNo)}','${esc(c.fullName)}','${attSessionDate}','${esc(attSessionName)}')">
+              ${isEdit ? '✏️' : '✓'}
+            </button>
+          </td>
+        </tr>`;
+      }).join('');
 
   document.getElementById('attSessionWrap').innerHTML = `
-    ${onlineNotice}
-    <div style="margin-top:6px;margin-bottom:10px;font-size:13px;color:var(--muted)">
-      Session: <strong>${esc(attSessionName)}</strong> on <strong>${attSessionDate}</strong>
+    ${offlineNotice}
+    ${modeBanner}
+    <div style="margin-bottom:10px;font-size:13px;color:var(--muted)">
+      Session: <strong>${esc(attSessionName)}</strong> · <strong>${attSessionDate}</strong>
       &nbsp;·&nbsp; <span style="color:var(--ink);font-weight:600">${filtered.length}</span> shown of ${attSessionData.length}
       &nbsp;·&nbsp; <span style="color:var(--green);font-weight:600">${markedCount}</span> marked
+      ${isEdit && changedCount > 0 ? `&nbsp;·&nbsp; <span style="color:#e67e22;font-weight:600">${changedCount} changed</span>` : ''}
     </div>
     <div class="att-filter-bar">
       <div class="field grow">
@@ -1809,36 +1999,26 @@ function renderAttendanceSession() {
       <span>Sort:</span>
       <button class="sort-btn ${attSortKey==='rollNo'?'active':''}" onclick="attSort('rollNo')">Roll No.${attSortKey==='rollNo'?(attSortDir===1?' ↑':' ↓'):''}</button>
       <button class="sort-btn ${attSortKey==='name'  ?'active':''}" onclick="attSort('name')">Name${attSortKey==='name'?(attSortDir===1?' ↑':' ↓'):''}</button>
-      <button class="sort-btn ${attSortKey==='age'   ?'active':''}" onclick="attSort('age')">Age Group${attSortKey==='age'?(attSortDir===1?' ↑':' ↓'):''}</button>
+      <button class="sort-btn ${attSortKey==='age'   ?'active':''}" onclick="attSort('age')">Age${attSortKey==='age'?(attSortDir===1?' ↑':' ↓'):''}</button>
     </div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Roll No.</th><th>Name</th><th>Age</th><th>Status</th><th>Mark</th></tr></thead>
-        <tbody>` +
-    (filtered.length === 0 ? '<tr><td colspan="5"><div class="empty">No children match filter</div></td></tr>' :
-    filtered.map(c => `<tr>
-      <td><span class="roll-badge">${esc(c.rollNo)}</span></td>
-      <td>${esc(c.fullName)}</td>
-      <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
-      <td>
-        <select id="att-${esc(c.rollNo)}" class="att-status-select"
-          onchange="updateLocalStatus('${esc(c.rollNo)}',this.value)">
-          <option value="" ${!c.currentStatus?'selected':''}>—</option>
-          <option value="Present" ${c.currentStatus==='Present'?'selected':''}>✅ Present</option>
-          <option value="Absent"  ${c.currentStatus==='Absent' ?'selected':''}>❌ Absent</option>
-          <option value="Late"    ${c.currentStatus==='Late'   ?'selected':''}>⏰ Late</option>
-          <option value="Excused" ${c.currentStatus==='Excused'?'selected':''}>📋 Excused</option>
-        </select>
-      </td>
-      <td>
-        <button class="btn-sm btn-gold"
-          onclick="markOne('${esc(c.rollNo)}','${esc(c.fullName)}','${attSessionDate}','${esc(attSessionName)}')">Mark</button>
-      </td>
-    </tr>`).join('')) +
-    `</tbody></table></div>
-    <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-      <button class="btn-sm btn-gold" onclick="markAll()">💾 Save All Marked</button>
-      <button class="btn-sm btn-outline-sm" onclick="markAllPresent()">✅ Mark All Present</button>
+    <div class="table-wrap" style="overflow-x:auto">
+      <table class="att-mark-table" style="min-width:360px">
+        <thead>
+          <tr>
+            <th>Roll No.</th><th>Name</th><th>Age</th>
+            ${isEdit ? '<th>Original</th>' : ''}
+            <th>Status</th><th>Mark</th>
+          </tr>
+        </thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <button class="btn-sm ${isEdit ? 'btn-edit' : 'btn-gold'}" onclick="markAll()">
+        ${isEdit ? '💾 Save All Changes' : '💾 Save All Marked'}
+      </button>
+      ${!isEdit ? `<button class="btn-sm btn-outline-sm" onclick="markAllPresent()">✅ Mark All Present</button>` : ''}
+      ${isEdit ? `<span style="font-size:12px;color:var(--muted)">Only changed rows will be updated.</span>` : ''}
     </div>`;
 }
 
@@ -1850,7 +2030,25 @@ function attSort(key) {
 
 function updateLocalStatus(rollNo, status) {
   const child = attSessionData.find(c => c.rollNo === rollNo);
-  if (child) child.currentStatus = status;
+  if (child) {
+    child.currentStatus = status;
+    const isEdit     = attSessionMode === 'edit';
+    const hasChanged = status && status !== attOriginalMap[rollNo] && isEdit;
+    const sel = document.querySelector(`#att-${CSS.escape(rollNo)}`);
+    if (sel) { const tr = sel.closest('tr'); if (tr) tr.className = hasChanged ? 'att-changed' : ''; }
+    const changedCount = attSessionData.filter(c => c.currentStatus && c.currentStatus !== attOriginalMap[c.rollNo]).length;
+    const bannerText = document.querySelector('.session-mode-banner.mode-edit .mode-text');
+    if (bannerText) {
+      const existing = bannerText.querySelector('span[style*="e67e22"]');
+      if (existing) existing.remove();
+      if (changedCount > 0) {
+        const span = document.createElement('span');
+        span.style.cssText = 'color:#e67e22;font-weight:600;margin-left:6px';
+        span.textContent = `⚠ ${changedCount} unsaved change${changedCount > 1 ? 's' : ''}`;
+        bannerText.appendChild(span);
+      }
+    }
+  }
 }
 
 function markAllPresent() {
@@ -1861,26 +2059,45 @@ function markAllPresent() {
 async function markOne(rollNo, name, date, session) {
   const sel = document.getElementById('att-' + rollNo);
   const status = sel ? sel.value : '';
-  if (!status) return;
+  if (!status) { showToast('Select a status first', 'error'); return; }
   updateLocalStatus(rollNo, status);
   const params = { action: 'markAttendance', rollNo, fullName: name, sessionDate: date, sessionName: session, status };
   const d = await apiWithOffline(params);
-  if (d.offline) { showToast('📥 Saved offline — will sync later', ''); }
-  else if (d.success) { showToast('Marked ' + rollNo, 'success'); loadAttendanceHistory(); }
-  else showToast('Failed: ' + d.error, 'error');
+  if (d.offline) {
+    showToast('📥 Saved offline — will sync later', '');
+  } else if (d.success) {
+    attOriginalMap[rollNo] = status;
+    renderAttendanceSession();
+    showToast(`${attSessionMode === 'edit' ? '✏️ Updated' : '✅ Marked'} ${rollNo}`, 'success');
+    loadAttendanceHistory();
+  } else {
+    showToast('Failed: ' + d.error, 'error');
+  }
 }
 
 async function markAll() {
-  const marked = attSessionData.filter(c => c.currentStatus);
-  if (!marked.length) { showToast('No statuses selected', 'error'); return; }
-  const results = await Promise.all(marked.map(c =>
-    apiWithOffline({ action: 'markAttendance', rollNo: c.rollNo, fullName: c.fullName,
-      sessionDate: attSessionDate, sessionName: attSessionName, status: c.currentStatus })
+  const isEdit = attSessionMode === 'edit';
+  const toSave = isEdit
+    ? attSessionData.filter(c => c.currentStatus && c.currentStatus !== attOriginalMap[c.rollNo])
+    : attSessionData.filter(c => c.currentStatus);
+
+  if (!toSave.length) { showToast(isEdit ? 'No changes to save' : 'No statuses selected', 'error'); return; }
+
+  const results = await Promise.all(toSave.map(c =>
+    apiWithOffline({ action: 'markAttendance', rollNo: c.rollNo, fullName: c.fullName, sessionDate: attSessionDate, sessionName: attSessionName, status: c.currentStatus })
   ));
+
   const offlineCount = results.filter(r => r.offline).length;
   const onlineCount  = results.length - offlineCount;
+
+  toSave.forEach((c, i) => {
+    if (!results[i].offline && results[i].success) attOriginalMap[c.rollNo] = c.currentStatus;
+  });
+
   if (offlineCount > 0) showToast(`📥 ${onlineCount} saved online, ${offlineCount} queued for sync`, '');
-  else showToast(`✅ Saved ${marked.length} attendance marks`, 'success');
+  else showToast(isEdit ? `✅ Updated ${toSave.length} record${toSave.length > 1 ? 's' : ''}` : `✅ Posted ${toSave.length} mark${toSave.length > 1 ? 's' : ''}`, 'success');
+
+  renderAttendanceSession();
   loadAttendanceHistory();
   loadStats();
 }
@@ -1908,13 +2125,10 @@ async function loadAttendanceHistory() {
 // ══════════════════════════════════════════════════════
 //  HELPERS
 // ══════════════════════════════════════════════════════
-function esc(s) { return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function fmtDate(d) {
-  if (!d) return '';
-  const dt = new Date(d);
-  if (isNaN(dt)) return String(d);
-  return dt.toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' });
+function esc(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
+
 function showToast(msg, type='') {
   const t = document.getElementById('toast');
   t.textContent = msg; t.className = 'toast show ' + type;
