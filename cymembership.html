@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>KCMC Child & Youth Ministry — Child Record</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -18,28 +18,44 @@
     --green: #27ae60;
     --section-bg: #ffffff;
     --shadow: 0 2px 16px rgba(26,26,46,0.08);
+
+    /* Mobile-tuned spacing tokens */
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --radius-sm: 7px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --input-h: 46px; /* taller tap targets on mobile */
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { -webkit-text-size-adjust: 100%; }
 
   body {
     background: var(--cream);
     font-family: 'DM Sans', sans-serif;
     color: var(--ink);
     min-height: 100vh;
-    padding: 0 0 60px;
+    padding: 0 0 env(safe-area-inset-bottom, 60px);
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
   }
 
   /* ── HEADER ── */
   .header {
     background: var(--ink);
     color: #fff;
-    padding: 32px 40px 28px;
+    padding: clamp(16px, 4vw, 32px) clamp(16px, 5vw, 40px) clamp(14px, 3.5vw, 28px);
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: clamp(10px, 3vw, 20px);
     position: relative;
     overflow: hidden;
+    flex-wrap: nowrap;
   }
   .header::before {
     content: '';
@@ -54,60 +70,95 @@
     );
   }
   .header-logo {
-    width: 62px; height: 62px;
+    width: clamp(44px, 10vw, 62px);
+    height: clamp(44px, 10vw, 62px);
     border-radius: 50%;
     background: var(--gold);
     display: flex; align-items: center; justify-content: center;
     font-family: 'Playfair Display', serif;
-    font-size: 22px; font-weight: 700;
+    font-size: clamp(16px, 4vw, 22px);
+    font-weight: 700;
     color: var(--ink);
     flex-shrink: 0;
-    position: relative;
-    z-index: 1;
+    position: relative; z-index: 1;
     box-shadow: 0 0 0 3px rgba(201,151,43,0.3);
   }
-  .header-text { position: relative; z-index: 1; }
+  .header-text { position: relative; z-index: 1; flex: 1; min-width: 0; }
   .header-text h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(18px, 4vw, 26px);
+    font-size: clamp(14px, 3.8vw, 26px);
     font-weight: 700;
     letter-spacing: 0.01em;
     line-height: 1.2;
+    /* Prevent overflow on very small screens */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .header-text p {
-    font-size: 12px;
+    font-size: clamp(9px, 2vw, 12px);
     font-weight: 300;
     color: var(--gold-light);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    margin-top: 4px;
+    margin-top: 3px;
   }
   .header-badge {
     margin-left: auto;
     background: rgba(201,151,43,0.18);
     border: 1px solid rgba(201,151,43,0.4);
     color: var(--gold-light);
-    font-size: 10px;
+    font-size: clamp(8px, 1.8vw, 10px);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 5px 12px;
+    padding: 5px 10px;
     border-radius: 30px;
     font-weight: 500;
     position: relative; z-index: 1;
     white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Dashboard button */
+  .dashboard-btn {
+    background: #2d6cdf;
+    color: white;
+    padding: clamp(6px, 1.5vw, 8px) clamp(10px, 3vw, 16px);
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: clamp(11px, 2.4vw, 14px);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-decoration: none;
+    position: relative; z-index: 1;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .dashboard-btn:active { transform: scale(0.96); background: #1f4fb8; }
+
+  /* Hide section-head dashboard btn on mobile — header one is sufficient */
+  .section-head .dashboard-btn {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 5px 10px;
   }
 
   /* ── PROGRESS BAR ── */
   .progress-bar-wrap {
     background: var(--ink);
-    padding: 0 40px 18px;
-    position: relative;
-    z-index: 2;
+    padding: 0 clamp(12px, 5vw, 40px) 16px;
+    position: relative; z-index: 2;
   }
   .progress-steps {
     display: flex;
     align-items: center;
-    gap: 0;
     max-width: 860px;
     margin: 0 auto;
   }
@@ -115,14 +166,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     flex: 1;
     position: relative;
   }
   .progress-step:not(:last-child)::after {
     content: '';
     position: absolute;
-    top: 14px;
+    top: 13px;
     left: 50%;
     width: 100%;
     height: 2px;
@@ -130,35 +181,29 @@
     z-index: 0;
     transition: background 0.4s;
   }
-  .progress-step.done:not(:last-child)::after {
-    background: var(--gold);
-  }
+  .progress-step.done:not(:last-child)::after { background: var(--gold); }
   .step-dot {
-    width: 28px; height: 28px;
+    width: clamp(22px, 6vw, 28px);
+    height: clamp(22px, 6vw, 28px);
     border-radius: 50%;
     background: rgba(255,255,255,0.1);
     border: 2px solid rgba(255,255,255,0.2);
     display: flex; align-items: center; justify-content: center;
-    font-size: 11px;
+    font-size: clamp(9px, 2.5vw, 11px);
     font-weight: 700;
     color: rgba(255,255,255,0.4);
     transition: all 0.35s ease;
     position: relative; z-index: 1;
   }
   .progress-step.active .step-dot {
-    background: var(--gold);
-    border-color: var(--gold);
+    background: var(--gold); border-color: var(--gold);
     color: var(--ink);
     box-shadow: 0 0 0 4px rgba(201,151,43,0.25);
   }
-  .progress-step.done .step-dot {
-    background: var(--gold);
-    border-color: var(--gold);
-    color: var(--ink);
-  }
+  .progress-step.done .step-dot { background: var(--gold); border-color: var(--gold); color: var(--ink); }
   .step-label {
-    font-size: 9px;
-    letter-spacing: 0.07em;
+    font-size: clamp(7px, 1.8vw, 9px);
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: rgba(255,255,255,0.3);
     font-weight: 500;
@@ -167,76 +212,67 @@
     white-space: nowrap;
   }
   .progress-step.active .step-label,
-  .progress-step.done .step-label {
-    color: var(--gold-light);
+  .progress-step.done .step-label { color: var(--gold-light); }
+
+  /* Hide labels on very small screens */
+  @media (max-width: 360px) {
+    .step-label { display: none; }
+    .progress-bar-wrap { padding-bottom: 10px; }
   }
 
-  /* Submitting overlay progress */
+  /* ── SUBMIT OVERLAY ── */
   .submit-progress-overlay {
     display: none;
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: rgba(26,26,46,0.72);
     z-index: 9000;
-    align-items: center;
-    justify-content: center;
+    align-items: center; justify-content: center;
     backdrop-filter: blur(3px);
+    padding: 16px;
   }
   .submit-progress-overlay.active { display: flex; }
   .submit-progress-box {
     background: #fff;
-    border-radius: 16px;
-    padding: 36px 44px;
-    width: min(420px, 90vw);
+    border-radius: var(--radius-lg);
+    padding: clamp(24px, 6vw, 36px) clamp(20px, 6vw, 44px);
+    width: min(420px, 92vw);
     box-shadow: 0 24px 60px rgba(0,0,0,0.25);
     text-align: center;
   }
   .submit-progress-box h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    color: var(--ink);
-    margin-bottom: 6px;
+    font-size: clamp(16px, 4vw, 20px);
+    color: var(--ink); margin-bottom: 6px;
   }
   .submit-progress-box p {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 24px;
-    min-height: 20px;
+    font-size: clamp(12px, 3vw, 13px);
+    color: var(--muted); margin-bottom: 24px; min-height: 20px;
   }
   .progress-track {
-    height: 8px;
-    background: var(--ivory);
-    border-radius: 99px;
-    overflow: hidden;
-    margin-bottom: 10px;
+    height: 8px; background: var(--ivory);
+    border-radius: 99px; overflow: hidden; margin-bottom: 10px;
   }
   .progress-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--gold), var(--gold-light));
-    border-radius: 99px;
-    width: 0%;
+    border-radius: 99px; width: 0%;
     transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
   }
-  .progress-pct {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--gold);
-    letter-spacing: 0.05em;
-  }
+  .progress-pct { font-size: 12px; font-weight: 600; color: var(--gold); letter-spacing: 0.05em; }
 
   /* ── WRAPPER ── */
   .form-wrap {
     max-width: 860px;
-    margin: 32px auto 0;
-    padding: 0 16px;
+    margin: clamp(16px, 4vw, 32px) auto 0;
+    padding: 0 clamp(10px, 3vw, 16px);
   }
 
   /* ── SECTION ── */
   .section {
     background: var(--section-bg);
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     box-shadow: var(--shadow);
-    margin-bottom: 20px;
+    margin-bottom: clamp(12px, 3vw, 20px);
     overflow: hidden;
     border: 1px solid var(--border);
     animation: fadeUp 0.4s ease both;
@@ -253,69 +289,80 @@
   .section-head {
     background: var(--ivory);
     border-bottom: 1px solid var(--border);
-    padding: 14px 24px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    padding: clamp(10px, 2.5vw, 14px) clamp(14px, 4vw, 24px);
+    display: flex; align-items: center; gap: 10px;
+    flex-wrap: wrap;
   }
   .section-letter {
     width: 28px; height: 28px;
     border-radius: 6px;
-    background: var(--gold);
-    color: var(--ink);
+    background: var(--gold); color: var(--ink);
     font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 14px;
+    font-weight: 700; font-size: 14px;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
   .section-title {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink);
+    font-size: clamp(11px, 2.8vw, 13px);
+    font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink);
   }
 
-  .section-body { padding: 22px 24px; }
+  .section-body { padding: clamp(14px, 4vw, 22px) clamp(14px, 4vw, 24px); }
 
-  /* ── GRID ── */
-  .grid { display: grid; gap: 16px; }
-  .g2 { grid-template-columns: repeat(2, 1fr); }
-  .g3 { grid-template-columns: repeat(3, 1fr); }
-  .g4 { grid-template-columns: repeat(4, 1fr); }
-  @media (max-width: 600px) {
-    .g2, .g3, .g4 { grid-template-columns: 1fr; }
-    .progress-steps { gap: 0; }
-    .step-label { display: none; }
+  /* ── GRID — mobile-first ── */
+  .grid { display: grid; gap: clamp(10px, 2.5vw, 16px); }
+
+  /* Default: single column on mobile */
+  .g2, .g3, .g4 { grid-template-columns: 1fr; }
+
+  /* 2-col at 480px+ */
+  @media (min-width: 480px) {
+    .g2 { grid-template-columns: repeat(2, 1fr); }
   }
-  @media (min-width: 601px) and (max-width: 768px) {
+
+  /* 2-col at 520px+, 3-col at 700px+ */
+  @media (min-width: 520px) {
+    .g3 { grid-template-columns: repeat(2, 1fr); }
     .g4 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 700px) {
+    .g3 { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 820px) {
+    .g4 { grid-template-columns: repeat(4, 1fr); }
   }
 
   /* ── FIELD ── */
   .field { display: flex; flex-direction: column; gap: 5px; }
   .field label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
+    font-size: clamp(10px, 2.4vw, 11px);
+    font-weight: 600; letter-spacing: 0.07em;
+    text-transform: uppercase; color: var(--muted);
   }
   .field label .req { color: var(--red); margin-left: 2px; }
+
+  /* Taller inputs for easy tapping on mobile */
   .field input,
   .field select,
   .field textarea {
     border: 1.5px solid var(--border);
-    border-radius: 7px;
-    padding: 10px 13px;
+    border-radius: var(--radius-sm);
+    padding: 0 13px;
+    height: var(--input-h);
     font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
+    font-size: clamp(14px, 3.5vw, 15px); /* ≥16px prevents iOS zoom */
     color: var(--ink);
     background: var(--cream);
     transition: border-color .2s, box-shadow .2s;
     outline: none;
     width: 100%;
+    /* Prevent iOS from shrinking text */
+    -webkit-text-size-adjust: none;
+    /* Smooth tap feedback */
+    -webkit-tap-highlight-color: transparent;
+    appearance: none;
+    -webkit-appearance: none;
   }
   .field input:focus,
   .field select:focus,
@@ -324,220 +371,194 @@
     box-shadow: 0 0 0 3px rgba(201,151,43,0.13);
     background: #fff;
   }
-  .field textarea { resize: vertical; min-height: 68px; }
+  /* Custom arrow for selects */
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7060' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+  .field textarea {
+    height: auto;
+    padding: 11px 13px;
+    resize: vertical;
+    min-height: 72px;
+    line-height: 1.5;
+  }
 
-  /* Roll No. auto-generated style */
+  /* Roll No. auto-generated */
   .field input[name="rollNo"] {
     background: var(--ivory);
     color: var(--gold);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    cursor: default;
-    font-size: 15px;
+    font-weight: 700; letter-spacing: 0.08em;
+    cursor: default; font-size: 15px;
   }
   .roll-badge {
-    font-size: 10px;
-    color: var(--muted);
-    font-style: italic;
-    margin-top: 2px;
+    font-size: 10px; color: var(--muted);
+    font-style: italic; margin-top: 2px;
   }
 
   /* ── PHOTO UPLOAD ── */
   .photo-section {
     display: flex;
-    gap: 22px;
+    gap: clamp(14px, 4vw, 22px);
     align-items: flex-start;
     flex-wrap: wrap;
   }
   .photo-wrap { display: flex; flex-direction: column; gap: 6px; }
   .photo-drop {
-    width: 110px; height: 130px;
+    width: clamp(90px, 22vw, 110px);
+    height: clamp(108px, 26vw, 130px);
     border: 2px dashed var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius-md);
     background: var(--ivory);
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     cursor: pointer;
     transition: border-color .2s, background .2s, box-shadow .2s;
-    overflow: hidden;
-    flex-shrink: 0;
-    position: relative;
+    overflow: hidden; flex-shrink: 0; position: relative;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
-  .photo-drop:hover { border-color: var(--gold); background: #fdf6e9; }
-  .photo-drop.photo-error {
-    border-color: var(--red);
-    box-shadow: 0 0 0 3px rgba(192,57,43,0.13);
-  }
-  .photo-drop.photo-ok {
-    border-color: var(--green);
-    border-style: solid;
-  }
+  .photo-drop:hover,
+  .photo-drop:active { border-color: var(--gold); background: #fdf6e9; }
+  .photo-drop.photo-error { border-color: var(--red); box-shadow: 0 0 0 3px rgba(192,57,43,0.13); }
+  .photo-drop.photo-ok { border-color: var(--green); border-style: solid; }
   .photo-drop img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
   .photo-drop .drop-hint {
-    font-size: 11px;
-    color: var(--muted);
-    text-align: center;
-    padding: 8px;
-    line-height: 1.4;
+    font-size: clamp(10px, 2.5vw, 11px);
+    color: var(--muted); text-align: center;
+    padding: 8px; line-height: 1.4;
     position: relative; z-index: 1;
   }
-  .photo-drop .drop-icon { font-size: 24px; margin-bottom: 6px; }
+  .photo-drop .drop-icon { font-size: clamp(20px, 5vw, 24px); margin-bottom: 5px; }
   .photo-req-note {
-    font-size: 10px;
-    color: var(--red);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    text-align: center;
-    width: 110px;
+    font-size: 10px; color: var(--red);
+    font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; text-align: center;
+    width: clamp(90px, 22vw, 110px);
   }
   #photoInput { display: none; }
-  .photo-meta { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 12px; }
+  .photo-meta { flex: 1; min-width: min(200px, 100%); display: flex; flex-direction: column; gap: clamp(10px, 2.5vw, 12px); }
 
   /* ── CHECKBOXES ── */
   .check-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(min(160px, 45%), 1fr));
+    gap: clamp(8px, 2vw, 10px);
   }
   .check-item {
     display: flex; align-items: center; gap: 9px;
-    padding: 9px 12px;
+    padding: clamp(10px, 2.5vw, 11px) clamp(10px, 2.5vw, 12px);
     border: 1.5px solid var(--border);
-    border-radius: 7px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
     transition: border-color .2s, background .2s;
     user-select: none;
-    font-size: 13px;
+    font-size: clamp(12px, 3vw, 13px);
     font-weight: 500;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    /* Min touch target height */
+    min-height: 44px;
   }
-  .check-item:hover { border-color: var(--gold); background: #fdf6e9; }
-  .check-item input[type="checkbox"] { accent-color: var(--gold); width: 16px; height: 16px; cursor: pointer; }
+  .check-item:hover,
+  .check-item:active { border-color: var(--gold); background: #fdf6e9; }
+  .check-item input[type="checkbox"] {
+    accent-color: var(--gold);
+    width: 18px; height: 18px;
+    cursor: pointer; flex-shrink: 0;
+    /* Larger hit area */
+    min-width: 18px;
+  }
   .check-item.checked { border-color: var(--gold); background: #fdf6e9; }
 
-  /* ── GUARDIAN ROW ── */
-  .guardian-block {
+  /* ── GUARDIAN / MENTOR BLOCKS ── */
+  .guardian-block,
+  .mentor-block {
     background: var(--ivory);
-    border-radius: 8px;
-    padding: 16px;
+    border-radius: var(--radius-sm);
+    padding: clamp(12px, 3vw, 16px);
     border: 1px solid var(--border);
   }
   .guardian-label {
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--muted);
-    margin-bottom: 12px;
-  }
-
-  /* ── MENTOR BLOCK ── */
-  .mentor-block {
-    background: var(--ivory);
-    border-radius: 8px;
-    padding: 16px;
-    border: 1px solid var(--border);
+    font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.07em;
+    color: var(--muted); margin-bottom: clamp(10px, 2.5vw, 12px);
   }
   .mentor-label {
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--muted);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.07em;
+    color: var(--muted); margin-bottom: clamp(10px, 2.5vw, 12px);
+    display: flex; align-items: center; gap: 6px;
   }
   .mentor-number {
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    background: var(--gold);
-    color: var(--ink);
-    font-size: 11px;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--gold); color: var(--ink);
+    font-size: 11px; font-weight: 700;
+    display: inline-flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
 
   /* ── DIVIDER ── */
-  .divider { height: 1px; background: var(--border); margin: 18px 0; }
+  .divider { height: 1px; background: var(--border); margin: clamp(12px, 3vw, 18px) 0; }
 
   /* ── SUBMIT AREA ── */
   .submit-area {
     background: var(--section-bg);
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     box-shadow: var(--shadow);
     border: 1px solid var(--border);
-    padding: 28px 24px;
+    padding: clamp(18px, 5vw, 28px) clamp(14px, 4vw, 24px);
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: clamp(12px, 3vw, 16px);
   }
   .submit-note {
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.6;
-    max-width: 420px;
+    font-size: clamp(11px, 2.8vw, 12px);
+    color: var(--muted); line-height: 1.6;
+    max-width: 420px; flex: 1;
   }
   .submit-note strong { color: var(--ink); }
 
   .btn-submit {
-    background: var(--gold);
-    color: var(--ink);
-    border: none;
-    border-radius: 8px;
-    padding: 14px 36px;
+    background: var(--gold); color: var(--ink);
+    border: none; border-radius: var(--radius-sm);
+    padding: clamp(12px, 3vw, 14px) clamp(24px, 6vw, 36px);
     font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
+    font-size: clamp(14px, 3.5vw, 15px);
+    font-weight: 600; cursor: pointer;
     transition: background .2s, transform .15s, box-shadow .2s;
     box-shadow: 0 4px 14px rgba(201,151,43,0.35);
     display: flex; align-items: center; gap: 8px;
     white-space: nowrap;
+    /* Full-width on narrow screens */
+    width: 100%;
+    justify-content: center;
+    min-height: 50px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  @media (min-width: 520px) {
+    .btn-submit { width: auto; }
   }
   .btn-submit:hover { background: #b8861f; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(201,151,43,0.45); }
-  .btn-submit:active { transform: translateY(0); }
+  .btn-submit:active { transform: translateY(1px); box-shadow: 0 2px 8px rgba(201,151,43,0.2); }
   .btn-submit:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; box-shadow: none; transform: none; }
 
-/* Dashboard button - works and responsive */
-  .dashboard-btn {
-    background: #2d6cdf;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 40px;
-    font-weight: 600;
-    font-size: 0.85rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: none;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    white-space: nowrap;
-    flex-shrink: 0;
-    text-decoration: none;
-  }
-  .dashboard-btn:active { transform: scale(0.97); background: #1f4fb8; }
-  @media (max-width: 550px) {
-    .header { padding: 16px; }
-    .header-badge { display: none; }
-    .dashboard-btn { padding: 6px 12px; font-size: 0.75rem; }
-    .header-logo { width: 44px; height: 44px; font-size: 18px; }
-  }
   /* ── TOAST ── */
   .toast {
-    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+    position: fixed;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
     background: var(--ink); color: #fff;
-    padding: 12px 24px;
+    padding: clamp(10px, 3vw, 12px) clamp(18px, 5vw, 24px);
     border-radius: 30px;
-    font-size: 14px;
+    font-size: clamp(13px, 3.2vw, 14px);
     font-weight: 500;
     box-shadow: 0 8px 30px rgba(0,0,0,0.25);
     opacity: 0;
@@ -545,11 +566,29 @@
     z-index: 9999;
     pointer-events: none;
     text-align: center;
-    max-width: 90vw;
+    max-width: 92vw;
+    width: max-content;
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .toast.success { background: var(--green); }
   .toast.error { background: var(--red); }
+
+  /* ── HEADER RESPONSIVE TWEAKS ── */
+  @media (max-width: 400px) {
+    .header-badge { display: none; }
+    /* Show only icon on very small screens */
+    .dashboard-btn span { display: none; }
+    .dashboard-btn::before { content: '📊'; }
+  }
+  @media (max-width: 320px) {
+    .header-text h1 { font-size: 12px; }
+    .header-text p { display: none; }
+  }
+
+  /* Keep section-head dashboard btn but only on wider screens */
+  @media (max-width: 600px) {
+    .section-head .dashboard-btn { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -558,13 +597,12 @@
 <div class="header">
   <div class="header-logo">CY</div>
   <div class="header-text">
-    <h1>KCMC Child & Youth Ministry</h1>
+    <h1>KCMC Child &amp; Youth Ministry</h1>
     <p>Child Registration — Confidential</p>
   </div>
   <div class="header-badge">🔒 Authorised Use Only</div>
-  <!-- Dashboard link FIXED: working and mobile responsive -->
   <div class="dashboard-btn" onclick="window.location.href='cydashboard.html'">
-    📊 Dashboard
+    📊 <span>Dashboard</span>
   </div>
 </div>
 
@@ -614,32 +652,41 @@
       <div class="section-head">
         <div class="section-letter">A</div>
         <span class="section-title">Child Personal Information</span>
-        <!-- Dashboard link FIXED: working and mobile responsive -->
-  <div class="dashboard-btn" onclick="window.location.href='cydashboard.html'">
-    📊 Dashboard
-  </div>
+        <!--div class="dashboard-btn" onclick="window.location.href='cydashboard.html'">
+          📊 <span>Dashboard</span>
+      </div---->
       </div>
       <div class="section-body">
 
         <div class="photo-section">
-          <div class="photo-wrap">
+          <div class="photo-wrap" style="position:relative;">
             <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;">
               Passport Photo <span style="color:var(--red)">*</span>
             </div>
-            <div class="photo-drop" id="photoDrop" onclick="document.getElementById('photoInput').click()">
+            <div class="photo-drop" id="photoDrop" onclick="togglePhotoMenu()">
               <div class="drop-hint">
                 <div class="drop-icon">📷</div>
-                Click to upload
+                Tap to add
               </div>
             </div>
+            <!-- Compact inline popover menu -->
+            <div id="photoMenu" style="display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:500;background:#fff;border:1.5px solid var(--border);border-radius:10px;box-shadow:0 6px 24px rgba(26,26,46,0.14);min-width:190px;overflow:hidden;">
+              <button type="button" onclick="triggerCamera()" style="display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;background:none;border:none;border-bottom:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;">
+                <span style="font-size:18px;">📸</span> Take Photo
+              </button>
+              <button type="button" onclick="triggerUpload()" style="display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;background:none;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;">
+                <span style="font-size:18px;">🖼️</span> Upload from Gallery
+              </button>
+            </div>
             <div class="photo-req-note" id="photoReqNote">Required</div>
-            <input type="file" id="photoInput" accept="image/*" onchange="previewPhoto(event)">
+            <input type="file" id="photoInputUpload" accept="image/*" style="display:none" onchange="previewPhoto(event)">
+            <input type="file" id="photoInputCamera" accept="image/*" capture="environment" style="display:none" onchange="previewPhoto(event)">
           </div>
           <div class="photo-meta">
             <div class="grid g2">
               <div class="field">
                 <label>Roll No. <span style="font-size:9px;font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;">(auto-generated)</span></label>
-                <input type="text" name="rollNo" id="rollNoField" placeholder="Will be assigned…" readonly>
+                <input type="text" name="rollNo" id="rollNoField" placeholder="System Generated" readonly>
                 <div class="roll-badge" id="rollBadge">Generated on save</div>
               </div>
               <div class="field">
@@ -649,7 +696,7 @@
             </div>
             <div class="field">
               <label>Full Name <span class="req">*</span></label>
-              <input type="text" name="fullName" placeholder="As in birth certificate" required>
+              <input type="text" name="fullName" placeholder="As in birth certificate" required autocomplete="name">
             </div>
             <div class="grid g2">
               <div class="field">
@@ -671,22 +718,21 @@
         <div class="divider"></div>
 
         <div class="grid g2">
-          <!-- ENHANCED: Age Group dropdown with 0-2, 3-5, 6-8, 9-11, 12-14, 15-18 -->
           <div class="field">
             <label>Age Group <span class="req">*</span></label>
             <select name="ageGroup" required>
               <option value="">— Select Age Group —</option>
-              <option value="0-2">0 – 2 years</option>
-              <option value="3-5">3 – 5 years</option>
-              <option value="6-8">6 – 8 years</option>
-              <option value="9-11">9 – 11 years</option>
-              <option value="12-14">12 – 14 years</option>
-              <option value="15-18">15 – 18 years</option>
+              <option value="0-2">0-2</option>
+              <option value="3-5">3-5</option>
+              <option value="6-8">6-8</option>
+              <option value="9-11">9-11</option>
+              <option value="12-14">12-14</option>
+              <option value="15-18">15-18</option>
             </select>
           </div>
           <div class="field">
             <label>School</label>
-            <input type="text" name="school" placeholder="School name">
+            <input type="text" name="school" placeholder="School name" autocomplete="off">
           </div>
         </div>
 
@@ -708,7 +754,7 @@
           </div>
           <div class="field">
             <label>Emergency Contact (non-parent)</label>
-            <input type="text" name="emergencyContact" placeholder="Name & phone">
+            <input type="text" name="emergencyContact" placeholder="Name &amp; phone">
           </div>
         </div>
 
@@ -728,7 +774,6 @@
       </div>
       <div class="section-body" style="display:flex;flex-direction:column;gap:16px;">
 
-        <!-- ENHANCED: Guardian 1 with Relationship dropdown -->
         <div class="guardian-block">
           <div class="guardian-label">👨 Father / Guardian 1</div>
           <div class="grid g3">
@@ -752,12 +797,11 @@
             </div>
             <div class="field">
               <label>Phone</label>
-              <input type="tel" name="fatherPhone" placeholder="+254 7XX XXX XXX">
+              <input type="tel" name="fatherPhone" placeholder="+254 7XX XXX XXX" autocomplete="tel">
             </div>
           </div>
         </div>
 
-        <!-- ENHANCED: Guardian 2 with Relationship dropdown -->
         <div class="guardian-block">
           <div class="guardian-label">👩 Mother / Guardian 2</div>
           <div class="grid g3">
@@ -781,7 +825,7 @@
             </div>
             <div class="field">
               <label>Phone</label>
-              <input type="tel" name="motherPhone" placeholder="+254 7XX XXX XXX">
+              <input type="tel" name="motherPhone" placeholder="+254 7XX XXX XXX" autocomplete="tel">
             </div>
           </div>
         </div>
@@ -819,7 +863,7 @@
         <div style="font-size:12px;color:var(--muted);margin-bottom:14px;">Tick all that apply</div>
         <div class="check-grid">
           <label class="check-item" onclick="toggleCheck(this)">
-            <input type="checkbox" name="ministry" value="Choir / Praise & Worship"> 🎵 Choir / Praise & Worship
+            <input type="checkbox" name="ministry" value="Choir / Praise &amp; Worship"> 🎵 Choir / Praise &amp; Worship
           </label>
           <label class="check-item" onclick="toggleCheck(this)">
             <input type="checkbox" name="ministry" value="Ushering / Hospitality"> 🤝 Ushering / Hospitality
@@ -851,7 +895,7 @@
     <div class="section">
       <div class="section-head">
         <div class="section-letter">D</div>
-        <span class="section-title">Leadership & Mentorship</span>
+        <span class="section-title">Leadership &amp; Mentorship</span>
       </div>
       <div class="section-body" style="display:flex;flex-direction:column;gap:16px;">
 
@@ -860,7 +904,6 @@
           <input type="text" name="leadershipRole" placeholder="e.g. Team Leader, Prefect">
         </div>
 
-        <!-- ENHANCED: Mentor split into two — Mentor 1 & Mentor 2, each with Name + Contact -->
         <div class="mentor-block">
           <div class="mentor-label">
             <span class="mentor-number">1</span>
@@ -902,7 +945,7 @@
     <div class="submit-area">
       <div class="submit-note">
         <strong>🔒 Confidential Record</strong><br>
-        This form is for authorised KCMC Child & Youth Ministry use only.
+        This form is for authorised KCMC Child &amp; Youth Ministry use only.
         Data is saved to the ministry's secure Google Sheet and Drive.
         Roll No. is auto-assigned sequentially on save.
       </div>
@@ -921,25 +964,78 @@
   // ── CONFIG ──────────────────────────────────────────────────────────────
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
 
-  // ── ROLL NUMBER COUNTER ─────────────────────────────────────────────────
-  function getNextRollNo() {
+  // ── ROLL NUMBER ─────────────────────────────────────────────────────────
+  // Roll No is blank until Save Record is clicked.
+  // On submit, we ask the server for the current highest roll in the sheet,
+  // add 1, format as CY-XXXX, and use that.  localStorage is only a last-resort
+  // fallback if the server GET fails.
+
+  function formatRoll(n) {
+    return 'CY-' + String(n).padStart(4, '0');
+  }
+
+  /** Ask the Apps Script for the highest numeric roll in the sheet.
+   *  Returns a Promise<number> (the next roll integer to use). */
+  async function fetchNextRollFromServer() {
+    try {
+      const res = await fetch(SCRIPT_URL + '?action=getNextRoll', { redirect: 'follow' });
+      if (res.ok) {
+        const data = await res.json();
+        // Server should return { nextRoll: <number> } — the NEXT available number
+        if (data && data.nextRoll) return parseInt(data.nextRoll, 10);
+        // Alternatively some scripts return the highest existing roll
+        if (data && data.lastRoll != null) return parseInt(data.lastRoll, 10) + 1;
+      }
+    } catch (_) { /* network error — fall through */ }
+    // localStorage fallback
     const last = parseInt(localStorage.getItem('cy_last_roll') || '0', 10);
     return last + 1;
   }
+
   function commitRollNo(n) {
     localStorage.setItem('cy_last_roll', String(n));
-  }
-  function formatRoll(n) {
-    return 'CY-' + String(n).padStart(4, '0');
   }
 
   // ── INIT ────────────────────────────────────────────────────────────────
   window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
     updateProgressBar();
+    // Roll No field stays blank — assigned only when Save Record is clicked
+    document.getElementById('rollBadge').textContent = 'Assigned on save';
     document.getElementById('childForm').addEventListener('change', updateProgressBar);
     document.getElementById('childForm').addEventListener('input', updateProgressBar);
   });
+
+  // ── PHOTO MENU (compact inline popover) ────────────────────────────────
+  function togglePhotoMenu() {
+    // If photo already set, tapping again re-opens the menu to change it
+    const menu = document.getElementById('photoMenu');
+    const isOpen = menu.style.display === 'block';
+    menu.style.display = isOpen ? 'none' : 'block';
+    if (!isOpen) {
+      // Close when clicking anywhere outside
+      setTimeout(() => {
+        document.addEventListener('click', closePhotoMenuOutside, { once: true });
+      }, 0);
+    }
+  }
+  function closePhotoMenuOutside(e) {
+    const menu = document.getElementById('photoMenu');
+    const drop = document.getElementById('photoDrop');
+    if (!menu.contains(e.target) && e.target !== drop) {
+      menu.style.display = 'none';
+    } else if (!menu.contains(e.target)) {
+      menu.style.display = 'none';
+    }
+  }
+  function triggerCamera() {
+    document.getElementById('photoMenu').style.display = 'none';
+    document.getElementById('photoInputCamera').click();
+  }
+  function triggerUpload() {
+    document.getElementById('photoMenu').style.display = 'none';
+    document.getElementById('photoInputUpload').click();
+  }
 
   // ── PHOTO PREVIEW ───────────────────────────────────────────────────────
   let photoDataUrl = null, photoMimeType = null, photoName = null;
@@ -957,10 +1053,12 @@
       drop.classList.remove('photo-error');
       drop.classList.add('photo-ok');
       document.getElementById('photoReqNote').style.color = 'var(--green)';
-      document.getElementById('photoReqNote').textContent = '✓ Photo uploaded';
+      document.getElementById('photoReqNote').textContent = '✓ Photo added';
       updateProgressBar();
     };
     reader.readAsDataURL(file);
+    // Reset input so same file can be re-selected if user changes mind
+    e.target.value = '';
   }
 
   // ── CHECKBOX TOGGLE ─────────────────────────────────────────────────────
@@ -1059,8 +1157,10 @@
       return;
     }
 
-    const nextNum  = getNextRollNo();
-    const rollNo   = formatRoll(nextNum);
+    // ── Fetch the next Roll No from the server right now (at save time)
+    showSubmitProgress(3, 'Getting next Roll No…');
+    const nextNum = await fetchNextRollFromServer();
+    const rollNo  = formatRoll(nextNum);
     document.getElementById('rollNoField').value = rollNo;
     document.getElementById('rollBadge').textContent = 'Assigned: ' + rollNo;
 
@@ -1076,7 +1176,7 @@
       fullName:         fd.get('fullName'),
       gender:           fd.get('gender'),
       dob:              fd.get('dob'),
-      ageGroup:         fd.get('ageGroup'),
+      ageGroup:         "'" + fd.get('ageGroup'),  // apostrophe prefix forces Google Sheets to treat as text, not date
       residence:        fd.get('residence'),
       landmark:         fd.get('landmark'),
       school:           fd.get('school'),
@@ -1143,10 +1243,8 @@
         document.getElementById('rollNoField').value = confirmedRoll;
 
         setTimeout(() => {
-          if (confirm(`Record saved successfully!\nRoll No: ${confirmedRoll}\n\nReset the form for a new entry?`)) {
-            resetForm();
-          }
-        }, 1000);
+          resetForm();
+        }, 1200);
       } else {
         hideSubmitProgress();
         document.getElementById('rollNoField').value = '';
@@ -1171,13 +1269,13 @@
   function resetForm() {
     document.getElementById('childForm').reset();
     document.getElementById('photoDrop').innerHTML =
-      `<div class="drop-hint"><div class="drop-icon">📷</div>Click to upload</div>`;
+      `<div class="drop-hint"><div class="drop-icon">📷</div>Tap to add</div>`;
     document.getElementById('photoDrop').className = 'photo-drop';
     document.getElementById('photoReqNote').textContent = 'Required';
     document.getElementById('photoReqNote').style.color = 'var(--red)';
     photoDataUrl = null; photoMimeType = null; photoName = null;
     document.getElementById('rollNoField').value = '';
-    document.getElementById('rollBadge').textContent = 'Generated on save';
+    document.getElementById('rollBadge').textContent = 'Assigned on save';
     document.querySelectorAll('.check-item').forEach(l => l.classList.remove('checked'));
     document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
     updateProgressBar();
