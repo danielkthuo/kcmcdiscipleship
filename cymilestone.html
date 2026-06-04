@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>KCMC CY — Child Progress Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   VARIABLES & RESET
+═══════════════════════════════════════════════ */
+:root {
+  --ink:       #1a1a2e;
+  --gold:      #c9972b;
+  --gold-lt:   #f0c96a;
+  --gold-pale: #fdf6e3;
+  --cream:     #faf7f2;
+  --ivory:     #f3ede3;
+  --border:    #d9cfc0;
+  --muted:     #7a7060;
+  --green:     #1e7a4a;
+  --green-lt:  #e8f7ee;
+  --red:       #b52a1e;
+  --red-lt:    #fdf0ee;
+  --blue:      #1e4fa8;
+  --blue-lt:   #eef3fd;
+  --orange:    #c06010;
+  --orange-lt: #fff3e6;
+  --shadow:    0 2px 20px rgba(26,26,46,0.09);
+  --shadow-lg: 0 8px 40px rgba(26,26,46,0.15);
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { font-size:15px; }
+body {
+  background: #e8e0d4;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* ═══════════════════════════════════════════════
+   CONTROL BAR (screen only)
+═══════════════════════════════════════════════ */
+.control-bar {
+  background: var(--ink);
+  color: #fff;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  box-shadow: 0 4px 20px rgba(0,0,0,.3);
+}
+.control-logo {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--gold); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 14px; font-weight: 700; color: var(--ink);
+}
+.control-title { font-size: 14px; font-weight: 600; }
+.control-subtitle { font-size: 11px; color: rgba(255,255,255,.5); }
+
+.ctrl-field { display: flex; flex-direction: column; gap: 3px; }
+.ctrl-field label { font-size: 9px; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.45); }
+.ctrl-field input, .ctrl-field select {
+  border: 1.5px solid rgba(255,255,255,.18);
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  background: rgba(255,255,255,.07);
+  color: #fff;
+  outline: none;
+  transition: border-color .2s;
+  min-width: 160px;
+}
+.ctrl-field input::placeholder { color: rgba(255,255,255,.35); }
+.ctrl-field input:focus,
+.ctrl-field select:focus { border-color: var(--gold); }
+.ctrl-field select option { background: var(--ink); }
+
+.ctrl-actions { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+.btn-ctrl {
+  padding: 9px 16px; border-radius: 7px; font-size: 13px;
+  font-family: 'DM Sans', sans-serif; font-weight: 600;
+  cursor: pointer; border: none; transition: all .18s;
+  white-space: nowrap; display: flex; align-items: center; gap: 6px;
+}
+.btn-gold  { background: var(--gold); color: var(--ink); }
+.btn-gold:hover  { background: #b8861f; transform: translateY(-1px); }
+.btn-white { background: rgba(255,255,255,.1); color: #fff; border: 1.5px solid rgba(255,255,255,.2); }
+.btn-white:hover { background: rgba(255,255,255,.18); }
+.btn-red   { background: #c0392b; color: #fff; }
+.btn-red:hover { background: #a93226; }
+
+/* ═══════════════════════════════════════════════
+   REPORT WRAPPER
+═══════════════════════════════════════════════ */
+.report-outer {
+  max-width: 800px;
+  margin: 28px auto;
+  padding: 0 16px;
+}
+
+/* The printable document */
+.report-doc {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+/* ── WATERMARK ── */
+.report-doc::before {
+  content: 'KCMC CY';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-35deg);
+  font-family: 'Playfair Display', serif;
+  font-size: 110px;
+  font-weight: 700;
+  color: rgba(201,151,43,.04);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+
+/* ═══════════════════════════════════════════════
+   REPORT HEADER
+═══════════════════════════════════════════════ */
+.report-header {
+  background: var(--ink);
+  padding: 32px 36px 28px;
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+  position: relative;
+  overflow: hidden;
+}
+/* decorative arc */
+.report-header::after {
+  content: '';
+  position: absolute;
+  right: -80px; bottom: -80px;
+  width: 280px; height: 280px;
+  border: 40px solid rgba(201,151,43,.12);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.header-left { flex: 1; min-width: 0; }
+.ministry-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 3px;
+}
+.ministry-sub {
+  font-size: 11px;
+  color: var(--gold-lt);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.report-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(201,151,43,.18);
+  border: 1px solid rgba(201,151,43,.35);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gold-lt);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+.report-meta {
+  margin-top: 14px;
+  font-size: 11px;
+  color: rgba(255,255,255,.4);
+}
+.report-meta strong { color: rgba(255,255,255,.7); }
+
+/* ── CHILD PHOTO IN HEADER ── */
+.header-right { flex-shrink: 0; }
+.child-photo-wrap {
+  position: relative;
+  width: 110px; height: 110px;
+}
+.child-photo {
+  width: 110px; height: 110px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 3px solid var(--gold);
+  display: block;
+  background: #2a2a4e;
+}
+.photo-placeholder {
+  width: 110px; height: 110px;
+  border-radius: 12px;
+  border: 3px solid rgba(201,151,43,.4);
+  background: #2a2a4e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: rgba(255,255,255,.3);
+  font-size: 11px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .2s;
+  position: relative;
+  overflow: hidden;
+}
+.photo-placeholder:hover { border-color: var(--gold); }
+.photo-placeholder .upload-icon { font-size: 28px; }
+.photo-upload-input { display: none; }
+.photo-badge {
+  position: absolute;
+  bottom: -6px; right: -6px;
+  background: var(--gold);
+  color: var(--ink);
+  font-size: 10px; font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+  border: 2px solid var(--ink);
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════
+   CHILD PROFILE BAND
+═══════════════════════════════════════════════ */
+.profile-band {
+  background: var(--gold-pale);
+  border-bottom: 2px solid var(--border);
+  padding: 22px 36px;
+  position: relative;
+  z-index: 1;
+}
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 24px;
+}
+@media (max-width: 580px) { .profile-grid { grid-template-columns: 1fr 1fr; } }
+.profile-item .lbl {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+.profile-item .val {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.profile-item .val.mono {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--gold);
+  background: rgba(201,151,43,.1);
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* ═══════════════════════════════════════════════
+   SECTION LAYOUT
+═══════════════════════════════════════════════ */
+.report-body { padding: 28px 36px; position: relative; z-index: 1; }
+@media (max-width: 500px) { .report-body { padding: 18px; } }
+
+.section { margin-bottom: 32px; }
+.section:last-child { margin-bottom: 0; }
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--border);
+}
+.section-icon {
+  width: 34px; height: 34px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.icon-gold   { background: rgba(201,151,43,.15); }
+.icon-green  { background: var(--green-lt); }
+.icon-blue   { background: var(--blue-lt); }
+.icon-orange { background: var(--orange-lt); }
+.icon-ink    { background: rgba(26,26,46,.08); }
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.section-count {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--ivory);
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+/* ═══════════════════════════════════════════════
+   SPIRITUAL PATHWAY
+═══════════════════════════════════════════════ */
+.pathway-row {
+  display: flex;
+  gap: 0;
+  margin-bottom: 18px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.path-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 70px;
+  position: relative;
+}
+.path-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 22px; right: -1px;
+  width: calc(100% - 44px);
+  height: 2px;
+  background: var(--border);
+  margin: 0 22px;
+  z-index: 0;
+}
+.path-step.done:not(:last-child)::after { background: var(--gold); }
+.path-circle {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 2px solid var(--border);
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  position: relative; z-index: 1;
+  transition: all .3s;
+}
+.path-step.done    .path-circle { border-color: var(--gold); background: rgba(201,151,43,.12); }
+.path-step.current .path-circle { border-color: var(--blue); background: var(--blue-lt); box-shadow: 0 0 0 5px rgba(30,79,168,.12); }
+.path-check {
+  position: absolute; top: -4px; right: -4px;
+  width: 17px; height: 17px; border-radius: 50%;
+  background: var(--green); color: #fff;
+  font-size: 9px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid #fff;
+}
+.path-lbl { font-size: 9px; text-align: center; margin-top: 6px; color: var(--muted); font-weight: 500; line-height: 1.3; max-width: 70px; }
+.path-step.done .path-lbl { color: var(--ink); font-weight: 600; }
+.path-step.current .path-lbl { color: var(--blue); font-weight: 700; }
+
+.pathway-summary {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 18px;
+  background: var(--gold-pale);
+  border: 1px solid rgba(201,151,43,.3);
+  border-radius: 10px;
+  flex-wrap: wrap;
+}
+.pathway-pct {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+.pathway-pct-sub { font-size: 11px; color: var(--muted); }
+.pathway-next { flex: 1; min-width: 160px; font-size: 13px; line-height: 1.5; }
+.pathway-next strong { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 4px; }
+
+/* ═══════════════════════════════════════════════
+   MILESTONES
+═══════════════════════════════════════════════ */
+.milestone-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+.milestone-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--green-lt);
+  border: 1px solid #b8dfcc;
+  border-radius: 10px;
+}
+.ms-icon {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #fff;
+  border: 2px solid #b8dfcc;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.ms-type { font-size: 13px; font-weight: 600; color: var(--green); }
+.ms-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.ms-notes { font-size: 11px; color: var(--ink); margin-top: 4px; font-style: italic; }
+
+.no-data {
+  display: flex; align-items: center; gap: 10px;
+  padding: 16px 18px;
+  background: var(--ivory);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ═══════════════════════════════════════════════
+   ATTENDANCE
+═══════════════════════════════════════════════ */
+.att-stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+@media (max-width: 500px) { .att-stat-row { grid-template-columns: repeat(2, 1fr); } }
+.att-stat {
+  text-align: center;
+  padding: 14px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.att-stat .num {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+.att-stat .lbl { font-size: 10px; color: var(--muted); margin-top: 4px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; }
+.att-stat.present { background: var(--green-lt);  border-color: #b8dfcc; }
+.att-stat.present .num { color: var(--green); }
+.att-stat.absent  { background: var(--red-lt);    border-color: #f0b0b0; }
+.att-stat.absent  .num { color: var(--red); }
+.att-stat.late    { background: var(--orange-lt); border-color: #f0c96a; }
+.att-stat.late    .num { color: var(--orange); }
+.att-stat.rate    { background: var(--blue-lt);   border-color: #c7ddf8; }
+.att-stat.rate    .num { color: var(--blue); }
+
+/* mini progress bar */
+.att-bar-wrap { height: 10px; background: var(--ivory); border-radius: 5px; overflow: hidden; margin-bottom: 16px; display: flex; }
+.att-bar-seg { height: 100%; transition: width .8s ease; }
+.seg-present { background: var(--green); }
+.seg-late    { background: var(--orange); }
+.seg-excused { background: var(--blue); }
+.seg-absent  { background: #e8b0aa; }
+
+/* table */
+.att-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.att-table th { background: var(--ivory); padding: 7px 10px; text-align: left; font-size: 9px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); border-bottom: 1px solid var(--border); font-weight: 700; }
+.att-table td { padding: 7px 10px; border-bottom: 1px solid #f0ece5; vertical-align: middle; }
+.att-table tr:last-child td { border-bottom: none; }
+.att-table tr:nth-child(even) td { background: #fdf9f4; }
+.status-present { color: var(--green);  font-weight: 700; font-size: 11px; }
+.status-absent  { color: var(--red);    font-weight: 700; font-size: 11px; }
+.status-late    { color: var(--orange); font-weight: 700; font-size: 11px; }
+.status-excused { color: var(--blue);   font-weight: 700; font-size: 11px; }
+
+.att-table-wrap { overflow-x: auto; max-height: 320px; overflow-y: auto; border-radius: 8px; border: 1px solid var(--border); }
+
+/* ═══════════════════════════════════════════════
+   FOLLOW-UP LOG
+═══════════════════════════════════════════════ */
+.followup-item {
+  display: flex;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--ivory);
+  margin-bottom: 8px;
+}
+.followup-item:last-child { margin-bottom: 0; }
+.fu-dot {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--blue-lt);
+  border: 2px solid #c7ddf8;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+}
+.fu-date { font-size: 11px; color: var(--muted); }
+.fu-method { font-size: 13px; font-weight: 600; color: var(--ink); }
+.fu-outcome { font-size: 12px; color: var(--blue); margin-top: 2px; }
+.fu-notes { font-size: 11px; color: var(--muted); margin-top: 3px; font-style: italic; }
+.fu-by { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+/* ═══════════════════════════════════════════════
+   GUARDIAN INFO
+═══════════════════════════════════════════════ */
+.guardian-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 480px) { .guardian-row { grid-template-columns: 1fr; } }
+.guardian-card {
+  padding: 14px 16px;
+  background: var(--ivory);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.guardian-title { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
+.guardian-name  { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.guardian-rel   { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+.guardian-phone {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 13px; font-weight: 600; color: var(--blue);
+  background: var(--blue-lt); padding: 4px 10px; border-radius: 20px;
+  border: 1px solid #c7ddf8;
+}
+
+/* ═══════════════════════════════════════════════
+   PASTORAL REMARK AREA
+═══════════════════════════════════════════════ */
+.remark-area {
+  background: var(--ivory);
+  border: 1.5px dashed var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  min-height: 80px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink);
+  outline: none;
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+  resize: vertical;
+  transition: border-color .2s;
+}
+.remark-area:focus { border-color: var(--gold); border-style: solid; background: #fff; }
+.remark-area[data-placeholder]:empty::before {
+  content: attr(data-placeholder);
+  color: var(--muted);
+  pointer-events: none;
+}
+.remark-hint { font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+.sig-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 22px;
+}
+@media (max-width: 480px) { .sig-row { grid-template-columns: 1fr; } }
+.sig-block { display: flex; flex-direction: column; gap: 4px; }
+.sig-line {
+  height: 44px;
+  border-bottom: 1.5px solid var(--ink);
+  margin-bottom: 4px;
+  /* editable for screen */
+}
+.sig-label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+
+/* ═══════════════════════════════════════════════
+   REPORT FOOTER
+═══════════════════════════════════════════════ */
+.report-footer {
+  background: var(--ink);
+  padding: 18px 36px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.footer-logo {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-size: 11px;
+  font-weight: 700; color: var(--ink); flex-shrink: 0;
+}
+.footer-text { flex: 1; font-size: 11px; color: rgba(255,255,255,.45); line-height: 1.6; }
+.footer-text strong { color: rgba(255,255,255,.8); }
+.footer-seal {
+  width: 48px; height: 48px; border-radius: 50%;
+  border: 2px dashed rgba(201,151,43,.5);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; text-align: center; color: rgba(201,151,43,.6);
+  font-weight: 600; line-height: 1.3; letter-spacing: .04em; flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════
+   LOADING STATE
+═══════════════════════════════════════════════ */
+.loading-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(26,26,46,.6);
+  z-index: 9000;
+  align-items: center; justify-content: center;
+  backdrop-filter: blur(3px);
+}
+.loading-overlay.show { display: flex; }
+.loading-box {
+  background: #fff; border-radius: 14px;
+  padding: 32px 40px; text-align: center;
+  box-shadow: 0 24px 60px rgba(0,0,0,.3);
+}
+.spin { display: inline-block; animation: spin .7s linear infinite; font-size: 28px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-box p { margin-top: 12px; font-size: 14px; color: var(--muted); }
+
+/* ═══════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════ */
+.toast {
+  position: fixed; bottom: 20px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--ink); color: #fff;
+  padding: 11px 22px; border-radius: 30px;
+  font-size: 13px; font-weight: 500;
+  opacity: 0; transition: opacity .3s, transform .3s;
+  z-index: 9999; pointer-events: none;
+  max-width: calc(100vw - 40px); text-align: center;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.success { background: var(--green); }
+.toast.error   { background: var(--red); }
+
+/* ═══════════════════════════════════════════════
+   PRINT STYLES  ✶  @media print
+═══════════════════════════════════════════════ */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html, body {
+    background: #fff !important;
+    padding: 0 !important;
+    font-size: 11pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  .control-bar   { display: none !important; }
+  .toast         { display: none !important; }
+  .loading-overlay { display: none !important; }
+  .remark-hint   { display: none !important; }
+  .no-print      { display: none !important; }
+
+  .report-outer  { max-width: 100%; margin: 0; padding: 0; }
+  .report-doc    { border-radius: 0; box-shadow: none; }
+
+  .report-header { padding: 24px 28px 20px !important; }
+  .report-body   { padding: 20px 28px !important; }
+  .profile-band  { padding: 16px 28px !important; }
+  .report-footer { padding: 14px 28px !important; }
+
+  /* Prevent awkward page breaks */
+  .section       { page-break-inside: avoid; break-inside: avoid; }
+  .milestone-card { page-break-inside: avoid; break-inside: avoid; }
+  .followup-item  { page-break-inside: avoid; break-inside: avoid; }
+
+  /* Attendance table: let it flow naturally */
+  .att-table-wrap { max-height: none !important; overflow: visible !important; }
+
+  /* Make contenteditable look normal when printed */
+  .remark-area {
+    border: 1px solid #ccc !important;
+    background: #fafafa !important;
+    min-height: 60px !important;
+  }
+
+  /* Signature lines */
+  .sig-line { border-bottom: 1.5px solid #333 !important; }
+
+  /* Show page 2 hint */
+  .att-table-wrap { display: block !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ LOADING ══ -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-box">
+    <div class="spin">⏳</div>
+    <p id="loadingMsg">Loading child data…</p>
+  </div>
+</div>
+
+<!-- ══ CONTROL BAR ══ -->
+<div class="control-bar">
+  <div class="control-logo">CY</div>
+  <div>
+    <div class="control-title">Child Progress Report</div>
+    <div class="control-subtitle">KCMC Child &amp; Youth Ministry</div>
+  </div>
+
+  <div class="ctrl-field">
+    <label>Roll No. or Name</label>
+    <input type="text" id="ctrlSearch" placeholder="e.g. CY-0001 or Jane Doe" autocomplete="off">
+  </div>
+  <div class="ctrl-field" style="min-width:120px">
+    <label>Period</label>
+    <select id="ctrlPeriod">
+      <option value="all">All Time</option>
+      <option value="3">Last 3 Months</option>
+      <option value="6" selected>Last 6 Months</option>
+      <option value="12">Last 12 Months</option>
+    </select>
+  </div>
+
+  <div class="ctrl-actions">
+    <button class="btn-ctrl btn-white" onclick="searchAndLoad()">🔍 Load</button>
+    <button class="btn-ctrl btn-gold"  onclick="generatePDF()">🖨 Print / PDF</button>
+    <button class="btn-ctrl btn-white" onclick="window.location.href='cydashboard.html'" style="opacity:.6">← Dashboard</button>
+  </div>
+</div>
+
+<!-- ══ REPORT DOCUMENT ══ -->
+<div class="report-outer">
+<div class="report-doc" id="reportDoc">
+
+  <!-- HEADER -->
+  <div class="report-header">
+    <div class="header-left">
+      <div class="ministry-name">Kingdom Covenant Ministry Church</div>
+      <div class="ministry-sub">Child &amp; Youth Ministry — KCMC CY</div>
+      <div class="report-type">📋 Child Progress Report</div>
+      <div class="report-meta" style="margin-top:10px">
+        Generated: <strong id="rGenDate">—</strong> &nbsp;·&nbsp;
+        Period: <strong id="rPeriod">—</strong> &nbsp;·&nbsp;
+        Prepared by: <strong id="rPreparedBy" contenteditable="true" spellcheck="false" style="outline:none;min-width:80px;cursor:text;border-bottom:1px dashed rgba(255,255,255,.3)">Ministry Admin</strong>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="child-photo-wrap">
+        <img id="childPhotoImg" class="child-photo" src="" alt="Child Photo" style="display:none">
+        <div class="photo-placeholder" id="photoPlaceholder" onclick="document.getElementById('photoUploadInput').click()" title="Click to upload photo">
+          <div class="upload-icon">📷</div>
+          <span>Tap to add<br>photo</span>
+          <div class="photo-badge no-print">Upload</div>
+        </div>
+        <input type="file" id="photoUploadInput" class="photo-upload-input" accept="image/*" onchange="handlePhotoUpload(this)">
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE BAND -->
+  <div class="profile-band">
+    <div class="profile-grid">
+      <div class="profile-item">
+        <div class="lbl">Roll Number</div>
+        <div class="val mono" id="rRollNo">—</div>
+      </div>
+      <div class="profile-item">
+        <div class="lbl">Full Name</div>
+        <div class="val" id="rFullName">—</div>
+      </div>
+      <div class="profile-item">
+        <div class="lbl">Gender</div>
+        <div class="val" id="rGender">—</div>
+      </div>
+      <div class="profile-item">
+        <div class="lbl">Date of Birth</div>
+        <div class="val" id="rDOB">—</div>
+      </div>
+      <div class="profile-item">
+        <div class="lbl">Age Group</div>
+        <div class="val" id="rAgeGroup">—</div>
+      </div>
+      <div class="profile-item">
+        <div class="lbl">School</div>
+        <div class="val" id="rSchool">—</div>
+      </div>
+      <div class="profile-item">
+        <div class="lbl">Class / Grade</div>
+        <div class="val" id="rGrade">—</div>
+      </div>
+      <div class="profile-item">
+        <div class="lbl">Home Fellowship</div>
+        <div class="val" id="rFellowship">—</div>
+      </div>
+      <div class="profile-item">
+        <div class="lbl">Registration Date</div>
+        <div class="val" id="rRegDate">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPORT BODY -->
+  <div class="report-body">
+
+    <!-- ── 1. SPIRITUAL PATHWAY ── -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-icon icon-gold">🌱</div>
+        <div class="section-title">Spiritual Growth Pathway</div>
+        <span class="section-count" id="pathwayCount">0 / 7</span>
+      </div>
+      <div class="pathway-row" id="pathwayRow">
+        <!-- rendered by JS -->
+      </div>
+      <div class="pathway-summary">
+        <div>
+          <div class="pathway-pct" id="pathwayPct">0%</div>
+          <div class="pathway-pct-sub">Journey progress</div>
+        </div>
+        <div class="pathway-next" id="pathwayNext">
+          <strong>Next Step</strong>
+          Loading pathway data…
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 2. MILESTONES ── -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-icon icon-green">🏅</div>
+        <div class="section-title">Milestones Achieved</div>
+        <span class="section-count" id="msCount">0</span>
+      </div>
+      <div id="msContent">
+        <div class="no-data">📭 No milestones recorded yet.</div>
+      </div>
+    </div>
+
+    <!-- ── 3. ATTENDANCE ── -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-icon icon-blue">✅</div>
+        <div class="section-title">Attendance Summary</div>
+        <span class="section-count" id="attCount">0 sessions</span>
+      </div>
+      <div class="att-stat-row">
+        <div class="att-stat present"><div class="num" id="attPresent">0</div><div class="lbl">Present</div></div>
+        <div class="att-stat absent" ><div class="num" id="attAbsent">0</div> <div class="lbl">Absent</div></div>
+        <div class="att-stat late"   ><div class="num" id="attLate">0</div>   <div class="lbl">Late</div></div>
+        <div class="att-stat rate"   ><div class="num" id="attRate">—</div>   <div class="lbl">Attend. Rate</div></div>
+      </div>
+      <div class="att-bar-wrap" id="attBar"></div>
+      <div class="att-table-wrap">
+        <table class="att-table">
+          <thead>
+            <tr>
+              <th>#</th><th>Date</th><th>Session</th><th>Status</th><th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="attTableBody">
+            <tr><td colspan="5" style="text-align:center;padding:20px;color:var(--muted)">No attendance records found</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── 4. FOLLOW-UP LOG ── -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-icon icon-orange">🔔</div>
+        <div class="section-title">Follow-Up Log</div>
+        <span class="section-count" id="fuCount">0</span>
+      </div>
+      <div id="fuContent">
+        <div class="no-data">📭 No follow-up actions recorded.</div>
+      </div>
+    </div>
+
+    <!-- ── 5. GUARDIAN CONTACTS ── -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-icon icon-ink">👨‍👩‍👧</div>
+        <div class="section-title">Guardian / Emergency Contacts</div>
+      </div>
+      <div class="guardian-row">
+        <div class="guardian-card">
+          <div class="guardian-title">Father / Guardian 1</div>
+          <div class="guardian-name" id="g1Name">—</div>
+          <div class="guardian-rel"  id="g1Rel">—</div>
+          <div class="guardian-phone" id="g1Phone"><span>📞</span> <span id="g1PhoneVal">—</span></div>
+        </div>
+        <div class="guardian-card">
+          <div class="guardian-title">Mother / Guardian 2</div>
+          <div class="guardian-name" id="g2Name">—</div>
+          <div class="guardian-rel"  id="g2Rel">—</div>
+          <div class="guardian-phone" id="g2Phone"><span>📞</span> <span id="g2PhoneVal">—</span></div>
+        </div>
+      </div>
+      <div style="margin-top:10px">
+        <div class="guardian-card" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <div>
+            <div class="guardian-title">Emergency Contact</div>
+            <div class="guardian-name" id="gEmerg">—</div>
+          </div>
+          <div style="margin-left:auto">
+            <div class="guardian-title">KCMC Membership</div>
+            <div style="font-size:13px;font-weight:600" id="gMember">—</div>
+          </div>
+          <div>
+            <div class="guardian-title">Member Card No.</div>
+            <div style="font-size:13px;font-weight:600;font-family:'DM Mono',monospace" id="gCardNo">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 6. SPECIAL NEEDS ── -->
+    <div class="section" id="specialNeedsSection" style="display:none">
+      <div class="section-head">
+        <div class="section-icon icon-orange">⚕️</div>
+        <div class="section-title">Medical / Special Needs Note</div>
+      </div>
+      <div style="padding:14px 16px;background:#fff8ec;border:1px solid #f0c96a;border-radius:10px;font-size:13px;line-height:1.6;color:var(--ink)">
+        <strong style="color:var(--orange)">Note to leaders &amp; parents: </strong>
+        <span id="rSpecialNeeds">—</span>
+      </div>
+    </div>
+
+    <!-- ── 7. MENTOR INFO ── -->
+    <div class="section" id="mentorSection">
+      <div class="section-head">
+        <div class="section-icon icon-gold">🤝</div>
+        <div class="section-title">Assigned Mentors</div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap" id="mentorCards"></div>
+    </div>
+
+    <!-- ── 8. PASTORAL REMARKS ── -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-icon icon-ink">✍️</div>
+        <div class="section-title">Pastoral Remarks</div>
+      </div>
+      <div
+        class="remark-area"
+        id="pastoralRemarks"
+        contenteditable="true"
+        spellcheck="true"
+        data-placeholder="Enter pastoral remarks, encouragements, or recommendations for this child here…"
+      ></div>
+      <p class="remark-hint no-print">💡 Click above to type remarks directly — they will appear in the printed report.</p>
+    </div>
+
+    <!-- ── 9. SIGNATURES ── -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-icon icon-ink">✒️</div>
+        <div class="section-title">Acknowledgement</div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6">
+        This report reflects the child's participation and growth record as of the date above. Please review with your child and contact the ministry leader for any questions.
+      </p>
+      <div class="sig-row">
+        <div class="sig-block">
+          <div class="sig-line"></div>
+          <div class="sig-label">Ministry Leader Signature &amp; Date</div>
+        </div>
+        <div class="sig-block">
+          <div class="sig-line"></div>
+          <div class="sig-label">Parent / Guardian Signature &amp; Date</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /report-body -->
+
+  <!-- FOOTER -->
+  <div class="report-footer">
+    <div class="footer-logo">CY</div>
+    <div class="footer-text">
+      <strong>Kingdom Covenant Ministry Church</strong> — Child &amp; Youth Ministry<br>
+      This report is confidential and intended for the child's family and assigned ministry leaders only.
+    </div>
+    <div class="footer-seal">OFFICIAL<br>RECORD</div>
+  </div>
+
+</div><!-- /report-doc -->
+</div><!-- /report-outer -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  CONFIG  — update this URL to your deployed Apps Script URL
+// ═══════════════════════════════════════════════════════════════
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
+const PATHWAY_STORAGE_KEY = 'cy_pathway_data';
+
+// ═══════════════════════════════════════════════════════════════
+//  PATHWAY DEFINITION
+// ═══════════════════════════════════════════════════════════════
+const PATHWAY_STAGES = [
+  { key:'enrolled',  label:'Enrolled',     icon:'📝', milestone:null },
+  { key:'attending', label:'Attending',    icon:'⛪', milestone:null },
+  { key:'salvation', label:'Salvation',    icon:'✝️',  milestone:'Salvation Decision' },
+  { key:'verse',     label:'Mem. Verse',   icon:'📖', milestone:'Memory Verse Champion' },
+  { key:'communion', label:'Communion',    icon:'🍞', milestone:'Holy Communion (first)' },
+  { key:'baptism',   label:'Baptism',      icon:'💧', milestone:'Water Baptism' },
+  { key:'serving',   label:'Serving',      icon:'🤝', milestone:'Volunteered for Outreach' },
+];
+const NEXT_STEPS = [
+  'Encourage regular attendance at Sunday services.',
+  'Invite to attend CY sessions consistently every week.',
+  'Present the gospel clearly; pray with them for salvation.',
+  'Begin the scripture memory program — assign a verse weekly.',
+  'Discuss Holy Communion with parents; schedule preparation class.',
+  'Discuss baptism class with parents; arrange a baptism date.',
+  '🎉 All 7 stages complete! Consider leadership mentoring.',
+];
+const MS_ICONS = {
+  'Water Baptism':'💧','Holy Communion (first)':'🍞','Camp Attended':'⛺',
+  'Leadership Appointed':'⭐','Award / Recognition':'🏆','Salvation Decision':'✝️',
+  'Memory Verse Champion':'📖','Volunteered for Outreach':'📣','Other':'📌',
+};
+const METHOD_ICONS = {
+  'Phone call to parent':'📞','WhatsApp message':'💬','Home visit':'🏠',
+  'In-person at church':'⛪','Prayer only':'🙏',
+};
+
+// ═══════════════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════════════
+function esc(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function fmtDate(d) {
+  if (!d) return '—';
+  const dt = new Date(d);
+  if (isNaN(dt)) return String(d);
+  return dt.toLocaleDateString('en-KE', { day:'numeric', month:'short', year:'numeric' });
+}
+function fmtAge(dob) {
+  if (!dob) return '';
+  const d = new Date(dob), now = new Date();
+  const yrs = now.getFullYear() - d.getFullYear() -
+    (now < new Date(now.getFullYear(), d.getMonth(), d.getDate()) ? 1 : 0);
+  return yrs > 0 ? ' (Age ' + yrs + ')' : '';
+}
+function periodLabel(months) {
+  if (!months || months === 'all') return 'All Time';
+  return 'Last ' + months + ' Months';
+}
+function cutoffDate(months) {
+  if (!months || months === 'all') return null;
+  const d = new Date();
+  d.setMonth(d.getMonth() - parseInt(months));
+  return d;
+}
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast show ' + type;
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.className = 'toast', 4000);
+}
+function setLoading(show, msg='') {
+  document.getElementById('loadingOverlay').classList.toggle('show', show);
+  if (msg) document.getElementById('loadingMsg').textContent = msg;
+}
+async function api(params) {
+  const res = await fetch(SCRIPT_URL + '?' + new URLSearchParams(params).toString(), { redirect:'follow' });
+  return res.json();
+}
+function getLocalPathway(rollNo) {
+  try { return JSON.parse(localStorage.getItem(PATHWAY_STORAGE_KEY) || '{}')[rollNo] || null; } catch { return null; }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('rGenDate').textContent = new Date().toLocaleDateString('en-KE', { day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('rPeriod').textContent  = periodLabel(document.getElementById('ctrlPeriod').value);
+  document.getElementById('ctrlPeriod').addEventListener('change', () => {
+    document.getElementById('rPeriod').textContent = periodLabel(document.getElementById('ctrlPeriod').value);
+  });
+  document.getElementById('ctrlSearch').addEventListener('keydown', e => { if (e.key === 'Enter') searchAndLoad(); });
+  renderEmptyPathway();
+
+  // Auto-load if URL has rollNo param
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('rollNo')) {
+    document.getElementById('ctrlSearch').value = params.get('rollNo');
+    searchAndLoad();
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════
+//  SEARCH & LOAD
+// ═══════════════════════════════════════════════════════════════
+async function searchAndLoad() {
+  const q = document.getElementById('ctrlSearch').value.trim();
+  if (!q) { showToast('Enter a Roll No. or Name', 'error'); return; }
+  setLoading(true, 'Searching for child…');
+  try {
+    const cd = await api({ action:'getChildren', q });
+    if (!cd.success || !cd.data.length) { showToast('No child found — check Roll No. or name', 'error'); setLoading(false); return; }
+    if (cd.data.length > 1) {
+      // pick exact roll match, else first
+      const exact = cd.data.find(c => c.rollNo.toLowerCase() === q.toLowerCase());
+      await loadReport(exact ? exact.rollNo : cd.data[0].rollNo);
+    } else {
+      await loadReport(cd.data[0].rollNo);
+    }
+  } catch(err) {
+    showToast('Error: ' + err.message, 'error');
+    setLoading(false);
+  }
+}
+
+async function loadReport(rollNo) {
+  setLoading(true, 'Loading complete profile…');
+  const period   = document.getElementById('ctrlPeriod').value;
+  const cutoff   = cutoffDate(period);
+
+  try {
+    const [childRes, msRes, attRes, fuRes] = await Promise.all([
+      api({ action:'getChild',      rollNo }),
+      api({ action:'getMilestones', rollNo }),
+      api({ action:'getAttendance', rollNo }),
+      api({ action:'getFollowUps' }),
+    ]);
+
+    if (!childRes.success) { showToast('Child record not found', 'error'); setLoading(false); return; }
+
+    const child     = childRes.data;
+    const milestones = msRes.success  ? (msRes.data  || []) : [];
+    let   attData    = attRes.success  ? (attRes.data  || []) : [];
+    const fuAll      = fuRes.success   ? (fuRes.data   || []) : [];
+
+    // filter by period
+    if (cutoff) {
+      attData = attData.filter(a => new Date(a.sessionDate) >= cutoff);
+    }
+
+    // filter follow-ups for this child (match by rollNo or name fragment)
+    const fuData = fuAll.filter(f => {
+      const fc = String(f.child || '').toLowerCase();
+      return fc.includes(rollNo.toLowerCase()) || fc.includes(String(child['Full Name']||'').toLowerCase());
+    });
+
+    // Populate
+    populateProfile(child);
+    populatePathway(rollNo, milestones);
+    populateMilestones(milestones);
+    populateAttendance(attData, period);
+    populateFollowUps(fuData);
+    populateGuardians(child);
+    populateMentors(child);
+    populateSpecialNeeds(child);
+    tryAutoLoadPhoto(child);
+
+    setLoading(false);
+    showToast('✅ Report loaded for ' + (child['Full Name'] || rollNo), 'success');
+    document.getElementById('reportDoc').scrollIntoView({ behavior:'smooth', block:'start' });
+  } catch(err) {
+    showToast('Error loading report: ' + err.message, 'error');
+    setLoading(false);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  POPULATE SECTIONS
+// ═══════════════════════════════════════════════════════════════
+function populateProfile(c) {
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val || '—'; };
+  set('rRollNo',    c['Roll No.']);
+  set('rFullName',  c['Full Name']);
+  set('rGender',    c['Gender'] === 'M' ? '♂ Male' : c['Gender'] === 'F' ? '♀ Female' : c['Gender']);
+  set('rDOB',       fmtDate(c['Date of Birth']) + fmtAge(c['Date of Birth']));
+  set('rAgeGroup',  c['Age Group']);
+  set('rSchool',    c['School']);
+  set('rGrade',     c['Class / Grade']);
+  set('rFellowship',c['Home Fellowship Group']);
+  set('rRegDate',   fmtDate(c['Reg. Date']));
+  document.title    = 'CY Report — ' + (c['Full Name'] || c['Roll No.']);
+  document.getElementById('rPeriod').textContent = periodLabel(document.getElementById('ctrlPeriod').value);
+}
+
+function tryAutoLoadPhoto(c) {
+  const link = c['Passport Photo'] || '';
+  if (!link) return;
+  // Google Drive direct link conversion
+  let src = link;
+  const m = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (m) src = 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w400';
+  setPhoto(src);
+}
+
+// ── PATHWAY ──
+function renderEmptyPathway() {
+  const stages = Array(7).fill('');
+  stages[0] = 'current';
+  renderPathwayRow(stages);
+  document.getElementById('pathwayPct').textContent  = '0%';
+  document.getElementById('pathwayCount').textContent = '0 / 7';
+  document.getElementById('pathwayNext').innerHTML    = '<strong>Next Step</strong>Load a child record to view their journey.';
+}
+
+function populatePathway(rollNo, milestones) {
+  // Try local storage first (from dashboard), then compute from milestones
+  let stages = getLocalPathway(rollNo);
+  if (!stages) {
+    const types = new Set(milestones.map(m => m.type));
+    stages = PATHWAY_STAGES.map(s => (s.key === 'enrolled' || (s.milestone && types.has(s.milestone))) ? 'done' : '');
+    let foundCurrent = false;
+    for (let i = 0; i < stages.length; i++) {
+      if (stages[i] !== 'done' && !foundCurrent) { stages[i] = 'current'; foundCurrent = true; }
+    }
+  }
+  renderPathwayRow(stages);
+  const doneCount = stages.filter(s => s === 'done').length;
+  const pct       = Math.round(doneCount / PATHWAY_STAGES.length * 100);
+  const nextIdx   = stages.findIndex(s => s === 'current');
+  document.getElementById('pathwayPct').textContent   = pct + '%';
+  document.getElementById('pathwayCount').textContent = doneCount + ' / ' + PATHWAY_STAGES.length;
+  const nextEl = document.getElementById('pathwayNext');
+  nextEl.innerHTML = pct === 100
+    ? '<strong>🎉 Journey Complete!</strong>All 7 stages achieved — consider leadership mentoring.'
+    : '<strong>Next Step</strong>' + esc(NEXT_STEPS[nextIdx] || '');
+}
+
+function renderPathwayRow(stages) {
+  document.getElementById('pathwayRow').innerHTML = PATHWAY_STAGES.map((s, i) => {
+    const state = stages[i] || '';
+    const check = state === 'done' ? '<div class="path-check">✓</div>' : '';
+    return `<div class="path-step ${state}">
+      <div class="path-circle">${s.icon}${check}</div>
+      <div class="path-lbl">${s.label}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── MILESTONES ──
+function populateMilestones(milestones) {
+  document.getElementById('msCount').textContent = milestones.length;
+  const el = document.getElementById('msContent');
+  if (!milestones.length) {
+    el.innerHTML = '<div class="no-data">📭 No milestones recorded yet. Encourage the child to earn their first milestone!</div>';
+    return;
+  }
+  el.innerHTML = '<div class="milestone-grid">' +
+    milestones.map(m => `
+      <div class="milestone-card">
+        <div class="ms-icon">${esc(MS_ICONS[m.type] || '📌')}</div>
+        <div>
+          <div class="ms-type">${esc(m.type)}</div>
+          <div class="ms-meta">${fmtDate(m.date)}${m.recordedBy ? ' · ' + esc(m.recordedBy) : ''}</div>
+          ${m.notes ? `<div class="ms-notes">"${esc(m.notes)}"</div>` : ''}
+        </div>
+      </div>`).join('') + '</div>';
+}
+
+// ── ATTENDANCE ──
+function populateAttendance(attData, period) {
+  const sorted = attData.slice().sort((a,b) => new Date(b.sessionDate) - new Date(a.sessionDate));
+  const total   = sorted.length;
+  const present = sorted.filter(a => a.status === 'Present').length;
+  const absent  = sorted.filter(a => a.status === 'Absent').length;
+  const late    = sorted.filter(a => a.status === 'Late').length;
+  const excused = sorted.filter(a => a.status === 'Excused').length;
+  const rate    = total > 0 ? Math.round((present + late) / total * 100) : 0;
+
+  document.getElementById('attPresent').textContent = present;
+  document.getElementById('attAbsent').textContent  = absent;
+  document.getElementById('attLate').textContent    = late;
+  document.getElementById('attRate').textContent    = total > 0 ? rate + '%' : '—';
+  document.getElementById('attCount').textContent   = total + ' session' + (total !== 1 ? 's' : '');
+
+  // bar
+  if (total > 0) {
+    document.getElementById('attBar').innerHTML =
+      `<div class="att-bar-seg seg-present" style="width:${present/total*100}%"></div>` +
+      `<div class="att-bar-seg seg-late"    style="width:${late/total*100}%"></div>` +
+      `<div class="att-bar-seg seg-excused" style="width:${excused/total*100}%"></div>` +
+      `<div class="att-bar-seg seg-absent"  style="width:${absent/total*100}%"></div>`;
+  } else {
+    document.getElementById('attBar').innerHTML = '<div class="att-bar-seg seg-absent" style="width:100%;opacity:.2"></div>';
+  }
+
+  const tbody = document.getElementById('attTableBody');
+  if (!sorted.length) {
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--muted)">No attendance records for this period</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = sorted.map((a, i) => {
+    const cls = 'status-' + (a.status || '').toLowerCase();
+    const icon = a.status === 'Present' ? '✅' : a.status === 'Absent' ? '❌' : a.status === 'Late' ? '⏰' : '📋';
+    return `<tr>
+      <td style="color:var(--muted);font-size:11px">${i + 1}</td>
+      <td>${fmtDate(a.sessionDate)}</td>
+      <td style="font-size:12px">${esc(a.sessionName)}</td>
+      <td class="${cls}">${icon} ${esc(a.status)}</td>
+      <td style="font-size:11px;color:var(--muted)">${esc(a.notes || '')}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── FOLLOW-UPS ──
+function populateFollowUps(fuData) {
+  document.getElementById('fuCount').textContent = fuData.length + ' record' + (fuData.length !== 1 ? 's' : '');
+  const el = document.getElementById('fuContent');
+  if (!fuData.length) {
+    el.innerHTML = '<div class="no-data">📭 No pastoral follow-up actions recorded for this child.</div>';
+    return;
+  }
+  el.innerHTML = fuData.slice(0, 20).map(f => `
+    <div class="followup-item">
+      <div class="fu-dot">${esc(METHOD_ICONS[f.method] || '📋')}</div>
+      <div style="flex:1;min-width:0">
+        <div class="fu-date">${fmtDate(f.date)}</div>
+        <div class="fu-method">${esc(f.method)}</div>
+        <div class="fu-outcome">${esc(f.outcome)}</div>
+        ${f.notes ? `<div class="fu-notes">"${esc(f.notes)}"</div>` : ''}
+        ${f.recordedBy ? `<div class="fu-by">Logged by: ${esc(f.recordedBy)}</div>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+// ── GUARDIANS ──
+function populateGuardians(c) {
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val || '—'; };
+  set('g1Name',    c['Father / Guardian 1 Name']);
+  set('g1Rel',     c['Father / Guardian 1 Relationship']);
+  set('g1PhoneVal',c['Father / Guardian 1 Phone']);
+  set('g2Name',    c['Mother / Guardian 2 Name']);
+  set('g2Rel',     c['Mother / Guardian 2 Relationship']);
+  set('g2PhoneVal',c['Mother / Guardian 2 Phone']);
+  set('gEmerg',    c['Emergency Contact']);
+  set('gMember',   c['KCMC Member?'] === 'Y' ? '✅ Yes — Both parents' : c['KCMC Member?'] === 'One' ? '⚡ One parent' : c['KCMC Member?'] === 'N' ? '❌ No' : c['KCMC Member?'] || '—');
+  set('gCardNo',   c['Member Card No.']);
+}
+
+// ── SPECIAL NEEDS ──
+function populateSpecialNeeds(c) {
+  const sn = c['Special Needs / Medical'] || '';
+  const sec = document.getElementById('specialNeedsSection');
+  if (sn && sn.trim()) {
+    document.getElementById('rSpecialNeeds').textContent = sn;
+    sec.style.display = '';
+  } else {
+    sec.style.display = 'none';
+  }
+}
+
+// ── MENTORS ──
+function populateMentors(c) {
+  const mentors = [
+    { name: c['Mentor 1 Name'], contact: c['Mentor 1 Contact'] },
+    { name: c['Mentor 2 Name'], contact: c['Mentor 2 Contact'] },
+  ].filter(m => m.name);
+
+  const el = document.getElementById('mentorCards');
+  const sec = document.getElementById('mentorSection');
+
+  if (!mentors.length) {
+    el.innerHTML = '<div class="no-data" style="flex:1">📭 No mentors assigned yet.</div>';
+    return;
+  }
+  sec.style.display = '';
+  el.innerHTML = mentors.map((m, i) => `
+    <div class="guardian-card" style="flex:1;min-width:180px">
+      <div class="guardian-title">Mentor ${i + 1}</div>
+      <div class="guardian-name">${esc(m.name)}</div>
+      ${m.contact ? `<div class="guardian-phone" style="margin-top:6px"><span>📞</span> <span>${esc(m.contact)}</span></div>` : ''}
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  PHOTO HANDLING
+// ═══════════════════════════════════════════════════════════════
+function setPhoto(src) {
+  const img  = document.getElementById('childPhotoImg');
+  const wrap = document.getElementById('photoPlaceholder');
+  img.src    = src;
+  img.style.display = 'block';
+  wrap.style.display = 'none';
+}
+function handlePhotoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => setPhoto(e.target.result);
+  reader.readAsDataURL(file);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  PDF GENERATION via window.print()
+// ═══════════════════════════════════════════════════════════════
+function generatePDF() {
+  const name = document.getElementById('rFullName').textContent.trim();
+  if (!name || name === '—') {
+    showToast('Load a child record first', 'error'); return;
+  }
+  // Set document title so browsers use it as PDF filename
+  const roll = document.getElementById('rRollNo').textContent.trim();
+  const date = new Date().toISOString().split('T')[0];
+  document.title = `KCMC_CY_Report_${roll}_${date}`;
+  window.print();
+  // Restore title after short delay
+  setTimeout(() => { document.title = 'KCMC CY — Child Progress Report'; }, 2000);
+}
+</script>
+</body>
+</html>
