@@ -11,6 +11,7 @@
 ═══════════════════════════════════════════════ */
 :root {
   --ink:       #1a1a2e;
+  --navy:      #0a1f44;
   --gold:      #c9972b;
   --gold-lt:   #f0c96a;
   --gold-pale: #fdf6e3;
@@ -32,23 +33,23 @@
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
 html { font-size:15px; }
 body {
-  background: #e8e0d4;
+  background: #fff;
   font-family: 'DM Sans', sans-serif;
   color: var(--ink);
   min-height: 100vh;
-  padding-bottom: 60px;
+  padding-bottom: 0;
 }
 
 /* ═══════════════════════════════════════════════
    CONTROL BAR (screen only)
 ═══════════════════════════════════════════════ */
 .control-bar {
-  background: var(--ink);
+  background: var(--navy);
   color: #fff;
-  padding: 14px 24px;
+  padding: 12px 20px;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   flex-wrap: wrap;
   position: sticky;
   top: 0;
@@ -77,14 +78,23 @@ body {
   color: #fff;
   outline: none;
   transition: border-color .2s;
-  min-width: 160px;
+  min-width: 120px;
+  width: 100%;
 }
 .ctrl-field input::placeholder { color: rgba(255,255,255,.35); }
 .ctrl-field input:focus,
 .ctrl-field select:focus { border-color: var(--gold); }
-.ctrl-field select option { background: var(--ink); }
+.ctrl-field select option { background: var(--navy); }
 
-.ctrl-actions { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+@media (max-width: 600px) {
+  .control-bar { padding: 10px 14px; gap: 8px; }
+  .ctrl-field { flex: 1 1 calc(50% - 8px); min-width: 0; }
+  .ctrl-actions { width: 100%; margin-left: 0; justify-content: flex-end; }
+  .btn-ctrl { padding: 8px 12px; font-size: 12px; }
+  .control-title { font-size: 13px; }
+}
+
+.ctrl-actions { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; align-items: center; }
 .btn-ctrl {
   padding: 9px 16px; border-radius: 7px; font-size: 13px;
   font-family: 'DM Sans', sans-serif; font-weight: 600;
@@ -102,17 +112,17 @@ body {
    REPORT WRAPPER
 ═══════════════════════════════════════════════ */
 .report-outer {
-  max-width: 800px;
-  margin: 28px auto;
-  padding: 0 16px;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /* The printable document */
 .report-doc {
   background: #fff;
-  border-radius: 14px;
+  border-radius: 0;
   overflow: hidden;
-  box-shadow: var(--shadow-lg);
+  box-shadow: none;
   position: relative;
 }
 
@@ -136,13 +146,22 @@ body {
    REPORT HEADER
 ═══════════════════════════════════════════════ */
 .report-header {
-  background: var(--ink);
-  padding: 32px 36px 28px;
+  background: var(--navy);
+  padding: 28px 32px 24px;
   display: flex;
   align-items: flex-start;
-  gap: 28px;
+  gap: 24px;
   position: relative;
   overflow: hidden;
+}
+@media (max-width: 500px) {
+  .report-header {
+    padding: 20px 18px;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .header-right { align-self: flex-end; }
 }
 /* decorative arc */
 .report-header::after {
@@ -245,16 +264,20 @@ body {
 .profile-band {
   background: var(--gold-pale);
   border-bottom: 2px solid var(--border);
-  padding: 22px 36px;
+  padding: 20px 32px;
   position: relative;
   z-index: 1;
+}
+@media (max-width: 500px) {
+  .profile-band { padding: 16px 18px; }
 }
 .profile-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px 24px;
 }
-@media (max-width: 580px) { .profile-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .profile-grid { grid-template-columns: repeat(2, 1fr); gap: 12px 16px; } }
+@media (max-width: 360px) { .profile-grid { grid-template-columns: 1fr; } }
 .profile-item .lbl {
   font-size: 9px;
   font-weight: 700;
@@ -282,8 +305,8 @@ body {
 /* ═══════════════════════════════════════════════
    SECTION LAYOUT
 ═══════════════════════════════════════════════ */
-.report-body { padding: 28px 36px; position: relative; z-index: 1; }
-@media (max-width: 500px) { .report-body { padding: 18px; } }
+.report-body { padding: 28px 32px; position: relative; z-index: 1; }
+@media (max-width: 500px) { .report-body { padding: 16px 18px; } }
 
 .section { margin-bottom: 32px; }
 .section:last-child { margin-bottom: 0; }
@@ -402,7 +425,7 @@ body {
 ═══════════════════════════════════════════════ */
 .milestone-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 10px;
 }
 .milestone-card {
@@ -585,12 +608,16 @@ body {
    REPORT FOOTER
 ═══════════════════════════════════════════════ */
 .report-footer {
-  background: var(--ink);
-  padding: 18px 36px;
+  background: var(--navy);
+  padding: 18px 32px;
   display: flex;
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
+}
+@media (max-width: 500px) {
+  .report-footer { padding: 16px 18px; gap: 12px; }
+  .footer-text { font-size: 10px; }
 }
 .footer-logo {
   width: 30px; height: 30px; border-radius: 50%;
@@ -737,7 +764,7 @@ body {
   <div class="ctrl-actions">
     <button class="btn-ctrl btn-white" onclick="searchAndLoad()">🔍 Load</button>
     <button class="btn-ctrl btn-gold"  onclick="generatePDF()">🖨 Print / PDF</button>
-    <button class="btn-ctrl btn-white" onclick="window.location.href='cydashboard.html'" style="opacity:.6">← Dashboard</button>
+    <button class="btn-ctrl btn-white" onclick="window.location.href='index.html'" style="opacity:.6">← Dashboard</button>
   </div>
 </div>
 
