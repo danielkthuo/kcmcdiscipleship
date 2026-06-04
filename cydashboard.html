@@ -16,7 +16,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--cream); font-family: 'DM Sans', sans-serif; color: var(--ink); min-height: 100vh; }
 
-  /* PIN SCREEN */
+  /* ── PIN ── */
   .pin-screen {
     position: fixed; inset: 0; background: var(--ink);
     display: flex; align-items: center; justify-content: center; z-index: 9999;
@@ -34,90 +34,52 @@
   .pin-box h2 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 6px; }
   .pin-box p  { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
   .pin-dots   { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
-  .pin-dot    {
-    width: 14px; height: 14px; border-radius: 50%;
-    border: 2px solid var(--border); background: transparent;
-    transition: background .2s, border-color .2s;
-  }
+  .pin-dot    { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--border); background: transparent; transition: background .2s, border-color .2s; }
   .pin-dot.filled { background: var(--gold); border-color: var(--gold); }
   .pin-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .pin-key {
-    background: var(--ivory); border: 1.5px solid var(--border); border-radius: 10px;
-    padding: 14px; font-size: 18px; font-weight: 600; cursor: pointer;
-    transition: background .15s, transform .1s; user-select: none; min-height: 52px;
-  }
+  .pin-key { background: var(--ivory); border: 1.5px solid var(--border); border-radius: 10px; padding: 14px; font-size: 18px; font-weight: 600; cursor: pointer; transition: background .15s, transform .1s; user-select: none; min-height: 52px; }
   .pin-key:hover  { background: #f0e8d8; }
   .pin-key:active { transform: scale(0.95); background: #e8dcc8; }
   .pin-key.del    { font-size: 14px; color: var(--muted); }
   .pin-error { color: var(--red); font-size: 13px; margin-top: 12px; min-height: 18px; }
 
-  /* HEADER */
-  .header {
-    background: var(--ink); color: #fff; padding: 14px 20px;
-    display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100;
-  }
-  .header-logo {
-    width: 40px; height: 40px; border-radius: 50%; background: var(--gold); flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink);
-  }
+  /* ── HEADER ── */
+  .header { background: var(--ink); color: #fff; padding: 14px 20px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
+  .header-logo { width: 40px; height: 40px; border-radius: 50%; background: var(--gold); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink); }
   .header-text { flex: 1; min-width: 0; }
   .header h1 { font-family: 'Playfair Display', serif; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .header p  { font-size: 10px; color: var(--gold-light); letter-spacing: .1em; text-transform: uppercase; }
   .header-actions { display: flex; gap: 6px; flex-shrink: 0; }
-  .btn-outline {
-    border: 1.5px solid rgba(201,151,43,0.4); color: var(--gold-light);
-    background: transparent; border-radius: 6px; padding: 7px 10px;
-    font-size: 12px; font-weight: 500; cursor: pointer; transition: background .2s; white-space: nowrap;
-  }
+  .btn-outline { border: 1.5px solid rgba(201,151,43,0.4); color: var(--gold-light); background: transparent; border-radius: 6px; padding: 7px 10px; font-size: 12px; font-weight: 500; cursor: pointer; transition: background .2s; white-space: nowrap; }
   .btn-outline:hover { background: rgba(201,151,43,0.1); }
   @media (max-width: 400px) { .btn-outline .btn-label { display: none; } }
 
-  /* OFFLINE BANNER */
-  .offline-banner {
-    display: none; background: #e67e22; color: #fff;
-    text-align: center; padding: 8px 16px; font-size: 13px; font-weight: 500;
-    position: sticky; top: 68px; z-index: 98;
-  }
+  /* ── BANNERS ── */
+  .offline-banner { display: none; background: #e67e22; color: #fff; text-align: center; padding: 8px 16px; font-size: 13px; font-weight: 500; position: sticky; top: 68px; z-index: 98; }
   .offline-banner.show { display: block; }
-  .sync-banner {
-    display: none; background: var(--green); color: #fff;
-    text-align: center; padding: 8px 16px; font-size: 13px; font-weight: 500;
-    position: sticky; top: 68px; z-index: 98;
-  }
+  .sync-banner { display: none; background: var(--green); color: #fff; text-align: center; padding: 8px 16px; font-size: 13px; font-weight: 500; position: sticky; top: 68px; z-index: 98; }
   .sync-banner.show { display: block; }
 
-  /* TABS */
+  /* ── TABS ── */
   .tabs-wrap { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.07); overflow-x: auto; -webkit-overflow-scrolling: touch; position: sticky; top: 68px; z-index: 99; }
   .tabs { display: flex; gap: 2px; padding: 0 12px; min-width: max-content; }
-  .tab {
-    padding: 11px 14px; font-size: 12px; font-weight: 500; cursor: pointer;
-    border-bottom: 3px solid transparent; color: rgba(255,255,255,0.45);
-    transition: color .2s, border-color .2s; white-space: nowrap; user-select: none;
-  }
+  .tab { padding: 11px 14px; font-size: 12px; font-weight: 500; cursor: pointer; border-bottom: 3px solid transparent; color: rgba(255,255,255,0.45); transition: color .2s, border-color .2s; white-space: nowrap; user-select: none; }
   .tab.active { color: var(--gold-light); border-bottom-color: var(--gold); }
   .tab:hover:not(.active) { color: rgba(255,255,255,0.7); }
 
-  /* MAIN */
+  /* ── LAYOUT ── */
   .main { max-width: 1100px; margin: 20px auto; padding: 0 12px; }
 
-  /* STAT CARDS */
+  /* ── STAT CARDS ── */
   .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
   @media (max-width: 700px) { .stat-row { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
-  @media (max-width: 360px) { .stat-row { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
-  .stat-card {
-    background: var(--section-bg); border: 1px solid var(--border); border-radius: 12px;
-    padding: 16px 14px; box-shadow: var(--shadow);
-  }
+  .stat-card { background: var(--section-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px 14px; box-shadow: var(--shadow); }
   .stat-card .label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 6px; }
   .stat-card .value { font-size: 28px; font-weight: 600; color: var(--ink); line-height: 1; }
   .stat-card .sub   { font-size: 11px; color: var(--muted); margin-top: 4px; }
 
-  /* ALERT CARD */
-  .alert-card {
-    border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;
-    border-left: 4px solid; display: flex; align-items: flex-start; gap: 12px;
-  }
+  /* ── ALERTS ── */
+  .alert-card { border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; border-left: 4px solid; display: flex; align-items: flex-start; gap: 12px; }
   .alert-card.warning { background: #fff8ec; border-color: #e67e22; }
   .alert-card.danger  { background: #fff5f5; border-color: var(--red); }
   .alert-card.info    { background: #f0f7ff; border-color: var(--blue); }
@@ -126,95 +88,69 @@
   .alert-card .alert-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
   .alert-card .alert-text  { font-size: 13px; color: var(--muted); }
 
-  /* PANEL */
+  /* ── PANELS ── */
   .panel { display: none; }
   .panel.active { display: block; }
 
-  /* CARD */
+  /* ── CARDS ── */
   .card { background: var(--section-bg); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden; }
   .card-head { background: var(--ivory); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .card-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; }
   .card-body  { padding: 16px; }
   @media (max-width: 480px) { .card-body { padding: 12px; } }
 
-  /* SEARCH */
+  /* ── SEARCH ── */
   .search-row { display: flex; gap: 8px; flex-wrap: wrap; }
-  .search-input {
-    flex: 1; min-width: 160px; border: 1.5px solid var(--border); border-radius: 7px;
-    padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: max(16px, 14px);
-    background: var(--cream); outline: none; transition: border-color .2s;
-  }
+  .search-input { flex: 1; min-width: 160px; border: 1.5px solid var(--border); border-radius: 7px; padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: max(16px, 14px); background: var(--cream); outline: none; transition: border-color .2s; }
   .search-input:focus { border-color: var(--gold); background: #fff; }
 
-  /* TABLE */
+  /* ── TABLES ── */
   .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th {
-    background: var(--ivory); padding: 9px 10px; text-align: left; font-weight: 600;
-    font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted);
-    border-bottom: 1px solid var(--border); white-space: nowrap;
-  }
+  th { background: var(--ivory); padding: 9px 10px; text-align: left; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
   td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: #fdf8f0; }
-  .roll-badge {
-    font-size: 11px; font-weight: 700; letter-spacing: .05em;
-    color: var(--gold); background: rgba(201,151,43,0.1); padding: 3px 7px;
-    border-radius: 30px; border: 1px solid rgba(201,151,43,0.25); white-space: nowrap; display: inline-block;
-  }
-  .age-badge {
-    font-size: 11px; padding: 3px 7px; border-radius: 30px;
-    background: var(--ivory); border: 1px solid var(--border); white-space: nowrap; display: inline-block;
-  }
-  .btn-sm {
-    font-size: 12px; padding: 6px 12px; border-radius: 6px; cursor: pointer;
-    font-family: 'DM Sans', sans-serif; font-weight: 500; transition: background .15s;
-    white-space: nowrap; touch-action: manipulation;
-  }
-  .btn-gold   { background: var(--gold); color: var(--ink); border: none; }
+  tr.att-duplicate td { background: #fff8ec !important; }
+  tr.att-duplicate:hover td { background: #fff0d6 !important; }
+
+  /* ── BADGES ── */
+  .roll-badge { font-size: 11px; font-weight: 700; letter-spacing: .05em; color: var(--gold); background: rgba(201,151,43,0.1); padding: 3px 7px; border-radius: 30px; border: 1px solid rgba(201,151,43,0.25); white-space: nowrap; display: inline-block; }
+  .age-badge  { font-size: 11px; padding: 3px 7px; border-radius: 30px; background: var(--ivory); border: 1px solid var(--border); white-space: nowrap; display: inline-block; }
+
+  /* ── BUTTONS ── */
+  .btn-sm { font-size: 12px; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 500; transition: background .15s; white-space: nowrap; touch-action: manipulation; }
+  .btn-gold { background: var(--gold); color: var(--ink); border: none; }
   .btn-gold:hover { background: #b8861f; }
   .btn-gold:active { background: #a07219; }
   .btn-outline-sm { background: transparent; border: 1.5px solid var(--border); color: var(--ink); }
   .btn-outline-sm:hover { border-color: var(--gold); }
   .btn-danger { background: var(--red); color: #fff; border: none; }
-
+  .btn-danger:hover { background: #a93226; }
+  .btn-danger:disabled { opacity: .6; cursor: not-allowed; }
   .action-cell { display: flex; gap: 5px; flex-wrap: wrap; }
   @media (max-width: 600px) { .col-school { display: none; } }
 
-  /* MODAL */
-  .modal-backdrop {
-    display: none; position: fixed; inset: 0;
-    background: rgba(26,26,46,0.6); z-index: 8000;
-    align-items: flex-start; justify-content: center;
-    padding: 20px 12px; overflow-y: auto;
-    backdrop-filter: blur(2px); -webkit-overflow-scrolling: touch;
-  }
+  /* ── MODALS ── */
+  .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(26,26,46,0.6); z-index: 8000; align-items: flex-start; justify-content: center; padding: 20px 12px; overflow-y: auto; backdrop-filter: blur(2px); -webkit-overflow-scrolling: touch; }
   .modal-backdrop.open { display: flex; }
   .modal { background: #fff; border-radius: 14px; width: min(700px, 100%); box-shadow: 0 24px 60px rgba(0,0,0,0.25); }
-  .modal-head {
-    background: var(--ink); color: #fff; padding: 16px 20px;
-    border-radius: 14px 14px 0 0; display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 1;
-  }
+  .modal-head { background: var(--ink); color: #fff; padding: 16px 20px; border-radius: 14px 14px 0 0; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1; }
   .modal-head h3 { font-family: 'Playfair Display', serif; font-size: 17px; }
   .modal-close { background: none; border: none; color: rgba(255,255,255,0.5); font-size: 22px; cursor: pointer; line-height: 1; padding: 4px 8px; touch-action: manipulation; }
   .modal-close:hover { color: #fff; }
   .modal-body { padding: 20px; }
   @media (max-width: 480px) { .modal-body { padding: 14px; } }
 
-  /* EDIT FIELD */
+  /* ── EDIT FIELDS ── */
   .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   @media (max-width: 500px) { .edit-grid { grid-template-columns: 1fr; } }
   .edit-field { display: flex; flex-direction: column; gap: 4px; }
   .edit-field label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
-  .edit-field input, .edit-field select, .edit-field textarea {
-    border: 1.5px solid var(--border); border-radius: 7px;
-    padding: 9px 10px; font-family: 'DM Sans', sans-serif; font-size: max(16px, 14px);
-    background: var(--cream); outline: none; transition: border-color .2s;
-  }
+  .edit-field input, .edit-field select, .edit-field textarea { border: 1.5px solid var(--border); border-radius: 7px; padding: 9px 10px; font-family: 'DM Sans', sans-serif; font-size: max(16px, 14px); background: var(--cream); outline: none; transition: border-color .2s; }
   .edit-field input:focus, .edit-field select:focus { border-color: var(--gold); background: #fff; }
 
-  /* MILESTONE */
+  /* ── MILESTONES ── */
   .milestone-list { display: flex; flex-direction: column; gap: 10px; }
   .milestone-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: var(--ivory); border-radius: 8px; border: 1px solid var(--border); }
   .milestone-icon { width: 34px; height: 34px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
@@ -223,121 +159,159 @@
   .milestone-add { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
   @media (max-width: 500px) { .milestone-add { grid-template-columns: 1fr; } }
 
-  /* GROWTH PATHWAY */
+  /* ── PATHWAY ── */
   .pathway-wrap { overflow-x: auto; padding-bottom: 8px; }
   .pathway { display: flex; align-items: center; gap: 0; min-width: max-content; padding: 4px 0; }
-  .pathway-step {
-    display: flex; flex-direction: column; align-items: center; gap: 6px;
-    width: 90px; position: relative;
-  }
-  .pathway-step:not(:last-child)::after {
-    content: ''; position: absolute; top: 22px; right: -18px;
-    width: 36px; height: 2px; background: var(--border); z-index: 0;
-  }
+  .pathway-step { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 100px; position: relative; }
+  .pathway-step:not(:last-child)::after { content: ''; position: absolute; top: 26px; right: -22px; width: 44px; height: 2px; background: var(--border); z-index: 0; }
   .pathway-step:not(:last-child).done::after { background: var(--gold); }
-  .step-circle {
-    width: 44px; height: 44px; border-radius: 50%;
-    border: 2px solid var(--border); background: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; z-index: 1; transition: all .3s;
-  }
+  .step-circle { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--border); background: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; z-index: 1; transition: all .3s; position: relative; }
   .pathway-step.done .step-circle { border-color: var(--gold); background: rgba(201,151,43,0.1); }
-  .pathway-step.current .step-circle { border-color: var(--blue); background: rgba(37,99,235,0.08); box-shadow: 0 0 0 4px rgba(37,99,235,0.12); }
+  .pathway-step.current .step-circle { border-color: var(--blue); background: rgba(37,99,235,0.08); box-shadow: 0 0 0 5px rgba(37,99,235,0.12); }
+  .step-check { position: absolute; top: -4px; right: -4px; width: 18px; height: 18px; border-radius: 50%; background: var(--green); color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; border: 2px solid #fff; }
   .step-label { font-size: 10px; text-align: center; color: var(--muted); font-weight: 500; line-height: 1.3; }
   .pathway-step.done .step-label { color: var(--ink); }
   .pathway-step.current .step-label { color: var(--blue); font-weight: 600; }
-  .pathway-child-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-  .pathway-roll { font-size: 11px; color: var(--muted); margin-bottom: 14px; }
-  .pathway-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
 
-  /* ABSENCE BADGES */
-  .absent-badge {
-    display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px;
-    border-radius: 30px; white-space: nowrap;
-  }
+  /* Progress ring */
+  .journey-header { display: flex; align-items: center; gap: 20px; margin-bottom: 18px; flex-wrap: wrap; }
+  .progress-ring-wrap { flex-shrink: 0; }
+  .progress-ring-track { fill: none; stroke: var(--ivory); stroke-width: 5; }
+  .progress-ring-bar   { fill: none; stroke: var(--gold); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset .8s ease; }
+  .progress-ring-text  { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; fill: var(--ink); text-anchor: middle; dominant-baseline: middle; }
+  .journey-meta { flex: 1; min-width: 160px; }
+  .journey-meta .j-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; }
+  .journey-meta .j-roll { font-size: 12px; color: var(--muted); margin: 2px 0 10px; }
+  .journey-meta .j-next { font-size: 13px; background: #f0f7ff; border: 1px solid #c7ddf8; border-radius: 8px; padding: 8px 12px; color: #1a4a90; }
+  .journey-meta .j-next strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 2px; color: #2563eb; }
+
+  /* Stage cards */
+  .stage-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-top: 16px; }
+  .stage-card { border: 1.5px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; cursor: pointer; transition: all .2s; position: relative; }
+  .stage-card:hover { border-color: var(--gold); background: #fdf8f0; }
+  .stage-card.done { border-color: var(--gold); background: rgba(201,151,43,0.06); }
+  .stage-card.current { border-color: var(--blue); background: rgba(37,99,235,0.04); }
+  .stage-card .sc-icon { font-size: 24px; margin-bottom: 6px; }
+  .stage-card .sc-label { font-size: 11px; font-weight: 600; margin-bottom: 3px; }
+  .stage-card .sc-desc { font-size: 10px; color: var(--muted); line-height: 1.4; }
+  .stage-card .sc-badge { position: absolute; top: -7px; right: -7px; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; border: 2px solid #fff; }
+  .stage-card.done    .sc-badge { background: var(--green); color: #fff; }
+  .stage-card.current .sc-badge { background: var(--blue); color: #fff; }
+
+  /* Absence badges */
+  .absent-badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 30px; white-space: nowrap; }
   .absent-3 { background: #fff8ec; color: #e67e22; border: 1px solid #f0a500; }
   .absent-5 { background: #fff5f5; color: var(--red); border: 1px solid #e88; }
-  .absent-ok { background: #f0fff4; color: var(--green); border: 1px solid #7bd; }
 
-  /* ATTENDANCE FILTER BAR */
+  /* ── ATTENDANCE FILTER BAR ── */
   .att-filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: flex-end; }
   .att-filter-bar .field { display: flex; flex-direction: column; gap: 4px; }
   .att-filter-bar label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
-  .att-filter-bar input, .att-filter-bar select {
-    border: 1.5px solid var(--border); border-radius: 7px; padding: 8px 10px;
-    font-family: 'DM Sans', sans-serif; font-size: max(16px, 13px); background: var(--cream); outline: none; transition: border-color .2s;
-  }
+  .att-filter-bar input, .att-filter-bar select { border: 1.5px solid var(--border); border-radius: 7px; padding: 8px 10px; font-family: 'DM Sans', sans-serif; font-size: max(16px, 13px); background: var(--cream); outline: none; transition: border-color .2s; }
   .att-filter-bar input:focus, .att-filter-bar select:focus { border-color: var(--gold); background: #fff; }
   .att-filter-bar .field.grow { flex: 1; min-width: 130px; }
   .att-status-select { border: 1.5px solid var(--border); border-radius: 6px; padding: 5px 7px; font-size: max(16px, 13px); background: var(--cream); min-width: 110px; }
 
-  /* FIELD HELPERS */
+  /* ── DUPLICATE FLAGS ── */
+  .dup-flag {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: #fff8ec; border: 1px solid #f0a500; color: #9a5d00;
+    font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px;
+    white-space: nowrap;
+  }
+  .dup-flag.dup-exact {
+    background: #fff0f0; border-color: #e88; color: #a00;
+  }
+  .prior-date-cell { font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .prior-date-cell.today-match { color: #c0392b; font-weight: 700; }
+
+  /* ── DEDUPE PANEL ── */
+  .dedupe-banner {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    background: #fff8ec; border: 1px solid #f0a500; border-radius: 8px;
+    padding: 10px 14px; margin-bottom: 14px; font-size: 13px;
+  }
+  .dedupe-banner .dedupe-count { font-weight: 700; color: #9a5d00; font-size: 15px; }
+  .dedupe-result-row { background: #fff5f5 !important; }
+  .dedupe-result-row:hover td { background: #ffe8e8 !important; }
+  .dedupe-kept-row  { background: #f0fff4 !important; }
+  .key-chip {
+    font-size: 10px; background: var(--ivory); border: 1px solid var(--border);
+    border-radius: 4px; padding: 2px 6px; font-family: monospace; word-break: break-all;
+    max-width: 180px; display: inline-block; line-height: 1.5;
+  }
+
+  /* ── FIELD ROW ── */
   .field-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 14px; }
   .field-row .field { display: flex; flex-direction: column; gap: 4px; }
   .field-row label  { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
-  .field-row input, .field-row select {
-    border: 1.5px solid var(--border); border-radius: 7px; padding: 9px 10px;
-    font-family: 'DM Sans', sans-serif; font-size: max(16px, 14px); background: var(--cream); outline: none; transition: border-color .2s;
-  }
+  .field-row input, .field-row select { border: 1.5px solid var(--border); border-radius: 7px; padding: 9px 10px; font-family: 'DM Sans', sans-serif; font-size: max(16px, 14px); background: var(--cream); outline: none; transition: border-color .2s; }
   .field-row input:focus, .field-row select:focus { border-color: var(--gold); background: #fff; }
   .field-row .field.grow { flex: 1; min-width: 130px; }
 
-  /* SORT CONTROLS */
+  /* ── SORT BAR ── */
   .sort-bar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 12px; background: var(--ivory); border-bottom: 1px solid var(--border); font-size: 12px; color: var(--muted); }
   .sort-btn { background: none; border: 1px solid var(--border); border-radius: 5px; padding: 4px 9px; font-size: 11px; cursor: pointer; font-family: 'DM Sans', sans-serif; color: var(--ink); transition: all .15s; touch-action: manipulation; }
   .sort-btn.active { background: var(--gold); border-color: var(--gold); color: var(--ink); font-weight: 600; }
   .sort-btn:hover:not(.active) { border-color: var(--gold); }
 
-  /* STATUS */
+  /* ── STATUS COLOURS ── */
   .status-present { color: var(--green); font-weight: 600; }
   .status-absent  { color: var(--red); font-weight: 600; }
   .status-late    { color: #e67e22; font-weight: 600; }
   .status-excused { color: var(--blue); font-weight: 600; }
 
-  /* OFFLINE QUEUE INDICATOR */
-  .queue-pill {
-    display: none; background: #e67e22; color: #fff;
-    font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 30px;
-    margin-left: auto;
-  }
+  /* ── OFFLINE PILL ── */
+  .queue-pill { display: none; background: #e67e22; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 30px; margin-left: auto; }
   .queue-pill.show { display: inline-block; }
 
-  /* BIRTHDAY CARD */
+  /* ── BIRTHDAYS ── */
   .birthday-row { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; background: #fffbf0; border: 1px solid #ffe082; margin-bottom: 8px; }
   .birthday-row .bday-icon { font-size: 20px; flex-shrink: 0; }
   .birthday-row .bday-name { font-weight: 600; font-size: 14px; }
   .birthday-row .bday-meta { font-size: 12px; color: var(--muted); }
 
-  /* TOAST */
-  .toast {
-    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px);
-    background: var(--ink); color: #fff; padding: 11px 22px; border-radius: 30px;
-    font-size: 13px; font-weight: 500; box-shadow: 0 8px 30px rgba(0,0,0,.25);
-    opacity: 0; transition: opacity .3s, transform .3s; z-index: 9999; pointer-events: none;
-    max-width: calc(100vw - 40px); text-align: center;
-  }
+  /* ── TOAST ── */
+  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: #fff; padding: 11px 22px; border-radius: 30px; font-size: 13px; font-weight: 500; box-shadow: 0 8px 30px rgba(0,0,0,.25); opacity: 0; transition: opacity .3s, transform .3s; z-index: 9999; pointer-events: none; max-width: calc(100vw - 40px); text-align: center; }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .toast.success { background: var(--green); }
   .toast.error   { background: var(--red); }
 
-  /* EMPTY / LOADING */
-  .empty { text-align: center; padding: 36px 16px; color: var(--muted); font-size: 14px; }
+  /* ── MISC ── */
+  .empty   { text-align: center; padding: 36px 16px; color: var(--muted); font-size: 14px; }
   .empty .icon { font-size: 32px; margin-bottom: 10px; }
   .loading { text-align: center; padding: 28px; color: var(--muted); font-size: 14px; }
-
   .spin { display: inline-block; animation: spin .7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* PROGRESS BAR (spiritual pathway mini) */
   .mini-pathway { display: flex; gap: 3px; align-items: center; }
   .mini-step { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--border); background: #fff; flex-shrink: 0; transition: all .2s; }
-  .mini-step.done { background: var(--gold); border-color: var(--gold); }
+  .mini-step.done    { background: var(--gold); border-color: var(--gold); }
   .mini-step.current { background: var(--blue); border-color: var(--blue); }
+
+  /* ── ATTENDANCE SUMMARY BAR ── */
+  .att-summary-bar {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px;
+    padding: 10px 14px; background: var(--ivory); border-radius: 8px;
+    border: 1px solid var(--border); font-size: 13px; align-items: center;
+  }
+  .att-sum-chip {
+    display: flex; align-items: center; gap: 5px; padding: 4px 10px;
+    border-radius: 20px; font-size: 12px; font-weight: 600;
+  }
+  .att-sum-chip.present { background: #f0fff4; color: var(--green); border: 1px solid #a8dfb8; }
+  .att-sum-chip.absent  { background: #fff5f5; color: var(--red);   border: 1px solid #f0b0b0; }
+  .att-sum-chip.late    { background: #fff8ec; color: #c47c00;       border: 1px solid #f0c96a; }
+  .att-sum-chip.excused { background: #f0f7ff; color: var(--blue);   border: 1px solid #b3ceef; }
+  .att-sum-chip.dup     { background: #fff8ec; color: #9a5d00;       border: 1px solid #f0a500; cursor:pointer; }
+
+  /* ── PATHWAY ACTIONS ── */
+  .pathway-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════ PIN SCREEN ══════════════════════ -->
+<!-- PIN SCREEN -->
 <div class="pin-screen" id="pinScreen">
   <div class="pin-box">
     <div class="pin-logo">CY</div>
@@ -367,11 +341,10 @@
   </div>
 </div>
 
-<!-- OFFLINE / SYNC BANNERS -->
-<div class="offline-banner" id="offlineBanner">⚡ You are offline — attendance marks will be saved locally and synced when connection returns</div>
-<div class="sync-banner" id="syncBanner">✅ Back online — syncing offline attendance records…</div>
+<div class="offline-banner" id="offlineBanner">⚡ Offline — attendance marks saved locally and will sync when connection returns</div>
+<div class="sync-banner"   id="syncBanner">✅ Back online — syncing offline attendance records…</div>
 
-<!-- ══════════════════════ HEADER ══════════════════════ -->
+<!-- HEADER -->
 <div class="header">
   <div class="header-logo">CY</div>
   <div class="header-text">
@@ -386,7 +359,7 @@
   </div>
 </div>
 
-<!-- ══════════════════════ TABS ══════════════════════ -->
+<!-- TABS -->
 <div class="tabs-wrap">
   <div class="tabs">
     <div class="tab active" data-tab="overview"   onclick="switchTab('overview')">📊 Overview</div>
@@ -396,47 +369,25 @@
     <div class="tab"        data-tab="pathway"    onclick="switchTab('pathway')">🌱 Growth</div>
     <div class="tab"        data-tab="followup"   onclick="switchTab('followup')">🔔 Follow-Up</div>
     <div class="tab"        onclick="window.location.href='cymembership.html'">👥 Membership</div>
+    <div class="tab"        onclick="window.location.href='cymilestone.html'">📈 Report</div>
   </div>
 </div>
 
-<!-- ══════════════════════ MAIN ══════════════════════ -->
 <div class="main">
 
-  <!-- ── OVERVIEW ── -->
+  <!-- ══ OVERVIEW ══ -->
   <div class="panel active" id="panel-overview">
-
-    <!-- Alerts section -->
     <div id="overviewAlerts"></div>
-
     <div class="stat-row">
-      <div class="stat-card">
-        <div class="label">Registered</div>
-        <div class="value" id="stat-total">—</div>
-        <div class="sub">Children on record</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">Milestones</div>
-        <div class="value" id="stat-milestones">—</div>
-        <div class="sub">Total recorded</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">Attendance</div>
-        <div class="value" id="stat-attendance">—</div>
-        <div class="sub">All sessions</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">Age Groups</div>
-        <div class="value" id="stat-groups">—</div>
-        <div class="sub" id="stat-groups-sub">Active groups</div>
-      </div>
+      <div class="stat-card"><div class="label">Registered</div><div class="value" id="stat-total">—</div><div class="sub">Children on record</div></div>
+      <div class="stat-card"><div class="label">Milestones</div><div class="value" id="stat-milestones">—</div><div class="sub">Total recorded</div></div>
+      <div class="stat-card"><div class="label">Attendance</div><div class="value" id="stat-attendance">—</div><div class="sub">All sessions</div></div>
+      <div class="stat-card"><div class="label">Age Groups</div><div class="value" id="stat-groups">—</div><div class="sub">Active groups</div></div>
     </div>
-
-    <!-- Birthdays this week -->
     <div class="card" id="birthdayCard" style="display:none">
       <div class="card-head"><span class="card-title">🎂 Birthdays This Week</span></div>
       <div class="card-body" id="birthdayList"></div>
     </div>
-
     <div class="card">
       <div class="card-head"><span class="card-title">Age Group Breakdown</span></div>
       <div class="card-body" id="ageChart"><div class="loading">Loading stats…</div></div>
@@ -447,15 +398,13 @@
     </div>
   </div>
 
-  <!-- ── CHILDREN ── -->
+  <!-- ══ CHILDREN ══ -->
   <div class="panel" id="panel-children">
     <div class="card">
       <div class="card-head"><span class="card-title">Search Children</span></div>
       <div class="card-body">
         <div class="search-row">
-          <input type="search" class="search-input" id="childSearch"
-            placeholder="Name, Roll No., or area…"
-            oninput="debounceSearch(this.value)" autocomplete="off">
+          <input type="search" class="search-input" id="childSearch" placeholder="Name, Roll No., or area…" oninput="debounceSearch(this.value)" autocomplete="off">
           <button class="btn-sm btn-gold" onclick="searchChildren()">Search</button>
         </div>
       </div>
@@ -476,13 +425,8 @@
           <table>
             <thead>
               <tr>
-                <th>Roll No.</th>
-                <th>Name</th>
-                <th>Age Group</th>
-                <th>Gender</th>
-                <th class="col-school">School</th>
-                <th>Journey</th>
-                <th>Actions</th>
+                <th>Roll No.</th><th>Name</th><th>Age Group</th><th>Gender</th>
+                <th class="col-school">School</th><th>Journey</th><th>Actions</th>
               </tr>
             </thead>
             <tbody id="childTable">
@@ -494,7 +438,7 @@
     </div>
   </div>
 
-  <!-- ── MILESTONES ── -->
+  <!-- ══ MILESTONES ══ -->
   <div class="panel" id="panel-milestones">
     <div class="card">
       <div class="card-head"><span class="card-title">Browse / Add Milestones</span></div>
@@ -549,7 +493,7 @@
     </div>
   </div>
 
-  <!-- ── ATTENDANCE ── -->
+  <!-- ══ ATTENDANCE ══ -->
   <div class="panel" id="panel-attendance">
     <div class="card">
       <div class="card-head">
@@ -571,16 +515,48 @@
         <div id="attSessionWrap"></div>
       </div>
     </div>
+
+    <!-- Attendance History -->
     <div class="card">
-      <div class="card-head"><span class="card-title">Attendance History</span></div>
+      <div class="card-head">
+        <span class="card-title">Attendance History</span>
+        <span id="attHistoryCount" style="font-size:11px;color:var(--muted)"></span>
+        <!-- ▼▼▼ DEDUPE BUTTON ▼▼▼ -->
+        <button class="btn-sm btn-outline-sm" style="margin-left:auto;border-color:#f0a500;color:#9a5d00" onclick="openDedupeModal()">
+          🔍 Find &amp; Delete Duplicates
+        </button>
+      </div>
+      <div class="card-body" style="padding:12px 14px 0">
+        <div class="att-filter-bar" style="margin-bottom:10px">
+          <div class="field">
+            <label>Month</label>
+            <input type="month" id="histFilterMonth" onchange="loadAttendanceHistory()">
+          </div>
+          <div class="field grow">
+            <label>Session name</label>
+            <input type="search" id="histFilterSession" placeholder="e.g. Sunday Service" oninput="loadAttendanceHistory()" autocomplete="off">
+          </div>
+          <div class="field">
+            <label>Status</label>
+            <select id="histFilterStatus" onchange="loadAttendanceHistory()">
+              <option value="">All</option>
+              <option value="Present">✅ Present</option>
+              <option value="Absent">❌ Absent</option>
+              <option value="Late">⏰ Late</option>
+              <option value="Excused">📋 Excused</option>
+            </select>
+          </div>
+          <button class="btn-sm btn-outline-sm" style="align-self:flex-end" onclick="clearHistoryFilters()">Clear</button>
+        </div>
+      </div>
       <div class="card-body" style="padding:0">
         <div class="table-wrap">
           <table>
             <thead>
-              <tr><th>Date</th><th>Session</th><th>Roll No.</th><th>Name</th><th>Status</th></tr>
+              <tr><th>Date</th><th>Session</th><th>Roll No.</th><th>Name</th><th>Status</th><th>Key</th></tr>
             </thead>
             <tbody id="attHistoryTable">
-              <tr><td colspan="5"><div class="loading">Loading…</div></td></tr>
+              <tr><td colspan="6"><div class="loading">Loading…</div></td></tr>
             </tbody>
           </table>
         </div>
@@ -588,13 +564,13 @@
     </div>
   </div>
 
-  <!-- ── SPIRITUAL GROWTH PATHWAY ── -->
+  <!-- ══ PATHWAY ══ -->
   <div class="panel" id="panel-pathway">
     <div class="card">
       <div class="card-head"><span class="card-title">🌱 Spiritual Growth Pathway</span></div>
       <div class="card-body">
         <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
-          Track each child's discipleship journey across seven key stages. Stages are automatically detected from milestone records, and can also be set manually.
+          Track each child's discipleship journey across seven key stages. Stages are automatically detected from milestone records and can also be set manually.
         </p>
         <div class="field-row">
           <div class="field grow">
@@ -606,21 +582,10 @@
         <div id="pathwaySearchResult"></div>
       </div>
     </div>
-
     <div class="card" id="pathwayDetail" style="display:none">
       <div class="card-head"><span class="card-title" id="pathwayDetailTitle">Journey</span></div>
-      <div class="card-body">
-        <div id="pathwayChildName" class="pathway-child-name"></div>
-        <div id="pathwayChildRoll" class="pathway-roll"></div>
-        <div class="pathway-wrap">
-          <div class="pathway" id="pathwaySteps"></div>
-        </div>
-        <div id="pathwayProgress" style="margin-top:12px;font-size:13px;color:var(--muted)"></div>
-        <div class="pathway-actions" id="pathwayActions"></div>
-      </div>
+      <div class="card-body" id="pathwayDetailBody"></div>
     </div>
-
-    <!-- All children journey overview -->
     <div class="card">
       <div class="card-head"><span class="card-title">Journey Overview — All Children</span></div>
       <div class="card-body" style="padding:0">
@@ -638,13 +603,13 @@
     </div>
   </div>
 
-  <!-- ── FOLLOW-UP / ABSENTEEISM ── -->
+  <!-- ══ FOLLOW-UP ══ -->
   <div class="panel" id="panel-followup">
     <div class="card">
       <div class="card-head"><span class="card-title">🔔 Absenteeism Alerts</span></div>
       <div class="card-body">
         <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
-          Children who have been absent for 3 or more consecutive sessions are flagged here for pastoral follow-up.
+          Children absent for 3 or more consecutive sessions are flagged for pastoral follow-up.
         </p>
         <div class="field-row" style="margin-bottom:0">
           <div class="field">
@@ -655,9 +620,7 @@
         </div>
       </div>
     </div>
-
     <div id="absenteeResults"></div>
-
     <div class="card">
       <div class="card-head"><span class="card-title">📋 Follow-Up Log</span></div>
       <div class="card-body">
@@ -704,7 +667,6 @@
             <button class="btn-sm btn-gold" onclick="saveFollowUp()">💾 Save Follow-Up</button>
           </div>
         </div>
-
         <div style="margin-top:18px">
           <div class="table-wrap">
             <table>
@@ -721,7 +683,7 @@
 
 </div><!-- /main -->
 
-<!-- ══════════════════════ CHILD EDIT MODAL ══════════════════════ -->
+<!-- ══ EDIT MODAL ══ -->
 <div class="modal-backdrop" id="editModal">
   <div class="modal">
     <div class="modal-head">
@@ -738,26 +700,40 @@
   </div>
 </div>
 
-<!-- TOAST -->
+<!-- ══ DEDUPE MODAL ══ -->
+<div class="modal-backdrop" id="dedupeModal">
+  <div class="modal" style="width:min(960px,100%)">
+    <div class="modal-head">
+      <h3>🔍 Find &amp; Delete Duplicate Attendance Records</h3>
+      <button class="modal-close" onclick="closeModal('dedupeModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+        Duplicates are detected by <strong>Session Date + Session Name + Roll No.</strong>
+        When multiple records share the same composite key, the <em>earliest</em> (first timestamp) is kept — all later entries are shown below and can be deleted individually or all at once.
+      </p>
+      <div id="dedupeContent"><div class="loading">Scanning attendance records…</div></div>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 //  CONFIG
-// ══════════════════════════════════════════════════════
-const SCRIPT_URL    = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
-const DASHBOARD_PIN = '1234';
-const SESSION_KEY   = 'cy_dash_unlocked';
+// ══════════════════════════════════════════════════════════════
+const SCRIPT_URL        = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
+const DASHBOARD_PIN     = '1234';
+const SESSION_KEY       = 'cy_dash_unlocked';
 const OFFLINE_QUEUE_KEY = 'cy_offline_queue';
-const PATHWAY_KEY   = 'cy_pathway_data';
+const PATHWAY_KEY       = 'cy_pathway_data';
 
-
-// ══════════════════════════════════════════════════════
-//  OFFLINE DETECTION
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
+//  OFFLINE
+// ══════════════════════════════════════════════════════════════
 let isOnline = navigator.onLine;
-
-window.addEventListener('online',  () => { isOnline = true;  onOnline(); });
+window.addEventListener('online',  () => { isOnline = true;  onOnline();  });
 window.addEventListener('offline', () => { isOnline = false; onOffline(); });
 
 function onOffline() {
@@ -765,7 +741,6 @@ function onOffline() {
   document.getElementById('syncBanner').classList.remove('show');
   updateQueuePill();
 }
-
 function onOnline() {
   document.getElementById('offlineBanner').classList.remove('show');
   const q = getOfflineQueue();
@@ -777,9 +752,7 @@ function onOnline() {
   }
 }
 
-// ══════════════════════════════════════════════════════
-//  OFFLINE QUEUE
-// ══════════════════════════════════════════════════════
+// ── Offline queue ──
 function getOfflineQueue() {
   try { return JSON.parse(localStorage.getItem(OFFLINE_QUEUE_KEY) || '[]'); } catch { return []; }
 }
@@ -793,16 +766,11 @@ function addToOfflineQueue(params) {
   saveOfflineQueue(q);
 }
 function updateQueuePill() {
-  const q = getOfflineQueue();
+  const q    = getOfflineQueue();
   const pill = document.getElementById('offlineQueuePill');
-  if (q.length > 0) {
-    pill.textContent = q.length + ' pending sync';
-    pill.classList.add('show');
-  } else {
-    pill.classList.remove('show');
-  }
+  if (q.length > 0) { pill.textContent = q.length + ' pending sync'; pill.classList.add('show'); }
+  else { pill.classList.remove('show'); }
 }
-
 async function syncOfflineQueue() {
   const q = getOfflineQueue();
   if (!q.length) return;
@@ -811,11 +779,10 @@ async function syncOfflineQueue() {
     return api(clean);
   }));
   const failed = results.filter(r => r.status === 'rejected' || !r.value?.success);
-  if (failed.length === 0) {
+  if (!failed.length) {
     saveOfflineQueue([]);
     showToast('✅ Synced ' + q.length + ' offline records', 'success');
-    loadAttendanceHistory();
-    loadStats();
+    loadAttendanceHistory(); loadStats();
   } else {
     const keep = q.filter((_, i) => results[i].status === 'rejected' || !results[i].value?.success);
     saveOfflineQueue(keep);
@@ -823,22 +790,20 @@ async function syncOfflineQueue() {
   }
 }
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 //  PIN
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 let pinBuffer = '';
-
 function checkSession() {
   if (sessionStorage.getItem(SESSION_KEY) === '1') {
     document.getElementById('pinScreen').style.display = 'none';
     initDashboard();
   }
 }
-
 function pinKey(k) {
-  if (k === 'del') { pinBuffer = pinBuffer.slice(0, -1); }
-  else if (k === 'clr') { pinBuffer = ''; }
-  else if (pinBuffer.length < 4) { pinBuffer += k; }
+  if (k === 'del') pinBuffer = pinBuffer.slice(0, -1);
+  else if (k === 'clr') pinBuffer = '';
+  else if (pinBuffer.length < 4) pinBuffer += k;
   for (let i = 0; i < 4; i++)
     document.getElementById('d' + i).classList.toggle('filled', i < pinBuffer.length);
   document.getElementById('pinError').textContent = '';
@@ -854,7 +819,6 @@ function pinKey(k) {
     }
   }
 }
-
 document.addEventListener('keydown', e => {
   const pin = document.getElementById('pinScreen');
   if (!pin.style.display || pin.style.display !== 'none') {
@@ -863,51 +827,45 @@ document.addEventListener('keydown', e => {
     if (e.key === 'Escape')    pinKey('clr');
   }
 });
-
 function lockDashboard() {
   sessionStorage.removeItem(SESSION_KEY);
   document.getElementById('pinScreen').style.display = '';
   pinBuffer = '';
   for (let i = 0; i < 4; i++) document.getElementById('d' + i).classList.remove('filled');
 }
-
 checkSession();
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 //  INIT
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 function initDashboard() {
-  document.getElementById('attDate').value    = today();
-  document.getElementById('msDate').value     = today();
-  document.getElementById('fuDate').value     = today();
-
-  // Set follow-up "since" to 30 days ago
+  document.getElementById('attDate').value = today();
+  document.getElementById('msDate').value  = today();
+  document.getElementById('fuDate').value  = today();
+  const histMonth = document.getElementById('histFilterMonth');
+  if (histMonth) histMonth.value = new Date().toISOString().substring(0, 7);
   const d30 = new Date(); d30.setDate(d30.getDate() - 30);
   document.getElementById('followupSince').value = d30.toISOString().split('T')[0];
-
   updateQueuePill();
   if (!isOnline) onOffline();
-
   loadStats();
   loadAttendanceHistory();
   loadFollowUpHistory();
 }
-
 function today() { return new Date().toISOString().split('T')[0]; }
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 //  REFRESH
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 async function refreshDashboard(btn) {
   const icon = btn.querySelector('.refresh-icon');
-  icon.classList.add('spin');
-  btn.disabled = true;
+  icon.classList.add('spin'); btn.disabled = true;
   try {
     await loadStats();
     const activeTab = document.querySelector('.tab.active');
     if (activeTab) {
       const tab = activeTab.dataset.tab;
-      if (tab === 'children')  { const q = document.getElementById('childSearch').value; if(q) searchChildren(q); }
+      if (tab === 'children')   { const q = document.getElementById('childSearch').value; if (q) searchChildren(q); }
       if (tab === 'attendance') loadAttendanceHistory();
       if (tab === 'followup')   loadAbsenteeAlerts();
       if (tab === 'pathway')    loadPathwayOverview();
@@ -918,43 +876,35 @@ async function refreshDashboard(btn) {
   finally { icon.classList.remove('spin'); btn.disabled = false; }
 }
 
-// ══════════════════════════════════════════════════════
-//  API HELPER (offline-aware for attendance)
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
+//  API
+// ══════════════════════════════════════════════════════════════
 async function api(params) {
   const url = SCRIPT_URL + '?' + new URLSearchParams(params).toString();
-  const res = await fetch(url, { redirect: 'follow' });
+  const res  = await fetch(url, { redirect: 'follow' });
   return res.json();
 }
-
 async function apiWithOffline(params) {
-  if (!isOnline) {
-    addToOfflineQueue(params);
-    return { success: true, offline: true };
-  }
-  try {
-    return await api(params);
-  } catch(e) {
-    addToOfflineQueue(params);
-    return { success: true, offline: true };
-  }
+  if (!isOnline) { addToOfflineQueue(params); return { success: true, offline: true }; }
+  try { return await api(params); }
+  catch(e) { addToOfflineQueue(params); return { success: true, offline: true }; }
 }
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 //  TABS
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 function switchTab(name) {
   document.querySelectorAll('.tab[data-tab]').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
   document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
   const activeTab = document.querySelector('.tab.active');
   if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-  if (name === 'pathway') loadPathwayOverview();
+  if (name === 'pathway')  loadPathwayOverview();
   if (name === 'followup') loadAbsenteeAlerts();
 }
 
-// ══════════════════════════════════════════════════════
-//  STATS / OVERVIEW
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
+//  STATS
+// ══════════════════════════════════════════════════════════════
 async function loadStats() {
   try {
     const d = await api({ action: 'getStats' });
@@ -962,16 +912,14 @@ async function loadStats() {
     document.getElementById('stat-total').textContent      = d.total;
     document.getElementById('stat-milestones').textContent = d.milestoneCount;
     document.getElementById('stat-attendance').textContent = d.attendanceCount;
-    const gk = Object.keys(d.ageGroups || {});
-    document.getElementById('stat-groups').textContent     = gk.length;
+    document.getElementById('stat-groups').textContent     = Object.keys(d.ageGroups || {}).length;
 
-    const ageEl  = document.getElementById('ageChart');
     const groups = ['0-2','3-5','6-8','9-11','12-14','15-18'];
     const max    = Math.max(1, ...groups.map(g => d.ageGroups[g] || 0));
-    ageEl.innerHTML = `<div style="display:flex;flex-direction:column;gap:10px">` +
+    document.getElementById('ageChart').innerHTML =
+      `<div style="display:flex;flex-direction:column;gap:10px">` +
       groups.map(g => {
-        const n   = d.ageGroups[g] || 0;
-        const pct = Math.round(n / max * 100);
+        const n = d.ageGroups[g] || 0, pct = Math.round(n / max * 100);
         return `<div style="display:flex;align-items:center;gap:8px">
           <span style="width:44px;font-size:11px;color:var(--muted);flex-shrink:0">${g}</span>
           <div style="flex:1;background:var(--ivory);border-radius:4px;height:18px;overflow:hidden">
@@ -979,42 +927,36 @@ async function loadStats() {
           </div>
           <span style="width:26px;font-size:12px;font-weight:600;text-align:right">${n}</span>
         </div>`;
-      }).join('') + `</div>`;
+      }).join('') + '</div>';
 
-    const gEl   = document.getElementById('genderChart');
     const total = (d.genders.M || 0) + (d.genders.F || 0) || 1;
     const mPct  = Math.round((d.genders.M || 0) / total * 100);
-    const fPct  = 100 - mPct;
-    gEl.innerHTML = `
+    document.getElementById('genderChart').innerHTML = `
       <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
         <div style="flex:1;min-width:180px">
           <div style="height:22px;border-radius:11px;overflow:hidden;display:flex">
             <div style="width:${mPct}%;background:#2563eb;transition:width .6s"></div>
-            <div style="width:${fPct}%;background:#ec4899;transition:width .6s"></div>
+            <div style="width:${100-mPct}%;background:#ec4899;transition:width .6s"></div>
           </div>
         </div>
         <div style="display:flex;gap:16px;font-size:13px;flex-wrap:wrap">
-          <span style="display:flex;align-items:center;gap:6px"><span style="width:11px;height:11px;border-radius:50%;background:#2563eb;display:inline-block"></span>Male ${d.genders.M || 0} (${mPct}%)</span>
-          <span style="display:flex;align-items:center;gap:6px"><span style="width:11px;height:11px;border-radius:50%;background:#ec4899;display:inline-block"></span>Female ${d.genders.F || 0} (${fPct}%)</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:11px;height:11px;border-radius:50%;background:#2563eb;display:inline-block"></span>Male ${d.genders.M||0} (${mPct}%)</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:11px;height:11px;border-radius:50%;background:#ec4899;display:inline-block"></span>Female ${d.genders.F||0} (${100-mPct}%)</span>
         </div>
       </div>`;
-
-    // Load birthdays and overview alerts
     loadBirthdaysFromChildren();
   } catch(err) { showToast('Failed to load stats', 'error'); }
 }
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 //  BIRTHDAYS
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 async function loadBirthdaysFromChildren() {
   try {
     const d = await api({ action: 'getChildren', q: '' });
     if (!d.success || !d.data) return;
-
-    const now = new Date();
-    const weekAhead = new Date(); weekAhead.setDate(weekAhead.getDate() + 7);
-
+    const now = new Date(), weekAhead = new Date();
+    weekAhead.setDate(weekAhead.getDate() + 7);
     const upcoming = d.data.filter(c => {
       if (!c['Date of Birth']) return false;
       try {
@@ -1025,10 +967,9 @@ async function loadBirthdaysFromChildren() {
     }).map(c => {
       const dob = new Date(c['Date of Birth']);
       return { ...c, bday: new Date(now.getFullYear(), dob.getMonth(), dob.getDate()) };
-    }).sort((a,b) => a.bday - b.bday);
+    }).sort((a, b) => a.bday - b.bday);
 
-    const card = document.getElementById('birthdayCard');
-    const list = document.getElementById('birthdayList');
+    const card = document.getElementById('birthdayCard'), list = document.getElementById('birthdayList');
     if (!upcoming.length) { card.style.display = 'none'; return; }
     card.style.display = '';
     list.innerHTML = upcoming.map(c => {
@@ -1042,8 +983,6 @@ async function loadBirthdaysFromChildren() {
         </div>
       </div>`;
     }).join('');
-
-    // Also check for absenteeism and put alerts on overview
     checkAbsenteeForOverview(d.data);
   } catch(e) {}
 }
@@ -1052,20 +991,15 @@ async function checkAbsenteeForOverview(children) {
   try {
     const att = await api({ action: 'getAttendance' });
     if (!att.success || !att.data) return;
-
     const alerts = [];
     children.forEach(c => {
       const records = att.data
         .filter(a => a.rollNo === c.rollNo)
-        .sort((a,b) => new Date(b.sessionDate) - new Date(a.sessionDate))
+        .sort((a, b) => new Date(b.sessionDate) - new Date(a.sessionDate))
         .slice(0, 5);
-
-      if (records.length >= 3) {
-        const consecutive = records.every(r => r.status === 'Absent');
-        if (consecutive) alerts.push({ child: c, count: records.length });
-      }
+      if (records.length >= 3 && records.every(r => r.status === 'Absent'))
+        alerts.push({ child: c, count: records.length });
     });
-
     const alertsEl = document.getElementById('overviewAlerts');
     if (!alerts.length) { alertsEl.innerHTML = ''; return; }
     alertsEl.innerHTML = `
@@ -1073,25 +1007,20 @@ async function checkAbsenteeForOverview(children) {
         <div class="alert-icon">⚠️</div>
         <div class="alert-body">
           <div class="alert-title">${alerts.length} child${alerts.length > 1 ? 'ren' : ''} may need follow-up</div>
-          <div class="alert-text">${alerts.slice(0,3).map(a => a.child.fullName).join(', ')}${alerts.length > 3 ? ' and ' + (alerts.length-3) + ' more' : ''} have been absent for 3+ consecutive sessions.
-          <a href="#" onclick="switchTab('followup');return false;" style="color:var(--gold);font-weight:600;margin-left:6px">View Follow-Up tab →</a></div>
+          <div class="alert-text">${alerts.slice(0,3).map(a => a.child.fullName).join(', ')}${alerts.length > 3 ? ' and ' + (alerts.length-3) + ' more' : ''} absent 3+ consecutive sessions.
+          <a href="#" onclick="switchTab('followup');return false;" style="color:var(--gold);font-weight:600;margin-left:6px">View Follow-Up →</a></div>
         </div>
       </div>`;
   } catch(e) {}
 }
 
-// ══════════════════════════════════════════════════════
-//  CHILDREN + SORT
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
+//  CHILDREN
+// ══════════════════════════════════════════════════════════════
 let childrenData = [];
-let childSortKey = 'rollNo';
-let childSortDir = 1;
-
+let childSortKey = 'rollNo', childSortDir = 1;
 let searchTimer;
-function debounceSearch(v) {
-  clearTimeout(searchTimer);
-  searchTimer = setTimeout(() => searchChildren(v), 400);
-}
+function debounceSearch(v) { clearTimeout(searchTimer); searchTimer = setTimeout(() => searchChildren(v), 400); }
 
 async function searchChildren(q) {
   const query = q !== undefined ? q : document.getElementById('childSearch').value;
@@ -1106,24 +1035,20 @@ async function searchChildren(q) {
     document.getElementById('resultCount').textContent = cd.data ? cd.data.length + ' found' : '';
     if (!cd.success || !cd.data.length) {
       tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="icon">🔍</div>No children found</div></td></tr>';
-      childrenData = [];
-      return;
+      childrenData = []; return;
     }
-
-    // Build absence map
     const absenceMap = {};
     if (att.success && att.data) {
       cd.data.forEach(c => {
         const records = att.data
           .filter(a => a.rollNo === c.rollNo)
-          .sort((a,b) => new Date(b.sessionDate) - new Date(a.sessionDate))
+          .sort((a, b) => new Date(b.sessionDate) - new Date(a.sessionDate))
           .slice(0, 5);
         let streak = 0;
         for (const r of records) { if (r.status === 'Absent') streak++; else break; }
         absenceMap[c.rollNo] = streak;
       });
     }
-
     childrenData = cd.data.map(c => ({ ...c, absenceStreak: absenceMap[c.rollNo] || 0 }));
     document.getElementById('childSortBar').style.display = 'flex';
     renderChildTable();
@@ -1133,22 +1058,15 @@ async function searchChildren(q) {
 }
 
 function sortChildren(key) {
-  if (childSortKey === key) { childSortDir *= -1; }
-  else { childSortKey = key; childSortDir = 1; }
+  if (childSortKey === key) childSortDir *= -1; else { childSortKey = key; childSortDir = 1; }
   document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
   const btn = document.getElementById('sort-' + key);
-  if (btn) {
-    btn.classList.add('active');
-    btn.textContent = (key === 'rollNo' ? 'Roll No.' : key === 'name' ? 'Name' : 'Age Group') + (childSortDir === 1 ? ' ↑' : ' ↓');
-  }
+  if (btn) { btn.classList.add('active'); btn.textContent = (key === 'rollNo' ? 'Roll No.' : key === 'name' ? 'Name' : 'Age Group') + (childSortDir === 1 ? ' ↑' : ' ↓'); }
   renderChildTable();
 }
 
 function getMiniPathway(rollNo) {
-  try {
-    const data = JSON.parse(localStorage.getItem(PATHWAY_KEY) || '{}');
-    return data[rollNo] || [];
-  } catch { return []; }
+  try { return JSON.parse(localStorage.getItem(PATHWAY_KEY) || '{}')[rollNo] || []; } catch { return []; }
 }
 
 function renderChildTable() {
@@ -1159,22 +1077,17 @@ function renderChildTable() {
     else { va = a.ageGroup; vb = b.ageGroup; }
     return String(va).localeCompare(String(vb), undefined, { numeric: true }) * childSortDir;
   });
-
-  const tbody = document.getElementById('childTable');
-  tbody.innerHTML = sorted.map(c => {
-    const stages = getMiniPathway(c.rollNo);
-    const doneCount = stages.filter(s => s).length;
-    const miniDots = Array(7).fill(0).map((_, i) =>
+  document.getElementById('childTable').innerHTML = sorted.map(c => {
+    const stages    = getMiniPathway(c.rollNo);
+    const doneCount = stages.filter(s => s === 'done').length;
+    const miniDots  = Array(7).fill(0).map((_, i) =>
       `<div class="mini-step ${stages[i] === 'done' ? 'done' : stages[i] === 'current' ? 'current' : ''}"></div>`
     ).join('');
-
     let absenceBadge = '';
     if (c.absenceStreak >= 5)      absenceBadge = `<span class="absent-badge absent-5">⚠ ${c.absenceStreak} absent</span>`;
     else if (c.absenceStreak >= 3) absenceBadge = `<span class="absent-badge absent-3">⚠ ${c.absenceStreak} absent</span>`;
-
-    return `
-    <tr>
-      <td><span class="roll-badge">${esc(c.rollNo)}</span>${absenceBadge ? '<br style="margin:2px 0">'+absenceBadge : ''}</td>
+    return `<tr>
+      <td><span class="roll-badge">${esc(c.rollNo)}</span>${absenceBadge ? '<br style="margin:2px 0">' + absenceBadge : ''}</td>
       <td><strong>${esc(c.fullName)}</strong></td>
       <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
       <td>${c.gender === 'M' ? '♂' : '♀'}</td>
@@ -1194,9 +1107,9 @@ function renderChildTable() {
   }).join('');
 }
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 //  EDIT MODAL
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 let editRollNo = '';
 const EDITABLE_FIELDS = [
   'Full Name','Gender','Date of Birth','Age Group','Residence / Area',
@@ -1207,7 +1120,6 @@ const EDITABLE_FIELDS = [
   'Ministry Areas','Leadership Role',
   'Mentor 1 Name','Mentor 1 Contact','Mentor 2 Name','Mentor 2 Contact',
 ];
-
 async function openEditModal(rollNo) {
   editRollNo = rollNo;
   document.getElementById('editModalTitle').textContent = 'Edit — ' + rollNo;
@@ -1219,63 +1131,36 @@ async function openEditModal(rollNo) {
     const child = d.data;
     document.getElementById('editFields').innerHTML = EDITABLE_FIELDS.map(f => {
       const val = child[f] || '';
-      if (f === 'Gender') {
-        return `<div class="edit-field"><label>${f}</label>
-          <select data-field="${f}">
-            <option value="M" ${val==='M'?'selected':''}>Male</option>
-            <option value="F" ${val==='F'?'selected':''}>Female</option>
-          </select></div>`;
-      }
-      if (f === 'Age Group') {
-        const opts = ['0-2','3-5','6-8','9-11','12-14','15-18'];
-        return `<div class="edit-field"><label>${f}</label>
-          <select data-field="${f}">${opts.map(o=>`<option ${val===o?'selected':''}>${o}</option>`).join('')}</select></div>`;
-      }
-      if (f === 'KCMC Member?') {
-        return `<div class="edit-field"><label>${f}</label>
-          <select data-field="${f}">
-            <option value="" ${!val?'selected':''}>—</option>
-            <option value="Y"   ${val==='Y'?'selected':''}>Yes — Both</option>
-            <option value="One" ${val==='One'?'selected':''}>One parent</option>
-            <option value="N"   ${val==='N'?'selected':''}>No</option>
-          </select></div>`;
-      }
-      if (f === 'Date of Birth') {
-        return `<div class="edit-field"><label>${f}</label>
-          <input type="date" data-field="${f}" value="${esc(val)}"></div>`;
-      }
-      return `<div class="edit-field"><label>${f}</label>
-        <input type="text" data-field="${f}" value="${esc(val)}"></div>`;
+      if (f === 'Gender') return `<div class="edit-field"><label>${f}</label><select data-field="${f}"><option value="M" ${val==='M'?'selected':''}>Male</option><option value="F" ${val==='F'?'selected':''}>Female</option></select></div>`;
+      if (f === 'Age Group') { const opts=['0-2','3-5','6-8','9-11','12-14','15-18']; return `<div class="edit-field"><label>${f}</label><select data-field="${f}">${opts.map(o=>`<option ${val===o?'selected':''}>${o}</option>`).join('')}</select></div>`; }
+      if (f === 'KCMC Member?') return `<div class="edit-field"><label>${f}</label><select data-field="${f}"><option value="" ${!val?'selected':''}>—</option><option value="Y" ${val==='Y'?'selected':''}>Yes — Both</option><option value="One" ${val==='One'?'selected':''}>One parent</option><option value="N" ${val==='N'?'selected':''}>No</option></select></div>`;
+      if (f === 'Date of Birth') return `<div class="edit-field"><label>${f}</label><input type="date" data-field="${f}" value="${esc(val)}"></div>`;
+      return `<div class="edit-field"><label>${f}</label><input type="text" data-field="${f}" value="${esc(val)}"></div>`;
     }).join('');
   } catch(err) { showToast('Error: ' + err.message, 'error'); }
 }
-
 async function saveEdits() {
   const inputs = document.querySelectorAll('#editFields [data-field]');
   const promises = [];
-  inputs.forEach(inp => {
-    promises.push(api({ action: 'updateChild', rollNo: editRollNo, field: inp.dataset.field, value: inp.value }));
-  });
+  inputs.forEach(inp => promises.push(api({ action: 'updateChild', rollNo: editRollNo, field: inp.dataset.field, value: inp.value })));
   try {
     const results = await Promise.all(promises);
-    const failed  = results.filter(r => !r.success);
-    if (failed.length) { showToast('Some fields failed to save', 'error'); return; }
+    if (results.filter(r => !r.success).length) { showToast('Some fields failed to save', 'error'); return; }
     showToast('✅ Record updated', 'success');
     closeModal('editModal');
     searchChildren();
   } catch(err) { showToast('Save failed: ' + err.message, 'error'); }
 }
-
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 //  MILESTONES
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 let msCurrentRoll = '', msCurrentName = '';
 const MS_ICONS = {
-  'Water Baptism': '💧', 'Holy Communion (first)': '🍞', 'Camp Attended': '⛺',
-  'Leadership Appointed': '⭐', 'Award / Recognition': '🏆', 'Salvation Decision': '✝️',
-  'Memory Verse Champion': '📖', 'Volunteered for Outreach': '📣', 'Other': '📌',
+  'Water Baptism':'💧','Holy Communion (first)':'🍞','Camp Attended':'⛺',
+  'Leadership Appointed':'⭐','Award / Recognition':'🏆','Salvation Decision':'✝️',
+  'Memory Verse Champion':'📖','Volunteered for Outreach':'📣','Other':'📌',
 };
 
 async function searchForMilestone() {
@@ -1284,17 +1169,10 @@ async function searchForMilestone() {
   document.getElementById('msChildResult').innerHTML = '<div class="loading">Searching…</div>';
   try {
     const d = await api({ action: 'getChildren', q });
-    if (!d.success || !d.data.length) {
-      document.getElementById('msChildResult').innerHTML = '<div class="empty">No child found</div>';
-      return;
-    }
+    if (!d.success || !d.data.length) { document.getElementById('msChildResult').innerHTML = '<div class="empty">No child found</div>'; return; }
     document.getElementById('msChildResult').innerHTML =
       `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">` +
-      d.data.map(c => `
-        <button class="btn-sm btn-outline-sm"
-          onclick="selectMilestoneChild('${esc(c.rollNo)}','${esc(c.fullName)}')">
-          <strong>${esc(c.rollNo)}</strong> — ${esc(c.fullName)}
-        </button>`).join('') + `</div>`;
+      d.data.map(c => `<button class="btn-sm btn-outline-sm" onclick="selectMilestoneChild('${esc(c.rollNo)}','${esc(c.fullName)}')"><strong>${esc(c.rollNo)}</strong> — ${esc(c.fullName)}</button>`).join('') + '</div>';
   } catch(err) { showToast('Search failed', 'error'); }
 }
 
@@ -1307,24 +1185,13 @@ async function selectMilestoneChild(rollNo, name) {
     const d = await api({ action: 'getMilestones', rollNo });
     if (!d.success || !d.data.length) {
       document.getElementById('msListWrap').innerHTML = '<div class="empty"><div class="icon">🏅</div>No milestones yet</div>';
-      // Also update pathway from milestones
-      updatePathwayFromMilestones(rollNo, []);
-      return;
+      updatePathwayFromMilestones(rollNo, []); return;
     }
     document.getElementById('msListWrap').innerHTML =
       `<div class="milestone-list">` +
-      d.data.map(m => `
-        <div class="milestone-item">
-          <div class="milestone-icon">${MS_ICONS[m.type] || '📌'}</div>
-          <div class="milestone-info">
-            <div class="type">${esc(m.type)}</div>
-            <div class="meta">${fmtDate(m.date)} · ${esc(m.recordedBy)}${m.notes ? ' · ' + esc(m.notes) : ''}</div>
-          </div>
-        </div>`).join('') + `</div>`;
+      d.data.map(m => `<div class="milestone-item"><div class="milestone-icon">${MS_ICONS[m.type]||'📌'}</div><div class="milestone-info"><div class="type">${esc(m.type)}</div><div class="meta">${fmtDate(m.date)} · ${esc(m.recordedBy)}${m.notes?' · '+esc(m.notes):''}</div></div></div>`).join('') + '</div>';
     updatePathwayFromMilestones(rollNo, d.data);
-  } catch(err) {
-    document.getElementById('msListWrap').innerHTML = '<div class="empty">Error loading milestones</div>';
-  }
+  } catch(err) { document.getElementById('msListWrap').innerHTML = '<div class="empty">Error loading milestones</div>'; }
 }
 
 function openMilestoneForChild(rollNo, name) {
@@ -1338,7 +1205,7 @@ async function saveMilestone() {
   const type = document.getElementById('msType').value;
   const date = document.getElementById('msDate').value;
   const notes = document.getElementById('msNotes').value;
-  const by    = document.getElementById('msRecordedBy').value;
+  const by   = document.getElementById('msRecordedBy').value;
   if (!type) { showToast('Select a milestone type', 'error'); return; }
   try {
     const d = await api({ action: 'addMilestone', rollNo: msCurrentRoll, fullName: msCurrentName, type, date, notes, recordedBy: by || 'Admin' });
@@ -1352,369 +1219,21 @@ async function saveMilestone() {
   } catch(err) { showToast('Error: ' + err.message, 'error'); }
 }
 
-// ══════════════════════════════════════════════════════
-//  SPIRITUAL GROWTH PATHWAY
-// ══════════════════════════════════════════════════════
-const PATHWAY_STAGES = [
-  { key: 'enrolled',   label: 'Enrolled',       icon: '📝', milestone: null },
-  { key: 'attending',  label: 'Attending',       icon: '⛪', milestone: null },
-  { key: 'salvation',  label: 'Salvation',       icon: '✝️', milestone: 'Salvation Decision' },
-  { key: 'verse',      label: 'Memory Verse',    icon: '📖', milestone: 'Memory Verse Champion' },
-  { key: 'communion',  label: 'Communion',       icon: '🍞', milestone: 'Holy Communion (first)' },
-  { key: 'baptism',    label: 'Baptism',         icon: '💧', milestone: 'Water Baptism' },
-  { key: 'serving',    label: 'Serving',         icon: '🤝', milestone: 'Volunteered for Outreach' },
-];
-
-function getPathwayData() {
-  try { return JSON.parse(localStorage.getItem(PATHWAY_KEY) || '{}'); } catch { return {}; }
-}
-function savePathwayData(data) { localStorage.setItem(PATHWAY_KEY, JSON.stringify(data)); }
-
-function updatePathwayFromMilestones(rollNo, milestones) {
-  const data = getPathwayData();
-  const types = new Set(milestones.map(m => m.type));
-  const stages = PATHWAY_STAGES.map(s => {
-    if (s.milestone && types.has(s.milestone)) return 'done';
-    if (s.key === 'enrolled') return 'done';  // enrolled if they're in the system
-    return '';
-  });
-  // find current stage: first non-done
-  let foundCurrent = false;
-  for (let i = 0; i < stages.length; i++) {
-    if (stages[i] !== 'done' && !foundCurrent) { stages[i] = 'current'; foundCurrent = true; }
-  }
-  data[rollNo] = stages;
-  savePathwayData(data);
+// ══════════════════════════════════════════════════════════════
+//  ATTENDANCE — COMPOSITE KEY HELPER
+//  Key = YYYY-MM-DD || sessionName || rollNo
+// ══════════════════════════════════════════════════════════════
+function attCompositeKey(sessionDate, sessionName, rollNo) {
+  const ds = String(sessionDate || '').split('T')[0];
+  return ds + '||' + (sessionName || '') + '||' + (rollNo || '');
 }
 
-async function searchForPathway() {
-  const q = document.getElementById('pathwaySearch').value.trim();
-  if (!q) return;
-  document.getElementById('pathwaySearchResult').innerHTML = '<div class="loading">Searching…</div>';
-  try {
-    const d = await api({ action: 'getChildren', q });
-    if (!d.success || !d.data.length) {
-      document.getElementById('pathwaySearchResult').innerHTML = '<div class="empty">No child found</div>';
-      return;
-    }
-    document.getElementById('pathwaySearchResult').innerHTML =
-      `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">` +
-      d.data.map(c => `
-        <button class="btn-sm btn-outline-sm"
-          onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">
-          <strong>${esc(c.rollNo)}</strong> — ${esc(c.fullName)}
-        </button>`).join('') + `</div>`;
-  } catch(err) { showToast('Search failed', 'error'); }
-}
-
-async function openPathwayForChild(rollNo, name) {
-  switchTab('pathway');
-  // Load milestones to auto-detect stages
-  try {
-    const d = await api({ action: 'getMilestones', rollNo });
-    updatePathwayFromMilestones(rollNo, d.success ? (d.data || []) : []);
-  } catch(e) {}
-
-  const data   = getPathwayData();
-  const stages = data[rollNo] || Array(7).fill('').map((_, i) => i === 0 ? 'done' : i === 1 ? 'current' : '');
-  const doneCount = stages.filter(s => s === 'done').length;
-
-  document.getElementById('pathwayDetail').style.display = '';
-  document.getElementById('pathwayDetailTitle').textContent = 'Journey — ' + name;
-  document.getElementById('pathwayChildName').textContent   = name;
-  document.getElementById('pathwayChildRoll').textContent   = rollNo;
-
-  document.getElementById('pathwaySteps').innerHTML = PATHWAY_STAGES.map((s, i) => `
-    <div class="pathway-step ${stages[i] === 'done' ? 'done' : stages[i] === 'current' ? 'current' : ''}">
-      <div class="step-circle">${s.icon}</div>
-      <div class="step-label">${s.label}</div>
-    </div>`
-  ).join('');
-
-  const pct = Math.round(doneCount / PATHWAY_STAGES.length * 100);
-  document.getElementById('pathwayProgress').innerHTML =
-    `<strong>${doneCount}</strong> of ${PATHWAY_STAGES.length} stages complete (${pct}%)
-     <div style="margin-top:6px;height:8px;background:var(--ivory);border-radius:4px;overflow:hidden">
-       <div style="width:${pct}%;background:var(--gold);height:100%;border-radius:4px;transition:width .6s"></div>
-     </div>`;
-
-  document.getElementById('pathwayActions').innerHTML =
-    `<div style="font-size:13px;color:var(--muted);margin-right:auto">
-      Manually advance or update this child's stage:
-    </div>` +
-    PATHWAY_STAGES.map((s, i) => `
-      <button class="btn-sm ${stages[i]==='done' ? 'btn-gold' : 'btn-outline-sm'}"
-        onclick="togglePathwayStage('${rollNo}','${name}',${i})"
-        title="${s.label}">
-        ${s.icon} ${s.label}
-      </button>`).join('');
-
-  document.getElementById('pathwaySearch').value = rollNo;
-}
-
-function togglePathwayStage(rollNo, name, idx) {
-  const data   = getPathwayData();
-  const stages = data[rollNo] || Array(7).fill('');
-  stages[idx]  = stages[idx] === 'done' ? '' : 'done';
-  // Recompute current
-  let foundCurrent = false;
-  for (let i = 0; i < stages.length; i++) {
-    if (stages[i] === 'current') stages[i] = '';
-  }
-  for (let i = 0; i < stages.length; i++) {
-    if (stages[i] !== 'done' && !foundCurrent) { stages[i] = 'current'; foundCurrent = true; }
-  }
-  data[rollNo] = stages;
-  savePathwayData(data);
-  openPathwayForChild(rollNo, name);
-}
-
-async function loadPathwayOverview() {
-  const tbody = document.getElementById('pathwayOverviewTable');
-  tbody.innerHTML = '<tr><td colspan="6"><div class="loading">Loading…</div></td></tr>';
-  try {
-    const d = await api({ action: 'getChildren', q: '' });
-    if (!d.success || !d.data.length) {
-      tbody.innerHTML = '<tr><td colspan="6"><div class="empty">No children found</div></td></tr>';
-      return;
-    }
-    const data = getPathwayData();
-    tbody.innerHTML = d.data.map(c => {
-      const stages = data[c.rollNo] || Array(7).fill('').map((_, i) => i === 0 ? 'current' : '');
-      const doneCount = stages.filter(s => s === 'done').length;
-      const currentStageIdx = stages.findIndex(s => s === 'current');
-      const currentStage = currentStageIdx >= 0 ? PATHWAY_STAGES[currentStageIdx] : null;
-      const pct = Math.round(doneCount / 7 * 100);
-      const miniDots = stages.map(s =>
-        `<div class="mini-step ${s === 'done' ? 'done' : s === 'current' ? 'current' : ''}"></div>`
-      ).join('');
-      return `<tr>
-        <td><span class="roll-badge">${esc(c.rollNo)}</span></td>
-        <td><strong>${esc(c.fullName)}</strong></td>
-        <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
-        <td>
-          <div style="display:flex;align-items:center;gap:6px">
-            <div class="mini-pathway">${miniDots}</div>
-            <span style="font-size:11px;color:var(--muted)">${pct}%</span>
-          </div>
-        </td>
-        <td style="font-size:12px">${currentStage ? currentStage.icon + ' ' + currentStage.label : '—'}</td>
-        <td>
-          <button class="btn-sm btn-outline-sm"
-            onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">View →</button>
-        </td>
-      </tr>`;
-    }).join('');
-  } catch(err) {
-    tbody.innerHTML = '<tr><td colspan="6"><div class="empty">Error loading data</div></td></tr>';
-  }
-}
-
-// ══════════════════════════════════════════════════════
-//  ABSENTEEISM ALERTS
-// ══════════════════════════════════════════════════════
-async function loadAbsenteeAlerts() {
-  const since = document.getElementById('followupSince').value;
-  const resultsEl = document.getElementById('absenteeResults');
-  resultsEl.innerHTML = '<div class="card"><div class="card-body"><div class="loading">Analysing attendance records…</div></div></div>';
-
-  try {
-    const [children, att] = await Promise.all([
-      api({ action: 'getChildren', q: '' }),
-      api({ action: 'getAttendance' })
-    ]);
-
-    if (!children.success || !att.success) {
-      resultsEl.innerHTML = '<div class="card"><div class="card-body"><div class="empty">Could not load data</div></div></div>';
-      return;
-    }
-
-    const sinceDate = since ? new Date(since) : null;
-    const alerts = [];
-
-    children.data.forEach(c => {
-      let records = att.data.filter(a => a.rollNo === c.rollNo);
-      if (sinceDate) records = records.filter(a => new Date(a.sessionDate) >= sinceDate);
-      records = records.sort((a,b) => new Date(b.sessionDate) - new Date(a.sessionDate));
-
-      if (records.length === 0) return;
-
-      let streak = 0;
-      for (const r of records) {
-        if (r.status === 'Absent') streak++;
-        else break;
-      }
-
-      const totalSessions = records.length;
-      const absentCount   = records.filter(r => r.status === 'Absent').length;
-      const absenceRate   = totalSessions > 0 ? Math.round(absentCount / totalSessions * 100) : 0;
-      const lastSeen      = records.find(r => r.status === 'Present' || r.status === 'Late');
-
-      if (streak >= 3) {
-        alerts.push({ child: c, streak, absenceRate, lastSeen: lastSeen?.sessionDate || null, totalSessions });
-      }
-    });
-
-    if (!alerts.length) {
-      resultsEl.innerHTML = `
-        <div class="alert-card info">
-          <div class="alert-icon">✅</div>
-          <div class="alert-body">
-            <div class="alert-title">No absenteeism alerts</div>
-            <div class="alert-text">No children have 3+ consecutive absences in the selected period. Great work!</div>
-          </div>
-        </div>`;
-      return;
-    }
-
-    alerts.sort((a, b) => b.streak - a.streak);
-
-    resultsEl.innerHTML = `
-      <div class="alert-card ${alerts.length > 5 ? 'danger' : 'warning'}">
-        <div class="alert-icon">⚠️</div>
-        <div class="alert-body">
-          <div class="alert-title">${alerts.length} child${alerts.length > 1 ? 'ren need' : ' needs'} follow-up</div>
-          <div class="alert-text">These children have been absent for 3 or more consecutive sessions.</div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-head"><span class="card-title">Children Requiring Follow-Up</span></div>
-        <div class="card-body" style="padding:0">
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Roll No.</th><th>Name</th><th>Age</th><th>Consecutive Absences</th><th>Absence Rate</th><th>Last Seen</th><th>Action</th></tr></thead>
-              <tbody>` +
-      alerts.map(a => `<tr>
-        <td><span class="roll-badge">${esc(a.child.rollNo)}</span></td>
-        <td><strong>${esc(a.child.fullName)}</strong></td>
-        <td><span class="age-badge">${esc(a.child.ageGroup)}</span></td>
-        <td><span class="absent-badge ${a.streak >= 5 ? 'absent-5' : 'absent-3'}">⚠ ${a.streak} sessions</span></td>
-        <td>${a.absenceRate}% absent</td>
-        <td style="font-size:12px">${a.lastSeen ? fmtDate(a.lastSeen) : '<em>Never present</em>'}</td>
-        <td>
-          <button class="btn-sm btn-gold"
-            onclick="prefillFollowUp('${esc(a.child.rollNo)}','${esc(a.child.fullName)}')">
-            Log Follow-Up
-          </button>
-        </td>
-      </tr>`).join('') +
-      `</tbody></table></div></div></div>`;
-
-  } catch(err) {
-    resultsEl.innerHTML = '<div class="card"><div class="card-body"><div class="empty">Error analysing attendance</div></div></div>';
-  }
-}
-
-function prefillFollowUp(rollNo, name) {
-  document.getElementById('fuChild').value = rollNo + ' — ' + name;
-  document.getElementById('fuDate').value  = today();
-  document.getElementById('fuChild').scrollIntoView({ behavior: 'smooth', block: 'center' });
-  document.getElementById('fuChild').focus();
-}
-
-// ══════════════════════════════════════════════════════
-//  FOLLOW-UP LOG — Google Sheet backed
-// ══════════════════════════════════════════════════════
-async function saveFollowUp() {
-  const child   = document.getElementById('fuChild').value.trim();
-  const date    = document.getElementById('fuDate').value;
-  const method  = document.getElementById('fuMethod').value;
-  const outcome = document.getElementById('fuOutcome').value;
-  const notes   = document.getElementById('fuNotes').value;
-  const by      = document.getElementById('fuBy').value.trim();
-
-  if (!child || !date) { showToast('Fill in child name and date', 'error'); return; }
-
-  const btn = document.querySelector('#followupForm button[onclick="saveFollowUp()"]');
-  if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
-
-  try {
-    const d = await apiWithOffline({
-      action: 'addFollowUp', child, date, method, outcome,
-      notes: notes || '', recordedBy: by || 'Admin'
-    });
-
-    if (d.offline) {
-      showToast('📥 Saved offline — will sync when reconnected', '');
-    } else if (d.success) {
-      showToast('✅ Follow-up logged to sheet', 'success');
-    } else {
-      showToast('Save failed: ' + (d.error || 'unknown error'), 'error');
-      return;
-    }
-
-    document.getElementById('fuChild').value = '';
-    document.getElementById('fuNotes').value = '';
-    loadFollowUpHistory();
-  } catch(err) {
-    showToast('Error: ' + err.message, 'error');
-  } finally {
-    if (btn) { btn.disabled = false; btn.textContent = '💾 Save Follow-Up'; }
-  }
-}
-
-async function loadFollowUpHistory() {
-  const tbody = document.getElementById('followupHistoryTable');
-  tbody.innerHTML = '<tr><td colspan="5"><div class="loading">Loading…</div></td></tr>';
-
-  // Show any offline-queued follow-ups immediately while we wait for the sheet
-  const queued = getOfflineQueue().filter(p => p.action === 'addFollowUp');
-
-  try {
-    const d = await api({ action: 'getFollowUps' });
-
-    if (!d.success && !queued.length) {
-      tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><div class="icon">📋</div>No follow-ups logged yet</div></td></tr>';
-      return;
-    }
-
-    const sheetRows = (d.success && d.data) ? d.data : [];
-
-    // Merge sheet rows + any still-queued offline entries (show offline ones at top)
-    const offlineRows = queued.map(p => ({
-      date: p.date, child: p.child, method: p.method,
-      outcome: p.outcome, recordedBy: p.recordedBy, _offline: true
-    }));
-
-    const allRows = [...offlineRows, ...sheetRows]
-      .sort((a, b) => new Date(b.date) - new Date(a.date))
-      .slice(0, 60);
-
-    if (!allRows.length) {
-      tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><div class="icon">📋</div>No follow-ups logged yet</div></td></tr>';
-      return;
-    }
-
-    tbody.innerHTML = allRows.map(f => `
-      <tr ${f._offline ? 'style="opacity:.65"' : ''}>
-        <td>${fmtDate(f.date)}${f._offline ? ' <span style="font-size:10px;color:#e67e22">(pending)</span>' : ''}</td>
-        <td><strong>${esc(f.child)}</strong></td>
-        <td style="font-size:12px">${esc(f.method)}</td>
-        <td style="font-size:12px">${esc(f.outcome)}</td>
-        <td style="font-size:12px">${esc(f.recordedBy || f.by || '')}</td>
-      </tr>`).join('');
-
-  } catch(err) {
-    // Fallback — show queued items only
-    if (queued.length) {
-      tbody.innerHTML = queued.map(f => `
-        <tr style="opacity:.65">
-          <td>${fmtDate(f.date)} <span style="font-size:10px;color:#e67e22">(pending)</span></td>
-          <td><strong>${esc(f.child)}</strong></td>
-          <td style="font-size:12px">${esc(f.method)}</td>
-          <td style="font-size:12px">${esc(f.outcome)}</td>
-          <td style="font-size:12px">${esc(f.recordedBy)}</td>
-        </tr>`).join('');
-    } else {
-      tbody.innerHTML = '<tr><td colspan="5"><div class="empty">Could not load follow-up history</div></td></tr>';
-    }
-  }
-}
-
-// ══════════════════════════════════════════════════════
-//  ATTENDANCE (offline-aware)
-// ══════════════════════════════════════════════════════
-let attSessionData = [];
+// ══════════════════════════════════════════════════════════════
+//  ATTENDANCE SESSION (Mark)
+// ══════════════════════════════════════════════════════════════
+let attSessionData     = [];
+let attPriorDateMap    = {};   // rollNo → most-recent prior sessionDate
+let attAlreadyMarkedMap = {};  // rollNo → true if already in sheet for this session
 let attSessionDate = '', attSessionName = '';
 let attSortKey = 'rollNo', attSortDir = 1;
 
@@ -1722,70 +1241,89 @@ async function loadAttendanceSession() {
   attSessionDate = document.getElementById('attDate').value;
   attSessionName = document.getElementById('attSession').value || 'Sunday Service';
   if (!attSessionDate) { showToast('Pick a session date', 'error'); return; }
-  document.getElementById('attSessionWrap').innerHTML = '<div class="loading">Loading children…</div>';
-
+  document.getElementById('attSessionWrap').innerHTML = '<div class="loading">Loading children and attendance history…</div>';
   try {
-    const [children, existing] = await Promise.all([
+    const [children, allAtt] = await Promise.all([
       api({ action: 'getChildren', q: '' }),
-      api({ action: 'getAttendance', session: attSessionDate }),
+      api({ action: 'getAttendance' }),
     ]);
 
-    const markedMap = {};
-    (existing.data || []).filter(a => String(a.sessionDate).startsWith(attSessionDate))
-      .forEach(a => { markedMap[a.rollNo] = a.status; });
+    attPriorDateMap    = {};
+    attAlreadyMarkedMap = {};
+    const markedMap    = {};
 
-    // Also check offline queue
+    if (allAtt.success && allAtt.data) {
+      const byRoll = {};
+      allAtt.data.forEach(a => {
+        if (!byRoll[a.rollNo]) byRoll[a.rollNo] = [];
+        byRoll[a.rollNo].push(a);
+      });
+      Object.keys(byRoll).forEach(rollNo => {
+        const records = byRoll[rollNo].sort((a, b) => new Date(b.sessionDate) - new Date(a.sessionDate));
+        const todayRecord = records.find(r => String(r.sessionDate).startsWith(attSessionDate));
+        if (todayRecord) { markedMap[rollNo] = todayRecord.status; attAlreadyMarkedMap[rollNo] = true; }
+        const priorRecord = records.find(r => !String(r.sessionDate).startsWith(attSessionDate));
+        if (priorRecord) attPriorDateMap[rollNo] = priorRecord.sessionDate;
+      });
+    }
+
     getOfflineQueue()
       .filter(p => p.action === 'markAttendance' && p.sessionDate === attSessionDate)
       .forEach(p => { markedMap[p.rollNo] = p.status; });
 
     if (!children.data || !children.data.length) {
-      document.getElementById('attSessionWrap').innerHTML = '<div class="empty">No registered children</div>';
-      return;
+      document.getElementById('attSessionWrap').innerHTML = '<div class="empty">No registered children</div>'; return;
     }
-
     attSessionData = children.data.map(c => ({ ...c, currentStatus: markedMap[c.rollNo] || '' }));
     renderAttendanceSession();
   } catch(err) { showToast('Error loading session: ' + err.message, 'error'); }
 }
 
 function renderAttendanceSession() {
-  const filterName  = (document.getElementById('attFilterName')  || {}).value || '';
-  const filterAge   = (document.getElementById('attFilterAge')   || {}).value || '';
-  const filterMark  = (document.getElementById('attFilterMark')  || {}).value || '';
+  const filterName = (document.getElementById('attFilterName') || {}).value || '';
+  const filterAge  = (document.getElementById('attFilterAge')  || {}).value || '';
+  const filterMark = (document.getElementById('attFilterMark') || {}).value || '';
 
   let filtered = attSessionData.filter(c => {
     const nameMatch = !filterName || c.fullName.toLowerCase().includes(filterName.toLowerCase()) || c.rollNo.toLowerCase().includes(filterName.toLowerCase());
     const ageMatch  = !filterAge  || c.ageGroup === filterAge;
     const markMatch = !filterMark || c.currentStatus === filterMark;
     return nameMatch && ageMatch && markMatch;
-  });
-
-  filtered = filtered.sort((a, b) => {
+  }).sort((a, b) => {
     let va, vb;
-    if (attSortKey === 'name') { va = a.fullName; vb = b.fullName; }
-    else if (attSortKey === 'age') { va = a.ageGroup; vb = b.ageGroup; }
-    else { va = a.rollNo; vb = b.rollNo; }
+    if (attSortKey === 'name')      { va = a.fullName; vb = b.fullName; }
+    else if (attSortKey === 'age')  { va = a.ageGroup; vb = b.ageGroup; }
+    else                            { va = a.rollNo;   vb = b.rollNo; }
     return String(va).localeCompare(String(vb), undefined, { numeric: true }) * attSortDir;
   });
 
   const ageGroups = [...new Set(attSessionData.map(c => c.ageGroup))].sort();
-  const markedCount = attSessionData.filter(c => c.currentStatus).length;
-  const onlineNotice = !isOnline ? `<div style="background:#fff8ec;border:1px solid #f0a500;border-radius:7px;padding:10px 14px;margin-bottom:12px;font-size:13px">
-    ⚡ <strong>Offline mode</strong> — marks will be saved locally and synced when you reconnect. Continue marking as normal.</div>` : '';
+  const presentCount = attSessionData.filter(c => c.currentStatus === 'Present').length;
+  const absentCount  = attSessionData.filter(c => c.currentStatus === 'Absent').length;
+  const lateCount    = attSessionData.filter(c => c.currentStatus === 'Late').length;
+  const excusedCount = attSessionData.filter(c => c.currentStatus === 'Excused').length;
+  const dupCount     = attSessionData.filter(c => attAlreadyMarkedMap[c.rollNo]).length;
+
+  const onlineNotice = !isOnline ? `<div style="background:#fff8ec;border:1px solid #f0a500;border-radius:7px;padding:10px 14px;margin-bottom:12px;font-size:13px">⚡ <strong>Offline mode</strong> — marks saved locally, synced on reconnect.</div>` : '';
 
   document.getElementById('attSessionWrap').innerHTML = `
     ${onlineNotice}
     <div style="margin-top:6px;margin-bottom:10px;font-size:13px;color:var(--muted)">
       Session: <strong>${esc(attSessionName)}</strong> on <strong>${attSessionDate}</strong>
       &nbsp;·&nbsp; <span style="color:var(--ink);font-weight:600">${filtered.length}</span> shown of ${attSessionData.length}
-      &nbsp;·&nbsp; <span style="color:var(--green);font-weight:600">${markedCount}</span> marked
+    </div>
+    <div class="att-summary-bar">
+      <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Live count:</span>
+      <span class="att-sum-chip present">✅ Present: ${presentCount}</span>
+      <span class="att-sum-chip absent">❌ Absent: ${absentCount}</span>
+      <span class="att-sum-chip late">⏰ Late: ${lateCount}</span>
+      <span class="att-sum-chip excused">📋 Excused: ${excusedCount}</span>
+      ${dupCount > 0 ? `<span class="att-sum-chip dup" title="Click to review duplicates" onclick="openDedupeModal()">⚠ In sheet: ${dupCount} — click to review</span>` : ''}
     </div>
     <div class="att-filter-bar">
       <div class="field grow">
         <label>Filter by name / roll</label>
-        <input type="search" id="attFilterName" placeholder="Search…" value="${esc(filterName)}"
-          oninput="renderAttendanceSession()" autocomplete="off">
+        <input type="search" id="attFilterName" placeholder="Search…" value="${esc(filterName)}" oninput="renderAttendanceSession()" autocomplete="off">
       </div>
       <div class="field">
         <label>Age Group</label>
@@ -1809,65 +1347,93 @@ function renderAttendanceSession() {
       <span>Sort:</span>
       <button class="sort-btn ${attSortKey==='rollNo'?'active':''}" onclick="attSort('rollNo')">Roll No.${attSortKey==='rollNo'?(attSortDir===1?' ↑':' ↓'):''}</button>
       <button class="sort-btn ${attSortKey==='name'  ?'active':''}" onclick="attSort('name')">Name${attSortKey==='name'?(attSortDir===1?' ↑':' ↓'):''}</button>
-      <button class="sort-btn ${attSortKey==='age'   ?'active':''}" onclick="attSort('age')">Age Group${attSortKey==='age'?(attSortDir===1?' ↑':' ↓'):''}</button>
+      <button class="sort-btn ${attSortKey==='age'   ?'active':''}" onclick="attSort('age')">Age${attSortKey==='age'?(attSortDir===1?' ↑':' ↓'):''}</button>
     </div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Roll No.</th><th>Name</th><th>Age</th><th>Status</th><th>Mark</th></tr></thead>
-        <tbody>` +
-    (filtered.length === 0 ? '<tr><td colspan="5"><div class="empty">No children match filter</div></td></tr>' :
-    filtered.map(c => `<tr>
-      <td><span class="roll-badge">${esc(c.rollNo)}</span></td>
-      <td>${esc(c.fullName)}</td>
-      <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
-      <td>
-        <select id="att-${esc(c.rollNo)}" class="att-status-select"
-          onchange="updateLocalStatus('${esc(c.rollNo)}',this.value)">
-          <option value="" ${!c.currentStatus?'selected':''}>—</option>
-          <option value="Present" ${c.currentStatus==='Present'?'selected':''}>✅ Present</option>
-          <option value="Absent"  ${c.currentStatus==='Absent' ?'selected':''}>❌ Absent</option>
-          <option value="Late"    ${c.currentStatus==='Late'   ?'selected':''}>⏰ Late</option>
-          <option value="Excused" ${c.currentStatus==='Excused'?'selected':''}>📋 Excused</option>
-        </select>
-      </td>
-      <td>
-        <button class="btn-sm btn-gold"
-          onclick="markOne('${esc(c.rollNo)}','${esc(c.fullName)}','${attSessionDate}','${esc(attSessionName)}')">Mark</button>
-      </td>
-    </tr>`).join('')) +
+    <div class="table-wrap"><table>
+      <thead><tr>
+        <th>Roll No.</th><th>Name</th><th>Age</th><th>Prior Attendance</th><th>Status</th><th>Mark</th>
+      </tr></thead>
+      <tbody>` +
+    (filtered.length === 0
+      ? '<tr><td colspan="6"><div class="empty">No children match filter</div></td></tr>'
+      : filtered.map(c => {
+          const priorDate  = attPriorDateMap[c.rollNo];
+          const isSheetDup = attAlreadyMarkedMap[c.rollNo];
+          let priorCell = '<span style="color:var(--muted);font-size:11px">—</span>';
+          if (priorDate) {
+            const priorStr     = String(priorDate).split('T')[0];
+            const matchesToday = priorStr === attSessionDate || isSheetDup;
+            priorCell = `<span class="prior-date-cell ${matchesToday?'today-match':''}">${fmtDate(priorDate)}</span>`;
+          }
+          let dupFlag = isSheetDup
+            ? `<span class="dup-flag dup-exact" title="Already marked for ${attSessionDate} in the sheet">⚠ In sheet</span>`
+            : '';
+          return `<tr class="${isSheetDup ? 'att-duplicate' : ''}">
+            <td><span class="roll-badge">${esc(c.rollNo)}</span></td>
+            <td>${esc(c.fullName)}${dupFlag ? '<br style="margin:2px 0">' + dupFlag : ''}</td>
+            <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
+            <td>${priorCell}</td>
+            <td>
+              <select id="att-${esc(c.rollNo)}" class="att-status-select" onchange="updateLocalStatus('${esc(c.rollNo)}',this.value)">
+                <option value="" ${!c.currentStatus?'selected':''}>—</option>
+                <option value="Present" ${c.currentStatus==='Present'?'selected':''}>✅ Present</option>
+                <option value="Absent"  ${c.currentStatus==='Absent' ?'selected':''}>❌ Absent</option>
+                <option value="Late"    ${c.currentStatus==='Late'   ?'selected':''}>⏰ Late</option>
+                <option value="Excused" ${c.currentStatus==='Excused'?'selected':''}>📋 Excused</option>
+              </select>
+            </td>
+            <td>
+              <button class="btn-sm btn-gold" onclick="markOne('${esc(c.rollNo)}','${esc(c.fullName)}','${attSessionDate}','${esc(attSessionName)}')">Mark</button>
+            </td>
+          </tr>`;
+        }).join('')
+    ) +
     `</tbody></table></div>
     <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-      <button class="btn-sm btn-gold" onclick="markAll()">💾 Save All Marked</button>
+      <button class="btn-sm btn-gold"       onclick="markAll()">💾 Save All Marked</button>
       <button class="btn-sm btn-outline-sm" onclick="markAllPresent()">✅ Mark All Present</button>
     </div>`;
 }
 
 function attSort(key) {
-  if (attSortKey === key) attSortDir *= -1;
-  else { attSortKey = key; attSortDir = 1; }
+  if (attSortKey === key) attSortDir *= -1; else { attSortKey = key; attSortDir = 1; }
   renderAttendanceSession();
 }
 
 function updateLocalStatus(rollNo, status) {
   const child = attSessionData.find(c => c.rollNo === rollNo);
-  if (child) child.currentStatus = status;
+  if (child) {
+    child.currentStatus = status;
+    const presentCount = attSessionData.filter(c => c.currentStatus === 'Present').length;
+    const absentCount  = attSessionData.filter(c => c.currentStatus === 'Absent').length;
+    const lateCount    = attSessionData.filter(c => c.currentStatus === 'Late').length;
+    const excusedCount = attSessionData.filter(c => c.currentStatus === 'Excused').length;
+    const el = document.querySelector('.att-summary-bar');
+    if (el) {
+      el.querySelectorAll('.att-sum-chip').forEach(ch => {
+        if (ch.classList.contains('present')) ch.textContent = '✅ Present: ' + presentCount;
+        else if (ch.classList.contains('absent'))  ch.textContent = '❌ Absent: ' + absentCount;
+        else if (ch.classList.contains('late'))    ch.textContent = '⏰ Late: ' + lateCount;
+        else if (ch.classList.contains('excused')) ch.textContent = '📋 Excused: ' + excusedCount;
+      });
+    }
+  }
 }
 
-function markAllPresent() {
-  attSessionData.forEach(c => c.currentStatus = 'Present');
-  renderAttendanceSession();
-}
+function markAllPresent() { attSessionData.forEach(c => c.currentStatus = 'Present'); renderAttendanceSession(); }
 
 async function markOne(rollNo, name, date, session) {
   const sel = document.getElementById('att-' + rollNo);
   const status = sel ? sel.value : '';
   if (!status) return;
   updateLocalStatus(rollNo, status);
-  const params = { action: 'markAttendance', rollNo, fullName: name, sessionDate: date, sessionName: session, status };
-  const d = await apiWithOffline(params);
-  if (d.offline) { showToast('📥 Saved offline — will sync later', ''); }
-  else if (d.success) { showToast('Marked ' + rollNo, 'success'); loadAttendanceHistory(); }
-  else showToast('Failed: ' + d.error, 'error');
+  const d = await apiWithOffline({ action: 'markAttendance', rollNo, fullName: name, sessionDate: date, sessionName: session, status });
+  if (d.offline) showToast('📥 Saved offline — will sync later', '');
+  else if (d.success) {
+    showToast('Marked ' + rollNo, 'success');
+    attAlreadyMarkedMap[rollNo] = true;
+    loadAttendanceHistory(); loadAttendanceSession();
+  } else showToast('Failed: ' + d.error, 'error');
 }
 
 async function markAll() {
@@ -1878,36 +1444,525 @@ async function markAll() {
       sessionDate: attSessionDate, sessionName: attSessionName, status: c.currentStatus })
   ));
   const offlineCount = results.filter(r => r.offline).length;
-  const onlineCount  = results.length - offlineCount;
-  if (offlineCount > 0) showToast(`📥 ${onlineCount} saved online, ${offlineCount} queued for sync`, '');
+  marked.forEach(c => { attAlreadyMarkedMap[c.rollNo] = true; });
+  if (offlineCount > 0) showToast(`📥 ${results.length - offlineCount} saved online, ${offlineCount} queued`, '');
   else showToast(`✅ Saved ${marked.length} attendance marks`, 'success');
-  loadAttendanceHistory();
-  loadStats();
+  loadAttendanceHistory(); loadStats(); loadAttendanceSession();
 }
 
+// ══════════════════════════════════════════════════════════════
+//  ATTENDANCE HISTORY
+// ══════════════════════════════════════════════════════════════
 async function loadAttendanceHistory() {
+  const tbody   = document.getElementById('attHistoryTable');
+  const countEl = document.getElementById('attHistoryCount');
   try {
     const d = await api({ action: 'getAttendance' });
-    const tbody = document.getElementById('attHistoryTable');
     if (!d.success || !d.data.length) {
-      tbody.innerHTML = '<tr><td colspan="5"><div class="empty">No attendance records yet</div></td></tr>';
-      return;
+      tbody.innerHTML = '<tr><td colspan="6"><div class="empty">No attendance records yet</div></td></tr>';
+      if (countEl) countEl.textContent = ''; return;
     }
-    const sorted = d.data.slice().reverse().slice(0, 50);
-    tbody.innerHTML = sorted.map(a => `
+
+    const monthVal   = (document.getElementById('histFilterMonth')   || {}).value || '';
+    const sessionVal = ((document.getElementById('histFilterSession') || {}).value || '').toLowerCase().trim();
+    const statusVal  = (document.getElementById('histFilterStatus')  || {}).value || '';
+
+    let rows = d.data.slice().reverse();
+    if (monthVal)   rows = rows.filter(a => String(a.sessionDate || '').substring(0, 7) === monthVal);
+    if (sessionVal) rows = rows.filter(a => String(a.sessionName || '').toLowerCase().includes(sessionVal));
+    if (statusVal)  rows = rows.filter(a => a.status === statusVal);
+
+    const display = rows.slice(0, 200);
+    if (countEl) countEl.textContent = display.length + ' record' + (display.length !== 1 ? 's' : '') + (rows.length > 200 ? ' (showing 200 of ' + rows.length + ')' : '');
+
+    if (!display.length) {
+      tbody.innerHTML = '<tr><td colspan="6"><div class="empty">No records match filters</div></td></tr>'; return;
+    }
+
+    tbody.innerHTML = display.map(a => `
       <tr>
         <td>${fmtDate(a.sessionDate)}</td>
         <td>${esc(a.sessionName)}</td>
         <td><span class="roll-badge">${esc(a.rollNo)}</span></td>
         <td>${esc(a.fullName)}</td>
         <td class="status-${(a.status||'').toLowerCase()}">${esc(a.status)}</td>
+        <td><span class="key-chip" title="Composite key">${esc(attCompositeKey(a.sessionDate, a.sessionName, a.rollNo))}</span></td>
       </tr>`).join('');
-  } catch(err) { /* silent */ }
+  } catch(err) {
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty">Could not load history</div></td></tr>';
+  }
 }
 
-// ══════════════════════════════════════════════════════
+function clearHistoryFilters() {
+  const m = document.getElementById('histFilterMonth');
+  const s = document.getElementById('histFilterSession');
+  const st = document.getElementById('histFilterStatus');
+  if (m) m.value = new Date().toISOString().substring(0, 7);
+  if (s) s.value = '';
+  if (st) st.value = '';
+  loadAttendanceHistory();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  DEDUPE ATTENDANCE
+//  Key = sessionDate(YYYY-MM-DD) || sessionName || rollNo
+// ══════════════════════════════════════════════════════════════
+function attKeyFromRecord(a) {
+  return attCompositeKey(a.sessionDate, a.sessionName, a.rollNo);
+}
+
+async function openDedupeModal() {
+  document.getElementById('dedupeModal').classList.add('open');
+  document.getElementById('dedupeContent').innerHTML = '<div class="loading">Scanning all attendance records…</div>';
+  try {
+    const d = await api({ action: 'getAttendance' });
+    if (!d.success || !d.data) {
+      document.getElementById('dedupeContent').innerHTML = '<div class="empty">Could not load attendance data</div>'; return;
+    }
+    renderDedupeResults(d.data);
+  } catch(err) {
+    document.getElementById('dedupeContent').innerHTML = '<div class="empty">Error: ' + esc(err.message) + '</div>';
+  }
+}
+
+function renderDedupeResults(rows) {
+  // Group by composite key preserving sheet order
+  const groups = {};
+  rows.forEach(r => {
+    const k = attKeyFromRecord(r);
+    if (!groups[k]) groups[k] = [];
+    groups[k].push(r);
+  });
+
+  // For each key with >1 entry: sort by timestamp ASC, keep index 0, flag the rest
+  const duplicates = [];
+  Object.values(groups).forEach(group => {
+    if (group.length < 2) return;
+    group.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    group.slice(1).forEach(r => duplicates.push({ kept: group[0], dup: r }));
+  });
+
+  const el = document.getElementById('dedupeContent');
+
+  if (!duplicates.length) {
+    el.innerHTML = `
+      <div class="alert-card info" style="margin-bottom:0">
+        <div class="alert-icon">✅</div>
+        <div class="alert-body">
+          <div class="alert-title">No duplicates found</div>
+          <div class="alert-text">All ${rows.length} attendance records are unique by Session Date + Session Name + Roll No.</div>
+        </div>
+      </div>`; return;
+  }
+
+  window._dedupePending = duplicates.map(d => d.dup);
+  const affectedKeys    = Object.values(groups).filter(g => g.length > 1).length;
+
+  el.innerHTML = `
+    <div class="dedupe-banner">
+      <span>⚠️ Found</span>
+      <span class="dedupe-count">${duplicates.length} duplicate${duplicates.length !== 1 ? 's' : ''}</span>
+      <span>across <strong>${affectedKeys}</strong> key${affectedKeys !== 1 ? 's' : ''}.</span>
+      <span style="font-size:11px;color:var(--muted)">The earliest entry for each key is kept; later duplicates are shown below.</span>
+      <button class="btn-sm btn-danger" style="margin-left:auto" id="deleteAllDupBtn" onclick="deleteAllDuplicates()">
+        🗑 Delete All ${duplicates.length} Duplicate${duplicates.length !== 1 ? 's' : ''}
+      </button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Composite Key (Date || Session || Roll No.)</th>
+            <th>Date</th>
+            <th>Session</th>
+            <th>Roll No.</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Timestamp (this record)</th>
+            <th>Kept Timestamp</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="dedupeTableBody">
+          ${duplicates.map((item, idx) => `
+            <tr class="dedupe-result-row" id="dedupe-row-${idx}">
+              <td style="font-size:11px;color:var(--muted)">${idx + 1}</td>
+              <td><span class="key-chip">${esc(attKeyFromRecord(item.dup))}</span></td>
+              <td>${fmtDate(item.dup.sessionDate)}</td>
+              <td>${esc(item.dup.sessionName)}</td>
+              <td><span class="roll-badge">${esc(item.dup.rollNo)}</span></td>
+              <td>${esc(item.dup.fullName)}</td>
+              <td class="status-${(item.dup.status||'').toLowerCase()}">${esc(item.dup.status)}</td>
+              <td style="font-size:11px;color:var(--red)">${item.dup.timestamp ? new Date(item.dup.timestamp).toLocaleString('en-KE') : '—'}</td>
+              <td style="font-size:11px;color:var(--green)">${item.kept.timestamp ? new Date(item.kept.timestamp).toLocaleString('en-KE') : '—'}</td>
+              <td>
+                <button class="btn-sm btn-danger" onclick="deleteSingleDuplicate(${idx}, ${item.dup._rowIndex})">
+                  🗑 Delete
+                </button>
+              </td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-top:10px">
+      ℹ️ Row highlighted in <span style="color:var(--red);font-weight:600">red</span> = duplicate to delete.
+      The kept record's timestamp is shown in green for reference.
+      Rows are deleted in descending sheet-row order to avoid index shifting.
+    </p>`;
+}
+
+async function deleteSingleDuplicate(idx, rowIndex) {
+  const btn = document.querySelector(`#dedupe-row-${idx} .btn-danger`);
+  if (btn) { btn.disabled = true; btn.textContent = 'Deleting…'; }
+  try {
+    const d = await api({ action: 'deleteAttendanceRow', rowIndex });
+    if (d.success) {
+      showToast('✅ Duplicate deleted', 'success');
+      const row = document.getElementById('dedupe-row-' + idx);
+      if (row) {
+        row.style.opacity = '0.4';
+        row.style.textDecoration = 'line-through';
+        if (btn) btn.remove();
+      }
+      if (window._dedupePending) window._dedupePending = window._dedupePending.filter(r => r._rowIndex !== rowIndex);
+      // Update delete-all button count
+      const remaining = (window._dedupePending || []).length;
+      const allBtn = document.getElementById('deleteAllDupBtn');
+      if (allBtn) {
+        if (remaining > 0) allBtn.textContent = `🗑 Delete All ${remaining} Duplicate${remaining !== 1 ? 's' : ''}`;
+        else allBtn.style.display = 'none';
+      }
+      loadAttendanceHistory(); loadStats();
+    } else {
+      showToast('Failed: ' + (d.error || 'unknown'), 'error');
+      if (btn) { btn.disabled = false; btn.textContent = '🗑 Delete'; }
+    }
+  } catch(err) {
+    showToast('Error: ' + err.message, 'error');
+    if (btn) { btn.disabled = false; btn.textContent = '🗑 Delete'; }
+  }
+}
+
+async function deleteAllDuplicates() {
+  const pending = window._dedupePending || [];
+  if (!pending.length) { showToast('Nothing to delete', ''); return; }
+  if (!confirm(`Delete all ${pending.length} duplicate record${pending.length !== 1 ? 's' : ''}?\n\nThis cannot be undone. The earliest entry for each key will be kept.`)) return;
+
+  const btn = document.getElementById('deleteAllDupBtn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Deleting…'; }
+
+  // Sort descending by _rowIndex so deleting higher rows first doesn't shift lower row numbers
+  const sorted = [...pending].sort((a, b) => b._rowIndex - a._rowIndex);
+  let deleted = 0, failed = 0;
+
+  for (const r of sorted) {
+    try {
+      const d = await api({ action: 'deleteAttendanceRow', rowIndex: r._rowIndex });
+      if (d.success) deleted++;
+      else failed++;
+    } catch { failed++; }
+  }
+
+  if (failed === 0) {
+    showToast(`✅ Deleted ${deleted} duplicate${deleted !== 1 ? 's' : ''}`, 'success');
+    window._dedupePending = [];
+    // Re-scan to confirm clean state
+    const fresh = await api({ action: 'getAttendance' });
+    if (fresh.success) renderDedupeResults(fresh.data);
+    loadAttendanceHistory(); loadStats();
+  } else {
+    showToast(`Deleted ${deleted}, ${failed} failed — re-scanning…`, 'error');
+    const fresh = await api({ action: 'getAttendance' });
+    if (fresh.success) renderDedupeResults(fresh.data);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  PATHWAY
+// ══════════════════════════════════════════════════════════════
+const PATHWAY_STAGES = [
+  { key:'enrolled',  label:'Enrolled',     icon:'📝', milestone:null, desc:'Child is registered in the CY ministry. Welcome to the family!' },
+  { key:'attending', label:'Attending',    icon:'⛪', milestone:null, desc:'Regularly present at church services and CY sessions.' },
+  { key:'salvation', label:'Salvation',    icon:'✝️', milestone:'Salvation Decision', desc:'Has made a personal decision to follow Jesus Christ.' },
+  { key:'verse',     label:'Memory Verse', icon:'📖', milestone:'Memory Verse Champion', desc:'Actively memorising and reciting scripture.' },
+  { key:'communion', label:'Communion',    icon:'🍞', milestone:'Holy Communion (first)', desc:'Has received first Holy Communion.' },
+  { key:'baptism',   label:'Baptism',      icon:'💧', milestone:'Water Baptism', desc:'Publicly declared faith through water baptism.' },
+  { key:'serving',   label:'Serving',      icon:'🤝', milestone:'Volunteered for Outreach', desc:'Actively serving others and contributing to ministry.' },
+];
+const STAGE_NEXT_STEPS = [
+  'Encourage regular attendance at Sunday services.',
+  'Invite to attend CY sessions consistently.',
+  'Present the gospel clearly; pray with them for salvation.',
+  'Begin scripture memory program — assign a verse weekly.',
+  'Discuss Holy Communion with parents; schedule preparation class.',
+  'Discuss baptism class with parents; arrange date.',
+  '🎉 All stages complete! Encourage leadership mentoring.',
+];
+
+function getPathwayData() { try { return JSON.parse(localStorage.getItem(PATHWAY_KEY) || '{}'); } catch { return {}; } }
+function savePathwayData(data) { localStorage.setItem(PATHWAY_KEY, JSON.stringify(data)); }
+
+function updatePathwayFromMilestones(rollNo, milestones) {
+  const data  = getPathwayData();
+  const types = new Set(milestones.map(m => m.type));
+  const stages = PATHWAY_STAGES.map(s => {
+    if (s.milestone && types.has(s.milestone)) return 'done';
+    if (s.key === 'enrolled') return 'done';
+    return '';
+  });
+  let foundCurrent = false;
+  for (let i = 0; i < stages.length; i++) {
+    if (stages[i] !== 'done' && !foundCurrent) { stages[i] = 'current'; foundCurrent = true; }
+  }
+  data[rollNo] = stages;
+  savePathwayData(data);
+}
+
+async function searchForPathway() {
+  const q = document.getElementById('pathwaySearch').value.trim();
+  if (!q) return;
+  document.getElementById('pathwaySearchResult').innerHTML = '<div class="loading">Searching…</div>';
+  try {
+    const d = await api({ action: 'getChildren', q });
+    if (!d.success || !d.data.length) { document.getElementById('pathwaySearchResult').innerHTML = '<div class="empty">No child found</div>'; return; }
+    document.getElementById('pathwaySearchResult').innerHTML =
+      `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">` +
+      d.data.map(c => `<button class="btn-sm btn-outline-sm" onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}')"><strong>${esc(c.rollNo)}</strong> — ${esc(c.fullName)}</button>`).join('') + '</div>';
+  } catch(err) { showToast('Search failed', 'error'); }
+}
+
+async function openPathwayForChild(rollNo, name) {
+  switchTab('pathway');
+  try {
+    const d = await api({ action: 'getMilestones', rollNo });
+    updatePathwayFromMilestones(rollNo, d.success ? (d.data || []) : []);
+  } catch(e) {}
+
+  const data      = getPathwayData();
+  const stages    = data[rollNo] || Array(7).fill('').map((_, i) => i === 0 ? 'done' : i === 1 ? 'current' : '');
+  const doneCount = stages.filter(s => s === 'done').length;
+  const pct       = Math.round(doneCount / PATHWAY_STAGES.length * 100);
+  const nextIdx   = stages.findIndex(s => s === 'current');
+  const nextStep  = nextIdx >= 0 ? STAGE_NEXT_STEPS[nextIdx] : STAGE_NEXT_STEPS[PATHWAY_STAGES.length - 1];
+
+  document.getElementById('pathwayDetail').style.display = '';
+  document.getElementById('pathwayDetailTitle').textContent = 'Journey — ' + name;
+
+  const R = 36, C = 2 * Math.PI * R;
+  const offset = C - (pct / 100) * C;
+  const ringColor = pct === 100 ? 'var(--green)' : 'var(--gold)';
+
+  const stageCards = PATHWAY_STAGES.map((s, i) => {
+    const state = stages[i] || '';
+    let badgeHtml = '';
+    if (state === 'done')    badgeHtml = `<div class="sc-badge" style="background:var(--green);color:#fff">✓</div>`;
+    if (state === 'current') badgeHtml = `<div class="sc-badge" style="background:var(--blue);color:#fff">→</div>`;
+    return `<div class="stage-card ${state}" onclick="togglePathwayStage('${esc(rollNo)}','${esc(name)}',${i})" title="Click to toggle">
+      ${badgeHtml}<div class="sc-icon">${s.icon}</div><div class="sc-label">${s.label}</div><div class="sc-desc">${s.desc}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('pathwayDetailBody').innerHTML = `
+    <div class="journey-header">
+      <div class="progress-ring-wrap">
+        <svg width="90" height="90" viewBox="0 0 90 90">
+          <circle class="progress-ring-track" cx="45" cy="45" r="${R}"/>
+          <circle class="progress-ring-bar" cx="45" cy="45" r="${R}" stroke="${ringColor}" stroke-dasharray="${C}" stroke-dashoffset="${offset}" transform="rotate(-90 45 45)"/>
+          <text class="progress-ring-text" x="45" y="43" style="font-size:15px;font-weight:700;fill:var(--ink)">${pct}%</text>
+          <text x="45" y="57" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="var(--muted)">${doneCount}/${PATHWAY_STAGES.length}</text>
+        </svg>
+      </div>
+      <div class="journey-meta">
+        <div class="j-name">${esc(name)}</div>
+        <div class="j-roll">${esc(rollNo)}</div>
+        ${nextIdx >= 0 || pct < 100
+          ? `<div class="j-next"><strong>Next step</strong>${nextStep}</div>`
+          : `<div class="j-next" style="background:#f0fff4;border-color:#a8dfb8;color:#1a6e3a"><strong>🎉 Journey Complete!</strong>All 7 stages achieved — consider leadership mentoring.</div>`}
+      </div>
+    </div>
+    <div class="stage-grid">${stageCards}</div>
+    <div class="pathway-actions">
+      <span style="font-size:12px;color:var(--muted)">Click any stage card to manually toggle it.</span>
+      <button class="btn-sm btn-outline-sm" style="margin-left:auto" onclick="openMilestoneForChild('${esc(rollNo)}','${esc(name)}')">🏅 Add Milestone</button>
+    </div>`;
+
+  document.getElementById('pathwaySearch').value = rollNo;
+}
+
+function togglePathwayStage(rollNo, name, idx) {
+  const data   = getPathwayData();
+  const stages = data[rollNo] || Array(7).fill('');
+  stages[idx]  = stages[idx] === 'done' ? '' : 'done';
+  for (let i = 0; i < stages.length; i++) if (stages[i] === 'current') stages[i] = '';
+  let foundCurrent = false;
+  for (let i = 0; i < stages.length; i++) {
+    if (stages[i] !== 'done' && !foundCurrent) { stages[i] = 'current'; foundCurrent = true; }
+  }
+  data[rollNo] = stages;
+  savePathwayData(data);
+  openPathwayForChild(rollNo, name);
+}
+
+async function loadPathwayOverview() {
+  const tbody = document.getElementById('pathwayOverviewTable');
+  tbody.innerHTML = '<tr><td colspan="6"><div class="loading">Loading…</div></td></tr>';
+  try {
+    const d = await api({ action: 'getChildren', q: '' });
+    if (!d.success || !d.data.length) { tbody.innerHTML = '<tr><td colspan="6"><div class="empty">No children found</div></td></tr>'; return; }
+    const pathData = getPathwayData();
+    tbody.innerHTML = d.data.map(c => {
+      const stages = pathData[c.rollNo] || Array(7).fill('').map((_, i) => i === 0 ? 'current' : '');
+      const doneCount = stages.filter(s => s === 'done').length;
+      const curIdx    = stages.findIndex(s => s === 'current');
+      const curStage  = curIdx >= 0 ? PATHWAY_STAGES[curIdx] : null;
+      const pct       = Math.round(doneCount / 7 * 100);
+      const miniDots  = stages.map(s =>
+        `<div class="mini-step ${s==='done'?'done':s==='current'?'current':''}"></div>`).join('');
+      return `<tr>
+        <td><span class="roll-badge">${esc(c.rollNo)}</span></td>
+        <td><strong>${esc(c.fullName)}</strong></td>
+        <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
+        <td><div style="display:flex;align-items:center;gap:6px"><div class="mini-pathway">${miniDots}</div><span style="font-size:11px;color:var(--muted)">${pct}%</span></div></td>
+        <td style="font-size:12px">${curStage ? curStage.icon + ' ' + curStage.label : '—'}</td>
+        <td><button class="btn-sm btn-outline-sm" onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}')">View →</button></td>
+      </tr>`;
+    }).join('');
+  } catch(err) { tbody.innerHTML = '<tr><td colspan="6"><div class="empty">Error loading data</div></td></tr>'; }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ABSENTEEISM
+// ══════════════════════════════════════════════════════════════
+async function loadAbsenteeAlerts() {
+  const since     = document.getElementById('followupSince').value;
+  const resultsEl = document.getElementById('absenteeResults');
+  resultsEl.innerHTML = '<div class="card"><div class="card-body"><div class="loading">Analysing attendance records…</div></div></div>';
+  try {
+    const [children, att] = await Promise.all([
+      api({ action: 'getChildren', q: '' }),
+      api({ action: 'getAttendance' })
+    ]);
+    if (!children.success || !att.success) {
+      resultsEl.innerHTML = '<div class="card"><div class="card-body"><div class="empty">Could not load data</div></div></div>'; return;
+    }
+    const sinceDate = since ? new Date(since) : null;
+    const alerts = [];
+    children.data.forEach(c => {
+      let records = att.data.filter(a => a.rollNo === c.rollNo);
+      if (sinceDate) records = records.filter(a => new Date(a.sessionDate) >= sinceDate);
+      records = records.sort((a, b) => new Date(b.sessionDate) - new Date(a.sessionDate));
+      if (!records.length) return;
+      let streak = 0;
+      for (const r of records) { if (r.status === 'Absent') streak++; else break; }
+      const totalSessions = records.length;
+      const absentCount   = records.filter(r => r.status === 'Absent').length;
+      const absenceRate   = totalSessions > 0 ? Math.round(absentCount / totalSessions * 100) : 0;
+      const lastSeen      = records.find(r => r.status === 'Present' || r.status === 'Late');
+      if (streak >= 3) alerts.push({ child: c, streak, absenceRate, lastSeen: lastSeen?.sessionDate || null, totalSessions });
+    });
+    if (!alerts.length) {
+      resultsEl.innerHTML = `<div class="alert-card info"><div class="alert-icon">✅</div><div class="alert-body"><div class="alert-title">No absenteeism alerts</div><div class="alert-text">No children have 3+ consecutive absences. Great work!</div></div></div>`;
+      return;
+    }
+    alerts.sort((a, b) => b.streak - a.streak);
+    resultsEl.innerHTML = `
+      <div class="alert-card ${alerts.length > 5 ? 'danger' : 'warning'}">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-body">
+          <div class="alert-title">${alerts.length} child${alerts.length > 1 ? 'ren need' : ' needs'} follow-up</div>
+          <div class="alert-text">These children have been absent for 3 or more consecutive sessions.</div>
+        </div>
+      </div>
+      <div class="card"><div class="card-head"><span class="card-title">Children Requiring Follow-Up</span></div>
+      <div class="card-body" style="padding:0"><div class="table-wrap"><table>
+        <thead><tr><th>Roll No.</th><th>Name</th><th>Age</th><th>Consecutive Absences</th><th>Absence Rate</th><th>Last Seen</th><th>Action</th></tr></thead>
+        <tbody>` +
+      alerts.map(a => `<tr>
+        <td><span class="roll-badge">${esc(a.child.rollNo)}</span></td>
+        <td><strong>${esc(a.child.fullName)}</strong></td>
+        <td><span class="age-badge">${esc(a.child.ageGroup)}</span></td>
+        <td><span class="absent-badge ${a.streak >= 5 ? 'absent-5' : 'absent-3'}">⚠ ${a.streak} sessions</span></td>
+        <td>${a.absenceRate}% absent</td>
+        <td style="font-size:12px">${a.lastSeen ? fmtDate(a.lastSeen) : '<em>Never present</em>'}</td>
+        <td><button class="btn-sm btn-gold" onclick="prefillFollowUp('${esc(a.child.rollNo)}','${esc(a.child.fullName)}')">Log Follow-Up</button></td>
+      </tr>`).join('') +
+      '</tbody></table></div></div></div>';
+  } catch(err) {
+    resultsEl.innerHTML = '<div class="card"><div class="card-body"><div class="empty">Error analysing attendance</div></div></div>';
+  }
+}
+function prefillFollowUp(rollNo, name) {
+  document.getElementById('fuChild').value = rollNo + ' — ' + name;
+  document.getElementById('fuDate').value  = today();
+  document.getElementById('fuChild').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  document.getElementById('fuChild').focus();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  FOLLOW-UP
+// ══════════════════════════════════════════════════════════════
+async function saveFollowUp() {
+  const child   = document.getElementById('fuChild').value.trim();
+  const date    = document.getElementById('fuDate').value;
+  const method  = document.getElementById('fuMethod').value;
+  const outcome = document.getElementById('fuOutcome').value;
+  const notes   = document.getElementById('fuNotes').value;
+  const by      = document.getElementById('fuBy').value.trim();
+  if (!child || !date) { showToast('Fill in child name and date', 'error'); return; }
+  const btn = document.querySelector('#followupForm button[onclick="saveFollowUp()"]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+  try {
+    const d = await apiWithOffline({ action: 'addFollowUp', child, date, method, outcome, notes: notes || '', recordedBy: by || 'Admin' });
+    if (d.offline) showToast('📥 Saved offline — will sync when reconnected', '');
+    else if (d.success) showToast('✅ Follow-up logged to sheet', 'success');
+    else { showToast('Save failed: ' + (d.error || 'unknown error'), 'error'); return; }
+    document.getElementById('fuChild').value = '';
+    document.getElementById('fuNotes').value = '';
+    loadFollowUpHistory();
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { if (btn) { btn.disabled = false; btn.textContent = '💾 Save Follow-Up'; } }
+}
+
+async function loadFollowUpHistory() {
+  const tbody  = document.getElementById('followupHistoryTable');
+  tbody.innerHTML = '<tr><td colspan="5"><div class="loading">Loading…</div></td></tr>';
+  const queued = getOfflineQueue().filter(p => p.action === 'addFollowUp');
+  try {
+    const d = await api({ action: 'getFollowUps' });
+    const sheetRows   = (d.success && d.data) ? d.data : [];
+    const offlineRows = queued.map(p => ({ date: p.date, child: p.child, method: p.method, outcome: p.outcome, recordedBy: p.recordedBy, _offline: true }));
+    const allRows     = [...offlineRows, ...sheetRows].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 60);
+    if (!allRows.length) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><div class="icon">📋</div>No follow-ups logged yet</div></td></tr>'; return;
+    }
+    tbody.innerHTML = allRows.map(f => `
+      <tr ${f._offline ? 'style="opacity:.65"' : ''}>
+        <td>${fmtDate(f.date)}${f._offline ? ' <span style="font-size:10px;color:#e67e22">(pending)</span>' : ''}</td>
+        <td><strong>${esc(f.child)}</strong></td>
+        <td style="font-size:12px">${esc(f.method)}</td>
+        <td style="font-size:12px">${esc(f.outcome)}</td>
+        <td style="font-size:12px">${esc(f.recordedBy || f.by || '')}</td>
+      </tr>`).join('');
+  } catch(err) {
+    if (queued.length) {
+      tbody.innerHTML = queued.map(f => `
+        <tr style="opacity:.65">
+          <td>${fmtDate(f.date)} <span style="font-size:10px;color:#e67e22">(pending)</span></td>
+          <td><strong>${esc(f.child)}</strong></td>
+          <td style="font-size:12px">${esc(f.method)}</td>
+          <td style="font-size:12px">${esc(f.outcome)}</td>
+          <td style="font-size:12px">${esc(f.recordedBy)}</td>
+        </tr>`).join('');
+    } else {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty">Could not load follow-up history</div></td></tr>';
+    }
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
 //  HELPERS
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 function esc(s) { return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function fmtDate(d) {
   if (!d) return '';
@@ -1915,7 +1970,7 @@ function fmtDate(d) {
   if (isNaN(dt)) return String(d);
   return dt.toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' });
 }
-function showToast(msg, type='') {
+function showToast(msg, type = '') {
   const t = document.getElementById('toast');
   t.textContent = msg; t.className = 'toast show ' + type;
   clearTimeout(t._timer);
