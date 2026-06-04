@@ -114,7 +114,7 @@
   tr.att-duplicate td { background: #fff8ec !important; }
   tr.att-duplicate:hover td { background: #fff0d6 !important; }
 
-  /* ── KEY COLUMN — hidden in history table, preserved in dedupe modal ── */
+  /* ── KEY COLUMN — hidden in history table ── */
   .att-history-table .col-key { display: none; }
 
   /* ── BADGES ── */
@@ -132,7 +132,6 @@
   .btn-danger:hover { background: #a93226; }
   .btn-danger:disabled { opacity: .6; cursor: not-allowed; }
   .action-cell { display: flex; gap: 5px; flex-wrap: wrap; }
-  @media (max-width: 600px) { .col-school { display: none; } }
 
   /* ── MODALS ── */
   .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(26,26,46,0.6); z-index: 8000; align-items: flex-start; justify-content: center; padding: 20px 12px; overflow-y: auto; backdrop-filter: blur(2px); -webkit-overflow-scrolling: touch; }
@@ -213,36 +212,19 @@
   .att-filter-bar input, .att-filter-bar select { border: 1.5px solid var(--border); border-radius: 7px; padding: 8px 10px; font-family: 'DM Sans', sans-serif; font-size: max(16px, 13px); background: var(--cream); outline: none; transition: border-color .2s; }
   .att-filter-bar input:focus, .att-filter-bar select:focus { border-color: var(--gold); background: #fff; }
   .att-filter-bar .field.grow { flex: 1; min-width: 130px; }
-  .att-status-select { border: 1.5px solid var(--border); border-radius: 6px; padding: 5px 7px; font-size: max(16px, 13px); background: var(--cream); min-width: 110px; }
 
   /* ── DUPLICATE FLAGS ── */
-  .dup-flag {
-    display: inline-flex; align-items: center; gap: 4px;
-    background: #fff8ec; border: 1px solid #f0a500; color: #9a5d00;
-    font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px;
-    white-space: nowrap;
-  }
-  .dup-flag.dup-exact {
-    background: #fff0f0; border-color: #e88; color: #a00;
-  }
+  .dup-flag { display: inline-flex; align-items: center; gap: 4px; background: #fff8ec; border: 1px solid #f0a500; color: #9a5d00; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px; white-space: nowrap; }
+  .dup-flag.dup-exact { background: #fff0f0; border-color: #e88; color: #a00; }
   .prior-date-cell { font-size: 11px; color: var(--muted); white-space: nowrap; }
   .prior-date-cell.today-match { color: #c0392b; font-weight: 700; }
 
   /* ── DEDUPE PANEL ── */
-  .dedupe-banner {
-    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-    background: #fff8ec; border: 1px solid #f0a500; border-radius: 8px;
-    padding: 10px 14px; margin-bottom: 14px; font-size: 13px;
-  }
+  .dedupe-banner { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: #fff8ec; border: 1px solid #f0a500; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; font-size: 13px; }
   .dedupe-banner .dedupe-count { font-weight: 700; color: #9a5d00; font-size: 15px; }
   .dedupe-result-row { background: #fff5f5 !important; }
   .dedupe-result-row:hover td { background: #ffe8e8 !important; }
-  .dedupe-kept-row  { background: #f0fff4 !important; }
-  .key-chip {
-    font-size: 10px; background: var(--ivory); border: 1px solid var(--border);
-    border-radius: 4px; padding: 2px 6px; font-family: monospace; word-break: break-all;
-    max-width: 180px; display: inline-block; line-height: 1.5;
-  }
+  .key-chip { font-size: 10px; background: var(--ivory); border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; font-family: monospace; word-break: break-all; max-width: 180px; display: inline-block; line-height: 1.5; }
 
   /* ── FIELD ROW ── */
   .field-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 14px; }
@@ -293,15 +275,8 @@
   .mini-step.current { background: var(--blue); border-color: var(--blue); }
 
   /* ── ATTENDANCE SUMMARY BAR ── */
-  .att-summary-bar {
-    display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px;
-    padding: 10px 14px; background: var(--ivory); border-radius: 8px;
-    border: 1px solid var(--border); font-size: 13px; align-items: center;
-  }
-  .att-sum-chip {
-    display: flex; align-items: center; gap: 5px; padding: 4px 10px;
-    border-radius: 20px; font-size: 12px; font-weight: 600;
-  }
+  .att-summary-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; padding: 10px 14px; background: var(--ivory); border-radius: 8px; border: 1px solid var(--border); font-size: 13px; align-items: center; }
+  .att-sum-chip { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
   .att-sum-chip.present { background: #f0fff4; color: var(--green); border: 1px solid #a8dfb8; }
   .att-sum-chip.absent  { background: #fff5f5; color: var(--red);   border: 1px solid #f0b0b0; }
   .att-sum-chip.late    { background: #fff8ec; color: #c47c00;       border: 1px solid #f0c96a; }
@@ -310,6 +285,167 @@
 
   /* ── PATHWAY ACTIONS ── */
   .pathway-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+
+  /* ════════════════════════════════════════════════════
+     ══  ENHANCED: CHILDREN COMPACT CARDS  ══
+  ════════════════════════════════════════════════════ */
+
+  /* View toggle */
+  .view-toggle { display: flex; gap: 4px; background: var(--ivory); border: 1px solid var(--border); border-radius: 8px; padding: 3px; }
+  .view-btn { padding: 5px 10px; border-radius: 5px; border: none; background: transparent; cursor: pointer; font-size: 13px; color: var(--muted); transition: all .15s; touch-action: manipulation; }
+  .view-btn.active { background: #fff; color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,.1); font-weight: 600; }
+
+  /* Compact card grid */
+  .child-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; padding: 14px; }
+  @media (max-width: 560px) { .child-card-grid { grid-template-columns: 1fr; gap: 8px; padding: 10px; } }
+
+  .child-card {
+    background: #fff; border: 1px solid var(--border); border-radius: 12px;
+    padding: 12px 14px; transition: box-shadow .15s, border-color .15s;
+    display: flex; flex-direction: column; gap: 8px; position: relative;
+    overflow: hidden;
+  }
+  .child-card:hover { border-color: rgba(201,151,43,0.4); box-shadow: 0 4px 16px rgba(26,26,46,0.1); }
+  .child-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+    opacity: 0; transition: opacity .15s;
+  }
+  .child-card:hover::before { opacity: 1; }
+
+  .child-card-top { display: flex; align-items: flex-start; gap: 10px; }
+  .child-avatar {
+    width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: #fff;
+    background: var(--ink); letter-spacing: -.5px;
+  }
+  .child-avatar.male   { background: #1a3a6e; }
+  .child-avatar.female { background: #6e1a4a; }
+
+  .child-info { flex: 1; min-width: 0; }
+  .child-name { font-size: 14px; font-weight: 600; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .child-meta { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; align-items: center; }
+
+  .child-card-middle { display: flex; justify-content: space-between; align-items: center; }
+  .child-journey-wrap { display: flex; align-items: center; gap: 6px; }
+  .child-journey-label { font-size: 10px; color: var(--muted); }
+
+  .child-card-bottom { display: flex; gap: 5px; justify-content: flex-end; border-top: 1px solid var(--border); padding-top: 8px; margin-top: 2px; }
+  .child-card-bottom .btn-icon {
+    width: 30px; height: 30px; border-radius: 7px; border: 1px solid var(--border);
+    background: var(--ivory); display: flex; align-items: center; justify-content: center;
+    font-size: 14px; cursor: pointer; transition: all .15s; touch-action: manipulation;
+  }
+  .child-card-bottom .btn-icon:hover { border-color: var(--gold); background: #fdf8f0; }
+  .child-card-bottom .btn-icon.primary { background: var(--gold); border-color: var(--gold); }
+  .child-card-bottom .btn-icon.primary:hover { background: #b8861f; }
+
+  /* Journey mini-bar inline */
+  .journey-bar { display: flex; gap: 2px; align-items: center; }
+  .j-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--border); background: #fff; }
+  .j-dot.done { background: var(--gold); border-color: var(--gold); }
+  .j-dot.current { background: var(--blue); border-color: var(--blue); }
+  .j-pct { font-size: 10px; font-weight: 700; color: var(--muted); min-width: 26px; }
+
+  /* School hidden on small */
+  @media (max-width: 600px) { .child-school-tag { display: none !important; } }
+
+  /* ════════════════════════════════════════════════════
+     ══  ENHANCED: ATTENDANCE MOBILE-FIRST  ══
+  ════════════════════════════════════════════════════ */
+
+  /* Mobile-friendly attendance mark cards */
+  .att-card-list { display: flex; flex-direction: column; gap: 6px; padding: 10px; }
+  .att-row-card {
+    background: #fff; border: 1px solid var(--border); border-radius: 10px;
+    display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+    transition: border-color .15s; position: relative;
+  }
+  .att-row-card.is-dup { background: #fff8ec; border-color: #f0a500; }
+  .att-row-card.marked-present { border-left: 3px solid var(--green); }
+  .att-row-card.marked-absent  { border-left: 3px solid var(--red); }
+  .att-row-card.marked-late    { border-left: 3px solid #e67e22; }
+  .att-row-card.marked-excused { border-left: 3px solid var(--blue); }
+
+  .att-row-num {
+    font-size: 10px; font-weight: 700; color: var(--muted); min-width: 24px;
+    text-align: center; flex-shrink: 0;
+  }
+  .att-row-avatar {
+    width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #fff; letter-spacing: -.5px;
+  }
+  .att-row-avatar.male   { background: #1a3a6e; }
+  .att-row-avatar.female { background: #6e1a4a; }
+
+  .att-row-info { flex: 1; min-width: 0; }
+  .att-row-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .att-row-sub  { font-size: 11px; color: var(--muted); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-top: 2px; }
+
+  .att-row-controls { display: flex; gap: 4px; align-items: center; flex-shrink: 0; }
+
+  /* Quick-tap status buttons */
+  .status-tabs { display: flex; gap: 3px; }
+  .status-tab {
+    width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid var(--border);
+    background: var(--ivory); display: flex; align-items: center; justify-content: center;
+    font-size: 16px; cursor: pointer; transition: all .12s; touch-action: manipulation;
+    flex-shrink: 0;
+  }
+  .status-tab:active { transform: scale(0.92); }
+  .status-tab.sel-present { background: #f0fff4; border-color: var(--green); box-shadow: 0 0 0 2px rgba(39,174,96,0.2); }
+  .status-tab.sel-absent  { background: #fff5f5; border-color: var(--red);   box-shadow: 0 0 0 2px rgba(192,57,43,0.2); }
+  .status-tab.sel-late    { background: #fff8ec; border-color: #e67e22;      box-shadow: 0 0 0 2px rgba(230,126,34,0.2); }
+  .status-tab.sel-excused { background: #f0f7ff; border-color: var(--blue);  box-shadow: 0 0 0 2px rgba(37,99,235,0.2); }
+
+  .att-save-btn {
+    width: 34px; height: 34px; border-radius: 8px; border: none;
+    background: var(--gold); color: var(--ink); font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: background .12s; touch-action: manipulation; flex-shrink: 0;
+  }
+  .att-save-btn:hover  { background: #b8861f; }
+  .att-save-btn:active { transform: scale(0.92); }
+
+  /* Compact filter chips */
+  .filter-chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+  .filter-chip {
+    flex-shrink: 0; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    border: 1.5px solid var(--border); background: var(--ivory); cursor: pointer;
+    transition: all .12s; white-space: nowrap; touch-action: manipulation;
+  }
+  .filter-chip.fc-all    { border-color: var(--gold); }
+  .filter-chip.fc-all.on    { background: var(--gold); color: var(--ink); }
+  .filter-chip.fc-present { border-color: var(--green); }
+  .filter-chip.fc-present.on { background: #f0fff4; color: var(--green); }
+  .filter-chip.fc-absent  { border-color: var(--red); }
+  .filter-chip.fc-absent.on  { background: #fff5f5; color: var(--red); }
+  .filter-chip.fc-late    { border-color: #e67e22; }
+  .filter-chip.fc-late.on    { background: #fff8ec; color: #c47c00; }
+  .filter-chip.fc-excused { border-color: var(--blue); }
+  .filter-chip.fc-excused.on { background: #f0f7ff; color: var(--blue); }
+  .filter-chip.fc-unmarked { border-color: var(--muted); }
+  .filter-chip.fc-unmarked.on { background: var(--ivory); color: var(--ink); border-color: var(--ink); }
+
+  /* Sticky session header */
+  .att-session-header {
+    background: var(--ink); color: #fff; padding: 10px 14px; border-radius: 8px;
+    margin-bottom: 10px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .att-session-header .sess-title { font-size: 14px; font-weight: 600; flex: 1; }
+  .att-session-header .sess-date  { font-size: 11px; color: var(--gold-light); }
+
+  /* Bulk action bar */
+  .att-bulk-bar {
+    display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 14px;
+    background: var(--ivory); border-bottom: 1px solid var(--border);
+    align-items: center; font-size: 12px;
+  }
+  .att-bulk-bar .count-badge { font-weight: 700; color: var(--ink); }
+
+  /* Att status select (still used in desktop/alt view) */
+  .att-status-select { border: 1.5px solid var(--border); border-radius: 6px; padding: 5px 7px; font-size: max(16px, 13px); background: var(--cream); min-width: 110px; }
 </style>
 </head>
 <body>
@@ -404,7 +540,9 @@
   <!-- ══ CHILDREN ══ -->
   <div class="panel" id="panel-children">
     <div class="card">
-      <div class="card-head"><span class="card-title">Search Children</span></div>
+      <div class="card-head">
+        <span class="card-title">Search Children</span>
+      </div>
       <div class="card-body">
         <div class="search-row">
           <input type="search" class="search-input" id="childSearch" placeholder="Name, Roll No., or area…" oninput="debounceSearch(this.value)" autocomplete="off">
@@ -413,9 +551,15 @@
       </div>
     </div>
     <div class="card">
-      <div class="card-head">
+      <div class="card-head" style="justify-content:space-between">
         <span class="card-title">Results</span>
-        <span id="resultCount" style="margin-left:auto;font-size:11px;color:var(--muted)"></span>
+        <div style="display:flex;align-items:center;gap:10px;margin-left:auto">
+          <span id="resultCount" style="font-size:11px;color:var(--muted)"></span>
+          <div class="view-toggle" id="childViewToggle">
+            <button class="view-btn" id="vbtn-cards" onclick="setChildView('cards')" title="Card view">⊞</button>
+            <button class="view-btn active" id="vbtn-table" onclick="setChildView('table')" title="Table view">☰</button>
+          </div>
+        </div>
       </div>
       <div class="sort-bar" id="childSortBar" style="display:none">
         <span>Sort:</span>
@@ -423,7 +567,8 @@
         <button class="sort-btn" id="sort-name"   onclick="sortChildren('name')">Name</button>
         <button class="sort-btn" id="sort-age"    onclick="sortChildren('age')">Age Group</button>
       </div>
-      <div style="padding:0">
+      <!-- TABLE VIEW (default) -->
+      <div id="childTableView" style="padding:0">
         <div class="table-wrap">
           <table>
             <thead>
@@ -436,6 +581,12 @@
               <tr><td colspan="7"><div class="loading">Search to find children…</div></td></tr>
             </tbody>
           </table>
+        </div>
+      </div>
+      <!-- CARD VIEW -->
+      <div id="childCardView" style="display:none">
+        <div class="child-card-grid" id="childCardGrid">
+          <div class="loading" style="grid-column:1/-1;padding:40px">Search to find children…</div>
         </div>
       </div>
     </div>
@@ -553,7 +704,6 @@
       </div>
       <div class="card-body" style="padding:0">
         <div class="table-wrap">
-          <!-- att-history-table class hides .col-key via CSS -->
           <table class="att-history-table">
             <thead>
               <tr>
@@ -735,6 +885,9 @@ const SESSION_KEY       = 'cy_dash_unlocked';
 const OFFLINE_QUEUE_KEY = 'cy_offline_queue';
 const PATHWAY_KEY       = 'cy_pathway_data';
 
+// ── CHILD VIEW STATE ──
+let childViewMode = localStorage.getItem('cy_child_view') || 'table';
+
 // ══════════════════════════════════════════════════════════════
 //  OFFLINE
 // ══════════════════════════════════════════════════════════════
@@ -853,6 +1006,7 @@ function initDashboard() {
   document.getElementById('followupSince').value = d30.toISOString().split('T')[0];
   updateQueuePill();
   if (!isOnline) onOffline();
+  applyChildView(childViewMode);
   loadStats();
   loadAttendanceHistory();
   loadFollowUpHistory();
@@ -1020,6 +1174,34 @@ async function checkAbsenteeForOverview(children) {
 }
 
 // ══════════════════════════════════════════════════════════════
+//  CHILDREN — VIEW TOGGLE
+// ══════════════════════════════════════════════════════════════
+function setChildView(mode) {
+  childViewMode = mode;
+  localStorage.setItem('cy_child_view', mode);
+  applyChildView(mode);
+  renderChildTable();
+}
+
+function applyChildView(mode) {
+  const tableView = document.getElementById('childTableView');
+  const cardView  = document.getElementById('childCardView');
+  const btnTable  = document.getElementById('vbtn-table');
+  const btnCards  = document.getElementById('vbtn-cards');
+  if (mode === 'cards') {
+    tableView.style.display = 'none';
+    cardView.style.display  = '';
+    btnCards.classList.add('active');
+    btnTable.classList.remove('active');
+  } else {
+    tableView.style.display = '';
+    cardView.style.display  = 'none';
+    btnTable.classList.add('active');
+    btnCards.classList.remove('active');
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
 //  CHILDREN
 // ══════════════════════════════════════════════════════════════
 let childrenData = [];
@@ -1031,6 +1213,7 @@ async function searchChildren(q) {
   const query = q !== undefined ? q : document.getElementById('childSearch').value;
   const tbody = document.getElementById('childTable');
   tbody.innerHTML = '<tr><td colspan="7"><div class="loading">Searching…</div></td></tr>';
+  document.getElementById('childCardGrid').innerHTML = '<div class="loading" style="grid-column:1/-1;padding:40px">Searching…</div>';
   document.getElementById('childSortBar').style.display = 'none';
   try {
     const [cd, att] = await Promise.all([
@@ -1040,6 +1223,7 @@ async function searchChildren(q) {
     document.getElementById('resultCount').textContent = cd.data ? cd.data.length + ' found' : '';
     if (!cd.success || !cd.data.length) {
       tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="icon">🔍</div>No children found</div></td></tr>';
+      document.getElementById('childCardGrid').innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="icon">🔍</div>No children found</div>';
       childrenData = []; return;
     }
     const absenceMap = {};
@@ -1074,6 +1258,13 @@ function getMiniPathway(rollNo) {
   try { return JSON.parse(localStorage.getItem(PATHWAY_KEY) || '{}')[rollNo] || []; } catch { return []; }
 }
 
+function getInitials(name) {
+  if (!name) return '?';
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
 function renderChildTable() {
   const sorted = [...childrenData].sort((a, b) => {
     let va, vb;
@@ -1082,6 +1273,8 @@ function renderChildTable() {
     else { va = a.ageGroup; vb = b.ageGroup; }
     return String(va).localeCompare(String(vb), undefined, { numeric: true }) * childSortDir;
   });
+
+  // ── TABLE VIEW ──
   document.getElementById('childTable').innerHTML = sorted.map(c => {
     const stages    = getMiniPathway(c.rollNo);
     const doneCount = stages.filter(s => s === 'done').length;
@@ -1109,6 +1302,52 @@ function renderChildTable() {
         </div>
       </td>
     </tr>`;
+  }).join('');
+
+  // ── CARD VIEW ──
+  document.getElementById('childCardGrid').innerHTML = sorted.map(c => {
+    const stages    = getMiniPathway(c.rollNo);
+    const doneCount = stages.filter(s => s === 'done').length;
+    const pct       = Math.round(doneCount / 7 * 100);
+    const genderClass = c.gender === 'M' ? 'male' : 'female';
+    const initials = getInitials(c.fullName);
+    const jDots = stages.map((s, i) =>
+      `<div class="j-dot ${s === 'done' ? 'done' : s === 'current' ? 'current' : ''}"></div>`
+    ).join('');
+    let absenceHtml = '';
+    if (c.absenceStreak >= 5)      absenceHtml = `<span class="absent-badge absent-5">⚠ ${c.absenceStreak}</span>`;
+    else if (c.absenceStreak >= 3) absenceHtml = `<span class="absent-badge absent-3">⚠ ${c.absenceStreak}</span>`;
+
+    // Determine age from DOB or ageGroup
+    let ageStr = esc(c.ageGroup);
+
+    return `<div class="child-card">
+      <div class="child-card-top">
+        <div class="child-avatar ${genderClass}">${esc(initials)}</div>
+        <div class="child-info">
+          <div class="child-name" title="${esc(c.fullName)}">${esc(c.fullName)}</div>
+          <div class="child-meta">
+            <span class="roll-badge">${esc(c.rollNo)}</span>
+            <span class="age-badge">${ageStr}</span>
+            <span style="font-size:11px;color:var(--muted)">${c.gender === 'M' ? '♂ M' : '♀ F'}</span>
+            ${c.school ? `<span class="age-badge child-school-tag" style="font-size:10px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(c.school)}">${esc(c.school)}</span>` : ''}
+            ${absenceHtml}
+          </div>
+        </div>
+      </div>
+      <div class="child-card-middle">
+        <div class="child-journey-wrap">
+          <div class="journey-bar">${jDots}</div>
+          <span class="j-pct">${pct}%</span>
+        </div>
+        <span style="font-size:10px;color:var(--muted)">${doneCount}/7 stages</span>
+      </div>
+      <div class="child-card-bottom">
+        <button class="btn-icon primary" onclick="openEditModal('${esc(c.rollNo)}')" title="Edit record">✏️</button>
+        <button class="btn-icon" onclick="openMilestoneForChild('${esc(c.rollNo)}','${esc(c.fullName)}')" title="Milestones">🏅</button>
+        <button class="btn-icon" onclick="openPathwayForChild('${esc(c.rollNo)}','${esc(c.fullName)}')" title="Spiritual Journey">🌱</button>
+      </div>
+    </div>`;
   }).join('');
 }
 
@@ -1233,13 +1472,14 @@ function attCompositeKey(sessionDate, sessionName, rollNo) {
 }
 
 // ══════════════════════════════════════════════════════════════
-//  ATTENDANCE SESSION (Mark)
+//  ATTENDANCE SESSION (Mark) — ENHANCED MOBILE
 // ══════════════════════════════════════════════════════════════
 let attSessionData      = [];
 let attPriorDateMap     = {};
 let attAlreadyMarkedMap = {};
 let attSessionDate = '', attSessionName = '';
 let attSortKey = 'rollNo', attSortDir = 1;
+let attFilterStatus = '';  // for chip filter
 
 async function loadAttendanceSession() {
   attSessionDate = document.getElementById('attDate').value;
@@ -1279,19 +1519,20 @@ async function loadAttendanceSession() {
       document.getElementById('attSessionWrap').innerHTML = '<div class="empty">No registered children</div>'; return;
     }
     attSessionData = children.data.map(c => ({ ...c, currentStatus: markedMap[c.rollNo] || '' }));
+    attFilterStatus = '';
     renderAttendanceSession();
   } catch(err) { showToast('Error loading session: ' + err.message, 'error'); }
 }
 
 function renderAttendanceSession() {
-  const filterName = (document.getElementById('attFilterName') || {}).value || '';
-  const filterAge  = (document.getElementById('attFilterAge')  || {}).value || '';
-  const filterMark = (document.getElementById('attFilterMark') || {}).value || '';
+  const searchVal = (document.getElementById('attSearchInline') || {}).value || '';
+  const ageVal    = (document.getElementById('attFilterAgeInline') || {}).value || '';
+  const chipFilter = attFilterStatus;
 
   let filtered = attSessionData.filter(c => {
-    const nameMatch = !filterName || c.fullName.toLowerCase().includes(filterName.toLowerCase()) || c.rollNo.toLowerCase().includes(filterName.toLowerCase());
-    const ageMatch  = !filterAge  || c.ageGroup === filterAge;
-    const markMatch = !filterMark || c.currentStatus === filterMark;
+    const nameMatch = !searchVal || c.fullName.toLowerCase().includes(searchVal.toLowerCase()) || c.rollNo.toLowerCase().includes(searchVal.toLowerCase());
+    const ageMatch  = !ageVal  || c.ageGroup === ageVal;
+    const markMatch = !chipFilter || chipFilter === 'unmarked' ? (!chipFilter || !c.currentStatus) : c.currentStatus === chipFilter;
     return nameMatch && ageMatch && markMatch;
   }).sort((a, b) => {
     let va, vb;
@@ -1306,97 +1547,115 @@ function renderAttendanceSession() {
   const absentCount  = attSessionData.filter(c => c.currentStatus === 'Absent').length;
   const lateCount    = attSessionData.filter(c => c.currentStatus === 'Late').length;
   const excusedCount = attSessionData.filter(c => c.currentStatus === 'Excused').length;
+  const unmarkedCount= attSessionData.filter(c => !c.currentStatus).length;
   const dupCount     = attSessionData.filter(c => attAlreadyMarkedMap[c.rollNo]).length;
 
-  const onlineNotice = !isOnline ? `<div style="background:#fff8ec;border:1px solid #f0a500;border-radius:7px;padding:10px 14px;margin-bottom:12px;font-size:13px">⚡ <strong>Offline mode</strong> — marks saved locally, synced on reconnect.</div>` : '';
+  const onlineNotice = !isOnline
+    ? `<div style="background:#fff8ec;border:1px solid #f0a500;border-radius:7px;padding:10px 14px;margin-bottom:10px;font-size:13px">⚡ <strong>Offline mode</strong> — marks saved locally, synced on reconnect.</div>`
+    : '';
+
+  // Build chip filter HTML
+  const chips = [
+    { val: '', label: 'All', cls: 'fc-all', count: attSessionData.length },
+    { val: 'Present', label: '✅ Present', cls: 'fc-present', count: presentCount },
+    { val: 'Absent',  label: '❌ Absent',  cls: 'fc-absent',  count: absentCount  },
+    { val: 'Late',    label: '⏰ Late',    cls: 'fc-late',    count: lateCount    },
+    { val: 'Excused', label: '📋 Excused', cls: 'fc-excused', count: excusedCount },
+    { val: 'unmarked',label: '— Unmarked', cls: 'fc-unmarked',count: unmarkedCount},
+  ];
+  const chipsHtml = chips.map(ch =>
+    `<button class="filter-chip ${ch.cls}${chipFilter === ch.val ? ' on' : ''}" onclick="attChipFilter('${ch.val}')">${ch.label} <strong>${ch.count}</strong></button>`
+  ).join('');
+
+  // Build attendance card rows
+  const rowsHtml = filtered.length === 0
+    ? '<div class="empty" style="padding:30px 16px">No children match filter</div>'
+    : filtered.map((c, idx) => {
+        const st = c.currentStatus;
+        const stClass = st ? 'marked-' + st.toLowerCase() : '';
+        const isDup   = attAlreadyMarkedMap[c.rollNo];
+        const gClass  = c.gender === 'M' ? 'male' : 'female';
+        const initials= getInitials(c.fullName);
+        const priorDate = attPriorDateMap[c.rollNo];
+        let priorHtml = '';
+        if (priorDate) {
+          const priorStr = String(priorDate).split('T')[0];
+          const matchesToday = priorStr === attSessionDate || isDup;
+          priorHtml = `<span class="${matchesToday?'today-match':''}" style="font-size:10px">${matchesToday ? '⚠ Today' : fmtDate(priorDate)}</span>`;
+        }
+        return `<div class="att-row-card ${stClass}${isDup?' is-dup':''}" id="attcard-${esc(c.rollNo)}">
+          <div class="att-row-num">${idx+1}</div>
+          <div class="att-row-avatar ${gClass}">${esc(initials)}</div>
+          <div class="att-row-info">
+            <div class="att-row-name">${esc(c.fullName)}</div>
+            <div class="att-row-sub">
+              <span class="roll-badge" style="font-size:10px">${esc(c.rollNo)}</span>
+              <span class="age-badge" style="font-size:10px">${esc(c.ageGroup)}</span>
+              ${priorHtml}
+              ${isDup ? '<span class="dup-flag dup-exact" style="font-size:10px">In sheet</span>' : ''}
+            </div>
+          </div>
+          <div class="att-row-controls">
+            <div class="status-tabs">
+              <button class="status-tab${st==='Present'?' sel-present':''}" title="Present" onclick="quickMark('${esc(c.rollNo)}','Present')">✅</button>
+              <button class="status-tab${st==='Absent' ?' sel-absent' :''}" title="Absent"  onclick="quickMark('${esc(c.rollNo)}','Absent')">❌</button>
+              <button class="status-tab${st==='Late'   ?' sel-late'   :''}" title="Late"    onclick="quickMark('${esc(c.rollNo)}','Late')">⏰</button>
+              <button class="status-tab${st==='Excused'?' sel-excused':''}" title="Excused" onclick="quickMark('${esc(c.rollNo)}','Excused')">📋</button>
+            </div>
+            <button class="att-save-btn" title="Save mark" onclick="markOne('${esc(c.rollNo)}','${esc(c.fullName)}','${attSessionDate}','${esc(attSessionName)}')">💾</button>
+          </div>
+        </div>`;
+      }).join('');
 
   document.getElementById('attSessionWrap').innerHTML = `
     ${onlineNotice}
-    <div style="margin-top:6px;margin-bottom:10px;font-size:13px;color:var(--muted)">
-      Session: <strong>${esc(attSessionName)}</strong> on <strong>${attSessionDate}</strong>
-      &nbsp;·&nbsp; <span style="color:var(--ink);font-weight:600">${filtered.length}</span> shown of ${attSessionData.length}
+    <div class="att-session-header">
+      <span class="sess-title">${esc(attSessionName)}</span>
+      <span class="sess-date">${attSessionDate}</span>
+      <span style="font-size:11px;color:rgba(255,255,255,.5)">${filtered.length}/${attSessionData.length} shown</span>
     </div>
     <div class="att-summary-bar">
-      <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Live count:</span>
-      <span class="att-sum-chip present">✅ Present: ${presentCount}</span>
-      <span class="att-sum-chip absent">❌ Absent: ${absentCount}</span>
-      <span class="att-sum-chip late">⏰ Late: ${lateCount}</span>
-      <span class="att-sum-chip excused">📋 Excused: ${excusedCount}</span>
-      ${dupCount > 0 ? `<span class="att-sum-chip dup" title="Click to review duplicates" onclick="openDedupeModal()">⚠ In sheet: ${dupCount} — click to review</span>` : ''}
+      <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Live:</span>
+      <span class="att-sum-chip present" id="sumPresent">✅ ${presentCount}</span>
+      <span class="att-sum-chip absent"  id="sumAbsent">❌ ${absentCount}</span>
+      <span class="att-sum-chip late"    id="sumLate">⏰ ${lateCount}</span>
+      <span class="att-sum-chip excused" id="sumExcused">📋 ${excusedCount}</span>
+      ${dupCount > 0 ? `<span class="att-sum-chip dup" onclick="openDedupeModal()">⚠ ${dupCount} in sheet</span>` : ''}
     </div>
-    <div class="att-filter-bar">
-      <div class="field grow">
-        <label>Filter by name / roll</label>
-        <input type="search" id="attFilterName" placeholder="Search…" value="${esc(filterName)}" oninput="renderAttendanceSession()" autocomplete="off">
-      </div>
-      <div class="field">
-        <label>Age Group</label>
-        <select id="attFilterAge" onchange="renderAttendanceSession()">
-          <option value="">All</option>
-          ${ageGroups.map(g => `<option value="${g}" ${filterAge===g?'selected':''}>${g}</option>`).join('')}
-        </select>
-      </div>
-      <div class="field">
-        <label>Status</label>
-        <select id="attFilterMark" onchange="renderAttendanceSession()">
-          <option value="">All</option>
-          <option value="Present" ${filterMark==='Present'?'selected':''}>✅ Present</option>
-          <option value="Absent"  ${filterMark==='Absent' ?'selected':''}>❌ Absent</option>
-          <option value="Late"    ${filterMark==='Late'   ?'selected':''}>⏰ Late</option>
-          <option value="Excused" ${filterMark==='Excused'?'selected':''}>📋 Excused</option>
-        </select>
-      </div>
+    <div style="padding:8px 10px 4px">
+      <div class="filter-chips">${chipsHtml}</div>
     </div>
-    <div class="sort-bar" style="margin-bottom:8px">
-      <span>Sort:</span>
-      <button class="sort-btn ${attSortKey==='rollNo'?'active':''}" onclick="attSort('rollNo')">Roll No.${attSortKey==='rollNo'?(attSortDir===1?' ↑':' ↓'):''}</button>
-      <button class="sort-btn ${attSortKey==='name'  ?'active':''}" onclick="attSort('name')">Name${attSortKey==='name'?(attSortDir===1?' ↑':' ↓'):''}</button>
-      <button class="sort-btn ${attSortKey==='age'   ?'active':''}" onclick="attSort('age')">Age${attSortKey==='age'?(attSortDir===1?' ↑':' ↓'):''}</button>
+    <div style="padding:8px 10px;display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">
+      <input type="search" id="attSearchInline" placeholder="🔍 Search name / roll…"
+        style="flex:1;min-width:140px;border:1.5px solid var(--border);border-radius:7px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:max(16px,13px);background:var(--cream);outline:none"
+        oninput="renderAttendanceSession()" autocomplete="off" value="">
+      <select id="attFilterAgeInline" onchange="renderAttendanceSession()"
+        style="border:1.5px solid var(--border);border-radius:7px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:max(16px,13px);background:var(--cream);outline:none">
+        <option value="">All ages</option>
+        ${ageGroups.map(g => `<option value="${g}">${g}</option>`).join('')}
+      </select>
     </div>
-    <div class="table-wrap"><table>
-      <thead><tr>
-        <th>Roll No.</th><th>Name</th><th>Age</th><th>Prior</th><th>Status</th><th>Mark</th>
-      </tr></thead>
-      <tbody>` +
-    (filtered.length === 0
-      ? '<tr><td colspan="6"><div class="empty">No children match filter</div></td></tr>'
-      : filtered.map(c => {
-          const priorDate  = attPriorDateMap[c.rollNo];
-          const isSheetDup = attAlreadyMarkedMap[c.rollNo];
-          let priorCell = '<span style="color:var(--muted);font-size:11px">—</span>';
-          if (priorDate) {
-            const priorStr     = String(priorDate).split('T')[0];
-            const matchesToday = priorStr === attSessionDate || isSheetDup;
-            priorCell = `<span class="prior-date-cell ${matchesToday?'today-match':''}">${fmtDate(priorDate)}</span>`;
-          }
-          let dupFlag = isSheetDup
-            ? `<span class="dup-flag dup-exact" title="Already marked for ${attSessionDate} in the sheet">⚠ In sheet</span>`
-            : '';
-          return `<tr class="${isSheetDup ? 'att-duplicate' : ''}">
-            <td><span class="roll-badge">${esc(c.rollNo)}</span></td>
-            <td>${esc(c.fullName)}${dupFlag ? '<br style="margin:2px 0">' + dupFlag : ''}</td>
-            <td><span class="age-badge">${esc(c.ageGroup)}</span></td>
-            <td>${priorCell}</td>
-            <td>
-              <select id="att-${esc(c.rollNo)}" class="att-status-select" onchange="updateLocalStatus('${esc(c.rollNo)}',this.value)">
-                <option value="" ${!c.currentStatus?'selected':''}>—</option>
-                <option value="Present" ${c.currentStatus==='Present'?'selected':''}>✅ Present</option>
-                <option value="Absent"  ${c.currentStatus==='Absent' ?'selected':''}>❌ Absent</option>
-                <option value="Late"    ${c.currentStatus==='Late'   ?'selected':''}>⏰ Late</option>
-                <option value="Excused" ${c.currentStatus==='Excused'?'selected':''}>📋 Excused</option>
-              </select>
-            </td>
-            <td>
-              <button class="btn-sm btn-gold" onclick="markOne('${esc(c.rollNo)}','${esc(c.fullName)}','${attSessionDate}','${esc(attSessionName)}')">Mark</button>
-            </td>
-          </tr>`;
-        }).join('')
-    ) +
-    `</tbody></table></div>
-    <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-      <button class="btn-sm btn-gold"       onclick="markAll()">💾 Save All Marked</button>
-      <button class="btn-sm btn-outline-sm" onclick="markAllPresent()">✅ Mark All Present</button>
-    </div>`;
+    <div class="att-bulk-bar">
+      <span class="count-badge">${filtered.length}</span> children shown
+      <button class="btn-sm btn-gold" onclick="markAll()">💾 Save All</button>
+      <button class="btn-sm btn-outline-sm" onclick="markAllPresent()">✅ All Present</button>
+      <button class="btn-sm btn-outline-sm" style="border-color:var(--border)" onclick="attSortCycle()">Sort: ${attSortKey === 'rollNo' ? 'Roll' : attSortKey === 'name' ? 'Name' : 'Age'}${attSortDir===1?'↑':'↓'}</button>
+    </div>
+    <div class="att-card-list">${rowsHtml}</div>`;
+}
+
+function attChipFilter(val) {
+  attFilterStatus = val;
+  renderAttendanceSession();
+}
+
+function attSortCycle() {
+  const keys = ['rollNo', 'name', 'age'];
+  const idx = keys.indexOf(attSortKey);
+  if (idx === keys.length - 1) { attSortKey = keys[0]; attSortDir = 1; }
+  else if (attSortDir === -1) { attSortKey = keys[idx + 1]; attSortDir = 1; }
+  else { attSortDir = -1; }
+  renderAttendanceSession();
 }
 
 function attSort(key) {
@@ -1404,39 +1663,60 @@ function attSort(key) {
   renderAttendanceSession();
 }
 
-function updateLocalStatus(rollNo, status) {
+// Quick-tap: update local state immediately, update card styling
+function quickMark(rollNo, status) {
   const child = attSessionData.find(c => c.rollNo === rollNo);
-  if (child) {
-    child.currentStatus = status;
-    const presentCount = attSessionData.filter(c => c.currentStatus === 'Present').length;
-    const absentCount  = attSessionData.filter(c => c.currentStatus === 'Absent').length;
-    const lateCount    = attSessionData.filter(c => c.currentStatus === 'Late').length;
-    const excusedCount = attSessionData.filter(c => c.currentStatus === 'Excused').length;
-    const el = document.querySelector('.att-summary-bar');
-    if (el) {
-      el.querySelectorAll('.att-sum-chip').forEach(ch => {
-        if (ch.classList.contains('present')) ch.textContent = '✅ Present: ' + presentCount;
-        else if (ch.classList.contains('absent'))  ch.textContent = '❌ Absent: ' + absentCount;
-        else if (ch.classList.contains('late'))    ch.textContent = '⏰ Late: ' + lateCount;
-        else if (ch.classList.contains('excused')) ch.textContent = '📋 Excused: ' + excusedCount;
-      });
-    }
+  if (!child) return;
+  // Toggle off if same
+  child.currentStatus = child.currentStatus === status ? '' : status;
+  // Update the card row in place without full re-render
+  const card = document.getElementById('attcard-' + rollNo);
+  if (card) {
+    card.className = 'att-row-card' +
+      (child.currentStatus ? ' marked-' + child.currentStatus.toLowerCase() : '') +
+      (attAlreadyMarkedMap[rollNo] ? ' is-dup' : '');
+    const tabs = card.querySelectorAll('.status-tab');
+    const statuses = ['Present','Absent','Late','Excused'];
+    tabs.forEach((t, i) => {
+      t.className = 'status-tab' + (child.currentStatus === statuses[i] ? ' sel-' + statuses[i].toLowerCase() : '');
+    });
   }
+  // Update live summary
+  updateAttSummary();
 }
 
-function markAllPresent() { attSessionData.forEach(c => c.currentStatus = 'Present'); renderAttendanceSession(); }
+function updateAttSummary() {
+  const presentCount = attSessionData.filter(c => c.currentStatus === 'Present').length;
+  const absentCount  = attSessionData.filter(c => c.currentStatus === 'Absent').length;
+  const lateCount    = attSessionData.filter(c => c.currentStatus === 'Late').length;
+  const excusedCount = attSessionData.filter(c => c.currentStatus === 'Excused').length;
+  const sp = document.getElementById('sumPresent');
+  const sa = document.getElementById('sumAbsent');
+  const sl = document.getElementById('sumLate');
+  const se = document.getElementById('sumExcused');
+  if (sp) sp.textContent = '✅ ' + presentCount;
+  if (sa) sa.textContent = '❌ ' + absentCount;
+  if (sl) sl.textContent = '⏰ ' + lateCount;
+  if (se) se.textContent = '📋 ' + excusedCount;
+}
+
+function updateLocalStatus(rollNo, status) {
+  const child = attSessionData.find(c => c.rollNo === rollNo);
+  if (child) { child.currentStatus = status; updateAttSummary(); }
+}
+
+function markAllPresent() { attSessionData.forEach(c => { c.currentStatus = 'Present'; }); renderAttendanceSession(); }
 
 async function markOne(rollNo, name, date, session) {
-  const sel = document.getElementById('att-' + rollNo);
-  const status = sel ? sel.value : '';
-  if (!status) return;
-  updateLocalStatus(rollNo, status);
+  const child = attSessionData.find(c => c.rollNo === rollNo);
+  const status = child ? child.currentStatus : '';
+  if (!status) { showToast('Tap a status first', 'error'); return; }
   const d = await apiWithOffline({ action: 'markAttendance', rollNo, fullName: name, sessionDate: date, sessionName: session, status });
   if (d.offline) showToast('📥 Saved offline — will sync later', '');
   else if (d.success) {
     showToast('Marked ' + rollNo, 'success');
     attAlreadyMarkedMap[rollNo] = true;
-    loadAttendanceHistory(); loadAttendanceSession();
+    loadAttendanceHistory();
   } else showToast('Failed: ' + d.error, 'error');
 }
 
@@ -1451,7 +1731,7 @@ async function markAll() {
   marked.forEach(c => { attAlreadyMarkedMap[c.rollNo] = true; });
   if (offlineCount > 0) showToast(`📥 ${results.length - offlineCount} saved online, ${offlineCount} queued`, '');
   else showToast(`✅ Saved ${marked.length} attendance marks`, 'success');
-  loadAttendanceHistory(); loadStats(); loadAttendanceSession();
+  loadAttendanceHistory(); loadStats();
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1483,8 +1763,6 @@ async function loadAttendanceHistory() {
       tbody.innerHTML = '<tr><td colspan="5"><div class="empty">No records match filters</div></td></tr>'; return;
     }
 
-    // Key cell rendered but hidden via CSS (.att-history-table .col-key { display:none })
-    // The key data remains in the DOM for potential future use; only display is suppressed
     tbody.innerHTML = display.map(a => `
       <tr>
         <td>${fmtDate(a.sessionDate)}</td>
@@ -1611,7 +1889,6 @@ function renderDedupeResults(rows) {
     <p style="font-size:11px;color:var(--muted);margin-top:10px">
       ℹ️ Row highlighted in <span style="color:var(--red);font-weight:600">red</span> = duplicate to delete.
       The kept record's timestamp is shown in green for reference.
-      Rows are deleted in descending sheet-row order to avoid index shifting.
     </p>`;
 }
 
@@ -1623,11 +1900,7 @@ async function deleteSingleDuplicate(idx, rowIndex) {
     if (d.success) {
       showToast('✅ Duplicate deleted', 'success');
       const row = document.getElementById('dedupe-row-' + idx);
-      if (row) {
-        row.style.opacity = '0.4';
-        row.style.textDecoration = 'line-through';
-        if (btn) btn.remove();
-      }
+      if (row) { row.style.opacity = '0.4'; row.style.textDecoration = 'line-through'; if (btn) btn.remove(); }
       if (window._dedupePending) window._dedupePending = window._dedupePending.filter(r => r._rowIndex !== rowIndex);
       const remaining = (window._dedupePending || []).length;
       const allBtn = document.getElementById('deleteAllDupBtn');
