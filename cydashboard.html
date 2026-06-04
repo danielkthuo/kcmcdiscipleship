@@ -1351,7 +1351,7 @@ function renderAttendanceSession() {
     </div>
     <div class="table-wrap"><table>
       <thead><tr>
-        <th>Roll No.</th><th>Name</th><th>Age</th><th>Prior Attendance</th><th>Status</th><th>Mark</th>
+        <th>Roll No.</th><th>Name</th><th>Age</th><th>Prior</th><th>Status</th><th>Mark</th>
       </tr></thead>
       <tbody>` +
     (filtered.length === 0
@@ -1383,7 +1383,7 @@ function renderAttendanceSession() {
               </select>
             </td>
             <td>
-              <button class="btn-sm btn-gold" onclick="markOne('${esc(c.rollNo)}','${esc(c.fullName)}','${attSessionDate}','${esc(attSessionName)}')">Mark</button>
+              <button class="btn-sm btn-gold" onclick="markOne('${esc(c.rollNo)}','${esc(c.fullName)}','${attSessionDate}','${esc(attSessionName)}')">✅</button>
             </td>
           </tr>`;
         }).join('')
