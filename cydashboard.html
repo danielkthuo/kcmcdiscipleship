@@ -114,6 +114,9 @@
   tr.att-duplicate td { background: #fff8ec !important; }
   tr.att-duplicate:hover td { background: #fff0d6 !important; }
 
+  /* ── KEY COLUMN — hidden in history table, preserved in dedupe modal ── */
+  .att-history-table .col-key { display: none; }
+
   /* ── BADGES ── */
   .roll-badge { font-size: 11px; font-weight: 700; letter-spacing: .05em; color: var(--gold); background: rgba(201,151,43,0.1); padding: 3px 7px; border-radius: 30px; border: 1px solid rgba(201,151,43,0.25); white-space: nowrap; display: inline-block; }
   .age-badge  { font-size: 11px; padding: 3px 7px; border-radius: 30px; background: var(--ivory); border: 1px solid var(--border); white-space: nowrap; display: inline-block; }
@@ -521,7 +524,6 @@
       <div class="card-head">
         <span class="card-title">Attendance History</span>
         <span id="attHistoryCount" style="font-size:11px;color:var(--muted)"></span>
-        <!-- ▼▼▼ DEDUPE BUTTON ▼▼▼ -->
         <button class="btn-sm btn-outline-sm" style="margin-left:auto;border-color:#f0a500;color:#9a5d00" onclick="openDedupeModal()">
           🔍 Find &amp; Delete Duplicates
         </button>
@@ -551,12 +553,16 @@
       </div>
       <div class="card-body" style="padding:0">
         <div class="table-wrap">
-          <table>
+          <!-- att-history-table class hides .col-key via CSS -->
+          <table class="att-history-table">
             <thead>
-              <tr><th>Date</th><th>Session</th><th>Roll No.</th><th>Name</th><th>Status</th><th>Key</th></tr>
+              <tr>
+                <th>Date</th><th>Session</th><th>Roll No.</th><th>Name</th><th>Status</th>
+                <th class="col-key">Key</th>
+              </tr>
             </thead>
             <tbody id="attHistoryTable">
-              <tr><td colspan="6"><div class="loading">Loading…</div></td></tr>
+              <tr><td colspan="5"><div class="loading">Loading…</div></td></tr>
             </tbody>
           </table>
         </div>
@@ -752,7 +758,6 @@ function onOnline() {
   }
 }
 
-// ── Offline queue ──
 function getOfflineQueue() {
   try { return JSON.parse(localStorage.getItem(OFFLINE_QUEUE_KEY) || '[]'); } catch { return []; }
 }
@@ -1221,7 +1226,6 @@ async function saveMilestone() {
 
 // ══════════════════════════════════════════════════════════════
 //  ATTENDANCE — COMPOSITE KEY HELPER
-//  Key = YYYY-MM-DD || sessionName || rollNo
 // ══════════════════════════════════════════════════════════════
 function attCompositeKey(sessionDate, sessionName, rollNo) {
   const ds = String(sessionDate || '').split('T')[0];
@@ -1231,9 +1235,9 @@ function attCompositeKey(sessionDate, sessionName, rollNo) {
 // ══════════════════════════════════════════════════════════════
 //  ATTENDANCE SESSION (Mark)
 // ══════════════════════════════════════════════════════════════
-let attSessionData     = [];
-let attPriorDateMap    = {};   // rollNo → most-recent prior sessionDate
-let attAlreadyMarkedMap = {};  // rollNo → true if already in sheet for this session
+let attSessionData      = [];
+let attPriorDateMap     = {};
+let attAlreadyMarkedMap = {};
 let attSessionDate = '', attSessionName = '';
 let attSortKey = 'rollNo', attSortDir = 1;
 
@@ -1248,9 +1252,9 @@ async function loadAttendanceSession() {
       api({ action: 'getAttendance' }),
     ]);
 
-    attPriorDateMap    = {};
+    attPriorDateMap     = {};
     attAlreadyMarkedMap = {};
-    const markedMap    = {};
+    const markedMap     = {};
 
     if (allAtt.success && allAtt.data) {
       const byRoll = {};
@@ -1297,7 +1301,7 @@ function renderAttendanceSession() {
     return String(va).localeCompare(String(vb), undefined, { numeric: true }) * attSortDir;
   });
 
-  const ageGroups = [...new Set(attSessionData.map(c => c.ageGroup))].sort();
+  const ageGroups    = [...new Set(attSessionData.map(c => c.ageGroup))].sort();
   const presentCount = attSessionData.filter(c => c.currentStatus === 'Present').length;
   const absentCount  = attSessionData.filter(c => c.currentStatus === 'Absent').length;
   const lateCount    = attSessionData.filter(c => c.currentStatus === 'Late').length;
@@ -1383,7 +1387,7 @@ function renderAttendanceSession() {
               </select>
             </td>
             <td>
-              <button class="btn-sm btn-gold" onclick="markOne('${esc(c.rollNo)}','${esc(c.fullName)}','${attSessionDate}','${esc(attSessionName)}')">✅</button>
+              <button class="btn-sm btn-gold" onclick="markOne('${esc(c.rollNo)}','${esc(c.fullName)}','${attSessionDate}','${esc(attSessionName)}')">Mark</button>
             </td>
           </tr>`;
         }).join('')
@@ -1459,7 +1463,7 @@ async function loadAttendanceHistory() {
   try {
     const d = await api({ action: 'getAttendance' });
     if (!d.success || !d.data.length) {
-      tbody.innerHTML = '<tr><td colspan="6"><div class="empty">No attendance records yet</div></td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty">No attendance records yet</div></td></tr>';
       if (countEl) countEl.textContent = ''; return;
     }
 
@@ -1476,9 +1480,11 @@ async function loadAttendanceHistory() {
     if (countEl) countEl.textContent = display.length + ' record' + (display.length !== 1 ? 's' : '') + (rows.length > 200 ? ' (showing 200 of ' + rows.length + ')' : '');
 
     if (!display.length) {
-      tbody.innerHTML = '<tr><td colspan="6"><div class="empty">No records match filters</div></td></tr>'; return;
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty">No records match filters</div></td></tr>'; return;
     }
 
+    // Key cell rendered but hidden via CSS (.att-history-table .col-key { display:none })
+    // The key data remains in the DOM for potential future use; only display is suppressed
     tbody.innerHTML = display.map(a => `
       <tr>
         <td>${fmtDate(a.sessionDate)}</td>
@@ -1486,10 +1492,10 @@ async function loadAttendanceHistory() {
         <td><span class="roll-badge">${esc(a.rollNo)}</span></td>
         <td>${esc(a.fullName)}</td>
         <td class="status-${(a.status||'').toLowerCase()}">${esc(a.status)}</td>
-        <td><span class="key-chip" title="Composite key">${esc(attCompositeKey(a.sessionDate, a.sessionName, a.rollNo))}</span></td>
+        <td class="col-key"><span class="key-chip">${esc(attCompositeKey(a.sessionDate, a.sessionName, a.rollNo))}</span></td>
       </tr>`).join('');
   } catch(err) {
-    tbody.innerHTML = '<tr><td colspan="6"><div class="empty">Could not load history</div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty">Could not load history</div></td></tr>';
   }
 }
 
@@ -1505,7 +1511,6 @@ function clearHistoryFilters() {
 
 // ══════════════════════════════════════════════════════════════
 //  DEDUPE ATTENDANCE
-//  Key = sessionDate(YYYY-MM-DD) || sessionName || rollNo
 // ══════════════════════════════════════════════════════════════
 function attKeyFromRecord(a) {
   return attCompositeKey(a.sessionDate, a.sessionName, a.rollNo);
@@ -1526,7 +1531,6 @@ async function openDedupeModal() {
 }
 
 function renderDedupeResults(rows) {
-  // Group by composite key preserving sheet order
   const groups = {};
   rows.forEach(r => {
     const k = attKeyFromRecord(r);
@@ -1534,7 +1538,6 @@ function renderDedupeResults(rows) {
     groups[k].push(r);
   });
 
-  // For each key with >1 entry: sort by timestamp ASC, keep index 0, flag the rest
   const duplicates = [];
   Object.values(groups).forEach(group => {
     if (group.length < 2) return;
@@ -1626,7 +1629,6 @@ async function deleteSingleDuplicate(idx, rowIndex) {
         if (btn) btn.remove();
       }
       if (window._dedupePending) window._dedupePending = window._dedupePending.filter(r => r._rowIndex !== rowIndex);
-      // Update delete-all button count
       const remaining = (window._dedupePending || []).length;
       const allBtn = document.getElementById('deleteAllDupBtn');
       if (allBtn) {
@@ -1652,7 +1654,6 @@ async function deleteAllDuplicates() {
   const btn = document.getElementById('deleteAllDupBtn');
   if (btn) { btn.disabled = true; btn.textContent = 'Deleting…'; }
 
-  // Sort descending by _rowIndex so deleting higher rows first doesn't shift lower row numbers
   const sorted = [...pending].sort((a, b) => b._rowIndex - a._rowIndex);
   let deleted = 0, failed = 0;
 
@@ -1667,7 +1668,6 @@ async function deleteAllDuplicates() {
   if (failed === 0) {
     showToast(`✅ Deleted ${deleted} duplicate${deleted !== 1 ? 's' : ''}`, 'success');
     window._dedupePending = [];
-    // Re-scan to confirm clean state
     const fresh = await api({ action: 'getAttendance' });
     if (fresh.success) renderDedupeResults(fresh.data);
     loadAttendanceHistory(); loadStats();
