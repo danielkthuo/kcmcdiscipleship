@@ -308,6 +308,19 @@
     text-transform: uppercase; color: var(--ink);
   }
 
+  .section-sub {
+    font-size: clamp(11px, 2.8vw, 12.5px);
+    color: var(--muted);
+    line-height: 1.55;
+    background: var(--ivory);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 8px;
+    padding: 10px 13px;
+    margin-bottom: clamp(14px, 3.5vw, 18px);
+  }
+  .section-sub strong { color: var(--ink); }
+
   .section-body { padding: clamp(14px, 4vw, 22px) clamp(14px, 4vw, 24px); }
 
   /* ── GRID — mobile-first ── */
@@ -341,6 +354,14 @@
     text-transform: uppercase; color: var(--muted);
   }
   .field label .req { color: var(--red); margin-left: 2px; }
+  .field .hint {
+    font-size: clamp(10px, 2.4vw, 11px);
+    color: var(--muted);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-top: -1px;
+  }
 
   /* Taller inputs for easy tapping on mobile */
   .field input,
@@ -643,7 +664,19 @@
   </div>
 </div>
 
+<!-- STICKY MINI PROGRESS (shows while scrolling through the form) -->
+<div id="miniProgress" style="position:fixed;left:0;right:0;bottom:0;z-index:800;background:var(--ink);color:#fff;padding:10px clamp(14px,4vw,24px);display:none;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 -4px 16px rgba(0,0,0,0.18);font-size:12px;">
+  <span id="miniProgressLabel" style="font-weight:600;letter-spacing:.04em;">Section 1 of 4 — Child's Details</span>
+  <div style="flex:1;max-width:120px;height:5px;background:rgba(255,255,255,0.15);border-radius:99px;overflow:hidden;">
+    <div id="miniProgressFill" style="height:100%;width:25%;background:var(--gold);border-radius:99px;transition:width .3s;"></div>
+  </div>
+</div>
+
 <div class="form-wrap">
+  <div class="section-sub" style="margin-bottom:clamp(12px,3vw,20px);">
+    👋 <strong>Welcome!</strong> This form registers your <strong>child</strong> with the KCMC Child &amp; Youth Ministry. It takes about 3–5 minutes. Fields marked <span class="req">*</span> are required — everything else you may leave blank if it doesn't apply.
+  </div>
+
   <form id="childForm" novalidate>
 
     <!-- SECTION A -->
@@ -656,6 +689,10 @@
       </div---->
       </div>
       <div class="section-body">
+
+        <div class="section-sub">
+          👶 Please fill in details about <strong>your child</strong> — their name, birthday, photo, school and where they live. This helps us know and care for your child at KCMC.
+        </div>
 
         <div class="photo-section">
           <div class="photo-wrap" style="position:relative;">
@@ -678,37 +715,39 @@
               </button>
             </div>
             <div class="photo-req-note" id="photoReqNote">Required</div>
+            <button type="button" id="changePhotoBtn" onclick="togglePhotoMenu()" style="display:none;background:none;border:none;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;text-decoration:underline;cursor:pointer;padding:2px 0;width:clamp(90px, 22vw, 110px);">Change Photo</button>
             <input type="file" id="photoInputUpload" accept="image/*" style="display:none" onchange="previewPhoto(event)">
             <input type="file" id="photoInputCamera" accept="image/*" capture="environment" style="display:none" onchange="previewPhoto(event)">
           </div>
           <div class="photo-meta">
             <div class="grid g2">
               <div class="field">
-                <label>Roll No. <span style="font-size:9px;font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;">(auto-generated)</span></label>
+                <label for="rollNoField">Roll No. <span style="font-size:9px;font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;">(auto-generated)</span></label>
                 <input type="text" name="rollNo" id="rollNoField" placeholder="System Generated" readonly>
                 <div class="roll-badge" id="rollBadge">Generated on save</div>
               </div>
               <div class="field">
-                <label>Registration Date</label>
-                <input type="date" name="regDate">
+                <label for="regDate">Registration Date</label>
+                <input type="date" name="regDate" id="regDate">
               </div>
             </div>
             <div class="field">
-              <label>Full Name <span class="req">*</span></label>
-              <input type="text" name="fullName" placeholder="As in birth certificate" required autocomplete="name">
+              <label for="fullName">Full Name <span class="req">*</span></label>
+              <input type="text" name="fullName" id="fullName" placeholder="As in birth certificate" required autocomplete="name">
             </div>
             <div class="grid g2">
               <div class="field">
-                <label>Gender <span class="req">*</span></label>
-                <select name="gender" required>
+                <label for="gender">Gender <span class="req">*</span></label>
+                <select name="gender" id="gender" required>
                   <option value="">— Select —</option>
                   <option value="M">Male</option>
                   <option value="F">Female</option>
                 </select>
               </div>
               <div class="field">
-                <label>Date of Birth <span class="req">*</span></label>
-                <input type="date" name="dob" required>
+                <label for="dob">Date of Birth <span class="req">*</span></label>
+                <input type="date" name="dob" id="dob" required>
+                <div class="hint" id="hint-dob">Age Group below will fill in automatically</div>
               </div>
             </div>
           </div>
@@ -718,8 +757,9 @@
 
         <div class="grid g2">
           <div class="field">
-            <label>Age Group <span class="req">*</span></label>
-            <select name="ageGroup" required>
+            <label for="ageGroup">Age Group <span class="req">*</span></label>
+            <div class="hint" id="hint-ageGroup">Choose the range that matches your child's current age</div>
+            <select name="ageGroup" id="ageGroup" required aria-describedby="hint-ageGroup">
               <option value="">— Select Age Group —</option>
               <option value="0-2">0-2</option>
               <option value="3-5">3-5</option>
@@ -730,36 +770,60 @@
             </select>
           </div>
           <div class="field">
-            <label>School</label>
-            <input type="text" name="school" placeholder="School name" autocomplete="off">
+            <label for="school">School</label>
+            <input type="text" name="school" id="school" placeholder="School name" autocomplete="off">
           </div>
         </div>
 
         <div class="grid g2" style="margin-top:16px;">
           <div class="field">
-            <label>Area / Estate / Street</label>
-            <input type="text" name="residence" placeholder="Residence area">
+            <label for="residence">Area / Estate / Street</label>
+            <input type="text" name="residence" id="residence" placeholder="Residence area">
           </div>
           <div class="field">
-            <label>Nearest Landmark <span class="req">*</span></label>
-            <input type="text" name="landmark" placeholder="e.g. near St. Peter's" required>
+            <label for="landmark">Nearest Landmark <span class="req">*</span></label>
+            <div class="hint" id="hint-landmark">A well-known place near your home, to help us locate you</div>
+            <input type="text" name="landmark" id="landmark" placeholder="e.g. near St. Peter's" required aria-describedby="hint-landmark">
           </div>
         </div>
 
         <div class="grid g2" style="margin-top:16px;">
           <div class="field">
-            <label>Class / Grade</label>
-            <input type="text" name="classGrade" placeholder="e.g. Grade 5 / Form 2">
+            <label for="classGrade">Class / Grade</label>
+            <select name="classGrade" id="classGrade">
+              <option value=""></option>
+              <option value="Not Enrolled">Not Enrolled</option>
+              <option value="PP1">PP1</option>
+              <option value="PP2">PP2</option>
+              <option value="Grade 1">Grade 1</option>
+              <option value="Grade 2">Grade 2</option>
+              <option value="Grade 3">Grade 3</option>
+              <option value="Grade 4">Grade 4</option>
+              <option value="Grade 5">Grade 5</option>
+              <option value="Grade 6">Grade 6</option>
+              <option value="Grade 7">Grade 7</option>
+              <option value="Grade 8">Grade 8</option>
+              <option value="Grade 9">Grade 9</option>
+              <option value="Grade 10">Grade 10</option>
+              <option value="Grade 11">Grade 11</option>
+              <option value="Grade 12">Grade 12</option>
+              <option value="Form 1">Form 1</option>
+              <option value="Form 2">Form 2</option>
+              <option value="Form 3">Form 3</option>
+              <option value="Form 4">Form 4</option>
+            </select>
           </div>
           <div class="field">
-            <label>Emergency Contact (non-parent)</label>
-            <input type="text" name="emergencyContact" placeholder="Name &amp; phone">
+            <label for="emergencyContact">Emergency Contact (non-parent)</label>
+            <div class="hint" id="hint-emergencyContact">Someone else we can call if we can't reach you</div>
+            <input type="text" name="emergencyContact" id="emergencyContact" placeholder="Name &amp; phone" aria-describedby="hint-emergencyContact">
           </div>
         </div>
 
         <div class="field" style="margin-top:16px;">
-          <label>Special Needs / Medical Conditions</label>
-          <textarea name="specialNeeds" placeholder="Describe any special needs, allergies, or medical conditions…"></textarea>
+          <label for="specialNeeds">Special Needs / Medical Conditions</label>
+          <div class="hint" id="hint-specialNeeds">Anything caregivers should know — allergies, medication, conditions. Leave blank if none.</div>
+            <textarea name="specialNeeds" id="specialNeeds" placeholder="Describe any special needs, allergies, or medical conditions…" aria-describedby="hint-specialNeeds"></textarea>
         </div>
 
       </div>
@@ -773,16 +837,20 @@
       </div>
       <div class="section-body" style="display:flex;flex-direction:column;gap:16px;">
 
+        <div class="section-sub">
+          👨‍👩‍👧 Now tell us about <strong>yourself and the other parent/guardian</strong> — this is the only section about the adult(s) responsible for the child, so we can reach you.
+        </div>
+
         <div class="guardian-block">
           <div class="guardian-label">👨 Father / Guardian 1</div>
           <div class="grid g3">
             <div class="field">
-              <label>Full Name</label>
-              <input type="text" name="fatherName" placeholder="Full name">
+              <label for="fatherName">Full Name</label>
+              <input type="text" name="fatherName" id="fatherName" placeholder="Full name">
             </div>
             <div class="field">
-              <label>Relationship</label>
-              <select name="fatherRel">
+              <label for="fatherRel">Relationship</label>
+              <select name="fatherRel" id="fatherRel">
                 <option value="">— Select —</option>
                 <option value="Father">Father</option>
                 <option value="Step-Father">Step-Father</option>
@@ -795,8 +863,8 @@
               </select>
             </div>
             <div class="field">
-              <label>Phone</label>
-              <input type="tel" name="fatherPhone" placeholder="+254 7XX XXX XXX" autocomplete="tel">
+              <label for="fatherPhone">Phone</label>
+              <input type="tel" name="fatherPhone" id="fatherPhone" placeholder="07XX XXX XXX" autocomplete="tel">
             </div>
           </div>
         </div>
@@ -805,12 +873,12 @@
           <div class="guardian-label">👩 Mother / Guardian 2</div>
           <div class="grid g3">
             <div class="field">
-              <label>Full Name</label>
-              <input type="text" name="motherName" placeholder="Full name">
+              <label for="motherName">Full Name</label>
+              <input type="text" name="motherName" id="motherName" placeholder="Full name">
             </div>
             <div class="field">
-              <label>Relationship</label>
-              <select name="motherRel">
+              <label for="motherRel">Relationship</label>
+              <select name="motherRel" id="motherRel">
                 <option value="">— Select —</option>
                 <option value="Mother">Mother</option>
                 <option value="Step-Mother">Step-Mother</option>
@@ -823,20 +891,21 @@
               </select>
             </div>
             <div class="field">
-              <label>Phone</label>
-              <input type="tel" name="motherPhone" placeholder="+254 7XX XXX XXX" autocomplete="tel">
+              <label for="motherPhone">Phone</label>
+              <input type="tel" name="motherPhone" id="motherPhone" placeholder="07XX XXX XXX" autocomplete="tel">
             </div>
           </div>
         </div>
 
         <div class="grid g3">
           <div class="field">
-            <label>Home Fellowship Group</label>
-            <input type="text" name="homeFellowship" placeholder="Fellowship group name">
+            <label for="homeFellowship">Home Fellowship Group</label>
+            <input type="text" name="homeFellowship" id="homeFellowship" placeholder="Fellowship group name">
           </div>
           <div class="field">
-            <label>KCMC Member?</label>
-            <select name="kcmcMember">
+            <label for="kcmcMember">KCMC Member?</label>
+            <div class="hint" id="hint-kcmcMember">Are you (the parent/guardian) a registered member?</div>
+            <select name="kcmcMember" id="kcmcMember" aria-describedby="hint-kcmcMember">
               <option value="">— Select —</option>
               <option value="Y">Yes — Both parents</option>
               <option value="One">One parent</option>
@@ -844,8 +913,8 @@
             </select>
           </div>
           <div class="field">
-            <label>Member Card No.</label>
-            <input type="text" name="memberCardNo" placeholder="Card number">
+            <label for="memberCardNo">Member Card No.</label>
+            <input type="text" name="memberCardNo" id="memberCardNo" placeholder="Card number">
           </div>
         </div>
 
@@ -859,6 +928,9 @@
         <span class="section-title">Ministry Serving Areas</span>
       </div>
       <div class="section-body">
+        <div class="section-sub">
+          🧒 This is about <strong>your child</strong>, not you. Tick where your child already serves or would like to serve at church (not the parent's area of service).
+        </div>
         <div style="font-size:12px;color:var(--muted);margin-bottom:14px;">Tick all that apply</div>
         <div class="check-grid">
           <label class="check-item" onclick="toggleCheck(this)">
@@ -884,8 +956,8 @@
           </label>
         </div>
         <div class="field" style="margin-top:14px;">
-          <label>Other Ministry Area (specify)</label>
-          <input type="text" name="ministryOther" placeholder="Describe other area of service">
+          <label for="ministryOther">Other Ministry Area (specify)</label>
+          <input type="text" name="ministryOther" id="ministryOther" placeholder="Describe other area of service">
         </div>
       </div>
     </div>
@@ -898,9 +970,13 @@
       </div>
       <div class="section-body" style="display:flex;flex-direction:column;gap:16px;">
 
+        <div class="section-sub">
+          🌟 This section is about <strong>your child's</strong> role and mentors at church — for example, if your child leads a group, or has a mentor guiding them (not the parent's own leaders).
+        </div>
+
         <div class="field">
-          <label>Leadership Role / Title</label>
-          <input type="text" name="leadershipRole" placeholder="e.g. Team Leader, Prefect">
+          <label for="leadershipRole">Leadership Role / Title</label>
+          <input type="text" name="leadershipRole" id="leadershipRole" placeholder="e.g. Team Leader, Prefect (leave blank if none)">
         </div>
 
         <div class="mentor-block">
@@ -910,12 +986,12 @@
           </div>
           <div class="grid g2">
             <div class="field">
-              <label>Mentor Name</label>
-              <input type="text" name="mentor1Name" placeholder="Full name">
+              <label for="mentor1Name">Mentor Name</label>
+              <input type="text" name="mentor1Name" id="mentor1Name" placeholder="Full name">
             </div>
             <div class="field">
-              <label>Mentor Contact</label>
-              <input type="tel" name="mentor1Contact" placeholder="+254 7XX XXX XXX">
+              <label for="mentor1Contact">Mentor Contact</label>
+              <input type="tel" name="mentor1Contact" id="mentor1Contact" placeholder="07XX XXX XXX">
             </div>
           </div>
         </div>
@@ -927,12 +1003,12 @@
           </div>
           <div class="grid g2">
             <div class="field">
-              <label>Mentor Name</label>
-              <input type="text" name="mentor2Name" placeholder="Full name">
+              <label for="mentor2Name">Mentor Name</label>
+              <input type="text" name="mentor2Name" id="mentor2Name" placeholder="Full name">
             </div>
             <div class="field">
-              <label>Mentor Contact</label>
-              <input type="tel" name="mentor2Contact" placeholder="+254 7XX XXX XXX">
+              <label for="mentor2Contact">Mentor Contact</label>
+              <input type="tel" name="mentor2Contact" id="mentor2Contact" placeholder="07XX XXX XXX">
             </div>
           </div>
         </div>
@@ -999,11 +1075,161 @@
   window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
     updateProgressBar();
+    document.querySelectorAll('[required]').forEach(f => f.setAttribute('aria-required', 'true'));
+
+    // Prevent selecting a future Date of Birth
+    const dobField = document.getElementById('dob');
+    dobField.setAttribute('max', new Date().toISOString().split('T')[0]);
+    dobField.setAttribute('aria-describedby', 'hint-dob');
+    dobField.addEventListener('change', autoFillAgeGroup);
+
     // Roll No field stays blank — assigned only when Save Record is clicked
     document.getElementById('rollBadge').textContent = 'Assigned on save';
     document.getElementById('childForm').addEventListener('change', updateProgressBar);
     document.getElementById('childForm').addEventListener('input', updateProgressBar);
+
+    restoreDraft();
+    document.getElementById('childForm').addEventListener('input', saveDraft);
+    document.getElementById('childForm').addEventListener('change', saveDraft);
+    window.addEventListener('scroll', updateMiniProgress, { passive: true });
+
+    document.querySelectorAll('input[type="tel"]').forEach(tel => {
+      tel.addEventListener('input', () => formatKenyanPhone(tel));
+    });
   });
+
+  // ── STICKY MINI PROGRESS BAR ─────────────────────────────────────────────
+  const SECTION_LABELS = [
+    "Section 1 of 4 — Child's Details",
+    "Section 2 of 4 — Parent / Guardian",
+    "Section 3 of 4 — Ministry Areas",
+    "Section 4 of 4 — Leadership & Mentors",
+  ];
+  function updateMiniProgress() {
+    const mainBar = document.querySelector('.progress-bar-wrap');
+    const mini = document.getElementById('miniProgress');
+    const submitArea = document.querySelector('.submit-area');
+    const mainBarBottom = mainBar.getBoundingClientRect().bottom;
+    const submitTop = submitArea.getBoundingClientRect().top;
+
+    if (mainBarBottom > 0 || submitTop < window.innerHeight * 0.3) {
+      mini.style.display = 'none';
+      return;
+    }
+    mini.style.display = 'flex';
+
+    const sections = document.querySelectorAll('.section');
+    let current = 0;
+    sections.forEach((sec, i) => {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.5) current = i;
+    });
+    document.getElementById('miniProgressLabel').textContent = SECTION_LABELS[current] || SECTION_LABELS[0];
+    document.getElementById('miniProgressFill').style.width = (((current + 1) / SECTION_LABELS.length) * 100) + '%';
+  }
+
+  // ── DRAFT AUTOSAVE (text fields only — photo is not stored to keep it light) ──
+  const DRAFT_KEY = 'cy_child_draft_v1';
+  let draftSaveTimer = null;
+
+  function saveDraft() {
+    clearTimeout(draftSaveTimer);
+    draftSaveTimer = setTimeout(() => {
+      try {
+        const form = document.getElementById('childForm');
+        const fd = new FormData(form);
+        const data = {};
+        for (const [k, v] of fd.entries()) {
+          if (k === 'ministry') {
+            data.ministry = data.ministry || [];
+            data.ministry.push(v);
+          } else {
+            data[k] = v;
+          }
+        }
+        data._savedAt = Date.now();
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
+      } catch (_) { /* storage full or unavailable — ignore silently */ }
+    }, 400);
+  }
+
+  function clearDraft() {
+    try { localStorage.removeItem(DRAFT_KEY); } catch (_) {}
+  }
+
+  function restoreDraft() {
+    let saved;
+    try { saved = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch (_) { saved = null; }
+    if (!saved) return;
+
+    const banner = document.createElement('div');
+    banner.style.cssText = 'background:#fdf6e9;border:1.5px solid var(--gold);border-radius:10px;padding:12px 14px;margin-bottom:16px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:13px;';
+    banner.innerHTML = `
+      <span style="flex:1;min-width:200px;color:var(--ink);">📝 <strong>You have an unfinished form</strong> from earlier. Resume where you left off?</span>
+      <button type="button" id="resumeDraftBtn" style="background:var(--gold);color:var(--ink);border:none;border-radius:6px;padding:8px 14px;font-weight:600;font-size:12px;cursor:pointer;">Resume</button>
+      <button type="button" id="discardDraftBtn" style="background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:8px 14px;font-weight:600;font-size:12px;cursor:pointer;">Discard</button>
+    `;
+    const formWrap = document.querySelector('.form-wrap');
+    formWrap.insertBefore(banner, formWrap.firstChild);
+
+    document.getElementById('resumeDraftBtn').addEventListener('click', () => {
+      const form = document.getElementById('childForm');
+      Object.keys(saved).forEach(key => {
+        if (key === '_savedAt') return;
+        if (key === 'ministry') {
+          saved.ministry.forEach(val => {
+            const cb = form.querySelector(`[name="ministry"][value="${CSS.escape(val)}"]`);
+            if (cb) { cb.checked = true; cb.closest('.check-item').classList.add('checked'); }
+          });
+        } else {
+          const field = form.querySelector(`[name="${key}"]`);
+          if (field) field.value = saved[key];
+        }
+      });
+      updateProgressBar();
+      banner.remove();
+      showToast('✅ Draft restored — please re-add the photo.', 'success');
+    });
+    document.getElementById('discardDraftBtn').addEventListener('click', () => {
+      clearDraft();
+      banner.remove();
+    });
+  }
+  function formatKenyanPhone(input) {
+    let digits = input.value.replace(/\D/g, '');
+    if (digits.startsWith('254')) digits = '0' + digits.slice(3);
+    else if (digits.length && !digits.startsWith('0')) digits = '0' + digits;
+    digits = digits.slice(0, 10);
+    let out = digits;
+    if (digits.length > 4) out = digits.slice(0,4) + ' ' + digits.slice(4,7) + (digits.length > 7 ? ' ' + digits.slice(7) : '');
+    input.value = out;
+  }
+
+  // ── AUTO AGE GROUP FROM DATE OF BIRTH ───────────────────────────────────
+  function autoFillAgeGroup() {
+    const dobVal = document.getElementById('dob').value;
+    if (!dobVal) return;
+    const dob = new Date(dobVal);
+    if (isNaN(dob.getTime())) return;
+    const today = new Date();
+    let years = today.getFullYear() - dob.getFullYear();
+    const m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) years--;
+    if (years < 0) return;
+
+    let bracket = '';
+    if (years <= 2) bracket = '0-2';
+    else if (years <= 5) bracket = '3-5';
+    else if (years <= 8) bracket = '6-8';
+    else if (years <= 11) bracket = '9-11';
+    else if (years <= 14) bracket = '12-14';
+    else bracket = '15-18';
+
+    const ageSelect = document.querySelector('[name="ageGroup"]');
+    ageSelect.value = bracket;
+    updateProgressBar();
+    saveDraft();
+  }
 
   // ── PHOTO MENU (compact inline popover) ────────────────────────────────
   function togglePhotoMenu() {
@@ -1053,6 +1279,8 @@
       drop.classList.add('photo-ok');
       document.getElementById('photoReqNote').style.color = 'var(--green)';
       document.getElementById('photoReqNote').textContent = '✓ Photo added';
+      document.getElementById('changePhotoBtn').style.display = 'block';
+      document.getElementById('photoReqNote').style.display = 'none';
       updateProgressBar();
     };
     reader.readAsDataURL(file);
@@ -1233,6 +1461,7 @@
       if (result.success) {
         const confirmedRoll = result.rollNo || rollNo;
         commitRollNo(nextNum);
+        clearDraft();
 
         showSubmitProgress(100, 'Record saved! ✅');
         await delay(700);
@@ -1241,9 +1470,13 @@
         showToast(`✅ Record saved! Roll No: ${confirmedRoll}`, 'success');
         document.getElementById('rollNoField').value = confirmedRoll;
 
-        setTimeout(() => {
-          resetForm();
-        }, 1200);
+        showConfirmationSummary({
+          rollNo: confirmedRoll,
+          fullName: payload.fullName,
+          dob: payload.dob,
+          ageGroup: (payload.ageGroup || '').replace(/^'/, ''),
+          gender: payload.gender === 'M' ? 'Male' : payload.gender === 'F' ? 'Female' : '',
+        });
       } else {
         hideSubmitProgress();
         document.getElementById('rollNoField').value = '';
@@ -1262,6 +1495,32 @@
     }
   });
 
+  function showConfirmationSummary(details) {
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(26,26,46,0.72);z-index:9500;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px);padding:16px;';
+    const dobDisplay = details.dob ? new Date(details.dob).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }) : '—';
+    overlay.innerHTML = `
+      <div style="background:#fff;border-radius:14px;padding:clamp(22px,6vw,32px);width:min(400px,92vw);box-shadow:0 24px 60px rgba(0,0,0,0.25);text-align:left;">
+        <div style="text-align:center;font-size:36px;margin-bottom:8px;">✅</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:19px;color:var(--ink);text-align:center;margin-bottom:4px;">Record Saved</h3>
+        <p style="font-size:12.5px;color:var(--muted);text-align:center;margin-bottom:18px;">Please take a screenshot for your records.</p>
+        <div style="background:var(--ivory);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:13.5px;line-height:2;color:var(--ink);">
+          <div><strong>Roll No:</strong> ${details.rollNo || '—'}</div>
+          <div><strong>Child's Name:</strong> ${details.fullName || '—'}</div>
+          <div><strong>Gender:</strong> ${details.gender || '—'}</div>
+          <div><strong>Date of Birth:</strong> ${dobDisplay}</div>
+          <div><strong>Age Group:</strong> ${details.ageGroup || '—'}</div>
+        </div>
+        <button type="button" id="confirmSummaryDone" style="margin-top:18px;width:100%;background:var(--gold);color:var(--ink);border:none;border-radius:8px;padding:13px;font-family:'DM Sans',sans-serif;font-size:14.5px;font-weight:600;cursor:pointer;">Done — Register Another Child</button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    document.getElementById('confirmSummaryDone').addEventListener('click', () => {
+      overlay.remove();
+      resetForm();
+    });
+  }
+
   // ── HELPERS ─────────────────────────────────────────────────────────────
   function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 
@@ -1272,11 +1531,14 @@
     document.getElementById('photoDrop').className = 'photo-drop';
     document.getElementById('photoReqNote').textContent = 'Required';
     document.getElementById('photoReqNote').style.color = 'var(--red)';
+    document.getElementById('photoReqNote').style.display = 'block';
+    document.getElementById('changePhotoBtn').style.display = 'none';
     photoDataUrl = null; photoMimeType = null; photoName = null;
     document.getElementById('rollNoField').value = '';
     document.getElementById('rollBadge').textContent = 'Assigned on save';
     document.querySelectorAll('.check-item').forEach(l => l.classList.remove('checked'));
     document.querySelector('[name="regDate"]').value = new Date().toISOString().split('T')[0];
+    clearDraft();
     updateProgressBar();
   }
 
