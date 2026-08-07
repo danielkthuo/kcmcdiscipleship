@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>KCMC CY Ministry — Activity Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e; --gold: #c9972b; --gold-light: #f0c96a;
+    --cream: #faf7f2; --ivory: #f3ede3; --border: #d9cfc0;
+    --muted: #7a7060; --red: #c0392b; --green: #27ae60;
+    --blue: #2563eb; --orange: #e67e22; --grey: #9aa0a6;
+    --section-bg: #ffffff; --shadow: 0 2px 16px rgba(26,26,46,0.08);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--cream); font-family: 'DM Sans', sans-serif; color: var(--ink); min-height: 100vh; }
+
+  .pin-screen { position: fixed; inset: 0; background: var(--ink); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+  .pin-box { background: #fff; border-radius: 16px; padding: 40px 48px; width: min(380px, 90vw); text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,0.35); }
+  .pin-logo { width: 56px; height: 56px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); margin: 0 auto 16px; }
+  .pin-box h2 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 6px; }
+  .pin-box p { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+  .pin-dots { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+  .pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--border); background: transparent; transition: background .2s, border-color .2s; }
+  .pin-dot.filled { background: var(--gold); border-color: var(--gold); }
+  .pin-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .pin-key { background: var(--ivory); border: 1.5px solid var(--border); border-radius: 10px; padding: 14px; font-size: 18px; font-weight: 600; cursor: pointer; min-height: 52px; }
+  .pin-key:hover { background: #f0e8d8; }
+  .pin-key.del { font-size: 14px; color: var(--muted); }
+  .pin-error { color: var(--red); font-size: 13px; margin-top: 12px; min-height: 18px; }
+
+  .header { background: var(--ink); color: #fff; padding: 14px 20px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
+  .header-logo { width: 40px; height: 40px; border-radius: 50%; background: var(--gold); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink); }
+  .header-text { flex: 1; min-width: 0; }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .header p { font-size: 10px; color: var(--gold-light); letter-spacing: .1em; text-transform: uppercase; }
+  .header-actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .btn-outline { border: 1.5px solid rgba(201,151,43,0.4); color: var(--gold-light); background: transparent; border-radius: 6px; padding: 7px 10px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+  .btn-outline:hover { background: rgba(201,151,43,0.1); }
+  @media (max-width: 420px) { .btn-outline .btn-label { display: none; } }
+
+  .tabs-wrap { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.07); overflow-x: auto; -webkit-overflow-scrolling: touch; position: sticky; top: 68px; z-index: 99; }
+  .tabs { display: flex; gap: 2px; padding: 0 12px; min-width: max-content; }
+  .tab { padding: 11px 14px; font-size: 12px; font-weight: 500; cursor: pointer; border-bottom: 3px solid transparent; color: rgba(255,255,255,0.45); white-space: nowrap; user-select: none; }
+  .tab.active { color: var(--gold-light); border-bottom-color: var(--gold); }
+  .tab:hover:not(.active) { color: rgba(255,255,255,0.7); }
+
+  .main { max-width: 1250px; margin: 20px auto; padding: 0 12px; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 20px; }
+  @media (max-width: 900px) { .stat-row { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 560px) { .stat-row { grid-template-columns: repeat(2, 1fr); } }
+  .stat-card { background: var(--section-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px; box-shadow: var(--shadow); text-align: center; }
+  .stat-card .label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 6px; }
+  .stat-card .value { font-size: 26px; font-weight: 700; line-height: 1; }
+
+  .card { background: var(--section-bg); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden; }
+  .card-head { background: var(--ivory); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .card-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; }
+  .card-body { padding: 16px; }
+  @media (max-width: 480px) { .card-body { padding: 12px; } }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .field-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 12px; }
+  .field-row .field { display: flex; flex-direction: column; gap: 4px; }
+  .field-row .field.grow { flex: 1; min-width: 160px; }
+  .field-row label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .field-row input, .field-row select, .field-row textarea { border: 1.5px solid var(--border); border-radius: 7px; padding: 9px 10px; font-family: 'DM Sans', sans-serif; font-size: max(16px, 13px); background: var(--cream); outline: none; }
+  .field-row input:focus, .field-row select:focus, .field-row textarea:focus { border-color: var(--gold); background: #fff; }
+
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th { background: var(--ivory); padding: 9px 8px; text-align: left; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; cursor: pointer; }
+  th:hover { color: var(--ink); }
+  td { padding: 8px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:hover td { background: #fdf8f0; }
+  tr.overdue-row td { background: #fff5f5 !important; }
+
+  .cat-badge { font-size: 10.5px; font-weight: 600; padding: 3px 8px; border-radius: 20px; background: var(--ivory); border: 1px solid var(--border); white-space: nowrap; display: inline-block; }
+  .rec-badge { font-size: 10.5px; font-weight: 600; padding: 3px 8px; border-radius: 20px; white-space: nowrap; display: inline-block; }
+  .rec-Weekly { background: #eef4fe; color: var(--blue); border: 1px solid #b3ceef; }
+  .rec-Monthly { background: #fff8ec; color: var(--gold); border: 1px solid #f0c96a; }
+  .rec-SelectedMonths { background: #f4eefe; color: #7c3aed; border: 1px solid #d8c2f7; }
+  .rec-Annual { background: #f0fff4; color: var(--green); border: 1px solid #a8dfb8; }
+  .rec-One-time { background: #fff0f0; color: var(--red); border: 1px solid #f0b0b0; }
+  .rec-Ongoing { background: #f1f2f3; color: var(--grey); border: 1px solid #d5d8db; }
+
+  .status-select { border: 1.5px solid var(--border); border-radius: 6px; padding: 5px 6px; font-size: 12px; font-weight: 600; min-width: 118px; cursor: pointer; }
+  .status-Not-Started  { background: #f1f2f3; color: var(--grey); border-color: var(--grey); }
+  .status-Planned      { background: #eef4fe; color: var(--blue); border-color: var(--blue); }
+  .status-In-Progress  { background: #fff8ec; color: var(--gold); border-color: var(--gold); }
+  .status-Completed    { background: #f0fff4; color: var(--green); border-color: var(--green); }
+  .status-Postponed    { background: #fff3e8; color: var(--orange); border-color: var(--orange); }
+  .status-Cancelled    { background: #fff0f0; color: var(--red); border-color: var(--red); }
+  .mini-date { border: 1.5px solid var(--border); border-radius: 6px; padding: 5px 6px; font-size: 12px; width: 128px; }
+
+  .btn-sm { font-size: 12px; padding: 6px 11px; border-radius: 6px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 500; white-space: nowrap; }
+  .btn-gold { background: var(--gold); color: var(--ink); border: none; }
+  .btn-gold:hover { background: #b8861f; }
+  .btn-outline-sm { background: transparent; border: 1.5px solid var(--border); color: var(--ink); }
+  .btn-outline-sm:hover { border-color: var(--gold); }
+  .btn-danger { background: var(--red); color: #fff; border: none; }
+  .btn-danger:hover { background: #a93226; }
+  .btn-green { background: var(--green); color: #fff; border: none; }
+  .btn-green:hover { background: #1e8449; }
+  .action-cell { display: flex; gap: 5px; flex-wrap: wrap; }
+
+  .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(26,26,46,0.6); z-index: 8000; align-items: flex-start; justify-content: center; padding: 20px 12px; overflow-y: auto; }
+  .modal-backdrop.open { display: flex; }
+  .modal { background: #fff; border-radius: 14px; width: min(620px, 100%); box-shadow: 0 24px 60px rgba(0,0,0,0.25); }
+  .modal-head { background: var(--ink); color: #fff; padding: 16px 20px; border-radius: 14px 14px 0 0; display: flex; align-items: center; justify-content: space-between; }
+  .modal-head h3 { font-family: 'Playfair Display', serif; font-size: 17px; }
+  .modal-close { background: none; border: none; color: rgba(255,255,255,0.5); font-size: 22px; cursor: pointer; }
+  .modal-close:hover { color: #fff; }
+  .modal-body { padding: 20px; }
+  .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 480px) { .edit-grid { grid-template-columns: 1fr; } }
+  .edit-field { display: flex; flex-direction: column; gap: 4px; }
+  .edit-field label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .edit-field input, .edit-field select, .edit-field textarea { border: 1.5px solid var(--border); border-radius: 7px; padding: 9px 10px; font-family: 'DM Sans', sans-serif; font-size: max(16px, 13px); background: var(--cream); outline: none; }
+  .edit-field input:focus, .edit-field select:focus, .edit-field textarea:focus { border-color: var(--gold); background: #fff; }
+  .rec-config-box { background: var(--ivory); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-top: 4px; grid-column: 1/-1; }
+  .rec-config-box .hint { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+
+  .progress-bar-track { background: var(--ivory); border-radius: 4px; height: 16px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: var(--gold); border-radius: 4px; transition: width .5s; }
+
+  .empty { text-align: center; padding: 36px 16px; color: var(--muted); font-size: 14px; }
+  .empty .icon { font-size: 32px; margin-bottom: 10px; }
+  .loading { text-align: center; padding: 28px; color: var(--muted); font-size: 14px; }
+
+  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: #fff; padding: 11px 22px; border-radius: 30px; font-size: 13px; font-weight: 500; box-shadow: 0 8px 30px rgba(0,0,0,.25); opacity: 0; transition: opacity .3s, transform .3s; z-index: 9999; pointer-events: none; max-width: calc(100vw - 40px); text-align: center; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--green); }
+  .toast.error { background: var(--red); }
+
+  .seed-banner { background: #fff8ec; border: 1px solid #f0a500; border-radius: 10px; padding: 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .seed-banner .txt { flex: 1; min-width: 220px; font-size: 13px; color: #6b4a00; }
+  .seed-banner strong { display: block; font-size: 14px; margin-bottom: 3px; }
+  .gen-banner { background: #eef4fe; border: 1px solid #b3ceef; border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .gen-banner .txt { flex: 1; min-width: 220px; font-size: 13px; color: #1a4a90; }
+  .gen-banner select { border: 1.5px solid #b3ceef; border-radius: 6px; padding: 6px 10px; font-size: 13px; background: #fff; }
+  .section-note { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+
+  /* REPORTS */
+  .report-preview { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 28px; box-shadow: var(--shadow); }
+  .report-letterhead { display: flex; align-items: center; gap: 14px; border-bottom: 3px solid var(--ink); padding-bottom: 14px; margin-bottom: 18px; }
+  .report-letterhead .lh-logo { width: 46px; height: 46px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--ink); flex-shrink: 0; }
+  .report-letterhead .lh-text h2 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--ink); }
+  .report-letterhead .lh-text p { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; }
+  .report-title-block { margin-bottom: 18px; }
+  .report-title-block h3 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--ink); margin-bottom: 3px; }
+  .report-title-block p { font-size: 12px; color: var(--muted); }
+  .report-kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+  .report-kpi { border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 12px; text-align: center; }
+  .report-kpi .k-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 4px; }
+  .report-kpi .k-value { font-size: 20px; font-weight: 700; color: var(--ink); }
+  .report-section-title { font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--ink); border-bottom: 1.5px solid var(--border); padding-bottom: 5px; margin: 20px 0 10px; }
+  .report-table { width: 100%; border-collapse: collapse; font-size: 11.5px; margin-bottom: 8px; }
+  .report-table th { background: var(--ivory); text-align: left; padding: 6px 8px; font-size: 9.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); border: 1px solid var(--border); }
+  .report-table td { padding: 6px 8px; border: 1px solid var(--border); }
+  .report-table tr.mentor-group-row td { background: var(--ivory); font-weight: 700; }
+  .report-overdue-flag { color: var(--red); font-weight: 700; }
+  .report-footer { margin-top: 24px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 10px; color: var(--muted); display: flex; justify-content: space-between; }
+  .report-empty-note { font-size: 12px; color: var(--muted); font-style: italic; padding: 10px 0; }
+
+  @media print {
+    body * { visibility: hidden; }
+    #reportPrintArea, #reportPrintArea * { visibility: visible; }
+    #reportPrintArea { position: absolute; left: 0; top: 0; width: 100%; padding: 0; border: none; box-shadow: none; }
+    .no-print { display: none !important; }
+    @page { margin: 14mm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="pin-screen" id="pinScreen">
+  <div class="pin-box">
+    <div class="pin-logo">CY</div>
+    <h2>Activity Planner</h2>
+    <p>Enter your PIN to access the planner</p>
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div>
+    </div>
+    <div class="pin-keypad">
+      <button class="pin-key" onclick="pinKey('1')">1</button>
+      <button class="pin-key" onclick="pinKey('2')">2</button>
+      <button class="pin-key" onclick="pinKey('3')">3</button>
+      <button class="pin-key" onclick="pinKey('4')">4</button>
+      <button class="pin-key" onclick="pinKey('5')">5</button>
+      <button class="pin-key" onclick="pinKey('6')">6</button>
+      <button class="pin-key" onclick="pinKey('7')">7</button>
+      <button class="pin-key" onclick="pinKey('8')">8</button>
+      <button class="pin-key" onclick="pinKey('9')">9</button>
+      <button class="pin-key del" onclick="pinKey('del')">⌫</button>
+      <button class="pin-key" onclick="pinKey('0')">0</button>
+      <button class="pin-key del" onclick="pinKey('clr')">✕</button>
+    </div>
+    <div class="pin-error" id="pinError"></div>
+  </div>
+</div>
+
+<div class="header">
+  <div class="header-logo">CY</div>
+  <div class="header-text">
+    <h1>Strategic Plan Activity Planner</h1>
+    <p>KCMC Child &amp; Youth Ministry · 2026–2030</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn-outline" onclick="loadAll(true)" title="Refresh"><span id="refreshIcon">↻</span> <span class="btn-label">Refresh</span></button>
+    <button class="btn-outline" onclick="lockPlanner()" title="Lock">🔒</button>
+  </div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <div class="tab" onclick="window.location.href='cydashboard.html'">🏠 Dashboard</div>
+    <div class="tab active" data-tab="overview" onclick="switchTab('overview')">📊 Overview</div>
+    <div class="tab" data-tab="due" onclick="switchTab('due')">🔔 Due &amp; Upcoming</div>
+    <div class="tab" data-tab="activities" onclick="switchTab('activities')">🔁 Activities</div>
+    <div class="tab" data-tab="history" onclick="switchTab('history')">📋 History</div>
+    <div class="tab" data-tab="mentors" onclick="switchTab('mentors')">👥 Mentor Workload</div>
+    <div class="tab" data-tab="reports" onclick="switchTab('reports')">🖨️ Reports</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- OVERVIEW -->
+  <div class="panel active" id="panel-overview">
+    <div id="seedBanner"></div>
+    <div class="stat-row">
+      <div class="stat-card"><div class="label" id="yearLabel">This Year</div><div class="value" id="stat-total" style="color:var(--ink)">—</div></div>
+      <div class="stat-card"><div class="label">Completed</div><div class="value" id="stat-completed" style="color:var(--green)">—</div></div>
+      <div class="stat-card"><div class="label">Overdue</div><div class="value" id="stat-overdue" style="color:var(--red)">—</div></div>
+      <div class="stat-card"><div class="label">Due Next 7 Days</div><div class="value" id="stat-due7" style="color:var(--gold)">—</div></div>
+      <div class="stat-card"><div class="label">Completion Rate</div><div class="value" id="stat-rate" style="color:var(--ink)">—</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Progress by Category — <span id="catYearLabel"></span></span></div>
+      <div class="card-body" id="catBreakdown"><div class="loading">Loading…</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Breakdown by Status</span></div>
+      <div class="card-body" id="statusBreakdown"><div class="loading">Loading…</div></div>
+    </div>
+  </div>
+
+  <!-- DUE & UPCOMING -->
+  <div class="panel" id="panel-due">
+    <p class="section-note">Shows occurrences that are overdue or planned within the next 30 days, so your team always knows what's next — without scrolling through the whole year.</p>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Overdue &amp; Upcoming Occurrences</span><span id="dueCount" style="margin-left:auto;font-size:11px;color:var(--muted)"></span></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Planned Date</th><th>Period</th><th>Category</th><th>Activity</th><th>Person</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="dueTable"><tr><td colspan="7"><div class="loading">Loading…</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVITIES (TEMPLATES) -->
+  <div class="panel" id="panel-activities">
+    <div id="genBanner"></div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Add a Recurring Activity</span></div>
+      <div class="card-body">
+        <div class="edit-grid">
+          <div class="edit-field">
+            <label>Category</label>
+            <select id="newCategory">
+              <option>Discipleship & Bible Study</option><option>Prayer & Worship</option>
+              <option>Evangelism & Outreach</option><option>Mental Health & Wellness</option>
+              <option>Leadership Development</option><option>Family & Parenting</option>
+              <option>Media & Digital Ministry</option><option>Fellowship & Recreation</option>
+              <option>Skills & Career Mentorship</option><option>Milestones & Recognition</option>
+              <option>Ministry Administration</option><option>Compassion & Charity</option>
+              <option>General Ministry</option>
+            </select>
+          </div>
+          <div class="edit-field">
+            <label>Person Responsible</label>
+            <input type="text" id="newPerson" placeholder="e.g. Mentor Thuo">
+          </div>
+          <div class="edit-field" style="grid-column:1/-1">
+            <label>Key Activity</label>
+            <input type="text" id="newActivity" placeholder="Describe the activity">
+          </div>
+          <div class="edit-field">
+            <label>Repeats</label>
+            <select id="newRecurrenceType" onchange="renderRecConfig('new')">
+              <option value="Weekly">Weekly — same weekday every week</option>
+              <option value="Monthly">Monthly — same day every month</option>
+              <option value="SelectedMonths">Selected Months — e.g. quarterly, biannual, termly</option>
+              <option value="Annual">Annual — once a year</option>
+              <option value="One-time">One-time — a single date</option>
+              <option value="Ongoing" selected>Ongoing — no fixed pattern, I'll add dates manually</option>
+            </select>
+          </div>
+          <div id="newRecConfig" class="rec-config-box"></div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn-sm btn-gold" style="padding:10px 18px" onclick="submitNewTemplate()">💾 Add Activity</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">All Recurring Activities</span>
+        <span id="templateCount" style="margin-left:auto;font-size:11px;color:var(--muted)"></span>
+      </div>
+      <div class="card-body" style="padding-bottom:0">
+        <div class="field-row" style="margin-bottom:0">
+          <div class="field grow"><label>Search</label><input type="search" id="tSearch" oninput="renderTemplates()" placeholder="Activity or person…"></div>
+          <div class="field"><label>Category</label><select id="tCategory" onchange="renderTemplates()"><option value="">All</option></select></div>
+          <div class="field"><label>Repeats</label><select id="tRecurrence" onchange="renderTemplates()">
+            <option value="">All</option><option>Weekly</option><option>Monthly</option>
+            <option>SelectedMonths</option><option>Annual</option><option>One-time</option><option>Ongoing</option>
+          </select></div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Category</th><th>Activity</th><th>Person</th><th>Repeats</th><th>Actions</th></tr></thead>
+          <tbody id="templateTable"><tr><td colspan="5"><div class="loading">Loading…</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORY -->
+  <div class="panel" id="panel-history">
+    <div class="card">
+      <div class="card-head"><span class="card-title">Filter</span></div>
+      <div class="card-body">
+        <div class="field-row" style="margin-bottom:0">
+          <div class="field grow"><label>Search activity / person</label><input type="search" id="hSearch" oninput="renderHistory()" autocomplete="off"></div>
+          <div class="field"><label>Year</label><select id="hYear" onchange="renderHistory()"></select></div>
+          <div class="field"><label>Category</label><select id="hCategory" onchange="renderHistory()"><option value="">All</option></select></div>
+          <div class="field"><label>Status</label><select id="hStatus" onchange="renderHistory()">
+            <option value="">All</option><option>Not Started</option><option>Planned</option><option>In Progress</option>
+            <option>Completed</option><option>Postponed</option><option>Cancelled</option>
+          </select></div>
+          <button class="btn-sm btn-outline-sm" onclick="clearHistoryFilters()">Clear</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Occurrence Log</span><span id="historyCount" style="margin-left:auto;font-size:11px;color:var(--muted)"></span></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Period</th><th>Planned Date</th><th>Category</th><th>Activity</th><th>Person</th><th>Status</th><th>Completed</th><th>Actions</th></tr></thead>
+          <tbody id="historyTable"><tr><td colspan="8"><div class="loading">Loading…</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENTOR WORKLOAD -->
+  <div class="panel" id="panel-mentors">
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">Workload by Mentor</span>
+        <select id="mYear" onchange="renderMentors()" style="margin-left:auto;border:1.5px solid var(--border);border-radius:6px;padding:5px 8px;font-size:12px"></select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Person Responsible</th><th>Total</th><th>Completed</th><th>In Progress</th><th>Progress</th></tr></thead>
+          <tbody id="mentorTable"><tr><td colspan="5"><div class="loading">Loading…</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPORTS -->
+  <div class="panel" id="panel-reports">
+    <div class="card no-print">
+      <div class="card-head"><span class="card-title">Build a Report</span></div>
+      <div class="card-body">
+        <div class="field-row">
+          <div class="field grow">
+            <label>Report Type</label>
+            <select id="rType" onchange="renderReportControls()">
+              <option value="leadership">Leadership Summary</option>
+              <option value="log">Full Activity Log</option>
+              <option value="workload">Mentor Workload</option>
+              <option value="due">Overdue &amp; Upcoming</option>
+            </select>
+          </div>
+          <div class="field" id="rYearWrap">
+            <label>Year</label>
+            <select id="rYear"></select>
+          </div>
+          <div class="field" id="rCategoryWrap" style="display:none">
+            <label>Category</label>
+            <select id="rCategory"><option value="">All</option></select>
+          </div>
+          <div class="field" id="rPersonWrap" style="display:none">
+            <label>Mentor</label>
+            <select id="rPerson"><option value="">All Mentors</option></select>
+          </div>
+          <button class="btn-sm btn-gold" onclick="generateReport()">📄 Generate Preview</button>
+          <button class="btn-sm btn-outline-sm" onclick="printReport()">🖨️ Print / Save as PDF</button>
+        </div>
+        <p class="section-note" style="margin-top:6px;margin-bottom:0">Preview below, then use "Print / Save as PDF" — in the print dialog choose <strong>"Save as PDF"</strong> as the destination.</p>
+      </div>
+    </div>
+
+    <div class="report-preview" id="reportPrintArea">
+      <div class="report-letterhead">
+        <div class="lh-logo">CY</div>
+        <div class="lh-text">
+          <h2>KCMC Child &amp; Youth Ministry</h2>
+          <p>Strategic Plan 2026–2030 · Activity Report</p>
+        </div>
+      </div>
+      <div id="reportBody"><div class="empty">Choose a report type above and click "Generate Preview".</div></div>
+      <div class="report-footer">
+        <span id="reportGeneratedNote"></span>
+        <span>KCMC CY Ministry Activity Planner</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- OCCURRENCE EDIT MODAL -->
+<div class="modal-backdrop" id="occModal">
+  <div class="modal">
+    <div class="modal-head"><h3 id="occModalTitle">Edit Occurrence</h3><button class="modal-close" onclick="closeOccModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="edit-grid">
+        <div class="edit-field"><label>Planned Date</label><input type="date" id="occPlannedDate"></div>
+        <div class="edit-field"><label>Status</label>
+          <select id="occStatus">
+            <option>Not Started</option><option>Planned</option><option>In Progress</option>
+            <option>Completed</option><option>Postponed</option><option>Cancelled</option>
+          </select>
+        </div>
+        <div class="edit-field"><label>Date Completed</label><input type="date" id="occDateCompleted"></div>
+        <div class="edit-field"><label>Period Label</label><input type="text" id="occPeriodLabel"></div>
+        <div class="edit-field" style="grid-column:1/-1"><label>Notes / Follow-up</label>
+          <textarea id="occNotes" rows="3" style="width:100%;border:1.5px solid var(--border);border-radius:7px;padding:9px 10px;font-family:'DM Sans',sans-serif;font-size:max(16px,13px);background:var(--cream);outline:none;resize:vertical"></textarea>
+        </div>
+      </div>
+      <div style="margin-top:18px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap">
+        <button class="btn-sm btn-outline-sm" onclick="closeOccModal()">Cancel</button>
+        <button class="btn-sm btn-gold" onclick="saveOccModal()">💾 Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TEMPLATE EDIT MODAL -->
+<div class="modal-backdrop" id="tplModal">
+  <div class="modal">
+    <div class="modal-head"><h3>Edit Activity</h3><button class="modal-close" onclick="closeTplModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="edit-grid">
+        <div class="edit-field" style="grid-column:1/-1"><label>Key Activity</label><input type="text" id="tplActivity"></div>
+        <div class="edit-field">
+          <label>Category</label>
+          <select id="tplCategory">
+            <option>Discipleship & Bible Study</option><option>Prayer & Worship</option>
+            <option>Evangelism & Outreach</option><option>Mental Health & Wellness</option>
+            <option>Leadership Development</option><option>Family & Parenting</option>
+            <option>Media & Digital Ministry</option><option>Fellowship & Recreation</option>
+            <option>Skills & Career Mentorship</option><option>Milestones & Recognition</option>
+            <option>Ministry Administration</option><option>Compassion & Charity</option>
+            <option>General Ministry</option>
+          </select>
+        </div>
+        <div class="edit-field"><label>Person Responsible</label><input type="text" id="tplPerson"></div>
+        <div class="edit-field">
+          <label>Repeats</label>
+          <select id="tplRecurrenceType" onchange="renderRecConfig('tpl')">
+            <option value="Weekly">Weekly — same weekday every week</option>
+            <option value="Monthly">Monthly — same day every month</option>
+            <option value="SelectedMonths">Selected Months — quarterly / biannual / termly</option>
+            <option value="Annual">Annual — once a year</option>
+            <option value="One-time">One-time — a single date</option>
+            <option value="Ongoing">Ongoing — no fixed pattern</option>
+          </select>
+        </div>
+        <div id="tplRecConfig" class="rec-config-box"></div>
+        <div class="edit-field" style="grid-column:1/-1"><label>Default Notes</label>
+          <textarea id="tplNotes" rows="2" style="width:100%;border:1.5px solid var(--border);border-radius:7px;padding:9px 10px;font-family:'DM Sans',sans-serif;font-size:max(16px,13px);background:var(--cream);outline:none;resize:vertical"></textarea>
+        </div>
+      </div>
+      <div style="margin-top:18px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap">
+        <button class="btn-sm btn-outline-sm" onclick="closeTplModal()">Cancel</button>
+        <button class="btn-sm btn-gold" onclick="saveTplModal()">💾 Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════════════════════════
+const SCRIPT_URL  = 'https://script.google.com/macros/s/AKfycbx99Y4mrBiGWl9qalOtInBQICd0SxtansEoTuOoe1JNeFow9-QQhGjVOmD8nh_2kjxiDA/exec';
+const PLANNER_PIN = '1234';
+const SESSION_KEY = 'cy_planner_unlocked';
+const CURRENT_YEAR = new Date().getFullYear();
+
+// ══════════════════════════════════════════════════════════════
+// PIN
+// ══════════════════════════════════════════════════════════════
+let pinBuffer = '';
+function checkSession() {
+  if (sessionStorage.getItem(SESSION_KEY) === '1') {
+    document.getElementById('pinScreen').style.display = 'none';
+    init();
+  }
+}
+function pinKey(k) {
+  if (k === 'del') pinBuffer = pinBuffer.slice(0, -1);
+  else if (k === 'clr') pinBuffer = '';
+  else if (pinBuffer.length < 4) pinBuffer += k;
+  for (let i = 0; i < 4; i++) document.getElementById('d'+i).classList.toggle('filled', i < pinBuffer.length);
+  document.getElementById('pinError').textContent = '';
+  if (pinBuffer.length === 4) {
+    if (pinBuffer === PLANNER_PIN) {
+      sessionStorage.setItem(SESSION_KEY, '1');
+      document.getElementById('pinScreen').style.display = 'none';
+      init();
+    } else {
+      document.getElementById('pinError').textContent = '⚠ Incorrect PIN. Try again.';
+      pinBuffer = '';
+      for (let i = 0; i < 4; i++) document.getElementById('d'+i).classList.remove('filled');
+    }
+  }
+}
+document.addEventListener('keydown', e => {
+  const pin = document.getElementById('pinScreen');
+  if (pin.style.display !== 'none') {
+    if (e.key >= '0' && e.key <= '9') pinKey(e.key);
+    if (e.key === 'Backspace') pinKey('del');
+    if (e.key === 'Escape') pinKey('clr');
+  }
+});
+function lockPlanner() {
+  sessionStorage.removeItem(SESSION_KEY);
+  document.getElementById('pinScreen').style.display = '';
+  pinBuffer = '';
+  for (let i = 0; i < 4; i++) document.getElementById('d'+i).classList.remove('filled');
+}
+checkSession();
+
+// ══════════════════════════════════════════════════════════════
+// API
+// ══════════════════════════════════════════════════════════════
+async function api(params) {
+  const url = SCRIPT_URL + '?' + new URLSearchParams(params).toString();
+  const res = await fetch(url, { redirect: 'follow' });
+  return res.json();
+}
+async function apiPost(body) {
+  const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(body) });
+  return res.json();
+}
+
+// ══════════════════════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════════════════════
+function switchTab(name) {
+  document.querySelectorAll('.tab[data-tab]').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
+  if (name === 'due') renderDue();
+  if (name === 'activities') renderTemplates();
+  if (name === 'history') renderHistory();
+  if (name === 'mentors') renderMentors();
+  if (name === 'reports') { renderReportControls(); }
+}
+
+// ══════════════════════════════════════════════════════════════
+// INIT / LOAD
+// ══════════════════════════════════════════════════════════════
+let templates = [];
+let occurrences = [];
+
+function init() {
+  document.getElementById('yearLabel').textContent = CURRENT_YEAR + ' Activities';
+  document.getElementById('catYearLabel').textContent = CURRENT_YEAR;
+  renderRecConfig('new');
+  loadAll(false);
+}
+
+async function loadAll(showToastMsg) {
+  try {
+    const [t, o] = await Promise.all([ api({ action: 'getTemplates' }), api({ action: 'getOccurrences' }) ]);
+    if (!t.success) { showToast('Failed to load activities', 'error'); return; }
+    templates = (t.data || []).filter(x => x.active !== false);
+    occurrences = o.success ? (o.data || []) : [];
+    renderSeedBanner();
+    renderOverview();
+    populateFilterOptions();
+    populateYearSelectors();
+    const active = document.querySelector('.tab.active').dataset.tab;
+    if (active === 'due') renderDue();
+    if (active === 'activities') renderTemplates();
+    if (active === 'history') renderHistory();
+    if (active === 'mentors') renderMentors();
+    if (showToastMsg) showToast('✅ Refreshed', 'success');
+  } catch (err) {
+    showToast('Could not reach the sheet. Check your connection.', 'error');
+  }
+}
+
+function templateById(id) { return templates.find(t => t.id === id) || {}; }
+
+function renderSeedBanner() {
+  const el = document.getElementById('seedBanner');
+  if (templates.length > 0) { el.innerHTML = ''; return; }
+  el.innerHTML = `
+    <div class="seed-banner">
+      <div class="txt"><strong>⚡ No recurring activities loaded yet</strong>
+      This imports all ${SEED_TEMPLATES.length} activities from the Strategic Plan 2026-2030 as recurring templates (their repeat pattern — weekly, monthly, quarterly, etc. — is auto-detected from the plan's wording; review it after import in the Activities tab).</div>
+      <button class="btn-sm btn-gold" onclick="runSeed()">🌱 Load Strategic Plan Activities</button>
+    </div>`;
+}
+async function runSeed() {
+  showToast('Importing activities…', '');
+  try {
+    const d = await apiPost({ action: 'seedTemplates', templates: SEED_TEMPLATES });
+    if (d.success) { showToast(`✅ Imported ${d.imported} activities — now generate this year's dates in the Activities tab`, 'success'); loadAll(false); }
+    else showToast('Import failed: ' + (d.error || 'unknown'), 'error');
+  } catch (err) { showToast('Import error: ' + err.message, 'error'); }
+}
+
+// ══════════════════════════════════════════════════════════════
+// RECURRENCE CONFIG UI (shared by Add form + Edit modal)
+// ══════════════════════════════════════════════════════════════
+const WEEKDAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function renderRecConfig(prefix, existing) {
+  const type = document.getElementById(prefix + 'RecurrenceType').value;
+  const box = document.getElementById(prefix + 'RecConfig');
+  const e = existing || {};
+  if (type === 'Weekly') {
+    box.innerHTML = `<div class="hint">Repeats every week on the same day.</div>
+      <div class="edit-field"><label>Day of week</label>
+      <select id="${prefix}Weekday">${WEEKDAYS.map((w,i) => `<option value="${i}" ${String(e.weekday)===String(i)?'selected':''}>${w}</option>`).join('')}</select></div>`;
+  } else if (type === 'Monthly') {
+    box.innerHTML = `<div class="hint">Repeats every month on the same day-of-month.</div>
+      <div class="edit-field"><label>Day of month (1–28)</label>
+      <input type="number" min="1" max="28" id="${prefix}DayOfMonth" value="${e.dayOfMonth || 1}"></div>`;
+  } else if (type === 'SelectedMonths') {
+    const sel = (e.months || '').split(',').map(s => s.trim());
+    box.innerHTML = `<div class="hint">Repeats only in the months you tick — use this for quarterly, biannual, or termly activities.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+        ${MONTHS.map((m,i) => `<label style="display:flex;align-items:center;gap:4px;font-size:12px;background:#fff;border:1px solid var(--border);border-radius:6px;padding:5px 8px;cursor:pointer">
+          <input type="checkbox" class="${prefix}MonthCk" value="${i+1}" ${sel.includes(String(i+1))?'checked':''}> ${m.substring(0,3)}</label>`).join('')}
+      </div>
+      <div class="edit-field"><label>Day of month</label><input type="number" min="1" max="28" id="${prefix}DayOfMonth" value="${e.dayOfMonth || 1}"></div>`;
+  } else if (type === 'Annual') {
+    box.innerHTML = `<div class="hint">Repeats once a year on the same date.</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <div class="edit-field"><label>Month</label><select id="${prefix}Months">${MONTHS.map((m,i) => `<option value="${i+1}" ${String(e.months)===String(i+1)?'selected':''}>${m}</option>`).join('')}</select></div>
+        <div class="edit-field"><label>Day</label><input type="number" min="1" max="28" id="${prefix}DayOfMonth" value="${e.dayOfMonth || 1}"></div>
+      </div>`;
+  } else if (type === 'One-time') {
+    box.innerHTML = `<div class="hint">Happens once — pick the month, day and year.</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <div class="edit-field"><label>Month</label><select id="${prefix}Months">${MONTHS.map((m,i) => `<option value="${i+1}" ${String(e.months)===String(i+1)?'selected':''}>${m}</option>`).join('')}</select></div>
+        <div class="edit-field"><label>Day</label><input type="number" min="1" max="28" id="${prefix}DayOfMonth" value="${e.dayOfMonth || 1}"></div>
+        <div class="edit-field"><label>Year</label><input type="number" id="${prefix}OneTimeYear" value="${e.oneTimeYear || CURRENT_YEAR}" style="width:90px"></div>
+      </div>`;
+  } else {
+    box.innerHTML = `<div class="hint">No fixed pattern — add dated occurrences manually from the Due &amp; Upcoming or History tabs whenever this activity happens.</div>`;
+  }
+}
+
+function readRecConfig(prefix) {
+  const type = document.getElementById(prefix + 'RecurrenceType').value;
+  const out = { recurrenceType: type, weekday: '', dayOfMonth: '', months: '', oneTimeYear: '' };
+  if (type === 'Weekly') out.weekday = document.getElementById(prefix + 'Weekday').value;
+  else if (type === 'Monthly') out.dayOfMonth = document.getElementById(prefix + 'DayOfMonth').value;
+  else if (type === 'SelectedMonths') {
+    out.months = [...document.querySelectorAll('.' + prefix + 'MonthCk:checked')].map(c => c.value).join(',');
+    out.dayOfMonth = document.getElementById(prefix + 'DayOfMonth').value;
+  } else if (type === 'Annual') {
+    out.months = document.getElementById(prefix + 'Months').value;
+    out.dayOfMonth = document.getElementById(prefix + 'DayOfMonth').value;
+  } else if (type === 'One-time') {
+    out.months = document.getElementById(prefix + 'Months').value;
+    out.dayOfMonth = document.getElementById(prefix + 'DayOfMonth').value;
+    out.oneTimeYear = document.getElementById(prefix + 'OneTimeYear').value;
+  }
+  return out;
+}
+
+function recBadge(t) {
+  const type = t.recurrenceType;
+  if (type === 'Weekly') return `🔁 Weekly · ${WEEKDAYS[t.weekday] || ''}`;
+  if (type === 'Monthly') return `🔁 Monthly · day ${t.dayOfMonth || 1}`;
+  if (type === 'SelectedMonths') return `🔁 ${(t.months||'').split(',').map(m => MONTHS[m-1] ? MONTHS[m-1].substring(0,3) : '').join(', ')}`;
+  if (type === 'Annual') return `🔁 Annual · ${MONTHS[t.months-1] || ''}`;
+  if (type === 'One-time') return `📌 One-time · ${MONTHS[t.months-1] || ''} ${t.oneTimeYear || ''}`;
+  return `♾ Ongoing`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// OVERVIEW
+// ══════════════════════════════════════════════════════════════
+function renderOverview() {
+  const yearOcc = occurrences.filter(o => String(o.year) === String(CURRENT_YEAR));
+  const total = yearOcc.length;
+  const completed = yearOcc.filter(o => o.status === 'Completed').length;
+  const today = todayStr();
+  const in7 = addDaysStr(today, 7);
+  const overdue = yearOcc.filter(o => o.plannedDate && o.plannedDate < today && !['Completed','Cancelled'].includes(o.status)).length;
+  const due7 = yearOcc.filter(o => o.plannedDate && o.plannedDate >= today && o.plannedDate <= in7 && !['Completed','Cancelled'].includes(o.status)).length;
+  const rate = total ? Math.round(completed / total * 100) : 0;
+
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-completed').textContent = completed;
+  document.getElementById('stat-overdue').textContent = overdue;
+  document.getElementById('stat-due7').textContent = due7;
+  document.getElementById('stat-rate').textContent = rate + '%';
+
+  const cats = {};
+  yearOcc.forEach(o => {
+    const cat = templateById(o.templateId).category || 'General Ministry';
+    if (!cats[cat]) cats[cat] = { total: 0, done: 0 };
+    cats[cat].total++;
+    if (o.status === 'Completed') cats[cat].done++;
+  });
+  const entries = Object.entries(cats).sort((a,b) => b[1].total - a[1].total);
+  document.getElementById('catBreakdown').innerHTML = entries.length ? entries.map(([cat, v]) => {
+    const pct = v.total ? Math.round(v.done / v.total * 100) : 0;
+    return `<div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+        <span><strong>${esc(cat)}</strong> <span style="color:var(--muted)">(${v.total})</span></span>
+        <span style="color:var(--muted)">${v.done}/${v.total} done</span>
+      </div>
+      <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('') : '<div class="empty">No occurrences generated for ' + CURRENT_YEAR + ' yet — go to the Activities tab and click "Generate This Year".</div>';
+
+  const statuses = ['Not Started','Planned','In Progress','Completed','Postponed','Cancelled'];
+  const colors = { 'Not Started':'var(--grey)','Planned':'var(--blue)','In Progress':'var(--gold)','Completed':'var(--green)','Postponed':'var(--orange)','Cancelled':'var(--red)' };
+  document.getElementById('statusBreakdown').innerHTML = `<div style="display:flex;gap:16px;flex-wrap:wrap">
+    ${statuses.map(s => {
+      const n = yearOcc.filter(o => o.status === s).length;
+      return `<div style="display:flex;align-items:center;gap:8px;font-size:13px">
+        <span style="width:12px;height:12px;border-radius:50%;background:${colors[s]};display:inline-block"></span>${s}: <strong>${n}</strong></div>`;
+    }).join('')}</div>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// DUE & UPCOMING
+// ══════════════════════════════════════════════════════════════
+function renderDue() {
+  const today = todayStr();
+  const in30 = addDaysStr(today, 30);
+  let rows = occurrences.filter(o => o.plannedDate && o.plannedDate <= in30 && !['Completed','Cancelled'].includes(o.status));
+  rows.sort((a,b) => (a.plannedDate||'').localeCompare(b.plannedDate||''));
+  document.getElementById('dueCount').textContent = rows.length + ' occurrence' + (rows.length===1?'':'s');
+  document.getElementById('dueTable').innerHTML = rows.length ? rows.map(o => {
+    const t = templateById(o.templateId);
+    const overdue = o.plannedDate < today;
+    return `<tr class="${overdue?'overdue-row':''}">
+      <td style="white-space:nowrap;${overdue?'color:var(--red);font-weight:700':''}">${fmtDate(o.plannedDate)}${overdue?' ⚠':''}</td>
+      <td style="font-size:11.5px;color:var(--muted)">${esc(o.periodLabel)}</td>
+      <td><span class="cat-badge">${esc(t.category||'')}</span></td>
+      <td style="min-width:200px">${esc(t.activity||'')}</td>
+      <td>${esc(t.person||'')}</td>
+      <td><select class="status-select status-${o.status.replace(/\\s+/g,'-')}" onchange="quickStatus('${o.id}',this.value,this)">
+        ${['Not Started','Planned','In Progress','Completed','Postponed','Cancelled'].map(s => `<option ${o.status===s?'selected':''}>${s}</option>`).join('')}
+      </select></td>
+      <td><div class="action-cell">
+        <button class="btn-sm btn-green" onclick="markComplete('${o.id}')">✓ Done</button>
+        <button class="btn-sm btn-outline-sm" onclick="openOccModal('${o.id}')">✏️</button>
+      </div></td>
+    </tr>`;
+  }).join('') : '<tr><td colspan="7"><div class="empty"><div class="icon">🎉</div>Nothing overdue or due in the next 30 days</div></td></tr>';
+}
+
+async function markComplete(id) {
+  const today = todayStr();
+  try {
+    const d = await api({ action: 'updateOccurrence', id, status: 'Completed', dateCompleted: today });
+    if (d.success) {
+      const o = occurrences.find(x => x.id === id);
+      if (o) { o.status = 'Completed'; o.dateCompleted = today; }
+      renderDue(); renderOverview();
+      showToast('✅ Marked complete', 'success');
+    } else showToast('Failed: ' + (d.error||''), 'error');
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+}
+
+async function quickStatus(id, value, selEl) {
+  try {
+    const d = await api({ action: 'updateOccurrence', id, status: value });
+    if (d.success) {
+      const o = occurrences.find(x => x.id === id);
+      if (o) o.status = value;
+      if (selEl) selEl.className = 'status-select status-' + value.replace(/\s+/g, '-');
+      renderOverview();
+      showToast('✅ Saved', 'success');
+    } else showToast('Save failed', 'error');
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+}
+
+// ══════════════════════════════════════════════════════════════
+// OCCURRENCE MODAL
+// ══════════════════════════════════════════════════════════════
+let editingOccId = '';
+function openOccModal(id) {
+  const o = occurrences.find(x => x.id === id);
+  if (!o) return;
+  editingOccId = id;
+  const t = templateById(o.templateId);
+  document.getElementById('occModalTitle').textContent = 'Edit — ' + (t.activity || 'Occurrence');
+  document.getElementById('occPlannedDate').value = o.plannedDate || '';
+  document.getElementById('occStatus').value = o.status;
+  document.getElementById('occDateCompleted').value = o.dateCompleted || '';
+  document.getElementById('occPeriodLabel').value = o.periodLabel || '';
+  document.getElementById('occNotes').value = o.notes || '';
+  document.getElementById('occModal').classList.add('open');
+}
+function closeOccModal() { document.getElementById('occModal').classList.remove('open'); }
+async function saveOccModal() {
+  const payload = {
+    action: 'updateOccurrence', id: editingOccId,
+    plannedDate: document.getElementById('occPlannedDate').value,
+    status: document.getElementById('occStatus').value,
+    dateCompleted: document.getElementById('occDateCompleted').value,
+    periodLabel: document.getElementById('occPeriodLabel').value,
+    notes: document.getElementById('occNotes').value,
+  };
+  try {
+    const d = await api(payload);
+    if (d.success) {
+      const o = occurrences.find(x => x.id === editingOccId);
+      Object.assign(o, payload);
+      closeOccModal(); renderDue(); renderHistory(); renderOverview();
+      showToast('✅ Updated', 'success');
+    } else showToast('Save failed: ' + (d.error||''), 'error');
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+}
+async function removeOccurrence(id) {
+  if (!confirm('Delete this occurrence? This cannot be undone.')) return;
+  try {
+    const d = await api({ action: 'deleteOccurrence', id });
+    if (d.success) { occurrences = occurrences.filter(o => o.id !== id); renderDue(); renderHistory(); renderOverview(); showToast('🗑 Deleted', 'success'); }
+    else showToast('Delete failed', 'error');
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+}
+
+// ══════════════════════════════════════════════════════════════
+// ACTIVITIES (TEMPLATES)
+// ══════════════════════════════════════════════════════════════
+function populateFilterOptions() {
+  const cats = [...new Set(templates.map(t => t.category))].sort();
+  ['tCategory','hCategory'].forEach(id => {
+    const sel = document.getElementById(id);
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">All</option>' + cats.map(c => `<option ${c===cur?'selected':''}>${esc(c)}</option>`).join('');
+  });
+}
+function populateYearSelectors() {
+  const years = new Set([CURRENT_YEAR, CURRENT_YEAR+1]);
+  occurrences.forEach(o => years.add(parseInt(o.year,10)));
+  const sorted = [...years].sort((a,b) => b-a);
+  ['hYear','mYear'].forEach(id => {
+    const sel = document.getElementById(id);
+    const cur = sel.value || String(CURRENT_YEAR);
+    sel.innerHTML = sorted.map(y => `<option value="${y}" ${String(y)===cur?'selected':''}>${y}</option>`).join('');
+  });
+}
+
+function renderTemplates() {
+  const search = (document.getElementById('tSearch').value || '').toLowerCase();
+  const cat = document.getElementById('tCategory').value;
+  const rec = document.getElementById('tRecurrence').value;
+  let rows = templates.filter(t => {
+    const matchSearch = !search || (t.activity + ' ' + t.person).toLowerCase().includes(search);
+    const matchCat = !cat || t.category === cat;
+    const matchRec = !rec || t.recurrenceType === rec;
+    return matchSearch && matchCat && matchRec;
+  }).sort((a,b) => a.category.localeCompare(b.category));
+
+  document.getElementById('templateCount').textContent = rows.length + ' of ' + templates.length + ' shown';
+  document.getElementById('templateTable').innerHTML = rows.length ? rows.map(t => `
+    <tr>
+      <td><span class="cat-badge">${esc(t.category)}</span></td>
+      <td style="min-width:220px">${esc(t.activity)}</td>
+      <td>${esc(t.person)}</td>
+      <td><span class="rec-badge rec-${t.recurrenceType}">${recBadge(t)}</span></td>
+      <td><div class="action-cell">
+        <button class="btn-sm btn-gold" onclick="generateForTemplate('${t.id}')" title="Generate this year's dates">🔁 Generate</button>
+        <button class="btn-sm btn-outline-sm" onclick="openTplModal('${t.id}')">✏️</button>
+        <button class="btn-sm btn-danger" onclick="removeTemplate('${t.id}')">🗑</button>
+      </div></td>
+    </tr>`).join('') : '<tr><td colspan="5"><div class="empty">No activities match your filters</div></td></tr>';
+
+  document.getElementById('genBanner').innerHTML = `
+    <div class="gen-banner">
+      <div class="txt"><strong>🔁 Generate dated occurrences</strong> for all recurring activities at once — safe to run anytime, it never creates duplicates.</div>
+      <select id="genYear">${[CURRENT_YEAR, CURRENT_YEAR+1].map(y => `<option value="${y}">${y}</option>`).join('')}</select>
+      <button class="btn-sm btn-gold" onclick="generateAll()">Generate This Year for All Activities</button>
+    </div>`;
+}
+
+async function generateAll() {
+  const year = document.getElementById('genYear').value;
+  showToast('Generating occurrences…', '');
+  try {
+    const d = await api({ action: 'generateOccurrences', year });
+    if (d.success) { showToast(`✅ Generated ${d.generated} new occurrence(s) for ${year}`, 'success'); loadAll(false); }
+    else showToast('Failed: ' + (d.error||''), 'error');
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+}
+async function generateForTemplate(id) {
+  showToast('Generating…', '');
+  try {
+    const d = await api({ action: 'generateOccurrences', year: CURRENT_YEAR, templateId: id });
+    if (d.success) { showToast(`✅ Generated ${d.generated} occurrence(s)`, 'success'); loadAll(false); }
+    else showToast('Failed: ' + (d.error||''), 'error');
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+}
+
+async function submitNewTemplate() {
+  const activity = document.getElementById('newActivity').value.trim();
+  if (!activity) { showToast('Enter the activity name', 'error'); return; }
+  const rec = readRecConfig('new');
+  const payload = { action: 'addTemplate', category: document.getElementById('newCategory').value,
+    activity, person: document.getElementById('newPerson').value.trim(), ...rec };
+  try {
+    const d = await api(payload);
+    if (d.success) {
+      showToast('✅ Activity added — generate its dates from the Activities tab', 'success');
+      document.getElementById('newActivity').value = '';
+      document.getElementById('newPerson').value = '';
+      loadAll(false);
+    } else showToast('Add failed: ' + (d.error||''), 'error');
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+}
+
+let editingTplId = '';
+function openTplModal(id) {
+  const t = templateById(id);
+  editingTplId = id;
+  document.getElementById('tplActivity').value = t.activity;
+  document.getElementById('tplCategory').value = t.category;
+  document.getElementById('tplPerson').value = t.person;
+  document.getElementById('tplRecurrenceType').value = t.recurrenceType;
+  document.getElementById('tplNotes').value = t.notes || '';
+  renderRecConfig('tpl', t);
+  document.getElementById('tplModal').classList.add('open');
+}
+function closeTplModal() { document.getElementById('tplModal').classList.remove('open'); }
+async function saveTplModal() {
+  const rec = readRecConfig('tpl');
+  const payload = { action: 'updateTemplate', id: editingTplId,
+    activity: document.getElementById('tplActivity').value,
+    category: document.getElementById('tplCategory').value,
+    person: document.getElementById('tplPerson').value,
+    notes: document.getElementById('tplNotes').value, ...rec };
+  try {
+    const d = await api(payload);
+    if (d.success) {
+      Object.assign(templateById(editingTplId), payload);
+      closeTplModal(); renderTemplates(); populateFilterOptions();
+      showToast('✅ Activity updated', 'success');
+    } else showToast('Save failed: ' + (d.error||''), 'error');
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+}
+async function removeTemplate(id) {
+  if (!confirm("Remove this recurring activity? Its past occurrence history stays intact — it just won't generate new dates.")) return;
+  try {
+    const d = await api({ action: 'deleteTemplate', id });
+    if (d.success) { templates = templates.filter(t => t.id !== id); renderTemplates(); showToast('🗑 Removed', 'success'); }
+    else showToast('Failed: ' + (d.error||''), 'error');
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+}
+
+// ══════════════════════════════════════════════════════════════
+// HISTORY
+// ══════════════════════════════════════════════════════════════
+function clearHistoryFilters() {
+  document.getElementById('hSearch').value = '';
+  document.getElementById('hCategory').value = '';
+  document.getElementById('hStatus').value = '';
+  renderHistory();
+}
+function renderHistory() {
+  const search = (document.getElementById('hSearch').value || '').toLowerCase();
+  const year = document.getElementById('hYear').value;
+  const cat = document.getElementById('hCategory').value;
+  const status = document.getElementById('hStatus').value;
+
+  let rows = occurrences.filter(o => {
+    const t = templateById(o.templateId);
+    const matchSearch = !search || ((t.activity||'') + ' ' + (t.person||'')).toLowerCase().includes(search);
+    const matchYear = !year || String(o.year) === String(year);
+    const matchCat = !cat || t.category === cat;
+    const matchStatus = !status || o.status === status;
+    return matchSearch && matchYear && matchCat && matchStatus;
+  }).sort((a,b) => (b.plannedDate||'').localeCompare(a.plannedDate||''));
+
+  document.getElementById('historyCount').textContent = rows.length + ' occurrence' + (rows.length===1?'':'s');
+  document.getElementById('historyTable').innerHTML = rows.length ? rows.map(o => {
+    const t = templateById(o.templateId);
+    return `<tr>
+      <td style="font-size:11.5px;color:var(--muted)">${esc(o.periodLabel)}</td>
+      <td>${fmtDate(o.plannedDate)}</td>
+      <td><span class="cat-badge">${esc(t.category||'')}</span></td>
+      <td style="min-width:200px">${esc(t.activity||'')}</td>
+      <td>${esc(t.person||'')}</td>
+      <td><select class="status-select status-${o.status.replace(/\\s+/g,'-')}" onchange="quickStatus('${o.id}',this.value,this)">
+        ${['Not Started','Planned','In Progress','Completed','Postponed','Cancelled'].map(s => `<option ${o.status===s?'selected':''}>${s}</option>`).join('')}
+      </select></td>
+      <td>${fmtDate(o.dateCompleted)}</td>
+      <td><div class="action-cell">
+        <button class="btn-sm btn-outline-sm" onclick="openOccModal('${o.id}')">✏️</button>
+        <button class="btn-sm btn-danger" onclick="removeOccurrence('${o.id}')">🗑</button>
+      </div></td>
+    </tr>`;
+  }).join('') : '<tr><td colspan="8"><div class="empty">No occurrences match your filters</div></td></tr>';
+}
+
+// ══════════════════════════════════════════════════════════════
+// MENTOR WORKLOAD
+// ══════════════════════════════════════════════════════════════
+function renderMentors() {
+  const year = document.getElementById('mYear').value || String(CURRENT_YEAR);
+  const people = {};
+  occurrences.filter(o => String(o.year) === String(year)).forEach(o => {
+    const t = templateById(o.templateId);
+    const person = t.person || 'Unassigned';
+    if (!people[person]) people[person] = { total: 0, done: 0, progress: 0 };
+    people[person].total++;
+    if (o.status === 'Completed') people[person].done++;
+    if (o.status === 'In Progress') people[person].progress++;
+  });
+  const rows = Object.entries(people).sort((a,b) => b[1].total - a[1].total);
+  document.getElementById('mentorTable').innerHTML = rows.length ? rows.map(([person, v]) => {
+    const pct = v.total ? Math.round(v.done / v.total * 100) : 0;
+    return `<tr>
+      <td><strong>${esc(person)}</strong></td><td>${v.total}</td>
+      <td style="color:var(--green);font-weight:600">${v.done}</td>
+      <td style="color:var(--gold);font-weight:600">${v.progress}</td>
+      <td style="min-width:140px"><div style="display:flex;align-items:center;gap:8px">
+        <div class="progress-bar-track" style="flex:1"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+        <span style="font-size:11px;color:var(--muted)">${pct}%</span></div></td>
+    </tr>`;
+  }).join('') : `<tr><td colspan="5"><div class="empty">No occurrences generated for ${year} yet</div></td></tr>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════════════════
+function esc(s) { return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function todayStr() { return new Date().toISOString().split('T')[0]; }
+function addDaysStr(dateStr, days) { const d = new Date(dateStr); d.setDate(d.getDate() + days); return d.toISOString().split('T')[0]; }
+function fmtDate(d) {
+  if (!d) return '<span style="color:var(--muted)">—</span>';
+  const dt = new Date(d);
+  if (isNaN(dt)) return String(d);
+  return dt.toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast show ' + type;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.className = 'toast', 3500);
+}
+
+// ══════════════════════════════════════════════════════════════
+// REPORTS
+// ══════════════════════════════════════════════════════════════
+function renderReportControls() {
+  const type = document.getElementById('rType').value;
+  const years = new Set([CURRENT_YEAR, CURRENT_YEAR + 1]);
+  occurrences.forEach(o => years.add(parseInt(o.year, 10)));
+  const sortedYears = [...years].sort((a, b) => b - a);
+  const yearSel = document.getElementById('rYear');
+  const curYear = yearSel.value || String(CURRENT_YEAR);
+  yearSel.innerHTML = sortedYears.map(y => `<option value="${y}" ${String(y)===curYear?'selected':''}>${y}</option>`).join('');
+
+  const cats = [...new Set(templates.map(t => t.category))].sort();
+  document.getElementById('rCategory').innerHTML = '<option value="">All</option>' + cats.map(c => `<option>${esc(c)}</option>`).join('');
+  const people = [...new Set(templates.map(t => t.person).filter(Boolean))].sort();
+  document.getElementById('rPerson').innerHTML = '<option value="">All Mentors</option>' + people.map(p => `<option>${esc(p)}</option>`).join('');
+
+  document.getElementById('rYearWrap').style.display = (type === 'due') ? 'none' : '';
+  document.getElementById('rCategoryWrap').style.display = (type === 'log') ? '' : 'none';
+  document.getElementById('rPersonWrap').style.display = (type === 'workload') ? '' : 'none';
+
+  generateReport();
+}
+
+function reportDateStr() {
+  return new Date().toLocaleDateString('en-KE', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function generateReport() {
+  const type = document.getElementById('rType').value;
+  const year = document.getElementById('rYear').value || String(CURRENT_YEAR);
+  const body = document.getElementById('reportBody');
+  document.getElementById('reportGeneratedNote').textContent = 'Generated ' + reportDateStr();
+
+  if (type === 'leadership')  return renderLeadershipReport(body, year);
+  if (type === 'log')         return renderLogReport(body, year);
+  if (type === 'workload')    return renderWorkloadReport(body, year);
+  if (type === 'due')         return renderDueReport(body);
+}
+
+function renderLeadershipReport(body, year) {
+  const yearOcc = occurrences.filter(o => String(o.year) === String(year));
+  const total = yearOcc.length;
+  const completed = yearOcc.filter(o => o.status === 'Completed').length;
+  const inProgress = yearOcc.filter(o => o.status === 'In Progress').length;
+  const rate = total ? Math.round(completed / total * 100) : 0;
+
+  const cats = {};
+  yearOcc.forEach(o => {
+    const cat = templateById(o.templateId).category || 'General Ministry';
+    if (!cats[cat]) cats[cat] = { total: 0, done: 0 };
+    cats[cat].total++;
+    if (o.status === 'Completed') cats[cat].done++;
+  });
+  const catRows = Object.entries(cats).sort((a,b) => b[1].total - a[1].total);
+
+  const statuses = ['Not Started','Planned','In Progress','Completed','Postponed','Cancelled'];
+  const statusRows = statuses.map(s => ({ s, n: yearOcc.filter(o => o.status === s).length }));
+
+  body.innerHTML = `
+    <div class="report-title-block">
+      <h3>Leadership Summary — ${year}</h3>
+      <p>Overall progress on the Strategic Plan 2026–2030 activities, prepared for leadership review.</p>
+    </div>
+    <div class="report-kpi-row">
+      <div class="report-kpi"><div class="k-label">Total Activities</div><div class="k-value">${total}</div></div>
+      <div class="report-kpi"><div class="k-label">Completed</div><div class="k-value">${completed}</div></div>
+      <div class="report-kpi"><div class="k-label">In Progress</div><div class="k-value">${inProgress}</div></div>
+      <div class="report-kpi"><div class="k-label">Completion Rate</div><div class="k-value">${rate}%</div></div>
+    </div>
+    <div class="report-section-title">Progress by Ministry Category</div>
+    ${catRows.length ? `<table class="report-table"><thead><tr><th>Category</th><th>Total</th><th>Completed</th><th>% Complete</th></tr></thead><tbody>
+      ${catRows.map(([cat, v]) => `<tr><td>${esc(cat)}</td><td>${v.total}</td><td>${v.done}</td><td>${v.total?Math.round(v.done/v.total*100):0}%</td></tr>`).join('')}
+    </tbody></table>` : `<div class="report-empty-note">No occurrences generated for ${year} yet.</div>`}
+    <div class="report-section-title">Status Breakdown</div>
+    <table class="report-table"><thead><tr>${statusRows.map(r => `<th>${r.s}</th>`).join('')}</tr></thead>
+      <tbody><tr>${statusRows.map(r => `<td>${r.n}</td>`).join('')}</tr></tbody></table>
+  `;
+}
+
+function renderLogReport(body, year) {
+  const cat = document.getElementById('rCategory').value;
+  let rows = occurrences.filter(o => String(o.year) === String(year));
+  if (cat) rows = rows.filter(o => templateById(o.templateId).category === cat);
+  rows.sort((a,b) => (a.plannedDate||'').localeCompare(b.plannedDate||''));
+
+  body.innerHTML = `
+    <div class="report-title-block">
+      <h3>Full Activity Log — ${year}${cat ? ' · ' + esc(cat) : ''}</h3>
+      <p>${rows.length} occurrence${rows.length===1?'':'s'} on record for this period.</p>
+    </div>
+    ${rows.length ? `<table class="report-table"><thead><tr><th>Period</th><th>Planned Date</th><th>Category</th><th>Activity</th><th>Person</th><th>Status</th><th>Completed</th><th>Notes</th></tr></thead><tbody>
+      ${rows.map(o => {
+        const t = templateById(o.templateId);
+        return `<tr><td>${esc(o.periodLabel)}</td><td>${fmtDate(o.plannedDate)}</td><td>${esc(t.category||'')}</td>
+          <td>${esc(t.activity||'')}</td><td>${esc(t.person||'')}</td><td>${esc(o.status)}</td>
+          <td>${fmtDate(o.dateCompleted)}</td><td>${esc(o.notes||'')}</td></tr>`;
+      }).join('')}
+    </tbody></table>` : `<div class="report-empty-note">No occurrences match this filter.</div>`}
+  `;
+}
+
+function renderWorkloadReport(body, year) {
+  const personFilter = document.getElementById('rPerson').value;
+  const yearOcc = occurrences.filter(o => String(o.year) === String(year));
+  const people = {};
+  yearOcc.forEach(o => {
+    const t = templateById(o.templateId);
+    const person = t.person || 'Unassigned';
+    if (personFilter && person !== personFilter) return;
+    if (!people[person]) people[person] = [];
+    people[person].push({ o, t });
+  });
+  const names = Object.keys(people).sort();
+
+  body.innerHTML = `
+    <div class="report-title-block">
+      <h3>Mentor Workload — ${year}${personFilter ? ' · ' + esc(personFilter) : ''}</h3>
+      <p>Activity assignments and completion status by mentor.</p>
+    </div>
+    ${names.length ? names.map(name => {
+      const items = people[name];
+      const done = items.filter(x => x.o.status === 'Completed').length;
+      return `<div class="report-section-title">${esc(name)} — ${done}/${items.length} completed</div>
+        <table class="report-table"><thead><tr><th>Period</th><th>Category</th><th>Activity</th><th>Planned Date</th><th>Status</th></tr></thead><tbody>
+          ${items.sort((a,b) => (a.o.plannedDate||'').localeCompare(b.o.plannedDate||'')).map(({o,t}) =>
+            `<tr><td>${esc(o.periodLabel)}</td><td>${esc(t.category||'')}</td><td>${esc(t.activity||'')}</td><td>${fmtDate(o.plannedDate)}</td><td>${esc(o.status)}</td></tr>`
+          ).join('')}
+        </tbody></table>`;
+    }).join('') : `<div class="report-empty-note">No occurrences generated for ${year} yet.</div>`}
+  `;
+}
+
+function renderDueReport(body) {
+  const today = todayStr();
+  const in30 = addDaysStr(today, 30);
+  let rows = occurrences.filter(o => o.plannedDate && o.plannedDate <= in30 && !['Completed','Cancelled'].includes(o.status));
+  rows.sort((a,b) => (a.plannedDate||'').localeCompare(b.plannedDate||''));
+  const overdueCount = rows.filter(o => o.plannedDate < today).length;
+
+  body.innerHTML = `
+    <div class="report-title-block">
+      <h3>Overdue &amp; Upcoming Activities</h3>
+      <p>${overdueCount} overdue, ${rows.length - overdueCount} due in the next 30 days (as of ${reportDateStr()}).</p>
+    </div>
+    ${rows.length ? `<table class="report-table"><thead><tr><th>Planned Date</th><th>Category</th><th>Activity</th><th>Person</th><th>Status</th></tr></thead><tbody>
+      ${rows.map(o => {
+        const t = templateById(o.templateId);
+        const overdue = o.plannedDate < today;
+        return `<tr><td class="${overdue?'report-overdue-flag':''}">${fmtDate(o.plannedDate)}${overdue?' (OVERDUE)':''}</td>
+          <td>${esc(t.category||'')}</td><td>${esc(t.activity||'')}</td><td>${esc(t.person||'')}</td><td>${esc(o.status)}</td></tr>`;
+      }).join('')}
+    </tbody></table>` : `<div class="report-empty-note">Nothing overdue or due in the next 30 days.</div>`}
+  `;
+}
+
+function printReport() {
+  generateReport();
+  window.print();
+}
+
+// ══════════════════════════════════════════════════════════════
+// SEED DATA — Strategic Plan 2026-2030 activities as recurring templates
+// ══════════════════════════════════════════════════════════════
+const SEED_TEMPLATES = [{"category": "Ministry Administration", "activity": "Create a bridge curriculum to support transitions", "person": "All Mentors led by Youth Chairperson", "timelineNote": "By June 2026", "recurrenceType": "One-time", "weekday": "", "dayOfMonth": 1, "months": "6"}, {"category": "Ministry Administration", "activity": "Conduct quarterly check-ins", "person": "Bishop", "timelineNote": "Quarterly", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "1,4,7,10"}, {"category": "Discipleship & Bible Study", "activity": "Bible trivia every holiday", "person": "Mentor Brian Mbugua & Brian", "timelineNote": "April - During VBS", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "4"}, {"category": "Discipleship & Bible Study", "activity": "Award milestones (e.g., verse memorization) - Trivia", "person": "Mentor Brian Mbugua & Brian", "timelineNote": "April - VBS", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "4"}, {"category": "Discipleship & Bible Study", "activity": "Bible study groups", "person": "Mentor Brian Mbugua & Brian", "timelineNote": "Monthly", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Host weekly \"Bible Check-In\" discussions in Sunday school", "person": "Mentor Brian Mbugua & Brian", "timelineNote": "Every Sunday", "recurrenceType": "Weekly", "weekday": 0, "dayOfMonth": "", "months": ""}, {"category": "General Ministry", "activity": "Quiet time - 5 minute", "person": "Mentor Brian Mbugua & Brian", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "General Ministry", "activity": "Teen Discipleship program", "person": "Mentor Brian Mbugua & Brian", "timelineNote": "Every Saturday", "recurrenceType": "Weekly", "weekday": 6, "dayOfMonth": "", "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Teens/Youth Bible journals", "person": "Mentor Brian Mbugua & Brian", "timelineNote": "Monthly", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Distribute age-appropriate Bible reading plans", "person": "Mentor Brian Mbugua & Maureen", "timelineNote": "Monthly - 1st week", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 5, "months": ""}, {"category": "General Ministry", "activity": "Faith story nights (\"How I Met Jesus\")", "person": "Mentor Brian Mbugua, Morris & Brian", "timelineNote": "Every Holiday", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "4,8,12"}, {"category": "General Ministry", "activity": "Form support groups", "person": "Mentor Jackie & Julia", "timelineNote": "Quarterly", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "1,4,7,10"}, {"category": "General Ministry", "activity": "Cook N Talk - CNT forums", "person": "Mentor Jackie & Julia", "timelineNote": "April, Aug, Dec", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "4,8,12"}, {"category": "Family & Parenting", "activity": "Parent-Child Session - Who Am I awareness", "person": "Mentor Jackie & Julia", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Mental Health & Wellness", "activity": "Biannual Health & Wellness Forum", "person": "Mentor Jackie & Julia", "timelineNote": "Biannual", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "6,12"}, {"category": "Mental Health & Wellness", "activity": "Emotional Intelligence (EQ) Training - emotional wellness, mindfulness, body awareness", "person": "Mentor Jackie & Julia", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "General Ministry", "activity": "Healthy vs. unhealthy relationships", "person": "Mentor Jackie & Julia", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "General Ministry", "activity": "Host monthly sharing circles - Round Table Talks", "person": "Mentor Jackie & Julia", "timelineNote": "Monthly", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Mental Health & Wellness", "activity": "Introducing the Counseling department", "person": "Mentor Jackie & Julia", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Mental Health & Wellness", "activity": "Mental health workshops/forums", "person": "Mentor Jackie & Julia", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Mental Health & Wellness", "activity": "No/Yes Training - Dealing with Toxic people", "person": "Mentor Jackie & Julia", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "General Ministry", "activity": "Safe from harm training", "person": "Mentor Jackie & Julia", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Scripture bracelets/keychains, phone case, wallpaper, personalized banner link", "person": "Mentor Jackie & Julia", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "General Ministry", "activity": "Self-disclosure/care/awareness", "person": "Mentor Jackie & Julia", "timelineNote": "Holidays", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "4,8,12"}, {"category": "Mental Health & Wellness", "activity": "Sessions on personal identity, confidence, and boundary-setting", "person": "Mentor Jackie & Julia", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "General Ministry", "activity": "Skill-sharing meetups with faith talks (e.g., cooking together)", "person": "Mentor Jackie & Julia", "timelineNote": "April, Aug, Dec", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "4,8,12"}, {"category": "Mental Health & Wellness", "activity": "Stress Management Training", "person": "Mentor Jackie & Julia", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "General Ministry", "activity": "Superpower circle - strengths/weaknesses", "person": "Mentor Jackie & Julia", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "General Ministry", "activity": "Teach & share (fashion, cooking, drawing) while inserting faith moments", "person": "Mentor Jackie & Julia", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Teach Romans 15:13", "person": "Mentor Jackie & Julia", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Mental Health & Wellness", "activity": "Training on uniqueness - emotional management - it's ok to cry", "person": "Mentor Jackie & Julia", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "General Ministry", "activity": "Volunteer at hospitals or children's homes", "person": "Mentor Jackie & Julia", "timelineNote": "Once per Year", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "1"}, {"category": "Fellowship & Recreation", "activity": "VBS every April", "person": "Mentor Liz & Morris", "timelineNote": "April", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "4"}, {"category": "Fellowship & Recreation", "activity": "Community fun days", "person": "Mentor Liz & Morris", "timelineNote": "Every December", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "12"}, {"category": "General Ministry", "activity": "JAM Saturdays (Jesus and Me)", "person": "Mentor Liz & Morris / Ruth M. & Esther", "timelineNote": "Monthly", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "General Ministry", "activity": "\"Temple Care\" Workshop", "person": "Mentor Liz & Morris / Ruth M. & Esther", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Fellowship & Recreation", "activity": "Hospitality events with natural gospel conversations", "person": "Mentor Liz & Morris / Ruth M. & Esther", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Evangelism & Outreach", "activity": "Street evangelism with bottled water or snacks", "person": "Mentor Liz & Morris / Ruth M. & Esther", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Prayer & Worship", "activity": "Adopt-a-Friend Prayer Challenge (30 days)", "person": "Mentor Liz & Morris / Ruth M. & Esther", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Prayer & Worship", "activity": "Prayer and worship nights with friends", "person": "Mentor Liz & Morris / Ruth M. & Esther", "timelineNote": "Once per Year", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "1"}, {"category": "Prayer & Worship", "activity": "Prayer Booth in public places / hug me", "person": "Mentor Liz & Morris / Ruth M. & Esther", "timelineNote": "Once per Year", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "1"}, {"category": "Fellowship & Recreation", "activity": "Character Building Programs (e.g., hiking)", "person": "Mentor Liz & Ruth W.", "timelineNote": "Once per Year", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "1"}, {"category": "Fellowship & Recreation", "activity": "Exercise Day out", "person": "Mentor Liz & Ruth W.", "timelineNote": "Once per Year", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "1"}, {"category": "Fellowship & Recreation", "activity": "Camps", "person": "Mentor Liz & Ruth W. / Youth Chairperson", "timelineNote": "Every December holiday", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "12"}, {"category": "General Ministry", "activity": "Seminars", "person": "Mentor Liz & Ruth W. / Youth Chairperson", "timelineNote": "Every August", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "8"}, {"category": "General Ministry", "activity": "Sunday School Classes", "person": "Mentor Liz / Treasurer", "timelineNote": "Every Sunday", "recurrenceType": "Weekly", "weekday": 0, "dayOfMonth": "", "months": ""}, {"category": "Milestones & Recognition", "activity": "Recognition & Certification", "person": "Mentor Maureen", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Skills & Career Mentorship", "activity": "Career dress-up day", "person": "Mentor Maureen", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "General Ministry", "activity": "Conduct quarterly training on communication, teamwork, and conflict resolution", "person": "Mentor Maureen", "timelineNote": "Every Holiday", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "4,8,12"}, {"category": "Discipleship & Bible Study", "activity": "Create a WhatsApp group for daily verse sharing", "person": "Mentor Maureen", "timelineNote": "By Feb 2026", "recurrenceType": "One-time", "weekday": "", "dayOfMonth": 1, "months": "2"}, {"category": "Family & Parenting", "activity": "Distribute family devotion guides", "person": "Mentor Maureen", "timelineNote": "Quarterly", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "1,4,7,10"}, {"category": "Skills & Career Mentorship", "activity": "Goal setting and Planning training", "person": "Mentor Maureen", "timelineNote": "Every Holiday", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "4,8,12"}, {"category": "Ministry Administration", "activity": "Introduce suggestion box", "person": "Mentor Maureen", "timelineNote": "By Feb 2026", "recurrenceType": "One-time", "weekday": "", "dayOfMonth": 1, "months": "2"}, {"category": "General Ministry", "activity": "Peer Mediation Training", "person": "Mentor Maureen", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Leadership Development", "activity": "Termly career mentorship forums", "person": "Mentor Maureen", "timelineNote": "April, Aug, Dec", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "4,8,12"}, {"category": "Media & Digital Ministry", "activity": "Develop follow-up system (digital + physical)", "person": "Mentor Maureen & Thuo", "timelineNote": "By March 2026", "recurrenceType": "One-time", "weekday": "", "dayOfMonth": 1, "months": "3"}, {"category": "Media & Digital Ministry", "activity": "Digital literacy training to promote gospel-centered media", "person": "Mentor Mbugua", "timelineNote": "Quarterly", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "1,4,7,10"}, {"category": "Evangelism & Outreach", "activity": "Art & Scripture Cards - Fashion Evangelism (e.g., shirts, bags)", "person": "Mentor Mirriam & Mentor Pauline", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "General Ministry", "activity": "Animated storytelling", "person": "Mentor Mirriam & Pauline", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Bible character dress-up day", "person": "Mentor Mirriam & Pauline", "timelineNote": "April - During VBS", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "4"}, {"category": "General Ministry", "activity": "Host storytelling contests", "person": "Mentor Mirriam & Pauline", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Implement Bible story skits", "person": "Mentor Mirriam & Pauline", "timelineNote": "Every Holiday", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "4,8,12"}, {"category": "General Ministry", "activity": "Organize role-play sessions on peer pressure", "person": "Mentor Mirriam & Pauline", "timelineNote": "Quarterly", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "1,4,7,10"}, {"category": "General Ministry", "activity": "Use animated videos (e.g., Superbook)", "person": "Mentor Mirriam & Pauline", "timelineNote": "Every Sunday", "recurrenceType": "Weekly", "weekday": 0, "dayOfMonth": "", "months": ""}, {"category": "Skills & Career Mentorship", "activity": "Facilitate public speaking and sermon preparation sessions", "person": "Mentor Mirriam & Pauline", "timelineNote": "Done by Mentors", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Fellowship & Recreation", "activity": "Movie and discussion nights (Christian themes)", "person": "Mentor Mirriam & Pauline", "timelineNote": "Fun night", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Skills & Career Mentorship", "activity": "Public speaking/Presentation Skills Workshop", "person": "Mentor Mirriam & Pauline", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Sports/fun days with Bible storytelling", "person": "Mentor Mirriam & Pauline", "timelineNote": "December", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "12"}, {"category": "General Ministry", "activity": "Testimony & Sharing Platforms", "person": "Mentor Morris / Youth Chairperson", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Prayer & Worship", "activity": "Conduct monthly prayer workshops", "person": "Mentor Pauline", "timelineNote": "Monthly - Last week", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 25, "months": ""}, {"category": "Prayer & Worship", "activity": "CY morning Prayers", "person": "Mentor Pauline", "timelineNote": "Every Sunday", "recurrenceType": "Weekly", "weekday": 0, "dayOfMonth": "", "months": ""}, {"category": "Prayer & Worship", "activity": "Worship band training sessions", "person": "Mentor Pauline", "timelineNote": "Every Holiday", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "4,8,12"}, {"category": "Prayer & Worship", "activity": "Distribute prayer journals", "person": "Mentor Pauline / Maureen", "timelineNote": "Monthly - Last week", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 25, "months": ""}, {"category": "Prayer & Worship", "activity": "Form peer prayer pairs for weekly check-ins", "person": "Mentor Pauline / Maureen", "timelineNote": "Monthly - Last week", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 25, "months": ""}, {"category": "Evangelism & Outreach", "activity": "Establish a functional Evangelism Department", "person": "Mentor Ruth M. & Esther / Mentor Liz & Morris", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "General Ministry", "activity": "Intentional faith conversations training", "person": "Mentor Ruth M. & Esther / Mentor Liz & Morris", "timelineNote": "Every Holiday", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "4,8,12"}, {"category": "Evangelism & Outreach", "activity": "Mini Evangelism Notes", "person": "Mentor Ruth M. & Esther / Mentor Liz & Morris", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Prayer & Worship", "activity": "Prayer walks", "person": "Mentor Ruth M. & Esther / Mentor Liz & Morris", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Evangelism & Outreach", "activity": "School Ministry & football evangelism", "person": "Mentor Ruth M. & Esther / Mentor Liz & Morris", "timelineNote": "Monthly", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Evangelism & Outreach", "activity": "Train 5 peer evangelism ambassadors", "person": "Mentor Ruth M. & Esther / Mentor Liz & Morris", "timelineNote": "Every Holiday", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "4,8,12"}, {"category": "Evangelism & Outreach", "activity": "School outreach (where allowed)", "person": "Mentor Ruth M. & Esther / Mentor Liz & Morris", "timelineNote": "Monthly", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Acts of Kindness: distribute care packs with scripture notes", "person": "Mentor Ruth Wambui", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Compassion & Charity", "activity": "Christmas/Easter gospel gift packs", "person": "Mentor Ruth Wambui", "timelineNote": "December", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "12"}, {"category": "Prayer & Worship", "activity": "Encouragement visits to the sick or lonely with prayer and love", "person": "Mentor Ruth Wambui", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Prayer & Worship", "activity": "Encouragement visits with prayer and small gifts - Home visit", "person": "Mentor Ruth Wambui", "timelineNote": "Monthly", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Fellowship & Recreation", "activity": "Host hospitality events (with food + faith) - open forum", "person": "Mentor Ruth Wambui", "timelineNote": "April, Aug, Dec", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "4,8,12"}, {"category": "Skills & Career Mentorship", "activity": "Budgeting Workshop", "person": "Mentor Thuo", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Family & Parenting", "activity": "Annual Parent Discipleship Workshops", "person": "Mentor Thuo", "timelineNote": "Every August", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "8"}, {"category": "Evangelism & Outreach", "activity": "Biannual family evangelism workshops - discipleship conversations at home", "person": "Mentor Thuo", "timelineNote": "Biannual", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "6,12"}, {"category": "Leadership Development", "activity": "Career mentorship curriculum", "person": "Mentor Thuo", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Family & Parenting", "activity": "Children Dedication Sunday", "person": "Mentor Thuo", "timelineNote": "Quarterly", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "1,4,7,10"}, {"category": "Leadership Development", "activity": "Design and implement a comprehensive Youth Leadership Curriculum", "person": "Mentor Thuo", "timelineNote": "By July 2026", "recurrenceType": "One-time", "weekday": "", "dayOfMonth": 1, "months": "7"}, {"category": "Leadership Development", "activity": "Develop and distribute leadership role descriptions and expectations", "person": "Mentor Thuo", "timelineNote": "By March 2026", "recurrenceType": "One-time", "weekday": "", "dayOfMonth": 1, "months": "3"}, {"category": "Fellowship & Recreation", "activity": "Entrepreneurship Bootcamp", "person": "Mentor Thuo", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "General Ministry", "activity": "God & Goals Workshop - time management", "person": "Mentor Thuo", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Leadership Development", "activity": "Introducing leadership journals for personal goal setting and reflection", "person": "Mentor Thuo", "timelineNote": "By May 2026", "recurrenceType": "One-time", "weekday": "", "dayOfMonth": 1, "months": "5"}, {"category": "Evangelism & Outreach", "activity": "Mentors Training - How to Evangelize", "person": "Mentor Thuo", "timelineNote": "Quarterly", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "1,4,7,10"}, {"category": "Family & Parenting", "activity": "Parenting training seminar", "person": "Mentor Thuo", "timelineNote": "Every August", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "8"}, {"category": "General Ministry", "activity": "Peacebuilders Workshop - conflict", "person": "Mentor Thuo", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Skills & Career Mentorship", "activity": "Professional talks", "person": "Mentor Thuo", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Family & Parenting", "activity": "Quarterly parent-child devotion Saturday", "person": "Mentor Thuo", "timelineNote": "Quarterly", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "1,4,7,10"}, {"category": "General Ministry", "activity": "Transition ceremonies every December", "person": "Mentor Thuo", "timelineNote": "December", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "12"}, {"category": "Leadership Development", "activity": "Recruit and train mentors", "person": "Mentor Thuo / Youth Chairperson", "timelineNote": "Ongoing", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Leadership Development", "activity": "Train mentors in discipleship", "person": "Mentor Thuo / Youth Chairperson", "timelineNote": "Quarterly", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "1,4,7,10"}, {"category": "Leadership Development", "activity": "Encourage students to take on leadership roles in school clubs", "person": "Mentor Thuo / Youth Leadership", "timelineNote": "Ongoing", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Prayer & Worship", "activity": "Establish weekly peer discipleship groups for accountability and prayer", "person": "Mentor Thuo / Youth Leadership", "timelineNote": "From Jan 2026", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "1"}, {"category": "Leadership Development", "activity": "Launch internship/apprenticeship links with church partners", "person": "Mentor Thuo / Youth Leadership", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Leadership Development", "activity": "Leadership Workshops", "person": "Mentor Thuo / Youth Leadership", "timelineNote": "August", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "8"}, {"category": "Leadership Development", "activity": "Delegating responsibilities", "person": "Mentors", "timelineNote": "Ongoing", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Leadership Development", "activity": "Teach monthly lessons on servant leadership (humility, responsibility, integrity)", "person": "Mentors", "timelineNote": "Monthly", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Peer-led Bible study", "person": "Respective Mentors", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Rotational 10-minute Sunday Word", "person": "Respective Mentors", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Teach lessons on Daniel 1 and 3", "person": "Respective Mentors", "timelineNote": "Quarterly", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "1,4,7,10"}, {"category": "General Ministry", "activity": "3-minute testimony sharing", "person": "Respective Mentors", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "General Ministry", "activity": "Create \"Hope Jars\" for affirmations", "person": "Respective Mentors", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Leadership Development", "activity": "Launch a Junior Helper Program for ages 10-14 to prepare early leaders", "person": "Respective Mentors", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "General Ministry", "activity": "Sharing class for teens", "person": "Respective Mentors", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Teach Psalm 150", "person": "Respective Mentors", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "General Ministry", "activity": "Picture coloring", "person": "Respective Mentors / Treasurer", "timelineNote": "Every Sunday", "recurrenceType": "Weekly", "weekday": 0, "dayOfMonth": "", "months": ""}, {"category": "Prayer & Worship", "activity": "Biannual Prayer Day Out", "person": "Ruth M. & Esther / Mentor Liz & Morris", "timelineNote": "Aug & Dec", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "8,12"}, {"category": "Prayer & Worship", "activity": "Monthly Fast & Pray Day", "person": "Ruth M. & Esther / Mentor Liz & Morris", "timelineNote": "Monthly", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Prayer & Worship", "activity": "Weekly prayer chains", "person": "Ruth M. & Esther / Mentor Liz & Morris", "timelineNote": "Monthly", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Leadership Development", "activity": "Host annual leadership retreats and team-building events", "person": "Team Leader", "timelineNote": "Yearly - June", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "6"}, {"category": "Ministry Administration", "activity": "Monthly review meetings", "person": "Team Leader", "timelineNote": "Monthly", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Fellowship & Recreation", "activity": "Team-building games - Team treasure hunt, Troop character", "person": "Team Leader", "timelineNote": "Yearly - June", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "6"}, {"category": "Ministry Administration", "activity": "Conduct quarterly check-ins", "person": "Team Leader / Bishop", "timelineNote": "Quarterly", "recurrenceType": "SelectedMonths", "weekday": "", "dayOfMonth": 1, "months": "1,4,7,10"}, {"category": "Discipleship & Bible Study", "activity": "Monthly Bible study meetings", "person": "Youth Chairperson", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Family & Parenting", "activity": "Create a YouTube channel with weekly youth-led devotionals", "person": "Youth Leadership", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "General Ministry", "activity": "Create online faith-based communities", "person": "Youth Leadership", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Creative reels/videos/plays with Bible captions", "person": "Youth Leadership", "timelineNote": "Weekly", "recurrenceType": "Weekly", "weekday": 0, "dayOfMonth": "", "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Daily \"Hope Status\" scripture updates", "person": "Youth Leadership", "timelineNote": "Daily", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Media & Digital Ministry", "activity": "Faith-based digital artwork", "person": "Youth Leadership", "timelineNote": "Weekly", "recurrenceType": "Weekly", "weekday": 0, "dayOfMonth": "", "months": ""}, {"category": "General Ministry", "activity": "Monitor engagement", "person": "Youth Leadership", "timelineNote": "Daily", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Evangelism & Outreach", "activity": "Monthly outreach events", "person": "Youth Leadership", "timelineNote": "Monthly", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Leadership Development", "activity": "Pair youth with adult/alumni mentors for guided leadership development", "person": "Youth Leadership", "timelineNote": "Ongoing", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Media & Digital Ministry", "activity": "Share content on Instagram and TikTok", "person": "Youth Leadership", "timelineNote": "Weekly", "recurrenceType": "Weekly", "weekday": 0, "dayOfMonth": "", "months": ""}, {"category": "Leadership Development", "activity": "Standardize selection criteria for identifying and appointing youth leaders", "person": "Youth Leadership", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Media & Digital Ministry", "activity": "Weekly social media encouragement posts", "person": "Youth Leadership", "timelineNote": "Weekly", "recurrenceType": "Weekly", "weekday": 0, "dayOfMonth": "", "months": ""}, {"category": "Media & Digital Ministry", "activity": "Weekly voice notes ministry", "person": "Youth Leadership", "timelineNote": "Weekly", "recurrenceType": "Weekly", "weekday": 0, "dayOfMonth": "", "months": ""}, {"category": "General Ministry", "activity": "Active Listening & Empathy Training", "person": "Unassigned", "timelineNote": "Monthly - JAM", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "General Ministry", "activity": "Assertiveness Training", "person": "Unassigned", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Leadership Development", "activity": "Assign mentor-mentee pairs", "person": "Unassigned", "timelineNote": "Ongoing", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Discipleship & Bible Study", "activity": "Award milestones (e.g., verse memorization)", "person": "Unassigned", "timelineNote": "April - VBS", "recurrenceType": "Annual", "weekday": "", "dayOfMonth": 1, "months": "4"}, {"category": "Prayer & Worship", "activity": "Charity drives with prayer and gospel sharing", "person": "Unassigned", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Prayer & Worship", "activity": "Create worship art projects", "person": "Unassigned", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Leadership Development", "activity": "Introduce a leadership rotation system for multi-ministry exposure", "person": "Unassigned", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Family & Parenting", "activity": "Introducing parenting class", "person": "Unassigned", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "General Ministry", "activity": "MFP / Vision Board", "person": "Unassigned", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Ministry Administration", "activity": "Monthly review meetings", "person": "Unassigned", "timelineNote": "Monthly", "recurrenceType": "Monthly", "weekday": "", "dayOfMonth": 1, "months": ""}, {"category": "Prayer & Worship", "activity": "Organize monthly worship nights with youth-led music/drama", "person": "Unassigned", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Leadership Development", "activity": "Parent & Mentor Partnership", "person": "Unassigned", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}, {"category": "Skills & Career Mentorship", "activity": "Public Speaking Sundays", "person": "Unassigned", "timelineNote": "", "recurrenceType": "Ongoing", "weekday": "", "dayOfMonth": "", "months": ""}];
+</script>
+</body>
+</html>
