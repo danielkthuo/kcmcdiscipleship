@@ -39,6 +39,8 @@
   .btn-outline { border: 1.5px solid rgba(201,151,43,0.4); color: var(--gold-light); background: transparent; border-radius: 6px; padding: 7px 10px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; }
   .btn-outline:hover { background: rgba(201,151,43,0.1); }
   @media (max-width: 420px) { .btn-outline .btn-label { display: none; } }
+  .plan-selector { background: rgba(255,255,255,0.06); border: 1.5px solid rgba(201,151,43,0.4); color: var(--gold-light); border-radius: 6px; padding: 7px 8px; font-size: 12px; font-weight: 500; max-width: 150px; }
+  .plan-selector option { color: var(--ink); }
 
   .tabs-wrap { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.07); overflow-x: auto; -webkit-overflow-scrolling: touch; position: sticky; top: 68px; z-index: 99; }
   .tabs { display: flex; gap: 2px; padding: 0 12px; min-width: max-content; }
@@ -208,10 +210,11 @@
 <div class="header">
   <div class="header-logo">CY</div>
   <div class="header-text">
-    <h1>Strategic Plan Activity Planner</h1>
-    <p>KCMC Child &amp; Youth Ministry · 2026–2030</p>
+    <h1 id="headerTitle">Activity Planner</h1>
+    <p id="headerSubtitle">KCMC Child &amp; Youth Ministry</p>
   </div>
   <div class="header-actions">
+    <select id="planSelector" class="plan-selector" onchange="onPlanChange()" title="Switch plan"></select>
     <button class="btn-outline" onclick="loadAll(true)" title="Refresh"><span id="refreshIcon">↻</span> <span class="btn-label">Refresh</span></button>
     <button class="btn-outline" onclick="lockPlanner()" title="Lock">🔒</button>
   </div>
@@ -219,13 +222,13 @@
 
 <div class="tabs-wrap">
   <div class="tabs">
-    <div class="tab" onclick="window.location.href='cydashboard.html'">🏠 Dashboard</div>
     <div class="tab active" data-tab="overview" onclick="switchTab('overview')">📊 Overview</div>
     <div class="tab" data-tab="due" onclick="switchTab('due')">🔔 Due &amp; Upcoming</div>
     <div class="tab" data-tab="activities" onclick="switchTab('activities')">🔁 Activities</div>
     <div class="tab" data-tab="history" onclick="switchTab('history')">📋 History</div>
     <div class="tab" data-tab="mentors" onclick="switchTab('mentors')">👥 Mentor Workload</div>
     <div class="tab" data-tab="reports" onclick="switchTab('reports')">🖨️ Reports</div>
+    <div class="tab" data-tab="plans" onclick="switchTab('plans')">🗂️ Plans</div>
   </div>
 </div>
 
@@ -285,6 +288,10 @@
             </select>
           </div>
           <div class="edit-field">
+            <label>Plan</label>
+            <select id="newActivityPlan"></select>
+          </div>
+          <div class="edit-field">
             <label>Person Responsible</label>
             <input type="text" id="newPerson" placeholder="e.g. Mentor Thuo">
           </div>
@@ -328,8 +335,8 @@
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Category</th><th>Activity</th><th>Person</th><th>Repeats</th><th>Actions</th></tr></thead>
-          <tbody id="templateTable"><tr><td colspan="5"><div class="loading">Loading…</div></td></tr></tbody>
+          <thead><tr><th>Category</th><th>Activity</th><th>Person</th><th>Plan</th><th>Repeats</th><th>Actions</th></tr></thead>
+          <tbody id="templateTable"><tr><td colspan="6"><div class="loading">Loading…</div></td></tr></tbody>
         </table>
       </div>
     </div>
@@ -418,7 +425,7 @@
         <div class="lh-logo">CY</div>
         <div class="lh-text">
           <h2>KCMC Child &amp; Youth Ministry</h2>
-          <p>Strategic Plan 2026–2030 · Activity Report</p>
+          <p id="reportPlanSubtitle">Activity Report</p>
         </div>
       </div>
       <div id="reportBody"><div class="empty">Choose a report type above and click "Generate Preview".</div></div>
@@ -429,6 +436,66 @@
     </div>
   </div>
 
+  <!-- PLANS -->
+  <div class="panel" id="panel-plans">
+    <p class="section-note">Every activity belongs to a Plan. When a strategic plan expires, archive it here and start a new one — you can carry forward the recurring activities that should continue, and everything from the old plan stays in History for reference.</p>
+
+    <div class="card">
+      <div class="card-head"><span class="card-title">Create a New Plan</span></div>
+      <div class="card-body">
+        <div class="edit-grid">
+          <div class="edit-field" style="grid-column:1/-1"><label>Plan Name</label><input type="text" id="newPlanName" placeholder="e.g. Strategic Plan 2031-2035"></div>
+          <div class="edit-field"><label>Start Date</label><input type="date" id="newPlanStart"></div>
+          <div class="edit-field"><label>End Date</label><input type="date" id="newPlanEnd"></div>
+          <div class="edit-field" style="grid-column:1/-1"><label>Description</label>
+            <textarea id="newPlanDesc" rows="2" style="width:100%;border:1.5px solid var(--border);border-radius:7px;padding:9px 10px;font-family:'DM Sans',sans-serif;font-size:max(16px,13px);background:var(--cream);outline:none;resize:vertical" placeholder="Optional notes about this plan"></textarea>
+          </div>
+          <div class="edit-field">
+            <label>Carry forward activities from</label>
+            <select id="newPlanCopyFrom"><option value="">Don't copy — start empty</option></select>
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn-sm btn-gold" style="padding:10px 18px" onclick="submitNewPlan()">💾 Create Plan</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><span class="card-title">All Plans</span></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Plan</th><th>Dates</th><th>Status</th><th>Activities</th><th>Actions</th></tr></thead>
+          <tbody id="plansTable"><tr><td colspan="5"><div class="loading">Loading…</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- PLAN EDIT MODAL -->
+<div class="modal-backdrop" id="planModal">
+  <div class="modal">
+    <div class="modal-head"><h3>Edit Plan</h3><button class="modal-close" onclick="closePlanModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="edit-grid">
+        <div class="edit-field" style="grid-column:1/-1"><label>Plan Name</label><input type="text" id="planName"></div>
+        <div class="edit-field"><label>Start Date</label><input type="date" id="planStart"></div>
+        <div class="edit-field"><label>End Date</label><input type="date" id="planEnd"></div>
+        <div class="edit-field"><label>Status</label>
+          <select id="planStatus"><option>Upcoming</option><option>Active</option><option>Archived</option></select>
+        </div>
+        <div class="edit-field" style="grid-column:1/-1"><label>Description</label>
+          <textarea id="planDesc" rows="2" style="width:100%;border:1.5px solid var(--border);border-radius:7px;padding:9px 10px;font-family:'DM Sans',sans-serif;font-size:max(16px,13px);background:var(--cream);outline:none;resize:vertical"></textarea>
+        </div>
+      </div>
+      <div style="margin-top:18px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap">
+        <button class="btn-sm btn-outline-sm" onclick="closePlanModal()">Cancel</button>
+        <button class="btn-sm btn-gold" onclick="savePlanModal()">💾 Save Changes</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- OCCURRENCE EDIT MODAL -->
@@ -581,13 +648,18 @@ function switchTab(name) {
   if (name === 'history') renderHistory();
   if (name === 'mentors') renderMentors();
   if (name === 'reports') { renderReportControls(); }
+  if (name === 'plans') { renderPlans(); }
 }
 
 // ══════════════════════════════════════════════════════════════
 // INIT / LOAD
 // ══════════════════════════════════════════════════════════════
-let templates = [];
-let occurrences = [];
+let allTemplates = [];
+let allOccurrences = [];
+let templates = [];    // plan-filtered view — everything below reads from this
+let occurrences = [];  // plan-filtered view
+let plans = [];
+let currentPlanId = localStorage.getItem('cy_planner_active_plan') || 'all';
 
 function init() {
   document.getElementById('yearLabel').textContent = CURRENT_YEAR + ' Activities';
@@ -598,10 +670,19 @@ function init() {
 
 async function loadAll(showToastMsg) {
   try {
-    const [t, o] = await Promise.all([ api({ action: 'getTemplates' }), api({ action: 'getOccurrences' }) ]);
+    const [t, o, p] = await Promise.all([
+      api({ action: 'getTemplates' }), api({ action: 'getOccurrences' }), api({ action: 'getPlans' })
+    ]);
     if (!t.success) { showToast('Failed to load activities', 'error'); return; }
-    templates = (t.data || []).filter(x => x.active !== false);
-    occurrences = o.success ? (o.data || []) : [];
+    allTemplates = (t.data || []).filter(x => x.active !== false);
+    allOccurrences = o.success ? (o.data || []) : [];
+    plans = p.success ? (p.data || []) : [];
+
+    // If the remembered plan no longer exists, fall back to "All Plans"
+    if (currentPlanId !== 'all' && !plans.some(pl => pl.id === currentPlanId)) currentPlanId = 'all';
+    populatePlanSelector();
+    applyPlanScope();
+
     renderSeedBanner();
     renderOverview();
     populateFilterOptions();
@@ -611,21 +692,75 @@ async function loadAll(showToastMsg) {
     if (active === 'activities') renderTemplates();
     if (active === 'history') renderHistory();
     if (active === 'mentors') renderMentors();
+    if (active === 'plans') renderPlans();
     if (showToastMsg) showToast('✅ Refreshed', 'success');
   } catch (err) {
     showToast('Could not reach the sheet. Check your connection.', 'error');
   }
 }
 
-function templateById(id) { return templates.find(t => t.id === id) || {}; }
+// Narrows the working `templates` / `occurrences` arrays down to the
+// currently-selected plan (or leaves everything visible for "All Plans").
+function applyPlanScope() {
+  if (currentPlanId === 'all') {
+    templates = allTemplates;
+    occurrences = allOccurrences;
+  } else {
+    templates = allTemplates.filter(t => t.planId === currentPlanId);
+    const scopedIds = new Set(templates.map(t => t.id));
+    occurrences = allOccurrences.filter(o => scopedIds.has(o.templateId));
+  }
+  updateHeaderForPlan();
+}
+
+function updateHeaderForPlan() {
+  if (currentPlanId === 'all') {
+    document.getElementById('headerTitle').textContent = 'Activity Planner — All Plans';
+    document.getElementById('headerSubtitle').textContent = 'KCMC Child & Youth Ministry';
+  } else {
+    const plan = plans.find(p => p.id === currentPlanId);
+    document.getElementById('headerTitle').textContent = plan ? plan.name : 'Activity Planner';
+    const range = plan && plan.startDate ? (fmtYear(plan.startDate) + '–' + fmtYear(plan.endDate)) : '';
+    document.getElementById('headerSubtitle').textContent = 'KCMC Child & Youth Ministry' + (range ? ' · ' + range : '');
+  }
+}
+function fmtYear(d) { return d ? String(d).substring(0,4) : ''; }
+
+function populatePlanSelector() {
+  const sel = document.getElementById('planSelector');
+  const opts = ['<option value="all">📚 All Plans</option>'];
+  plans.slice().sort((a,b) => (b.startDate||'').localeCompare(a.startDate||'')).forEach(p => {
+    const flag = p.status === 'Active' ? '🟢 ' : p.status === 'Archived' ? '⚪ ' : '🔵 ';
+    opts.push(`<option value="${p.id}" ${p.id===currentPlanId?'selected':''}>${flag}${esc(p.name)}</option>`);
+  });
+  sel.innerHTML = opts.join('');
+  if (currentPlanId !== 'all' && ![...sel.options].some(o => o.value === currentPlanId)) sel.value = 'all';
+}
+function onPlanChange() {
+  currentPlanId = document.getElementById('planSelector').value;
+  localStorage.setItem('cy_planner_active_plan', currentPlanId);
+  applyPlanScope();
+  renderSeedBanner();
+  renderOverview();
+  populateFilterOptions();
+  populateYearSelectors();
+  const active = document.querySelector('.tab.active').dataset.tab;
+  if (active === 'due') renderDue();
+  if (active === 'activities') renderTemplates();
+  if (active === 'history') renderHistory();
+  if (active === 'mentors') renderMentors();
+  if (active === 'reports') renderReportControls();
+}
+
+function templateById(id) { return allTemplates.find(t => t.id === id) || {}; }
 
 function renderSeedBanner() {
   const el = document.getElementById('seedBanner');
-  if (templates.length > 0) { el.innerHTML = ''; return; }
+  if (allTemplates.length > 0) { el.innerHTML = ''; return; }
   el.innerHTML = `
     <div class="seed-banner">
       <div class="txt"><strong>⚡ No recurring activities loaded yet</strong>
-      This imports all ${SEED_TEMPLATES.length} activities from the Strategic Plan 2026-2030 as recurring templates (their repeat pattern — weekly, monthly, quarterly, etc. — is auto-detected from the plan's wording; review it after import in the Activities tab).</div>
+      This imports all ${SEED_TEMPLATES.length} activities from the Strategic Plan 2026-2030 as recurring templates under a new "Strategic Plan 2026-2030" plan (their repeat pattern — weekly, monthly, quarterly, etc. — is auto-detected from the plan's wording; review it after import in the Activities tab).</div>
       <button class="btn-sm btn-gold" onclick="runSeed()">🌱 Load Strategic Plan Activities</button>
     </div>`;
 }
@@ -870,6 +1005,12 @@ function populateFilterOptions() {
     const cur = sel.value;
     sel.innerHTML = '<option value="">All</option>' + cats.map(c => `<option ${c===cur?'selected':''}>${esc(c)}</option>`).join('');
   });
+  const planSel = document.getElementById('newActivityPlan');
+  const sortedPlans = plans.slice().sort((a,b) => (b.startDate||'').localeCompare(a.startDate||''));
+  const preferred = currentPlanId !== 'all' ? currentPlanId : (sortedPlans.find(p => p.status==='Active') || sortedPlans[0] || {}).id;
+  planSel.innerHTML = sortedPlans.length
+    ? sortedPlans.map(p => `<option value="${p.id}" ${p.id===preferred?'selected':''}>${esc(p.name)}</option>`).join('')
+    : '<option value="">Create a plan first (Plans tab)</option>';
 }
 function populateYearSelectors() {
   const years = new Set([CURRENT_YEAR, CURRENT_YEAR+1]);
@@ -899,17 +1040,18 @@ function renderTemplates() {
       <td><span class="cat-badge">${esc(t.category)}</span></td>
       <td style="min-width:220px">${esc(t.activity)}</td>
       <td>${esc(t.person)}</td>
+      <td style="font-size:11px;color:var(--muted)">${esc(planName(t.planId))}</td>
       <td><span class="rec-badge rec-${t.recurrenceType}">${recBadge(t)}</span></td>
       <td><div class="action-cell">
         <button class="btn-sm btn-gold" onclick="generateForTemplate('${t.id}')" title="Generate this year's dates">🔁 Generate</button>
         <button class="btn-sm btn-outline-sm" onclick="openTplModal('${t.id}')">✏️</button>
         <button class="btn-sm btn-danger" onclick="removeTemplate('${t.id}')">🗑</button>
       </div></td>
-    </tr>`).join('') : '<tr><td colspan="5"><div class="empty">No activities match your filters</div></td></tr>';
+    </tr>`).join('') : '<tr><td colspan="6"><div class="empty">No activities match your filters</div></td></tr>';
 
   document.getElementById('genBanner').innerHTML = `
     <div class="gen-banner">
-      <div class="txt"><strong>🔁 Generate dated occurrences</strong> for all recurring activities at once — safe to run anytime, it never creates duplicates.</div>
+      <div class="txt"><strong>🔁 Generate dated occurrences</strong> for ${currentPlanId === 'all' ? "every plan's" : "this plan's"} recurring activities at once — safe to run anytime, it never creates duplicates.</div>
       <select id="genYear">${[CURRENT_YEAR, CURRENT_YEAR+1].map(y => `<option value="${y}">${y}</option>`).join('')}</select>
       <button class="btn-sm btn-gold" onclick="generateAll()">Generate This Year for All Activities</button>
     </div>`;
@@ -919,7 +1061,9 @@ async function generateAll() {
   const year = document.getElementById('genYear').value;
   showToast('Generating occurrences…', '');
   try {
-    const d = await api({ action: 'generateOccurrences', year });
+    const params = { action: 'generateOccurrences', year };
+    if (currentPlanId !== 'all') params.planId = currentPlanId;
+    const d = await api(params);
     if (d.success) { showToast(`✅ Generated ${d.generated} new occurrence(s) for ${year}`, 'success'); loadAll(false); }
     else showToast('Failed: ' + (d.error||''), 'error');
   } catch (err) { showToast('Error: ' + err.message, 'error'); }
@@ -936,9 +1080,11 @@ async function generateForTemplate(id) {
 async function submitNewTemplate() {
   const activity = document.getElementById('newActivity').value.trim();
   if (!activity) { showToast('Enter the activity name', 'error'); return; }
+  const planId = document.getElementById('newActivityPlan').value;
+  if (!planId) { showToast('Create a plan first (Plans tab), then add activities to it', 'error'); return; }
   const rec = readRecConfig('new');
   const payload = { action: 'addTemplate', category: document.getElementById('newCategory').value,
-    activity, person: document.getElementById('newPerson').value.trim(), ...rec };
+    activity, person: document.getElementById('newPerson').value.trim(), planId, ...rec };
   try {
     const d = await api(payload);
     if (d.success) {
@@ -1081,6 +1227,114 @@ function showToast(msg, type='') {
 }
 
 // ══════════════════════════════════════════════════════════════
+// PLANS
+// ══════════════════════════════════════════════════════════════
+function planName(id) { const p = plans.find(x => x.id === id); return p ? p.name : '—'; }
+
+function renderPlans() {
+  // "Carry forward from" dropdown on the create-plan form
+  const copyFromSel = document.getElementById('newPlanCopyFrom');
+  const sortedPlans = plans.slice().sort((a,b) => (b.startDate||'').localeCompare(a.startDate||''));
+  copyFromSel.innerHTML = '<option value="">Don\'t copy — start empty</option>' +
+    sortedPlans.map(p => `<option value="${p.id}">${esc(p.name)} (${countTemplatesForPlan(p.id)} activities)</option>`).join('');
+
+  const tbody = document.getElementById('plansTable');
+  if (!sortedPlans.length) {
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><div class="icon">🗂️</div>No plans yet — create one above, or load the Strategic Plan 2026-2030 from the Overview tab.</div></td></tr>';
+    return;
+  }
+  const statusColor = { Active: 'var(--green)', Upcoming: 'var(--blue)', Archived: 'var(--grey)' };
+  tbody.innerHTML = sortedPlans.map(p => {
+    const count = countTemplatesForPlan(p.id);
+    const dateRange = p.startDate ? (fmtDate(p.startDate) + ' – ' + fmtDate(p.endDate)) : '—';
+    return `<tr>
+      <td><strong>${esc(p.name)}</strong>${p.description ? `<div style="font-size:11px;color:var(--muted);margin-top:2px">${esc(p.description)}</div>` : ''}</td>
+      <td style="font-size:12px;white-space:nowrap">${dateRange}</td>
+      <td><span class="rec-badge" style="background:${statusColor[p.status]||'var(--grey)'};color:#fff;border:none">${esc(p.status)}</span></td>
+      <td>${count}</td>
+      <td><div class="action-cell">
+        <button class="btn-sm ${currentPlanId===p.id?'btn-gold':'btn-outline-sm'}" onclick="setCurrentPlan('${p.id}')">${currentPlanId===p.id?'✓ Current':'View'}</button>
+        <button class="btn-sm btn-outline-sm" onclick="openPlanModal('${p.id}')">✏️</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+function countTemplatesForPlan(planId) { return allTemplates.filter(t => t.planId === planId).length; }
+
+function setCurrentPlan(planId) {
+  currentPlanId = planId;
+  localStorage.setItem('cy_planner_active_plan', planId);
+  document.getElementById('planSelector').value = planId;
+  applyPlanScope();
+  renderPlans();
+  showToast('✅ Now viewing ' + planName(planId), 'success');
+}
+
+async function submitNewPlan() {
+  const name = document.getElementById('newPlanName').value.trim();
+  if (!name) { showToast('Enter a plan name', 'error'); return; }
+  const payload = {
+    action: 'addPlan', name,
+    startDate: document.getElementById('newPlanStart').value,
+    endDate: document.getElementById('newPlanEnd').value,
+    description: document.getElementById('newPlanDesc').value.trim(),
+    status: 'Upcoming',
+  };
+  try {
+    const d = await api(payload);
+    if (!d.success) { showToast('Failed: ' + (d.error||''), 'error'); return; }
+    const newPlanId = d.id;
+    const copyFrom = document.getElementById('newPlanCopyFrom').value;
+    if (copyFrom) {
+      const c = await api({ action: 'copyTemplatesToPlan', fromPlanId: copyFrom, toPlanId: newPlanId, templateIds: 'all' });
+      if (c.success) showToast(`✅ Plan created — carried forward ${c.copied} activities. Generate their dates in the Activities tab.`, 'success');
+      else showToast('Plan created, but copying activities failed: ' + (c.error||''), 'error');
+    } else {
+      showToast('✅ Plan created', 'success');
+    }
+    document.getElementById('newPlanName').value = '';
+    document.getElementById('newPlanStart').value = '';
+    document.getElementById('newPlanEnd').value = '';
+    document.getElementById('newPlanDesc').value = '';
+    setCurrentPlan(newPlanId);
+    loadAll(false);
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+}
+
+let editingPlanId = '';
+function openPlanModal(id) {
+  const p = plans.find(x => x.id === id);
+  if (!p) return;
+  editingPlanId = id;
+  document.getElementById('planName').value = p.name;
+  document.getElementById('planStart').value = p.startDate || '';
+  document.getElementById('planEnd').value = p.endDate || '';
+  document.getElementById('planStatus').value = p.status || 'Upcoming';
+  document.getElementById('planDesc').value = p.description || '';
+  document.getElementById('planModal').classList.add('open');
+}
+function closePlanModal() { document.getElementById('planModal').classList.remove('open'); }
+async function savePlanModal() {
+  const payload = {
+    action: 'updatePlan', id: editingPlanId,
+    name: document.getElementById('planName').value,
+    startDate: document.getElementById('planStart').value,
+    endDate: document.getElementById('planEnd').value,
+    status: document.getElementById('planStatus').value,
+    description: document.getElementById('planDesc').value,
+  };
+  try {
+    const d = await api(payload);
+    if (d.success) {
+      closePlanModal();
+      showToast('✅ Plan updated', 'success');
+      loadAll(false);
+    } else showToast('Save failed: ' + (d.error||''), 'error');
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+}
+
+// ══════════════════════════════════════════════════════════════
 // REPORTS
 // ══════════════════════════════════════════════════════════════
 function renderReportControls() {
@@ -1113,6 +1367,8 @@ function generateReport() {
   const year = document.getElementById('rYear').value || String(CURRENT_YEAR);
   const body = document.getElementById('reportBody');
   document.getElementById('reportGeneratedNote').textContent = 'Generated ' + reportDateStr();
+  document.getElementById('reportPlanSubtitle').textContent =
+    (currentPlanId === 'all' ? 'All Plans' : planName(currentPlanId)) + ' · Activity Report';
 
   if (type === 'leadership')  return renderLeadershipReport(body, year);
   if (type === 'log')         return renderLogReport(body, year);
